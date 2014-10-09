@@ -21,7 +21,7 @@ CppApplication {
 
     Group {
         condition: qbs.targetOS == "windows"
-        cpp.dynamicLibrarie: []
+        cpp.dynamicLibraries: []
     }
 
     Group {
