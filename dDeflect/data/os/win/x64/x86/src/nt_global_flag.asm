@@ -1,4 +1,4 @@
-[bits 64]
+[bits 32]
 
 mov ecx, [fs:0x30] ; PEB
 xor eax, eax
