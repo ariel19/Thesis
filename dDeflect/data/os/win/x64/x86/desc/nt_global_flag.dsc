@@ -1,1 +1,0 @@
-{"method_name": "dummy", "path": "../os\\win\\x64\\x86\\src/nt_global_flag.asm", "debugged": "dummy", "description": "dummy"}
