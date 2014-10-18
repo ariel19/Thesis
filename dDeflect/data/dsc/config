@@ -1,0 +1,6 @@
+{
+	"anti_re_path" : "../os",
+	"anti_re_suf_src" : ".asm",
+	"anti_re_suf_dsc" : ".dsc",
+	"dsc_fld" : "../desc"
+}
