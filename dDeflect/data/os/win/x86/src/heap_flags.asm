@@ -1,6 +1,6 @@
 [bits 32]
 
-call 0x12345678 ; GetVersion address function should be resolved from wrapper
+call 0x12345678 ; TODO: GetVersion address function should be resolved from wrapper
 cmp al, 0x6
 cmc ; complements a CF flag
 sbb edx, edx ; edx - (edx + cf)
