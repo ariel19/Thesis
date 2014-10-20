@@ -3,7 +3,7 @@
 			mov 	ebx, phe_size			; PROCESS_HEAP_ENTRY buffer
 			
 find_blk:	push	ebx
-			mov		eax, fs:[0x30]			; PEB
+			mov		eax, [fs:0x30]			; PEB
 			push	DWORD [eax + 0x18]		; Process Heap base
 			call	HeapWalk/RtlWalkHeap	; TODO: from register?
 			

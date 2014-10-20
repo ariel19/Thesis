@@ -7,7 +7,7 @@
 			jb		check_dbg					; If version below Windows Vista
 		
 			; Check for heap protection for Vista and later
-check_prot:	mov		eax, fs:[ebx + 0x30]		; PEB
+check_prot:	mov		eax, [fs:0x30]		; PEB
 			mov		eax, [eax + 0x18]			; Process Heap base
 			mov		ecx, [eax + 0x24]
 			jecxz	check_dbg					; If no heap protection check for debugger

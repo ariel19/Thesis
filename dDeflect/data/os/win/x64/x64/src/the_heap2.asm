@@ -6,7 +6,7 @@ find_blk:	push	rbx
 			pop		rdx
 			push	0x60
 			pop		rsi
-			gs:lodsq						; PEB
+			gs 		lodsq						; PEB
 			mov		ecx, [rax + 0x30]		; Process heap base
 			call	HeapWalk/RtlWalkHeap	; TODO: from register?
 			
@@ -17,7 +17,7 @@ find_blk:	push	rbx
 			add		edi, [rbx + 8]			; Data size
 			
 			mov 	al, 0xAB
-			mov		r	cx, 16
+			mov		rcx, 16
 			repe	scasb
 			setz	al
 			

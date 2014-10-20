@@ -22,7 +22,7 @@
 			
 			; Get kernel32.dll base address
 			xor		ecx, ecx
-			mov		ecx, fs:[0x30]				; PEB
+			mov		ecx, [fs:0x30]				; PEB
 			mov		ecx, [ecx + 0x0C]			; PEB->Ldr
 			mov		ecx, [ecx + 0x1C]			; PEB->Ldr.InInitializationOrderModuleList.Flink (1st entry)
 			mov		ecx, [ecx]					; next entry
