@@ -35,6 +35,7 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: ["tests/src/*.cpp", "tests/src/*.h"]
+        Depends { name: "Qt"; submodules: ["core"] }
     }
 }
 
