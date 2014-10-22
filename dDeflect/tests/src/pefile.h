@@ -17,14 +17,17 @@ private:
 
     size_t optionalHeaderSize;
     unsigned int numberOfSections;
+    unsigned int numberOfDataDirectories;
 
     unsigned int *sectionHeadersIdx;
+    unsigned int *dataDirectoriesIdx;
 
     PIMAGE_DOS_HEADER getDosHeader();
     PIMAGE_NT_HEADERS getNtHeaders();
     PIMAGE_FILE_HEADER getFileHeader();
     PIMAGE_OPTIONAL_HEADER getOptionalHeader();
     PIMAGE_SECTION_HEADER getSectionHeader(unsigned int n);
+    PIMAGE_DATA_DIRECTORY getDataDirectory(unsigned int n);
 
 public:
     PEFile(QByteArray d);

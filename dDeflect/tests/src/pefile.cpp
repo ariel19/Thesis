@@ -26,6 +26,12 @@ PIMAGE_SECTION_HEADER PEFile::getSectionHeader(unsigned int n)
                 NULL : reinterpret_cast<PIMAGE_SECTION_HEADER>(&(b_data.data()[sectionHeadersIdx[n]]));
 }
 
+PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
+{
+    return n >= numberOfDataDirectories ?
+                NULL : reinterpret_cast<PIMAGE_DATA_DIRECTORY>(&(b_data.data()[dataDirectoriesIdx[n]]));
+}
+
 PEFile::PEFile(QByteArray d) : parsed(false), sectionHeadersIdx(NULL)
 {
     b_data = d;
@@ -35,6 +41,9 @@ PEFile::~PEFile()
 {
     if(sectionHeadersIdx)
         delete [] sectionHeadersIdx;
+
+    if(dataDirectoriesIdx)
+        delete [] dataDirectoriesIdx;
 }
 
 bool PEFile::parse()
@@ -74,6 +83,21 @@ bool PEFile::parse()
     if(optionalHeader->Magic != IMAGE_NT_OPTIONAL_HDR_MAGIC)
         return false;
 
+    // Data Directories
+    numberOfDataDirectories = optionalHeader->NumberOfRvaAndSizes;
+
+    if(dataDirectoriesIdx)
+        delete [] dataDirectoriesIdx;
+
+    dataDirectoriesIdx = new unsigned int[numberOfDataDirectories];
+
+    unsigned int firstDataDirIdx =
+            reinterpret_cast<char*>(&(optionalHeader->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader);
+
+    for(unsigned int i = 0; i < numberOfDataDirectories; ++i)
+        dataDirectoriesIdx[i] = firstDataDirIdx + i * sizeof(IMAGE_DATA_DIRECTORY);
+
+    // Section Headers
     numberOfSections = fileHeader->NumberOfSections;
 
     if(sectionHeadersIdx)
@@ -81,12 +105,10 @@ bool PEFile::parse()
 
     sectionHeadersIdx = new unsigned int[numberOfSections];
 
-    unsigned int firstSectionHeaderIdx = optionalHeaderIdx + sizeof(IMAGE_OPTIONAL_HEADER);
+    unsigned int firstSectionHeaderIdx = optionalHeaderIdx + optionalHeaderSize;
 
     for(unsigned int i = 0; i < numberOfSections; ++i)
         sectionHeadersIdx[i] = firstSectionHeaderIdx + i * sizeof(IMAGE_SECTION_HEADER);
-
-   // TODO: Data directories (var)
 
     parsed = true;
 
