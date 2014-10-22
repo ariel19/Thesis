@@ -45,10 +45,15 @@ int main()
 
     f.close();
 
-    if(pe.parse())
+    if(pe.isValid())
         puts("OK!");
     else
-        puts("Bad MZ header!");
+        puts("Bad format!");
+
+    printf("%d, %d, %d\n", pe.getLastSectionNumberRaw(), pe.getLastSectionNumberMem(), pe.getNumberOfSections());
+
+    for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
+        printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
 
     return 0;
 }

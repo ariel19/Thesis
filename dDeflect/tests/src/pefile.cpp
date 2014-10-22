@@ -35,6 +35,7 @@ PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
 PEFile::PEFile(QByteArray d) : parsed(false), sectionHeadersIdx(NULL)
 {
     b_data = d;
+    parsed = parse();
 }
 
 PEFile::~PEFile()
@@ -46,10 +47,13 @@ PEFile::~PEFile()
         delete [] dataDirectoriesIdx;
 }
 
+bool PEFile::isValid()
+{
+    return parsed;
+}
+
 bool PEFile::parse()
 {
-    parsed = false;
-
     char *data = b_data.data();
     size_t length = b_data.length();
 
@@ -89,7 +93,15 @@ bool PEFile::parse()
     if(dataDirectoriesIdx)
         delete [] dataDirectoriesIdx;
 
-    dataDirectoriesIdx = new unsigned int[numberOfDataDirectories];
+    try
+    {
+        dataDirectoriesIdx = new unsigned int[numberOfDataDirectories];
+    }
+    catch(std::bad_alloc &)
+    {
+        dataDirectoriesIdx = NULL;
+        return false;
+    }
 
     unsigned int firstDataDirIdx =
             reinterpret_cast<char*>(&(optionalHeader->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader);
@@ -103,14 +115,20 @@ bool PEFile::parse()
     if(sectionHeadersIdx)
         delete [] sectionHeadersIdx;
 
-    sectionHeadersIdx = new unsigned int[numberOfSections];
+    try
+    {
+        sectionHeadersIdx = new unsigned int[numberOfSections];
+    }
+    catch(std::bad_alloc &)
+    {
+        sectionHeadersIdx = NULL;
+        return false;
+    }
 
     unsigned int firstSectionHeaderIdx = optionalHeaderIdx + optionalHeaderSize;
 
     for(unsigned int i = 0; i < numberOfSections; ++i)
         sectionHeadersIdx[i] = firstSectionHeaderIdx + i * sizeof(IMAGE_SECTION_HEADER);
-
-    parsed = true;
 
     return true;
 }
@@ -135,8 +153,68 @@ QByteArray PEFile::getData()
     return b_data;
 }
 
-unsigned int PEFile::getLastSectionNumber() const
+unsigned int PEFile::getLastSectionNumberMem()
 {
-    // TODO
-    return 0;
+    if(!parsed)
+        return 0;
+
+    unsigned int last = 0;
+    unsigned int lastRVA = 0;
+
+    for(unsigned int i = 0; i < numberOfSections; ++i)
+    {
+        unsigned int rva = getSectionHeader(i)->VirtualAddress;
+        if(rva > lastRVA)
+        {
+            lastRVA = rva;
+            last = i;
+        }
+    }
+
+    return last;
+}
+
+unsigned int PEFile::getLastSectionNumberRaw()
+{
+    if(!parsed)
+        return 0;
+
+    unsigned int last = 0;
+    unsigned int lastRD = 0;
+
+    for(unsigned int i = 0; i < numberOfSections; ++i)
+    {
+        unsigned int rd = getSectionHeader(i)->PointerToRawData;
+        if(rd > lastRD && getSectionHeader(i)->SizeOfRawData != 0)
+        {
+            lastRD = rd;
+            last = i;
+        }
+    }
+
+    return last;
+}
+
+unsigned int PEFile::getNumberOfSections() const
+{
+    return parsed ? numberOfSections : 0;
+}
+
+size_t PEFile::getSectionFreeSpace(unsigned int section)
+{
+    if(!parsed || section >= numberOfSections)
+        return 0;
+
+    size_t rd = getSectionHeader(section)->SizeOfRawData;
+    size_t vs = getSectionHeader(section)->Misc.VirtualSize;
+
+    return rd > vs ? rd - vs : 0;
+}
+
+bool PEFile::isSectionRawDataEmpty(unsigned int section)
+{
+    if(!parsed || section >= numberOfSections)
+        return false;
+
+    return getSectionHeader(section)->SizeOfRawData == 0;
 }

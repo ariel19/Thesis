@@ -29,13 +29,62 @@ private:
     PIMAGE_SECTION_HEADER getSectionHeader(unsigned int n);
     PIMAGE_DATA_DIRECTORY getDataDirectory(unsigned int n);
 
+    bool parse();
+
 public:
     PEFile(QByteArray d);
     ~PEFile();
-    bool parse();
+
+    /**
+     * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
+     * @return
+     */
+    bool isValid();
+
+    /**
+     * @brief Zmienia uprawnienia sekcji, aby była ona wykonywalna.
+     * @param section: Numer sekcji.
+     * @return true w przypadku sukcesu.
+     */
     bool makeSectionExecutable(unsigned int section);
+
+    /**
+     * @brief Pobiera zawartość pliku PE.
+     * @return Plik PE.
+     */
     QByteArray getData();
-    unsigned int getLastSectionNumber() const;
+
+    /**
+     * @brief Pobiera numer ostatniej sekcji w pamięci.
+     * @return Numer ostatniej sekcji w pamięci.
+     */
+    unsigned int getLastSectionNumberMem();
+
+    /**
+     * @brief Pobiera numer ostatniej sekcji w pliku.
+     * @return Numer ostatniej sekcji w pliku.
+     */
+    unsigned int getLastSectionNumberRaw();
+
+    /**
+     * @brief Pobiera ilość sekcji w pliku.
+     * @return Ilość sekcji.
+     */
+    unsigned int getNumberOfSections() const;
+
+    /**
+     * @brief Zwraca ilość wolnego miejsca w sekcji.
+     * @param section: Numer sekcji.
+     * @return Ilość bajtów.
+     */
+    size_t getSectionFreeSpace(unsigned int section);
+
+    /**
+     * @brief Pobiera informację o tym, czy sekcja istnieje w pliku czy jest tylko wirtualna.
+     * @param section: Numer sekcji.
+     * @return Ilość bajtów.
+     */
+    bool isSectionRawDataEmpty(unsigned int section);
 };
 
 #endif // PEFILE_H
