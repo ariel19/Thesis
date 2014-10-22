@@ -1,45 +1,74 @@
 #include "pefile.h"
 
-PEFile::PEFile(QByteArray d) : parsed(false), sectionHeaders(NULL)
+PIMAGE_DOS_HEADER PEFile::getDosHeader()
+{
+    return reinterpret_cast<PIMAGE_DOS_HEADER>(&(b_data.data()[dosHeaderIdx]));
+}
+
+PIMAGE_NT_HEADERS PEFile::getNtHeaders()
+{
+    return reinterpret_cast<PIMAGE_NT_HEADERS>(&(b_data.data()[ntHeadersIdx]));
+}
+
+PIMAGE_FILE_HEADER PEFile::getFileHeader()
+{
+    return reinterpret_cast<PIMAGE_FILE_HEADER>(&(b_data.data()[fileHeaderIdx]));
+}
+
+PIMAGE_OPTIONAL_HEADER PEFile::getOptionalHeader()
+{
+    return reinterpret_cast<PIMAGE_OPTIONAL_HEADER>(&(b_data.data()[optionalHeaderIdx]));
+}
+
+PIMAGE_SECTION_HEADER PEFile::getSectionHeader(unsigned int n)
+{
+    return n >= numberOfSections ?
+                NULL : reinterpret_cast<PIMAGE_SECTION_HEADER>(&(b_data.data()[sectionHeadersIdx[n]]));
+}
+
+PEFile::PEFile(QByteArray d) : parsed(false), sectionHeadersIdx(NULL)
 {
     b_data = d;
-    data = b_data.data();
-    length = b_data.length();
-    // TODO: data moze sie zmienic!
 }
 
 PEFile::~PEFile()
 {
-    if(sectionHeaders)
-        delete [] sectionHeaders;
+    if(sectionHeadersIdx)
+        delete [] sectionHeadersIdx;
 }
 
 bool PEFile::parse()
 {
     parsed = false;
 
-    data = b_data.data();
+    char *data = b_data.data();
+    size_t length = b_data.length();
 
-    dosHeader = (PIMAGE_DOS_HEADER)data;
+    PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(data);
+    dosHeaderIdx = 0;
 
     if(length < sizeof(IMAGE_DOS_HEADER) || dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
         return false;
 
-    ntHeaders = (PIMAGE_NT_HEADERS)((char*)dosHeader + dosHeader->e_lfanew);
+    PIMAGE_NT_HEADERS ntHeaders =
+            reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<char*>(dosHeader) + dosHeader->e_lfanew);
+    ntHeadersIdx = reinterpret_cast<char*>(ntHeaders) - reinterpret_cast<char*>(dosHeader);
 
     if(length < dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS::Signature)
             || ntHeaders->Signature != IMAGE_NT_SIGNATURE)
         return false;
 
-    fileHeader = (PIMAGE_FILE_HEADER)(&ntHeaders->FileHeader);
+    PIMAGE_FILE_HEADER fileHeader = reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders->FileHeader);
+    fileHeaderIdx = reinterpret_cast<char*>(fileHeader) - reinterpret_cast<char*>(dosHeader);
 
-    if(length < (char*)fileHeader - (char*)dosHeader + sizeof(IMAGE_FILE_HEADER))
+    if(length < (fileHeaderIdx + sizeof(IMAGE_FILE_HEADER)))
         return false;
 
-    optionalHeader = (PIMAGE_OPTIONAL_HEADER)(&ntHeaders->OptionalHeader);
+    PIMAGE_OPTIONAL_HEADER optionalHeader = reinterpret_cast<PIMAGE_OPTIONAL_HEADER>(&ntHeaders->OptionalHeader);
     optionalHeaderSize = fileHeader->SizeOfOptionalHeader;
+    optionalHeaderIdx = reinterpret_cast<char*>(optionalHeader) - reinterpret_cast<char*>(dosHeader);
 
-    if(length < (char*)optionalHeader - (char*)dosHeader + optionalHeaderSize)
+    if(length < optionalHeaderIdx + optionalHeaderSize)
         return false;
 
     if(optionalHeader->Magic != IMAGE_NT_OPTIONAL_HDR_MAGIC)
@@ -47,17 +76,17 @@ bool PEFile::parse()
 
     numberOfSections = fileHeader->NumberOfSections;
 
-    if(sectionHeaders)
-        delete [] sectionHeaders;
+    if(sectionHeadersIdx)
+        delete [] sectionHeadersIdx;
 
-    sectionHeaders = new PIMAGE_SECTION_HEADER[numberOfSections];
+    sectionHeadersIdx = new unsigned int[numberOfSections];
+
+    unsigned int firstSectionHeaderIdx = optionalHeaderIdx + sizeof(IMAGE_OPTIONAL_HEADER);
 
     for(unsigned int i = 0; i < numberOfSections; ++i)
-        sectionHeaders[i] =
-                (PIMAGE_SECTION_HEADER)((char*)optionalHeader +
-                                        sizeof(IMAGE_OPTIONAL_HEADER) + i * sizeof(IMAGE_SECTION_HEADER));
+        sectionHeadersIdx[i] = firstSectionHeaderIdx + i * sizeof(IMAGE_SECTION_HEADER);
 
-    puts((char*)(sectionHeaders[numberOfSections-1]->Name));
+   // TODO: Data directories (var)
 
     parsed = true;
 
@@ -69,12 +98,12 @@ bool PEFile::makeSectionExecutable(unsigned int section)
     if(!parsed)
         return false;
 
-    if(!sectionHeaders || section >= numberOfSections)
+    if(section >= numberOfSections)
         return false;
 
-    sectionHeaders[section]->Characteristics |=
+    getSectionHeader(section)->Characteristics |=
             (IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_WRITE);
-    sectionHeaders[section]->Characteristics &= (~IMAGE_SCN_MEM_DISCARDABLE);
+    getSectionHeader(section)->Characteristics &= (~IMAGE_SCN_MEM_DISCARDABLE);
 
     return true;
 }
@@ -82,4 +111,10 @@ bool PEFile::makeSectionExecutable(unsigned int section)
 QByteArray PEFile::getData()
 {
     return b_data;
+}
+
+unsigned int PEFile::getLastSectionNumber() const
+{
+    // TODO
+    return 0;
 }

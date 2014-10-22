@@ -35,9 +35,9 @@
 //        printf("DEBUG!");
 //}
 
-int main(int argc, char **argv)
+int main()
 {
-    QFile f(argv[0]);
+    QFile f("example.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
 

@@ -36,6 +36,8 @@ Project {
         consoleApplication: true
         files: ["tests/src/*.cpp", "tests/src/*.h"]
         Depends { name: "Qt"; submodules: ["core"] }
+        cpp.warningLevel: "all"
+        cpp.cxxFlags: ["-Wold-style-cast", "-std=c++11"]
     }
 }
 
