@@ -133,6 +133,40 @@ bool PEFile::parse()
     return true;
 }
 
+size_t PEFile::getFreeSpaceBeforeNextSectionMem(unsigned int section)
+{
+    unsigned int secEnd = getSectionHeader(section)->VirtualAddress + getSectionHeader(section)->SizeOfRawData;
+
+    int next = -1;
+    unsigned int nextRVA = 0;
+
+    for(unsigned int i = 0; i < numberOfSections; ++i)
+    {
+        unsigned int va = getSectionHeader(i)->VirtualAddress;
+        if(va >= secEnd && va > nextRVA)
+        {
+            next = i;
+            nextRVA = va;
+        }
+    }
+
+    if(next == -1)
+        return 0;
+
+    return nextRVA - secEnd;
+}
+
+unsigned int PEFile::alignNumber(unsigned int number, unsigned int alignment)
+{
+    if(!alignment)
+        return number;
+
+    if(number % alignment == 0)
+        return number;
+
+    return ((number / alignment) + 1) * alignment;
+}
+
 bool PEFile::makeSectionExecutable(unsigned int section)
 {
     if(!parsed)
@@ -217,4 +251,102 @@ bool PEFile::isSectionRawDataEmpty(unsigned int section)
         return false;
 
     return getSectionHeader(section)->SizeOfRawData == 0;
+}
+
+bool PEFile::resizeLastSection(QByteArray data, unsigned int &offset)
+{
+    if(!parsed)
+        return false;
+
+    unsigned int last = 0;
+    bool isVirtual = false;
+
+    // Ostatnia sekcja w pamięci i pliku.
+    unsigned int lastRaw = getLastSectionNumberRaw();
+    unsigned int lastMem = getLastSectionNumberMem();
+
+    last = lastMem;
+
+    // Jeżeli sekcje są różne.
+    if(lastRaw != lastMem)
+    {
+        // Jeżeli ostatnia sekcja w pamięci jest sekcją wirtualną można zmienić jej położenie w pliku.
+        if(isSectionRawDataEmpty(lastMem))
+            isVirtual = true;
+        else
+        {
+            // Jeżeli ostatnia sekcja w pliku ma za sobą wystarczające wolne miejsce dla danych.
+            // Może to uszkodzić dane poza sekcjami!
+            if(getFreeSpaceBeforeNextSectionMem(lastRaw) >= static_cast<size_t>(data.length()))
+                last = lastRaw;
+            else
+                return false;
+        }
+    }
+
+    PIMAGE_SECTION_HEADER header = getSectionHeader(last);
+
+    // Liczba bajtów do dodania do PE.
+    size_t numBytesToAdd = alignNumber(data.length(), getOptionalHeader()->FileAlignment);
+
+    // Dopełnienie zerami nowych danych.
+    size_t numOfZeros = numBytesToAdd - data.length();
+
+    // Wielkość nowych danych bez zer.
+    size_t actualDataLen = data.length();
+
+    // Offset dla nowych danych.
+    unsigned int newDataOffset = isVirtual ?
+                alignNumber(b_data.length(), getOptionalHeader()->FileAlignment) :
+                header->PointerToRawData + header->SizeOfRawData;
+
+    // Dodanie zer do nowych danych.
+    if(numOfZeros)
+        data.append(QByteArray(numOfZeros, 0x00));
+
+    // Za sekcją są dane...
+    //    if(b_data.length() > header->PointerToRawData + header->SizeOfRawData)
+    //    {
+    //        // TODO: tu sie nadpisza jakies dane...
+    //        return false;
+    //    }
+
+    getOptionalHeader()->SizeOfImage +=
+            alignNumber(qMax<int>(header->SizeOfRawData - header->Misc.VirtualSize, 0) + actualDataLen, getOptionalHeader()->SectionAlignment);
+
+    header->Misc.VirtualSize = header->SizeOfRawData + actualDataLen;
+    header->SizeOfRawData += numBytesToAdd;
+
+    if(!isSectionExecutable(last))
+    {
+        // Wyrównany wcześniej
+        getOptionalHeader()->SizeOfCode += header->SizeOfRawData;
+        makeSectionExecutable(last);
+    }
+    else
+        getOptionalHeader()->SizeOfCode += numBytesToAdd;
+
+    if(isVirtual)
+        header->PointerToRawData = newDataOffset;
+    getOptionalHeader()->SizeOfInitializedData += numBytesToAdd;
+
+    // TODO: size of uninitialized data?
+    // TODO: virtual alignment?
+
+    if(static_cast<size_t>(b_data.length()) < newDataOffset + numBytesToAdd)
+        b_data.resize(newDataOffset + numBytesToAdd);
+    b_data.replace(newDataOffset, numBytesToAdd, data);
+
+    offset = newDataOffset;
+
+    return parse();
+}
+
+bool PEFile::isSectionExecutable(unsigned int section)
+{
+    if(!parsed || section >= numberOfSections)
+        return false;
+
+    return ((getSectionHeader(section)->Characteristics & IMAGE_SCN_MEM_EXECUTE) |
+            (getSectionHeader(section)->Characteristics & IMAGE_SCN_CNT_CODE)) != 0;
 }

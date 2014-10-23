@@ -45,15 +45,35 @@ int main()
 
     f.close();
 
-    if(pe.isValid())
-        puts("OK!");
-    else
+    if(!pe.isValid())
+    {
         puts("Bad format!");
+        return 1;
+    }
 
     printf("%d, %d, %d\n", pe.getLastSectionNumberRaw(), pe.getLastSectionNumberMem(), pe.getNumberOfSections());
 
     for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
         printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
+
+    QByteArray nd(113, '\x90');
+
+    unsigned int new_offset;
+    if(!pe.resizeLastSection(nd, new_offset))
+    {
+        puts("Resize failed!");
+        return 1;
+    }
+
+    printf("Offset: %x\n", new_offset);
+
+    QFile nf("new_example.exe");
+    if(!nf.open(QFile::WriteOnly))
+        return 1;
+    nf.write(pe.getData());
+    nf.close();
+
+    puts("OK!");
 
     return 0;
 }

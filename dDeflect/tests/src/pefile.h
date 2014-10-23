@@ -31,6 +31,9 @@ private:
 
     bool parse();
 
+    size_t getFreeSpaceBeforeNextSectionMem(unsigned int section);
+    unsigned int alignNumber(unsigned int number, unsigned int alignment);
+
 public:
     PEFile(QByteArray d);
     ~PEFile();
@@ -85,6 +88,10 @@ public:
      * @return Ilość bajtów.
      */
     bool isSectionRawDataEmpty(unsigned int section);
+
+    bool resizeLastSection(QByteArray data, unsigned int &offset);
+
+    bool isSectionExecutable(unsigned int section);
 };
 
 #endif // PEFILE_H
