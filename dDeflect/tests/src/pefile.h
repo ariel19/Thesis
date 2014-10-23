@@ -89,7 +89,7 @@ public:
      */
     bool isSectionRawDataEmpty(unsigned int section);
 
-    bool resizeLastSection(QByteArray data, unsigned int &offset);
+    bool resizeLastSection(QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
     bool isSectionExecutable(unsigned int section);
 };

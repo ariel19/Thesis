@@ -32,7 +32,10 @@ PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
                 NULL : reinterpret_cast<PIMAGE_DATA_DIRECTORY>(&(b_data.data()[dataDirectoriesIdx[n]]));
 }
 
-PEFile::PEFile(QByteArray d) : parsed(false), sectionHeadersIdx(NULL)
+PEFile::PEFile(QByteArray d) :
+    parsed(false),
+    sectionHeadersIdx(NULL),
+    dataDirectoriesIdx(NULL)
 {
     b_data = d;
     parsed = parse();
@@ -253,7 +256,7 @@ bool PEFile::isSectionRawDataEmpty(unsigned int section)
     return getSectionHeader(section)->SizeOfRawData == 0;
 }
 
-bool PEFile::resizeLastSection(QByteArray data, unsigned int &offset)
+bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
 {
     if(!parsed)
         return false;
@@ -304,18 +307,14 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &offset)
     if(numOfZeros)
         data.append(QByteArray(numOfZeros, 0x00));
 
-    // Za sekcją są dane...
-    //    if(b_data.length() > header->PointerToRawData + header->SizeOfRawData)
-    //    {
-    //        // TODO: tu sie nadpisza jakies dane...
-    //        return false;
-    //    }
-
-    getOptionalHeader()->SizeOfImage +=
-            alignNumber(qMax<int>(header->SizeOfRawData - header->Misc.VirtualSize, 0) + actualDataLen, getOptionalHeader()->SectionAlignment);
+//    getOptionalHeader()->SizeOfImage +=
+//            alignNumber(qMax<int>(header->SizeOfRawData - header->Misc.VirtualSize, 0) + actualDataLen, getOptionalHeader()->SectionAlignment);
 
     header->Misc.VirtualSize = header->SizeOfRawData + actualDataLen;
     header->SizeOfRawData += numBytesToAdd;
+
+    getOptionalHeader()->SizeOfImage =
+            alignNumber(header->VirtualAddress + header->Misc.VirtualSize, getOptionalHeader()->SectionAlignment);
 
     if(!isSectionExecutable(last))
     {
@@ -333,11 +332,13 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &offset)
     // TODO: size of uninitialized data?
     // TODO: virtual alignment?
 
+    memOffset = header->VirtualAddress + header->SizeOfRawData - numBytesToAdd;
+
     if(static_cast<size_t>(b_data.length()) < newDataOffset + numBytesToAdd)
         b_data.resize(newDataOffset + numBytesToAdd);
     b_data.replace(newDataOffset, numBytesToAdd, data);
 
-    offset = newDataOffset;
+    fileOffset = newDataOffset;
 
     return parse();
 }

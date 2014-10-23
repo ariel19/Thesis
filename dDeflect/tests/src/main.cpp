@@ -58,14 +58,14 @@ int main()
 
     QByteArray nd(113, '\x90');
 
-    unsigned int new_offset;
-    if(!pe.resizeLastSection(nd, new_offset))
+    unsigned int new_offset, new_mem_offset;
+    if(!pe.resizeLastSection(nd, new_offset, new_mem_offset))
     {
         puts("Resize failed!");
         return 1;
     }
 
-    printf("Offset: %x\n", new_offset);
+    printf("Offset: %x, Mem: %x\n", new_offset, new_mem_offset);
 
     QFile nf("new_example.exe");
     if(!nf.open(QFile::WriteOnly))
