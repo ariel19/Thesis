@@ -290,7 +290,8 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
     PIMAGE_SECTION_HEADER header = getSectionHeader(last);
 
     // Liczba bajtów do dodania do PE.
-    size_t numBytesToAdd = alignNumber(data.length(), getOptionalHeader()->FileAlignment);
+    size_t numBytesToAdd = alignNumber(qMax<unsigned int>(data.length(), isVirtual ? header->Misc.VirtualSize : 0),
+                                       getOptionalHeader()->FileAlignment);
 
     // Dopełnienie zerami nowych danych.
     size_t numOfZeros = numBytesToAdd - data.length();
@@ -326,7 +327,11 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
         getOptionalHeader()->SizeOfCode += numBytesToAdd;
 
     if(isVirtual)
+    {
         header->PointerToRawData = newDataOffset;
+        header->Characteristics |= IMAGE_SCN_CNT_INITIALIZED_DATA;
+        header->Characteristics &= ~IMAGE_SCN_CNT_UNINITIALIZED_DATA;
+    }
     getOptionalHeader()->SizeOfInitializedData += numBytesToAdd;
 
     // TODO: size of uninitialized data?
