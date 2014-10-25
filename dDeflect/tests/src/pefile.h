@@ -33,6 +33,7 @@ private:
 
     size_t getFreeSpaceBeforeNextSectionMem(unsigned int section);
     unsigned int alignNumber(unsigned int number, unsigned int alignment);
+    bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
 public:
     PEFile(QByteArray d);
@@ -107,6 +108,16 @@ public:
      * @return True w przypadku poprawnego dodania danych.
      */
     bool addDataToSection(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
+
+    /**
+     * @brief Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane.
+     * @param section: Numer sekcji.
+     * @param data: Dane
+     * @param fileOffset: Obliczony offset dodanych danych w pliku.
+     * @param memOffset: Obliczony offset dodanych danych w pmięci (RVA).
+     * @return True w przypadku poprawnego dodania danych.
+     */
+    bool addDataToSectionEx(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
     /**
      * @brief Pobiera informację czy sekcja jest wykonywalna.

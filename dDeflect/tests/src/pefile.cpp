@@ -170,6 +170,11 @@ unsigned int PEFile::alignNumber(unsigned int number, unsigned int alignment)
     return ((number / alignment) + 1) * alignment;
 }
 
+bool PEFile::addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
+{
+    return false;
+}
+
 bool PEFile::makeSectionExecutable(unsigned int section)
 {
     if(!parsed)
@@ -371,6 +376,73 @@ bool PEFile::addDataToSection(unsigned int section, QByteArray data,
         makeSectionExecutable(section);
 
     b_data.replace(newDataOffset, data.length(), data);
+
+    fileOffset = newDataOffset;
+
+    return parse();
+}
+
+bool PEFile::addDataToSectionEx(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
+{
+    if(!parsed || (section >= numberOfSections))
+        return false;
+
+    if(getSectionFreeSpace(section) >= static_cast<size_t>(data.length()))
+        return addDataToSection(section, data, fileOffset, memOffset);
+
+    if(isSectionRawDataEmpty(section))
+        return addDataToSectionExVirtual(section, data, fileOffset, memOffset);
+
+    PIMAGE_SECTION_HEADER header = getSectionHeader(section);
+
+    // Za sekcją w pliku znajduje się inna sekcja i nie można jej rozszerzyć.
+    if(section != getLastSectionNumberRaw())
+        return false;
+
+    size_t newSectionRawSize =
+            alignNumber(header->Misc.VirtualSize + data.length(), getOptionalHeader()->FileAlignment);
+
+    size_t newSectionVirtualSize = header->Misc.VirtualSize + data.length();
+
+    // Liczba bajtów do fizycznego dodania do pliku.
+    size_t numBytesToAdd = newSectionRawSize - header->SizeOfRawData;
+
+    // Liczba bajtów którą należy wpisać do pliku.
+    size_t numBytesToPaste = newSectionRawSize - header->Misc.VirtualSize;
+    size_t numZeros = numBytesToPaste - data.length();
+
+    unsigned int newDataOffset = header->PointerToRawData + header->Misc.VirtualSize;
+
+    // Za sekcją w pamięci znajduje się inna sekcja, czy dane się mieszczą?
+    if(section != getLastSectionNumberMem() && getFreeSpaceBeforeNextSectionMem(section) < numBytesToAdd)
+        return false;
+
+    memOffset = header->VirtualAddress + header->Misc.VirtualSize;
+
+    if(numZeros)
+        data.append(QByteArray(numZeros, 0x00));
+
+    header->Misc.VirtualSize = newSectionVirtualSize;
+    header->SizeOfRawData = newSectionRawSize;
+
+    getOptionalHeader()->SizeOfImage =
+            alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
+                        getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
+                        getOptionalHeader()->SectionAlignment);
+
+    getOptionalHeader()->SizeOfInitializedData += numBytesToAdd;
+
+    if(!isSectionExecutable(section))
+    {
+        getOptionalHeader()->SizeOfCode += header->SizeOfRawData;
+        makeSectionExecutable(section);
+    }
+    else
+        getOptionalHeader()->SizeOfCode += numBytesToAdd;
+
+    if(static_cast<size_t>(b_data.length()) < newDataOffset + numBytesToPaste)
+        b_data.resize(newDataOffset + numBytesToPaste);
+    b_data.replace(newDataOffset, numBytesToPaste, data);
 
     fileOffset = newDataOffset;
 
