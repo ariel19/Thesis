@@ -89,10 +89,30 @@ public:
      */
     bool isSectionRawDataEmpty(unsigned int section);
 
+    /**
+     * @brief Rozszerza sekcję i dodaje do niej dane.
+     * @param data: Dane do dodania.
+     * @param fileOffset: Obliczony offset dodanych danych w pliku.
+     * @param memOffset: Obliczony offset dodanych danych w pmięci (RVA).
+     * @return True w przypadku poprawnego dodania danych.
+     */
     bool resizeLastSection(QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
+    /**
+     * @brief Dodanie danych do istniejącej sekcji bez rozszerzania.
+     * @param section: Numer sekcji.
+     * @param data: Dane
+     * @param fileOffset: Obliczony offset dodanych danych w pliku.
+     * @param memOffset: Obliczony offset dodanych danych w pmięci (RVA).
+     * @return True w przypadku poprawnego dodania danych.
+     */
     bool addDataToSection(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
+    /**
+     * @brief Pobiera informację czy sekcja jest wykonywalna.
+     * @param section: numer sekcji.
+     * @return Czy sekcja jest wykonywalna
+     */
     bool isSectionExecutable(unsigned int section);
 };
 
