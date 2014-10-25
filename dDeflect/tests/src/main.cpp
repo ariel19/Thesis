@@ -37,7 +37,7 @@
 
 int main()
 {
-    QFile f("example.exe");
+    QFile f("example_ms.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
 
@@ -59,7 +59,7 @@ int main()
     QByteArray nd(113, '\x90');
 
     unsigned int new_offset, new_mem_offset;
-    if(!pe.resizeLastSection(nd, new_offset, new_mem_offset))
+    if(!pe.addDataToSection(0, nd, new_offset, new_mem_offset))
     {
         puts("Resize failed!");
         return 1;

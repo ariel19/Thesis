@@ -91,6 +91,8 @@ public:
 
     bool resizeLastSection(QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
+    bool addDataToSection(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
+
     bool isSectionExecutable(unsigned int section);
 };
 

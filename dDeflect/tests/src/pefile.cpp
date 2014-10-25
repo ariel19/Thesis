@@ -308,8 +308,8 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
     if(numOfZeros)
         data.append(QByteArray(numOfZeros, 0x00));
 
-//    getOptionalHeader()->SizeOfImage +=
-//            alignNumber(qMax<int>(header->SizeOfRawData - header->Misc.VirtualSize, 0) + actualDataLen, getOptionalHeader()->SectionAlignment);
+    //    getOptionalHeader()->SizeOfImage +=
+    //            alignNumber(qMax<int>(header->SizeOfRawData - header->Misc.VirtualSize, 0) + actualDataLen, getOptionalHeader()->SectionAlignment);
 
     header->Misc.VirtualSize = header->SizeOfRawData + actualDataLen;
     header->SizeOfRawData += numBytesToAdd;
@@ -342,6 +342,35 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
     if(static_cast<size_t>(b_data.length()) < newDataOffset + numBytesToAdd)
         b_data.resize(newDataOffset + numBytesToAdd);
     b_data.replace(newDataOffset, numBytesToAdd, data);
+
+    fileOffset = newDataOffset;
+
+    return parse();
+}
+
+bool PEFile::addDataToSection(unsigned int section, QByteArray data,
+                              unsigned int &fileOffset, unsigned int &memOffset)
+{
+    if(!parsed || (section >= numberOfSections))
+        return false;
+
+    if(getSectionFreeSpace(section) < static_cast<size_t>(data.length()))
+        return false;
+
+    if(isSectionRawDataEmpty(section))
+        return false;
+
+    PIMAGE_SECTION_HEADER header = getSectionHeader(section);
+
+    unsigned int newDataOffset = header->PointerToRawData + header->Misc.VirtualSize;
+
+    memOffset = header->VirtualAddress + header->Misc.VirtualSize;
+    header->Misc.VirtualSize += data.length();
+
+    if(!isSectionExecutable(section))
+        makeSectionExecutable(section);
+
+    b_data.replace(newDataOffset, data.length(), data);
 
     fileOffset = newDataOffset;
 
