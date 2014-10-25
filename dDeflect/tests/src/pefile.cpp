@@ -172,7 +172,43 @@ unsigned int PEFile::alignNumber(unsigned int number, unsigned int alignment)
 
 bool PEFile::addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
 {
-    return false;
+    PIMAGE_SECTION_HEADER header = getSectionHeader(section);
+
+    size_t newSizeOfRawData = alignNumber(qMax<unsigned int>(data.length(), header->Misc.VirtualSize), getOptionalHeader()->FileAlignment);
+
+    if(getLastSectionNumberMem() != section && newSizeOfRawData > getFreeSpaceBeforeNextSectionMem(section))
+        return false;
+
+    header->Characteristics |= IMAGE_SCN_CNT_INITIALIZED_DATA;
+    header->Characteristics &= ~IMAGE_SCN_CNT_UNINITIALIZED_DATA;
+
+    if(!isSectionExecutable(section))
+        makeSectionExecutable(section);
+
+    header->SizeOfRawData = newSizeOfRawData;
+    header->Misc.VirtualSize = qMax<unsigned int>(newSizeOfRawData, header->Misc.VirtualSize);
+    header->PointerToRawData =
+            getSectionHeader(getLastSectionNumberRaw())->PointerToRawData +
+            getSectionHeader(getLastSectionNumberRaw())->SizeOfRawData;
+
+    getOptionalHeader()->SizeOfCode += newSizeOfRawData;
+    getOptionalHeader()->SizeOfInitializedData += newSizeOfRawData;
+    getOptionalHeader()->SizeOfImage =
+            alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
+                        getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
+                        getOptionalHeader()->SectionAlignment);
+
+    if(newSizeOfRawData > static_cast<size_t>(data.length()))
+        data.append(QByteArray(newSizeOfRawData - data.length(), 0x00));
+
+    fileOffset = header->PointerToRawData;
+    memOffset = header->VirtualAddress;
+
+    if(static_cast<size_t>(b_data.length()) < header->PointerToRawData + newSizeOfRawData)
+        b_data.resize(header->PointerToRawData + newSizeOfRawData);
+    b_data.replace(fileOffset, newSizeOfRawData, data);
+
+    return parse();
 }
 
 bool PEFile::makeSectionExecutable(unsigned int section)
