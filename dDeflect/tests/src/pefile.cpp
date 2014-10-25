@@ -509,3 +509,11 @@ bool PEFile::setNewEntryPoint(unsigned int newEP)
 
     return true;
 }
+
+unsigned int PEFile::getEntryPoint()
+{
+    if(!parsed)
+        return 0;
+
+    return getOptionalHeader()->AddressOfEntryPoint;
+}

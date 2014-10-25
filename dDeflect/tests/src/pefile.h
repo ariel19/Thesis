@@ -132,6 +132,12 @@ public:
      * @return true w przypadku sukcesu.
      */
     bool setNewEntryPoint(unsigned int newEP);
+
+    /**
+     * @brief Pobiera EntryPoint.
+     * @return EP
+     */
+    unsigned int getEntryPoint();
 };
 
 #endif // PEFILE_H
