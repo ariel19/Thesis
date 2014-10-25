@@ -125,6 +125,13 @@ public:
      * @return Czy sekcja jest wykonywalna
      */
     bool isSectionExecutable(unsigned int section);
+
+    /**
+     * @brief Ustawia nowy EntryPoint.
+     * @param newEP: nowy EP;
+     * @return true w przypadku sukcesu.
+     */
+    bool setNewEntryPoint(unsigned int newEP);
 };
 
 #endif // PEFILE_H

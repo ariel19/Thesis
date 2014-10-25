@@ -172,6 +172,7 @@ unsigned int PEFile::alignNumber(unsigned int number, unsigned int alignment)
 
 bool PEFile::addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
 {
+    // TODO: BUG: kompilator zakłada że w takiej sekcji będą zera, jeżeli wypełniamy danymi możemy spowodować crash
     PIMAGE_SECTION_HEADER header = getSectionHeader(section);
 
     size_t newSizeOfRawData = alignNumber(qMax<unsigned int>(data.length(), header->Misc.VirtualSize), getOptionalHeader()->FileAlignment);
@@ -315,6 +316,7 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
     if(lastRaw != lastMem)
     {
         // Jeżeli ostatnia sekcja w pamięci jest sekcją wirtualną można zmienić jej położenie w pliku.
+        // TODO: BUG: kompilator zakłada że w takiej sekcji będą zera, jeżeli wypełniamy danymi możemy spowodować crash
         if(isSectionRawDataEmpty(lastMem))
             isVirtual = true;
         else
@@ -492,4 +494,18 @@ bool PEFile::isSectionExecutable(unsigned int section)
 
     return ((getSectionHeader(section)->Characteristics & IMAGE_SCN_MEM_EXECUTE) |
             (getSectionHeader(section)->Characteristics & IMAGE_SCN_CNT_CODE)) != 0;
+}
+
+bool PEFile::setNewEntryPoint(unsigned int newEP)
+{
+    if(!parsed)
+        return false;
+
+    if(newEP > getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
+            getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize)
+        return false;
+
+    getOptionalHeader()->AddressOfEntryPoint = newEP;
+
+    return true;
 }

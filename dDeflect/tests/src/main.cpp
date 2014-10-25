@@ -56,12 +56,14 @@ int main()
     for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
         printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
 
-    QByteArray nd(113, '\x90');
+    QByteArray nd(100, '\x90');
+    nd[10] = '\xEB';
+    nd[11] = '\xFE';
 
     unsigned int new_offset, new_mem_offset;
-    if(!pe.addDataToSection(0, nd, new_offset, new_mem_offset))
+    if(!pe.addDataToSectionEx(4, nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
     {
-        puts("Resize failed!");
+        puts("Failed!");
         return 1;
     }
 
