@@ -32,6 +32,7 @@ private:
     bool parse();
 
     size_t getFreeSpaceBeforeNextSectionMem(unsigned int section);
+    size_t getFreeSpaceBeforeFirstSectionFile();
     unsigned int alignNumber(unsigned int number, unsigned int alignment);
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
@@ -138,6 +139,16 @@ public:
      * @return EP
      */
     unsigned int getEntryPoint();
+
+    /**
+     * @brief Dodaje nową wykonywalną sekcję.
+     * @param name: Nazwa
+     * @param data: Zawartość nowej sekcji.
+     * @param fileOffset: Zwracany offset nowej sekcji w pliku.
+     * @param memOffset: Offset nowej sekcji w pamięci.
+     * @return True w przypadku sukcesu.
+     */
+    bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 };
 
 #endif // PEFILE_H

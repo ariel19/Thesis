@@ -61,7 +61,7 @@ int main()
     nd[11] = '\xFE';
 
     unsigned int new_offset, new_mem_offset;
-    if(!pe.addDataToSectionEx(4, nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
+    if(!pe.addNewSection(QString(".test"), nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
     {
         puts("Failed!");
         return 1;

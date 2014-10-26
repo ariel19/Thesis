@@ -159,6 +159,31 @@ size_t PEFile::getFreeSpaceBeforeNextSectionMem(unsigned int section)
     return nextRVA - secEnd;
 }
 
+size_t PEFile::getFreeSpaceBeforeFirstSectionFile()
+{
+    int first = -1;
+    unsigned int offset = ~0;
+
+    for(unsigned int i = 0; i < numberOfSections; ++i)
+    {
+        if(getSectionHeader(i)->SizeOfRawData > 0 && getSectionHeader(i)->PointerToRawData < offset)
+        {
+            first = i;
+            offset = getSectionHeader(i)->PointerToRawData;
+        }
+    }
+
+    if(first == -1)
+        return 0;
+
+    unsigned int nextHeader = sectionHeadersIdx[getNumberOfSections() - 1] + sizeof(IMAGE_SECTION_HEADER);
+
+    if(offset <= nextHeader)
+        return 0;
+
+    return offset - nextHeader;
+}
+
 unsigned int PEFile::alignNumber(unsigned int number, unsigned int alignment)
 {
     if(!alignment)
@@ -516,4 +541,60 @@ unsigned int PEFile::getEntryPoint()
         return 0;
 
     return getOptionalHeader()->AddressOfEntryPoint;
+}
+
+bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
+{
+    if(!parsed)
+        return false;
+
+    unsigned int newHeaderOffset = sectionHeadersIdx[getNumberOfSections() - 1] + sizeof(IMAGE_SECTION_HEADER);
+    unsigned int newFileOffset = alignNumber(b_data.length(), getOptionalHeader()->FileAlignment);
+
+    // Header się nie zmieści.
+    if(getFreeSpaceBeforeFirstSectionFile() < sizeof(IMAGE_SECTION_HEADER))
+        return false;
+
+    QByteArray d_header(sizeof(IMAGE_SECTION_HEADER), 0x00);
+    PIMAGE_SECTION_HEADER header = reinterpret_cast<PIMAGE_SECTION_HEADER>(d_header.data());
+
+    strncpy(reinterpret_cast<char*>(header->Name), name.toStdString().c_str(), IMAGE_SIZEOF_SHORT_NAME);
+    header->Misc.VirtualSize = data.length();
+    header->VirtualAddress =
+            alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
+                        getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
+                        getOptionalHeader()->SectionAlignment);
+    header->SizeOfRawData = alignNumber(data.length(), getOptionalHeader()->FileAlignment);
+    header->PointerToRawData = newFileOffset;
+    header->Characteristics = IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE |
+            IMAGE_SCN_MEM_READ | IMAGE_SCN_CNT_INITIALIZED_DATA;
+
+    getOptionalHeader()->SizeOfCode += header->SizeOfRawData;
+    getOptionalHeader()->SizeOfInitializedData += header->SizeOfRawData;
+    getOptionalHeader()->SizeOfImage =
+            alignNumber(header->VirtualAddress + header->Misc.VirtualSize,
+                        getOptionalHeader()->SectionAlignment);
+    getOptionalHeader()->SizeOfHeaders =
+            alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS::Signature) +
+                        sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER) +
+                        sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
+                        getOptionalHeader()->FileAlignment);
+
+    getFileHeader()->NumberOfSections += 1;
+
+    fileOffset = header->PointerToRawData;
+    memOffset = header->VirtualAddress;
+
+    unsigned int sizeOfNewData = header->SizeOfRawData;
+
+    if(static_cast<size_t>(data.length()) < sizeOfNewData)
+        data.append(QByteArray(sizeOfNewData - data.length(), 0x00));
+
+    if(static_cast<size_t>(b_data.length()) < newFileOffset + sizeOfNewData)
+        b_data.resize(newFileOffset + sizeOfNewData);
+
+    b_data.replace(newHeaderOffset, sizeof(IMAGE_SECTION_HEADER), d_header);
+    b_data.replace(newFileOffset, sizeOfNewData, data);
+
+    return parse();
 }
