@@ -1,13 +1,93 @@
 #include "pefile.h"
 
+unsigned int PEFile::getOptHdrFileAlignment()
+{
+    return is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;
+}
+
+unsigned int PEFile::getOptHdrSectionAlignment()
+{
+    return is_x64 ? getOptionalHeader64()->SectionAlignment : getOptionalHeader32()->SectionAlignment;
+}
+
+size_t PEFile::getOptHdrSizeOfCode()
+{
+    return is_x64 ? getOptionalHeader64()->SizeOfCode : getOptionalHeader32()->SizeOfCode;
+}
+
+size_t PEFile::getOptHdrSizeOfInitializedData()
+{
+    return is_x64 ? getOptionalHeader64()->SizeOfInitializedData : getOptionalHeader32()->SizeOfInitializedData;
+}
+
+unsigned int PEFile::getOptHdrAddressOfEntryPoint()
+{
+    return is_x64 ? getOptionalHeader64()->AddressOfEntryPoint : getOptionalHeader32()->AddressOfEntryPoint;
+}
+
+unsigned int PEFile::getNtHdrSignature()
+{
+    return is_x64 ? getNtHeaders64()->Signature : getNtHeaders32()->Signature;
+}
+
+unsigned int PEFile::getOptHdrNumberOfRvaAndSizes()
+{
+    return is_x64 ? getOptionalHeader64()->NumberOfRvaAndSizes : getOptionalHeader32()->NumberOfRvaAndSizes;
+}
+
+void PEFile::setOptHdrSizeOfCode(size_t size)
+{
+    if(is_x64)
+        getOptionalHeader64()->SizeOfCode = size;
+    else
+        getOptionalHeader32()->SizeOfCode = size;
+}
+
+void PEFile::setOptHdrSizeOfInitializedData(size_t size)
+{
+    if(is_x64)
+        getOptionalHeader64()->SizeOfInitializedData = size;
+    else
+        getOptionalHeader32()->SizeOfInitializedData = size;
+}
+
+void PEFile::setOptHdrSizeOfImage(size_t size)
+{
+    if(is_x64)
+        getOptionalHeader64()->SizeOfImage = size;
+    else
+        getOptionalHeader32()->SizeOfImage = size;
+}
+
+void PEFile::setOptHdrSizeOfHeaders(size_t size)
+{
+    if(is_x64)
+        getOptionalHeader64()->SizeOfHeaders = size;
+    else
+        getOptionalHeader32()->SizeOfHeaders = size;
+}
+
+void PEFile::setOptHdrAddressOfEntryPoint(unsigned int ep)
+{
+    if(is_x64)
+        getOptionalHeader64()->AddressOfEntryPoint = ep;
+    else
+        getOptionalHeader32()->AddressOfEntryPoint = ep;
+}
+
 PIMAGE_DOS_HEADER PEFile::getDosHeader()
 {
     return reinterpret_cast<PIMAGE_DOS_HEADER>(&(b_data.data()[dosHeaderIdx]));
 }
 
-PIMAGE_NT_HEADERS PEFile::getNtHeaders()
+PIMAGE_NT_HEADERS32 PEFile::getNtHeaders32()
 {
-    return reinterpret_cast<PIMAGE_NT_HEADERS>(&(b_data.data()[ntHeadersIdx]));
+    return reinterpret_cast<PIMAGE_NT_HEADERS32>(&(b_data.data()[ntHeadersIdx]));
+}
+
+PIMAGE_NT_HEADERS64 PEFile::getNtHeaders64()
+{
+    return reinterpret_cast<PIMAGE_NT_HEADERS64>(&(b_data.data()[ntHeadersIdx]));
 }
 
 PIMAGE_FILE_HEADER PEFile::getFileHeader()
@@ -15,9 +95,14 @@ PIMAGE_FILE_HEADER PEFile::getFileHeader()
     return reinterpret_cast<PIMAGE_FILE_HEADER>(&(b_data.data()[fileHeaderIdx]));
 }
 
-PIMAGE_OPTIONAL_HEADER PEFile::getOptionalHeader()
+PIMAGE_OPTIONAL_HEADER32 PEFile::getOptionalHeader32()
 {
-    return reinterpret_cast<PIMAGE_OPTIONAL_HEADER>(&(b_data.data()[optionalHeaderIdx]));
+    return reinterpret_cast<PIMAGE_OPTIONAL_HEADER32>(&(b_data.data()[optionalHeaderIdx]));
+}
+
+PIMAGE_OPTIONAL_HEADER64 PEFile::getOptionalHeader64()
+{
+    return reinterpret_cast<PIMAGE_OPTIONAL_HEADER64>(&(b_data.data()[optionalHeaderIdx]));
 }
 
 PIMAGE_SECTION_HEADER PEFile::getSectionHeader(unsigned int n)
@@ -34,6 +119,7 @@ PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
 
 PEFile::PEFile(QByteArray d) :
     parsed(false),
+    is_x64(false),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
 {
@@ -66,32 +152,61 @@ bool PEFile::parse()
     if(length < sizeof(IMAGE_DOS_HEADER) || dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
         return false;
 
-    PIMAGE_NT_HEADERS ntHeaders =
-            reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<char*>(dosHeader) + dosHeader->e_lfanew);
-    ntHeadersIdx = reinterpret_cast<char*>(ntHeaders) - reinterpret_cast<char*>(dosHeader);
+    is_x64 = isPE_64(dosHeader->e_lfanew);
+
+    PIMAGE_NT_HEADERS32 ntHeaders32 = NULL;
+    PIMAGE_NT_HEADERS64 ntHeaders64 = NULL;
+
+    if(is_x64)
+    {
+        ntHeaders64 = reinterpret_cast<PIMAGE_NT_HEADERS64>(reinterpret_cast<char*>(dosHeader) +
+                                                            dosHeader->e_lfanew);
+        ntHeadersIdx = reinterpret_cast<char*>(ntHeaders64) - reinterpret_cast<char*>(dosHeader);
+    }
+    else
+    {
+        ntHeaders32 = reinterpret_cast<PIMAGE_NT_HEADERS32>(reinterpret_cast<char*>(dosHeader) +
+                                                            dosHeader->e_lfanew);
+        ntHeadersIdx = reinterpret_cast<char*>(ntHeaders32) - reinterpret_cast<char*>(dosHeader);
+    }
 
     if(length < dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS::Signature)
-            || ntHeaders->Signature != IMAGE_NT_SIGNATURE)
+            || getNtHdrSignature() != IMAGE_NT_SIGNATURE)
         return false;
 
-    PIMAGE_FILE_HEADER fileHeader = reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders->FileHeader);
+    PIMAGE_FILE_HEADER fileHeader = is_x64 ?
+                reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders64->FileHeader) :
+                reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders32->FileHeader);
+
     fileHeaderIdx = reinterpret_cast<char*>(fileHeader) - reinterpret_cast<char*>(dosHeader);
 
     if(length < (fileHeaderIdx + sizeof(IMAGE_FILE_HEADER)))
         return false;
 
-    PIMAGE_OPTIONAL_HEADER optionalHeader = reinterpret_cast<PIMAGE_OPTIONAL_HEADER>(&ntHeaders->OptionalHeader);
+    PIMAGE_OPTIONAL_HEADER32 optionalHeader32 = NULL;
+    PIMAGE_OPTIONAL_HEADER64 optionalHeader64 = NULL;
+
+    if(is_x64)
+        optionalHeader64 = reinterpret_cast<PIMAGE_OPTIONAL_HEADER64>(&ntHeaders64->OptionalHeader);
+    else
+        optionalHeader32 = reinterpret_cast<PIMAGE_OPTIONAL_HEADER32>(&ntHeaders32->OptionalHeader);
+
     optionalHeaderSize = fileHeader->SizeOfOptionalHeader;
-    optionalHeaderIdx = reinterpret_cast<char*>(optionalHeader) - reinterpret_cast<char*>(dosHeader);
+    optionalHeaderIdx = is_x64 ?
+                (reinterpret_cast<char*>(optionalHeader64) - reinterpret_cast<char*>(dosHeader)) :
+                (reinterpret_cast<char*>(optionalHeader32) - reinterpret_cast<char*>(dosHeader));
 
     if(length < optionalHeaderIdx + optionalHeaderSize)
         return false;
 
-    if(optionalHeader->Magic != IMAGE_NT_OPTIONAL_HDR_MAGIC)
+    if(is_x64 && optionalHeader64->Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+        return false;
+
+    if(!is_x64 && optionalHeader32->Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC)
         return false;
 
     // Data Directories
-    numberOfDataDirectories = optionalHeader->NumberOfRvaAndSizes;
+    numberOfDataDirectories = getOptHdrNumberOfRvaAndSizes();
 
     if(dataDirectoriesIdx)
         delete [] dataDirectoriesIdx;
@@ -106,8 +221,9 @@ bool PEFile::parse()
         return false;
     }
 
-    unsigned int firstDataDirIdx =
-            reinterpret_cast<char*>(&(optionalHeader->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader);
+    unsigned int firstDataDirIdx = is_x64 ?
+                reinterpret_cast<char*>(&(optionalHeader64->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader) :
+        reinterpret_cast<char*>(&(optionalHeader32->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader);
 
     for(unsigned int i = 0; i < numberOfDataDirectories; ++i)
         dataDirectoriesIdx[i] = firstDataDirIdx + i * sizeof(IMAGE_DATA_DIRECTORY);
@@ -134,6 +250,13 @@ bool PEFile::parse()
         sectionHeadersIdx[i] = firstSectionHeaderIdx + i * sizeof(IMAGE_SECTION_HEADER);
 
     return true;
+}
+
+bool PEFile::isPE_64(unsigned int pe_offset)
+{
+    pe_offset += sizeof(DWORD);
+
+    return *reinterpret_cast<WORD*>(&b_data.data()[pe_offset]) != IMAGE_FILE_MACHINE_I386;
 }
 
 size_t PEFile::getFreeSpaceBeforeNextSectionMem(unsigned int section)
@@ -200,7 +323,7 @@ bool PEFile::addDataToSectionExVirtual(unsigned int section, QByteArray data, un
     // TODO: BUG: kompilator zakłada że w takiej sekcji będą zera, jeżeli wypełniamy danymi możemy spowodować crash
     PIMAGE_SECTION_HEADER header = getSectionHeader(section);
 
-    size_t newSizeOfRawData = alignNumber(qMax<unsigned int>(data.length(), header->Misc.VirtualSize), getOptionalHeader()->FileAlignment);
+    size_t newSizeOfRawData = alignNumber(qMax<unsigned int>(data.length(), header->Misc.VirtualSize), getOptHdrFileAlignment());
 
     if(getLastSectionNumberMem() != section && newSizeOfRawData > getFreeSpaceBeforeNextSectionMem(section))
         return false;
@@ -217,12 +340,11 @@ bool PEFile::addDataToSectionExVirtual(unsigned int section, QByteArray data, un
             getSectionHeader(getLastSectionNumberRaw())->PointerToRawData +
             getSectionHeader(getLastSectionNumberRaw())->SizeOfRawData;
 
-    getOptionalHeader()->SizeOfCode += newSizeOfRawData;
-    getOptionalHeader()->SizeOfInitializedData += newSizeOfRawData;
-    getOptionalHeader()->SizeOfImage =
-            alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
-                        getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
-                        getOptionalHeader()->SectionAlignment);
+    setOptHdrSizeOfCode(getOptHdrSizeOfCode() + newSizeOfRawData);
+    setOptHdrSizeOfInitializedData(getOptHdrSizeOfInitializedData() + newSizeOfRawData);
+    setOptHdrSizeOfImage(alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
+                                     getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
+                                     getOptHdrSectionAlignment()));
 
     if(newSizeOfRawData > static_cast<size_t>(data.length()))
         data.append(QByteArray(newSizeOfRawData - data.length(), 0x00));
@@ -359,7 +481,7 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
 
     // Liczba bajtów do dodania do PE.
     size_t numBytesToAdd = alignNumber(qMax<unsigned int>(data.length(), isVirtual ? header->Misc.VirtualSize : 0),
-                                       getOptionalHeader()->FileAlignment);
+                                       getOptHdrFileAlignment());
 
     // Dopełnienie zerami nowych danych.
     size_t numOfZeros = numBytesToAdd - data.length();
@@ -369,7 +491,7 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
 
     // Offset dla nowych danych.
     unsigned int newDataOffset = isVirtual ?
-                alignNumber(b_data.length(), getOptionalHeader()->FileAlignment) :
+                alignNumber(b_data.length(), getOptHdrFileAlignment()) :
                 header->PointerToRawData + header->SizeOfRawData;
 
     // Dodanie zer do nowych danych.
@@ -382,17 +504,17 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
     header->Misc.VirtualSize = header->SizeOfRawData + actualDataLen;
     header->SizeOfRawData += numBytesToAdd;
 
-    getOptionalHeader()->SizeOfImage =
-            alignNumber(header->VirtualAddress + header->Misc.VirtualSize, getOptionalHeader()->SectionAlignment);
+    setOptHdrSizeOfImage(alignNumber(header->VirtualAddress + header->Misc.VirtualSize,
+                                     getOptHdrSectionAlignment()));
 
     if(!isSectionExecutable(last))
     {
         // Wyrównany wcześniej
-        getOptionalHeader()->SizeOfCode += header->SizeOfRawData;
+        setOptHdrSizeOfCode(getOptHdrSizeOfCode() + header->SizeOfRawData);
         makeSectionExecutable(last);
     }
     else
-        getOptionalHeader()->SizeOfCode += numBytesToAdd;
+        setOptHdrSizeOfCode(getOptHdrSizeOfCode() + numBytesToAdd);
 
     if(isVirtual)
     {
@@ -400,7 +522,7 @@ bool PEFile::resizeLastSection(QByteArray data, unsigned int &fileOffset, unsign
         header->Characteristics |= IMAGE_SCN_CNT_INITIALIZED_DATA;
         header->Characteristics &= ~IMAGE_SCN_CNT_UNINITIALIZED_DATA;
     }
-    getOptionalHeader()->SizeOfInitializedData += numBytesToAdd;
+    setOptHdrSizeOfInitializedData(getOptHdrSizeOfInitializedData() + numBytesToAdd);
 
     // TODO: size of uninitialized data?
     // TODO: virtual alignment?
@@ -463,7 +585,7 @@ bool PEFile::addDataToSectionEx(unsigned int section, QByteArray data, unsigned 
         return false;
 
     size_t newSectionRawSize =
-            alignNumber(header->Misc.VirtualSize + data.length(), getOptionalHeader()->FileAlignment);
+            alignNumber(header->Misc.VirtualSize + data.length(), getOptHdrFileAlignment());
 
     size_t newSectionVirtualSize = header->Misc.VirtualSize + data.length();
 
@@ -488,20 +610,19 @@ bool PEFile::addDataToSectionEx(unsigned int section, QByteArray data, unsigned 
     header->Misc.VirtualSize = newSectionVirtualSize;
     header->SizeOfRawData = newSectionRawSize;
 
-    getOptionalHeader()->SizeOfImage =
-            alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
-                        getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
-                        getOptionalHeader()->SectionAlignment);
+    setOptHdrSizeOfImage(alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
+                                     getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
+                                     getOptHdrSectionAlignment()));
 
-    getOptionalHeader()->SizeOfInitializedData += numBytesToAdd;
+    setOptHdrSizeOfInitializedData(getOptHdrSizeOfInitializedData() + numBytesToAdd);
 
     if(!isSectionExecutable(section))
     {
-        getOptionalHeader()->SizeOfCode += header->SizeOfRawData;
+        setOptHdrSizeOfCode(getOptHdrSizeOfCode() + header->SizeOfRawData);
         makeSectionExecutable(section);
     }
     else
-        getOptionalHeader()->SizeOfCode += numBytesToAdd;
+        setOptHdrSizeOfCode(getOptHdrSizeOfCode() + numBytesToAdd);
 
     if(static_cast<size_t>(b_data.length()) < newDataOffset + numBytesToPaste)
         b_data.resize(newDataOffset + numBytesToPaste);
@@ -530,7 +651,7 @@ bool PEFile::setNewEntryPoint(unsigned int newEP)
             getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize)
         return false;
 
-    getOptionalHeader()->AddressOfEntryPoint = newEP;
+    setOptHdrAddressOfEntryPoint(newEP);
 
     return true;
 }
@@ -540,7 +661,7 @@ unsigned int PEFile::getEntryPoint()
     if(!parsed)
         return 0;
 
-    return getOptionalHeader()->AddressOfEntryPoint;
+    return getOptHdrAddressOfEntryPoint();
 }
 
 bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
@@ -549,7 +670,7 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
         return false;
 
     unsigned int newHeaderOffset = sectionHeadersIdx[getNumberOfSections() - 1] + sizeof(IMAGE_SECTION_HEADER);
-    unsigned int newFileOffset = alignNumber(b_data.length(), getOptionalHeader()->FileAlignment);
+    unsigned int newFileOffset = alignNumber(b_data.length(), getOptHdrFileAlignment());
 
     // Header się nie zmieści.
     if(getFreeSpaceBeforeFirstSectionFile() < sizeof(IMAGE_SECTION_HEADER))
@@ -563,22 +684,20 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
     header->VirtualAddress =
             alignNumber(getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
                         getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize,
-                        getOptionalHeader()->SectionAlignment);
-    header->SizeOfRawData = alignNumber(data.length(), getOptionalHeader()->FileAlignment);
+                        getOptHdrSectionAlignment());
+    header->SizeOfRawData = alignNumber(data.length(), getOptHdrFileAlignment());
     header->PointerToRawData = newFileOffset;
     header->Characteristics = IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE |
             IMAGE_SCN_MEM_READ | IMAGE_SCN_CNT_INITIALIZED_DATA;
 
-    getOptionalHeader()->SizeOfCode += header->SizeOfRawData;
-    getOptionalHeader()->SizeOfInitializedData += header->SizeOfRawData;
-    getOptionalHeader()->SizeOfImage =
-            alignNumber(header->VirtualAddress + header->Misc.VirtualSize,
-                        getOptionalHeader()->SectionAlignment);
-    getOptionalHeader()->SizeOfHeaders =
-            alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS::Signature) +
-                        sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER) +
-                        sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
-                        getOptionalHeader()->FileAlignment);
+    setOptHdrSizeOfCode(getOptHdrSizeOfCode() + header->SizeOfRawData);
+    setOptHdrSizeOfInitializedData(getOptHdrSizeOfInitializedData() + header->SizeOfRawData);
+    setOptHdrSizeOfImage(alignNumber(header->VirtualAddress + header->Misc.VirtualSize,
+                                     getOptHdrSectionAlignment()));
+    setOptHdrSizeOfHeaders(alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS::Signature) +
+                                       sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER) +
+                                       sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
+                                       getOptHdrFileAlignment()));
 
     getFileHeader()->NumberOfSections += 1;
 
