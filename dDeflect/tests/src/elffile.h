@@ -5,9 +5,11 @@
 #include "elf.h"
 #include <QFile>
 #include <QString>
+#include <QList>
 
 typedef uint32_t offset_t;
 typedef Elf64_Half esize_t;
+typedef Elf64_Off ex_offset_t;
 
 class ELF {
     struct classes {
@@ -24,13 +26,27 @@ class ELF {
     classes::CLASS cls;
 
     offset_t elf_header_idx;
-    offset_t ph_header_idx;
 
-    /// Program header info
-    Elf64_Off ph64_off;
-    Elf32_Off ph32_off;
-    esize_t ph_size,
+    /// total size of ph header structures array of size ph_num
+    esize_t ph_total_size,
             ph_num;
+    /// size of ph header structure according to the architecture
+    esize_t ph_size;
+    /// list of ph index headers
+    QList<ex_offset_t> ph_idx;
+
+    /**
+     * @brief Pobiera offset w pliku dla podanego segmentu.
+     * @param idx indeks segmentu.
+     * @return Offset jeżeli dane są poprawne, nullptr w innych przypadkach.
+     */
+    void* get_ph_seg_offset(uint32_t idx = 0);
+
+    /**
+     * @brief Wypełnia listę z indeksami struktur Program Header.
+     * @return True jeżeli wielkość tablicy się zgadza z zadeklarowaną, False w innych przypadkach.
+     */
+    bool get_ph_addresses();
 
     /**
      * @brief Pobiera zawartość struktury Elf32_Ehdr.
@@ -40,9 +56,10 @@ class ELF {
 
     /**
      * @brief Pobiera zawartość struktury Elf32_Phdr.
+     * @param idx Indeks
      * @return Wskaźnik na strukturę Elf32_Phdr jeżeli dane są poprawne, nullptr w innych przypadkach.
      */
-    void* get_ph_header();
+    void* get_ph_header(uint32_t idx = 0);
 
     /**
      * @brief Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF.
@@ -94,6 +111,12 @@ public:
      * @return True jeżeli jest otwarty, False jeżeli nie.
      */
     bool is_open() const { return elf_file.isOpen(); }
+
+    /**
+     * @brief Pobiera ilość segmentów w pliku.
+     * @return Ilość segmentów w pliku, -1 w razie błędu.
+     */
+    int get_number_of_segments() const { return is_valid() ? ph_num : - 1; }
 };
 
 #endif // ELFFILE_H
