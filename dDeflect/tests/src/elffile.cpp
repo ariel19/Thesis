@@ -16,15 +16,10 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
 
 bool ELF::get_ph_addresses() {
     try {
-        ex_offset_t addr = ph_idx.at(0) + ph_size,
-                    last_byte_addr = ph_idx.at(0) + ph_total_size;
-
-        // check if number of sections in elf equals to number
-        if (ph_num != ph_total_size / ph_size)
-            return false;
+        ex_offset_t addr = ph_idx.at(0) + ph_size;
 
         // fill the rest of the list with file offsets
-        while (addr < last_byte_addr) {
+        for (esize_t i = 1; i < ph_num; ++i) {
             ph_idx.push_back(addr);
             addr += ph_size;
         }
@@ -119,17 +114,15 @@ bool ELF::get_ph_info(const void *elf_hdr) {
             return false;
         if (cls == classes::ELF32) {
             const Elf32_Ehdr* e_hdr = reinterpret_cast<const Elf32_Ehdr *>(elf_hdr);
-            ph_total_size = e_hdr->e_phentsize;
+            ph_size = e_hdr->e_phentsize;
             ph_num = e_hdr->e_phnum;
             ph_idx.push_back(e_hdr->e_phoff);
-            ph_size = sizeof(Elf32_Ehdr);
         }
         else {
             const Elf64_Ehdr* e_hdr = reinterpret_cast<const Elf64_Ehdr *>(elf_hdr);
-            ph_total_size = e_hdr->e_phentsize;
+            ph_size = e_hdr->e_phentsize;
             ph_num = e_hdr->e_phnum;
             ph_idx.push_back(e_hdr->e_phoff);
-            ph_size = sizeof(Elf64_Ehdr);
         }
         // fill ph_idx list with according values
         if (!get_ph_addresses())
@@ -144,7 +137,7 @@ bool ELF::get_ph_info(const void *elf_hdr) {
 /* TODO: real parsing */
 bool ELF::parse() {
     // check if file is ready for parsing
-    if (!is_valid())
+    if (!is_open())
         return false;
 
     char *data = b_data.data();

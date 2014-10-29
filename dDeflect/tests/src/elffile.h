@@ -27,11 +27,11 @@ class ELF {
 
     offset_t elf_header_idx;
 
-    /// total size of ph header structures array of size ph_num
-    esize_t ph_total_size,
-            ph_num;
     /// size of ph header structure according to the architecture
-    esize_t ph_size;
+    /// number of program header entries
+    esize_t ph_size,
+            ph_num;
+
     /// list of ph index headers
     QList<ex_offset_t> ph_idx;
 
