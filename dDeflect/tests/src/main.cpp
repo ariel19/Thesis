@@ -37,7 +37,7 @@
 
 int main()
 {
-    QFile f("example_ms.exe");
+    QFile f("example.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
 

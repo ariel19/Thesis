@@ -8,6 +8,7 @@ class PEFile
 {
 private:
     bool parsed;
+    bool is_x64;
     QByteArray b_data;
 
     unsigned int dosHeaderIdx;
@@ -22,14 +23,37 @@ private:
     unsigned int *sectionHeadersIdx;
     unsigned int *dataDirectoriesIdx;
 
+    unsigned int getOptHdrFileAlignment();
+    unsigned int getOptHdrSectionAlignment();
+    size_t getOptHdrSizeOfCode();
+    size_t getOptHdrSizeOfInitializedData();
+    unsigned int getOptHdrAddressOfEntryPoint();
+    unsigned int getNtHdrSignature();
+    unsigned int getOptHdrNumberOfRvaAndSizes();
+
+    void setOptHdrSizeOfCode(size_t size);
+    void setOptHdrSizeOfInitializedData(size_t size);
+    void setOptHdrSizeOfImage(size_t size);
+    void setOptHdrSizeOfHeaders(size_t size);
+    void setOptHdrAddressOfEntryPoint(unsigned int ep);
+
     PIMAGE_DOS_HEADER getDosHeader();
-    PIMAGE_NT_HEADERS getNtHeaders();
+
+    PIMAGE_NT_HEADERS32 getNtHeaders32();
+    PIMAGE_NT_HEADERS64 getNtHeaders64();
+
     PIMAGE_FILE_HEADER getFileHeader();
-    PIMAGE_OPTIONAL_HEADER getOptionalHeader();
+
+    PIMAGE_OPTIONAL_HEADER32 getOptionalHeader32();
+    PIMAGE_OPTIONAL_HEADER64 getOptionalHeader64();
+
     PIMAGE_SECTION_HEADER getSectionHeader(unsigned int n);
     PIMAGE_DATA_DIRECTORY getDataDirectory(unsigned int n);
 
     bool parse();
+    bool parse32();
+    bool parse64();
+    bool isPE_64(unsigned int pe_offset);
 
     size_t getFreeSpaceBeforeNextSectionMem(unsigned int section);
     size_t getFreeSpaceBeforeFirstSectionFile();
