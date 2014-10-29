@@ -36,13 +36,6 @@ class ELF {
     QList<ex_offset_t> ph_idx;
 
     /**
-     * @brief Pobiera offset w pliku dla podanego segmentu.
-     * @param idx indeks segmentu.
-     * @return Offset jeżeli dane są poprawne, nullptr w innych przypadkach.
-     */
-    void* get_ph_seg_offset(uint32_t idx = 0);
-
-    /**
      * @brief Wypełnia listę z indeksami struktur Program Header.
      * @return True jeżeli wielkość tablicy się zgadza z zadeklarowaną, False w innych przypadkach.
      */
@@ -117,6 +110,13 @@ public:
      * @return Ilość segmentów w pliku, -1 w razie błędu.
      */
     int get_number_of_segments() const { return is_valid() ? ph_num : - 1; }
+
+    /**
+     * @brief Pobiera offset w pliku dla podanego segmentu.
+     * @param idx indeks segmentu.
+     * @return Offset jeżeli dane są poprawne, nullptr w innych przypadkach.
+     */
+    void* get_ph_seg_offset(uint32_t idx = 0);
 };
 
 #endif // ELFFILE_H
