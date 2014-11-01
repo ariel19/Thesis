@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QString>
 #include <QList>
+#include <map>
 
 typedef uint32_t offset_t;
 typedef Elf64_Half esize_t;
@@ -71,7 +72,7 @@ class ELF {
     /**
      * @brief Pobiera informacje dotyczące offsetu
      * @param elf_hdr
-     * @return
+     * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     bool get_ph_info(const void *elf_hdr);
 
@@ -80,6 +81,14 @@ class ELF {
      * @return True jeżeli dane w pamięci sa zgodne z formatem ELF, False w pozostałych przypadkach.
      */
     bool parse();
+
+    /**
+     * @brief Zaokrągla w dół adres, podany jako argument zgodnie z wyspecyfikowanym wyrównaniem.
+     * @param addr adres do zaokrąglenia.
+     * @param align wartość wyrównania.
+     * @return Zaokrąglony adres.
+     */
+    Elf64_Xword round_address_down(ex_offset_t addr, ex_offset_t align) const;
 
 public:
     /**
@@ -117,6 +126,28 @@ public:
      * @return Offset jeżeli dane są poprawne, nullptr w innych przypadkach.
      */
     void* get_ph_seg_offset(uint32_t idx = 0);
+
+    /**
+     * @brief Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.
+     * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
+     * @return adres, pod który kod został skopiowany (lub nullptr w przypadku błędu) oraz reprezentację binarną nowego pliku.
+     */
+    std::pair<void*, QByteArray> extend_segment(const QByteArray &data);
+
+    /**
+     * @brief Zapisuje podane dane do określonego pliku.
+     * @param fname nazwa pliku.
+     * @param data zapisywane dane.
+     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
+     */
+    bool write_to_file(const QString &fname, const QByteArray &data) const;
+
+    /**
+     * @brief Zapisuje wewnętrzne dane do pliku.
+     * @param fname nazwa pliku.
+     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
+     */
+    bool write_to_file(const QString &fname) const;
 };
 
 #endif // ELFFILE_H
