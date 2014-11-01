@@ -13,6 +13,18 @@ typedef Elf64_Half esize_t;
 typedef Elf64_Off ex_offset_t;
 
 class ELF {
+    typedef struct _best_segment {
+        uint32_t post_pad,
+                 pre_pad;
+        void *ph;
+        bool change_vma;
+
+    public:
+        _best_segment() :
+            post_pad(0), pre_pad(0),
+            ph(nullptr), change_vma(false) {}
+    } best_segment;
+
     struct classes {
         enum CLASS {
             NONE,
@@ -89,6 +101,86 @@ class ELF {
      * @return Zaokrąglony adres.
      */
     Elf64_Xword round_address_down(ex_offset_t addr, ex_offset_t align) const;
+
+    /**
+     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.
+     * @param ph wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param dsize wielkość danych.
+     * @param pre_pad adres komórki pamięci, pod którą zapiszemy wartość.
+     * @return True jeżeli operacja się powidła, False w innych przypadkach.
+     */
+    bool find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize, uint32_t *pre_pad);
+
+    /**
+     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.
+     * @param ph wskaźnik na strukture 64-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 64-bitowego nagłówka ELF.
+     * @param dsize wielkość danych.
+     * @param pre_pad adres komórki pamięci, pod którą zapiszemy wartość.
+     * @return True jeżeli operacja się powidła, False w innych przypadkach.
+     */
+    bool find_pre_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize, uint32_t *pre_pad);
+
+    /**
+     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.
+     * @param ph wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param dsize wielkość danych.
+     * @param pre_pad wartość dopełnenia przed danymi.
+     * @param post_pad adres komórki pamięci, pod którą zapiszemy wartość.
+     * @param change_vma adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA.
+     * @return True jeżeli operacja się powidła, False w innych przypadkach.
+     */
+    bool find_post_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize,
+                       const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
+
+    /**
+     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.
+     * @param ph wskaźnik na strukture 64-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 64-bitowego nagłówka ELF.
+     * @param dsize wielkość danych.
+     * @param pre_pad wartość dopełnenia przed danymi.
+     * @param post_pad adres komórki pamięci, pod którą zapiszemy wartość.
+     * @param change_vma adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA.
+     * @return True jeżeli operacja się powidła, False w innych przypadkach.
+     */
+    bool find_post_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize,
+                       const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
+
+    /**
+     * @brief Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.
+     * @param data nowy kod.
+     * @param bs struktura przechowujące informacje o wyrównaniach oraz adresach.
+     * @return Nowa zawartość pliku lub pustą tablice, jeżeli operacja nie powiadła się.
+     */
+    QByteArray construct_data(const QByteArray &data, best_segment &bs);
+
+    /**
+     * @brief Naprawia nagłówek pliku ELF.
+     * @param data zawartość pliku.
+     */
+    void fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
+
+    /**
+     * @brief Naprawia tablicę sekcji.
+     * @param data zawartość pliku.
+     */
+    void fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
+
+    /**
+     * @brief Naprawia tablicę segmentów.
+     * @param data zawartość pliku.
+     */
+    Elf64_Addr fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size);
+
+    /**
+     * @brief Naprawia VMA.
+     * @param data zawartość pliku.
+     */
+    void fix_vma(QByteArray &data);
+
+    //void segment_info(best_segment &bs, const uint32_t post_pad, const uint32_t pre_pad, bool change_vma);
 
 public:
     /**
