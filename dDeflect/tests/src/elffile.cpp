@@ -443,7 +443,7 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
     fix_elf_header(new_b_data, file_off, total_space);
     fix_section_table(new_b_data, file_off, total_space);
     Elf64_Addr vaddr = fix_segment_table(new_b_data, file_off, bs.pre_pad + data.size());
-    fix_vma(new_b_data);
+    fix_vma(new_b_data, bs, file_off, vaddr);
 
     return new_b_data;
 }
@@ -547,8 +547,74 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32
     return va;
 }
 
-void ELF::fix_vma(QByteArray &data) {
+void ELF::fix_vma(QByteArray &data, const best_segment &bs, ex_offset_t file_off, const Elf64_Addr &new_vma) {
+    if (!bs.change_vma)
+        return;
 
+    // TODO: implement
+    if (cls == classes::ELF32) {
+        Elf32_Dyn *dyn = reinterpret_cast<Elf32_Dyn*>(data.data() + file_off + bs.pre_pad);
+        Elf32_Sym *base_sym = nullptr, *sym = nullptr;
+        Elf32_Word *buckets = nullptr,
+                   *chains = nullptr;
+        char *dyn_str = nullptr;
+        struct {
+            Elf32_Word buckets_no;
+            Elf32_Word chains_no;
+        } *hash;
+
+        if (!dyn)
+            return;
+
+        // find 3 types of segments before end of dynamic segment
+        for ( ; dyn->d_tag != DT_NULL; ++dyn) {
+            switch(dyn->d_tag) {
+            case DT_STRTAB:
+                //dyn_str = get_file_offset(data, dyn->d_un.d_ptr);
+                break;
+            case DT_SYMTAB:
+                //base_sym = get_file_offset(data, dyn->d_un.d_ptr);
+                break;
+            case DT_HASH:
+                //hash = get_file_offset(data, dyn->d_un.d_ptr);
+                //buckets = (Elf32_Word *)((char *)hash + sizeof(*hash));
+                //chains = (buckets + hash->buckets_no);
+                break;
+            default:
+                break;
+            }
+        }
+
+        if (dyn && base_sym && hash && buckets && chains) {
+
+        }
+        /*
+          if (pcDynStr && ptBaseElfSym && ptHashHeader && ptBuckets && ptChains) {
+             for (ulChainIndex = ptBuckets[calc_elf_hash("_end") % ptHashHeader->tNoBuckets];
+                  ulChainIndex; ulChainIndex = ptChains[ulChainIndex]) {
+                ptElfSym = ptBaseElfSym + ulChainIndex;
+
+                if ((ptElfSym->st_name) &&
+                    (!strcmp("_end", pcDynStr + ptElfSym->st_name))) {
+                   printf("Moving _end from 0x%08x to 0x%08x\n",
+                          ptElfSym->st_value, tEndVma);
+                   ptElfSym->st_value = tEndVma;
+                   break;
+                }
+             }
+          }
+
+        */
+
+    }
+    else {
+
+    }
+
+}
+
+void* ELF::get_file_offset(const QByteArray &data, const Elf64_Addr &addr) {
+    return nullptr;
 }
 
 ELF::ELF(QString _fname) :
