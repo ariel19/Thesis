@@ -1,6 +1,7 @@
 #include <cstdio>
 #include "pefile.h"
 #include <QFile>
+#include "elffile.h"
 
 //void wrapper()
 //{
@@ -37,6 +38,8 @@
 
 int main()
 {
+    ELF elf("main");
+
     QFile f("example.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
