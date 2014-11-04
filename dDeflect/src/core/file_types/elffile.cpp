@@ -15,10 +15,10 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
     }
 }
 
-std::pair<void*, QByteArray> ELF::extend_segment(const QByteArray &data) {
+QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
     // TODO: make a static object instead of constructing object during eeach return statement
     if (!parsed)
-        return std::make_pair<void *, QByteArray>(nullptr, QByteArray());
+        return QByteArray();
 
     // go through all executable segments and find the best one to extend
     QList<std::pair<esize_t, void*> > load_seg; // all LOAD segments
@@ -32,16 +32,16 @@ std::pair<void*, QByteArray> ELF::extend_segment(const QByteArray &data) {
         ph_without_meta = get_ph_header(i);
         ph = reinterpret_cast<Elf32_Phdr*>(ph_without_meta);
         if (!ph)
-            return std::make_pair<void *, QByteArray>(nullptr, QByteArray());
+            return QByteArray();
         if (ph->p_type == PT_LOAD)
             load_seg.push_back(std::make_pair(i, ph_without_meta));
     }
 
     // there are no any LOAD segments in a file
     if (!load_seg.size())
-        return std::make_pair<void *, QByteArray>(nullptr, QByteArray());
+        return QByteArray();
 
-    int size = load_seg.size() - 1, i = 0;
+    int size = load_seg.size(), i = 0;
     // uint8_t align = (cls == classes::ELF32) ? sizeof(Elf32_Off) : sizeof(Elf64_Off);
     uint32_t pad_pre, pad_post;
 
@@ -50,7 +50,7 @@ std::pair<void*, QByteArray> ELF::extend_segment(const QByteArray &data) {
         // check if it's eligible to extend a segment
         if (cls == classes::ELF32) {
             Elf32_Phdr *ph = reinterpret_cast<Elf32_Phdr*>(load_seg.at(i).second),
-                       *phn = load_seg.size() < (i + 1) ?
+                       *phn = ((i + 1) < load_seg.size()) ?
                         reinterpret_cast<Elf32_Phdr*>(load_seg.at(i + 1).second) :
                         nullptr;
             /*
@@ -91,10 +91,12 @@ std::pair<void*, QByteArray> ELF::extend_segment(const QByteArray &data) {
             // TODO: make a choice, if new result is better than previous one
             // TODO: probably change to function
             if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-                bs.ph = ph;
-                bs.post_pad = pad_post;
-                bs.pre_pad = pad_pre;
-                bs.change_vma = change_va;
+                if (!only_x || (only_x && (reinterpret_cast<Elf32_Phdr*>(ph->p_offset)->p_flags & PF_X))) {
+                    bs.ph = ph;
+                    bs.post_pad = pad_post;
+                    bs.pre_pad = pad_pre;
+                    bs.change_vma = change_va;
+                }
             }
         }
         else {
@@ -111,24 +113,24 @@ std::pair<void*, QByteArray> ELF::extend_segment(const QByteArray &data) {
 
             // TODO: make a choice, if new result is better than previous one
             if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-                bs.ph = ph;
-                bs.post_pad = pad_post;
-                bs.pre_pad = pad_pre;
-                bs.change_vma = change_va;
+                if (!only_x || (only_x && (reinterpret_cast<Elf32_Phdr*>(ph->p_offset)->p_flags & PF_X))) {
+                    bs.ph = ph;
+                    bs.post_pad = pad_post;
+                    bs.pre_pad = pad_pre;
+                    bs.change_vma = change_va;
+                }
             }
         }
     } while(++i < size);
 
     // no suitable segments were found
     if (!bs.ph)
-        return std::make_pair<void *, QByteArray>(nullptr, QByteArray());
+        return QByteArray();
 
     // construct a new QByteArray
     QByteArray d = construct_data(data, bs);
-    if (!d.size())
-        return std::make_pair<void *, QByteArray>(nullptr, QByteArray());
 
-    return std::pair<void*, QByteArray>(nullptr, d);
+    return d;
 }
 
 bool ELF::write_to_file(const QString &fname, const QByteArray &data) const {
@@ -228,7 +230,8 @@ bool ELF::is_supported(const Elf32_Ehdr *elf_hdr) {
             return false;
 
         // if file is non-x86_64 platform
-        if (elf_hdr->e_machine != EM_X86_64)
+        if (elf_hdr->e_machine != EM_X86_64 &&
+            elf_hdr->e_machine != EM_386)
             return false;
 
         // file is non-executable
@@ -313,7 +316,7 @@ bool ELF::find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int ds
 
         // 1. if there is no next LOAD segment after current
         // 2. enough space between end of current segment in memory and next segment in memory
-        if ((!phn || round_address_down(ph->p_vaddr + ph->p_memsz + (*pre_pad) + dsize,
+        if (!(!phn || round_address_down(ph->p_vaddr + ph->p_memsz + (*pre_pad) + dsize,
                                     ph->p_align) < round_address_down(phn->p_vaddr, phn->p_align)))
             return false;
         // pad if size of file and memory images are different
@@ -420,7 +423,7 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
         // virtual address of new data
         va = ph->p_vaddr + ph->p_filesz + bs.pre_pad;
     }
-    if (cls == classes::ELF64) {
+    else if (cls == classes::ELF64) {
         Elf64_Phdr *ph = reinterpret_cast<Elf64_Phdr*>(bs.ph);
         // offset for new data in file
         file_off = ph->p_offset + ph->p_filesz;
@@ -437,7 +440,7 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
     new_b_data.append(data);
     for (uint32_t i = 0; i < bs.post_pad; ++i)
         new_b_data.append('\0');
-    new_b_data.append(b_data.data() + file_off);
+    new_b_data.append(b_data.data() + file_off, b_data.size() - file_off);
 
     // fixing...
     fix_elf_header(new_b_data, file_off, total_space);
@@ -518,7 +521,8 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32
                 ph->p_filesz += payload_size;
                 ph->p_memsz = ph->p_filesz;
                 // set executable flag on segment (may provide to vulnerabilities)
-                ph->p_flags |= PF_W | PF_X;
+                //ph->p_flags |= PF_W | PF_X;
+                ph->p_flags |= PF_X;
 
                 va = ph->p_vaddr + ph->p_memsz;
             }
@@ -538,7 +542,8 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32
                 ph->p_filesz += payload_size;
                 ph->p_memsz = ph->p_filesz;
                 // set executable flag on segment (may provide to vulnerabilities)
-                ph->p_flags |= PF_W | PF_X;
+                //ph->p_flags |= PF_W | PF_X;
+                ph->p_flags |= PF_X;
 
                 va = ph->p_vaddr + ph->p_memsz;
             }

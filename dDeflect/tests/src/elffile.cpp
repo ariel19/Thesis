@@ -41,7 +41,7 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
     if (!load_seg.size())
         return QByteArray();
 
-    int size = load_seg.size() - 1, i = 0;
+    int size = load_seg.size(), i = 0;
     // uint8_t align = (cls == classes::ELF32) ? sizeof(Elf32_Off) : sizeof(Elf64_Off);
     uint32_t pad_pre, pad_post;
 
@@ -50,7 +50,7 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
         // check if it's eligible to extend a segment
         if (cls == classes::ELF32) {
             Elf32_Phdr *ph = reinterpret_cast<Elf32_Phdr*>(load_seg.at(i).second),
-                       *phn = load_seg.size() < (i + 1) ?
+                       *phn = ((i + 1) < load_seg.size()) ?
                         reinterpret_cast<Elf32_Phdr*>(load_seg.at(i + 1).second) :
                         nullptr;
             /*
@@ -230,7 +230,8 @@ bool ELF::is_supported(const Elf32_Ehdr *elf_hdr) {
             return false;
 
         // if file is non-x86_64 platform
-        if (elf_hdr->e_machine != EM_X86_64)
+        if (elf_hdr->e_machine != EM_X86_64 &&
+            elf_hdr->e_machine != EM_386)
             return false;
 
         // file is non-executable
@@ -315,7 +316,7 @@ bool ELF::find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int ds
 
         // 1. if there is no next LOAD segment after current
         // 2. enough space between end of current segment in memory and next segment in memory
-        if ((!phn || round_address_down(ph->p_vaddr + ph->p_memsz + (*pre_pad) + dsize,
+        if (!(!phn || round_address_down(ph->p_vaddr + ph->p_memsz + (*pre_pad) + dsize,
                                     ph->p_align) < round_address_down(phn->p_vaddr, phn->p_align)))
             return false;
         // pad if size of file and memory images are different
@@ -422,7 +423,7 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
         // virtual address of new data
         va = ph->p_vaddr + ph->p_filesz + bs.pre_pad;
     }
-    if (cls == classes::ELF64) {
+    else if (cls == classes::ELF64) {
         Elf64_Phdr *ph = reinterpret_cast<Elf64_Phdr*>(bs.ph);
         // offset for new data in file
         file_off = ph->p_offset + ph->p_filesz;
@@ -439,7 +440,7 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
     new_b_data.append(data);
     for (uint32_t i = 0; i < bs.post_pad; ++i)
         new_b_data.append('\0');
-    new_b_data.append(b_data.data() + file_off);
+    new_b_data.append(b_data.data() + file_off, b_data.size() - file_off);
 
     // fixing...
     fix_elf_header(new_b_data, file_off, total_space);

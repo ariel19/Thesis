@@ -1,6 +1,9 @@
 #include <cstdio>
-#include "pefile.h"
 #include <QFile>
+#include <QDir>
+#include <iostream>
+
+#include "pefile.h"
 #include "elffile.h"
 
 //void wrapper()
@@ -38,8 +41,22 @@
 
 int main()
 {
-    ELF elf("main");
+    //std::cout << QDir::currentPath().toStdString() << std::endl;
 
+    ELF elf("a.out");
+    std::cout << "valid: " << elf.is_valid() << std::endl;
+    std::cout << "segments no: " << elf.get_number_of_segments() << std::endl;
+    for (int i = 0; i < elf.get_number_of_segments(); ++i) {
+        std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
+    }
+
+    QByteArray nops(12, '\x00');
+
+    QByteArray nf = elf.extend_segment(nops, false);
+
+    elf.write_to_file("a2.out", nf);
+
+    /*
     QFile f("example.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
@@ -79,6 +96,8 @@ int main()
     nf.close();
 
     puts("OK!");
+    */
+
 
     return 0;
 }

@@ -1,5 +1,7 @@
 #include "pefile.h"
 
+#if 0
+
 unsigned int PEFile::getOptHdrFileAlignment()
 {
     return is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;
@@ -717,3 +719,5 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
 
     return parse();
 }
+
+#endif

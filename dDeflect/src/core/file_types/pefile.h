@@ -1,6 +1,8 @@
 #ifndef PEFILE_H
 #define PEFILE_H
 
+#if 0
+
 #include <windows.h>
 #include <QFile>
 
@@ -174,5 +176,7 @@ public:
      */
     bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 };
+
+#endif
 
 #endif // PEFILE_H

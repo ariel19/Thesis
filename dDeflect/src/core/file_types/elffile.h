@@ -224,9 +224,10 @@ public:
     /**
      * @brief Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.
      * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
-     * @return adres, pod który kod został skopiowany (lub nullptr w przypadku błędu) oraz reprezentację binarną nowego pliku.
+     * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
+     * @return Reprezentacjz binarna nowego pliku, długość danych równa się 0 jeżeli operacja nie powiodła się.
      */
-    std::pair<void*, QByteArray> extend_segment(const QByteArray &data);
+    QByteArray extend_segment(const QByteArray &data, bool only_x);
 
     /**
      * @brief Zapisuje podane dane do określonego pliku.
