@@ -15,7 +15,7 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
     }
 }
 
-QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
+QByteArray ELF::extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va) {
     // TODO: make a static object instead of constructing object during eeach return statement
     if (!parsed)
         return QByteArray();
@@ -53,37 +53,9 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
                        *phn = ((i + 1) < load_seg.size()) ?
                         reinterpret_cast<Elf32_Phdr*>(load_seg.at(i + 1).second) :
                         nullptr;
-            /*
-            pad_pre = align - ((ph->p_vaddr + ph->p_memsz) % align ? : align);
-
-            // 1. if there is no next LOAD segment after current
-            // 2. enough space between end of current segment in memory and next segment in memory
-            if ((!phn || round_address_down(ph->p_vaddr + ph->p_memsz + pad_pre + data.size(),
-                                           ph->p_align) <
-                        round_address_down(phn->p_vaddr, phn->p_align)))
-                continue;
-
-            // pad if size of file and memory images are different
-            pad_pre += (ph->p_memsz - ph->p_filesz);
-            */
 
             if (!find_pre_pad(ph, phn, data.size(), &pad_pre))
                 continue;
-
-            /*
-            // pad next segment in file if exists to vaddr % align == offset % align
-            if (phn) {
-                pad_post = phn->p_align + (phn->p_offset % phn->p_align) -
-                           ((phn->p_offset + data.size() + pad_pre) % phn->p_align);
-            }
-            // if next segment is absebt we need to pad size of new data to the size of pointer
-            // need to increase a highest vaddr in file, because there is no next segment in file
-            else {
-                pad_post = align - ((pad_pre + data.size() + pad_post) % align ? : align);
-                // TODO: change higher vaddr in file
-                change_va = true;
-            }
-            */
 
             // TODO: take into consideration function return value
             find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
@@ -128,9 +100,10 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
         return QByteArray();
 
     // construct a new QByteArray
-    QByteArray d = construct_data(data, bs);
+    std::pair<QByteArray, Elf64_Addr> d = construct_data(data, bs);
+    va = d.second;
 
-    return d;
+    return d.first;
 }
 
 bool ELF::write_to_file(const QString &fname, const QByteArray &data) const {
@@ -150,6 +123,40 @@ bool ELF::write_to_file(const QString &fname, const QByteArray &data) const {
 
 bool ELF::write_to_file(const QString &fname) const {
     return write_to_file(fname, b_data);
+}
+
+bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data) {
+    Elf32_Ehdr *eh_86 = nullptr;
+    Elf64_Ehdr *eh_64 = nullptr;
+
+    switch(cls) {
+    case classes::ELF32:
+        eh_86 = reinterpret_cast<Elf32_Ehdr*>(data.data());
+        try {
+            eh_86->e_entry = entry_point;
+        }
+        catch(const std::exception &) {
+            return false;
+        }
+        return true;
+    case classes::ELF64:
+        eh_64 = reinterpret_cast<Elf64_Ehdr*>(data.data());
+        try {
+            eh_64->e_entry = entry_point;
+        }
+        catch(const std::exception &) {
+            return false;
+        }
+        return true;
+    case classes::NONE:
+        return false;
+    }
+}
+
+bool ELF::set_entry_point(const Elf64_Addr &entry_point) {
+    if (!parsed)
+        return false;
+    return set_entry_point(entry_point, b_data);
 }
 
 bool ELF::get_ph_addresses() {
@@ -409,12 +416,13 @@ bool ELF::find_post_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int d
     return true;
 }
 
-QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
+std::pair<QByteArray, Elf64_Addr> ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
     if(!parsed)
-        return QByteArray();
+        return std::pair<QByteArray, Elf64_Addr>(QByteArray(), 0);
 
     uint32_t total_space = data.size() + bs.post_pad + bs.pre_pad;
-    ex_offset_t file_off = 0, va = 0;
+    ex_offset_t file_off = 0;
+    Elf64_Addr va = 0;
 
     if (cls == classes::ELF32) {
         Elf32_Phdr *ph = reinterpret_cast<Elf32_Phdr*>(bs.ph);
@@ -448,7 +456,7 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
     Elf64_Addr vaddr = fix_segment_table(new_b_data, file_off, bs.pre_pad + data.size());
     fix_vma(new_b_data, bs, file_off, vaddr);
 
-    return new_b_data;
+    return std::pair<QByteArray, Elf64_Addr>(new_b_data, va);
 }
 
 void ELF::fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert_space) {

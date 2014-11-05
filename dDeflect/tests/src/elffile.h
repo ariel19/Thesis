@@ -152,9 +152,9 @@ class ELF {
      * @brief Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.
      * @param data nowy kod.
      * @param bs struktura przechowujące informacje o wyrównaniach oraz adresach.
-     * @return Nowa zawartość pliku lub pustą tablice, jeżeli operacja nie powiadła się.
+     * @return Nowa zawartość pliku lub pustą tablice, jeżeli operacja nie powiodła się oraz początkowy wirtualny adres dodanych danych.
      */
-    QByteArray construct_data(const QByteArray &data, best_segment &bs);
+    std::pair<QByteArray, Elf64_Addr> construct_data(const QByteArray &data, best_segment &bs);
 
     /**
      * @brief Naprawia nagłówek pliku ELF.
@@ -225,9 +225,10 @@ public:
      * @brief Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.
      * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
      * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
+     * @param va początkowy wirtualny adres dodanych danych.
      * @return Reprezentacjz binarna nowego pliku, długość danych równa się 0 jeżeli operacja nie powiodła się.
      */
-    QByteArray extend_segment(const QByteArray &data, bool only_x);
+    QByteArray extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
 
     /**
      * @brief Zapisuje podane dane do określonego pliku.
@@ -243,6 +244,21 @@ public:
      * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
      */
     bool write_to_file(const QString &fname) const;
+
+    /**
+     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
+     * @param entry_point wartość punktu wejściowego.
+     * @param data dane, w których należy ustawić punkt wejściowy.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data);
+
+    /**
+     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
+     * @param entry_point wartość punktu wejściowego.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_entry_point(const Elf64_Addr &entry_point);
 };
 
 #endif // ELFFILE_H
