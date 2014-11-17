@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
@@ -31,28 +32,35 @@ ApplicationWindow {
     }
     SystemPalette { id: sysPal }
     AboutDialog { id: aboutDialog }
+    FileDialog {
+        id: fileDialog
+        nameFilters: [ "C++ files (*.cc *.cpp *.CPP *.c++ *.cp *.cxx)", "Executive files (*.exe)" ]
+        onFileUrlChanged:{
+            fileUrlText.text = fileUrl;
+        }
+    }
 
     toolBar: ToolBar {
         id: toolbar
 
         style: ToolBarStyle {
-                       padding {
-                           left: 8
-                           right: 8
-                           top: 3
-                           bottom: 3
-                       }
+            padding {
+                left: 8
+                right: 8
+                top: 3
+                bottom: 3
+            }
 
-                       background: Rectangle {
-                           implicitWidth: 100
-                           implicitHeight: 40
-                           border.color: "#999"
-                           gradient: Gradient {
-                               GradientStop { position: 0 ; color: "#fff" }
-                               GradientStop { position: 1 ; color: "#bbcedb" }
-                           }
-                       }
-                   }
+            background: Rectangle {
+                implicitWidth: 100
+                implicitHeight: 40
+                border.color: "#999"
+                gradient: Gradient {
+                    GradientStop { position: 0 ; color: "#fff" }
+                    GradientStop { position: 1 ; color: "#bbcedb" }
+                }
+            }
+        }
         RowLayout {
             id: toolbarLayout
             spacing: 0
@@ -60,8 +68,12 @@ ApplicationWindow {
 
             ToolButton { id: ob ; action: openAction }
             TextField{
-
+                id: fileUrlText
+                readOnly: true
+                anchors.fill: parent
+                anchors.leftMargin: ob.width*1.5
                 height: parent.height
+                text: "Choose a C++ source file or an executive file."
             }
         }
     }
@@ -88,6 +100,40 @@ ApplicationWindow {
 
         Tab {
             title: "FT(validating)"
+            RowLayout{
+                anchors.fill: parent
+                anchors.margins: 12
+
+                TableView {
+                    anchors.fill: parent
+                    anchors.rightMargin: frame.width/2
+                    model: ["method1", "method2"]
+                    TableViewColumn {
+                        role: "title"
+                        title: "Method's Name"
+                        //width: 120
+                    }
+
+                }
+                ColumnLayout{
+                    anchors.fill: parent
+                    anchors.leftMargin: frame.width/2
+                    TextField{
+
+                        anchors.fill: parent
+                        anchors.bottomMargin: 40
+                        text: "The only method:"
+                    }
+                    Button{
+                        height:50
+                        text: "Apply Method"
+                        anchors.bottom: parent.bottom
+
+                    }
+                }
+
+            }
+
         }
         Tab {
             title: "inv. method"
@@ -102,8 +148,6 @@ ApplicationWindow {
 
         }
     }
-
-
 
     Component {
         id: touchStyle
