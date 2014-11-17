@@ -7,7 +7,7 @@
 			jb		check_dbg					; If version below Windows Vista
 		
 			; Check for heap protection for Vista and later
-check_prot:	mov		rax, gs:[rbx + 0x60]		; PEB
+check_prot:	mov		rax, [gs:0x60]		; PEB
 			mov		eax, [rax + 0x30]			; Process Heap base TODO: test if RAX or EAX!
 			mov		ecx, [rax + 0x40]
 			jrcxz	check_dbg					; If no heap protection check for debugger

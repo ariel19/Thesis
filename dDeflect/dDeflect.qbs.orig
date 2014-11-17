@@ -8,11 +8,22 @@ Project {
         consoleApplication: true
         files: ["src/*/*.cpp", "src/*/*.h", "src/*/*/*.cpp", "src/*/*/*.h", "src/*/*.qrc"]
 
+<<<<<<< HEAD
+    name: "dDeflect"
+    type: "application" // To suppress bundle generation on Mac
+    consoleApplication: true
+    files: [
+        "src/*/*.cpp",
+        "src/*/*.h",
+        "src/*/*.qrc",
+    ]
+=======
         Group {     // Properties for the produced executable
             fileTagsFilter: product.type
             qbs.install: true
             qbs.installDir: "bin"
         }
+>>>>>>> e78059e67a3bc05397ea826347bfac940f003369
 
         Depends { name: "Qt"; submodules: ["core", "widgets", "quick"] }
         cpp.warningLevel: "all"
