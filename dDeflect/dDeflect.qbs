@@ -6,7 +6,13 @@ Project {
         name: "dDeflect"
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
-        files: ["src/*/*.cpp", "src/*/*.h", "src/*/*/*.cpp", "src/*/*/*.h", "src/*/*.qrc"]
+        files: [
+            "src/*/*.cpp",
+            "src/*/*.h",
+            "src/*/*/*.cpp",
+            "src/*/*/*.h",
+            "src/*/*.qrc",
+        ]
 
         Group {     // Properties for the produced executable
             fileTagsFilter: product.type
@@ -20,6 +26,8 @@ Project {
         cpp.defines: ["PROJECT_VERSION=\"" + version + "\""]
 
         Group {
+            files: [
+            ]
             condition: qbs.targetOS == "windows"
             cpp.dynamicLibraries: []
         }

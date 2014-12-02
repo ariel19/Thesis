@@ -4,7 +4,9 @@ import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 
-ApplicationWindow {
+
+ApplicationWindow {        
+
     visible: true
     width: 640
     height: 480
@@ -15,8 +17,8 @@ ApplicationWindow {
         Menu {
             title: "&File"
             MenuItem {
-
                 text: "Load"
+                action: openAction
             }
             MenuItem {
                 text: "Close"
@@ -118,7 +120,7 @@ ApplicationWindow {
                 ColumnLayout{
                     anchors.fill: parent
                     anchors.leftMargin: frame.width/2
-                    TextField{
+                    TextArea{
 
                         anchors.fill: parent
                         anchors.bottomMargin: 40
@@ -137,15 +139,111 @@ ApplicationWindow {
         }
         Tab {
             title: "inv. method"
+            RowLayout{
+                anchors.fill: parent
+                anchors.margins: 12
 
+                TableView {
+                    anchors.fill: parent
+                    anchors.rightMargin: frame.width/2
+                    model: ["method1", "method2"]
+                    TableViewColumn {
+                        role: "title"
+                        title: "Method's Name"
+                        //width: 120
+                    }
+
+                }
+                ColumnLayout{
+                    anchors.fill: parent
+                    anchors.leftMargin: frame.width/2
+                    TextArea{
+
+                        anchors.fill: parent
+                        anchors.bottomMargin: 40
+                        text: "The only method:"
+                    }
+                    Button{
+                        height:50
+                        text: "Apply Method"
+                        anchors.bottom: parent.bottom
+
+                    }
+                }
+
+            }
         }
         Tab {
             title: "Obfuscation"
+            RowLayout{
+                anchors.fill: parent
+                anchors.margins: 12
 
+                TableView {
+                    anchors.fill: parent
+                    anchors.rightMargin: frame.width/2
+                    model: ["method1", "method2"]
+                    TableViewColumn {
+                        role: "title"
+                        title: "Method's Name"
+                        //width: 120
+                    }
+
+                }
+                ColumnLayout{
+                    anchors.fill: parent
+                    anchors.leftMargin: frame.width/2
+                    TextArea{
+
+                        anchors.fill: parent
+                        anchors.bottomMargin: 40
+                        text: "The only method:"
+                    }
+                    Button{
+                        height:50
+                        text: "Apply Method"
+                        anchors.bottom: parent.bottom
+
+                    }
+                }
+
+            }
         }
         Tab {
             title: "Packing"
+            RowLayout{
+                anchors.fill: parent
+                anchors.margins: 12
 
+                TableView {
+                    anchors.fill: parent
+                    anchors.rightMargin: frame.width/2
+                    model: ["method1", "method2"]
+                    TableViewColumn {
+                        role: "title"
+                        title: "Method's Name"
+                        //width: 120
+                    }
+
+                }
+                ColumnLayout{
+                    anchors.fill: parent
+                    anchors.leftMargin: frame.width/2
+                    TextArea{
+
+                        anchors.fill: parent
+                        anchors.bottomMargin: 40
+                        text: "The only method:"
+                    }
+                    Button{
+                        height:50
+                        text: "Apply Method"
+                        anchors.bottom: parent.bottom
+
+                    }
+                }
+
+            }
         }
     }
 
