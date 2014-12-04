@@ -11,10 +11,12 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:///qml/main.qml")));
-    qmlRegisterType<Method>("com.jsk.mcomponents", 1, 0, "Method");
-    qmlRegisterType<MethodList>("com.jsk.mcomponents", 1, 0, "MethodList");
 
+    qmlRegisterType<Method>("jsk.components", 1, 0, "Method");
+    qmlRegisterType<MethodList>("jsk.components", 1, 0, "MethodList");
+
+
+    engine.load(QUrl(QStringLiteral("qrc:///qml/main.qml")));
 
     return app.exec();
 }

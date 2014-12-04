@@ -3,7 +3,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
-
+import jsk.components 1.0
 
 ApplicationWindow {        
 
@@ -146,7 +146,9 @@ ApplicationWindow {
                 TableView {
                     anchors.fill: parent
                     anchors.rightMargin: frame.width/2
-                    model: ["method1", "method2"]
+                    model: sourceCodeMethods.names
+
+
                     TableViewColumn {
                         role: "title"
                         title: "Method's Name"
@@ -272,6 +274,13 @@ ApplicationWindow {
             }
         }
     }
+
+    MethodList{
+        id: sourceCodeMethods
+        path: "/home/jsk/code/Thesis/build-dDeflect-Desktop_Qt_5_3_GCC_64bit-Debug/qtc_Desktop_Qt_5_3_GCC_64bit-debug/install-root/bin/methods.json"
+    }
+
+
 
 }
 

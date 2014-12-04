@@ -5,7 +5,7 @@ MethodList::MethodList(QObject *parent) :
     QObject(parent)
 {
 }
-MethodList::MethodList(QList<Method *> &m, QObject *parent) : m_methods(m), QObject(parent)
+MethodList::MethodList(QList<Method *> &m, QString path, QObject *parent) : m_methods(m), QObject(parent), m_path(path)
 {
 }
 QQmlListProperty<Method> MethodList::methods()
@@ -13,9 +13,23 @@ QQmlListProperty<Method> MethodList::methods()
     return QQmlListProperty<Method>(this,m_methods);
 }
 
+QVariantList MethodList::names()
+{
+    loadList();
+    // TODO: free Memory
+    foreach(Method* mp, m_methods){
+        QVariant* p = new QVariant(QString(mp->name()));
+        m_names.append(*p);
+        qDebug()<<mp->name();
+    }
+
+    return m_names;
+}
+
 void MethodList::read(const QJsonObject &json)
 {
     // TODO: free memory
+
     m_methods.clear();
     QJsonArray methodArray = json["methods"].toArray();
     for(int i = 0; i< methodArray.size(); ++i){
@@ -39,7 +53,7 @@ void MethodList::write(QJsonObject &json) const
 
 bool MethodList::loadList()
 {
-    QFile loadFile(QStringLiteral("methods.json"));
+    QFile loadFile(m_path);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open save file.");
@@ -57,7 +71,7 @@ bool MethodList::loadList()
 
 bool MethodList::saveList()
 {
-    QFile saveFile(QStringLiteral("save.json"));
+    QFile saveFile(m_path);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
@@ -72,11 +86,21 @@ bool MethodList::saveList()
     return true;
 }
 
+QString MethodList::path() const {return m_path;}
+
+void MethodList::setPath(const QString &p){
+    if(p!=m_path){
+        m_path = p;
+        emit pathChanged();
+    }
+}
+
 QDebug operator<<(QDebug d, const MethodList &ml)
 {
-   foreach(Method* mp, ml.m_methods) {
+    foreach(Method* mp, ml.m_methods) {
 
-       d<<*mp;
+        d<<*mp;
    }
+    return d;
 }
 
