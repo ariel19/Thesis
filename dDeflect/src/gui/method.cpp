@@ -1,4 +1,4 @@
-#include "method.h"
+#include <gui/method.h>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>

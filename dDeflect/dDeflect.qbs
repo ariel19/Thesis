@@ -22,6 +22,7 @@ Project {
 
         Depends { name: "Qt"; submodules: ["core", "widgets", "quick"] }
         cpp.warningLevel: "all"
+        cpp.includePaths: ["src"]
         cpp.cxxFlags: ["-std=c++11","-Wno-unknown-pragmas","-Wno-reorder","-Wno-unused-local-typedefs"]
         cpp.defines: ["PROJECT_VERSION=\"" + version + "\""]
 

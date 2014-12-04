@@ -1,6 +1,7 @@
-#include "methodlist.h"
+#include <gui/methodlist.h>
 #include <QQmlListProperty>
-#include<QDebug>
+#include <QDebug>
+
 MethodList::MethodList(QObject *parent) :
     QObject(parent)
 {

@@ -1,8 +1,11 @@
 #ifndef ELFFILE_H
 #define ELFFILE_H
 
-// #include <elf.h>
-#include "../sys_headers/elf.h"
+#ifdef __linux__
+#include <elf.h>
+#else
+#include <core/sys_headers/elf.h>
+#endif
 #include <QFile>
 #include <QString>
 #include <QList>
@@ -148,6 +151,15 @@ class ELF {
     bool find_post_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize,
                        const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
 
+
+    /**
+     * @brief Wylicza offset w pliku oraz adres wirtualny dla nowych danych, dodawanych do pliku.
+     * @param bs referencja na strukture, ktora zawiera informacje o najlepszym znalezionym segmencie.
+     * @return Para nowy offset w pliku oraz nowy adres wirtualny.
+     */
+    template <typename ElfProgramHeaderType>
+    std::pair<ex_offset_t, ex_offset_t> get_new_data_va_fo(ELF::best_segment &bs);
+
     /**
      * @brief Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.
      * @param data nowy kod.
@@ -160,18 +172,21 @@ class ELF {
      * @brief Naprawia nagłówek pliku ELF.
      * @param data zawartość pliku.
      */
+    template <typename ElfHeaderType>
     void fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę sekcji.
      * @param data zawartość pliku.
      */
+    template <typename ElfHeaderType, typename ElfSectionHeaderType>
     void fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę segmentów.
      * @param data zawartość pliku.
      */
+    template <typename ElfProgramHeaderType>
     Elf64_Addr fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size);
 
     /**

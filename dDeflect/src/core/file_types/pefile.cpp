@@ -1,6 +1,6 @@
-#include "pefile.h"
+#include <core/file_types/pefile.h>
 
-#if 0
+#ifdef _WIN32
 
 unsigned int PEFile::getOptHdrFileAlignment()
 {

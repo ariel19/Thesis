@@ -7,7 +7,7 @@
 #include <QList>
 #include <QString>
 
-#include "../gui/method.h"
+#include <gui/method.h>
 
 class MethodList : public QObject
 {

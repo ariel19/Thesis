@@ -1,7 +1,7 @@
 #ifndef PEFILE_H
 #define PEFILE_H
 
-#if 0
+#ifdef _WIN32
 
 #include <windows.h>
 #include <QFile>
