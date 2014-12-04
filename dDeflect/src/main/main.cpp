@@ -4,8 +4,8 @@
 #include <QDebug>
 #include <QDir>
 
-#include "/home/jsk/code/Thesis/dDeflect/src/gui/method.h"
-#include "/home/jsk/code/Thesis/dDeflect/src/gui/methodlist.h"
+#include "../gui/method.h"
+#include "../gui/methodlist.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
