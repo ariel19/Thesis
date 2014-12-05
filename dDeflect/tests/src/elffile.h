@@ -1,8 +1,11 @@
 #ifndef ELFFILE_H
 #define ELFFILE_H
 
-// #include <elf.h>
-#include "elf.h"
+#ifdef __linux__
+#include <elf.h>
+#else
+#include <core/sys_headers/elf.h>
+#endif
 #include <QFile>
 #include <QString>
 #include <QList>
@@ -82,8 +85,16 @@ class ELF {
     bool is_supported(const Elf32_Ehdr *elf_hdr);
 
     /**
-     * @brief Pobiera informacje dotyczące offsetu
-     * @param elf_hdr
+     * @brief Pobiera informacje dotyczace pierwszego offsetu w pliku.
+     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
+     * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
+     */
+    template <typename ElfHeaderType>
+    bool get_ph_address(const void *elf_hdr);
+
+    /**
+     * @brief Pobiera informacje dotyczące offsetu.
+     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
      * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     bool get_ph_info(const void *elf_hdr);
@@ -104,74 +115,66 @@ class ELF {
 
     /**
      * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.
-     * @param ph wskaźnik na strukture 32-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param ph wskaźnik na strukture 32/64-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 32/64-bitowego nagłówka ELF.
      * @param dsize wielkość danych.
      * @param pre_pad adres komórki pamięci, pod którą zapiszemy wartość.
      * @return True jeżeli operacja się powidła, False w innych przypadkach.
      */
-    bool find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize, uint32_t *pre_pad);
-
-    /**
-     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.
-     * @param ph wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param dsize wielkość danych.
-     * @param pre_pad adres komórki pamięci, pod którą zapiszemy wartość.
-     * @return True jeżeli operacja się powidła, False w innych przypadkach.
-     */
-    bool find_pre_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize, uint32_t *pre_pad);
+    template <typename ElfProgramHeaderType, typename ElfOffsetType>
+    bool find_pre_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                      const int dsize, uint32_t *pre_pad);
 
     /**
      * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.
-     * @param ph wskaźnik na strukture 32-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param ph wskaźnik na strukture 32/64-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 32/64-bitowego nagłówka ELF.
      * @param dsize wielkość danych.
      * @param pre_pad wartość dopełnenia przed danymi.
      * @param post_pad adres komórki pamięci, pod którą zapiszemy wartość.
      * @param change_vma adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA.
      * @return True jeżeli operacja się powidła, False w innych przypadkach.
      */
-    bool find_post_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize,
-                       const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
+    template <typename ElfProgramHeaderType, typename ElfOffsetType>
+    bool find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                       const int dsize, const uint32_t pre_pad,
+                       uint32_t *post_pad, bool *change_vma);
 
     /**
-     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.
-     * @param ph wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param dsize wielkość danych.
-     * @param pre_pad wartość dopełnenia przed danymi.
-     * @param post_pad adres komórki pamięci, pod którą zapiszemy wartość.
-     * @param change_vma adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA.
-     * @return True jeżeli operacja się powidła, False w innych przypadkach.
+     * @brief Wylicza offset w pliku oraz adres wirtualny dla nowych danych, dodawanych do pliku.
+     * @param bs referencja na strukture, ktora zawiera informacje o najlepszym znalezionym segmencie.
+     * @return Para nowy offset w pliku oraz nowy adres wirtualny.
      */
-    bool find_post_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize,
-                       const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
+    template <typename ElfProgramHeaderType>
+    std::pair<ex_offset_t, ex_offset_t> get_new_data_va_fo(ELF::best_segment &bs);
 
     /**
      * @brief Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.
      * @param data nowy kod.
      * @param bs struktura przechowujące informacje o wyrównaniach oraz adresach.
-     * @return Nowa zawartość pliku lub pustą tablice, jeżeli operacja nie powiodła się oraz początkowy wirtualny adres dodanych danych.
+     * @return Nowa zawartość pliku lub pustą tablice, jeżeli operacja nie powiadła się.
      */
-    std::pair<QByteArray, Elf64_Addr> construct_data(const QByteArray &data, best_segment &bs);
+    QByteArray construct_data(const QByteArray &data, best_segment &bs);
 
     /**
      * @brief Naprawia nagłówek pliku ELF.
      * @param data zawartość pliku.
      */
+    template <typename ElfHeaderType>
     void fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę sekcji.
      * @param data zawartość pliku.
      */
+    template <typename ElfHeaderType, typename ElfSectionHeaderType>
     void fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę segmentów.
      * @param data zawartość pliku.
      */
+    template <typename ElfProgramHeaderType>
     Elf64_Addr fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size);
 
     /**
@@ -225,10 +228,9 @@ public:
      * @brief Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.
      * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
      * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
-     * @param va początkowy wirtualny adres dodanych danych.
      * @return Reprezentacjz binarna nowego pliku, długość danych równa się 0 jeżeli operacja nie powiodła się.
      */
-    QByteArray extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
+    QByteArray extend_segment(const QByteArray &data, bool only_x);
 
     /**
      * @brief Zapisuje podane dane do określonego pliku.
@@ -244,21 +246,6 @@ public:
      * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
      */
     bool write_to_file(const QString &fname) const;
-
-    /**
-     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
-     * @param entry_point wartość punktu wejściowego.
-     * @param data dane, w których należy ustawić punkt wejściowy.
-     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data);
-
-    /**
-     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
-     * @param entry_point wartość punktu wejściowego.
-     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    bool set_entry_point(const Elf64_Addr &entry_point);
 };
 
 #endif // ELFFILE_H

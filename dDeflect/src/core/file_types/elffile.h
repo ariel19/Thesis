@@ -85,8 +85,16 @@ class ELF {
     bool is_supported(const Elf32_Ehdr *elf_hdr);
 
     /**
-     * @brief Pobiera informacje dotyczące offsetu
-     * @param elf_hdr
+     * @brief Pobiera informacje dotyczace pierwszego offsetu w pliku.
+     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
+     * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
+     */
+    template <typename ElfHeaderType>
+    bool get_ph_address(const void *elf_hdr);
+
+    /**
+     * @brief Pobiera informacje dotyczące offsetu.
+     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
      * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     bool get_ph_info(const void *elf_hdr);
@@ -107,50 +115,30 @@ class ELF {
 
     /**
      * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.
-     * @param ph wskaźnik na strukture 32-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param ph wskaźnik na strukture 32/64-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 32/64-bitowego nagłówka ELF.
      * @param dsize wielkość danych.
      * @param pre_pad adres komórki pamięci, pod którą zapiszemy wartość.
      * @return True jeżeli operacja się powidła, False w innych przypadkach.
      */
-    bool find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize, uint32_t *pre_pad);
-
-    /**
-     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.
-     * @param ph wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param dsize wielkość danych.
-     * @param pre_pad adres komórki pamięci, pod którą zapiszemy wartość.
-     * @return True jeżeli operacja się powidła, False w innych przypadkach.
-     */
-    bool find_pre_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize, uint32_t *pre_pad);
+    template <typename ElfProgramHeaderType, typename ElfOffsetType>
+    bool find_pre_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                      const int dsize, uint32_t *pre_pad);
 
     /**
      * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.
-     * @param ph wskaźnik na strukture 32-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 32-bitowego nagłówka ELF.
+     * @param ph wskaźnik na strukture 32/64-bitowego nagłówka ELF.
+     * @param phn wskaźnik na strukture 32/64-bitowego nagłówka ELF.
      * @param dsize wielkość danych.
      * @param pre_pad wartość dopełnenia przed danymi.
      * @param post_pad adres komórki pamięci, pod którą zapiszemy wartość.
      * @param change_vma adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA.
      * @return True jeżeli operacja się powidła, False w innych przypadkach.
      */
-    bool find_post_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize,
-                       const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
-
-    /**
-     * @brief Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.
-     * @param ph wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param phn wskaźnik na strukture 64-bitowego nagłówka ELF.
-     * @param dsize wielkość danych.
-     * @param pre_pad wartość dopełnenia przed danymi.
-     * @param post_pad adres komórki pamięci, pod którą zapiszemy wartość.
-     * @param change_vma adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA.
-     * @return True jeżeli operacja się powidła, False w innych przypadkach.
-     */
-    bool find_post_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize,
-                       const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma);
-
+    template <typename ElfProgramHeaderType, typename ElfOffsetType>
+    bool find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                       const int dsize, const uint32_t pre_pad,
+                       uint32_t *post_pad, bool *change_vma);
 
     /**
      * @brief Wylicza offset w pliku oraz adres wirtualny dla nowych danych, dodawanych do pliku.

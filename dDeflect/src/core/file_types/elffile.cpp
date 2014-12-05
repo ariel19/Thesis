@@ -54,11 +54,13 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
                         reinterpret_cast<Elf32_Phdr*>(load_seg.at(i + 1).second) :
                         nullptr;
 
-            if (!find_pre_pad(ph, phn, data.size(), &pad_pre))
+            if (!find_pre_pad<Elf32_Phdr, Elf32_Off>(ph, phn, data.size(), &pad_pre))
                 continue;
 
             // TODO: take into consideration function return value
-            find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
+            // find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
+            find_post_pad<Elf32_Phdr, Elf32_Off>(ph, phn, data.size(),
+                                                 pad_pre, &pad_post, &change_va);
 
             // TODO: make a choice, if new result is better than previous one
             // TODO: probably change to function
@@ -77,15 +79,17 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
                         reinterpret_cast<Elf64_Phdr*>(load_seg.at(i + 1).second) :
                         nullptr;
 
-            if (!find_pre_pad(ph, phn, data.size(), &pad_pre))
+            if (!find_pre_pad<Elf64_Phdr, Elf64_Off>(ph, phn, data.size(), &pad_pre))
                 continue;
 
             // TODO: take into consideration function return value
-            find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
+            //find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
+            find_post_pad<Elf64_Phdr, Elf64_Off>(ph, phn, data.size(),
+                                                 pad_pre, &pad_post, &change_va);
 
             // TODO: make a choice, if new result is better than previous one
             if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-                if (!only_x || (only_x && (reinterpret_cast<Elf32_Phdr*>(ph->p_offset)->p_flags & PF_X))) {
+                if (!only_x || (only_x && (reinterpret_cast<Elf64_Phdr*>(ph->p_offset)->p_flags & PF_X))) {
                     bs.ph = ph;
                     bs.post_pad = pad_post;
                     bs.pre_pad = pad_pre;
@@ -177,7 +181,7 @@ bool ELF::check_magic(const Elf32_Ehdr *elf_hdr) const {
                (elf_hdr->e_ident[EI_MAG3] == ELFMAG3);
     }
     catch(const std::exception &) {
-        return nullptr;
+        return false;
     }
 }
 
@@ -217,35 +221,40 @@ bool ELF::is_supported(const Elf32_Ehdr *elf_hdr) {
     return true;
 }
 
+template <typename ElfHeaderType>
+bool ELF::get_ph_address(const void *elf_hdr) {
+    try {
+        const ElfHeaderType *e_hdr = reinterpret_cast<const ElfHeaderType*>(elf_hdr);
+        ph_size = e_hdr->e_phentsize;
+        ph_num = e_hdr->e_phnum;
+        ph_idx.push_back(e_hdr->e_phoff);
+        return true;
+    }
+    catch (const std::exception &) {
+        return false;
+    }
+}
+
 bool ELF::get_ph_info(const void *elf_hdr) {
     if (!elf_hdr)
         return false;
-    try {
-        if (cls == classes::NONE)
-            return false;
-        if (cls == classes::ELF32) {
-            const Elf32_Ehdr* e_hdr = reinterpret_cast<const Elf32_Ehdr *>(elf_hdr);
-            ph_size = e_hdr->e_phentsize;
-            ph_num = e_hdr->e_phnum;
-            ph_idx.push_back(e_hdr->e_phoff);
-        }
-        else {
-            const Elf64_Ehdr* e_hdr = reinterpret_cast<const Elf64_Ehdr *>(elf_hdr);
-            ph_size = e_hdr->e_phentsize;
-            ph_num = e_hdr->e_phnum;
-            ph_idx.push_back(e_hdr->e_phoff);
-        }
-        // fill ph_idx list with according values
-        if (!get_ph_addresses())
-            return false;
-    }
-    catch(const std::exception &) {
+    switch(cls) {
+    case classes::NONE:
         return false;
+    case classes::ELF32:
+        if (!get_ph_address<Elf32_Ehdr>(elf_hdr))
+            return false;
+        break;
+    case classes::ELF64:
+        if (!get_ph_address<Elf64_Ehdr>(elf_hdr))
+            return false;
+        break;
     }
-    return true;
+
+    // fill ph_idx list with according values
+    return get_ph_addresses();
 }
 
-/* TODO: real parsing */
 bool ELF::parse() {
     // check if file is ready for parsing
     if (!is_open())
@@ -277,8 +286,11 @@ Elf64_Xword ELF::round_address_down(ex_offset_t addr, ex_offset_t align) const {
     return addr - (addr % align);
 }
 
-bool ELF::find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize, uint32_t *pre_pad) {
-    uint8_t align = sizeof(Elf32_Off);
+template <typename ElfProgramHeaderType, typename ElfOffsetType>
+bool ELF::find_pre_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                       const int dsize, uint32_t *pre_pad) {
+
+    uint8_t align = sizeof(ElfOffsetType);
 
     if (!ph)
         return false;
@@ -298,36 +310,16 @@ bool ELF::find_pre_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int ds
         return false;
     }
     return true;
-}
 
-bool ELF::find_pre_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize, uint32_t *pre_pad) {
-    uint8_t align = sizeof(Elf64_Off);
-
-    if (!ph)
-        return false;
-
-    try {
-        *pre_pad = align - ((ph->p_vaddr + ph->p_memsz) % align ? : align);
-
-        // 1. if there is no next LOAD segment after current
-        // 2. enough space between end of current segment in memory and next segment in memory
-        if (!(!phn || round_address_down(ph->p_vaddr + ph->p_memsz + (*pre_pad) + dsize,
-                                    ph->p_align) < round_address_down(phn->p_vaddr, phn->p_align)))
-            return false;
-        // pad if size of file and memory images are different
-        *pre_pad += (ph->p_memsz - ph->p_filesz);
-    }
-    catch(const std::exception &) {
-        return false;
-    }
     return true;
 }
 
-bool ELF::find_post_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int dsize,
-                        const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma) {
+template <typename ElfProgramHeaderType, typename ElfOffsetType>
+bool ELF::find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                        const int dsize, const uint32_t pre_pad, uint32_t *post_pad,
+                        bool *change_vma) {
 
-    // TODO: make align static
-    uint8_t align = sizeof(Elf32_Off);
+    uint8_t align = sizeof(ElfOffsetType);
     if (!ph)
         return false;
 
@@ -350,35 +342,7 @@ bool ELF::find_post_pad(const Elf32_Phdr *ph, const Elf32_Phdr *phn, const int d
         return false;
     }
     return true;
-}
 
-bool ELF::find_post_pad(const Elf64_Phdr *ph, const Elf64_Phdr *phn, const int dsize,
-                        const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma) {
-
-    // TODO: make align static
-    uint8_t align = sizeof(Elf64_Off);
-    if (!ph)
-        return false;
-
-    try {
-        // pad next segment in file if exists to vaddr % align == offset % align
-        if (phn) {
-            *post_pad = phn->p_align + (phn->p_offset % phn->p_align) -
-                       ((phn->p_offset + dsize + pre_pad) % phn->p_align);
-        }
-        // if next segment is absebt we need to pad size of new data to the size of pointer
-        // need to increase a highest vaddr in file, because there is no next segment in file
-        // TODO: wtf post pad is taking into consideration???????
-        else {
-            *post_pad = align - ((pre_pad + dsize + *post_pad) % align ? : align);
-            // TODO: change higher vaddr in file
-            *change_vma = true;
-        }
-    }
-    catch(const std::exception &) {
-        return false;
-    }
-    return true;
 }
 
 template <typename ElfProgramHeaderType>

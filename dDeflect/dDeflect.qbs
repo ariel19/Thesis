@@ -47,6 +47,7 @@ Project {
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
         cpp.cxxFlags: ["-Wold-style-cast", "-std=c++11"]
+        cpp.includePaths: ["src"]
 
         Group {     // Properties for the produced executable
             fileTagsFilter: product.type
