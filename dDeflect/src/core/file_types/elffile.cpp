@@ -239,8 +239,6 @@ bool ELF::get_ph_info(const void *elf_hdr) {
     if (!elf_hdr)
         return false;
     switch(cls) {
-    case classes::NONE:
-        return false;
     case classes::ELF32:
         if (!get_ph_address<Elf32_Ehdr>(elf_hdr))
             return false;
@@ -249,6 +247,8 @@ bool ELF::get_ph_info(const void *elf_hdr) {
         if (!get_ph_address<Elf64_Ehdr>(elf_hdr))
             return false;
         break;
+    default:
+        return false;
     }
 
     // fill ph_idx list with according values
@@ -354,17 +354,23 @@ std::pair<ex_offset_t, ex_offset_t> ELF::get_new_data_va_fo(ELF::best_segment &b
 }
 
 QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
-    if(!parsed)
+    if (!parsed)
         return QByteArray();
 
     uint32_t total_space = data.size() + bs.post_pad + bs.pre_pad;
     std::pair<ex_offset_t, ex_offset_t> fo_va;
     ex_offset_t file_off = 0, va = 0;
 
-    if (cls == classes::ELF32)
+    switch(cls) {
+    case classes::ELF32:
         fo_va = get_new_data_va_fo<Elf32_Phdr>(bs);
-    else
+        break;
+    case classes::ELF64:
         fo_va = get_new_data_va_fo<Elf64_Phdr>(bs);
+        break;
+    default:
+        return QByteArray();
+    }
 
     file_off = fo_va.first;
     va = fo_va.second;
@@ -382,17 +388,21 @@ QByteArray ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
 
     // fixing...
     Elf64_Addr vaddr;
-    if (cls == classes::ELF32) {
+    switch(cls) {
+    case classes::ELF32:
         fix_elf_header<Elf32_Ehdr>(new_b_data, file_off, total_space);
         fix_section_table<Elf32_Ehdr, Elf32_Shdr>(new_b_data, file_off, total_space);
         vaddr = fix_segment_table<Elf32_Phdr>(new_b_data, file_off, bs.pre_pad + data.size());
-    }
-    else {
+        break;
+    case classes::ELF64:
         fix_elf_header<Elf64_Ehdr>(new_b_data, file_off, total_space);
         fix_section_table<Elf64_Ehdr, Elf64_Shdr>(new_b_data, file_off, total_space);
         vaddr = fix_segment_table<Elf64_Phdr>(new_b_data, file_off, bs.pre_pad + data.size());
+        break;
+    default:
+        return QByteArray();
     }
-\
+
     // TODO: make a template
     fix_vma(new_b_data, bs, file_off, vaddr);
 

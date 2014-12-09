@@ -51,6 +51,8 @@ class ELF {
     /// list of ph index headers
     QList<ex_offset_t> ph_idx;
 
+    template <typename ElfProgramHeaderType, typename ElfOffsetType>
+    bool extend_segment_eligible(best_segment &bs, bool only_x, int);
     /**
      * @brief Wypełnia listę z indeksami struktur Program Header.
      * @return True jeżeli wielkość tablicy się zgadza z zadeklarowaną, False w innych przypadkach.
