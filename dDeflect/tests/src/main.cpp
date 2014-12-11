@@ -53,14 +53,13 @@ int main()
     QByteArray nops(12, '\x00');
     Elf64_Addr nva;
 
-    /*
     QByteArray nf = elf.extend_segment(nops, false, nva);
 
     if (elf.set_entry_point(nva, nf))
         return 1;
 
     elf.write_to_file("a2.out", nf);
-    */
+
 
     /*
     QFile f("example.exe");
