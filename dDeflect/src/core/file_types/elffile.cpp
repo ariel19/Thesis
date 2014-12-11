@@ -439,7 +439,7 @@ std::pair<QByteArray, Elf64_Addr> ELF::construct_data(const QByteArray &data, EL
     // TODO: make a template
     fix_vma(new_b_data, bs, file_off, vaddr);
 
-    return std::make_pair(new_b_data, vaddr);
+    return std::make_pair(new_b_data, va);
 }
 
 template <typename ElfHeaderType>

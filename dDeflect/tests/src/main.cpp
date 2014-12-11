@@ -41,7 +41,7 @@
 
 int main()
 {
-    //std::cout << QDir::currentPath().toStdString() << std::endl;
+    std::cout << QDir::currentPath().toStdString() << std::endl;
 
     ELF elf("a.out");
     std::cout << "valid: " << elf.is_valid() << std::endl;
@@ -50,12 +50,12 @@ int main()
         std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
     }
 
-    QByteArray nops(12, '\x00');
+    QByteArray nops(12, '\x90');
     Elf64_Addr nva;
 
     QByteArray nf = elf.extend_segment(nops, false, nva);
 
-    if (elf.set_entry_point(nva, nf))
+    if (!elf.set_entry_point(nva, nf))
         return 1;
 
     elf.write_to_file("a2.out", nf);
