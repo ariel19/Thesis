@@ -24,7 +24,6 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
     QList<std::pair<esize_t, void*> > load_seg; // all LOAD segments
     Elf32_Phdr *ph = nullptr;
     void *ph_without_meta = nullptr;
-    bool change_va = false;
     best_segment bs, cs; // best segment, current segment
 
     for (esize_t i = 0; i < ph_num; ++i) {
@@ -43,42 +42,21 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
 
     int size = load_seg.size(), i = 0;
     // uint8_t align = (cls == classes::ELF32) ? sizeof(Elf32_Off) : sizeof(Elf64_Off);
-    uint32_t pad_pre, pad_post;
+    // uint32_t pad_pre, pad_post;
+
+    if (cls != classes::ELF32 && cls != classes::ELF64)
+        return QByteArray();
 
     do {
         // figure out size of space we need after end of the segment to align virtual address
         // check if it's eligible to extend a segment
         if (cls == classes::ELF32) {
-            Elf32_Phdr *ph = reinterpret_cast<Elf32_Phdr*>(load_seg.at(i).second),
-                       *phn = ((i + 1) < load_seg.size()) ?
-                        reinterpret_cast<Elf32_Phdr*>(load_seg.at(i + 1).second) :
-                        nullptr;
-
-            if (!find_pre_pad<Elf32_Phdr, Elf32_Off>(ph, phn, data.size(), &pad_pre))
+            if (!extend_segment_eligible<Elf32_Phdr, Elf32_Off>(bs, only_x, load_seg, i, data.size()))
                 continue;
-
-            // TODO: take into consideration function return value
-            // find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
-            find_post_pad<Elf32_Phdr, Elf32_Off>(ph, phn, data.size(),
-                                                 pad_pre, &pad_post, &change_va);
-
-            best_segment_choose<Elf32_Phdr>(bs, only_x, ph, pad_post, pad_pre, change_va);
         }
         else {
-            Elf64_Phdr *ph = reinterpret_cast<Elf64_Phdr*>(load_seg.at(i).second),
-                       *phn = load_seg.size() < (i + 1) ?
-                        reinterpret_cast<Elf64_Phdr*>(load_seg.at(i + 1).second) :
-                        nullptr;
-
-            if (!find_pre_pad<Elf64_Phdr, Elf64_Off>(ph, phn, data.size(), &pad_pre))
+            if (!extend_segment_eligible<Elf64_Phdr, Elf64_Off>(bs, only_x, load_seg, i, data.size()))
                 continue;
-
-            // TODO: take into consideration function return value
-            // find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
-            find_post_pad<Elf64_Phdr, Elf64_Off>(ph, phn, data.size(),
-                                                 pad_pre, &pad_post, &change_va);
-
-            best_segment_choose<Elf64_Phdr>(bs, only_x, ph, pad_post, pad_pre, change_va);
         }
     } while(++i < size);
 
@@ -201,6 +179,43 @@ bool ELF::is_supported(const Elf32_Ehdr *elf_hdr) {
         return false;
     }
 
+    return true;
+}
+
+template <typename ElfProgramHeader>
+void ELF::best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
+                         uint32_t pad_post, uint32_t pad_pre, bool change_va) {
+    if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
+        if (!only_x || (only_x && (reinterpret_cast<ElfProgramHeader*>(ph->p_offset)->p_flags & PF_X))) {
+            bs.ph = ph;
+            bs.post_pad = pad_post;
+            bs.pre_pad = pad_pre;
+            bs.change_vma = change_va;
+        }
+    }
+}
+
+template <typename ElfProgramHeaderType, typename ElfOffsetType>
+bool ELF::extend_segment_eligible(best_segment &bs, bool only_x, const QList<std::pair<esize_t, void *> > &load_seg,
+                                  int i, const int data_size) {
+
+    bool change_va = false;
+    uint32_t pad_pre, pad_post;
+
+    ElfProgramHeaderType *ph = reinterpret_cast<ElfProgramHeaderType*>(load_seg.at(i).second),
+               *phn = ((i + 1) < load_seg.size()) ?
+                reinterpret_cast<ElfProgramHeaderType*>(load_seg.at(i + 1).second) :
+                nullptr;
+
+    if (!find_pre_pad<ElfProgramHeaderType, ElfOffsetType>(ph, phn, data_size, &pad_pre))
+        return false;
+
+    // TODO: take into consideration function return value
+    // find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
+    find_post_pad<ElfProgramHeaderType, ElfOffsetType>(ph, phn, data_size,
+                                                       pad_pre, &pad_post, &change_va);
+
+    best_segment_choose<ElfProgramHeaderType>(bs, only_x, ph, pad_post, pad_pre, change_va);
     return true;
 }
 
@@ -531,17 +546,4 @@ ELF::ELF(QString _fname) :
 ELF::~ELF() {
     if (elf_file.isOpen())
         elf_file.close();
-}
-
-template <typename ElfProgramHeader>
-void ELF::best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
-                         uint32_t pad_post, uint32_t pad_pre, bool change_va) {
-    if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-        if (!only_x || (only_x && (reinterpret_cast<ElfProgramHeader*>(ph->p_offset)->p_flags & PF_X))) {
-            bs.ph = ph;
-            bs.post_pad = pad_post;
-            bs.pre_pad = pad_pre;
-            bs.change_vma = change_va;
-        }
-    }
 }

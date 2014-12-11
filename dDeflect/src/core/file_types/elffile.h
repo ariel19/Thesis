@@ -51,12 +51,31 @@ class ELF {
     /// list of ph index headers
     QList<ex_offset_t> ph_idx;
 
+    /**
+     * @brief Uzupełnia informacje, dotyczące najlepszego segmentu na podstawie podanych argumentów.
+     * @param bs struktura, przedstawiająca informacje o segmencie.
+     * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
+     * @param ph wskaźnik na strukture, reprezentującą Elf_Phdr.
+     * @param pad_post ilość bajtów potrzebnych do wypełnanie przed dodawanymi danymi.
+     * @param pad_pre ilość bajtów potrzebnych do wypełnanie po dodawanych danych.
+     * @param change_va informacja czy musi zostać zmieniony adres wirtualy.
+     */
     template <typename ElfProgramHeader>
     void best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
                              uint32_t pad_post, uint32_t pad_pre, bool change_va);
 
+    /**
+     * @brief Sprawdza czy aktualnie przetwarzany segment da się rozszerzyć.
+     * @param bs struktura, przedstawiająca informacje o segmencie.
+     * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
+     * @param load_seg referencja na listę ładowalnych (LOAD) segmentów pliku.
+     * @param i aktualnie przetwarzany segment.
+     * @param data_size wielkość wstawianych danych.
+     * @return True jeżeli rozszerzenie jest możliwe, False w innych przypadkach.
+     */
     template <typename ElfProgramHeaderType, typename ElfOffsetType>
-    bool extend_segment_eligible(best_segment &bs, bool only_x, int);
+    bool extend_segment_eligible(best_segment &bs, bool only_x, const QList<std::pair<esize_t, void*> > &load_seg,
+                                 int i, const int data_size);
     /**
      * @brief Wypełnia listę z indeksami struktur Program Header.
      * @return True jeżeli wielkość tablicy się zgadza z zadeklarowaną, False w innych przypadkach.
