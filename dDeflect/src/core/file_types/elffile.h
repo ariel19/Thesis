@@ -51,6 +51,10 @@ class ELF {
     /// list of ph index headers
     QList<ex_offset_t> ph_idx;
 
+    template <typename ElfProgramHeader>
+    void best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
+                             uint32_t pad_post, uint32_t pad_pre, bool change_va);
+
     template <typename ElfProgramHeaderType, typename ElfOffsetType>
     bool extend_segment_eligible(best_segment &bs, bool only_x, int);
     /**

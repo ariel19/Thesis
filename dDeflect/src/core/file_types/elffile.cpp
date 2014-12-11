@@ -62,16 +62,7 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
             find_post_pad<Elf32_Phdr, Elf32_Off>(ph, phn, data.size(),
                                                  pad_pre, &pad_post, &change_va);
 
-            // TODO: make a choice, if new result is better than previous one
-            // TODO: probably change to function
-            if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-                if (!only_x || (only_x && (reinterpret_cast<Elf32_Phdr*>(ph->p_offset)->p_flags & PF_X))) {
-                    bs.ph = ph;
-                    bs.post_pad = pad_post;
-                    bs.pre_pad = pad_pre;
-                    bs.change_vma = change_va;
-                }
-            }
+            best_segment_choose<Elf32_Phdr>(bs, only_x, ph, pad_post, pad_pre, change_va);
         }
         else {
             Elf64_Phdr *ph = reinterpret_cast<Elf64_Phdr*>(load_seg.at(i).second),
@@ -83,19 +74,11 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x) {
                 continue;
 
             // TODO: take into consideration function return value
-            //find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
+            // find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
             find_post_pad<Elf64_Phdr, Elf64_Off>(ph, phn, data.size(),
                                                  pad_pre, &pad_post, &change_va);
 
-            // TODO: make a choice, if new result is better than previous one
-            if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-                if (!only_x || (only_x && (reinterpret_cast<Elf64_Phdr*>(ph->p_offset)->p_flags & PF_X))) {
-                    bs.ph = ph;
-                    bs.post_pad = pad_post;
-                    bs.pre_pad = pad_pre;
-                    bs.change_vma = change_va;
-                }
-            }
+            best_segment_choose<Elf64_Phdr>(bs, only_x, ph, pad_post, pad_pre, change_va);
         }
     } while(++i < size);
 
@@ -531,7 +514,6 @@ void ELF::fix_vma(QByteArray &data, const best_segment &bs,
     else {
 
     }
-
 }
 
 void* ELF::get_file_offset(const QByteArray &data, const Elf64_Addr &addr) {
@@ -549,4 +531,17 @@ ELF::ELF(QString _fname) :
 ELF::~ELF() {
     if (elf_file.isOpen())
         elf_file.close();
+}
+
+template <typename ElfProgramHeader>
+void ELF::best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
+                         uint32_t pad_post, uint32_t pad_pre, bool change_va) {
+    if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
+        if (!only_x || (only_x && (reinterpret_cast<ElfProgramHeader*>(ph->p_offset)->p_flags & PF_X))) {
+            bs.ph = ph;
+            bs.post_pad = pad_post;
+            bs.pre_pad = pad_pre;
+            bs.change_vma = change_va;
+        }
+    }
 }
