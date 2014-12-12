@@ -3,8 +3,8 @@
 #include <QDir>
 #include <iostream>
 
-#include "pefile.h"
-#include "elffile.h"
+#include <core/file_types/elffile.h>
+#include <core/file_types/pefile.h>
 
 //void wrapper()
 //{
