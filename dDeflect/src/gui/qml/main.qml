@@ -144,6 +144,7 @@ ApplicationWindow {
                 anchors.margins: 12
 
                 TableView {
+                    id: methodsChoice
                     anchors.fill: parent
                     anchors.rightMargin: frame.width/2
                     model: sourceCodeMethods.names
@@ -155,15 +156,17 @@ ApplicationWindow {
                         //width: 120
                     }
 
+
                 }
                 ColumnLayout{
                     anchors.fill: parent
                     anchors.leftMargin: frame.width/2
                     TextArea{
-
+                        id: methodsDescription
                         anchors.fill: parent
                         anchors.bottomMargin: 40
-                        text: "The only method:"
+                        readOnly: true
+                        text:{ return methodsChoice===-1?"":sourceCodeMethods.methods[methodsChoice.currentRow].description }
                     }
                     Button{
                         height:50
