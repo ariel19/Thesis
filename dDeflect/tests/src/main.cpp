@@ -3,8 +3,8 @@
 #include <QDir>
 #include <iostream>
 
-#include "pefile.h"
-#include "elffile.h"
+#include <core/file_types/elffile.h>
+#include <core/file_types/pefile.h>
 
 //void wrapper()
 //{
@@ -38,6 +38,30 @@
 //    if(is_dbg)
 //        printf("DEBUG!");
 //}
+
+// create thread wrapper
+void create_thread() {
+    asm("push eax");
+    asm("push edx");
+    asm("psuh ecx");
+
+    // create a thread using clone
+    // clone syscall + CLONE_THREAD
+    // stack address: http://linux.die.net/man/2/clone
+    // clone syscall number: 120
+    // documentation: http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html
+    // links: http://nlo.lists.kernelnewbies.narkive.com/npChDJyH/pt-regs-structure-for-sys-clone
+
+    // ptrace syscall
+    // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
+    asm("mov eax, 26"); // sys_ptrace
+
+
+
+    asm("pop ecx");
+    asm("pop edx");
+    asm("pop eax");
+}
 
 int main()
 {
