@@ -79,6 +79,21 @@ QByteArray create_ep_code_32(uint32_t oldEP, uint32_t imageBase)
     return code;
 }
 
+QByteArray create_ep_code_64(uint32_t oldEP, uint64_t imageBase)
+{
+    // TODO: przetestować
+    QByteArray code;
+
+    code.append(QByteArray(10, '\x90'));
+
+    uint64_t old_ep = imageBase + oldEP;
+    code.append("\x48\xB8"); // movabs rax,oldep
+    code.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&old_ep), sizeof(uint64_t)));
+    code.append("\xFF\xE0"); // jmp eax
+
+    return code;
+}
+
 int main()
 {
     /*std::cout << QDir::currentPath().toStdString() << std::endl;
