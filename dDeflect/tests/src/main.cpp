@@ -41,10 +41,11 @@
 
 // create thread wrapper
 void create_thread() {
+    /*
     asm("push eax");
     asm("push edx");
-    asm("psuh ecx");
-
+    asm("push ecx");
+    */
     // create a thread using clone
     // clone syscall + CLONE_THREAD
     // stack address: http://linux.die.net/man/2/clone
@@ -54,13 +55,13 @@ void create_thread() {
 
     // ptrace syscall
     // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
+    /*
     asm("mov eax, 26"); // sys_ptrace
-
-
 
     asm("pop ecx");
     asm("pop edx");
     asm("pop eax");
+    */
 }
 
 int main()
