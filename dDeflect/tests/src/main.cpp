@@ -3,7 +3,9 @@
 #include <QDir>
 #include <iostream>
 
-#include <core/file_types/elffile.h>
+//#include <core/file_types/elffile.h>
+//#include <core/file_types/pefile.h>
+
 #include <core/file_types/pefile.h>
 
 //void wrapper()
@@ -40,32 +42,32 @@
 //}
 
 // create thread wrapper
-void create_thread() {
-    asm("push eax");
-    asm("push edx");
-    asm("psuh ecx");
+//void create_thread() {
+//    asm("push eax");
+//    asm("push edx");
+//    asm("psuh ecx");
 
-    // create a thread using clone
-    // clone syscall + CLONE_THREAD
-    // stack address: http://linux.die.net/man/2/clone
-    // clone syscall number: 120
-    // documentation: http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html
-    // links: http://nlo.lists.kernelnewbies.narkive.com/npChDJyH/pt-regs-structure-for-sys-clone
+//    // create a thread using clone
+//    // clone syscall + CLONE_THREAD
+//    // stack address: http://linux.die.net/man/2/clone
+//    // clone syscall number: 120
+//    // documentation: http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html
+//    // links: http://nlo.lists.kernelnewbies.narkive.com/npChDJyH/pt-regs-structure-for-sys-clone
 
-    // ptrace syscall
-    // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
-    asm("mov eax, 26"); // sys_ptrace
+//    // ptrace syscall
+//    // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
+//    asm("mov eax, 26"); // sys_ptrace
 
 
 
-    asm("pop ecx");
-    asm("pop edx");
-    asm("pop eax");
-}
+//    asm("pop ecx");
+//    asm("pop edx");
+//    asm("pop eax");
+//}
 
 int main()
 {
-    std::cout << QDir::currentPath().toStdString() << std::endl;
+    /*std::cout << QDir::currentPath().toStdString() << std::endl;
 
     ELF elf("a.out");
     std::cout << "valid: " << elf.is_valid() << std::endl;
@@ -82,7 +84,7 @@ int main()
     if (!elf.set_entry_point(nva, nf))
         return 1;
 
-    elf.write_to_file("a2.out", nf);
+    elf.write_to_file("a2.out", nf);*/
 
 
     /*

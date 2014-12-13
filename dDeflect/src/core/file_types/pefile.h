@@ -1,9 +1,12 @@
 #ifndef PEFILE_H
 #define PEFILE_H
 
-#ifdef _WIN32
-
+#ifdef __linux__
+// TODO: copy header
+#else
 #include <windows.h>
+#endif
+
 #include <QFile>
 
 class PEFile
@@ -176,7 +179,5 @@ public:
      */
     bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 };
-
-#endif
 
 #endif // PEFILE_H
