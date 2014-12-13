@@ -37,6 +37,11 @@ unsigned int PEFile::getOptHdrNumberOfRvaAndSizes()
     return is_x64 ? getOptionalHeader64()->NumberOfRvaAndSizes : getOptionalHeader32()->NumberOfRvaAndSizes;
 }
 
+uint64_t PEFile::getOptHdrImageBase()
+{
+    return is_x64 ? getOptionalHeader64()->ImageBase : getOptionalHeader32()->ImageBase;
+}
+
 void PEFile::setOptHdrSizeOfCode(size_t size)
 {
     if(is_x64)
@@ -664,6 +669,14 @@ unsigned int PEFile::getEntryPoint()
         return 0;
 
     return getOptHdrAddressOfEntryPoint();
+}
+
+uint64_t PEFile::getImageBase()
+{
+    if(!parsed)
+        return 0;
+
+    return getOptHdrImageBase();
 }
 
 bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)

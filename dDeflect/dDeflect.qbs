@@ -43,7 +43,7 @@ Project {
         name: "tester"
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
-        files: ["tests/src/*.cpp", "tests/src/*.h"]
+        files: ["tests/src/*.cpp", "tests/src/*.h", "src/core/file_types/*.h", "src/core/file_types/*.cpp"]
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
         cpp.cxxFlags: ["-Wold-style-cast", "-std=c++11"]

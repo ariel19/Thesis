@@ -35,6 +35,7 @@ private:
     unsigned int getOptHdrAddressOfEntryPoint();
     unsigned int getNtHdrSignature();
     unsigned int getOptHdrNumberOfRvaAndSizes();
+    uint64_t getOptHdrImageBase(); // TODO: 32/64
 
     void setOptHdrSizeOfCode(size_t size);
     void setOptHdrSizeOfInitializedData(size_t size);
@@ -168,6 +169,12 @@ public:
      * @return EP
      */
     unsigned int getEntryPoint();
+
+    /**
+     * @brief Pobiera ImageBase
+     * @return
+     */
+    uint64_t getImageBase(); // TODO: template w zależności od 32/64
 
     /**
      * @brief Dodaje nową wykonywalną sekcję.

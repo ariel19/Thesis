@@ -65,6 +65,20 @@
 //    asm("pop eax");
 //}
 
+QByteArray create_ep_code_32(uint32_t oldEP, uint32_t imageBase)
+{
+    QByteArray code;
+
+    code.append(QByteArray(10, '\x90'));
+
+    uint32_t old_ep = imageBase + oldEP;
+    code.append('\xB8'); // mov eax, old_ep
+    code.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&old_ep), sizeof(uint32_t)));
+    code.append("\xFF\xE0"); // jmp eax
+
+    return code;
+}
+
 int main()
 {
     /*std::cout << QDir::currentPath().toStdString() << std::endl;
@@ -86,8 +100,6 @@ int main()
 
     elf.write_to_file("a2.out", nf);*/
 
-
-    /*
     QFile f("example.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
@@ -107,9 +119,7 @@ int main()
     for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
         printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
 
-    QByteArray nd(100, '\x90');
-    nd[10] = '\xEB';
-    nd[11] = '\xFE';
+    QByteArray nd = create_ep_code_32(pe.getEntryPoint(), pe.getImageBase());
 
     unsigned int new_offset, new_mem_offset;
     if(!pe.addNewSection(QString(".test"), nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
@@ -127,8 +137,6 @@ int main()
     nf.close();
 
     puts("OK!");
-    */
-
 
     return 0;
 }
