@@ -2,9 +2,9 @@
 #define PEFILE_H
 
 #ifdef __linux__
-// TODO: copy header
+#include <core/sys_headers/winheader.h>
 #else
-#include <windows.h>
+#include <windef.h>
 #endif
 
 #include <QFile>
