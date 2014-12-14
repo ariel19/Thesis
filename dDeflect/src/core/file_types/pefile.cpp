@@ -169,17 +169,21 @@ bool PEFile::parse()
         ntHeaders64 = reinterpret_cast<PIMAGE_NT_HEADERS64>(reinterpret_cast<char*>(dosHeader) +
                                                             dosHeader->e_lfanew);
         ntHeadersIdx = reinterpret_cast<char*>(ntHeaders64) - reinterpret_cast<char*>(dosHeader);
+
+        if(length < dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS64::Signature)
+                || getNtHdrSignature() != IMAGE_NT_SIGNATURE)
+            return false;
     }
     else
     {
         ntHeaders32 = reinterpret_cast<PIMAGE_NT_HEADERS32>(reinterpret_cast<char*>(dosHeader) +
                                                             dosHeader->e_lfanew);
         ntHeadersIdx = reinterpret_cast<char*>(ntHeaders32) - reinterpret_cast<char*>(dosHeader);
-    }
 
-    if(length < dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS::Signature)
-            || getNtHdrSignature() != IMAGE_NT_SIGNATURE)
-        return false;
+        if(length < dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS32::Signature)
+                || getNtHdrSignature() != IMAGE_NT_SIGNATURE)
+            return false;
+    }
 
     PIMAGE_FILE_HEADER fileHeader = is_x64 ?
                 reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders64->FileHeader) :
@@ -709,10 +713,16 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
     setOptHdrSizeOfInitializedData(getOptHdrSizeOfInitializedData() + header->SizeOfRawData);
     setOptHdrSizeOfImage(alignNumber(header->VirtualAddress + header->Misc.VirtualSize,
                                      getOptHdrSectionAlignment()));
-    setOptHdrSizeOfHeaders(alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS::Signature) +
-                                       sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER) +
-                                       sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
-                                       getOptHdrFileAlignment()));
+    if(is_x64)
+        setOptHdrSizeOfHeaders(alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS64::Signature) +
+                                           sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER64) +
+                                           sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
+                                           getOptHdrFileAlignment()));
+    else
+        setOptHdrSizeOfHeaders(alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS32::Signature) +
+                                           sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER32) +
+                                           sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
+                                           getOptHdrFileAlignment()));
 
     getFileHeader()->NumberOfSections += 1;
 
