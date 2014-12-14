@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <QFile>
 #include <QDir>
+#include <QVariant>
 #include <iostream>
 
 #include <core/file_types/elffile.h>
@@ -75,13 +76,50 @@ int main()
         std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
     }
 
-    QByteArray nops(12, '\x90');
+    QFile first_test("ptrace");
+    if (!first_test.open(QIODevice::ReadOnly))
+        return 1;
+    QByteArray whole = first_test.readAll();
+    // TODO: should be in wrapper after add jump instruction here
+    Elf64_Addr oldep;
+    if (!elf.get_entry_point(oldep))
+        return 1;
+
+    QByteArray jmp;
+    if (elf.is_x86() || oldep < 0x100000000) {
+        jmp.append(0xe9); // jmp
+        oldep -= 0x5;
+        for(int i = 0; i < 4; ++i)
+            jmp.append((char)(oldep & (0xFF << i) >>i));
+    }
+    else if (elf.is_x64()) {
+        jmp.append("\x48\xb8", 2); // mov rax, addr
+        // jmp.append(QByteArray::number((qulonglong)oldep));
+        for(int i = 0; i < 8; ++i)
+            jmp.append((char)(oldep & (0xFF << i) >>i));
+        jmp.append("\xff\xe0", 2);
+    }
+    else return 1;
+
+    // QByteArray nops(12, '\x90');
     Elf64_Addr nva;
 
-    QByteArray nf = elf.extend_segment(nops, false, nva);
+    whole.append(jmp);
+
+    QByteArray nf = elf.extend_segment(whole, false, nva);
 
     if (!elf.set_entry_point(nva, nf))
         return 1;
+
+    /*
+    nva += 0x63;
+    QVariant var((qulonglong)nva);
+    QByteArray after("\0x48\0xC7\0xC7\xab\x10\x60\x00\x90\x90\x90", 10);
+
+    // after.append(var.toByteArray());
+    // change 0xdeadbeefdeadbeef for normal address
+    nf = nf.replace(QByteArray("\x48\xBF\xEF\xBE\xAD\xDE\xEF\xBE\xAD\xDE", 10), after);
+    */
 
     elf.write_to_file("a2.out", nf);
 

@@ -19,9 +19,9 @@ syscall ; syscall
 ; rax == return value of ptrace
 ; use a wrapper for return value
 cmp rax, 0
-jge old_stack
+jge short old_stack
 mov rax, 60; exit syscall
-mov ebx, 127; error code
+mov rdi, 127; error code
 syscall ; syscall
 
 old_stack:

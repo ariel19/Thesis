@@ -90,7 +90,7 @@ bool ELF::write_to_file(const QString &fname) const {
     return write_to_file(fname, b_data);
 }
 
-bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data) {
+bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep) {
     Elf32_Ehdr *eh_86 = nullptr;
     Elf64_Ehdr *eh_64 = nullptr;
 
@@ -98,6 +98,8 @@ bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data) {
     case classes::ELF32:
         eh_86 = reinterpret_cast<Elf32_Ehdr*>(data.data());
         try {
+            if (!old_ep)
+                *old_ep = eh_86->e_entry;
             eh_86->e_entry = entry_point;
         }
         catch(const std::exception &) {
@@ -107,21 +109,52 @@ bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data) {
     case classes::ELF64:
         eh_64 = reinterpret_cast<Elf64_Ehdr*>(data.data());
         try {
+            if (!old_ep)
+                *old_ep = eh_64->e_entry;
             eh_64->e_entry = entry_point;
         }
         catch(const std::exception &) {
             return false;
         }
         return true;
-    case classes::NONE:
+    default:
         return false;
     }
 }
 
-bool ELF::set_entry_point(const Elf64_Addr &entry_point) {
+bool ELF::set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep) {
     if (!parsed)
         return false;
-    return set_entry_point(entry_point, b_data);
+    return set_entry_point(entry_point, b_data, old_ep);
+}
+
+bool ELF::get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
+    switch(cls) {
+    case classes::ELF32:
+        try {
+            old_ep = reinterpret_cast<const Elf32_Ehdr*>(data.data())->e_entry;
+        }
+        catch(const std::exception &) {
+            return false;
+        }
+        return true;
+    case classes::ELF64:
+        try {
+            old_ep = reinterpret_cast<const Elf64_Ehdr*>(data.data())->e_entry;
+        }
+        catch(const std::exception &) {
+            return false;
+        }
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
+    if (!parsed)
+        return false;
+    return get_entry_point(b_data, old_ep);
 }
 
 bool ELF::get_ph_addresses() {
