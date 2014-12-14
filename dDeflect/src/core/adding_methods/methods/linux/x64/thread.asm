@@ -19,8 +19,8 @@ push r15
 
 ; assume that stack grows DOWNWARDS => add to the allocated memory with dmalloc size of allocated memory :)
 
-mov rdi,  0x1f0 ; or'ed flags
-mov rsi, 0xffffffff ; address of new stack pointer
+mov rdi,  0x10f11 ; or'ed flags
+mov rsi, 0 ; address of new stack pointer, prbly should be calculated :)
 ; TODO: why we don't use rdx???????
 xor r10, r10 ; parent tid
 xor r8, r8 ; child tid
@@ -30,9 +30,10 @@ syscall ; syscall
 
 or rax, 0
 jnz _parent
-push r14 ; address og thread func
-mov rdi, r15 ; argument for thread func
-ret
+
+; ============
+; THREAD BODY 
+; ============
 
 _parent:
 pop r15
@@ -43,3 +44,5 @@ pop r10
 pop rsi
 pop rdi
 pop rax
+
+; JUMP HERE

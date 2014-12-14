@@ -17,8 +17,8 @@ push edi
 
 ; assume that stack grows DOWNWARDS => add to the allocated memory with dmalloc size of allocated memory :)
 
-mov ebx, 0x1f0 ; or'ed flags
-mov ecx, 0xffffffff ; address of new stack pointer
+mov ebx, 0x10f11 ; or'ed flags
+mov ecx, 0 ; address of new stack pointer, prbly should be calculated
 xor edx, edx ; parent tid
 xor esi, esi ; child tid
 xor edi, edi ; regs
@@ -28,9 +28,9 @@ int 0x80 ; syscall
 or eax, 0
 jnz _parent
 
-push 0xeeeeeeee ; address of thread func
-push 0 ; argument for thread func
-ret
+; ======================
+; BODY OF NEW THREAD
+; ======================
 
 _parent:
 pop edi
@@ -39,3 +39,5 @@ pop edx
 pop ecx
 pop ebx
 pop eax
+
+; JUMP IN WRAPPER
