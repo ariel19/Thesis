@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QDir>
 #include <QVariant>
+#include <QDebug>
 #include <iostream>
 
 #include <core/file_types/elffile.h>
@@ -40,43 +41,19 @@
 //        printf("DEBUG!");
 //}
 
-// create thread wrapper
-void create_thread() {
+// TODO: should be wrapper
+int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
+    ELF elf(elf_fname);
+    qDebug() << "valid: " << elf.is_valid();
+    qDebug() << "segments no: " << elf.get_number_of_segments();
+
     /*
-    asm("push eax");
-    asm("push edx");
-    asm("push ecx");
-    */
-    // create a thread using clone
-    // clone syscall + CLONE_THREAD
-    // stack address: http://linux.die.net/man/2/clone
-    // clone syscall number: 120
-    // documentation: http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html
-    // links: http://nlo.lists.kernelnewbies.narkive.com/npChDJyH/pt-regs-structure-for-sys-clone
-
-    // ptrace syscall
-    // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
-    /*
-    asm("mov eax, 26"); // sys_ptrace
-
-    asm("pop ecx");
-    asm("pop edx");
-    asm("pop eax");
-    */
-}
-
-int main()
-{
-    std::cout << QDir::currentPath().toStdString() << std::endl;
-
-    ELF elf("a.out");
-    std::cout << "valid: " << elf.is_valid() << std::endl;
-    std::cout << "segments no: " << elf.get_number_of_segments() << std::endl;
     for (int i = 0; i < elf.get_number_of_segments(); ++i) {
         std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
     }
+    */
 
-    QFile first_test("ptrace");
+    QFile first_test(ptrace_fname);
     if (!first_test.open(QIODevice::ReadOnly))
         return 1;
     QByteArray whole = first_test.readAll();
@@ -87,16 +64,20 @@ int main()
 
     QByteArray jmp;
     if (elf.is_x86() || oldep < 0x100000000) {
-        jmp.append(0xe9); // jmp
-        oldep -= 0x5;
-        for(int i = 0; i < 4; ++i)
-            jmp.append((char)(oldep & (0xFF << i) >>i));
+        jmp.append(0xb8); // mov eax, addr
+        // oldep -= 0x5;
+        for(uint i = 0; i < sizeof(Elf32_Addr); ++i) {
+            int a = (oldep >> (i * 8) & 0xff);
+            jmp.append(static_cast<char>(a));
+        }
+        jmp.append("\xff\xe0", 2); // jmp eax
     }
     else if (elf.is_x64()) {
         jmp.append("\x48\xb8", 2); // mov rax, addr
-        // jmp.append(QByteArray::number((qulonglong)oldep));
-        for(int i = 0; i < 8; ++i)
-            jmp.append((char)(oldep & (0xFF << i) >>i));
+        for(uint i = 0; i < sizeof(Elf64_Addr); ++i) {
+            int a = (oldep >> (i * 8) & 0xff);
+            jmp.append(static_cast<char>(a));
+        }
         jmp.append("\xff\xe0", 2);
     }
     else return 1;
@@ -111,61 +92,21 @@ int main()
     if (!elf.set_entry_point(nva, nf))
         return 1;
 
-    /*
-    nva += 0x63;
-    QVariant var((qulonglong)nva);
-    QByteArray after("\0x48\0xC7\0xC7\xab\x10\x60\x00\x90\x90\x90", 10);
+    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
 
-    // after.append(var.toByteArray());
-    // change 0xdeadbeefdeadbeef for normal address
-    nf = nf.replace(QByteArray("\x48\xBF\xEF\xBE\xAD\xDE\xEF\xBE\xAD\xDE", 10), after);
-    */
+    elf.write_to_file(elf_out, nf);
 
-    elf.write_to_file("a2.out", nf);
+    qDebug() << "saving to file: " << elf_out;
 
+    return 0;
+}
 
-    /*
-    QFile f("example.exe");
-    if(!f.open(QFile::ReadOnly))
-        return 1;
-
-    PEFile pe(f.readAll());
-
-    f.close();
-
-    if(!pe.isValid())
-    {
-        puts("Bad format!");
+int main() {
+    // test oep + ptrace
+    if (oep_ptrace("a.out", "ptrace", "a2.out")) {
+        qDebug() << "something went wrong :(";
         return 1;
     }
-
-    printf("%d, %d, %d\n", pe.getLastSectionNumberRaw(), pe.getLastSectionNumberMem(), pe.getNumberOfSections());
-
-    for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
-        printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
-
-    QByteArray nd(100, '\x90');
-    nd[10] = '\xEB';
-    nd[11] = '\xFE';
-
-    unsigned int new_offset, new_mem_offset;
-    if(!pe.addNewSection(QString(".test"), nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
-    {
-        puts("Failed!");
-        return 1;
-    }
-
-    printf("Offset: %x, Mem: %x\n", new_offset, new_mem_offset);
-
-    QFile nf("new_example.exe");
-    if(!nf.open(QFile::WriteOnly))
-        return 1;
-    nf.write(pe.getData());
-    nf.close();
-
-    puts("OK!");
-    */
-
 
     return 0;
 }

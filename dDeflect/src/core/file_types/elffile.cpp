@@ -98,7 +98,7 @@ bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64
     case classes::ELF32:
         eh_86 = reinterpret_cast<Elf32_Ehdr*>(data.data());
         try {
-            if (!old_ep)
+            if (old_ep)
                 *old_ep = eh_86->e_entry;
             eh_86->e_entry = entry_point;
         }
@@ -109,7 +109,7 @@ bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64
     case classes::ELF64:
         eh_64 = reinterpret_cast<Elf64_Ehdr*>(data.data());
         try {
-            if (!old_ep)
+            if (old_ep)
                 *old_ep = eh_64->e_entry;
             eh_64->e_entry = entry_point;
         }
