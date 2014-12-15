@@ -254,7 +254,7 @@ template <typename ElfProgramHeader>
 void ELF::best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
                          uint32_t pad_post, uint32_t pad_pre, bool change_va) {
     if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
-        if (!only_x || (only_x && (reinterpret_cast<ElfProgramHeader*>(ph->p_offset)->p_flags & PF_X))) {
+        if (!only_x || (only_x && (ph->p_flags & PF_X))) {
             bs.ph = ph;
             bs.post_pad = pad_post;
             bs.pre_pad = pad_pre;
