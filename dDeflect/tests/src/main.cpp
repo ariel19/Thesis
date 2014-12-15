@@ -161,19 +161,93 @@ int create_thread(const QString &elf_fname, const QString &thread_fname, const Q
 }
 
 int main() {
-    /*
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
-    if (oep_ptrace("a.out", "ptrace", "a2.out")) {
+    if (oep_ptrace("my32", "ptrace", "_my32")) {
         qDebug() << "something went wrong :(";
-        return 1;
     }
-    */
+    qDebug() << "Testing OEP + ptrace for my 32-bit app done";
+    qDebug() << "=========================================";
 
-    // test oep + thread with dummy write function
-    if (oep_ptrace("a.out", "thread", "a2.out")) {
+    qDebug() << "Testing OEP + ptrace for my 64-bit app...";
+    if (oep_ptrace("my64", "ptrace64", "_my64")) {
         qDebug() << "something went wrong :(";
-        return 1;
     }
+    qDebug() << "Testing OEP + ptrace for my 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + ptrace for derby 32-bit app...";
+    // test oep + ptrace
+    if (oep_ptrace("derby32", "ptrace", "_derby32")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for derby 32-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + ptrace for derby 64-bit app...";
+    if (oep_ptrace("derby64", "ptrace64", "_derby64")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for derby 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + ptrace for edb 64-bit app...";
+    if (oep_ptrace("edb", "ptrace64", "_edb64")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for edb 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + ptrace for dDeflect 64-bit app...";
+    if (oep_ptrace("dDeflect", "ptrace64", "_dDeflect64")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for dDeflect 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + thread for my 32-bit app...";
+    // test oep + ptrace
+    if (oep_ptrace("my32", "thread", "_my32t")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + thread for my 32-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + thread for my 64-bit app...";
+    if (oep_ptrace("my64", "thread64", "_my64t")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + thread for my 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + thread for derby 32-bit app...";
+    // test oep + ptrace
+    if (oep_ptrace("derby32", "thread", "_derby32t")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + thread for derby 32-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + thread for derby 64-bit app...";
+    if (oep_ptrace("derby64", "thread64", "_derby64t")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + thread for derby 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + thread for edb 64-bit app...";
+    if (oep_ptrace("edb", "thread64", "_edb64t")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + thread for edb 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing OEP + thread for dDeflect 64-bit app...";
+    if (oep_ptrace("dDeflect", "thread64", "_dDeflect64t")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
 
     return 0;
 }
