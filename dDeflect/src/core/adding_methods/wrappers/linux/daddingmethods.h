@@ -1,10 +1,9 @@
 #ifndef DADDINGMETHODS_H
 #define DADDINGMETHODS_H
 
-class DAddingMethods
-{
+class DAddingMethods {
 public:
-    DAddingMethods();
+    DAddingMethods() {}
 };
 
 #endif // DADDINGMETHODS_H

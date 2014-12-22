@@ -1,5 +1,3 @@
-#include "daddingmethods.h"
+#include <core/adding_methods/wrappers/linux/daddingmethods.h>
 
-DAddingMethods::DAddingMethods()
-{
-}
+

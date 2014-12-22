@@ -1,10 +1,9 @@
 #ifndef DDEBUGGERDETECTION_H
 #define DDEBUGGERDETECTION_H
 
-class DDebuggerDetection
-{
+class DDebuggerDetection {
 public:
-    DDebuggerDetection();
+    DDebuggerDetection() {}
 };
 
 #endif // DDEBUGGERDETECTION_H

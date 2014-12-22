@@ -1,5 +1,1 @@
-#include "ddebuggerdetection.h"
-
-DDebuggerDetection::DDebuggerDetection()
-{
-}
+#include <core/detection/wrappers/ddebuggerdetection.h>
