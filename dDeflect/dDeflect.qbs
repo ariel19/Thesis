@@ -34,6 +34,12 @@ Project {
         }
 
         Group {
+            files: [
+                "src/core/file_types/pecodedefines.cpp",
+                "src/core/file_types/pecodedefines.h",
+                "src/core/file_types/pehelpers.cpp",
+                "src/core/file_types/pehelpers.h",
+            ]
             condition: qbs.targetOS == "linux"
             cpp.dynamicLibraries: ["boost_system"]
         }

@@ -65,7 +65,7 @@
 //    asm("pop eax");
 //}
 
-QByteArray createFuncLoading32()
+/*QByteArray createFuncLoading32()
 {
     QByteArray code;
 
@@ -88,156 +88,137 @@ QByteArray createFuncLoading32()
     code.append(QByteArray((char*)data, sizeof(data)));
 
     return code;
-}
+}*/
 
 
-QByteArray create_ep_thread_32(uint32_t oldEP, uint32_t imageBase, uint32_t threadFunc)
-{
-    QByteArray code;
+//QByteArray create_ep_thread_32(uint32_t oldEP, uint32_t imageBase, uint32_t threadFunc)
+//{
+//    QByteArray code;
 
-    code.append(createFuncLoading32());
+//    code.append(createFuncLoading32());
 
-    code.append(QByteArray(10, '\x90'));
+//    code.append(QByteArray(10, '\x90'));
 
-    /* create_thread_example.asm */
-    unsigned char data1[] = {
-    0x52,0xE8,0x0D,0x00,0x00,0x00,0x6B,0x65,0x72,0x6E,0x65,0x6C,0x33,0x32,0x2E,0x64,
-    0x6C,0x6C,0x00,0xFF,0xD0,0x5A,0xE8,0x0D,0x00,0x00,0x00,0x43,0x72,0x65,0x61,0x74,
-    0x65,0x54,0x68,0x72,0x65,0x61,0x64,0x00,0x50,0xFF,0xD2,0x89,0xC2,0xBF
-    };
-    code.append((char*)data1, sizeof(data1));
-    code.append((char*)&threadFunc, 4);     // adres do funkcji
+//    /* create_thread_example.asm */
+//    unsigned char data1[] = {
+//    0x52,0xE8,0x0D,0x00,0x00,0x00,0x6B,0x65,0x72,0x6E,0x65,0x6C,0x33,0x32,0x2E,0x64,
+//    0x6C,0x6C,0x00,0xFF,0xD0,0x5A,0xE8,0x0D,0x00,0x00,0x00,0x43,0x72,0x65,0x61,0x74,
+//    0x65,0x54,0x68,0x72,0x65,0x61,0x64,0x00,0x50,0xFF,0xD2,0x89,0xC2,0xBF
+//    };
+//    code.append((char*)data1, sizeof(data1));
+//    code.append((char*)&threadFunc, 4);     // adres do funkcji
 
-    code.append(QByteArray(10, '\x90'));
+//    code.append(QByteArray(10, '\x90'));
 
-    /* create_thread.asm */
-    unsigned char data2[] = {
-    0x31,0xC0,0x50,0x50,0x50,0x57,0x50,0x50,0xFF,0xD2
-    };
-    code.append((char*)data2, sizeof(data2));
+//    /* create_thread.asm */
+//    unsigned char data2[] = {
+//    0x31,0xC0,0x50,0x50,0x50,0x57,0x50,0x50,0xFF,0xD2
+//    };
+//    code.append((char*)data2, sizeof(data2));
 
-    code.append(QByteArray(10, '\x90'));
+//    code.append(QByteArray(10, '\x90'));
 
-    uint32_t old_ep = imageBase + oldEP;
-    code.append('\xB8'); // mov eax, old_ep
-    code.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&old_ep), sizeof(uint32_t)));
-    code.append("\xFF\xE0"); // jmp eax
+//    uint32_t old_ep = imageBase + oldEP;
+//    code.append('\xB8'); // mov eax, old_ep
+//    code.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&old_ep), sizeof(uint32_t)));
+//    code.append("\xFF\xE0"); // jmp eax
 
-    return code;
-}
+//    return code;
+//}
 
-QByteArray thread_func32()
-{
-    QByteArray code;
+//QByteArray thread_func32()
+//{
+//    QByteArray code;
 
-    code.append("\x55\x89\xE5"); // push ebp; mov ebp, esp;
-    code.append(createFuncLoading32());
+//    code.append("\x55\x89\xE5"); // push ebp; mov ebp, esp;
+//    code.append(createFuncLoading32());
 
-    code.append(QByteArray(10, '\x90'));
+//    code.append(QByteArray(10, '\x90'));
 
-    /* thread_example.asm */
-    unsigned char data[] = {
-    0x52,0x50,0x83,0xEC,0x10,0xE8,0x0B,0x00,0x00,0x00,0x75,0x73,0x65,0x72,0x33,0x32,
-    0x2E,0x64,0x6C,0x6C,0x00,0xFF,0x55,0xF8,0x89,0x45,0xF0,0xE8,0x0D,0x00,0x00,0x00,
-    0x6B,0x65,0x72,0x6E,0x65,0x6C,0x33,0x32,0x2E,0x64,0x6C,0x6C,0x00,0xFF,0x55,0xF8,
-    0x89,0x45,0xF4,0xE8,0x0C,0x00,0x00,0x00,0x4D,0x65,0x73,0x73,0x61,0x67,0x65,0x42,
-    0x6F,0x78,0x41,0x00,0xFF,0x75,0xF0,0xFF,0x55,0xFC,0x89,0x45,0xEC,0xE8,0x06,0x00,
-    0x00,0x00,0x53,0x6C,0x65,0x65,0x70,0x00,0xFF,0x75,0xF4,0xFF,0x55,0xFC,0x89,0x45,
-    0xE8,0x68,0x10,0x27,0x00,0x00,0xFF,0x55,0xE8,0x6A,0x00,0x6A,0x00,0xE8,0x03,0x00,
-    0x00,0x00,0x3A,0x29,0x00,0x6A,0x00,0xFF,0x55,0xEC,0xEB,0xE5
-    };
+//    /* thread_example.asm */
+//    unsigned char data[] = {
+//    0x52,0x50,0x83,0xEC,0x10,0xE8,0x0B,0x00,0x00,0x00,0x75,0x73,0x65,0x72,0x33,0x32,
+//    0x2E,0x64,0x6C,0x6C,0x00,0xFF,0x55,0xF8,0x89,0x45,0xF0,0xE8,0x0D,0x00,0x00,0x00,
+//    0x6B,0x65,0x72,0x6E,0x65,0x6C,0x33,0x32,0x2E,0x64,0x6C,0x6C,0x00,0xFF,0x55,0xF8,
+//    0x89,0x45,0xF4,0xE8,0x0C,0x00,0x00,0x00,0x4D,0x65,0x73,0x73,0x61,0x67,0x65,0x42,
+//    0x6F,0x78,0x41,0x00,0xFF,0x75,0xF0,0xFF,0x55,0xFC,0x89,0x45,0xEC,0xE8,0x06,0x00,
+//    0x00,0x00,0x53,0x6C,0x65,0x65,0x70,0x00,0xFF,0x75,0xF4,0xFF,0x55,0xFC,0x89,0x45,
+//    0xE8,0x68,0x10,0x27,0x00,0x00,0xFF,0x55,0xE8,0x6A,0x00,0x6A,0x00,0xE8,0x03,0x00,
+//    0x00,0x00,0x3A,0x29,0x00,0x6A,0x00,0xFF,0x55,0xEC,0xEB,0xE5
+//    };
 
-    code.append((char*)data, sizeof(data));
+//    code.append((char*)data, sizeof(data));
 
-    code.append(QByteArray(10, '\x90'));
+//    code.append(QByteArray(10, '\x90'));
 
 
-    code.append("\x5D\xC3"); // pop ebp; ret;
+//    code.append("\x5D\xC3"); // pop ebp; ret;
 
-    return code;
-}
+//    return code;
+//}
 
-QByteArray create_ep_code_64(uint32_t oldEP, uint64_t imageBase)
-{
-    // TODO: przetestować
-    QByteArray code;
+//QByteArray create_ep_code_64(uint32_t oldEP, uint64_t imageBase)
+//{
+//    // TODO: przetestować
+//    QByteArray code;
 
-    code.append(QByteArray(10, '\x90'));
+//    code.append(QByteArray(10, '\x90'));
 
-    uint64_t old_ep = imageBase + oldEP;
-    code.append("\x48\xB8"); // movabs rax,oldep
-    code.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&old_ep), sizeof(uint64_t)));
-    code.append("\xFF\xE0"); // jmp eax
+//    uint64_t old_ep = imageBase + oldEP;
+//    code.append("\x48\xB8"); // movabs rax,oldep
+//    code.append(QByteArray::fromRawData(reinterpret_cast<const char *>(&old_ep), sizeof(uint64_t)));
+//    code.append("\xFF\xE0"); // jmp eax
 
-    return code;
-}
+//    return code;
+//}
 
 int main()
 {
-    /*std::cout << QDir::currentPath().toStdString() << std::endl;
+//    QFile f("C:\\Users\\jablonskim\\Desktop\\peview.exe");
+//    if(!f.open(QFile::ReadOnly))
+//        return 1;
 
-    ELF elf("a.out");
-    std::cout << "valid: " << elf.is_valid() << std::endl;
-    std::cout << "segments no: " << elf.get_number_of_segments() << std::endl;
-    for (int i = 0; i < elf.get_number_of_segments(); ++i) {
-        std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
-    }
+//    PEFile pe(f.readAll());
 
-    QByteArray nops(12, '\x90');
-    Elf64_Addr nva;
+//    f.close();
 
-    QByteArray nf = elf.extend_segment(nops, false, nva);
+//    if(!pe.isValid())
+//    {
+//        puts("Bad format!");
+//        return 1;
+//    }
 
-    if (!elf.set_entry_point(nva, nf))
-        return 1;
+//    printf("%d, %d, %d\n", pe.getLastSectionNumberRaw(), pe.getLastSectionNumberMem(), pe.getNumberOfSections());
 
-    elf.write_to_file("a2.out", nf);*/
+//    for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
+//        printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
 
-    QFile f("C:\\Users\\jablonskim\\Desktop\\peview.exe");
-    if(!f.open(QFile::ReadOnly))
-        return 1;
+//    QByteArray threadc = thread_func32();
+//    unsigned int new_offset, new_mem_offset;
 
-    PEFile pe(f.readAll());
+//    if(!pe.addNewSection(QString(".thrd"), threadc, new_offset, new_mem_offset))
+//    {
+//        puts("Failed!");
+//        return 2;
+//    }
 
-    f.close();
+//    QByteArray nd = create_ep_thread_32(pe.getEntryPoint(), pe.getImageBase(), new_mem_offset + pe.getImageBase());
 
-    if(!pe.isValid())
-    {
-        puts("Bad format!");
-        return 1;
-    }
+//    if(!pe.addNewSection(QString(".oep"), nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
+//    {
+//        puts("Failed!");
+//        return 1;
+//    }
 
-    printf("%d, %d, %d\n", pe.getLastSectionNumberRaw(), pe.getLastSectionNumberMem(), pe.getNumberOfSections());
+//    printf("Offset: %x, Mem: %x\n", new_offset, new_mem_offset);
 
-    for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
-        printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
+//    QFile nf("new_example.exe");
+//    if(!nf.open(QFile::WriteOnly))
+//        return 1;
+//    nf.write(pe.getData());
+//    nf.close();
 
-    QByteArray threadc = thread_func32();
-    unsigned int new_offset, new_mem_offset;
-
-    if(!pe.addNewSection(QString(".thrd"), threadc, new_offset, new_mem_offset))
-    {
-        puts("Failed!");
-        return 2;
-    }
-
-    QByteArray nd = create_ep_thread_32(pe.getEntryPoint(), pe.getImageBase(), new_mem_offset + pe.getImageBase());
-
-    if(!pe.addNewSection(QString(".oep"), nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
-    {
-        puts("Failed!");
-        return 1;
-    }
-
-    printf("Offset: %x, Mem: %x\n", new_offset, new_mem_offset);
-
-    QFile nf("new_example.exe");
-    if(!nf.open(QFile::WriteOnly))
-        return 1;
-    nf.write(pe.getData());
-    nf.close();
-
-    puts("OK!");
+//    puts("OK!");
 
     return 0;
 }

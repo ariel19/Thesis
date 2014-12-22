@@ -143,24 +143,82 @@ PEFile::~PEFile()
         delete [] dataDirectoriesIdx;
 }
 
-bool PEFile::injectCode(QList<PEFile::InjectDescription> descs)
+bool PEFile::injectCode(QList<InjectDescription> descs)
 {
     QMap<uint64_t, uint64_t> codePointers;
 
     foreach(InjectDescription desc, descs)
     {
-        // wygenerować kod wrappera jeśli wcześniej nie był wygenerowny
+        // TODO: generować kod? zapisać?
+        generateCode(desc.getWrapper(), codePointers);
     }
 
-    // jeżeli jest metoda oep
-    // wygeneruj dla każdej call
-    // zamien ep na kod poczatku,
-    // dodaj jmp do oep
+    // TODO: jeżeli jest metoda oep
+    // TODO: wygeneruj dla każdej call
+    // TODO: zamien ep na kod poczatku,
+    // TODO: dodaj jmp do oep
+    // TODO: TLS
+    // TODO: trampolina
+    return true;
 }
 
-bool PEFile::generateCode(PEFile::Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
+uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
 {
+    uint64_t action = 0;
+    uint64_t thread = 0;
 
+    QList<Register> registerDefinedByArch =
+    { Register::EBX, Register::ESP, Register::EBP, Register::ESI, Register::EDI };
+
+    // Generowanie kodu dla akcji.
+    if(w->getAction())
+    {
+        action = generateCode(w->getAction(), ptrs);
+        if(!action) return 0;
+    }
+
+    // Generowanie kodu dla funkcji wątku.
+    ThreadWrapper *tw = dynamic_cast<ThreadWrapper*>(w);
+
+    if(tw && !tw->getThreadWrapper())
+        return 0;
+
+    if(tw && tw->getThreadWrapper())
+    {
+        thread = generateCode(tw->getThreadWrapper(), ptrs);
+        if(!thread) return 0;
+    }
+
+    // Generowanie kodu
+    QByteArray code;
+
+    // Tworzenie ramki stosu
+    code.append(PECodeDefines::startFunc);
+
+    std::list<Register> rts = w->getRegistersToSave().toStdList();
+
+    // Zachowywanie rejestrów
+    for(auto it = rts.begin(); it != rts.end(); ++it)
+    {
+        if(registerDefinedByArch.contains(*it))
+            code.append(PECodeDefines::saveRegister(*it));
+    }
+
+    // TODO: generowanie kodu
+
+    // Przywracanie rejestrów
+    for(auto it = rts.rbegin(); it != rts.rend(); ++it)
+    {
+        if(registerDefinedByArch.contains(*it))
+            code.append(PECodeDefines::saveRegister(*it));
+    }
+
+    // Niszczenie ramki stosu
+    code.append(PECodeDefines::endFunc);
+
+    // TODO: jeżeli kod jeszcze nie istnieje to dodajemy
+
+    return 0;
 }
 
 bool PEFile::isValid()
