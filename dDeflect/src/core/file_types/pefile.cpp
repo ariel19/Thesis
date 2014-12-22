@@ -167,9 +167,6 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
     uint64_t action = 0;
     uint64_t thread = 0;
 
-    QList<Register> registerDefinedByArch =
-    { Register::EBX, Register::ESP, Register::EBP, Register::ESI, Register::EDI };
-
     // Generowanie kodu dla akcji.
     if(w->getAction())
     {
@@ -200,16 +197,39 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
     // Zachowywanie rejestrów
     for(auto it = rts.begin(); it != rts.end(); ++it)
     {
-        if(registerDefinedByArch.contains(*it))
+        if(PECodeDefines::externalRegs.contains(*it))
             code.append(PECodeDefines::saveRegister(*it));
     }
 
-    // TODO: generowanie kodu
+    // TODO: ładowanie potrzebnych funkcji
+
+    // Doklejanie właściwego kodu
+    code.append(w->getCode());
+
+    // Handler
+    if(action)
+    {
+        Register cond = w->getReturns();
+        int act_idx = PECodeDefines::internalRegs.indexOf(cond);
+        Register act = act_idx == -1 ? PECodeDefines::internalRegs[0] :
+                PECodeDefines::internalRegs[(act_idx + 1) % PECodeDefines::internalRegs.length()];
+
+        // mov act, &action()
+        // test cond, cond
+        // jz xxx
+        // call act
+        // xxx:
+        code.append(PECodeDefines::movDWordToReg(action, act));
+        code.append(PECodeDefines::testReg(cond));
+        QByteArray call_code = PECodeDefines::callReg(act);
+        code.append(PECodeDefines::jzRelative(call_code.length()));
+        code.append(call_code);
+    }
 
     // Przywracanie rejestrów
     for(auto it = rts.rbegin(); it != rts.rend(); ++it)
     {
-        if(registerDefinedByArch.contains(*it))
+        if(PECodeDefines::externalRegs.contains(*it))
             code.append(PECodeDefines::saveRegister(*it));
     }
 
