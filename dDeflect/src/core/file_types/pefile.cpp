@@ -287,14 +287,18 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
     // Niszczenie ramki stosu
     code.append(PECodeDefines::endFunc);
 
-    // TODO: jeżeli kod jeszcze nie istnieje to dodajemy
-
-    return 0;
+    return injectUniqueData(code, ptrs);
 }
 
 uint64_t PEFile::generateString(QString str, QMap<uint64_t, uint64_t> &ptrs)
 {
-    // TODO: implement
+    return injectUniqueData(QByteArray(str.toStdString().c_str(), str.length() + 1), ptrs);
+}
+
+uint64_t PEFile::injectUniqueData(QByteArray data, QMap<uint64_t, uint64_t> &ptrs)
+{
+    // TODO: jezeli kod nie istnieje w pliku to dodajemy
+    // TODO: zwracamy adres w pamieci
     return 0;
 }
 

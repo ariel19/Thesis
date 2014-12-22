@@ -74,6 +74,7 @@ private:
 
     uint64_t generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs);
     uint64_t generateString(QString str, QMap<uint64_t, uint64_t> &ptrs);
+    uint64_t injectUniqueData(QByteArray data, QMap<uint64_t, uint64_t> &ptrs);
 
 public:
     PEFile(QByteArray d);
