@@ -143,6 +143,26 @@ PEFile::~PEFile()
         delete [] dataDirectoriesIdx;
 }
 
+bool PEFile::injectCode(QList<PEFile::InjectDescription> descs)
+{
+    QMap<uint64_t, uint64_t> codePointers;
+
+    foreach(InjectDescription desc, descs)
+    {
+        // wygenerować kod wrappera jeśli wcześniej nie był wygenerowny
+    }
+
+    // jeżeli jest metoda oep
+    // wygeneruj dla każdej call
+    // zamien ep na kod poczatku,
+    // dodaj jmp do oep
+}
+
+bool PEFile::generateCode(PEFile::Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
+{
+
+}
+
 bool PEFile::isValid()
 {
     return parsed;

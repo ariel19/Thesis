@@ -193,7 +193,7 @@ int main()
 
     elf.write_to_file("a2.out", nf);*/
 
-    QFile f("C:\\Users\\jablonskim\\Desktop\\PEView.exe");
+    QFile f("C:\\Users\\jablonskim\\Desktop\\peview.exe");
     if(!f.open(QFile::ReadOnly))
         return 1;
 

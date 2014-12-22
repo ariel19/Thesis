@@ -8,6 +8,8 @@
 #endif
 
 #include <QFile>
+#include <QMap>
+#include <QString>
 
 class PEFile
 {
@@ -67,8 +69,51 @@ private:
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
 public:
+    enum class CallingMethod
+    {
+        EntryPoint,
+        TLS,
+        Trampoline
+    };
+
+    enum class Register
+    {
+        EAX,
+        EBX,
+        ECX,
+        EDX,
+        ESI,
+        EDI,
+        ESP,
+        EBP,
+        None
+    };
+
+    class Wrapper
+    {
+        QList<Register> registersToSave;
+        Wrapper *action;
+        QMap<Register, QString> parameters;
+        Register returns;
+        QByteArray code;
+    };
+
+    class ThreadWrapper : public Wrapper
+    {
+        Wrapper *threadCode;
+    };
+
+    class InjectDescription
+    {
+        CallingMethod callingMethod;
+        Wrapper *wrapper;
+    };
+
     PEFile(QByteArray d);
     ~PEFile();
+
+    bool injectCode(QList<InjectDescription> descs);
+    bool generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs);
 
     /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
