@@ -15,16 +15,25 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
     }
 }
 
-QByteArray ELF::extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va) {
+QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va) {
     // TODO: make a static object instead of constructing object during eeach return statement
     if (!parsed)
         return QByteArray();
 
+    QByteArray data(_data);
     // go through all executable segments and find the best one to extend
     QList<std::pair<esize_t, void*> > load_seg; // all LOAD segments
     Elf32_Phdr *ph = nullptr;
     void *ph_without_meta = nullptr;
-    best_segment bs, cs; // best segment, current segment
+    best_segment bs; // best segment
+    int dsize = data.size(), i;
+
+    // TODO: check if works for x86_64
+    dsize += 4 - (dsize % 4 ? : 4);
+    dsize -= data.size();
+    // pad data
+    for (i = 0; i < dsize; ++i)
+        data.append('\x00');
 
     for (esize_t i = 0; i < ph_num; ++i) {
         // doesn't matter which arch app is compiled for :)
@@ -40,13 +49,12 @@ QByteArray ELF::extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &
     if (!load_seg.size())
         return QByteArray();
 
-    int size = load_seg.size(), i = 0;
-    // uint8_t align = (cls == classes::ELF32) ? sizeof(Elf32_Off) : sizeof(Elf64_Off);
-    // uint32_t pad_pre, pad_post;
+    int size = load_seg.size();
 
     if (cls != classes::ELF32 && cls != classes::ELF64)
         return QByteArray();
 
+    i = 0;
     do {
         // figure out size of space we need after end of the segment to align virtual address
         // check if it's eligible to extend a segment
@@ -458,12 +466,12 @@ std::pair<QByteArray, Elf64_Addr> ELF::construct_data(const QByteArray &data, EL
     case classes::ELF32:
         fix_elf_header<Elf32_Ehdr>(new_b_data, file_off, total_space);
         fix_section_table<Elf32_Ehdr, Elf32_Shdr>(new_b_data, file_off, total_space);
-        vaddr = fix_segment_table<Elf32_Phdr>(new_b_data, file_off, bs.pre_pad + data.size());
+        vaddr = fix_segment_table<Elf32_Phdr>(new_b_data, file_off, total_space, bs.pre_pad + data.size());
         break;
     case classes::ELF64:
         fix_elf_header<Elf64_Ehdr>(new_b_data, file_off, total_space);
         fix_section_table<Elf64_Ehdr, Elf64_Shdr>(new_b_data, file_off, total_space);
-        vaddr = fix_segment_table<Elf64_Phdr>(new_b_data, file_off, bs.pre_pad + data.size());
+        vaddr = fix_segment_table<Elf64_Phdr>(new_b_data, file_off, total_space, bs.pre_pad + data.size());
         break;
     default:
         return std::make_pair(QByteArray(), 0);
@@ -485,7 +493,7 @@ void ELF::fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-void ELF::fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space) {
+void ELF::fix_section_table(QByteArray &data, const ex_offset_t file_off, const uint32_t insert_space) {
     ElfHeaderType *eh = reinterpret_cast<ElfHeaderType*>(data.data());
     // if section header table exists
     if (eh->e_shoff) {
@@ -505,7 +513,8 @@ void ELF::fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t ins
 }
 
 template <typename ElfProgramHeaderType>
-Elf64_Addr ELF::fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size) {
+Elf64_Addr ELF::fix_segment_table(QByteArray &data, const ex_offset_t file_off,
+                                  const uint32_t insert_space, const uint32_t payload_size) {
     Elf64_Addr va = 0;
 
     ElfProgramHeaderType *ph = nullptr;
@@ -515,7 +524,7 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32
             return 0;
 
         if (ph->p_offset >= file_off)
-            ph->p_offset += payload_size;
+            ph->p_offset += insert_space;
 
         // check if current one is extended segment
         if (ph->p_type == PT_LOAD && ph->p_offset + ph->p_filesz == file_off) {

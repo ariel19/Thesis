@@ -193,14 +193,15 @@ class ELF {
      * @param data zawartość pliku.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    void fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
+    void fix_section_table(QByteArray &data, const ex_offset_t file_off, const uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę segmentów.
      * @param data zawartość pliku.
      */
     template <typename ElfProgramHeaderType>
-    Elf64_Addr fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size);
+    Elf64_Addr fix_segment_table(QByteArray &data, const ex_offset_t file_off,
+                                 const uint32_t insert_space, const uint32_t payload_size);
 
     /**
      * @brief Naprawia VMA.
