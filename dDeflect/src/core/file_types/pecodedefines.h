@@ -13,8 +13,13 @@ private:
     static const QMap<Register, QByteArray> _mov_to_reg;
     static const QMap<Register, QByteArray> _call_reg;
     static const QMap<Register, QByteArray> _test_reg;
+    static const QMap<Register, QByteArray> _esp_mem_to_reg;
+    static const QMap<Register, QByteArray> _reg_to_esp_mem;
 
     static const QByteArray _jz_rel;
+    static const QByteArray _reserve_stack;
+    static const QByteArray _clear_stack;
+    static const QByteArray _store_dword;
 
 public:
     static const QByteArray startFunc;
@@ -28,6 +33,13 @@ public:
     static QByteArray callReg(Register reg);
     static QByteArray testReg(Register reg);
     static QByteArray jzRelative(int8_t pos);
+    static QByteArray saveAllInternal();
+    static QByteArray restoreAllInternal();
+    static QByteArray reserveStackSpace(uint16_t noParams);
+    static QByteArray clearStackSpace(uint16_t noParams);
+    static QByteArray storeDWord(uint32_t dword);
+    static QByteArray readFromEspMemToReg(Register reg, int8_t base);
+    static QByteArray readFromRegToEspMem(Register reg, int8_t base);
 };
 
 #endif // PECODEDEFINES_H

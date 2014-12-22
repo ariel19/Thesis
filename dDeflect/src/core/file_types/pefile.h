@@ -10,6 +10,8 @@
 #include <QFile>
 #include <QMap>
 #include <QString>
+#include <QList>
+#include <QStringList>
 #include <core/file_types/pecodedefines.h>
 #include <core/file_types/pehelpers.h>
 
@@ -71,6 +73,7 @@ private:
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
     uint64_t generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs);
+    uint64_t generateString(QString str, QMap<uint64_t, uint64_t> &ptrs);
 
 public:
     PEFile(QByteArray d);

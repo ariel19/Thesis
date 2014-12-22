@@ -201,7 +201,51 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
             code.append(PECodeDefines::saveRegister(*it));
     }
 
-    // TODO: ładowanie potrzebnych funkcji
+    // Ładowanie parametrów
+    if(!w->getParameters().empty())
+    {
+        // TODO: wczytać kod
+        Wrapper *func_wrap = new Wrapper(QByteArray(""), QList<Register>(), QMap<Register, QString>());
+        if(!func_wrap)
+            return 0;
+
+        uint64_t get_functions = generateCode(func_wrap, ptrs);
+        delete func_wrap;
+
+        code.append(PECodeDefines::reserveStackSpace(3));
+        code.append(PECodeDefines::movDWordToReg(get_functions, Register::EAX));
+        code.append(PECodeDefines::callReg(Register::EAX));
+
+        QList<Register> keys = w->getParameters().keys();
+        foreach (Register r, keys)
+        {
+            QList<QString> func_name = w->getParameters()[r].split('!');
+            if(func_name.length() != 2)
+                return 0;
+
+            uint64_t lib_name_addr = generateString(func_name[0], ptrs);
+            uint64_t func_name_addr = generateString(func_name[1], ptrs);
+
+            code.append(PECodeDefines::saveAllInternal());
+
+            code.append(PECodeDefines::storeDWord(lib_name_addr));
+            code.append(PECodeDefines::readFromEspMemToReg(Register::EAX, 20));
+            code.append(PECodeDefines::callReg(Register::EAX));
+
+            code.append(PECodeDefines::storeDWord(func_name_addr));
+            code.append(PECodeDefines::saveRegister(Register::EAX));
+            code.append(PECodeDefines::readFromEspMemToReg(Register::EAX, 20));
+            code.append(PECodeDefines::callReg(Register::EAX));
+
+            code.append(PECodeDefines::readFromRegToEspMem(Register::EAX, 20));
+
+            code.append(PECodeDefines::restoreAllInternal());
+
+            code.append(PECodeDefines::readFromEspMemToReg(r, 8));
+        }
+
+        code.append(PECodeDefines::clearStackSpace(3));
+    }
 
     // Doklejanie właściwego kodu
     code.append(w->getCode());
@@ -217,11 +261,18 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
         // mov act, &action()
         // test cond, cond
         // jz xxx
+        // push internal
         // call act
+        // pop internal
         // xxx:
         code.append(PECodeDefines::movDWordToReg(action, act));
         code.append(PECodeDefines::testReg(cond));
-        QByteArray call_code = PECodeDefines::callReg(act);
+
+        QByteArray call_code;
+        call_code.append(PECodeDefines::saveAllInternal());
+        call_code.append(PECodeDefines::callReg(act));
+        call_code.append(PECodeDefines::restoreAllInternal());
+
         code.append(PECodeDefines::jzRelative(call_code.length()));
         code.append(call_code);
     }
@@ -238,6 +289,12 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
 
     // TODO: jeżeli kod jeszcze nie istnieje to dodajemy
 
+    return 0;
+}
+
+uint64_t PEFile::generateString(QString str, QMap<uint64_t, uint64_t> &ptrs)
+{
+    // TODO: implement
     return 0;
 }
 
