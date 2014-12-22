@@ -8,50 +8,11 @@
 #include <core/file_types/elffile.h>
 #include <core/file_types/pefile.h>
 
-//void wrapper()
-//{
-//    int is_dbg = 0;
-
-//    asm();
-
-//    asm("db !__METHOD_DATA___!");
-
-//    asm("mov is_dbg, !__RETURN_VALUE__!");
-
-//    // TODO: akcja
-//}
-
-//void wrapper()
-//{
-//    volatile int is_dbg = 0;
-
-//    asm("push ecx");
-//    asm("push eax");
-//    asm("push edx");
-
-//    asm("db 0x64, 0x8B, 0x0D, 0x30, 0x00, 0x00, 0x00, 0x31, 0xC0, 0x8A, 0x51, 0x68, 0x80, 0xE2, 0x70, 0x80, 0xFA, 0x70, 0x0F, 0x94, 0xC0");
-
-//    asm("mov byte is_dbg, al");
-
-//    asm("pop edx");
-//    asm("pop eax");
-//    asm("pop ecx");
-
-//    if(is_dbg)
-//        printf("DEBUG!");
-//}
-
 // TODO: should be wrapper
 int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
     ELF elf(elf_fname);
     qDebug() << "valid: " << elf.is_valid();
     qDebug() << "segments no: " << elf.get_number_of_segments();
-
-    /*
-    for (int i = 0; i < elf.get_number_of_segments(); ++i) {
-        std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
-    }
-    */
 
     QFile first_test(ptrace_fname);
     if (!first_test.open(QIODevice::ReadOnly))
@@ -87,7 +48,7 @@ int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QStr
 
     whole.append(jmp);
 
-    QByteArray nf = elf.extend_segment(whole, false, nva);
+    QByteArray nf = elf.extend_segment(whole, true, nva);
 
     if (!elf.set_entry_point(nva, nf))
         return 1;
@@ -105,12 +66,6 @@ int create_thread(const QString &elf_fname, const QString &thread_fname, const Q
     ELF elf(elf_fname);
     qDebug() << "valid: " << elf.is_valid();
     qDebug() << "segments no: " << elf.get_number_of_segments();
-
-    /*
-    for (int i = 0; i < elf.get_number_of_segments(); ++i) {
-        std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
-    }
-    */
 
     QFile first_test(thread_fname);
     if (!first_test.open(QIODevice::ReadOnly))
@@ -146,7 +101,7 @@ int create_thread(const QString &elf_fname, const QString &thread_fname, const Q
 
     whole.append(jmp);
 
-    QByteArray nf = elf.extend_segment(whole, false, nva);
+    QByteArray nf = elf.extend_segment(whole, true, nva);
 
     if (!elf.set_entry_point(nva, nf))
         return 1;
@@ -160,7 +115,7 @@ int create_thread(const QString &elf_fname, const QString &thread_fname, const Q
     return 0;
 }
 
-int main() {
+void test() {
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
@@ -248,6 +203,40 @@ int main() {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
+}
+
+int test_flagx(const QString &elf_fname, const QString &elf_out) {
+    ELF elf(elf_fname);
+    qDebug() << "valid: " << elf.is_valid();
+    qDebug() << "segments no: " << elf.get_number_of_segments();
+
+    // QByteArray nops(12, '\x90');
+    QByteArray nops(5, '\x00');
+    // TODO: should be in wrapper after add jump instruction here
+    Elf64_Addr oldep;
+    if (!elf.get_entry_point(oldep))
+        return 1;
+
+    Elf64_Addr nva;
+
+    QByteArray nf = elf.extend_segment(nops, true, nva);
+
+    /*if (!elf.set_entry_point(nva, nf))
+        return 1;*/
+
+    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
+
+    elf.write_to_file(elf_out, nf);
+
+    qDebug() << "saving to file: " << elf_out;
+
+    return 0;
+}
+
+int main() {
+    test();
+    // oep_ptrace("test", "ptrace", "test3");
+    // test_flagx("a", "a2");
 
     return 0;
 }
