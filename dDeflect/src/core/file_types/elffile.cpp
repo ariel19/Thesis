@@ -16,9 +16,9 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
 }
 
 QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va) {
-    // TODO: make a static object instead of constructing object during eeach return statement
+    static QByteArray failed;
     if (!parsed)
-        return QByteArray();
+        return failed;
 
     QByteArray data(_data);
     // go through all executable segments and find the best one to extend
@@ -28,7 +28,6 @@ QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr 
     best_segment bs; // best segment
     int dsize = data.size(), i;
 
-    // TODO: check if works for x86_64
     dsize += 4 - (dsize % 4 ? : 4);
     dsize -= data.size();
     // pad data
@@ -47,12 +46,12 @@ QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr 
 
     // there are no any LOAD segments in a file
     if (!load_seg.size())
-        return QByteArray();
+        return failed;
 
     int size = load_seg.size();
 
     if (cls != classes::ELF32 && cls != classes::ELF64)
-        return QByteArray();
+        return failed;
 
     i = 0;
     do {
@@ -70,7 +69,7 @@ QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr 
 
     // no suitable segments were found
     if (!bs.ph)
-        return QByteArray();
+        return failed;
 
     // construct a new QByteArray
     std::pair<QByteArray, Elf64_Addr> d = construct_data(data, bs);
@@ -286,10 +285,9 @@ bool ELF::extend_segment_eligible(best_segment &bs, bool only_x, const QList<std
     if (!find_pre_pad<ElfProgramHeaderType, ElfOffsetType>(ph, phn, data_size, &pad_pre))
         return false;
 
-    // TODO: take into consideration function return value
-    // find_post_pad(ph, phn, data.size(), pad_pre, &pad_post, &change_va);
-    find_post_pad<ElfProgramHeaderType, ElfOffsetType>(ph, phn, data_size,
-                                                       pad_pre, &pad_post, &change_va);
+    if (!find_post_pad<ElfProgramHeaderType, ElfOffsetType>(ph, phn, data_size,
+                                                            pad_pre, &pad_post, &change_va))
+        return false;
 
     best_segment_choose<ElfProgramHeaderType>(bs, only_x, ph, pad_post, pad_pre, change_va);
     return true;
@@ -335,18 +333,17 @@ bool ELF::parse() {
         return false;
 
     char *data = b_data.data();
-    // size_t len = b_data.length();
 
     try {
         // get ELF_header
-        Elf32_Ehdr* elf_hdr = reinterpret_cast<Elf32_Ehdr *>(data);
+        Elf32_Ehdr *elf_hdr = reinterpret_cast<Elf32_Ehdr*>(data);
         if (!check_magic(elf_hdr))
             return false;
         // check if file format is supported
         if (!is_supported(elf_hdr))
             return false;
         // get file info relevant to file
-        if (!get_ph_info(reinterpret_cast<const void *>(data)))
+        if (!get_ph_info(reinterpret_cast<const void*>(data)))
             return false;
     }
     catch (const std::exception &) {
@@ -405,10 +402,8 @@ bool ELF::find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderTy
         }
         // if next segment is absebt we need to pad size of new data to the size of pointer
         // need to increase a highest vaddr in file, because there is no next segment in file
-        // TODO: wtf post pad is taking into consideration???????
         else {
             *post_pad = align - ((pre_pad + dsize + *post_pad) % align ? : align);
-            // TODO: change higher vaddr in file
             *change_vma = true;
         }
     }
@@ -428,8 +423,9 @@ std::pair<ex_offset_t, ex_offset_t> ELF::get_new_data_va_fo(ELF::best_segment &b
 }
 
 std::pair<QByteArray, Elf64_Addr> ELF::construct_data(const QByteArray &data, ELF::best_segment &bs) {
+    static std::pair<QByteArray, Elf64_Addr> failed(QByteArray(),  0);
     if (!parsed)
-        return std::make_pair(QByteArray(), 0);
+        return failed;
 
     uint32_t total_space = data.size() + bs.post_pad + bs.pre_pad;
     std::pair<ex_offset_t, ex_offset_t> fo_va;
@@ -467,18 +463,17 @@ std::pair<QByteArray, Elf64_Addr> ELF::construct_data(const QByteArray &data, EL
         fix_elf_header<Elf32_Ehdr>(new_b_data, file_off, total_space);
         fix_section_table<Elf32_Ehdr, Elf32_Shdr>(new_b_data, file_off, total_space);
         vaddr = fix_segment_table<Elf32_Phdr>(new_b_data, file_off, total_space, bs.pre_pad + data.size());
+        fix_vma<Elf32_Dyn, Elf32_Sym, Elf32_Word>(new_b_data, bs, file_off, vaddr);
         break;
     case classes::ELF64:
         fix_elf_header<Elf64_Ehdr>(new_b_data, file_off, total_space);
         fix_section_table<Elf64_Ehdr, Elf64_Shdr>(new_b_data, file_off, total_space);
         vaddr = fix_segment_table<Elf64_Phdr>(new_b_data, file_off, total_space, bs.pre_pad + data.size());
+        fix_vma<Elf64_Dyn, Elf64_Sym, Elf64_Word>(new_b_data, bs, file_off, vaddr);
         break;
     default:
-        return std::make_pair(QByteArray(), 0);
+        return failed;
     }
-
-    // TODO: make a template
-    fix_vma(new_b_data, bs, file_off, vaddr);
 
     return std::make_pair(new_b_data, va);
 }
@@ -531,7 +526,6 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, const ex_offset_t file_off,
             ph->p_filesz += payload_size;
             ph->p_memsz = ph->p_filesz;
             // set executable flag on segment (may provide to vulnerabilities)
-            //ph->p_flags |= PF_W | PF_X;
             ph->p_flags |= PF_X;
 
             va = ph->p_vaddr + ph->p_memsz;
@@ -541,75 +535,68 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, const ex_offset_t file_off,
     return va;
 }
 
+template <typename ElfDynType, typename ElfSymType, typename ElfWordType>
 void ELF::fix_vma(QByteArray &data, const best_segment &bs,
                   ex_offset_t file_off, const Elf64_Addr &new_vma) {
 
     if (!bs.change_vma)
         return;
 
+    ElfDynType *dyn = reinterpret_cast<ElfDynType*>(data.data() + file_off + bs.pre_pad);
+    ElfSymType *base_sym = nullptr,
+               *sym = nullptr;
+    ElfWordType *buckets = nullptr,
+                *chains = nullptr;
+    char *dyn_str = nullptr;
+
+    struct {
+        ElfWordType buckets_no;
+        ElfWordType chains_no;
+    } *hash;
+
     // TODO: implement
-    if (cls == classes::ELF32) {
-        Elf32_Dyn *dyn = reinterpret_cast<Elf32_Dyn*>(data.data() + file_off + bs.pre_pad);
-        Elf32_Sym *base_sym = nullptr, *sym = nullptr;
-        Elf32_Word *buckets = nullptr,
-                   *chains = nullptr;
-        char *dyn_str = nullptr;
-        struct {
-            Elf32_Word buckets_no;
-            Elf32_Word chains_no;
-        } *hash;
+    if (!dyn)
+        return;
 
-        if (!dyn)
-            return;
+    // find 3 types of segments before end of dynamic segment
+    for (; dyn->d_tag != DT_NULL; ++dyn) {
+        switch(dyn->d_tag) {
+        case DT_STRTAB:
+            //dyn_str = get_file_offset(data, dyn->d_un.d_ptr);
+            break;
+        case DT_SYMTAB:
+            //base_sym = get_file_offset(data, dyn->d_un.d_ptr);
+            break;
+        case DT_HASH:
+            //hash = get_file_offset(data, dyn->d_un.d_ptr);
+            //buckets = (Elf32_Word *)((char *)hash + sizeof(*hash));
+            //chains = (buckets + hash->buckets_no);
+            break;
+        default:
+            break;
+        }
+    }
 
-        // find 3 types of segments before end of dynamic segment
-        for ( ; dyn->d_tag != DT_NULL; ++dyn) {
-            switch(dyn->d_tag) {
-            case DT_STRTAB:
-                //dyn_str = get_file_offset(data, dyn->d_un.d_ptr);
-                break;
-            case DT_SYMTAB:
-                //base_sym = get_file_offset(data, dyn->d_un.d_ptr);
-                break;
-            case DT_HASH:
-                //hash = get_file_offset(data, dyn->d_un.d_ptr);
-                //buckets = (Elf32_Word *)((char *)hash + sizeof(*hash));
-                //chains = (buckets + hash->buckets_no);
-                break;
-            default:
-                break;
+    if (dyn && base_sym && hash && buckets && chains) {
+
+    }
+    /*
+      if (pcDynStr && ptBaseElfSym && ptHashHeader && ptBuckets && ptChains) {
+         for (ulChainIndex = ptBuckets[calc_elf_hash("_end") % ptHashHeader->tNoBuckets];
+              ulChainIndex; ulChainIndex = ptChains[ulChainIndex]) {
+            ptElfSym = ptBaseElfSym + ulChainIndex;
+
+            if ((ptElfSym->st_name) &&
+                (!strcmp("_end", pcDynStr + ptElfSym->st_name))) {
+               printf("Moving _end from 0x%08x to 0x%08x\n",
+                      ptElfSym->st_value, tEndVma);
+               ptElfSym->st_value = tEndVma;
+               break;
             }
-        }
+         }
+      }
 
-        if (dyn && base_sym && hash && buckets && chains) {
-
-        }
-        /*
-          if (pcDynStr && ptBaseElfSym && ptHashHeader && ptBuckets && ptChains) {
-             for (ulChainIndex = ptBuckets[calc_elf_hash("_end") % ptHashHeader->tNoBuckets];
-                  ulChainIndex; ulChainIndex = ptChains[ulChainIndex]) {
-                ptElfSym = ptBaseElfSym + ulChainIndex;
-
-                if ((ptElfSym->st_name) &&
-                    (!strcmp("_end", pcDynStr + ptElfSym->st_name))) {
-                   printf("Moving _end from 0x%08x to 0x%08x\n",
-                          ptElfSym->st_value, tEndVma);
-                   ptElfSym->st_value = tEndVma;
-                   break;
-                }
-             }
-          }
-
-        */
-
-    }
-    else {
-
-    }
-}
-
-void* ELF::get_file_offset(const QByteArray &data, const Elf64_Addr &addr) {
-    return nullptr;
+    */
 }
 
 ELF::ELF(QString _fname) :

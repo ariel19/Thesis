@@ -207,11 +207,8 @@ class ELF {
      * @brief Naprawia VMA.
      * @param data zawartość pliku.
      */
+    template <typename ElfDynType, typename ElfSymType, typename ElfWordType>
     void fix_vma(QByteArray &data, const best_segment &bs, ex_offset_t file_off, const Elf64_Addr &new_vma);
-
-    void* get_file_offset(const QByteArray &data, const Elf64_Addr &addr);
-
-    //void segment_info(best_segment &bs, const uint32_t post_pad, const uint32_t pre_pad, bool change_vma);
 
 public:
     /**
