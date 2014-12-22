@@ -12,6 +12,7 @@
 #include <QString>
 #include <QList>
 #include <QStringList>
+#include <QCryptographicHash>
 #include <core/file_types/pecodedefines.h>
 #include <core/file_types/pehelpers.h>
 
@@ -72,9 +73,9 @@ private:
     unsigned int alignNumber(unsigned int number, unsigned int alignment);
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
-    uint64_t generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs);
-    uint64_t generateString(QString str, QMap<uint64_t, uint64_t> &ptrs);
-    uint64_t injectUniqueData(QByteArray data, QMap<uint64_t, uint64_t> &ptrs);
+    uint64_t generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs);
+    uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
+    uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs);
 
 public:
     PEFile(QByteArray d);

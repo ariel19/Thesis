@@ -145,7 +145,7 @@ PEFile::~PEFile()
 
 bool PEFile::injectCode(QList<InjectDescription> descs)
 {
-    QMap<uint64_t, uint64_t> codePointers;
+    QMap<QByteArray, uint64_t> codePointers;
 
     foreach(InjectDescription desc, descs)
     {
@@ -162,7 +162,7 @@ bool PEFile::injectCode(QList<InjectDescription> descs)
     return true;
 }
 
-uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
+uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
 {
     uint64_t action = 0;
     uint64_t thread = 0;
@@ -290,15 +290,22 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<uint64_t, uint64_t> &ptrs)
     return injectUniqueData(code, ptrs);
 }
 
-uint64_t PEFile::generateString(QString str, QMap<uint64_t, uint64_t> &ptrs)
+uint64_t PEFile::generateString(QString str, QMap<QByteArray, uint64_t> &ptrs)
 {
     return injectUniqueData(QByteArray(str.toStdString().c_str(), str.length() + 1), ptrs);
 }
 
-uint64_t PEFile::injectUniqueData(QByteArray data, QMap<uint64_t, uint64_t> &ptrs)
+uint64_t PEFile::injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs)
 {
+    QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Sha3_512);
+
+    if(ptrs.contains(hash))
+        return ptrs[hash];
+
     // TODO: jezeli kod nie istnieje w pliku to dodajemy
     // TODO: zwracamy adres w pamieci
+    // TODO: dodajemy do mapy
+
     return 0;
 }
 
