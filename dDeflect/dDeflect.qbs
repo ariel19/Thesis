@@ -12,6 +12,8 @@ Project {
             "src/*/*/*.cpp",
             "src/*/*/*.h",
             "src/*/*.qrc",
+            "src/gui/qml/AboutDialog.qml",
+            "src/gui/qml/main.qml",
         ]
 
         Group {     // Properties for the produced executable
@@ -34,6 +36,8 @@ Project {
         }
 
         Group {
+            files: [
+            ]
             condition: qbs.targetOS == "linux"
             cpp.dynamicLibraries: ["boost_system"]
         }

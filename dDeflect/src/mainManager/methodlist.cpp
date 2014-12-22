@@ -1,4 +1,4 @@
-#include <gui/methodlist.h>
+#include <DMethods/methodlist.h>
 #include <QQmlListProperty>
 #include <QDebug>
 

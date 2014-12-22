@@ -4,8 +4,8 @@
 #include <QDebug>
 #include <QDir>
 
-#include <gui/method.h>
-#include <gui/methodlist.h>
+#include <DMethods/method.h>
+#include <DMethods/methodlist.h>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
