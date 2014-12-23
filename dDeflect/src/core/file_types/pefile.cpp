@@ -331,7 +331,7 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
     for(auto it = rts.rbegin(); it != rts.rend(); ++it)
     {
         if(PECodeDefines::externalRegs.contains(*it))
-            code.append(PECodeDefines::saveRegister(*it));
+            code.append(PECodeDefines::restoreRegister(*it));
     }
 
     // Niszczenie ramki stosu
