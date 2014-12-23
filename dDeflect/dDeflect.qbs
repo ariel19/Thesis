@@ -1,4 +1,4 @@
-import qbs
+import qbs 1.0
 Project {
     CppApplication {
         property string version: "0.0.1"
@@ -28,6 +28,7 @@ Project {
         cpp.cxxFlags: ["-std=c++11","-Wno-unknown-pragmas","-Wno-reorder","-Wno-unused-local-typedefs"]
         cpp.defines: ["PROJECT_VERSION=\"" + version + "\""]
 
+
         Group {
             files: [
             ]
@@ -39,7 +40,14 @@ Project {
             files: [
             ]
             condition: qbs.targetOS == "linux"
+
             cpp.dynamicLibraries: ["boost_system"]
+            cpp.staticLibraries:["clangFrontend", "clangSerialization",
+                "clangDriver","clangTooling",
+                "clangParse","clangSema",
+                "clangAnalysis","clangRewriteFrontend",
+                "clangRewriteCore","clangEdit",
+                "clangAST","clangLex","clangBasic"]
         }
     }
 
@@ -47,7 +55,12 @@ Project {
         name: "tester"
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
-        files: ["tests/src/*.cpp", "tests/src/*.h"]
+        files: [
+            "src/DSourceCodeParser/dsourcecodeparser.cpp",
+            "src/DSourceCodeParser/dsourcecodeparser.h",
+            "tests/src/*.cpp",
+            "tests/src/*.h",
+        ]
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
         cpp.cxxFlags: ["-Wold-style-cast", "-std=c++11"]

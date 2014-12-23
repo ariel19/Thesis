@@ -42,7 +42,7 @@ void Method::write(QJsonObject &json) const
 
 QDebug operator<<(QDebug d, const Method &m)
 {
-    d<<"Name: "<<m.m_name<<" Description: "<<m.m_desc;
+    return d<<"Name: "<<m.m_name<<" Description: "<<m.m_desc;
 }
 
 
