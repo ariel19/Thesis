@@ -184,7 +184,7 @@ bool PEFile::injectCode(QList<InjectDescription *> descs)
             code.append(PECodeDefines::callReg(Register::EAX));
         }
 
-        code.append(PECodeDefines::movDWordToReg(getEntryPoint(), Register::EAX));
+        code.append(PECodeDefines::movDWordToReg(getEntryPoint() + getImageBase(), Register::EAX));
         code.append(PECodeDefines::jmpReg(Register::EAX));
 
         uint64_t new_ep = injectUniqueData(code, codePointers);
