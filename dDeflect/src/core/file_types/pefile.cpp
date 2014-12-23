@@ -302,11 +302,60 @@ uint64_t PEFile::injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &p
     if(ptrs.contains(hash))
         return ptrs[hash];
 
-    // TODO: jezeli kod nie istnieje w pliku to dodajemy
-    // TODO: zwracamy adres w pamieci
-    // TODO: dodajemy do mapy
+    unsigned int fileOffset = 0;
+    unsigned int memOffset = 0;
+    bool is_added = false;
 
-    return 0;
+    // Próba dodania kodu do każdej z sekcji
+    for(unsigned int i = 0; !is_added && i < numberOfSections; ++i)
+        is_added = addDataToSection(i, data, fileOffset, memOffset);
+
+    // Próba dodania kodu do każdej z sekcji z rozszerzeniem
+    for(unsigned int i = 0; !is_added && i < numberOfSections - 1; ++i)
+        is_added = addDataToSection(i, data, fileOffset, memOffset);
+
+    // Tworzenie nowej sekcji, lub rozszerzanie ostatniej
+    std::default_random_engine gen;
+    std::uniform_int_distribution<int> prob(0, 9);
+    if(prob(gen) == 0)
+    {
+        if(!is_added)
+            is_added = addNewSection(getRandomSectionName(), data, fileOffset, memOffset);
+
+        if(!is_added)
+            is_added = resizeLastSection(data, fileOffset, memOffset);
+    }
+    else
+    {
+        if(!is_added)
+            is_added = resizeLastSection(data, fileOffset, memOffset);
+
+        if(!is_added)
+            is_added = addNewSection(getRandomSectionName(), data, fileOffset, memOffset);
+    }
+
+    if(!is_added)
+        return 0;
+
+    uint64_t offset = memOffset + getImageBase();
+    ptrs.insert(hash, offset);
+
+    return offset;
+}
+
+QString PEFile::getRandomSectionName()
+{
+    QString name;
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> no_letters(1, 7);
+    std::uniform_int_distribution<int> char_gen('a', 'z');
+
+    name += '.';
+    int n = no_letters(generator);
+    for(int i = 0; i < n; ++i)
+        name += static_cast<char>(char_gen(generator));
+
+    return name;
 }
 
 bool PEFile::isValid()
@@ -744,7 +793,7 @@ bool PEFile::addDataToSection(unsigned int section, QByteArray data,
     return parse();
 }
 
-bool PEFile::addDataToSectionEx(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
+bool PEFile::addDataToSectionEx(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset, bool changeVirtual)
 {
     if(!parsed || (section >= numberOfSections))
         return false;
@@ -752,7 +801,7 @@ bool PEFile::addDataToSectionEx(unsigned int section, QByteArray data, unsigned 
     if(getSectionFreeSpace(section) >= static_cast<size_t>(data.length()))
         return addDataToSection(section, data, fileOffset, memOffset);
 
-    if(isSectionRawDataEmpty(section))
+    if(changeVirtual && isSectionRawDataEmpty(section))
         return addDataToSectionExVirtual(section, data, fileOffset, memOffset);
 
     PIMAGE_SECTION_HEADER header = getSectionHeader(section);

@@ -13,6 +13,7 @@
 #include <QList>
 #include <QStringList>
 #include <QCryptographicHash>
+#include <QByteArray>
 #include <core/file_types/pecodedefines.h>
 #include <core/file_types/pehelpers.h>
 
@@ -76,6 +77,7 @@ private:
     uint64_t generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs);
     uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
     uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs);
+    QString getRandomSectionName();
 
 public:
     PEFile(QByteArray d);
@@ -159,9 +161,11 @@ public:
      * @param data: Dane
      * @param fileOffset: Obliczony offset dodanych danych w pliku.
      * @param memOffset: Obliczony offset dodanych danych w pmięci (RVA).
+     * @param changeVirtual: Informacja czy zmieniać sekcję wirtualną.
      * @return True w przypadku poprawnego dodania danych.
      */
-    bool addDataToSectionEx(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
+    bool addDataToSectionEx(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset,
+                            bool changeVirtual = false);
 
     /**
      * @brief Pobiera informację czy sekcja jest wykonywalna.
