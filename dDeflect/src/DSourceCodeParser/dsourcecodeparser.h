@@ -27,38 +27,38 @@ using namespace clang::driver;
 using namespace clang::tooling;
 using namespace llvm;
 
-Rewriter rewriter;
+//Rewriter rewriter;
 
 
-class ExampleVisitor : public RecursiveASTVisitor<ExampleVisitor> {
-private:
-    ASTContext *astContext;
+//class ExampleVisitor : public RecursiveASTVisitor<ExampleVisitor> {
+//private:
+//    ASTContext *astContext;
 
-public:
-    explicit ExampleVisitor(CompilerInstance *CI)
-      : astContext(&(CI->getASTContext()))
-    {
-        rewriter.setSourceMgr(astContext->getSourceManager(), astContext->getLangOpts());
-    }
+//public:
+//    explicit ExampleVisitor(CompilerInstance *CI)
+//      : astContext(&(CI->getASTContext()))
+//    {
+//        rewriter.setSourceMgr(astContext->getSourceManager(), astContext->getLangOpts());
+//    }
 
-    virtual bool VisitFunctionDecl(FunctionDecl *func) {
+//    virtual bool VisitFunctionDecl(FunctionDecl *func) {
 
-        if(func->isThisDeclarationADefinition()){
-            Stmt * definition = func->getBody();
+//        if(func->isThisDeclarationADefinition()){
+//            Stmt * definition = func->getBody();
 
-            StringRef sr("printf(\"HelloWorld\");\n");
+//            StringRef sr("printf(\"HelloWorld\");\n");
 
-            for (StmtRange range = definition->children(); range; ++range){
-                Stmt * fs = *range;
-                SourceLocation childStart = fs->getLocStart();
-                rewriter.InsertTextBefore(childStart ,sr);
-                break;
-            }
-        }
-        return true;
-    }
+//            for (StmtRange range = definition->children(); range; ++range){
+//                Stmt * fs = *range;
+//                SourceLocation childStart = fs->getLocStart();
+//                rewriter.InsertTextBefore(childStart ,sr);
+//                break;
+//            }
+//        }
+//        return true;
+//    }
 
-};
+//};
 
 
 class DSourceCodeParser

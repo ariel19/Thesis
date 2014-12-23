@@ -6,83 +6,83 @@
 #include <core/file_types/elffile.h>
 #include <core/file_types/pefile.h>
 
-////void wrapper()
-////{
-////    int is_dbg = 0;
+//void wrapper()
+//{
+//    int is_dbg = 0;
 
-////    asm();
+//    asm();
 
-////    asm("db !__METHOD_DATA___!");
+//    asm("db !__METHOD_DATA___!");
 
-////    asm("mov is_dbg, !__RETURN_VALUE__!");
+//    asm("mov is_dbg, !__RETURN_VALUE__!");
 
-////    // TODO: akcja
-////}
+//    // TODO: akcja
+//}
 
-////void wrapper()
-////{
-////    volatile int is_dbg = 0;
+//void wrapper()
+//{
+//    volatile int is_dbg = 0;
 
-////    asm("push ecx");
-////    asm("push eax");
-////    asm("push edx");
-
-////    asm("db 0x64, 0x8B, 0x0D, 0x30, 0x00, 0x00, 0x00, 0x31, 0xC0, 0x8A, 0x51, 0x68, 0x80, 0xE2, 0x70, 0x80, 0xFA, 0x70, 0x0F, 0x94, 0xC0");
-
-////    asm("mov byte is_dbg, al");
-
-////    asm("pop edx");
-////    asm("pop eax");
-////    asm("pop ecx");
-
-////    if(is_dbg)
-////        printf("DEBUG!");
-////}
-
-//// create thread wrapper
-//void create_thread() {
+//    asm("push ecx");
 //    asm("push eax");
 //    asm("push edx");
-//    asm("psuh ecx");
 
-//    // create a thread using clone
-//    // clone syscall + CLONE_THREAD
-//    // stack address: http://linux.die.net/man/2/clone
-//    // clone syscall number: 120
-//    // documentation: http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html
-//    // links: http://nlo.lists.kernelnewbies.narkive.com/npChDJyH/pt-regs-structure-for-sys-clone
+//    asm("db 0x64, 0x8B, 0x0D, 0x30, 0x00, 0x00, 0x00, 0x31, 0xC0, 0x8A, 0x51, 0x68, 0x80, 0xE2, 0x70, 0x80, 0xFA, 0x70, 0x0F, 0x94, 0xC0");
 
-//    // ptrace syscall
-//    // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
-//    asm("mov eax, 26"); // sys_ptrace
+//    asm("mov byte is_dbg, al");
 
-
-
-//    asm("pop ecx");
 //    asm("pop edx");
 //    asm("pop eax");
+//    asm("pop ecx");
+
+//    if(is_dbg)
+//        printf("DEBUG!");
 //}
+
+// create thread wrapper
+void create_thread() {
+    asm("push eax");
+    asm("push edx");
+    asm("psuh ecx");
+
+    // create a thread using clone
+    // clone syscall + CLONE_THREAD
+    // stack address: http://linux.die.net/man/2/clone
+    // clone syscall number: 120
+    // documentation: http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html
+    // links: http://nlo.lists.kernelnewbies.narkive.com/npChDJyH/pt-regs-structure-for-sys-clone
+
+    // ptrace syscall
+    // link: http://mikecvet.wordpress.com/2010/08/14/ptrace-tutorial/
+    asm("mov eax, 26"); // sys_ptrace
+
+
+
+    asm("pop ecx");
+    asm("pop edx");
+    asm("pop eax");
+}
 
 int main()
 {
     std::cout << QDir::currentPath().toStdString() << std::endl;
 
-//    ELF elf("a.out");
-//    std::cout << "valid: " << elf.is_valid() << std::endl;
-//    std::cout << "segments no: " << elf.get_number_of_segments() << std::endl;
-//    for (int i = 0; i < elf.get_number_of_segments(); ++i) {
-//        std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
-//    }
+    ELF elf("a.out");
+    std::cout << "valid: " << elf.is_valid() << std::endl;
+    std::cout << "segments no: " << elf.get_number_of_segments() << std::endl;
+    for (int i = 0; i < elf.get_number_of_segments(); ++i) {
+        std::cout << "segment {" << i << "}: 0x" << std::hex<< elf.get_ph_seg_offset(i);
+    }
 
-//    QByteArray nops(12, '\x90');
-//    Elf64_Addr nva;
+    QByteArray nops(12, '\x90');
+    Elf64_Addr nva;
 
-//    QByteArray nf = elf.extend_segment(nops, false, nva);
+    QByteArray nf = elf.extend_segment(nops, false, nva);
 
-//    if (!elf.set_entry_point(nva, nf))
-//        return 1;
+    if (!elf.set_entry_point(nva, nf))
+        return 1;
 
-//    elf.write_to_file("a2.out", nf);
+    elf.write_to_file("a2.out", nf);
 
 
     /*

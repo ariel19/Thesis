@@ -193,24 +193,22 @@ class ELF {
      * @param data zawartość pliku.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    void fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
+    void fix_section_table(QByteArray &data, const ex_offset_t file_off, const uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę segmentów.
      * @param data zawartość pliku.
      */
     template <typename ElfProgramHeaderType>
-    Elf64_Addr fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size);
+    Elf64_Addr fix_segment_table(QByteArray &data, const ex_offset_t file_off,
+                                 const uint32_t insert_space, const uint32_t payload_size);
 
     /**
      * @brief Naprawia VMA.
      * @param data zawartość pliku.
      */
+    template <typename ElfDynType, typename ElfSymType, typename ElfWordType>
     void fix_vma(QByteArray &data, const best_segment &bs, ex_offset_t file_off, const Elf64_Addr &new_vma);
-
-    void* get_file_offset(const QByteArray &data, const Elf64_Addr &addr);
-
-    //void segment_info(best_segment &bs, const uint32_t post_pad, const uint32_t pre_pad, bool change_vma);
 
 public:
     /**
@@ -229,6 +227,18 @@ public:
      * @return True jeżeli poprawny, False w innym przypadku.
      */
     bool is_valid() const { return elf_file.isOpen() & parsed; }
+
+    /**
+     * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 32-bitowym.
+     * @return True jezeli spelnia warunki, False w pozostalych przypadkach.
+     */
+    bool is_x86() const { return is_valid() & (cls == classes::ELF32); }
+
+    /**
+     * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 64-bitowym.
+     * @return True jezeli spelnia warunki, False w pozostalych przypadkach.
+     */
+    bool is_x64() const { return is_valid() & (cls == classes::ELF64); }
 
     /**
      * @brief Sprawdza czy plik jest otwarty.
@@ -277,16 +287,33 @@ public:
      * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
      * @param entry_point wartość punktu wejściowego.
      * @param data dane, w których należy ustawić punkt wejściowy.
+     * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data);
+    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep = nullptr);
 
     /**
      * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
      * @param entry_point wartość punktu wejściowego.
+     * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool set_entry_point(const Elf64_Addr &entry_point);
+    bool set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep = nullptr);
+
+    /**
+     * @brief Dostarcza informacje o punkcie wejsciowym pliku podanego jako parameter.
+     * @param data zawartosc pliku ELF.
+     * @param old_ep referencja na wartosc punktu wejsciowego programu.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const;
+
+    /**
+     * @brief Dostarcza informacje o punkcie wejsciowym pliku.
+     * @param old_ep referencja na wartosc punktu wejsciowego programu.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool get_entry_point(Elf64_Addr &old_ep) const;
 };
 
 #endif // ELFFILE_H

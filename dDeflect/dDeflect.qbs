@@ -1,4 +1,4 @@
-import qbs 1.0
+import qbs
 Project {
     CppApplication {
         property string version: "0.0.1"
@@ -11,9 +11,11 @@ Project {
             "src/*/*.h",
             "src/*/*/*.cpp",
             "src/*/*/*.h",
-            "src/*/*.qrc",
-            "src/gui/qml/AboutDialog.qml",
-            "src/gui/qml/main.qml",
+            "src/*/*/*/*.cpp",
+            "src/*/*/*/*.h",
+            "src/*/*/*/*/*.cpp",
+            "src/*/*/*/*/*.h",
+            "src/*/*.qrc"
         ]
 
         Group {     // Properties for the produced executable
@@ -28,7 +30,6 @@ Project {
         cpp.cxxFlags: ["-std=c++11","-Wno-unknown-pragmas","-Wno-reorder","-Wno-unused-local-typedefs"]
         cpp.defines: ["PROJECT_VERSION=\"" + version + "\""]
 
-
         Group {
             files: [
             ]
@@ -37,17 +38,8 @@ Project {
         }
 
         Group {
-            files: [
-            ]
             condition: qbs.targetOS == "linux"
-
             cpp.dynamicLibraries: ["boost_system"]
-            cpp.staticLibraries:["clangFrontend", "clangSerialization",
-                "clangDriver","clangTooling",
-                "clangParse","clangSema",
-                "clangAnalysis","clangRewriteFrontend",
-                "clangRewriteCore","clangEdit",
-                "clangAST","clangLex","clangBasic"]
         }
     }
 
@@ -56,10 +48,16 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: [
-            "src/DSourceCodeParser/dsourcecodeparser.cpp",
-            "src/DSourceCodeParser/dsourcecodeparser.h",
+            "src/core/adding_methods/wrappers/linux/asmcodegenerator.cpp",
+            "src/core/adding_methods/wrappers/linux/asmcodegenerator.h",
+            "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",
+            "src/core/adding_methods/wrappers/linux/daddingmethods.h",
+            "src/core/detection/wrappers/ddebuggerdetection.cpp",
+            "src/core/detection/wrappers/ddebuggerdetection.h",
             "tests/src/*.cpp",
             "tests/src/*.h",
+            "src/core/file_types/*.cpp",
+            "src/core/file_types/*.h",
         ]
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
