@@ -188,7 +188,7 @@ int main()
         return 1;
     }
 
-    //pe.injectCode({InjectDescription(CallingMethod::EntryPoint, )});
+    pe.injectCode({InjectDescription(CallingMethod::EntryPoint, Wrapper::fromFile("create_thread.asm", true))});
 
 
     QFile nf("new_example.exe");

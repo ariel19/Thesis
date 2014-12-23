@@ -62,7 +62,7 @@ Wrapper::~Wrapper()
         delete action;
 }
 
-Wrapper *Wrapper::fromFile(QString name)
+Wrapper *Wrapper::fromFile(QString name, bool thread_code)
 {
     QByteArray code;
     QList<Register> regToSave;
@@ -86,7 +86,14 @@ Wrapper *Wrapper::fromFile(QString name)
     f.close();
 
     // temp
-    if(name.contains("load_functions"))
+    if(name.contains("create_thread"))
+    {
+        returns = Register::None;
+        regToSave.append({Register::EAX, Register::ECX, Register::EDX, Register::EDI});
+        params.insert(Register::EDX, "kernel32!CreateThread");
+        params.insert(Register::EDI, "THREAD!THREAD");
+    }
+    else if(name.contains("load_functions"))
     {
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
@@ -94,10 +101,13 @@ Wrapper *Wrapper::fromFile(QString name)
     else
     {
         returns = Register::None;
-        regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
+        regToSave.append({Register::EAX, Register::ECX, Register::EDX});
+        params.insert(Register::EAX, "user32!MessageBoxA");
     }
 
-    return new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
+    return thread_code ?
+                new (std::nothrow) ThreadWrapper(code, {Wrapper::fromFile("thread_example.asm")}, 5, regToSave, params, returns, action) :
+                new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
 }
 
 QByteArray Wrapper::getCode()

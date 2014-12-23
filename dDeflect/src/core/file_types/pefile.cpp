@@ -385,6 +385,9 @@ uint64_t PEFile::generateThreadCode(QList<Wrapper *> wrappers, QMap<QByteArray, 
 
     foreach(Wrapper *w, wrappers)
     {
+        if(!w)
+            return 0;
+
         uint32_t fnc = generateCode(w, ptrs);
         code.append(PECodeDefines::movDWordToReg(fnc, Register::EAX));
         code.append(PECodeDefines::callReg(Register::EAX));
