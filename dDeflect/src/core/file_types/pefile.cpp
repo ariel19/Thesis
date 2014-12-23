@@ -203,6 +203,9 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
     if(!parsed)
         return 0;
 
+    if(!w)
+        return 0;
+
     uint64_t action = 0;
     uint64_t thread = 0;
 
@@ -243,7 +246,7 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
     // Ładowanie parametrów
     if(!w->getParameters().empty())
     {
-        Wrapper *func_wrap = Wrapper::fromFile("load_functions.asm");
+        Wrapper *func_wrap = Wrapper::fromFile(Wrapper::methodsPath + "load_functions.asm");
         if(!func_wrap)
             return 0;
 
@@ -343,7 +346,7 @@ uint64_t PEFile::generateThreadCode(QList<Wrapper *> wrappers, QMap<QByteArray, 
 
     if(sleepTime)
     {
-        Wrapper *func_wrap = Wrapper::fromFile("load_functions.asm");
+        Wrapper *func_wrap = Wrapper::fromFile(Wrapper::methodsPath + "load_functions.asm");
         if(!func_wrap)
             return 0;
 

@@ -43,6 +43,8 @@ public:
             Register _returns = Register::None, Wrapper *_action = nullptr);
     virtual ~Wrapper();
     static Wrapper *fromFile(QString name, bool thread_code = false);
+    static const QString methodsPath;
+    static const QString nasmPath;
 
     QByteArray getCode();
     QList<Register> getRegistersToSave();

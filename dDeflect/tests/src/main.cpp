@@ -188,7 +188,10 @@ int main()
         return 1;
     }
 
-    pe.injectCode({InjectDescription(CallingMethod::EntryPoint, Wrapper::fromFile("create_thread.asm", true))});
+    if(pe.injectCode({InjectDescription(CallingMethod::EntryPoint, Wrapper::fromFile(Wrapper::methodsPath + "create_thread.asm", true))}))
+        puts("Success!");
+    else
+        puts("Failed!");
 
 
     QFile nf("new_example.exe");

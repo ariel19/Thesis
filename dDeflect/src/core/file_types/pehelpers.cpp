@@ -1,5 +1,7 @@
 #include "pehelpers.h"
 
+const QString Wrapper::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
+const QString Wrapper::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
 
 InjectDescription::InjectDescription(CallingMethod _method, Wrapper *_wrapper) :
     callingMethod(_method),
@@ -74,7 +76,8 @@ Wrapper *Wrapper::fromFile(QString name, bool thread_code)
     // TODO: implementacja
     // TODO: czytanie z json
 
-    if(QProcess::execute("nasm", {"-f", "bin", "-o", "data.bin", name}))
+    // TODO: ścieżki i nazwy z config?
+    if(QProcess::execute(nasmPath, {"-f", "bin", "-o", methodsPath + "data.bin", name}))
         return nullptr;
 
     QFileInfo fi(name);
@@ -106,7 +109,7 @@ Wrapper *Wrapper::fromFile(QString name, bool thread_code)
     }
 
     return thread_code ?
-                new (std::nothrow) ThreadWrapper(code, {Wrapper::fromFile("thread_example.asm")}, 5, regToSave, params, returns, action) :
+                new (std::nothrow) ThreadWrapper(code, {Wrapper::fromFile(Wrapper::methodsPath + "thread_example.asm")}, 5, regToSave, params, returns, action) :
                 new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
 }
 
