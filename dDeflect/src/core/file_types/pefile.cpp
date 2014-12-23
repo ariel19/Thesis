@@ -146,19 +146,52 @@ PEFile::~PEFile()
 bool PEFile::injectCode(QList<InjectDescription> descs)
 {
     QMap<QByteArray, uint64_t> codePointers;
+    QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
     foreach(InjectDescription desc, descs)
     {
-        // TODO: generować kod? zapisać?
-        generateCode(desc.getWrapper(), codePointers);
+        switch(desc.getCallingMethod())
+        {
+        case CallingMethod::EntryPoint:
+            epMethods.append(generateCode(desc.getWrapper(), codePointers));
+            if(epMethods.last() == 0)
+                return false;
+            break;
+
+        case CallingMethod::TLS:
+            // TODO: TLS
+            break;
+
+        case CallingMethod::Trampoline:
+            // TODO: trampolina
+            break;
+        }
     }
 
-    // TODO: jeżeli jest metoda oep
-    // TODO: wygeneruj dla każdej call
-    // TODO: zamien ep na kod poczatku,
-    // TODO: dodaj jmp do oep
-    // TODO: TLS
-    // TODO: trampolina
+    if(!epMethods.empty())
+    {
+        QByteArray code;
+
+        foreach(uint64_t offset, epMethods)
+        {
+            code.append(PECodeDefines::movDWordToReg(offset, Register::EAX));
+            code.append(PECodeDefines::callReg(Register::EAX));
+        }
+
+        code.append(PECodeDefines::movDWordToReg(getEntryPoint(), Register::EAX));
+        code.append(PECodeDefines::jmpReg(Register::EAX));
+
+        uint64_t new_ep = injectUniqueData(code, codePointers);
+
+        if(new_ep == 0)
+            return false;
+
+        new_ep -= getImageBase();
+
+        if(!setNewEntryPoint(new_ep))
+            return false;
+    }
+
     return true;
 }
 

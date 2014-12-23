@@ -15,6 +15,7 @@ private:
     static const QMap<Register, QByteArray> _test_reg;
     static const QMap<Register, QByteArray> _esp_mem_to_reg;
     static const QMap<Register, QByteArray> _reg_to_esp_mem;
+    static const QMap<Register, QByteArray> _jmp_reg;
 
     static const QByteArray _jz_rel;
     static const QByteArray _reserve_stack;
@@ -31,6 +32,7 @@ public:
     static QByteArray restoreRegister(Register reg);
     static QByteArray movDWordToReg(uint32_t dword, Register reg);
     static QByteArray callReg(Register reg);
+    static QByteArray jmpReg(Register reg);
     static QByteArray testReg(Register reg);
     static QByteArray jzRelative(int8_t pos);
     static QByteArray saveAllInternal();

@@ -71,6 +71,18 @@ const QMap<Register, QByteArray> PECodeDefines::_call_reg =
     { Register::EDI, QByteArray("\xFF\xD7") }
 };
 
+const QMap<Register, QByteArray> PECodeDefines::_jmp_reg =
+{
+    { Register::EAX, QByteArray("\xFF\xE0") },
+    { Register::EBX, QByteArray("\xFF\xE3") },
+    { Register::ECX, QByteArray("\xFF\xE1") },
+    { Register::EDX, QByteArray("\xFF\xE2") },
+    { Register::ESP, QByteArray("\xFF\xE4") },
+    { Register::EBP, QByteArray("\xFF\xE5") },
+    { Register::ESI, QByteArray("\xFF\xE6") },
+    { Register::EDI, QByteArray("\xFF\xE7") }
+};
+
 const QMap<Register, QByteArray> PECodeDefines::_test_reg =
 {
     { Register::EAX, QByteArray("\x85\xC0") },
@@ -134,6 +146,11 @@ QByteArray PECodeDefines::movDWordToReg(uint32_t dword, Register reg)
 QByteArray PECodeDefines::callReg(Register reg)
 {
     return _call_reg.contains(reg) ? _call_reg[reg] : QByteArray("");
+}
+
+QByteArray PECodeDefines::jmpReg(Register reg)
+{
+    return _jmp_reg.contains(reg) ? _jmp_reg[reg] : QByteArray("");
 }
 
 QByteArray PECodeDefines::testReg(Register reg)
