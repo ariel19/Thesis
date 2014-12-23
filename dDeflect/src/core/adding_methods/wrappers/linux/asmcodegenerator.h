@@ -8,6 +8,14 @@
 class AsmCodeGenerator {
     static const QMap<DAddingMethods::Registers_x86, QString> regs_x86;
     static const QMap<DAddingMethods::Registers_x64, QString> regs_x64;
+
+    enum class Instructions {
+        POP,
+        PUSH
+    };
+
+    static const QMap<Instructions, QString> instructions;
+
 public:
     AsmCodeGenerator() {}
     template <typename RegistersType>
