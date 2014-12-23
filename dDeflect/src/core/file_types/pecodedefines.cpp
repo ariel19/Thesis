@@ -3,9 +3,12 @@
 const QByteArray PECodeDefines::startFunc = QByteArray("\x55\x89\xE5");
 const QByteArray PECodeDefines::endFunc = QByteArray("\x5D");
 const QByteArray PECodeDefines::_jz_rel = QByteArray("\x74");
+const QByteArray PECodeDefines::_jmp_rel = QByteArray("\xEB");
 const QByteArray PECodeDefines::_reserve_stack = QByteArray("\x83\xEC");
 const QByteArray PECodeDefines::_clear_stack = QByteArray("\x83\xC4");
 const QByteArray PECodeDefines::_store_dword = QByteArray("\x68");
+const QByteArray PECodeDefines::_ret_n = QByteArray("\xC2");
+const QByteArray PECodeDefines::ret = QByteArray("\xC3");
 
 const QList<Register> PECodeDefines::internalRegs =
 {
@@ -163,6 +166,11 @@ QByteArray PECodeDefines::jzRelative(int8_t pos)
     return QByteArray(_jz_rel).append(static_cast<char>(pos));
 }
 
+QByteArray PECodeDefines::jmpRelative(int8_t pos)
+{
+    return QByteArray(_jmp_rel).append(static_cast<char>(pos));
+}
+
 QByteArray PECodeDefines::saveAllInternal()
 {
     QByteArray code;
@@ -244,4 +252,9 @@ QByteArray PECodeDefines::readFromRegToEspMem(Register reg, int8_t base)
     }
 
     return code;
+}
+
+QByteArray PECodeDefines::retN(uint16_t n)
+{
+    return QByteArray(_ret_n).append(reinterpret_cast<const char*>(&n), sizeof(uint16_t));
 }

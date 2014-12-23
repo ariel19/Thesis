@@ -216,12 +216,12 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
     // Generowanie kodu dla funkcji wątku.
     ThreadWrapper *tw = dynamic_cast<ThreadWrapper*>(w);
 
-    if(tw && !tw->getThreadWrapper())
+    if(tw && tw->getThreadWrappers().empty())
         return 0;
 
-    if(tw && tw->getThreadWrapper())
+    if(tw && !tw->getThreadWrappers().empty())
     {
-        thread = generateCode(tw->getThreadWrapper(), ptrs);
+        thread = generateThreadCode(tw->getThreadWrappers(), ptrs, tw->getSleepTime());
         if(!thread) return 0;
     }
 
@@ -330,6 +330,79 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
 
     // Niszczenie ramki stosu
     code.append(PECodeDefines::endFunc);
+
+    return injectUniqueData(code, ptrs);
+}
+
+uint64_t PEFile::generateThreadCode(QList<Wrapper *> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
+{
+    QByteArray code;
+
+    code.append(PECodeDefines::startFunc);
+    int jmp_offset = 0;
+
+    if(sleepTime)
+    {
+        Wrapper *func_wrap = Wrapper::fromFile("load_functions.asm");
+        if(!func_wrap)
+            return 0;
+
+        uint64_t get_functions = generateCode(func_wrap, ptrs);
+        delete func_wrap;
+        if(get_functions == 0)
+            return 0;
+
+        uint64_t lib_name_addr = generateString("kernel32", ptrs);
+        uint64_t func_name_addr = generateString("Sleep", ptrs);
+        if(!lib_name_addr || !func_name_addr)
+            return 0;
+
+        code.append(PECodeDefines::reserveStackSpace(2));
+        code.append(PECodeDefines::movDWordToReg(get_functions, Register::EAX));
+        code.append(PECodeDefines::callReg(Register::EAX));
+
+        code.append(PECodeDefines::restoreRegister(Register::EAX));
+        code.append(PECodeDefines::restoreRegister(Register::EDX));
+        code.append(PECodeDefines::saveRegister(Register::EAX));
+
+        code.append(PECodeDefines::storeDWord(lib_name_addr));
+        code.append(PECodeDefines::callReg(Register::EDX));
+
+        code.append(PECodeDefines::restoreRegister(Register::EDX));
+
+        code.append(PECodeDefines::storeDWord(func_name_addr));
+        code.append(PECodeDefines::saveRegister(Register::EAX));
+        code.append(PECodeDefines::callReg(Register::EDX));
+        code.append(PECodeDefines::saveRegister(Register::EAX));
+
+        jmp_offset = code.length();
+
+        // Pętla
+        code.append(PECodeDefines::readFromEspMemToReg(Register::EAX, 0));
+        code.append(PECodeDefines::storeDWord(sleepTime * 1000));
+        code.append(PECodeDefines::callReg(Register::EAX));
+    }
+
+    foreach(Wrapper *w, wrappers)
+    {
+        uint32_t fnc = generateCode(w, ptrs);
+        code.append(PECodeDefines::movDWordToReg(fnc, Register::EAX));
+        code.append(PECodeDefines::callReg(Register::EAX));
+    }
+
+    if(sleepTime)
+    {
+        jmp_offset = code.length() + 2 - jmp_offset;
+        if(jmp_offset > 126)
+            return 0;
+
+        code.append(PECodeDefines::jmpRelative(-jmp_offset));
+        code.append(PECodeDefines::clearStackSpace(1));
+    }
+
+    code.append(PECodeDefines::movDWordToReg(0, Register::EAX));
+    code.append(PECodeDefines::endFunc);
+    code.append(PECodeDefines::retN(4));
 
     return injectUniqueData(code, ptrs);
 }

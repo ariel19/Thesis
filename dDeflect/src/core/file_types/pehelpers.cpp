@@ -22,21 +22,28 @@ CallingMethod InjectDescription::getCallingMethod()
     return callingMethod;
 }
 
-ThreadWrapper::ThreadWrapper(QByteArray _code, Wrapper *_thread, QList<Register> _regToSave,
+ThreadWrapper::ThreadWrapper(QByteArray _code, QList<Wrapper*> _thread, uint16_t _sleepTime, QList<Register> _regToSave,
                              QMap<Register, QString> _params, Register _returns, Wrapper *_action) :
     Wrapper(_code, _regToSave, _params, _returns, _action),
-    threadCode(_thread)
+    threadCodes(_thread),
+    sleepTime(_sleepTime)
 { }
 
 ThreadWrapper::~ThreadWrapper()
 {
-    if(threadCode)
-        delete threadCode;
+    foreach(Wrapper *w, threadCodes)
+        if(w)
+            delete w;
 }
 
-Wrapper *ThreadWrapper::getThreadWrapper()
+QList<Wrapper*> ThreadWrapper::getThreadWrappers()
 {
-    return threadCode;
+    return threadCodes;
+}
+
+uint16_t ThreadWrapper::getSleepTime()
+{
+    return sleepTime;
 }
 
 

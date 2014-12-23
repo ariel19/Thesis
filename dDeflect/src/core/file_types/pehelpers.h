@@ -54,14 +54,16 @@ public:
 class ThreadWrapper : public Wrapper
 {
 private:
-    Wrapper *threadCode;
+    QList<Wrapper*> threadCodes;
+    uint16_t sleepTime;
 
 public:
-    ThreadWrapper(QByteArray _code, Wrapper *_thread, QList<Register> _regToSave, QMap<Register, QString> _params,
+    ThreadWrapper(QByteArray _code, QList<Wrapper *> _thread, uint16_t _sleepTime, QList<Register> _regToSave, QMap<Register, QString> _params,
                   Register _returns = Register::None, Wrapper *_action = nullptr);
     ~ThreadWrapper();
 
-    Wrapper *getThreadWrapper();
+    QList<Wrapper*> getThreadWrappers();
+    uint16_t getSleepTime();
 };
 
 class InjectDescription
