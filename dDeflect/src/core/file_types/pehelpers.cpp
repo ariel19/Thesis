@@ -19,7 +19,7 @@ Wrapper *InjectDescription::getWrapper()
     return wrapper;
 }
 
-CallingMethod InjectDescription::getCallingMethod()
+CallingMethod InjectDescription::getCallingMethod() const
 {
     return callingMethod;
 }

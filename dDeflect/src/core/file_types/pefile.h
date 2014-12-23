@@ -85,7 +85,7 @@ public:
     PEFile(QByteArray d);
     ~PEFile();
 
-    bool injectCode(QList<InjectDescription> descs);
+    bool injectCode(QList<InjectDescription*> descs);
 
     /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.

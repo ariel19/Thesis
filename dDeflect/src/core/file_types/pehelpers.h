@@ -51,6 +51,9 @@ public:
     QMap<Register, QString> getParameters();
     Register getReturns();
     Wrapper *getAction();
+
+    Wrapper(const Wrapper&) = delete;
+    Wrapper& operator=(const Wrapper&) = delete;
 };
 
 class ThreadWrapper : public Wrapper
@@ -66,6 +69,9 @@ public:
 
     QList<Wrapper*> getThreadWrappers();
     uint16_t getSleepTime();
+
+    ThreadWrapper(const ThreadWrapper&) = delete;
+    ThreadWrapper& operator=(const ThreadWrapper&) = delete;
 };
 
 class InjectDescription
@@ -78,7 +84,10 @@ public:
     InjectDescription(CallingMethod _method, Wrapper *_wrapper);
     ~InjectDescription();
     Wrapper *getWrapper();
-    CallingMethod getCallingMethod();
+    CallingMethod getCallingMethod() const;
+
+    InjectDescription(const InjectDescription&) = delete;
+    InjectDescription& operator=(const InjectDescription&) = delete;
 };
 
 #endif // PEHELPERS_H

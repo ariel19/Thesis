@@ -143,7 +143,7 @@ PEFile::~PEFile()
         delete [] dataDirectoriesIdx;
 }
 
-bool PEFile::injectCode(QList<InjectDescription> descs)
+bool PEFile::injectCode(QList<InjectDescription *> descs)
 {
     QMap<QByteArray, uint64_t> codePointers;
     QList<uint64_t> epMethods, tlsMethods, tramMethods;
@@ -151,12 +151,15 @@ bool PEFile::injectCode(QList<InjectDescription> descs)
     if(!parsed)
         return false;
 
-    foreach(InjectDescription desc, descs)
+    foreach(InjectDescription *desc, descs)
     {
-        switch(desc.getCallingMethod())
+        if(!desc)
+            return false;
+
+        switch(desc->getCallingMethod())
         {
         case CallingMethod::EntryPoint:
-            epMethods.append(generateCode(desc.getWrapper(), codePointers));
+            epMethods.append(generateCode(desc->getWrapper(), codePointers));
             if(epMethods.last() == 0)
                 return false;
             break;
