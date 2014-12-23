@@ -64,6 +64,7 @@ public:
         QMap<QString, RegistersType> params;
         RegistersType ret;
         QString code;
+        Wrapper<RegistersType> *ddetec_handler;
     };
 
     /**
