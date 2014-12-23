@@ -336,6 +336,7 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
 
     // Niszczenie ramki stosu
     code.append(PECodeDefines::endFunc);
+    code.append(PECodeDefines::ret);
 
     return injectUniqueData(code, ptrs);
 }
