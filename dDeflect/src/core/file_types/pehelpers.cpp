@@ -65,6 +65,7 @@ Wrapper *Wrapper::fromFile(QString name)
 
     // TODO: jak wczytać akcję? podać z zewnątrz?
     // TODO: implementacja
+    // TODO: czytanie z json
 
     if(QProcess::execute("nasm", {"-f", "bin", "-o", "data.bin", name}))
         return nullptr;

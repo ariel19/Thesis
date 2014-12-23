@@ -174,51 +174,30 @@
 
 int main()
 {
-//    QFile f("C:\\Users\\jablonskim\\Desktop\\peview.exe");
-//    if(!f.open(QFile::ReadOnly))
-//        return 1;
+    QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
+    if(!f.open(QFile::ReadOnly))
+        return 1;
 
-//    PEFile pe(f.readAll());
+    PEFile pe(f.readAll());
 
-//    f.close();
+    f.close();
 
-//    if(!pe.isValid())
-//    {
-//        puts("Bad format!");
-//        return 1;
-//    }
+    if(!pe.isValid())
+    {
+        puts("Bad format!");
+        return 1;
+    }
 
-//    printf("%d, %d, %d\n", pe.getLastSectionNumberRaw(), pe.getLastSectionNumberMem(), pe.getNumberOfSections());
+    //pe.injectCode({InjectDescription(CallingMethod::EntryPoint, )});
 
-//    for(unsigned int i = 0; i < pe.getNumberOfSections(); ++i)
-//        printf("Sekcja %u: %u\n", i, pe.getSectionFreeSpace(i));
 
-//    QByteArray threadc = thread_func32();
-//    unsigned int new_offset, new_mem_offset;
+    QFile nf("new_example.exe");
+    if(!nf.open(QFile::WriteOnly))
+        return 1;
+    nf.write(pe.getData());
+    nf.close();
 
-//    if(!pe.addNewSection(QString(".thrd"), threadc, new_offset, new_mem_offset))
-//    {
-//        puts("Failed!");
-//        return 2;
-//    }
-
-//    QByteArray nd = create_ep_thread_32(pe.getEntryPoint(), pe.getImageBase(), new_mem_offset + pe.getImageBase());
-
-//    if(!pe.addNewSection(QString(".oep"), nd, new_offset, new_mem_offset) || !pe.setNewEntryPoint(new_mem_offset))
-//    {
-//        puts("Failed!");
-//        return 1;
-//    }
-
-//    printf("Offset: %x, Mem: %x\n", new_offset, new_mem_offset);
-
-//    QFile nf("new_example.exe");
-//    if(!nf.open(QFile::WriteOnly))
-//        return 1;
-//    nf.write(pe.getData());
-//    nf.close();
-
-//    puts("OK!");
+    puts("OK!");
 
     return 0;
 }

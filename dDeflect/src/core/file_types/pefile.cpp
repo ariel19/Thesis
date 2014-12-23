@@ -243,8 +243,7 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
     // Ładowanie parametrów
     if(!w->getParameters().empty())
     {
-        // TODO: wczytać kod
-        Wrapper *func_wrap = new Wrapper(QByteArray(""), QList<Register>(), QMap<Register, QString>());
+        Wrapper *func_wrap = Wrapper::fromFile("load_functions.asm");
         if(!func_wrap)
             return 0;
 
@@ -261,6 +260,12 @@ uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
             QList<QString> func_name = w->getParameters()[r].split('!');
             if(func_name.length() != 2)
                 return 0;
+
+            if(thread && func_name[0] == "THREAD" && func_name[1] == "THREAD")
+            {
+                code.append(PECodeDefines::movDWordToReg(thread, r));
+                continue;
+            }
 
             uint64_t lib_name_addr = generateString(func_name[0], ptrs);
             uint64_t func_name_addr = generateString(func_name[1], ptrs);
