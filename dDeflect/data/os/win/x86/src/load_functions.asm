@@ -131,3 +131,6 @@ not_found:
 			xor		edx, edx
 
 endf:
+			mov		[esp + 4], eax
+			mov		[esp], edx
+			

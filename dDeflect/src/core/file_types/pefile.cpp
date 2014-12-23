@@ -148,6 +148,9 @@ bool PEFile::injectCode(QList<InjectDescription> descs)
     QMap<QByteArray, uint64_t> codePointers;
     QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
+    if(!parsed)
+        return false;
+
     foreach(InjectDescription desc, descs)
     {
         switch(desc.getCallingMethod())
@@ -197,6 +200,9 @@ bool PEFile::injectCode(QList<InjectDescription> descs)
 
 uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
 {
+    if(!parsed)
+        return 0;
+
     uint64_t action = 0;
     uint64_t thread = 0;
 

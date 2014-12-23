@@ -4,6 +4,10 @@
 #include <Qlist>
 #include <QMap>
 #include <QString>
+#include <QProcess>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
 
 enum class CallingMethod
 {
@@ -38,6 +42,7 @@ public:
     Wrapper(QByteArray _code, QList<Register> _regToSave, QMap<Register, QString> _params,
             Register _returns = Register::None, Wrapper *_action = nullptr);
     virtual ~Wrapper();
+    static Wrapper *fromFile(QString name);
 
     QByteArray getCode();
     QList<Register> getRegistersToSave();
