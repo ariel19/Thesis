@@ -11,7 +11,11 @@ Project {
             "src/*/*.h",
             "src/*/*/*.cpp",
             "src/*/*/*.h",
-            "src/*/*.qrc",
+            "src/*/*/*/*.cpp",
+            "src/*/*/*/*.h",
+            "src/*/*/*/*/*.cpp",
+            "src/*/*/*/*/*.h",
+            "src/*/*.qrc"
         ]
 
         Group {     // Properties for the produced executable
@@ -44,10 +48,16 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: [
+            "src/core/adding_methods/wrappers/linux/asmcodegenerator.cpp",
+            "src/core/adding_methods/wrappers/linux/asmcodegenerator.h",
+            "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",
+            "src/core/adding_methods/wrappers/linux/daddingmethods.h",
+            "src/core/detection/wrappers/ddebuggerdetection.cpp",
+            "src/core/detection/wrappers/ddebuggerdetection.h",
             "tests/src/*.cpp",
             "tests/src/*.h",
             "src/core/file_types/*.cpp",
-            "src/core/file_types/*.h"
+            "src/core/file_types/*.h",
         ]
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
