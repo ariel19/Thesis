@@ -1,14 +1,17 @@
 [bits 64]
 ; assert("Debug!", "main", 0)
-; @rdx = msvcrt!_assert
+; @r10 = msvcrt!_assert
 
 		xor		rax, rax
-		push	rax
+		mov		r8, rax
+		sub		rsp, 0x20
 		call	filename
 		db		"main", 0x00
 filename:
+		pop		rdx
 		call	message
 		db		"Debug!", 0x00
 message:
-		call	rdx
-		add		rsp, 24
+		pop		rcx
+		call	r10
+		add		rsp, 0x4A

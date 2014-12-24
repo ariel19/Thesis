@@ -2,9 +2,10 @@
 ; memleak loop
 ; @rdi = msvcrt!malloc
 
-			push	0x1A8547
-			sub		rsp, 8
+			mov		r14, 0x84A
+			sub		rsp, 0x28
 lll:
 			pop		rax
+			mov		rcx, r14
 			call	rdi
 			call	lll

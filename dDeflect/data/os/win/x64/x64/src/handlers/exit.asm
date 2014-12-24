@@ -4,7 +4,7 @@
 
 		xor		rcx, rcx
 		add		rcx, 1
-		push	rcx
+		sub		rsp, 0x20
 		call	rax
-		pop		rax
+		add		rsp, 0x20
 		

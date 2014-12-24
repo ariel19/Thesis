@@ -2,9 +2,11 @@
 ; ExitProcess(1)
 ; @rax = kernel32!ExitProcess
 
-		xor		rdx, rdx
-		inc		rdx
-		push	rdx
+		xor		rcx, rcx
+		inc		rcx
+		push	rcx
+		sub		rsp, 0x18
 		call	rax
 		xor		rax, rax
+		add		rsp, 0x20
 		
