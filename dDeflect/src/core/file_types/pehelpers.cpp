@@ -104,7 +104,7 @@ Wrapper *Wrapper::fromFile(QString name, bool thread_code)
     else
     {
         returns = Register::None;
-        regToSave.append({Register::EAX, Register::ECX, Register::EDX});
+        regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
         params.insert(Register::EAX, "user32!MessageBoxA");
     }
 
