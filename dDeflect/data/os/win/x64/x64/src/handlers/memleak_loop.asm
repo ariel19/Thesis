@@ -1,4 +1,4 @@
-[bits 32]
+[bits 64]
 ; memleak loop
 ; @rdi = msvcrt!malloc
 
