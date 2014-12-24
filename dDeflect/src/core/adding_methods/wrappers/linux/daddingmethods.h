@@ -60,7 +60,6 @@ public:
     template <typename RegistersType>
     class Wrapper {
         QList<RegistersType> used_regs;
-        // QMap<QString, RegistersType> params;
         QMap<QString, QString> params;
         RegistersType ret;
         QString code;
@@ -82,7 +81,6 @@ public:
     class OEPWrapper : public Wrapper<RegistersType> {
         Wrapper<RegistersType> *oep_action;
     };
-
 
     /**
      * @brief Klasa reprezentująca opakowanie dla tworzenia tramplin w funkcjach bibliotecznych.
@@ -118,7 +116,7 @@ public:
 private:
     enum class PlaceholderMnemonics {
         DDETECTIONHANDLER,
-
+        DDETECTIONMETHOD
     };
 
     /**
@@ -132,6 +130,7 @@ private:
     };
 
     QMap<PlaceholderTypes, QString> placeholder_id;
+    QMap<PlaceholderMnemonics, QString> placeholder_mnm;
 
     /**
      * @brief Metoda odpowiada za generowanie kodu dla dowolnego opakowania.
@@ -145,12 +144,27 @@ private:
     /**
      * @brief Metoda odpowiada za wypełnianie parametrów w podanym kodzie.
      * @param code kod.
-     * @param params parametry
-     * @return ilośc zamienonych parametrów.
+     * @param params parametry.
+     * @return ilośc zamienionych parametrów.
      */
     uint64_t fill_params(QString &code, const QMap<QString, QString> &params);
 
-    uint64_t fill_placeholders(QString &code);
+    /**
+     * @brief Metoda odpowiada za wypełnianie placeholdera w podanym kodzie, za pomocą podanego kodu.
+     * @param code kod.
+     * @param gen_code kod, którym zostanie zamieniony placeholder.
+     * @param plc_mnm placeholder.
+     * @return ilośc zamienionych parametrów.
+     */
+    uint64_t fill_placeholders(QString &code, const QString &gen_code, PlaceholderMnemonics plc_mnm);
+
+    /**
+     * @brief Metoda odpowiada za kompilację kodu źródłowego assembly.
+     * @param code2compile kod, który musi zostać skompilowany.
+     * @param compiled_code skompilowany kod.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool compile(const QString &code2compile, QByteArray &compiled_code);
 };
 
 #endif // DADDINGMETHODS_H
