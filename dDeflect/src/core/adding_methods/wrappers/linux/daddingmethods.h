@@ -8,8 +8,6 @@
 #include <core/file_types/elffile.h>
 
 class DAddingMethods {
-
-
 public:
     /**
      * @brief Typy możliwości wstrzyknięcia kodu.
@@ -62,7 +60,8 @@ public:
     template <typename RegistersType>
     class Wrapper {
         QList<RegistersType> used_regs;
-        QMap<QString, RegistersType> params;
+        // QMap<QString, RegistersType> params;
+        QMap<QString, QString> params;
         RegistersType ret;
         QString code;
         Wrapper<RegistersType> *detect_handler;
@@ -105,7 +104,7 @@ public:
     /**
      * @brief Konstruktor.
      */
-    DAddingMethods() {}
+    DAddingMethods();
 
     /**
      * @brief Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody.
@@ -115,6 +114,43 @@ public:
      */
     template <typename RegistersType>
     bool secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc);
+
+private:
+    enum class PlaceholderMnemonics {
+        DDETECTIONHANDLER,
+
+    };
+
+    /**
+     * @brief Typy placeholderów.
+     */
+    enum class PlaceholderTypes {
+        PARAM_PRE,
+        PARAM_POST,
+        PLACEHOLDER_PRE,
+        PLACEHOLDER_POST
+    };
+
+    QMap<PlaceholderTypes, QString> placeholder_id;
+
+    /**
+     * @brief Metoda odpowiada za generowanie kodu dla dowolnego opakowania.
+     * @param wrap klasa opisująca kawałek kodu do wygenerowania.
+     * @param code wygenerowany kod.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    template <typename RegistersType>
+    bool wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code);
+
+    /**
+     * @brief Metoda odpowiada za wypełnianie parametrów w podanym kodzie.
+     * @param code kod.
+     * @param params parametry
+     * @return ilośc zamienonych parametrów.
+     */
+    uint64_t fill_params(QString &code, const QMap<QString, QString> &params);
+
+    uint64_t fill_placeholders(QString &code);
 };
 
 #endif // DADDINGMETHODS_H
