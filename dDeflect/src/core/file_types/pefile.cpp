@@ -143,279 +143,7 @@ PEFile::~PEFile()
         delete [] dataDirectoriesIdx;
 }
 
-bool PEFile::injectCode(QList<InjectDescription *> descs)
-{
-    QMap<QByteArray, uint64_t> codePointers;
-    QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
-    if(!parsed)
-        return false;
-
-    foreach(InjectDescription *desc, descs)
-    {
-        if(!desc)
-            return false;
-
-        switch(desc->getCallingMethod())
-        {
-        case CallingMethod::EntryPoint:
-            epMethods.append(generateCode(desc->getWrapper(), codePointers));
-            if(epMethods.last() == 0)
-                return false;
-            break;
-
-        case CallingMethod::TLS:
-            // TODO: TLS
-            break;
-
-        case CallingMethod::Trampoline:
-            // TODO: trampolina
-            break;
-        }
-    }
-
-    if(!epMethods.empty())
-    {
-        QByteArray code;
-
-        foreach(uint64_t offset, epMethods)
-        {
-            code.append(PECodeDefines::movDWordToReg(offset, Register::EAX));
-            code.append(PECodeDefines::callReg(Register::EAX));
-        }
-
-        code.append(PECodeDefines::movDWordToReg(getEntryPoint() + getImageBase(), Register::EAX));
-        code.append(PECodeDefines::jmpReg(Register::EAX));
-
-        uint64_t new_ep = injectUniqueData(code, codePointers);
-
-        if(new_ep == 0)
-            return false;
-
-        new_ep -= getImageBase();
-
-        if(!setNewEntryPoint(new_ep))
-            return false;
-    }
-
-    return true;
-}
-
-uint64_t PEFile::generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs)
-{
-    if(!parsed)
-        return 0;
-
-    if(!w)
-        return 0;
-
-    uint64_t action = 0;
-    uint64_t thread = 0;
-
-    // Generowanie kodu dla akcji.
-    if(w->getAction())
-    {
-        action = generateCode(w->getAction(), ptrs);
-        if(!action) return 0;
-    }
-
-    // Generowanie kodu dla funkcji wątku.
-    ThreadWrapper *tw = dynamic_cast<ThreadWrapper*>(w);
-
-    if(tw && tw->getThreadWrappers().empty())
-        return 0;
-
-    if(tw && !tw->getThreadWrappers().empty())
-    {
-        thread = generateThreadCode(tw->getThreadWrappers(), ptrs, tw->getSleepTime());
-        if(!thread) return 0;
-    }
-
-    // Generowanie kodu
-    QByteArray code;
-
-    // Tworzenie ramki stosu
-    code.append(PECodeDefines::startFunc);
-
-    std::list<Register> rts = w->getRegistersToSave().toStdList();
-
-    // Zachowywanie rejestrów
-    for(auto it = rts.begin(); it != rts.end(); ++it)
-    {
-        if(PECodeDefines::externalRegs.contains(*it))
-            code.append(PECodeDefines::saveRegister(*it));
-    }
-
-    // Ładowanie parametrów
-    if(!w->getParameters().empty())
-    {
-        Wrapper *func_wrap = Wrapper::fromFile(Wrapper::methodsPath + "load_functions.asm");
-        if(!func_wrap)
-            return 0;
-
-        uint64_t get_functions = generateCode(func_wrap, ptrs);
-        delete func_wrap;
-
-        code.append(PECodeDefines::reserveStackSpace(3));
-        code.append(PECodeDefines::movDWordToReg(get_functions, Register::EAX));
-        code.append(PECodeDefines::callReg(Register::EAX));
-
-        QList<Register> keys = w->getParameters().keys();
-        foreach (Register r, keys)
-        {
-            QList<QString> func_name = w->getParameters()[r].split('!');
-            if(func_name.length() != 2)
-                return 0;
-
-            if(thread && func_name[0] == "THREAD" && func_name[1] == "THREAD")
-            {
-                code.append(PECodeDefines::movDWordToReg(thread, r));
-                continue;
-            }
-
-            uint64_t lib_name_addr = generateString(func_name[0], ptrs);
-            uint64_t func_name_addr = generateString(func_name[1], ptrs);
-
-            code.append(PECodeDefines::saveAllInternal());
-
-            code.append(PECodeDefines::storeDWord(lib_name_addr));
-            code.append(PECodeDefines::readFromEspMemToReg(Register::EAX, 20));
-            code.append(PECodeDefines::callReg(Register::EAX));
-
-            code.append(PECodeDefines::storeDWord(func_name_addr));
-            code.append(PECodeDefines::saveRegister(Register::EAX));
-            code.append(PECodeDefines::readFromEspMemToReg(Register::EAX, 20));
-            code.append(PECodeDefines::callReg(Register::EAX));
-
-            code.append(PECodeDefines::readFromRegToEspMem(Register::EAX, 20));
-
-            code.append(PECodeDefines::restoreAllInternal());
-
-            code.append(PECodeDefines::readFromEspMemToReg(r, 8));
-        }
-
-        code.append(PECodeDefines::clearStackSpace(3));
-    }
-
-    // Doklejanie właściwego kodu
-    code.append(w->getCode());
-
-    // Handler
-    if(action)
-    {
-        Register cond = w->getReturns();
-        int act_idx = PECodeDefines::internalRegs.indexOf(cond);
-        Register act = act_idx == -1 ? PECodeDefines::internalRegs[0] :
-                PECodeDefines::internalRegs[(act_idx + 1) % PECodeDefines::internalRegs.length()];
-
-        // mov act, &action()
-        // test cond, cond
-        // jz xxx
-        // push internal
-        // call act
-        // pop internal
-        // xxx:
-        code.append(PECodeDefines::movDWordToReg(action, act));
-        code.append(PECodeDefines::testReg(cond));
-
-        QByteArray call_code;
-        call_code.append(PECodeDefines::saveAllInternal());
-        call_code.append(PECodeDefines::callReg(act));
-        call_code.append(PECodeDefines::restoreAllInternal());
-
-        code.append(PECodeDefines::jzRelative(call_code.length()));
-        code.append(call_code);
-    }
-
-    // Przywracanie rejestrów
-    for(auto it = rts.rbegin(); it != rts.rend(); ++it)
-    {
-        if(PECodeDefines::externalRegs.contains(*it))
-            code.append(PECodeDefines::restoreRegister(*it));
-    }
-
-    // Niszczenie ramki stosu
-    code.append(PECodeDefines::endFunc);
-    code.append(PECodeDefines::ret);
-
-    return injectUniqueData(code, ptrs);
-}
-
-uint64_t PEFile::generateThreadCode(QList<Wrapper *> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
-{
-    QByteArray code;
-
-    code.append(PECodeDefines::startFunc);
-    int jmp_offset = 0;
-
-    if(sleepTime)
-    {
-        Wrapper *func_wrap = Wrapper::fromFile(Wrapper::methodsPath + "load_functions.asm");
-        if(!func_wrap)
-            return 0;
-
-        uint64_t get_functions = generateCode(func_wrap, ptrs);
-        delete func_wrap;
-        if(get_functions == 0)
-            return 0;
-
-        uint64_t lib_name_addr = generateString("kernel32", ptrs);
-        uint64_t func_name_addr = generateString("Sleep", ptrs);
-        if(!lib_name_addr || !func_name_addr)
-            return 0;
-
-        code.append(PECodeDefines::reserveStackSpace(2));
-        code.append(PECodeDefines::movDWordToReg(get_functions, Register::EAX));
-        code.append(PECodeDefines::callReg(Register::EAX));
-
-        code.append(PECodeDefines::restoreRegister(Register::EAX));
-        code.append(PECodeDefines::restoreRegister(Register::EDX));
-        code.append(PECodeDefines::saveRegister(Register::EAX));
-
-        code.append(PECodeDefines::storeDWord(lib_name_addr));
-        code.append(PECodeDefines::callReg(Register::EDX));
-
-        code.append(PECodeDefines::restoreRegister(Register::EDX));
-
-        code.append(PECodeDefines::storeDWord(func_name_addr));
-        code.append(PECodeDefines::saveRegister(Register::EAX));
-        code.append(PECodeDefines::callReg(Register::EDX));
-        code.append(PECodeDefines::saveRegister(Register::EAX));
-
-        jmp_offset = code.length();
-
-        // Pętla
-        code.append(PECodeDefines::readFromEspMemToReg(Register::EAX, 0));
-        code.append(PECodeDefines::storeDWord(sleepTime * 1000));
-        code.append(PECodeDefines::callReg(Register::EAX));
-    }
-
-    foreach(Wrapper *w, wrappers)
-    {
-        if(!w)
-            return 0;
-
-        uint32_t fnc = generateCode(w, ptrs);
-        code.append(PECodeDefines::movDWordToReg(fnc, Register::EAX));
-        code.append(PECodeDefines::callReg(Register::EAX));
-    }
-
-    if(sleepTime)
-    {
-        jmp_offset = code.length() + 2 - jmp_offset;
-        if(jmp_offset > 126)
-            return 0;
-
-        code.append(PECodeDefines::jmpRelative(-jmp_offset));
-        code.append(PECodeDefines::clearStackSpace(1));
-    }
-
-    code.append(PECodeDefines::movDWordToReg(0, Register::EAX));
-    code.append(PECodeDefines::endFunc);
-    code.append(PECodeDefines::retN(4));
-
-    return injectUniqueData(code, ptrs);
-}
 
 uint64_t PEFile::generateString(QString str, QMap<QByteArray, uint64_t> &ptrs)
 {
@@ -488,6 +216,286 @@ QString PEFile::getRandomSectionName()
 bool PEFile::isValid()
 {
     return parsed;
+}
+
+
+template <typename Register>
+bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
+{
+    QMap<QByteArray, uint64_t> codePointers;
+    QList<uint64_t> epMethods, tlsMethods, tramMethods;
+
+    if(!parsed)
+        return false;
+
+    foreach(InjectDescription<Register> *desc, descs)
+    {
+        if(!desc)
+            return false;
+
+        switch(desc->getCallingMethod())
+        {
+        case CallingMethod::EntryPoint:
+            epMethods.append(generateCode(desc->getWrapper(), codePointers));
+            if(epMethods.last() == 0)
+                return false;
+            break;
+
+        case CallingMethod::TLS:
+            // TODO: TLS
+            break;
+
+        case CallingMethod::Trampoline:
+            // TODO: trampolina
+            break;
+        }
+    }
+
+    if(!epMethods.empty())
+    {
+        QByteArray code;
+
+        foreach(uint64_t offset, epMethods)
+        {
+            code.append(PECodeDefines<Register>::movValueToReg((uint32_t)offset, Register::EAX));
+            code.append(PECodeDefines<Register>::callReg(Register::EAX));
+        }
+
+        code.append(PECodeDefines<Register>::movValueToReg((uint32_t)(getEntryPoint() + getImageBase()), Register::EAX));
+        code.append(PECodeDefines<Register>::jmpReg(Register::EAX));
+
+        uint64_t new_ep = injectUniqueData(code, codePointers);
+
+        if(new_ep == 0)
+            return false;
+
+        new_ep -= getImageBase();
+
+        if(!setNewEntryPoint(new_ep))
+            return false;
+    }
+
+    return true;
+}
+template bool PEFile::injectCode(QList<InjectDescription<Register_x86> *> descs);
+//template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs);
+
+template <typename Register>
+uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs)
+{
+    if(!parsed)
+        return 0;
+
+    if(!w)
+        return 0;
+
+    uint32_t action = 0;
+    uint32_t thread = 0;
+
+    // Generowanie kodu dla akcji.
+    if(w->getAction())
+    {
+        action = generateCode(w->getAction(), ptrs);
+        if(!action) return 0;
+    }
+
+    // Generowanie kodu dla funkcji wątku.
+    ThreadWrapper<Register> *tw = dynamic_cast<ThreadWrapper<Register>*>(w);
+
+    if(tw && tw->getThreadWrappers().empty())
+        return 0;
+
+    if(tw && !tw->getThreadWrappers().empty())
+    {
+        thread = generateThreadCode(tw->getThreadWrappers(), ptrs, tw->getSleepTime());
+        if(!thread) return 0;
+    }
+
+    // Generowanie kodu
+    QByteArray code;
+
+    // Tworzenie ramki stosu
+    code.append(PECodeDefines<Register>::startFunc);
+
+    std::list<Register> rts = w->getRegistersToSave().toStdList();
+
+    // Zachowywanie rejestrów
+    for(auto it = rts.begin(); it != rts.end(); ++it)
+    {
+        if(PECodeDefines<Register>::externalRegs.contains(*it))
+            code.append(PECodeDefines<Register>::saveRegister(*it));
+    }
+
+    // Ładowanie parametrów
+    if(!w->getParameters().empty())
+    {
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        if(!func_wrap)
+            return 0;
+
+        uint32_t get_functions = generateCode(func_wrap, ptrs);
+        delete func_wrap;
+
+        code.append(PECodeDefines<Register>::reserveStackSpace(3));
+        code.append(PECodeDefines<Register>::movValueToReg(get_functions, Register::EAX));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+
+        QList<Register> keys = w->getParameters().keys();
+        foreach (Register r, keys)
+        {
+            QList<QString> func_name = w->getParameters()[r].split('!');
+            if(func_name.length() != 2)
+                return 0;
+
+            if(thread && func_name[0] == "THREAD" && func_name[1] == "THREAD")
+            {
+                code.append(PECodeDefines<Register>::movValueToReg(thread, r));
+                continue;
+            }
+
+            uint32_t lib_name_addr = generateString(func_name[0], ptrs);
+            uint32_t func_name_addr = generateString(func_name[1], ptrs);
+
+            code.append(PECodeDefines<Register>::saveAllInternal());
+
+            code.append(PECodeDefines<Register>::storeValue(lib_name_addr));
+            code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
+            code.append(PECodeDefines<Register>::callReg(Register::EAX));
+
+            code.append(PECodeDefines<Register>::storeValue(func_name_addr));
+            code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
+            code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
+            code.append(PECodeDefines<Register>::callReg(Register::EAX));
+
+            code.append(PECodeDefines<Register>::readFromRegToEspMem(Register::EAX, 20));
+
+            code.append(PECodeDefines<Register>::restoreAllInternal());
+
+            code.append(PECodeDefines<Register>::readFromEspMemToReg(r, 8));
+        }
+
+        code.append(PECodeDefines<Register>::clearStackSpace(3));
+    }
+
+    // Doklejanie właściwego kodu
+    code.append(w->getCode());
+
+    // Handler
+    if(action)
+    {
+        Register cond = w->getReturns();
+        int act_idx = PECodeDefines<Register>::internalRegs.indexOf(cond);
+        Register act = act_idx == -1 ? PECodeDefines<Register>::internalRegs[0] :
+                PECodeDefines<Register>::internalRegs[(act_idx + 1) % PECodeDefines<Register>::internalRegs.length()];
+
+        // mov act, &action()
+        // test cond, cond
+        // jz xxx
+        // push internal
+        // call act
+        // pop internal
+        // xxx:
+        code.append(PECodeDefines<Register>::movValueToReg(action, act));
+        code.append(PECodeDefines<Register>::testReg(cond));
+
+        QByteArray call_code;
+        call_code.append(PECodeDefines<Register>::saveAllInternal());
+        call_code.append(PECodeDefines<Register>::callReg(act));
+        call_code.append(PECodeDefines<Register>::restoreAllInternal());
+
+        code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
+        code.append(call_code);
+    }
+
+    // Przywracanie rejestrów
+    for(auto it = rts.rbegin(); it != rts.rend(); ++it)
+    {
+        if(PECodeDefines<Register>::externalRegs.contains(*it))
+            code.append(PECodeDefines<Register>::restoreRegister(*it));
+    }
+
+    // Niszczenie ramki stosu
+    code.append(PECodeDefines<Register>::endFunc);
+    code.append(PECodeDefines<Register>::ret);
+
+    return injectUniqueData(code, ptrs);
+}
+
+template <typename Register>
+uint64_t PEFile::generateThreadCode(QList<Wrapper<Register> *> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
+{
+    QByteArray code;
+
+    code.append(PECodeDefines<Register>::startFunc);
+    int jmp_offset = 0;
+
+    if(sleepTime)
+    {
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        if(!func_wrap)
+            return 0;
+
+        uint32_t get_functions = generateCode(func_wrap, ptrs);
+        delete func_wrap;
+        if(get_functions == 0)
+            return 0;
+
+        uint32_t lib_name_addr = generateString("kernel32", ptrs);
+        uint32_t func_name_addr = generateString("Sleep", ptrs);
+        if(!lib_name_addr || !func_name_addr)
+            return 0;
+
+        code.append(PECodeDefines<Register>::reserveStackSpace(2));
+        code.append(PECodeDefines<Register>::movValueToReg(get_functions, Register::EAX));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+
+        code.append(PECodeDefines<Register>::restoreRegister(Register::EAX));
+        code.append(PECodeDefines<Register>::restoreRegister(Register::EDX));
+        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
+
+        code.append(PECodeDefines<Register>::storeValue(lib_name_addr));
+        code.append(PECodeDefines<Register>::callReg(Register::EDX));
+
+        code.append(PECodeDefines<Register>::restoreRegister(Register::EDX));
+
+        code.append(PECodeDefines<Register>::storeValue(func_name_addr));
+        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
+        code.append(PECodeDefines<Register>::callReg(Register::EDX));
+        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
+
+        jmp_offset = code.length();
+
+        // Pętla
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 0));
+        code.append(PECodeDefines<Register>::storeValue(static_cast<uint32_t>(sleepTime * 1000)));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+    }
+
+    foreach(Wrapper<Register> *w, wrappers)
+    {
+        if(!w)
+            return 0;
+
+        uint32_t fnc = generateCode(w, ptrs);
+        code.append(PECodeDefines<Register>::movValueToReg(fnc, Register::EAX));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+    }
+
+    if(sleepTime)
+    {
+        jmp_offset = code.length() + 2 - jmp_offset;
+        if(jmp_offset > 126)
+            return 0;
+
+        code.append(PECodeDefines<Register>::jmpRelative(-jmp_offset));
+        code.append(PECodeDefines<Register>::clearStackSpace(1));
+    }
+
+    code.append(PECodeDefines<Register>::movValueToReg(0U, Register::EAX));
+    code.append(PECodeDefines<Register>::endFunc);
+    code.append(PECodeDefines<Register>::retN(4));
+
+    return injectUniqueData(code, ptrs);
 }
 
 bool PEFile::parse()

@@ -188,8 +188,8 @@ int main()
         return 1;
     }
 
-    QList<InjectDescription*> ids;
-    ids.append(new (std::nothrow) InjectDescription(CallingMethod::EntryPoint, Wrapper::fromFile(Wrapper::methodsPath + "create_thread.asm", true)));
+    QList<InjectDescription<Register_x86>*> ids;
+    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "create_thread.asm", true)));
     if(pe.injectCode(ids))
         puts("Success!");
     else

@@ -75,8 +75,11 @@ private:
     unsigned int alignNumber(unsigned int number, unsigned int alignment);
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
-    uint64_t generateCode(Wrapper *w, QMap<QByteArray, uint64_t> &ptrs);
-    uint64_t generateThreadCode(QList<Wrapper*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime);
+    template <typename Register>
+    uint64_t generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs);
+
+    template <typename Register>
+    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime);
     uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
     uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs);
     QString getRandomSectionName();
@@ -85,7 +88,8 @@ public:
     PEFile(QByteArray d);
     ~PEFile();
 
-    bool injectCode(QList<InjectDescription*> descs);
+    template <typename Register>
+    bool injectCode(QList<InjectDescription<Register>*> descs);
 
     /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
