@@ -180,7 +180,9 @@ class AsmCodeGenerator {
 
     enum class Instructions {
         POP,
-        PUSH
+        PUSH,
+        MOV,
+        JMP
     };
 
     static const QMap<Instructions, QString> instructions;
@@ -199,6 +201,12 @@ public:
 
     template <typename RegistersType>
     static QString pop_regs(const QList<RegistersType> &regs);
+
+    template <typename RegistersType>
+    static QString mov_reg_const(const RegistersType reg, Elf64_Addr value);
+
+    template <typename RegistersType>
+    static QString jmp_reg(const RegistersType reg);
 };
 
 template <typename RegistersType>
@@ -246,6 +254,24 @@ QString AsmCodeGenerator::pop_regs(const QList<RegistersType> &regs) {
 }
 
 template <typename RegistersType>
+QString AsmCodeGenerator::mov_reg_const(const RegistersType reg, Elf64_Addr value) {
+    QString qreg = std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+                        regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
+                            std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+                                regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    return QString("%1 %2, %3\n").arg(instructions[Instructions::MOV], qreg, QString::number(value));
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::jmp_reg(const RegistersType reg) {
+    QString qreg = std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+                        regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
+                            std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+                                regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    return QString("%1 %2\n").arg(instructions[Instructions::JMP], qreg);
+}
+
+template <typename RegistersType>
 bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code) {
     if (!wrap)
         return false;
@@ -259,6 +285,7 @@ bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &cod
 
     code.append(wrap->code);
     // fill params
+    // TODO: use return value
     uint64_t filled_params = fill_params(code, wrap->params);
 
     // generate pop registers
@@ -331,44 +358,30 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
 
     // qDebug() << code2compile;
 
+    Elf64_Addr oldep;
+    if (!elf.get_entry_point(oldep))
+        return false;
+
+    // add jump to old original entry point
+    // TODO: change
+    if (elf.is_x86()) {
+        code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, oldep));
+        code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
+    }
+    else {
+        code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, oldep));
+        code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
+    }
+
     // 4. compile code
     if (!compile(code2compile, compiled_code))
         return false;
 
     // 5. secure elf file
-    Elf64_Addr oldep;
-    if (!elf.get_entry_point(oldep))
-        return false;
-
-    // 6. add jmp in binary
-    // TODO: should be changed
-    QByteArray jmp;
-    if (elf.is_x86() || oldep < 0x100000000) {
-        jmp.append(0xb8); // mov eax, addr
-        // oldep -= 0x5;
-        for(uint i = 0; i < sizeof(Elf32_Addr); ++i) {
-            int a = (oldep >> (i * 8) & 0xff);
-            jmp.append(static_cast<char>(a));
-        }
-        jmp.append("\xff\xe0", 2); // jmp eax
-    }
-    else if (elf.is_x64()) {
-        jmp.append("\x48\xb8", 2); // mov rax, addr
-        for(uint i = 0; i < sizeof(Elf64_Addr); ++i) {
-            int a = (oldep >> (i * 8) & 0xff);
-            jmp.append(static_cast<char>(a));
-        }
-        jmp.append("\xff\xe0", 2);
-    }
-    else return false;
-
-    // 5. secure elf file
     Elf64_Addr nva;
 
-    compiled_code.append(jmp);
-
     // TODO: parameter for x segment
-    QByteArray nf = elf.extend_segment(compiled_code, true, nva);
+    QByteArray nf = elf.extend_segment(compiled_code, false, nva);
     if (!nf.length())
         return false;
 

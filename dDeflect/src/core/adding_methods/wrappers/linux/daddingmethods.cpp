@@ -49,7 +49,9 @@ const QMap<DAddingMethods::Registers_x64, QString> AsmCodeGenerator::regs_x64 = 
 
 const QMap<AsmCodeGenerator::Instructions, QString> AsmCodeGenerator::instructions = {
     { AsmCodeGenerator::Instructions::POP , instruction_stringify(AsmCodeGenerator::Instructions::POP)  },
-    { AsmCodeGenerator::Instructions::PUSH, instruction_stringify(AsmCodeGenerator::Instructions::PUSH) }
+    { AsmCodeGenerator::Instructions::PUSH, instruction_stringify(AsmCodeGenerator::Instructions::PUSH) },
+    { AsmCodeGenerator::Instructions::MOV,  instruction_stringify(AsmCodeGenerator::Instructions::MOV)  },
+    { AsmCodeGenerator::Instructions::JMP,  instruction_stringify(AsmCodeGenerator::Instructions::JMP)  }
 };
 
 DAddingMethods::DAddingMethods() {
@@ -93,15 +95,15 @@ bool DAddingMethods::compile(const QString &code2compile, QByteArray &compiled_c
     if (!file.open(QIODevice::WriteOnly))
         return false;
 
-    if (file.write(code2compile.toStdString().c_str(), code2compile.length() != code2compile.length()))
+    if (file.write(code2compile.toStdString().c_str(), code2compile.length()) != code2compile.length())
         return false;
 
     file.close();
 
-    if (QProcess::execute("nasm", { "-o compiled.bin", "tocompile.asm" }))
+    if (QProcess::execute("nasm", { "tocompile.asm" }))
         return false;
 
-    file.setFileName("compiled.bin");
+    file.setFileName("tocompile");
 
     if (!file.open(QIODevice::ReadOnly))
         return false;
