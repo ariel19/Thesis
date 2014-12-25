@@ -257,6 +257,7 @@ bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &cod
     // generate push registers
     code.append(AsmCodeGenerator::push_regs<RegistersType>(wrap->used_regs));
 
+    code.append(wrap->code);
     // fill params
     uint64_t filled_params = fill_params(code, wrap->params);
 
@@ -275,6 +276,13 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
 
     if (!inject_desc.adding_method)
         return false;
+
+    // check platform version
+    if (std::is_same<RegistersType, Registers_x86>::value)
+        code2compile.append(QString("[bits 32]\n"));
+    else if(std::is_same<RegistersType, Registers_x64>::value)
+        code2compile.append(QString("[bits 64]\n"));
+    else return false;
 
     // 0. take code from input
     if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method, code2compile))
@@ -312,9 +320,16 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         return false;
     }
 
+    // qDebug() << code2compile;
+
     // 3. merge code
     fill_placeholders(code2compile, code_ddetect_handler, PlaceholderMnemonics::DDETECTIONHANDLER);
+
+    // qDebug() << code2compile;
+
     fill_placeholders(code2compile, code_ddetect, PlaceholderMnemonics::DDETECTIONMETHOD);
+
+    // qDebug() << code2compile;
 
     // 4. compile code
     if (!compile(code2compile, compiled_code))
