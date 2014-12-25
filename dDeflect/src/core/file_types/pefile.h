@@ -80,9 +80,23 @@ private:
 
     template <typename Register>
     uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime);
+
+    template <typename Register, typename T>
+    bool generateParametersLoadingCode(QByteArray &code, T getFunctionsCodeAddr, QMap<Register,
+                                       QString> params, QMap<QByteArray, uint64_t> &ptrs, T threadCodePtr);
+
     uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
     uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs);
     QString getRandomSectionName();
+
+    template <typename Register>
+    bool injectEpCode(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers);
+
+    template <typename Register>
+    bool injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers);
+
+    template <typename Register>
+    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers);
 
 public:
     PEFile(QByteArray d);
@@ -197,7 +211,7 @@ public:
      * @brief Pobiera ImageBase
      * @return
      */
-    uint64_t getImageBase(); // TODO: template w zależności od 32/64
+    uint64_t getImageBase();
 
     /**
      * @brief Dodaje nową wykonywalną sekcję.

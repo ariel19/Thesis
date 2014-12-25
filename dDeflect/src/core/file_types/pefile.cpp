@@ -218,6 +218,70 @@ bool PEFile::isValid()
     return parsed;
 }
 
+template <>
+bool PEFile::injectEpCode<Register_x86>(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers)
+{
+    typedef Register_x86 Register;
+
+    QByteArray code;
+
+    foreach(uint64_t offset, epMethods)
+    {
+        code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint32_t>(offset), Register::EAX));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+    }
+
+    code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint32_t>(getEntryPoint() + getImageBase()),
+                                                           Register::EAX));
+    code.append(PECodeDefines<Register>::jmpReg(Register::EAX));
+
+    uint64_t new_ep = injectUniqueData(code, codePointers);
+
+    if(new_ep == 0)
+        return false;
+
+    new_ep -= getImageBase();
+
+    if(!setNewEntryPoint(new_ep))
+        return false;
+
+    return true;
+}
+
+template <>
+bool PEFile::injectTlsCode<Register_x86>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers)
+{
+    // TODO
+    return true;
+}
+
+template <>
+bool PEFile::injectTrampolineCode<Register_x86>(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers)
+{
+    // TODO
+    return true;
+}
+
+template <>
+bool PEFile::injectEpCode<Register_x64>(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers)
+{
+    // TODO
+    return true;
+}
+
+template <>
+bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers)
+{
+    // TODO
+    return true;
+}
+
+template <>
+bool PEFile::injectTrampolineCode<Register_x64>(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers)
+{
+    // TODO
+    return true;
+}
 
 template <typename Register>
 bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
@@ -236,194 +300,120 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
         switch(desc->getCallingMethod())
         {
         case CallingMethod::EntryPoint:
-            epMethods.append(generateCode(desc->getWrapper(), codePointers));
+            epMethods.append(generateCode<Register>(desc->getWrapper(), codePointers));
             if(epMethods.last() == 0)
                 return false;
             break;
 
         case CallingMethod::TLS:
-            // TODO: TLS
+            tlsMethods.append(generateCode<Register>(desc->getWrapper(), codePointers));
+            if(epMethods.last() == 0)
+                return false;
             break;
 
         case CallingMethod::Trampoline:
-            // TODO: trampolina
+            tramMethods.append(generateCode<Register>(desc->getWrapper(), codePointers));
+            if(epMethods.last() == 0)
+                return false;
             break;
         }
     }
 
     if(!epMethods.empty())
     {
-        QByteArray code;
-
-        foreach(uint64_t offset, epMethods)
-        {
-            code.append(PECodeDefines<Register>::movValueToReg((uint32_t)offset, Register::EAX));
-            code.append(PECodeDefines<Register>::callReg(Register::EAX));
-        }
-
-        code.append(PECodeDefines<Register>::movValueToReg((uint32_t)(getEntryPoint() + getImageBase()), Register::EAX));
-        code.append(PECodeDefines<Register>::jmpReg(Register::EAX));
-
-        uint64_t new_ep = injectUniqueData(code, codePointers);
-
-        if(new_ep == 0)
+        if(!injectEpCode<Register>(epMethods, codePointers))
             return false;
+    }
 
-        new_ep -= getImageBase();
+    if(!tlsMethods.empty())
+    {
+        if(!injectTlsCode<Register>(tlsMethods, codePointers))
+            return false;
+    }
 
-        if(!setNewEntryPoint(new_ep))
+    if(!tramMethods.empty())
+    {
+        if(!injectTrampolineCode<Register>(tramMethods, codePointers))
             return false;
     }
 
     return true;
 }
 template bool PEFile::injectCode(QList<InjectDescription<Register_x86> *> descs);
-//template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs);
+template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs);
 
-template <typename Register>
-uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs)
+template <>
+bool PEFile::generateParametersLoadingCode<Register_x86, uint32_t>
+(QByteArray &code, uint32_t getFunctionsCodeAddr, QMap<Register_x86, QString> params, QMap<QByteArray, uint64_t> &ptrs, uint32_t threadCodePtr)
 {
-    if(!parsed)
-        return 0;
+    typedef Register_x86 Register;
 
-    if(!w)
-        return 0;
+    code.append(PECodeDefines<Register>::reserveStackSpace(3));
+    code.append(PECodeDefines<Register>::movValueToReg(getFunctionsCodeAddr, Register::EAX));
+    code.append(PECodeDefines<Register>::callReg(Register::EAX));
 
-    uint32_t action = 0;
-    uint32_t thread = 0;
-
-    // Generowanie kodu dla akcji.
-    if(w->getAction())
+    QList<Register> keys = params.keys();
+    foreach (Register r, keys)
     {
-        action = generateCode(w->getAction(), ptrs);
-        if(!action) return 0;
-    }
+        QList<QString> func_name = params[r].split('!');
+        if(func_name.length() != 2)
+            return false;
 
-    // Generowanie kodu dla funkcji wątku.
-    ThreadWrapper<Register> *tw = dynamic_cast<ThreadWrapper<Register>*>(w);
-
-    if(tw && tw->getThreadWrappers().empty())
-        return 0;
-
-    if(tw && !tw->getThreadWrappers().empty())
-    {
-        thread = generateThreadCode(tw->getThreadWrappers(), ptrs, tw->getSleepTime());
-        if(!thread) return 0;
-    }
-
-    // Generowanie kodu
-    QByteArray code;
-
-    // Tworzenie ramki stosu
-    code.append(PECodeDefines<Register>::startFunc);
-
-    std::list<Register> rts = w->getRegistersToSave().toStdList();
-
-    // Zachowywanie rejestrów
-    for(auto it = rts.begin(); it != rts.end(); ++it)
-    {
-        if(PECodeDefines<Register>::externalRegs.contains(*it))
-            code.append(PECodeDefines<Register>::saveRegister(*it));
-    }
-
-    // Ładowanie parametrów
-    if(!w->getParameters().empty())
-    {
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
-        if(!func_wrap)
-            return 0;
-
-        uint32_t get_functions = generateCode(func_wrap, ptrs);
-        delete func_wrap;
-
-        code.append(PECodeDefines<Register>::reserveStackSpace(3));
-        code.append(PECodeDefines<Register>::movValueToReg(get_functions, Register::EAX));
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
-
-        QList<Register> keys = w->getParameters().keys();
-        foreach (Register r, keys)
+        if(threadCodePtr && func_name[0] == "THREAD" && func_name[1] == "THREAD")
         {
-            QList<QString> func_name = w->getParameters()[r].split('!');
-            if(func_name.length() != 2)
-                return 0;
-
-            if(thread && func_name[0] == "THREAD" && func_name[1] == "THREAD")
-            {
-                code.append(PECodeDefines<Register>::movValueToReg(thread, r));
-                continue;
-            }
-
-            uint32_t lib_name_addr = generateString(func_name[0], ptrs);
-            uint32_t func_name_addr = generateString(func_name[1], ptrs);
-
-            code.append(PECodeDefines<Register>::saveAllInternal());
-
-            code.append(PECodeDefines<Register>::storeValue(lib_name_addr));
-            code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
-            code.append(PECodeDefines<Register>::callReg(Register::EAX));
-
-            code.append(PECodeDefines<Register>::storeValue(func_name_addr));
-            code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
-            code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
-            code.append(PECodeDefines<Register>::callReg(Register::EAX));
-
-            code.append(PECodeDefines<Register>::readFromRegToEspMem(Register::EAX, 20));
-
-            code.append(PECodeDefines<Register>::restoreAllInternal());
-
-            code.append(PECodeDefines<Register>::readFromEspMemToReg(r, 8));
+            code.append(PECodeDefines<Register>::movValueToReg(threadCodePtr, r));
+            continue;
         }
 
-        code.append(PECodeDefines<Register>::clearStackSpace(3));
+        uint32_t lib_name_addr = generateString(func_name[0], ptrs);
+        uint32_t func_name_addr = generateString(func_name[1], ptrs);
+
+        code.append(PECodeDefines<Register>::saveAllInternal());
+
+        code.append(PECodeDefines<Register>::storeValue(lib_name_addr));
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+
+        code.append(PECodeDefines<Register>::storeValue(func_name_addr));
+        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+
+        code.append(PECodeDefines<Register>::readFromRegToEspMem(Register::EAX, 20));
+
+        code.append(PECodeDefines<Register>::restoreAllInternal());
+
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(r, 8));
     }
 
-    // Doklejanie właściwego kodu
-    code.append(w->getCode());
+    code.append(PECodeDefines<Register>::clearStackSpace(3));
 
-    // Handler
-    if(action)
-    {
-        Register cond = w->getReturns();
-        int act_idx = PECodeDefines<Register>::internalRegs.indexOf(cond);
-        Register act = act_idx == -1 ? PECodeDefines<Register>::internalRegs[0] :
-                PECodeDefines<Register>::internalRegs[(act_idx + 1) % PECodeDefines<Register>::internalRegs.length()];
-
-        // mov act, &action()
-        // test cond, cond
-        // jz xxx
-        // push internal
-        // call act
-        // pop internal
-        // xxx:
-        code.append(PECodeDefines<Register>::movValueToReg(action, act));
-        code.append(PECodeDefines<Register>::testReg(cond));
-
-        QByteArray call_code;
-        call_code.append(PECodeDefines<Register>::saveAllInternal());
-        call_code.append(PECodeDefines<Register>::callReg(act));
-        call_code.append(PECodeDefines<Register>::restoreAllInternal());
-
-        code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
-        code.append(call_code);
-    }
-
-    // Przywracanie rejestrów
-    for(auto it = rts.rbegin(); it != rts.rend(); ++it)
-    {
-        if(PECodeDefines<Register>::externalRegs.contains(*it))
-            code.append(PECodeDefines<Register>::restoreRegister(*it));
-    }
-
-    // Niszczenie ramki stosu
-    code.append(PECodeDefines<Register>::endFunc);
-    code.append(PECodeDefines<Register>::ret);
-
-    return injectUniqueData(code, ptrs);
+    return true;
 }
 
-template <typename Register>
-uint64_t PEFile::generateThreadCode(QList<Wrapper<Register> *> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
+template <>
+bool PEFile::generateParametersLoadingCode<Register_x64, uint64_t>
+(QByteArray &code, uint64_t getFunctionsCodeAddr, QMap<Register_x64, QString> params, QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
 {
+    // TODO
+    return 0;
+}
+
+template <>
+bool PEFile::generateParametersLoadingCode<Register_x86, uint64_t>
+(QByteArray &code, uint64_t getFunctionsCodeAddr, QMap<Register_x86, QString> params, QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
+{
+    return generateParametersLoadingCode<Register_x86, uint32_t>
+            (code, static_cast<uint32_t>(getFunctionsCodeAddr), params, ptrs, static_cast<uint32_t>(threadCodePtr));
+}
+
+
+template <>
+uint64_t PEFile::generateThreadCode<Register_x86>
+(QList<Wrapper<Register_x86>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
+{
+    typedef Register_x86 Register;
+
     QByteArray code;
 
     code.append(PECodeDefines<Register>::startFunc);
@@ -494,6 +484,129 @@ uint64_t PEFile::generateThreadCode(QList<Wrapper<Register> *> wrappers, QMap<QB
     code.append(PECodeDefines<Register>::movValueToReg(0U, Register::EAX));
     code.append(PECodeDefines<Register>::endFunc);
     code.append(PECodeDefines<Register>::retN(4));
+
+    return injectUniqueData(code, ptrs);
+}
+
+template <>
+uint64_t PEFile::generateThreadCode<Register_x64>
+(QList<Wrapper<Register_x64>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
+{
+    // TODO
+    return 0;
+}
+
+template <typename Register>
+uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs)
+{
+    if(!parsed)
+        return 0;
+
+    if(!w)
+        return 0;
+
+    uint64_t action = 0;
+    uint64_t thread = 0;
+
+    // Generowanie kodu dla akcji.
+    if(w->getAction())
+    {
+        action = generateCode(w->getAction(), ptrs);
+        if(!action) return 0;
+    }
+
+    // Generowanie kodu dla funkcji wątku.
+    ThreadWrapper<Register> *tw = dynamic_cast<ThreadWrapper<Register>*>(w);
+
+    if(tw && tw->getThreadWrappers().empty())
+        return 0;
+
+    if(tw && !tw->getThreadWrappers().empty())
+    {
+        thread = generateThreadCode(tw->getThreadWrappers(), ptrs, tw->getSleepTime());
+        if(!thread) return 0;
+    }
+
+    // Generowanie kodu
+    QByteArray code;
+
+    // Tworzenie ramki stosu
+    code.append(PECodeDefines<Register>::startFunc);
+
+    std::list<Register> rts = w->getRegistersToSave().toStdList();
+    bool align = true;
+
+    // Zachowywanie rejestrów
+    for(auto it = rts.begin(); it != rts.end(); ++it)
+    {
+        if(PECodeDefines<Register>::externalRegs.contains(*it))
+        {
+            code.append(PECodeDefines<Register>::saveRegister(*it));
+            align = ~align;
+        }
+    }
+
+    // Wyrównanie do 16 w przypadku x64
+    if(is_x64 && align)
+        code.append(PECodeDefines<Register>::reserveStackSpace(1));
+
+    // Ładowanie parametrów
+    if(!w->getParameters().empty())
+    {
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        if(!func_wrap)
+            return 0;
+
+        uint64_t get_functions = generateCode(func_wrap, ptrs);
+        delete func_wrap;
+
+        generateParametersLoadingCode<Register>(code, get_functions, w->getParameters(), ptrs, thread);
+    }
+
+    // Doklejanie właściwego kodu
+    code.append(w->getCode());
+
+    // Handler
+    if(action)
+    {
+        Register cond = w->getReturns();
+        int act_idx = PECodeDefines<Register>::internalRegs.indexOf(cond);
+        Register act = act_idx == -1 ? PECodeDefines<Register>::internalRegs[0] :
+                PECodeDefines<Register>::internalRegs[(act_idx + 1) % PECodeDefines<Register>::internalRegs.length()];
+
+        // mov act, &action()
+        // test cond, cond
+        // jz xxx
+        // push internal
+        // call act
+        // pop internal
+        // xxx:
+        code.append(PECodeDefines<Register>::movValueToReg(action, act));
+        code.append(PECodeDefines<Register>::testReg(cond));
+
+        QByteArray call_code;
+        call_code.append(PECodeDefines<Register>::saveAllInternal());
+        call_code.append(PECodeDefines<Register>::callReg(act));
+        call_code.append(PECodeDefines<Register>::restoreAllInternal());
+
+        code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
+        code.append(call_code);
+    }
+
+    // Wyrównanie do 16 w przypadku x64
+    if(is_x64 && align)
+        code.append(PECodeDefines<Register>::clearStackSpace(1));
+
+    // Przywracanie rejestrów
+    for(auto it = rts.rbegin(); it != rts.rend(); ++it)
+    {
+        if(PECodeDefines<Register>::externalRegs.contains(*it))
+            code.append(PECodeDefines<Register>::restoreRegister(*it));
+    }
+
+    // Niszczenie ramki stosu i ret
+    code.append(PECodeDefines<Register>::endFunc);
+    code.append(PECodeDefines<Register>::ret);
 
     return injectUniqueData(code, ptrs);
 }

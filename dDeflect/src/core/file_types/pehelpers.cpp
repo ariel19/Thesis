@@ -1,7 +1,10 @@
 #include "pehelpers.h"
 
-template <typename Register>
-const QString Wrapper<Register>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
+template <>
+const QString Wrapper<Register_x86>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
+
+template <>
+const QString Wrapper<Register_x64>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x64\\x64\\src\\"; // TODO: wczytywanie z config
 
 template <typename Register>
 const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
@@ -144,6 +147,13 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
     return thread_code ?
                 new (std::nothrow) ThreadWrapper<Register_x86>(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\heap_flags.asm")}, 5, regToSave, params, returns, action) :
                 new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
+}
+
+template <>
+Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread_code)
+{
+    // TODO
+    return nullptr;
 }
 
 template <typename Register>
