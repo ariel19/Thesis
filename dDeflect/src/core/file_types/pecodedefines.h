@@ -5,6 +5,7 @@
 #include <QSet>
 #include <core/file_types/pehelpers.h>
 
+template <typename Register>
 class PECodeDefines
 {
 private:
@@ -23,6 +24,7 @@ private:
     static const QByteArray _clear_stack;
     static const QByteArray _store_dword;
     static const QByteArray _ret_n;
+    static const uint8_t _stack_cell_size;
 
 public:
     static const QByteArray startFunc;
@@ -33,7 +35,8 @@ public:
 
     static QByteArray saveRegister(Register reg);
     static QByteArray restoreRegister(Register reg);
-    static QByteArray movDWordToReg(uint32_t dword, Register reg);
+    template <typename T>
+    static QByteArray movValueToReg(T value, Register reg);
     static QByteArray callReg(Register reg);
     static QByteArray jmpReg(Register reg);
     static QByteArray testReg(Register reg);
@@ -43,7 +46,8 @@ public:
     static QByteArray restoreAllInternal();
     static QByteArray reserveStackSpace(uint16_t noParams);
     static QByteArray clearStackSpace(uint16_t noParams);
-    static QByteArray storeDWord(uint32_t dword);
+    template <typename T>
+    static QByteArray storeValue(T dword);
     static QByteArray readFromEspMemToReg(Register reg, int8_t base);
     static QByteArray readFromRegToEspMem(Register reg, int8_t base);
     static QByteArray retN(uint16_t n);

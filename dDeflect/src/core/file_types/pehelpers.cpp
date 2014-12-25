@@ -1,56 +1,67 @@
 #include "pehelpers.h"
 
-const QString Wrapper::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
-const QString Wrapper::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
+template <typename Register>
+const QString Wrapper<Register>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
 
-InjectDescription::InjectDescription(CallingMethod _method, Wrapper *_wrapper) :
+template <typename Register>
+const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
+
+template <typename Register>
+InjectDescription<Register>::InjectDescription(CallingMethod _method, Wrapper<Register> *_wrapper) :
     callingMethod(_method),
     wrapper(_wrapper)
 { }
 
-InjectDescription::~InjectDescription()
+template <typename Register>
+InjectDescription<Register>::~InjectDescription()
 {
     if(wrapper)
         delete wrapper;
 }
 
-Wrapper *InjectDescription::getWrapper()
+template <typename Register>
+Wrapper<Register> *InjectDescription<Register>::getWrapper()
 {
     return wrapper;
 }
 
-CallingMethod InjectDescription::getCallingMethod() const
+template <typename Register>
+CallingMethod InjectDescription<Register>::getCallingMethod() const
 {
     return callingMethod;
 }
 
-ThreadWrapper::ThreadWrapper(QByteArray _code, QList<Wrapper*> _thread, uint16_t _sleepTime, QList<Register> _regToSave,
-                             QMap<Register, QString> _params, Register _returns, Wrapper *_action) :
-    Wrapper(_code, _regToSave, _params, _returns, _action),
+template <typename Register>
+ThreadWrapper<Register>::ThreadWrapper(QByteArray _code, QList<Wrapper<Register> *> _thread, uint16_t _sleepTime, QList<Register> _regToSave,
+                             QMap<Register, QString> _params, Register _returns, Wrapper<Register> *_action) :
+    Wrapper<Register>(_code, _regToSave, _params, _returns, _action),
     threadCodes(_thread),
     sleepTime(_sleepTime)
 { }
 
-ThreadWrapper::~ThreadWrapper()
+template <typename Register>
+ThreadWrapper<Register>::~ThreadWrapper()
 {
-    foreach(Wrapper *w, threadCodes)
+    foreach(Wrapper<Register> *w, threadCodes)
         if(w)
             delete w;
 }
 
-QList<Wrapper*> ThreadWrapper::getThreadWrappers()
+template <typename Register>
+QList<Wrapper<Register> *> ThreadWrapper<Register>::getThreadWrappers()
 {
     return threadCodes;
 }
 
-uint16_t ThreadWrapper::getSleepTime()
+template <typename Register>
+uint16_t ThreadWrapper<Register>::getSleepTime()
 {
     return sleepTime;
 }
 
-
-Wrapper::Wrapper(QByteArray _code, QList<Register> _regToSave, QMap<Register, QString> _params,
-                 Register _returns, Wrapper *_action) :
+template <typename Register>
+Wrapper<Register>::Wrapper(QByteArray _code, QList<Register> _regToSave, QMap<Register, QString> _params,
+                 Register _returns, Wrapper<Register> *_action) :
     code(_code),
     registersToSave(_regToSave),
     parameters(_params),
@@ -58,18 +69,20 @@ Wrapper::Wrapper(QByteArray _code, QList<Register> _regToSave, QMap<Register, QS
     action(_action)
 { }
 
-Wrapper::~Wrapper()
+template <typename Register>
+Wrapper<Register>::~Wrapper()
 {
     if(action)
         delete action;
 }
 
-Wrapper *Wrapper::fromFile(QString name, bool thread_code)
+template <>
+Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread_code)
 {
     QByteArray code;
-    QList<Register> regToSave;
-    QMap<Register, QString> params;
-    Register returns;
+    QList<Register_x86> regToSave;
+    QMap<Register_x86, QString> params;
+    Register_x86 returns;
     Wrapper *action = nullptr;
 
     // TODO: jak wczytać akcję? podać z zewnątrz?
@@ -91,57 +104,62 @@ Wrapper *Wrapper::fromFile(QString name, bool thread_code)
     // temp
     if(name.contains("create_thread"))
     {
-        returns = Register::None;
-        regToSave.append({Register::EAX, Register::ECX, Register::EDX, Register::EDI});
-        params.insert(Register::EDX, "kernel32!CreateThread");
-        params.insert(Register::EDI, "THREAD!THREAD");
+        returns = Register_x86::None;
+        regToSave.append({Register_x86::EAX, Register_x86::ECX, Register_x86::EDX, Register_x86::EDI});
+        params.insert(Register_x86::EDX, "kernel32!CreateThread");
+        params.insert(Register_x86::EDI, "THREAD!THREAD");
     }
     else if(name.contains("load_functions"))
     {
-        returns = Register::None;
-        regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
+        returns = Register_x86::None;
+        regToSave.append({Register_x86::EAX, Register_x86::EBX, Register_x86::ECX, Register_x86::EDX, Register_x86::ESI, Register_x86::EDI});
     }
     else if(name.contains("heap_flags"))
     {
-        returns = Register::EAX;
-        regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
+        returns = Register_x86::EAX;
+        regToSave.append({Register_x86::EAX, Register_x86::EBX, Register_x86::ECX, Register_x86::EDX, Register_x86::ESI, Register_x86::EDI});
         action = fromFile(Wrapper::methodsPath + "handlers\\message_box.asm");
-        params.insert(Register::EAX, "kernel32!GetVersion");
+        params.insert(Register_x86::EAX, "kernel32!GetVersion");
     }
     else
     {
-        returns = Register::EAX;
-        regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
-        params.insert(Register::EDI, "kernel32!ExitProcess");
-        params.insert(Register::ECX, "user32!MessageBoxA");
+        returns = Register_x86::EAX;
+        regToSave.append({Register_x86::EAX, Register_x86::EBX, Register_x86::ECX, Register_x86::EDX, Register_x86::ESI, Register_x86::EDI});
+        params.insert(Register_x86::EDI, "kernel32!ExitProcess");
+        params.insert(Register_x86::ECX, "user32!MessageBoxA");
     }
 
     return thread_code ?
-                new (std::nothrow) ThreadWrapper(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\heap_flags.asm")}, 5, regToSave, params, returns, action) :
+                new (std::nothrow) ThreadWrapper<Register_x86>(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\heap_flags.asm")}, 5, regToSave, params, returns, action) :
                 new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
 }
 
-QByteArray Wrapper::getCode()
+template <typename Register>
+QByteArray Wrapper<Register>::getCode()
 {
     return code;
 }
 
-QList<Register> Wrapper::getRegistersToSave()
+template <typename Register>
+QList<Register> Wrapper<Register>::getRegistersToSave()
 {
     return registersToSave;
 }
 
-QMap<Register, QString> Wrapper::getParameters()
+template <typename Register>
+QMap<Register, QString> Wrapper<Register>::getParameters()
 {
     return parameters;
 }
 
-Register Wrapper::getReturns()
+template <typename Register>
+Register Wrapper<Register>::getReturns()
 {
     return returns;
 }
 
-Wrapper *Wrapper::getAction()
+template <typename Register>
+Wrapper<Register> *Wrapper<Register>::getAction()
 {
     return action;
 }

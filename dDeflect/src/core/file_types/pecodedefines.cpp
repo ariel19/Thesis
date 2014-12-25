@@ -1,177 +1,219 @@
 #include "pecodedefines.h"
 
-const QByteArray PECodeDefines::startFunc = QByteArray("\x55\x89\xE5");
-const QByteArray PECodeDefines::endFunc = QByteArray("\x5D");
-const QByteArray PECodeDefines::_jz_rel = QByteArray("\x74");
-const QByteArray PECodeDefines::_jmp_rel = QByteArray("\xEB");
-const QByteArray PECodeDefines::_reserve_stack = QByteArray("\x83\xEC");
-const QByteArray PECodeDefines::_clear_stack = QByteArray("\x83\xC4");
-const QByteArray PECodeDefines::_store_dword = QByteArray("\x68");
-const QByteArray PECodeDefines::_ret_n = QByteArray("\xC2");
-const QByteArray PECodeDefines::ret = QByteArray("\xC3");
+template <>
+const uint8_t PECodeDefines<Register_x86>::_stack_cell_size = 4;
 
-const QList<Register> PECodeDefines::internalRegs =
+template <>
+const uint8_t PECodeDefines<Register_x64>::_stack_cell_size = 8;
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::startFunc = QByteArray("\x55\x89\xE5");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::endFunc = QByteArray("\x5D");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_jz_rel = QByteArray("\x74");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_jmp_rel = QByteArray("\xEB");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_reserve_stack = QByteArray("\x83\xEC");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_clear_stack = QByteArray("\x83\xC4");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_store_dword = QByteArray("\x68");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_ret_n = QByteArray("\xC2");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::ret = QByteArray("\xC3");
+
+template <>
+const QList<Register_x86> PECodeDefines<Register_x86>::internalRegs =
 {
-    Register::EAX,
-    Register::ECX,
-    Register::EDX
+    Register_x86::EAX,
+    Register_x86::ECX,
+    Register_x86::EDX
 };
 
-const QList<Register> PECodeDefines::externalRegs =
+template <>
+const QList<Register_x86> PECodeDefines<Register_x86>::externalRegs =
 {
-    Register::EBX,
-    Register::ESP,
-    Register::EBP,
-    Register::ESI,
-    Register::EDI
+    Register_x86::EBX,
+    Register_x86::ESP,
+    Register_x86::EBP,
+    Register_x86::ESI,
+    Register_x86::EDI
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_save_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_save_reg =
 {
-    { Register::EAX, QByteArray("\x50") },
-    { Register::EBX, QByteArray("\x53") },
-    { Register::ECX, QByteArray("\x51") },
-    { Register::EDX, QByteArray("\x52") },
-    { Register::ESP, QByteArray("\x54") },
-    { Register::EBP, QByteArray("\x55") },
-    { Register::ESI, QByteArray("\x56") },
-    { Register::EDI, QByteArray("\x57") }
+    { Register_x86::EAX, QByteArray("\x50") },
+    { Register_x86::EBX, QByteArray("\x53") },
+    { Register_x86::ECX, QByteArray("\x51") },
+    { Register_x86::EDX, QByteArray("\x52") },
+    { Register_x86::ESP, QByteArray("\x54") },
+    { Register_x86::EBP, QByteArray("\x55") },
+    { Register_x86::ESI, QByteArray("\x56") },
+    { Register_x86::EDI, QByteArray("\x57") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_restore_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_restore_reg =
 {
-    { Register::EAX, QByteArray("\x58") },
-    { Register::EBX, QByteArray("\x5B") },
-    { Register::ECX, QByteArray("\x59") },
-    { Register::EDX, QByteArray("\x5A") },
-    { Register::ESP, QByteArray("\x5C") },
-    { Register::EBP, QByteArray("\x5D") },
-    { Register::ESI, QByteArray("\x5E") },
-    { Register::EDI, QByteArray("\x5F") }
+    { Register_x86::EAX, QByteArray("\x58") },
+    { Register_x86::EBX, QByteArray("\x5B") },
+    { Register_x86::ECX, QByteArray("\x59") },
+    { Register_x86::EDX, QByteArray("\x5A") },
+    { Register_x86::ESP, QByteArray("\x5C") },
+    { Register_x86::EBP, QByteArray("\x5D") },
+    { Register_x86::ESI, QByteArray("\x5E") },
+    { Register_x86::EDI, QByteArray("\x5F") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_mov_to_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_mov_to_reg =
 {
-    { Register::EAX, QByteArray("\xB8") },
-    { Register::EBX, QByteArray("\xBB") },
-    { Register::ECX, QByteArray("\xB9") },
-    { Register::EDX, QByteArray("\xBA") },
-    { Register::ESP, QByteArray("\xBC") },
-    { Register::EBP, QByteArray("\xBD") },
-    { Register::ESI, QByteArray("\xBE") },
-    { Register::EDI, QByteArray("\xBF") }
+    { Register_x86::EAX, QByteArray("\xB8") },
+    { Register_x86::EBX, QByteArray("\xBB") },
+    { Register_x86::ECX, QByteArray("\xB9") },
+    { Register_x86::EDX, QByteArray("\xBA") },
+    { Register_x86::ESP, QByteArray("\xBC") },
+    { Register_x86::EBP, QByteArray("\xBD") },
+    { Register_x86::ESI, QByteArray("\xBE") },
+    { Register_x86::EDI, QByteArray("\xBF") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_call_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_call_reg =
 {
-    { Register::EAX, QByteArray("\xFF\xD0") },
-    { Register::EBX, QByteArray("\xFF\xD3") },
-    { Register::ECX, QByteArray("\xFF\xD1") },
-    { Register::EDX, QByteArray("\xFF\xD2") },
-    { Register::ESP, QByteArray("\xFF\xD4") },
-    { Register::EBP, QByteArray("\xFF\xD5") },
-    { Register::ESI, QByteArray("\xFF\xD6") },
-    { Register::EDI, QByteArray("\xFF\xD7") }
+    { Register_x86::EAX, QByteArray("\xFF\xD0") },
+    { Register_x86::EBX, QByteArray("\xFF\xD3") },
+    { Register_x86::ECX, QByteArray("\xFF\xD1") },
+    { Register_x86::EDX, QByteArray("\xFF\xD2") },
+    { Register_x86::ESP, QByteArray("\xFF\xD4") },
+    { Register_x86::EBP, QByteArray("\xFF\xD5") },
+    { Register_x86::ESI, QByteArray("\xFF\xD6") },
+    { Register_x86::EDI, QByteArray("\xFF\xD7") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_jmp_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_jmp_reg =
 {
-    { Register::EAX, QByteArray("\xFF\xE0") },
-    { Register::EBX, QByteArray("\xFF\xE3") },
-    { Register::ECX, QByteArray("\xFF\xE1") },
-    { Register::EDX, QByteArray("\xFF\xE2") },
-    { Register::ESP, QByteArray("\xFF\xE4") },
-    { Register::EBP, QByteArray("\xFF\xE5") },
-    { Register::ESI, QByteArray("\xFF\xE6") },
-    { Register::EDI, QByteArray("\xFF\xE7") }
+    { Register_x86::EAX, QByteArray("\xFF\xE0") },
+    { Register_x86::EBX, QByteArray("\xFF\xE3") },
+    { Register_x86::ECX, QByteArray("\xFF\xE1") },
+    { Register_x86::EDX, QByteArray("\xFF\xE2") },
+    { Register_x86::ESP, QByteArray("\xFF\xE4") },
+    { Register_x86::EBP, QByteArray("\xFF\xE5") },
+    { Register_x86::ESI, QByteArray("\xFF\xE6") },
+    { Register_x86::EDI, QByteArray("\xFF\xE7") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_test_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_test_reg =
 {
-    { Register::EAX, QByteArray("\x85\xC0") },
-    { Register::EBX, QByteArray("\x85\xDB") },
-    { Register::ECX, QByteArray("\x85\xC9") },
-    { Register::EDX, QByteArray("\x85\xD2") },
-    { Register::ESP, QByteArray("\x85\xE4") },
-    { Register::EBP, QByteArray("\x85\xED") },
-    { Register::ESI, QByteArray("\x85\xF6") },
-    { Register::EDI, QByteArray("\x85\xFF") }
+    { Register_x86::EAX, QByteArray("\x85\xC0") },
+    { Register_x86::EBX, QByteArray("\x85\xDB") },
+    { Register_x86::ECX, QByteArray("\x85\xC9") },
+    { Register_x86::EDX, QByteArray("\x85\xD2") },
+    { Register_x86::ESP, QByteArray("\x85\xE4") },
+    { Register_x86::EBP, QByteArray("\x85\xED") },
+    { Register_x86::ESI, QByteArray("\x85\xF6") },
+    { Register_x86::EDI, QByteArray("\x85\xFF") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_esp_mem_to_reg =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_esp_mem_to_reg =
 {
-    { Register::EAX, QByteArray("\x8B\x44\x24") },
-    { Register::EBX, QByteArray("\x8B\x5C\x24") },
-    { Register::ECX, QByteArray("\x8B\x4C\x24") },
-    { Register::EDX, QByteArray("\x8B\x54\x24") },
-    { Register::ESP, QByteArray("\x8B\x64\x24") },
-    { Register::EBP, QByteArray("\x8B\x6C\x24") },
-    { Register::ESI, QByteArray("\x8B\x74\x24") },
-    { Register::EDI, QByteArray("\x8B\x7C\x24") }
+    { Register_x86::EAX, QByteArray("\x8B\x44\x24") },
+    { Register_x86::EBX, QByteArray("\x8B\x5C\x24") },
+    { Register_x86::ECX, QByteArray("\x8B\x4C\x24") },
+    { Register_x86::EDX, QByteArray("\x8B\x54\x24") },
+    { Register_x86::ESP, QByteArray("\x8B\x64\x24") },
+    { Register_x86::EBP, QByteArray("\x8B\x6C\x24") },
+    { Register_x86::ESI, QByteArray("\x8B\x74\x24") },
+    { Register_x86::EDI, QByteArray("\x8B\x7C\x24") }
 };
 
-const QMap<Register, QByteArray> PECodeDefines::_reg_to_esp_mem =
+template <>
+const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_reg_to_esp_mem =
 {
-    { Register::EAX, QByteArray("\x89\x44\x24") },
-    { Register::EBX, QByteArray("\x89\x5C\x24") },
-    { Register::ECX, QByteArray("\x89\x4C\x24") },
-    { Register::EDX, QByteArray("\x89\x54\x24") },
-    { Register::ESP, QByteArray("\x89\x64\x24") },
-    { Register::EBP, QByteArray("\x89\x6C\x24") },
-    { Register::ESI, QByteArray("\x89\x74\x24") },
-    { Register::EDI, QByteArray("\x89\x7C\x24") }
+    { Register_x86::EAX, QByteArray("\x89\x44\x24") },
+    { Register_x86::EBX, QByteArray("\x89\x5C\x24") },
+    { Register_x86::ECX, QByteArray("\x89\x4C\x24") },
+    { Register_x86::EDX, QByteArray("\x89\x54\x24") },
+    { Register_x86::ESP, QByteArray("\x89\x64\x24") },
+    { Register_x86::EBP, QByteArray("\x89\x6C\x24") },
+    { Register_x86::ESI, QByteArray("\x89\x74\x24") },
+    { Register_x86::EDI, QByteArray("\x89\x7C\x24") }
 };
 
-
-QByteArray PECodeDefines::saveRegister(Register reg)
+template <typename Register>
+QByteArray PECodeDefines<Register>::saveRegister(Register reg)
 {
     return _save_reg.contains(reg) ? _save_reg[reg] : QByteArray("");
 }
 
-QByteArray PECodeDefines::restoreRegister(Register reg)
+template <typename Register>
+QByteArray PECodeDefines<Register>::restoreRegister(Register reg)
 {
     return _restore_reg.contains(reg) ? _restore_reg[reg] : QByteArray("");
 }
 
-QByteArray PECodeDefines::movDWordToReg(uint32_t dword, Register reg)
+template <>
+template <>
+QByteArray PECodeDefines<Register_x86>::movValueToReg(uint32_t value, Register_x86 reg)
 {
     QByteArray code;
 
     if(_mov_to_reg.contains(reg))
     {
         code.append(_mov_to_reg[reg]);
-        code.append(reinterpret_cast<const char*>(&dword), sizeof(uint32_t));
+        code.append(reinterpret_cast<const char*>(&value), sizeof(uint32_t));
     }
 
     return code;
 }
 
-QByteArray PECodeDefines::callReg(Register reg)
+template <typename Register>
+QByteArray PECodeDefines<Register>::callReg(Register reg)
 {
     return _call_reg.contains(reg) ? _call_reg[reg] : QByteArray("");
 }
 
-QByteArray PECodeDefines::jmpReg(Register reg)
+template <typename Register>
+QByteArray PECodeDefines<Register>::jmpReg(Register reg)
 {
     return _jmp_reg.contains(reg) ? _jmp_reg[reg] : QByteArray("");
 }
 
-QByteArray PECodeDefines::testReg(Register reg)
+template <typename Register>
+QByteArray PECodeDefines<Register>::testReg(Register reg)
 {
     return _test_reg.contains(reg) ? _test_reg[reg] : QByteArray("");
 }
 
-QByteArray PECodeDefines::jzRelative(int8_t pos)
+template <typename Register>
+QByteArray PECodeDefines<Register>::jzRelative(int8_t pos)
 {
     return QByteArray(_jz_rel).append(static_cast<char>(pos));
 }
 
-QByteArray PECodeDefines::jmpRelative(int8_t pos)
+template <typename Register>
+QByteArray PECodeDefines<Register>::jmpRelative(int8_t pos)
 {
     return QByteArray(_jmp_rel).append(static_cast<char>(pos));
 }
 
-QByteArray PECodeDefines::saveAllInternal()
+template <typename Register>
+QByteArray PECodeDefines<Register>::saveAllInternal()
 {
     QByteArray code;
 
@@ -181,7 +223,8 @@ QByteArray PECodeDefines::saveAllInternal()
     return code;
 }
 
-QByteArray PECodeDefines::restoreAllInternal()
+template <typename Register>
+QByteArray PECodeDefines<Register>::restoreAllInternal()
 {
     QByteArray code;
 
@@ -191,10 +234,11 @@ QByteArray PECodeDefines::restoreAllInternal()
     return code;
 }
 
-QByteArray PECodeDefines::reserveStackSpace(uint16_t noParams)
+template <typename Register>
+QByteArray PECodeDefines<Register>::reserveStackSpace(uint16_t noParams)
 {
     QByteArray code;
-    int bytes = noParams * 4;
+    int bytes = noParams * _stack_cell_size;
 
     while(bytes > 0)
     {
@@ -207,10 +251,11 @@ QByteArray PECodeDefines::reserveStackSpace(uint16_t noParams)
     return code;
 }
 
-QByteArray PECodeDefines::clearStackSpace(uint16_t noParams)
+template <typename Register>
+QByteArray PECodeDefines<Register>::clearStackSpace(uint16_t noParams)
 {
     QByteArray code;
-    int bytes = noParams * 4;
+    int bytes = noParams * _stack_cell_size;
 
     while(bytes > 0)
     {
@@ -223,12 +268,15 @@ QByteArray PECodeDefines::clearStackSpace(uint16_t noParams)
     return code;
 }
 
-QByteArray PECodeDefines::storeDWord(uint32_t dword)
+template <>
+template <>
+QByteArray PECodeDefines<Register_x86>::storeValue(uint32_t dword)
 {
     return QByteArray(_store_dword).append(reinterpret_cast<const char*>(&dword), sizeof(uint32_t));
 }
 
-QByteArray PECodeDefines::readFromEspMemToReg(Register reg, int8_t base)
+template <typename Register>
+QByteArray PECodeDefines<Register>::readFromEspMemToReg(Register reg, int8_t base)
 {
     QByteArray code;
 
@@ -241,7 +289,8 @@ QByteArray PECodeDefines::readFromEspMemToReg(Register reg, int8_t base)
     return code;
 }
 
-QByteArray PECodeDefines::readFromRegToEspMem(Register reg, int8_t base)
+template <typename Register>
+QByteArray PECodeDefines<Register>::readFromRegToEspMem(Register reg, int8_t base)
 {
     QByteArray code;
 
@@ -254,7 +303,8 @@ QByteArray PECodeDefines::readFromRegToEspMem(Register reg, int8_t base)
     return code;
 }
 
-QByteArray PECodeDefines::retN(uint16_t n)
+template <typename Register>
+QByteArray PECodeDefines<Register>::retN(uint16_t n)
 {
     return QByteArray(_ret_n).append(reinterpret_cast<const char*>(&n), sizeof(uint16_t));
 }
