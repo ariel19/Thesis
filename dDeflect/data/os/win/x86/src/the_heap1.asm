@@ -1,13 +1,15 @@
 [bits 32]
+; Heap
+; @ecx = kernel32!GetVersion
 
 			xor		ebx, ebx
-			call	[ecx]						; TODO: GetVersion address function should be resolved from wrapper
+			call	ecx							; GetVersion()
 			cmp		al, 0x06
 			sbb		ebp, ebp
 			jb		check_dbg					; If version below Windows Vista
 		
 			; Check for heap protection for Vista and later
-check_prot:	mov		eax, [fs:0x30]		; PEB
+check_prot:	mov		eax, [fs:0x30]				; PEB
 			mov		eax, [eax + 0x18]			; Process Heap base
 			mov		ecx, [eax + 0x24]
 			jecxz	check_dbg					; If no heap protection check for debugger
@@ -26,4 +28,4 @@ check_dbg:	mov		eax, <heap ptr> 			; TODO: heap ptr
 			mov 	al, 0xAB
 			mov		cl, 8
 			repe	scasb
-			setz	al							; TODO: check setz/setnz
+			setz	al							
