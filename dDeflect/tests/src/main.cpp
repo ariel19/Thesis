@@ -1,14 +1,11 @@
-#include <cstdio>
 #include <QFile>
 #include <QDir>
 #include <QVariant>
 #include <QDebug>
-#include <iostream>
 
 #include <core/file_types/elffile.h>
-#include <core/file_types/pefile.h>
+#include <core/adding_methods/wrappers/linux/daddingmethods.h>
 
-// TODO: should be wrapper
 int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
     ELF elf(elf_fname);
     qDebug() << "valid: " << elf.is_valid();
@@ -233,10 +230,78 @@ int test_flagx(const QString &elf_fname, const QString &elf_out) {
     return 0;
 }
 
+bool test_wrappers(const QString &elf_fname, const QString &wrapper,
+                   const QString &method, const QString &handl) {
+    // DAddingMethods::InjectDescription inject_desc;
+    ELF elf(elf_fname);
+    qDebug() << "valid: " << elf.is_valid();
+    if (!elf.is_valid())
+        return false;
+
+    QFile code;
+
+    DAddingMethods dam;
+    if (elf.is_x86()) {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
+
+        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x86> oepwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> oepaction;
+
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "127" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        code.close();
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        oepaction.code = code.readAll();
+        oepaction.detect_handler = nullptr;
+        oepaction.ret = DAddingMethods::Registers_x86::EAX;
+        oepaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
+                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
+                                DAddingMethods::Registers_x86::ESI };
+
+        code.close();
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        oepwrapper.detect_handler = &handler;
+        oepwrapper.oep_action = &oepaction;
+        oepwrapper.code = code.readAll();
+        oepwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        inject_desc.adding_method = &oepwrapper;
+
+        dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc);
+    }
+    else {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
+        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> oepwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> oepaction;
+    }
+
+
+    return true;
+}
+
 int main() {
-    test();
+    // test();
     // oep_ptrace("test", "ptrace", "test3");
     // test_flagx("a", "a2");
+    test_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_t.asm");
 
     return 0;
 }
