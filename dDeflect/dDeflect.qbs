@@ -48,8 +48,6 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: [
-            "src/core/adding_methods/wrappers/linux/asmcodegenerator.cpp",
-            "src/core/adding_methods/wrappers/linux/asmcodegenerator.h",
             "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",
             "src/core/adding_methods/wrappers/linux/daddingmethods.h",
             "src/core/detection/wrappers/ddebuggerdetection.cpp",

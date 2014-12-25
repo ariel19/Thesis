@@ -4,6 +4,7 @@
 #include <QList>
 #include <QMap>
 #include <QString>
+#include <QDebug>
 
 #include <core/file_types/elffile.h>
 
@@ -59,11 +60,14 @@ public:
      */
     template <typename RegistersType>
     class Wrapper {
+    public:
         QList<RegistersType> used_regs;
         QMap<QString, QString> params;
         RegistersType ret;
         QString code;
         Wrapper<RegistersType> *detect_handler;
+
+        virtual ~Wrapper() {}
     };
 
     /**
@@ -71,6 +75,7 @@ public:
      */
     template <typename RegistersType>
     class ThreadWrapper : public Wrapper<RegistersType> {
+    public:
         Wrapper<RegistersType> *thread_action;
     };
 
@@ -79,6 +84,7 @@ public:
      */
     template <typename RegistersType>
     class OEPWrapper : public Wrapper<RegistersType> {
+    public:
         Wrapper<RegistersType> *oep_action;
     };
 
@@ -95,6 +101,7 @@ public:
      */
     template <typename RegistersType>
     class InjectDescription {
+    public:
         CallingMethod cm;
         Wrapper<RegistersType> *adding_method;
     };
@@ -166,5 +173,199 @@ private:
      */
     bool compile(const QString &code2compile, QByteArray &compiled_code);
 };
+
+class AsmCodeGenerator {
+    static const QMap<DAddingMethods::Registers_x86, QString> regs_x86;
+    static const QMap<DAddingMethods::Registers_x64, QString> regs_x64;
+
+    enum class Instructions {
+        POP,
+        PUSH
+    };
+
+    static const QMap<Instructions, QString> instructions;
+
+public:
+    AsmCodeGenerator() {}
+
+    template <typename RegistersType>
+    static QString push_regs(const RegistersType reg);
+
+    template <typename RegistersType>
+    static QString push_regs(const QList<RegistersType> &regs);
+
+    template <typename RegistersType>
+    static QString pop_regs(const RegistersType reg);
+
+    template <typename RegistersType>
+    static QString pop_regs(const QList<RegistersType> &regs);
+};
+
+template <typename RegistersType>
+QString AsmCodeGenerator::push_regs(const RegistersType reg) {
+    return std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+               QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x86[reg]) :
+               std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+                   QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x64[reg]) :
+                   QString();
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::push_regs(const QList<RegistersType> &regs) {
+    QString gen_code;
+    if (std::is_same<RegistersType, DAddingMethods::Registers_x86>::value)
+        foreach (RegistersType reg, regs)
+            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x86[reg]));
+    else if (std::is_same<RegistersType, DAddingMethods::Registers_x64>::value)
+        foreach (RegistersType reg, regs)
+            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
+                            regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)]));
+    return gen_code;
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::pop_regs(const RegistersType reg) {
+    return std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+               QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x86[reg]) :
+               std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+                   QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x64[reg]) :
+                   QString();
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::pop_regs(const QList<RegistersType> &regs) {
+    QString gen_code;
+    if (std::is_same<RegistersType, DAddingMethods::Registers_x86>::value)
+        foreach (RegistersType reg, regs)
+            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x86[reg]));
+    else if (std::is_same<RegistersType, DAddingMethods::Registers_x64>::value)
+        foreach (RegistersType reg, regs)
+            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
+                            regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)]));
+    return gen_code;
+}
+
+template <typename RegistersType>
+bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code) {
+    if (!wrap)
+        return false;
+
+    // check if ret is in used registers (if it is remove)
+    if (wrap->used_regs.indexOf(wrap->ret) != -1)
+        wrap->used_regs.removeAll(wrap->ret);
+
+    // generate push registers
+    code.append(AsmCodeGenerator::push_regs<RegistersType>(wrap->used_regs));
+
+    // fill params
+    uint64_t filled_params = fill_params(code, wrap->params);
+
+    // generate pop registers
+    code.append(AsmCodeGenerator::pop_regs<RegistersType>(wrap->used_regs));
+
+    return true;
+}
+
+template <typename RegistersType>
+bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc) {
+    QString code2compile,
+            code_ddetect_handler,
+            code_ddetect;
+    QByteArray compiled_code;
+
+    if (!inject_desc.adding_method)
+        return false;
+
+    // 0. take code from input
+    if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method, code2compile))
+        return false;
+
+    // 1. generate code for handler
+    if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method->detect_handler, code_ddetect_handler))
+        return false;
+
+    // 2. generate code for debugger detection method
+    switch (inject_desc.cm) {
+    case CallingMethod::OEP: {
+        OEPWrapper<RegistersType> *oepwrapper =
+                dynamic_cast<OEPWrapper<RegistersType>*>(inject_desc.adding_method);
+        if (!oepwrapper)
+            return false;
+        if (!wrapper_gen_code<RegistersType>(oepwrapper->oep_action, code_ddetect))
+            return false;
+        break;
+    }
+    case CallingMethod::Thread: {
+        ThreadWrapper<RegistersType> *twrapper =
+                dynamic_cast<ThreadWrapper<RegistersType>*>(inject_desc.adding_method);
+        if (!twrapper)
+            return false;
+        if (!wrapper_gen_code<RegistersType>(twrapper->thread_action, code_ddetect))
+            return false;
+        break;
+    }
+    case CallingMethod::Trampoline: {
+
+        break;
+    }
+    default:
+        return false;
+    }
+
+    // 3. merge code
+    fill_placeholders(code2compile, code_ddetect_handler, PlaceholderMnemonics::DDETECTIONHANDLER);
+    fill_placeholders(code2compile, code_ddetect, PlaceholderMnemonics::DDETECTIONMETHOD);
+
+    // 4. compile code
+    if (!compile(code2compile, compiled_code))
+        return false;
+
+    // 5. secure elf file
+    Elf64_Addr oldep;
+    if (!elf.get_entry_point(oldep))
+        return false;
+
+    // 6. add jmp in binary
+    // TODO: should be changed
+    QByteArray jmp;
+    if (elf.is_x86() || oldep < 0x100000000) {
+        jmp.append(0xb8); // mov eax, addr
+        // oldep -= 0x5;
+        for(uint i = 0; i < sizeof(Elf32_Addr); ++i) {
+            int a = (oldep >> (i * 8) & 0xff);
+            jmp.append(static_cast<char>(a));
+        }
+        jmp.append("\xff\xe0", 2); // jmp eax
+    }
+    else if (elf.is_x64()) {
+        jmp.append("\x48\xb8", 2); // mov rax, addr
+        for(uint i = 0; i < sizeof(Elf64_Addr); ++i) {
+            int a = (oldep >> (i * 8) & 0xff);
+            jmp.append(static_cast<char>(a));
+        }
+        jmp.append("\xff\xe0", 2);
+    }
+    else return false;
+
+    // 5. secure elf file
+    Elf64_Addr nva;
+
+    compiled_code.append(jmp);
+
+    // TODO: parameter for x segment
+    QByteArray nf = elf.extend_segment(compiled_code, true, nva);
+    if (!nf.length())
+        return false;
+
+    if (!elf.set_entry_point(nva, nf))
+        return false;
+
+    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
+
+    // TODO: name of file should be changed
+    elf.write_to_file("template", nf);
+
+    return true;
+}
 
 #endif // DADDINGMETHODS_H
