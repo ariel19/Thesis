@@ -35,8 +35,10 @@ int main(int argc, char *argv[]) {
     wrapper.used_regs.append(DAddingMethods::Registers_x86::EBX);
     wrapper.ret = DAddingMethods::Registers_x86::EDI;
     wrapper.ddetec_handler = nullptr;
+    wrapper.code = "kod bla bla bla bla bla";
 
     w.adding_method = &wrapper;
+
     DJsonParser parser;
     parser.saveIncjectionDescription(w);
     parser.loadInjectDescription();

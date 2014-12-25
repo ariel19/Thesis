@@ -6,6 +6,9 @@
 #include <QString>
 #include <QVariant>
 #include <QDebug>
+#include <QFile>
+#include <QFileInfo>
+#include <QTextStream>
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -162,7 +165,10 @@ public:
 
             // code
 
-            code = json["code"].toString();
+            QFile codeFile(json["path_to_method"].toString());
+            codeFile.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&codeFile);
+            code = in.readAll();
 
             // ddetec_handler
 
@@ -199,7 +205,14 @@ public:
 
             // code
 
-            json["code"] = code;
+            QString codePath("./codeFile.cpp");
+            QFile codeFile(codePath);
+            QFileInfo fi(codeFile);
+            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
+            QTextStream in(&codeFile);
+            in<<code;
+
+            json["path_to_method"] = fi.absoluteFilePath();
         }
     };
 
@@ -237,33 +250,40 @@ public:
         CallingMethod cm;
         Wrapper<RegistersType> *adding_method;
     public:
+        ~InjectDescription(){
+            delete adding_method;
+        }
+
         /**
          * @brief read wczytuje obiekt InjectDescription z obiektu json
          * @param json referencja do obiektu z którego czytamy
          */
         void read(const QJsonObject &json){
 
-           Wrapper<RegistersType> * w = new Wrapper<RegistersType>();
+            delete adding_method;
+            Wrapper<RegistersType> * w = new Wrapper<RegistersType>();
+            if(w){
+                const char* cmString = json["cm"].toString().toLocal8Bit().constData();
+                cm = static_cast<CallingMethod>(std::distance(CallingMethodNames, std::find(CallingMethodNames, CallingMethodNames + CMSIZE,cmString)));
 
-           const char* cmString = json["cm"].toString().toLocal8Bit().constData();
-           cm = static_cast<CallingMethod>(std::distance(CallingMethodNames, std::find(CallingMethodNames, CallingMethodNames + CMSIZE,cmString)));
-
-           QJsonValue jv = json["adding_method"].toObject();
-           if(jv.isObject()){
-                w->read(jv.toObject());
-                adding_method = w;
-           }
-           else{
-               delete w;
-               w = nullptr;
-           }
-
+                QJsonValue jv = json["adding_method"].toObject();
+                if(jv.isObject()){
+                    w->read(jv.toObject());
+                    adding_method = w;
+                }
+                else{
+                    delete w;
+                    w = nullptr;
+                }
+            } else
+                qDebug()<<"nie przydzielono pamięci dla adding_method";
         }
         /**
          * @brief write zapisujemy obiekt InjectDescription do pliku json
          * @param json referencja do obiektu do którego piszemy
          */
         void write(QJsonObject &json) const{
+
             QString s(CallingMethodNames[static_cast<int>(cm)]);
             json["cm"] = s;
             QJsonObject o;
