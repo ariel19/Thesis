@@ -81,7 +81,7 @@ Wrapper *Wrapper::fromFile(QString name, bool thread_code)
         return nullptr;
 
     QFileInfo fi(name);
-    QFile f(QFileInfo(fi.absoluteDir(), "data.bin").absoluteFilePath());
+    QFile f(QFileInfo(methodsPath, "data.bin").absoluteFilePath());
     if(!f.open(QFile::ReadOnly))
         return nullptr;
 
@@ -101,15 +101,23 @@ Wrapper *Wrapper::fromFile(QString name, bool thread_code)
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
     }
+    else if(name.contains("heap_flags"))
+    {
+        returns = Register::EAX;
+        regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
+        action = fromFile(Wrapper::methodsPath + "handlers\\message_box.asm");
+        params.insert(Register::EAX, "kernel32!GetVersion");
+    }
     else
     {
-        returns = Register::None;
+        returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
-        params.insert(Register::EAX, "user32!MessageBoxA");
+        params.insert(Register::EDI, "kernel32!ExitProcess");
+        params.insert(Register::ECX, "user32!MessageBoxA");
     }
 
     return thread_code ?
-                new (std::nothrow) ThreadWrapper(code, {Wrapper::fromFile(Wrapper::methodsPath + "thread_example.asm")}, 5, regToSave, params, returns, action) :
+                new (std::nothrow) ThreadWrapper(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\heap_flags.asm")}, 5, regToSave, params, returns, action) :
                 new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
 }
 

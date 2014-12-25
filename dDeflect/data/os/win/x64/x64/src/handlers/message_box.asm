@@ -8,6 +8,7 @@
 		push	rax
 		mov		r8, rcx
 		xor		r9, r9
+		add		r9, 0x10
 		call	msg
 		db		"Debugger detected!", 0x00
 msg:

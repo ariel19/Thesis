@@ -7,7 +7,7 @@
 ll:
 		add		ecx, 1
 		test	eax, eax
-		jnz		ll
+		jz		ll
 		
 		call	edx
 		add		esp, 4

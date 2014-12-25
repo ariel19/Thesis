@@ -1,7 +1,7 @@
 [bits 32]
 ; stack
 
-			add		esp, 32
+			add		esp, 512
 			xor		[esp], edx
 			xor		[esp + 4], esi
 			or		[esp + 8], edi

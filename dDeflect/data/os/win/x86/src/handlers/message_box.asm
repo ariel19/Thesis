@@ -4,7 +4,7 @@
 ; @ecx = user32!MessageBoxA
 
 		xor		edx, edx
-		push	edx
+		push	0x10
 		push	edx
 		call	msg
 		db		"Debugger detected!", 0x00
