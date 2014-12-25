@@ -123,7 +123,8 @@ public:
 private:
     enum class PlaceholderMnemonics {
         DDETECTIONHANDLER,
-        DDETECTIONMETHOD
+        DDETECTIONMETHOD,
+        DDRET
     };
 
     /**
@@ -207,6 +208,9 @@ public:
 
     template <typename RegistersType>
     static QString jmp_reg(const RegistersType reg);
+
+    template <typename RegistersType>
+    static QString get_reg(const RegistersType reg);
 };
 
 template <typename RegistersType>
@@ -223,7 +227,8 @@ QString AsmCodeGenerator::push_regs(const QList<RegistersType> &regs) {
     QString gen_code;
     if (std::is_same<RegistersType, DAddingMethods::Registers_x86>::value)
         foreach (RegistersType reg, regs)
-            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x86[reg]));
+            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
+                            regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)]));
     else if (std::is_same<RegistersType, DAddingMethods::Registers_x64>::value)
         foreach (RegistersType reg, regs)
             gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
@@ -245,7 +250,8 @@ QString AsmCodeGenerator::pop_regs(const QList<RegistersType> &regs) {
     QString gen_code;
     if (std::is_same<RegistersType, DAddingMethods::Registers_x86>::value)
         foreach (RegistersType reg, regs)
-            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x86[reg]));
+            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
+                            regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)]));
     else if (std::is_same<RegistersType, DAddingMethods::Registers_x64>::value)
         foreach (RegistersType reg, regs)
             gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
@@ -269,6 +275,14 @@ QString AsmCodeGenerator::jmp_reg(const RegistersType reg) {
                             std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
                                 regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
     return QString("%1 %2\n").arg(instructions[Instructions::JMP], qreg);
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::get_reg(const RegistersType reg) {
+    return std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+                regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
+                    std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+                        regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
 }
 
 template <typename RegistersType>
@@ -301,15 +315,25 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
             code_ddetect;
     QByteArray compiled_code;
 
-    if (!inject_desc.adding_method)
+    if (!elf.is_valid())
         return false;
 
     // check platform version
+    // TODO: bits identifier
     if (std::is_same<RegistersType, Registers_x86>::value)
         code2compile.append(QString("[bits 32]\n"));
     else if(std::is_same<RegistersType, Registers_x64>::value)
         code2compile.append(QString("[bits 64]\n"));
     else return false;
+
+    // add to params
+    if (!inject_desc.adding_method || !inject_desc.adding_method->detect_handler)
+        return false;
+
+    // adding a param value for ?^_^ddret^_^?
+    inject_desc.adding_method->params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf.is_x86() ?
+                AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->detect_handler->ret)) :
+                AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->detect_handler->ret));
 
     // 0. take code from input
     if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method, code2compile))
@@ -340,19 +364,15 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         break;
     }
     case CallingMethod::Trampoline: {
-
+        // TODO: should be implemented
         break;
     }
     default:
         return false;
     }
 
-    // qDebug() << code2compile;
-
     // 3. merge code
     fill_placeholders(code2compile, code_ddetect_handler, PlaceholderMnemonics::DDETECTIONHANDLER);
-
-    // qDebug() << code2compile;
 
     fill_placeholders(code2compile, code_ddetect, PlaceholderMnemonics::DDETECTIONMETHOD);
 
