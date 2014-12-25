@@ -25,7 +25,6 @@ using namespace std;
 using namespace clang;
 using namespace clang::driver;
 using namespace clang::tooling;
-using namespace llvm;
 
 //Rewriter rewriter;
 
@@ -59,6 +58,7 @@ using namespace llvm;
 //    }
 
 //};
+using namespace llvm;
 
 
 class DSourceCodeParser
