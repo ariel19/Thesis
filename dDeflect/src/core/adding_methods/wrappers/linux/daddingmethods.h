@@ -303,7 +303,12 @@ bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &cod
     uint64_t filled_params = fill_params(code, wrap->params);
 
     // generate pop registers
-    code.append(AsmCodeGenerator::pop_regs<RegistersType>(wrap->used_regs));
+    // TODO: dummy solution change
+    QList<RegistersType> rused_args;
+    rused_args.reserve(wrap->used_regs.size());
+    std::reverse_copy(wrap->used_regs.begin(), wrap->used_regs.end(), std::back_inserter(rused_args));
+
+    code.append(AsmCodeGenerator::pop_regs<RegistersType>(rused_args));
 
     return true;
 }
