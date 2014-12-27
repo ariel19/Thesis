@@ -114,4 +114,19 @@ public:
     InjectDescription& operator=(const InjectDescription&) = delete;
 };
 
+template <typename Register>
+class BinaryCode
+{
+private:
+    QByteArray code;
+    QList<uint64_t> relocations;
+    static const uint8_t addrSize;
+
+public:
+    BinaryCode() { }
+    void append(QByteArray _code, bool relocation = false);
+    QByteArray getBytes();
+    QList<uint64_t> getRelocations(uint64_t codeBase);
+};
+
 #endif // PEHELPERS_H

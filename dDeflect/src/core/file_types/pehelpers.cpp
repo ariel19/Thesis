@@ -156,6 +156,7 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
     return nullptr;
 }
 
+
 template <typename Register>
 QByteArray Wrapper<Register>::getCode()
 {
@@ -163,6 +164,7 @@ QByteArray Wrapper<Register>::getCode()
 }
 template QByteArray Wrapper<Register_x86>::getCode();
 template QByteArray Wrapper<Register_x64>::getCode();
+
 
 template <typename Register>
 QList<Register> Wrapper<Register>::getRegistersToSave()
@@ -172,6 +174,7 @@ QList<Register> Wrapper<Register>::getRegistersToSave()
 template QList<Register_x86> Wrapper<Register_x86>::getRegistersToSave();
 template QList<Register_x64> Wrapper<Register_x64>::getRegistersToSave();
 
+
 template <typename Register>
 QMap<Register, QString> Wrapper<Register>::getParameters()
 {
@@ -179,6 +182,7 @@ QMap<Register, QString> Wrapper<Register>::getParameters()
 }
 template QMap<Register_x86, QString> Wrapper<Register_x86>::getParameters();
 template QMap<Register_x64, QString> Wrapper<Register_x64>::getParameters();
+
 
 template <typename Register>
 Register Wrapper<Register>::getReturns()
@@ -188,6 +192,7 @@ Register Wrapper<Register>::getReturns()
 template Register_x86 Wrapper<Register_x86>::getReturns();
 template Register_x64 Wrapper<Register_x64>::getReturns();
 
+
 template <typename Register>
 Wrapper<Register> *Wrapper<Register>::getAction()
 {
@@ -195,3 +200,46 @@ Wrapper<Register> *Wrapper<Register>::getAction()
 }
 template Wrapper<Register_x86> *Wrapper<Register_x86>::getAction();
 template Wrapper<Register_x64> *Wrapper<Register_x64>::getAction();
+
+
+template <typename Register>
+QByteArray BinaryCode<Register>::getBytes()
+{
+    return code;
+}
+template QByteArray BinaryCode<Register_x86>::getBytes();
+template QByteArray BinaryCode<Register_x64>::getBytes();
+
+
+template <typename Register>
+void BinaryCode<Register>::append(QByteArray _code, bool relocation)
+{
+    code.append(_code);
+
+    if(relocation)
+        relocations.append(code.length() - addrSize);
+}
+template void BinaryCode<Register_x86>::append(QByteArray _code, bool relocation);
+template void BinaryCode<Register_x64>::append(QByteArray _code, bool relocation);
+
+
+template <typename Register>
+QList<uint64_t> BinaryCode<Register>::getRelocations(uint64_t codeBase)
+{
+    QList<uint64_t> rel;
+
+    foreach(uint64_t val, relocations)
+        rel.append(val + codeBase);
+
+    return rel;
+}
+template QList<uint64_t> BinaryCode<Register_x86>::getRelocations(uint64_t codeBase);
+template QList<uint64_t> BinaryCode<Register_x64>::getRelocations(uint64_t codeBase);
+
+
+template <>
+const uint8_t BinaryCode<Register_x86>::addrSize = 4;
+
+
+template <>
+const uint8_t BinaryCode<Register_x64>::addrSize = 8;
