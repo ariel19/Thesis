@@ -180,7 +180,7 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
     if(name.contains("create_thread"))
     {
         returns = Register::None;
-        regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::RDI});
+        regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::R8, Register::R9, Register::R10});
         params.insert(Register::R10, "kernel32!CreateThread");
         params.insert(Register::R8, "THREAD!THREAD");
     }
@@ -189,23 +189,23 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI});
     }
-    else if(name.contains("heap_flags"))
+    else if(name.contains("nt_global_flag"))
     {
         returns = Register::RAX;
         regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI});
         action = fromFile(Wrapper::methodsPath + "handlers\\message_box.asm");
-        params.insert(Register::RAX, "kernel32!GetVersion");
+        //params.insert(Register::RAX, "kernel32!GetVersion");
     }
     else
     {
         returns = Register::RAX;
-        regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI});
-        params.insert(Register::RDI, "kernel32!ExitProcess");
-        params.insert(Register::RCX, "user32!MessageBoxA");
+        regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::R8, Register::R9, Register::R11});
+        params.insert(Register::R11, "kernel32!ExitProcess");
+        params.insert(Register::RAX, "user32!MessageBoxA");
     }
 
     return thread_code ?
-                new (std::nothrow) ThreadWrapper<Register>(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\heap_flags.asm")}, 5, regToSave, params, returns, action) :
+                new (std::nothrow) ThreadWrapper<Register>(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\nt_global_flag.asm")}, 5, regToSave, params, returns, action) :
                 new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
 }
 
