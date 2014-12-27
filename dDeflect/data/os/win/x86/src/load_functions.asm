@@ -1,7 +1,5 @@
 [bits 32]
 ; Znajdowanie adresów funkcji LoadLibrary i GetProcAddress
-; out edx = &GetProcAddress
-; out eax = &LoadLibrary
 
 			call	load_k_str
 			db		"KERNEL"
