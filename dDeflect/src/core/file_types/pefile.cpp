@@ -608,8 +608,103 @@ template <>
 uint64_t PEFile::generateThreadCode<Register_x64>
 (QList<Wrapper<Register_x64>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime)
 {
-    // TODO
-    return 0;
+    typedef Register_x64 Register;
+
+    QByteArray code;
+
+    code.append(PECodeDefines<Register>::startFunc);
+
+    int jmp_offset = 0;
+
+    if(sleepTime)
+    {
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        if(!func_wrap)
+            return 0;
+
+        uint64_t get_functions = generateCode(func_wrap, ptrs);
+        delete func_wrap;
+        if(get_functions == 0)
+            return 0;
+
+        uint64_t lib_name_addr = generateString("kernel32", ptrs);
+        uint64_t func_name_addr = generateString("Sleep", ptrs);
+        if(!lib_name_addr || !func_name_addr)
+            return 0;
+
+        // Alokacja Shadow Space. W pierwszych 2 komórkach znajdą się adresy LoadLibrary i GetProcAddr
+        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
+
+        // Pobieranie adresów
+        code.append(PECodeDefines<Register>::movValueToReg(get_functions, Register::RAX));
+        code.append(PECodeDefines<Register>::callReg(Register::RAX));
+
+        // Shadow Space dla LoadLibrary i GetProcAddr
+        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
+
+        // Wczytywanie adresu LoadLibrary
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::RDX, (PECodeDefines<Register>::shadowSize + 1) * PECodeDefines<Register>::stackCellSize));
+
+        // Wywoływanie LoadLibrary
+        code.append(PECodeDefines<Register>::movValueToReg(lib_name_addr, Register::RCX));
+        code.append(PECodeDefines<Register>::callReg(Register::RDX));
+
+        // Wczytywanie adresu GetProcAddr
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::R8, (PECodeDefines<Register>::shadowSize) * PECodeDefines<Register>::stackCellSize));
+
+        // Wywołanie GetProcAddr
+        code.append(PECodeDefines<Register>::saveRegister(Register::RAX));
+        code.append(PECodeDefines<Register>::restoreRegister(Register::RCX));
+        code.append(PECodeDefines<Register>::movValueToReg(func_name_addr, Register::RDX));
+        code.append(PECodeDefines<Register>::callReg(Register::R8));
+
+        // Usunięcie Shadow Space dla LoadLibrary i GetProcAddr
+        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
+
+        // Odłożenie adresu Sleep w Shadow Space
+        code.append(PECodeDefines<Register>::readFromRegToEspMem(Register::RAX, 0));
+
+        jmp_offset = code.length();
+
+        // Pętla
+        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::RAX, 0));
+        code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint64_t>(sleepTime * 1000), Register::RCX));
+
+        // Sleep
+        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
+        code.append(PECodeDefines<Register>::callReg(Register::RAX));
+        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
+    }
+
+    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
+
+    foreach(Wrapper<Register> *w, wrappers)
+    {
+        if(!w)
+            return 0;
+
+        uint64_t fnc = generateCode(w, ptrs);
+        code.append(PECodeDefines<Register>::movValueToReg(fnc, Register::RAX));
+        code.append(PECodeDefines<Register>::callReg(Register::RAX));
+    }
+
+    code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
+
+    if(sleepTime)
+    {
+        jmp_offset = code.length() + 2 - jmp_offset;
+        if(jmp_offset > 126)
+            return 0;
+
+        code.append(PECodeDefines<Register>::jmpRelative(-jmp_offset));
+        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
+    }
+
+    code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint64_t>(0), Register::RAX));
+    code.append(PECodeDefines<Register>::endFunc);
+    code.append(PECodeDefines<Register>::ret);
+
+    return injectUniqueData(code, ptrs);
 }
 
 template <typename Register>
@@ -678,7 +773,7 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
     code.append(PECodeDefines<Register>::startFunc);
 
     std::list<Register> rts = w->getRegistersToSave().toStdList();
-    bool align = true;
+    bool align = false;
 
     // Zachowywanie rejestrów
     for(auto it = rts.begin(); it != rts.end(); ++it)

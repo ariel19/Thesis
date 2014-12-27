@@ -31,8 +31,10 @@ const QByteArray PECodeDefines<Register>::_jz_rel = QByteArray("\x74");
 template const QByteArray PECodeDefines<Register_x86>::_jz_rel;
 template const QByteArray PECodeDefines<Register_x64>::_jz_rel;
 
-template <>
-const QByteArray PECodeDefines<Register_x86>::_jmp_rel = QByteArray("\xEB");
+template <typename Register>
+const QByteArray PECodeDefines<Register>::_jmp_rel = QByteArray("\xEB");
+template const QByteArray PECodeDefines<Register_x86>::_jmp_rel;
+template const QByteArray PECodeDefines<Register_x64>::_jmp_rel;
 
 template <>
 const QByteArray PECodeDefines<Register_x86>::_reserve_stack = QByteArray("\x83\xEC");
@@ -474,7 +476,7 @@ QByteArray PECodeDefines<Register>::jmpRelative(int8_t pos)
     return QByteArray(_jmp_rel).append(static_cast<char>(pos));
 }
 template QByteArray PECodeDefines<Register_x86>::jmpRelative(int8_t pos);
-//template QByteArray PECodeDefines<Register_x64>::jmpRelative(int8_t pos);
+template QByteArray PECodeDefines<Register_x64>::jmpRelative(int8_t pos);
 
 
 template <typename Register>
