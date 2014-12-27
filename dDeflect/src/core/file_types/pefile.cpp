@@ -612,6 +612,39 @@ uint64_t PEFile::generateThreadCode<Register_x64>
     return 0;
 }
 
+template <>
+bool PEFile::generateActionConditionCode<Register_x86>(QByteArray &code, uint64_t action, Register_x86 cond, Register_x86 act)
+{
+    typedef Register_x86 Register;
+    // mov act, &action()
+    // test cond, cond
+    // jz xxx
+    // push internal
+    // call act
+    // pop internal
+    // xxx:
+
+    code.append(PECodeDefines<Register>::movValueToReg(action, act));
+    code.append(PECodeDefines<Register>::testReg(cond));
+
+    QByteArray call_code;
+    call_code.append(PECodeDefines<Register>::saveAllInternal());
+    call_code.append(PECodeDefines<Register>::callReg(act));
+    call_code.append(PECodeDefines<Register>::restoreAllInternal());
+
+    code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
+    code.append(call_code);
+
+    return true;
+}
+
+template <>
+bool PEFile::generateActionConditionCode<Register_x64>(QByteArray &code, uint64_t action, Register_x64 cond, Register_x64 act)
+{
+    // TODO
+    return true;
+}
+
 template <typename Register>
 uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs)
 {
@@ -694,25 +727,7 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
         Register act = act_idx == -1 ? PECodeDefines<Register>::internalRegs[0] :
                 PECodeDefines<Register>::internalRegs[(act_idx + 1) % PECodeDefines<Register>::internalRegs.length()];
 
-        // mov act, &action()
-        // test cond, cond
-        // jz xxx
-        // push internal
-        // call act
-        // pop internal
-        // xxx:
-
-        // TODO: check
-        /*code.append(PECodeDefines<Register>::movValueToReg(action, act));
-        code.append(PECodeDefines<Register>::testReg(cond));
-
-        QByteArray call_code;
-        call_code.append(PECodeDefines<Register>::saveAllInternal());
-        call_code.append(PECodeDefines<Register>::callReg(act));
-        call_code.append(PECodeDefines<Register>::restoreAllInternal());
-
-        code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
-        code.append(call_code);*/
+        generateActionConditionCode<Register>(code, action, cond, act);
     }
 
     // Wyrównanie do 16 w przypadku x64

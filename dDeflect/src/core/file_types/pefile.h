@@ -85,6 +85,9 @@ private:
     bool generateParametersLoadingCode(QByteArray &code, T getFunctionsCodeAddr, QMap<Register,
                                        QString> params, QMap<QByteArray, uint64_t> &ptrs, T threadCodePtr);
 
+    template <typename Register>
+    bool generateActionConditionCode(QByteArray &code, uint64_t action, Register cond, Register act);
+
     uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
     uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs);
     QString getRandomSectionName();
