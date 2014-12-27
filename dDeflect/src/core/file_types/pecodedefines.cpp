@@ -4,6 +4,12 @@ template <>
 const uint8_t PECodeDefines<Register_x64>::shadowSize = 4;
 
 template <>
+const uint8_t PECodeDefines<Register_x64>::align16Size = 1;
+
+template <>
+const uint8_t PECodeDefines<Register_x86>::align16Size = 2;
+
+template <>
 const uint8_t PECodeDefines<Register_x86>::_stack_cell_size = 4;
 
 template <>

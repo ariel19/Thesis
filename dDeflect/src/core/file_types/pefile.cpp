@@ -225,12 +225,14 @@ bool PEFile::injectEpCode<Register_x86>(QList<uint64_t> &epMethods, QMap<QByteAr
 
     QByteArray code;
 
+    // Wywołanie każdej z metod
     foreach(uint64_t offset, epMethods)
     {
         code.append(PECodeDefines<Register>::movValueToReg(offset, Register::EAX));
         code.append(PECodeDefines<Register>::callReg(Register::EAX));
     }
 
+    // Skok do Entry Point
     code.append(PECodeDefines<Register>::movValueToReg(getEntryPoint() + getImageBase(), Register::EAX));
     code.append(PECodeDefines<Register>::jmpReg(Register::EAX));
 
@@ -273,7 +275,7 @@ bool PEFile::injectEpCode<Register_x64>(QList<uint64_t> &epMethods, QMap<QByteAr
     // Alokacja Shadow Space
     code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
 
-    // Wywołąnie każdej z metod
+    // Wywołanie każdej z metod
     foreach(uint64_t offset, epMethods)
     {
         code.append(PECodeDefines<Register>::movValueToReg(offset, Register::RAX));
@@ -581,7 +583,7 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
 
     // Wyrównanie do 16 w przypadku x64
     if(is_x64 && align)
-        code.append(PECodeDefines<Register>::reserveStackSpace(1));
+        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
 
     // Ładowanie parametrów
     if(!w->getParameters().empty())
@@ -630,7 +632,7 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
 
     // Wyrównanie do 16 w przypadku x64
     if(is_x64 && align)
-        code.append(PECodeDefines<Register>::clearStackSpace(1));
+        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::align16Size));
 
     // Przywracanie rejestrów
     for(auto it = rts.rbegin(); it != rts.rend(); ++it)

@@ -33,6 +33,7 @@ public:
     static const QList<Register> internalRegs;
     static const QList<Register> externalRegs;
     static const uint8_t shadowSize;
+    static const uint8_t align16Size;
 
     static QByteArray saveRegister(Register reg);
     static QByteArray restoreRegister(Register reg);
