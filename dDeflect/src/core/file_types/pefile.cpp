@@ -612,38 +612,33 @@ uint64_t PEFile::generateThreadCode<Register_x64>
     return 0;
 }
 
-template <>
-bool PEFile::generateActionConditionCode<Register_x86>(QByteArray &code, uint64_t action, Register_x86 cond, Register_x86 act)
+template <typename Register>
+bool PEFile::generateActionConditionCode(QByteArray &code, uint64_t action, Register cond, Register act)
 {
-    typedef Register_x86 Register;
-    // mov act, &action()
-    // test cond, cond
-    // jz xxx
-    // push internal
-    // call act
-    // pop internal
-    // xxx:
-
     code.append(PECodeDefines<Register>::movValueToReg(action, act));
     code.append(PECodeDefines<Register>::testReg(cond));
 
     QByteArray call_code;
     call_code.append(PECodeDefines<Register>::saveAllInternal());
+
+    if(is_x64 && PECodeDefines<Register>::internalRegs.length() % 2 != 0)
+        call_code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
+
     call_code.append(PECodeDefines<Register>::callReg(act));
+
+    if(is_x64 && PECodeDefines<Register>::internalRegs.length() % 2 != 0)
+        call_code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
+
     call_code.append(PECodeDefines<Register>::restoreAllInternal());
+
 
     code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
     code.append(call_code);
 
     return true;
 }
-
-template <>
-bool PEFile::generateActionConditionCode<Register_x64>(QByteArray &code, uint64_t action, Register_x64 cond, Register_x64 act)
-{
-    // TODO
-    return true;
-}
+template bool PEFile::generateActionConditionCode(QByteArray &code, uint64_t action, Register_x86 cond, Register_x86 act);
+template bool PEFile::generateActionConditionCode(QByteArray &code, uint64_t action, Register_x64 cond, Register_x64 act);
 
 template <typename Register>
 uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs)
