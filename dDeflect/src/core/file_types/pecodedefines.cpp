@@ -1,6 +1,9 @@
 #include "pecodedefines.h"
 
 template <>
+const uint8_t PECodeDefines<Register_x64>::shadowSize = 4;
+
+template <>
 const uint8_t PECodeDefines<Register_x86>::_stack_cell_size = 4;
 
 template <>
@@ -242,6 +245,27 @@ const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_jmp_reg =
 };
 
 template <>
+const QMap<Register_x64, QByteArray> PECodeDefines<Register_x64>::_jmp_reg =
+{
+    { Register_x64::RAX, QByteArray("\xFF\xE0") },
+    { Register_x64::RBX, QByteArray("\xFF\xE3") },
+    { Register_x64::RCX, QByteArray("\xFF\xE1") },
+    { Register_x64::RDX, QByteArray("\xFF\xE2") },
+    { Register_x64::RSP, QByteArray("\xFF\xE4") },
+    { Register_x64::RBP, QByteArray("\xFF\xE5") },
+    { Register_x64::RSI, QByteArray("\xFF\xE6") },
+    { Register_x64::RDI, QByteArray("\xFF\xE7") },
+    { Register_x64::R8, QByteArray("\x41\xFF\xE0") },
+    { Register_x64::R9, QByteArray("\x41\xFF\xE1") },
+    { Register_x64::R10, QByteArray("\x41\xFF\xE2") },
+    { Register_x64::R11, QByteArray("\x41\xFF\xE3") },
+    { Register_x64::R12, QByteArray("\x41\xFF\xE4") },
+    { Register_x64::R13, QByteArray("\x41\xFF\xE5") },
+    { Register_x64::R14, QByteArray("\x41\xFF\xE6") },
+    { Register_x64::R15, QByteArray("\x41\xFF\xE7") }
+};
+
+template <>
 const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_test_reg =
 {
     { Register_x86::EAX, QByteArray("\x85\xC0") },
@@ -301,6 +325,7 @@ const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_reg_to_esp_me
     { Register_x86::EDI, QByteArray("\x89\x7C\x24") }
 };
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::saveRegister(Register reg)
 {
@@ -309,6 +334,7 @@ QByteArray PECodeDefines<Register>::saveRegister(Register reg)
 template QByteArray PECodeDefines<Register_x86>::saveRegister(Register_x86 reg);
 template QByteArray PECodeDefines<Register_x64>::saveRegister(Register_x64 reg);
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::restoreRegister(Register reg)
 {
@@ -316,6 +342,7 @@ QByteArray PECodeDefines<Register>::restoreRegister(Register reg)
 }
 template QByteArray PECodeDefines<Register_x86>::restoreRegister(Register_x86 reg);
 template QByteArray PECodeDefines<Register_x64>::restoreRegister(Register_x64 reg);
+
 
 template <>
 template <>
@@ -332,6 +359,7 @@ QByteArray PECodeDefines<Register_x86>::movValueToReg<uint32_t>(uint32_t value, 
     return code;
 }
 
+
 template <>
 template <>
 QByteArray PECodeDefines<Register_x64>::movValueToReg<uint64_t>(uint64_t value, Register_x64 reg)
@@ -347,12 +375,14 @@ QByteArray PECodeDefines<Register_x64>::movValueToReg<uint64_t>(uint64_t value, 
     return code;
 }
 
+
 template <>
 template <>
 QByteArray PECodeDefines<Register_x86>::movValueToReg(uint64_t value, Register_x86 reg)
 {
     return PECodeDefines<Register_x86>::movValueToReg<uint32_t>(value, reg);
 }
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::callReg(Register reg)
@@ -362,13 +392,15 @@ QByteArray PECodeDefines<Register>::callReg(Register reg)
 template QByteArray PECodeDefines<Register_x86>::callReg(Register_x86 reg);
 template QByteArray PECodeDefines<Register_x64>::callReg(Register_x64 reg);
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::jmpReg(Register reg)
 {
     return _jmp_reg.contains(reg) ? _jmp_reg[reg] : QByteArray("");
 }
 template QByteArray PECodeDefines<Register_x86>::jmpReg(Register_x86 reg);
-//template QByteArray PECodeDefines<Register_x64>::jmpReg(Register_x64 reg);
+template QByteArray PECodeDefines<Register_x64>::jmpReg(Register_x64 reg);
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::testReg(Register reg)
@@ -378,6 +410,7 @@ QByteArray PECodeDefines<Register>::testReg(Register reg)
 template QByteArray PECodeDefines<Register_x86>::testReg(Register_x86 reg);
 template QByteArray PECodeDefines<Register_x64>::testReg(Register_x64 reg);
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::jzRelative(int8_t pos)
 {
@@ -386,6 +419,7 @@ QByteArray PECodeDefines<Register>::jzRelative(int8_t pos)
 template QByteArray PECodeDefines<Register_x86>::jzRelative(int8_t pos);
 template QByteArray PECodeDefines<Register_x64>::jzRelative(int8_t pos);
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::jmpRelative(int8_t pos)
 {
@@ -393,6 +427,7 @@ QByteArray PECodeDefines<Register>::jmpRelative(int8_t pos)
 }
 template QByteArray PECodeDefines<Register_x86>::jmpRelative(int8_t pos);
 //template QByteArray PECodeDefines<Register_x64>::jmpRelative(int8_t pos);
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::saveAllInternal()
@@ -407,6 +442,7 @@ QByteArray PECodeDefines<Register>::saveAllInternal()
 template QByteArray PECodeDefines<Register_x86>::saveAllInternal();
 template QByteArray PECodeDefines<Register_x64>::saveAllInternal();
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::restoreAllInternal()
 {
@@ -419,6 +455,7 @@ QByteArray PECodeDefines<Register>::restoreAllInternal()
 }
 template QByteArray PECodeDefines<Register_x86>::restoreAllInternal();
 template QByteArray PECodeDefines<Register_x64>::restoreAllInternal();
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::reserveStackSpace(uint16_t noParams)
@@ -439,6 +476,7 @@ QByteArray PECodeDefines<Register>::reserveStackSpace(uint16_t noParams)
 template QByteArray PECodeDefines<Register_x86>::reserveStackSpace(uint16_t noParams);
 template QByteArray PECodeDefines<Register_x64>::reserveStackSpace(uint16_t noParams);
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::clearStackSpace(uint16_t noParams)
 {
@@ -458,12 +496,14 @@ QByteArray PECodeDefines<Register>::clearStackSpace(uint16_t noParams)
 template QByteArray PECodeDefines<Register_x86>::clearStackSpace(uint16_t noParams);
 template QByteArray PECodeDefines<Register_x64>::clearStackSpace(uint16_t noParams);
 
+
 template <>
 template <>
 QByteArray PECodeDefines<Register_x86>::storeValue(uint32_t dword)
 {
     return QByteArray(_store_dword).append(reinterpret_cast<const char*>(&dword), sizeof(uint32_t));
 }
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::readFromEspMemToReg(Register reg, int8_t base)
@@ -481,6 +521,7 @@ QByteArray PECodeDefines<Register>::readFromEspMemToReg(Register reg, int8_t bas
 template QByteArray PECodeDefines<Register_x86>::readFromEspMemToReg(Register_x86 reg, int8_t base);
 //template QByteArray PECodeDefines<Register_x64>::readFromEspMemToReg(Register_x64 reg, int8_t base);
 
+
 template <typename Register>
 QByteArray PECodeDefines<Register>::readFromRegToEspMem(Register reg, int8_t base)
 {
@@ -496,6 +537,7 @@ QByteArray PECodeDefines<Register>::readFromRegToEspMem(Register reg, int8_t bas
 }
 template QByteArray PECodeDefines<Register_x86>::readFromRegToEspMem(Register_x86 reg, int8_t base);
 //template QByteArray PECodeDefines<Register_x64>::readFromRegToEspMem(Register_x64 reg, int8_t base);
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::retN(uint16_t n)

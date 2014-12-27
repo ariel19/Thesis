@@ -227,12 +227,11 @@ bool PEFile::injectEpCode<Register_x86>(QList<uint64_t> &epMethods, QMap<QByteAr
 
     foreach(uint64_t offset, epMethods)
     {
-        code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint32_t>(offset), Register::EAX));
+        code.append(PECodeDefines<Register>::movValueToReg(offset, Register::EAX));
         code.append(PECodeDefines<Register>::callReg(Register::EAX));
     }
 
-    code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint32_t>(getEntryPoint() + getImageBase()),
-                                                           Register::EAX));
+    code.append(PECodeDefines<Register>::movValueToReg(getEntryPoint() + getImageBase(), Register::EAX));
     code.append(PECodeDefines<Register>::jmpReg(Register::EAX));
 
     uint64_t new_ep = injectUniqueData(code, codePointers);
@@ -251,6 +250,7 @@ bool PEFile::injectEpCode<Register_x86>(QList<uint64_t> &epMethods, QMap<QByteAr
 template <>
 bool PEFile::injectTlsCode<Register_x86>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers)
 {
+    typedef Register_x86 Register;
     // TODO
     return true;
 }
@@ -258,6 +258,7 @@ bool PEFile::injectTlsCode<Register_x86>(QList<uint64_t> &tlsMethods, QMap<QByte
 template <>
 bool PEFile::injectTrampolineCode<Register_x86>(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers)
 {
+    typedef Register_x86 Register;
     // TODO
     return true;
 }
@@ -265,13 +266,44 @@ bool PEFile::injectTrampolineCode<Register_x86>(QList<uint64_t> &tramMethods, QM
 template <>
 bool PEFile::injectEpCode<Register_x64>(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers)
 {
-    // TODO
+    typedef Register_x64 Register;
+
+    QByteArray code;
+
+    // Alokacja Shadow Space
+    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
+
+    // Wywołąnie każdej z metod
+    foreach(uint64_t offset, epMethods)
+    {
+        code.append(PECodeDefines<Register>::movValueToReg(offset, Register::RAX));
+        code.append(PECodeDefines<Register>::callReg(Register::RAX));
+    }
+
+    // Usunięcie Shadow Space
+    code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
+
+    // Skok do Entry Point
+    code.append(PECodeDefines<Register>::movValueToReg(getEntryPoint() + getImageBase(), Register::RAX));
+    code.append(PECodeDefines<Register>::jmpReg(Register::RAX));
+
+    uint64_t new_ep = injectUniqueData(code, codePointers);
+
+    if(new_ep == 0)
+        return false;
+
+    new_ep -= getImageBase();
+
+    if(!setNewEntryPoint(new_ep))
+        return false;
+
     return true;
 }
 
 template <>
 bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers)
 {
+    typedef Register_x64 Register;
     // TODO
     return true;
 }
@@ -279,6 +311,7 @@ bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, QMap<QByte
 template <>
 bool PEFile::injectTrampolineCode<Register_x64>(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers)
 {
+    typedef Register_x64 Register;
     // TODO
     return true;
 }
@@ -581,7 +614,9 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
         // call act
         // pop internal
         // xxx:
-        code.append(PECodeDefines<Register>::movValueToReg(action, act));
+
+        // TODO: check
+        /*code.append(PECodeDefines<Register>::movValueToReg(action, act));
         code.append(PECodeDefines<Register>::testReg(cond));
 
         QByteArray call_code;
@@ -590,7 +625,7 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
         call_code.append(PECodeDefines<Register>::restoreAllInternal());
 
         code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
-        code.append(call_code);
+        code.append(call_code);*/
     }
 
     // Wyrównanie do 16 w przypadku x64
