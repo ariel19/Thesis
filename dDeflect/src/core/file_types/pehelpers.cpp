@@ -181,8 +181,8 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
     {
         returns = Register::None;
         regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::RDI});
-        params.insert(Register::RDX, "kernel32!CreateThread");
-        params.insert(Register::RDI, "THREAD!THREAD");
+        params.insert(Register::R10, "kernel32!CreateThread");
+        params.insert(Register::R8, "THREAD!THREAD");
     }
     else if(name.contains("load_functions"))
     {
