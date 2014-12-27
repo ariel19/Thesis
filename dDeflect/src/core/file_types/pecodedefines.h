@@ -24,7 +24,6 @@ private:
     static const QByteArray _clear_stack;
     static const QByteArray _store_dword;
     static const QByteArray _ret_n;
-    static const uint8_t _stack_cell_size;
 
 public:
     static const QByteArray startFunc;
@@ -34,6 +33,7 @@ public:
     static const QList<Register> externalRegs;
     static const uint8_t shadowSize;
     static const uint8_t align16Size;
+    static const uint8_t stackCellSize;
 
     static QByteArray saveRegister(Register reg);
     static QByteArray restoreRegister(Register reg);

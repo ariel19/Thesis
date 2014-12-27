@@ -10,10 +10,10 @@ template <>
 const uint8_t PECodeDefines<Register_x86>::align16Size = 2;
 
 template <>
-const uint8_t PECodeDefines<Register_x86>::_stack_cell_size = 4;
+const uint8_t PECodeDefines<Register_x86>::stackCellSize = 4;
 
 template <>
-const uint8_t PECodeDefines<Register_x64>::_stack_cell_size = 8;
+const uint8_t PECodeDefines<Register_x64>::stackCellSize = 8;
 
 template <>
 const QByteArray PECodeDefines<Register_x86>::startFunc = QByteArray("\x55\x89\xE5");
@@ -319,6 +319,27 @@ const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_esp_mem_to_re
 };
 
 template <>
+const QMap<Register_x64, QByteArray> PECodeDefines<Register_x64>::_esp_mem_to_reg =
+{
+    { Register_x64::RAX, QByteArray("\x48\x8B\x44\x24") },
+    { Register_x64::RBX, QByteArray("\x48\x8B\x5C\x24") },
+    { Register_x64::RCX, QByteArray("\x48\x8B\x4C\x24") },
+    { Register_x64::RDX, QByteArray("\x48\x8B\x54\x24") },
+    { Register_x64::RSP, QByteArray("\x48\x8B\x64\x24") },
+    { Register_x64::RBP, QByteArray("\x48\x8B\x6C\x24") },
+    { Register_x64::RSI, QByteArray("\x48\x8B\x74\x24") },
+    { Register_x64::RDI, QByteArray("\x48\x8B\x7C\x24") },
+    { Register_x64::R8, QByteArray("\x4C\x8B\x44\x24") },
+    { Register_x64::R9, QByteArray("\x4C\x8B\x4C\x24") },
+    { Register_x64::R10, QByteArray("\x4C\x8B\x54\x24") },
+    { Register_x64::R11, QByteArray("\x4C\x8B\x5C\x24") },
+    { Register_x64::R12, QByteArray("\x4C\x8B\x64\x24") },
+    { Register_x64::R13, QByteArray("\x4C\x8B\x6C\x24") },
+    { Register_x64::R14, QByteArray("\x4C\x8B\x74\x24") },
+    { Register_x64::R15, QByteArray("\x4C\x8B\x7C\x24") }
+};
+
+template <>
 const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_reg_to_esp_mem =
 {
     { Register_x86::EAX, QByteArray("\x89\x44\x24") },
@@ -329,6 +350,27 @@ const QMap<Register_x86, QByteArray> PECodeDefines<Register_x86>::_reg_to_esp_me
     { Register_x86::EBP, QByteArray("\x89\x6C\x24") },
     { Register_x86::ESI, QByteArray("\x89\x74\x24") },
     { Register_x86::EDI, QByteArray("\x89\x7C\x24") }
+};
+
+template <>
+const QMap<Register_x64, QByteArray> PECodeDefines<Register_x64>::_reg_to_esp_mem =
+{
+    { Register_x64::RAX, QByteArray("\x48\x89\x44\x24") },
+    { Register_x64::RBX, QByteArray("\x48\x89\x5C\x24") },
+    { Register_x64::RCX, QByteArray("\x48\x89\x4C\x24") },
+    { Register_x64::RDX, QByteArray("\x48\x89\x54\x24") },
+    { Register_x64::RSP, QByteArray("\x48\x89\x64\x24") },
+    { Register_x64::RBP, QByteArray("\x48\x89\x6C\x24") },
+    { Register_x64::RSI, QByteArray("\x48\x89\x74\x24") },
+    { Register_x64::RDI, QByteArray("\x48\x89\x7C\x24") },
+    { Register_x64::R8, QByteArray("\x4C\x89\x44\x24") },
+    { Register_x64::R9, QByteArray("\x4C\x89\x4C\x24") },
+    { Register_x64::R10, QByteArray("\x4C\x89\x54\x24") },
+    { Register_x64::R11, QByteArray("\x4C\x89\x5C\x24") },
+    { Register_x64::R12, QByteArray("\x4C\x89\x64\x24") },
+    { Register_x64::R13, QByteArray("\x4C\x89\x6C\x24") },
+    { Register_x64::R14, QByteArray("\x4C\x89\x74\x24") },
+    { Register_x64::R15, QByteArray("\x4C\x89\x7C\x24") }
 };
 
 
@@ -467,7 +509,7 @@ template <typename Register>
 QByteArray PECodeDefines<Register>::reserveStackSpace(uint16_t noParams)
 {
     QByteArray code;
-    int bytes = noParams * _stack_cell_size;
+    int bytes = noParams * stackCellSize;
 
     while(bytes > 0)
     {
@@ -487,7 +529,7 @@ template <typename Register>
 QByteArray PECodeDefines<Register>::clearStackSpace(uint16_t noParams)
 {
     QByteArray code;
-    int bytes = noParams * _stack_cell_size;
+    int bytes = noParams * stackCellSize;
 
     while(bytes > 0)
     {
@@ -525,7 +567,7 @@ QByteArray PECodeDefines<Register>::readFromEspMemToReg(Register reg, int8_t bas
     return code;
 }
 template QByteArray PECodeDefines<Register_x86>::readFromEspMemToReg(Register_x86 reg, int8_t base);
-//template QByteArray PECodeDefines<Register_x64>::readFromEspMemToReg(Register_x64 reg, int8_t base);
+template QByteArray PECodeDefines<Register_x64>::readFromEspMemToReg(Register_x64 reg, int8_t base);
 
 
 template <typename Register>
@@ -542,7 +584,7 @@ QByteArray PECodeDefines<Register>::readFromRegToEspMem(Register reg, int8_t bas
     return code;
 }
 template QByteArray PECodeDefines<Register_x86>::readFromRegToEspMem(Register_x86 reg, int8_t base);
-//template QByteArray PECodeDefines<Register_x64>::readFromRegToEspMem(Register_x64 reg, int8_t base);
+template QByteArray PECodeDefines<Register_x64>::readFromRegToEspMem(Register_x64 reg, int8_t base);
 
 
 template <typename Register>

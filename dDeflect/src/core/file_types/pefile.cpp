@@ -377,51 +377,66 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
 template bool PEFile::injectCode(QList<InjectDescription<Register_x86> *> descs);
 template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs);
 
+
 template <>
 bool PEFile::generateParametersLoadingCode<Register_x86, uint32_t>
 (QByteArray &code, uint32_t getFunctionsCodeAddr, QMap<Register_x86, QString> params, QMap<QByteArray, uint64_t> &ptrs, uint32_t threadCodePtr)
 {
-    typedef Register_x86 Register;
+    typedef Register_x86 Reg;
 
-    code.append(PECodeDefines<Register>::reserveStackSpace(3));
-    code.append(PECodeDefines<Register>::movValueToReg(getFunctionsCodeAddr, Register::EAX));
-    code.append(PECodeDefines<Register>::callReg(Register::EAX));
+    // Rezerwowanie miejsca na GetProcAddr, LoadLibrary i tmp
+    code.append(PECodeDefines<Reg>::reserveStackSpace(3));
 
-    QList<Register> keys = params.keys();
-    foreach (Register r, keys)
+    // Wczytywanie adresów GetProcAddr i LoadLibrary
+    code.append(PECodeDefines<Reg>::movValueToReg(getFunctionsCodeAddr, Reg::EAX));
+    code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
+
+    // Wczytywanie wymaganych adresów do rejestrów
+    QList<Reg> keys = params.keys();
+    foreach (Reg r, keys)
     {
         QList<QString> func_name = params[r].split('!');
         if(func_name.length() != 2)
             return false;
 
+        // Jeżeli szukana wartość jest adresem funkcji wątku to przypisujemy
         if(threadCodePtr && func_name[0] == "THREAD" && func_name[1] == "THREAD")
         {
-            code.append(PECodeDefines<Register>::movValueToReg(threadCodePtr, r));
+            code.append(PECodeDefines<Reg>::movValueToReg(threadCodePtr, r));
             continue;
         }
 
+        // Generowanie nazw biblioteki i funkcji
         uint32_t lib_name_addr = generateString(func_name[0], ptrs);
         uint32_t func_name_addr = generateString(func_name[1], ptrs);
 
-        code.append(PECodeDefines<Register>::saveAllInternal());
+        // Zachowywanie wypełnionych już wcześniej rejestrów
+        code.append(PECodeDefines<Reg>::saveAllInternal());
 
-        code.append(PECodeDefines<Register>::storeValue(lib_name_addr));
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+        int internalSize = PECodeDefines<Reg>::internalRegs.length();
 
-        code.append(PECodeDefines<Register>::storeValue(func_name_addr));
-        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 20));
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+        // Wywołanie LoadLibrary
+        code.append(PECodeDefines<Reg>::storeValue(lib_name_addr));
+        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
+        code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
 
-        code.append(PECodeDefines<Register>::readFromRegToEspMem(Register::EAX, 20));
+        // Wywołanie GetProcAddr
+        code.append(PECodeDefines<Reg>::storeValue(func_name_addr));
+        code.append(PECodeDefines<Reg>::saveRegister(Reg::EAX));
+        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
+        code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
 
-        code.append(PECodeDefines<Register>::restoreAllInternal());
+        // Zapisanie adresu szukanej funkcji do tmp
+        code.append(PECodeDefines<Reg>::readFromRegToEspMem(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
 
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(r, 8));
+        // Odtworzenie wypełnionych wcześniej rejestrów
+        code.append(PECodeDefines<Reg>::restoreAllInternal());
+
+        // Przypisanie znalezionego adresu szukanej funkcji
+        code.append(PECodeDefines<Reg>::readFromEspMemToReg(r, 2 * PECodeDefines<Reg>::stackCellSize));
     }
 
-    code.append(PECodeDefines<Register>::clearStackSpace(3));
+    code.append(PECodeDefines<Reg>::clearStackSpace(3));
 
     return true;
 }
@@ -430,8 +445,74 @@ template <>
 bool PEFile::generateParametersLoadingCode<Register_x64, uint64_t>
 (QByteArray &code, uint64_t getFunctionsCodeAddr, QMap<Register_x64, QString> params, QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
 {
-    // TODO
-    return 0;
+    typedef Register_x64 Reg;
+
+    // Rezerwowanie miejsca na GetProcAddr, LoadLibrary i tmp z wyrównaniem do 16
+    code.append(PECodeDefines<Reg>::reserveStackSpace(4));
+
+    // Wczytywanie adresów GetProcAddr i LoadLibrary
+    code.append(PECodeDefines<Reg>::movValueToReg(getFunctionsCodeAddr, Reg::RAX));
+    code.append(PECodeDefines<Reg>::callReg(Reg::RAX));
+
+    // Wczytywanie wymaganych adresów do rejestrów
+    QList<Reg> keys = params.keys();
+    foreach (Reg r, keys)
+    {
+        QList<QString> func_name = params[r].split('!');
+        if(func_name.length() != 2)
+            return false;
+
+        // Jeżeli szukana wartość jest adresem funkcji wątku to przypisujemy
+        if(threadCodePtr && func_name[0] == "THREAD" && func_name[1] == "THREAD")
+        {
+            code.append(PECodeDefines<Reg>::movValueToReg(threadCodePtr, r));
+            continue;
+        }
+
+        // Generowanie nazw biblioteki i funkcji
+        uint64_t lib_name_addr = generateString(func_name[0], ptrs);
+        uint64_t func_name_addr = generateString(func_name[1], ptrs);
+
+        // Zapisanie wszystkich wypełnionych wcześniej rejestrów + wyrównanie do 16
+        code.append(PECodeDefines<Reg>::saveAllInternal());
+        int internalSize = PECodeDefines<Reg>::internalRegs.length();
+        if(PECodeDefines<Reg>::internalRegs.length() % 2 != 0)
+        {
+            code.append(PECodeDefines<Reg>::reserveStackSpace(PECodeDefines<Reg>::align16Size));
+            internalSize++;
+        }
+
+        code.append(PECodeDefines<Reg>::reserveStackSpace(PECodeDefines<Reg>::shadowSize));
+        internalSize += PECodeDefines<Reg>::shadowSize;
+
+        // Wywołanie LoadLibrary
+        code.append(PECodeDefines<Reg>::movValueToReg(lib_name_addr, Reg::RCX));
+        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::RAX, (1 + internalSize) * PECodeDefines<Reg>::stackCellSize));
+        code.append(PECodeDefines<Reg>::callReg(Reg::RAX));
+
+        // Wywołanie GetProcAddr
+        code.append(PECodeDefines<Reg>::saveRegister(Reg::RAX));
+        code.append(PECodeDefines<Reg>::restoreRegister(Reg::RCX));
+        code.append(PECodeDefines<Reg>::movValueToReg(func_name_addr, Reg::RDX));
+        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::RAX, (internalSize) * PECodeDefines<Reg>::stackCellSize));
+        code.append(PECodeDefines<Reg>::callReg(Reg::RAX));
+
+        // Zapisanie znalezionej wartości jako tmp
+        code.append(PECodeDefines<Reg>::readFromRegToEspMem(Reg::RAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
+
+        code.append(PECodeDefines<Reg>::clearStackSpace(PECodeDefines<Reg>::shadowSize));
+        if(PECodeDefines<Reg>::internalRegs.length() % 2 != 0)
+            code.append(PECodeDefines<Reg>::clearStackSpace(PECodeDefines<Reg>::align16Size));
+
+        code.append(PECodeDefines<Reg>::restoreAllInternal());
+
+        // Odtworzenie zapisanej wartości adresu szukanej funkcji i przypisanie do rejestru
+        code.append(PECodeDefines<Reg>::readFromEspMemToReg(r, 2 * PECodeDefines<Reg>::stackCellSize));
+    }
+
+    code.append(PECodeDefines<Reg>::clearStackSpace(4));
+
+    return true;
 }
 
 template <>
@@ -577,7 +658,7 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
         if(PECodeDefines<Register>::externalRegs.contains(*it))
         {
             code.append(PECodeDefines<Register>::saveRegister(*it));
-            align = ~align;
+            align = !align;
         }
     }
 
@@ -595,7 +676,11 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
         uint64_t get_functions = generateCode(func_wrap, ptrs);
         delete func_wrap;
 
-        generateParametersLoadingCode<Register>(code, get_functions, w->getParameters(), ptrs, thread);
+        if(!get_functions)
+            return 0;
+
+        if(!generateParametersLoadingCode<Register>(code, get_functions, w->getParameters(), ptrs, thread))
+            return 0;
     }
 
     // Doklejanie właściwego kodu
