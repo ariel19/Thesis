@@ -1,24 +1,5 @@
-[bits 32]
-
-; method responsible for new thread creation
-
-; to create a thread we need to use following values for flags
-; CLONE_VM (0x100), CLONE_FS(0x200), CLONE_FILES(0x400), CLONE_SIGHAND(0x800), CLONE_THREAD (0x1000)
-
-; rdi - address of thread_func
-; rsi - thread parameter
-
-push eax
-push ebx
-push ecx
-push edx
-push esi
-push edi
-
-; assume that stack grows DOWNWARDS => add to the allocated memory with dmalloc size of allocated memory :)
-
-mov ebx, 0x10f11 ; or'ed flags
-mov ecx, 0 ; address of new stack pointer, prbly should be calculated
+mov ebx, 0x10f00 ; or'ed flags
+xor ecx, ecx
 xor edx, edx ; parent tid
 xor esi, esi ; child tid
 xor edi, edi ; regs
@@ -28,16 +9,74 @@ int 0x80 ; syscall
 or eax, 0
 jnz _parent
 
-; ======================
-; BODY OF NEW THREAD
-; ======================
+new_thread:
+
+	mov ebx, 0x10f00 ; or'ed flags
+	xor ecx, ecx
+	xor edx, edx ; parent tid
+	xor esi, esi ; child tid
+	xor edi, edi ; regs
+	mov eax, 120 ; syscall clone
+	int 0x80 ; syscall
+
+	or eax, 0
+	jnz __ntroutine
+
+		; debugger detection
+
+		(rsj?^_^ddetectionmethod^_^?rsj)
+
+		cmp (?^_^ddret^_^?), 0
+		jge __nondbg
+
+		call _dbg
+		db 'debugged!!!!!', 0xa, 0
+_dbg:
+		mov ebx, 1
+		pop ecx
+		mov edx, 14
+		mov eax, 4 ; syscall write
+		int 0x80
+
+		(rsj?^_^ddetectionhandler^_^?rsj)
+
+__nondbg:
+		call _nondbg
+		db 'non-debugged!', 0xa, 0
+_nondbg:
+		mov ebx, 1
+		pop ecx
+		mov edx, 14
+		mov eax, 4 ; syscall write
+		int 0x80
+
+		mov ebx, 178
+		mov eax, 1 ; syscall exit
+		int 0x80
+
+__ntroutine:
+
+	push eax ; save thread id	
+
+	push (?^_^sleep1^_^?) ; value should be a parameter
+	push (?^_^sleep2^_^?) ; value should be a parameter
+	mov ebx, esp
+	xor ecx, ecx
+	mov eax, 162 ; syscall nanosleep 
+	int 0x80 ; syscall
+	pop eax
+	pop eax
+
+	mov eax, 20 ; getpid
+	int 0x80
+
+	; kill debugger detection thread
+	pop ebx ; thread id
+	mov ecx, 1 ; SIGHUP
+	mov edx, eax; pid
+	mov eax, 270; tgkill
+	int 0x80 
+
+jmp new_thread
 
 _parent:
-pop edi
-pop esi
-pop edx
-pop ecx
-pop ebx
-pop eax
-
-; JUMP IN WRAPPER
