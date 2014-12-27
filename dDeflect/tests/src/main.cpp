@@ -582,7 +582,7 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for my 32-bit app...";
 
     // test oep + ptrace
-    if (!test_thread_wrappers("my32", "thread_t.asm", "ptrace_t.asm", "exit_t.asm")) {
+    if (!test_thread_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
         qDebug() << "something went wrong :(";
     }
 
@@ -594,7 +594,7 @@ void test_wrappers() {
 
     qDebug() << "Testing OEP + thread for my 64-bit app...";
 
-    if (!test_thread_wrappers("my64", "thread64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+    if (!test_thread_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
 
@@ -607,7 +607,7 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for derby 32-bit app...";
 
     // test oep + ptrace
-    if (!test_thread_wrappers("derby32", "thread_t.asm", "ptrace_t.asm", "exit_t.asm")) {
+    if (!test_thread_wrappers("derby32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
         qDebug() << "something went wrong :(";
     }
 
@@ -619,7 +619,7 @@ void test_wrappers() {
 
     qDebug() << "Testing OEP + thread for derby 64-bit app...";
 
-    if (!test_thread_wrappers("derby64", "thread64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+    if (!test_thread_wrappers("derby64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
 
@@ -631,7 +631,7 @@ void test_wrappers() {
 
     qDebug() << "Testing OEP + thread for edb 64-bit app...";
 
-    if (!test_thread_wrappers("edb", "thread64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+    if (!test_thread_wrappers("edb", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
 
@@ -643,7 +643,7 @@ void test_wrappers() {
 
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app...";
 
-    if (!test_thread_wrappers("dDeflect", "thread64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+    if (!test_thread_wrappers("dDeflect", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
 
@@ -660,6 +660,8 @@ int main() {
     // test_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm");
     // test_thread_wrappers("my32", "thread_t.asm", "ptrace_t.asm", "exit_t.asm");
     // test_thread_wrappers("my64", "thread64_t.asm", "ptrace64_t.asm", "exit64_t.asm");
+    // test_thread_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm");
+    // test_thread_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm");
     test_wrappers();
 
     return 0;
