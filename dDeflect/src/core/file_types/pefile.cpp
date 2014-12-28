@@ -218,17 +218,67 @@ bool PEFile::addRelocations(QList<int64_t> relocations)
     if(!parsed)
         return false;
 
+    QList<RelocationTable> reloc_table;
+    if(!getRelocations(reloc_table))
+        return false;
+
+    // Dodawanie do tablicy
+    foreach(uint64_t abs_addr, relocations)
+    {
+        uint32_t rel_addr = abs_addr - getImageBase();
+        uint32_t va = rel_addr & 0xFFFFF000;
+        uint32_t offset = rel_addr & 0x00000FFF;
+
+        QList<RelocationTable> new_reloc_table;
+        bool added = false;
+
+        for(QList<RelocationTable>::iterator it = reloc_table.begin(); it != reloc_table.end(); ++it)
+        {
+            if(it->VirtualAddress < va || (added && it->VirtualAddress > va))
+            {
+                new_reloc_table.append(*it);
+                continue;
+            }
+
+            if(it->VirtualAddress == va)
+            {
+                RelocationTable r = *it;
+                r.addOffset(offset);
+                new_reloc_table.append(r);
+
+                added = true;
+            }
+
+            if(!added && it->VirtualAddress > va)
+            {
+                RelocationTable r;
+                r.VirtualAddress = va;
+                r.SizeOfBlock = IMAGE_SIZEOF_BASE_RELOCATION;
+                r.addOffset(offset);
+                new_reloc_table.append(r);
+
+                added = true;
+                new_reloc_table.append(*it);
+            }
+        }
+
+        if(!added)
+        {
+            RelocationTable r;
+            r.VirtualAddress = va;
+            r.SizeOfBlock = IMAGE_SIZEOF_BASE_RELOCATION;
+            r.addOffset(offset);
+            new_reloc_table.append(r);
+        }
+
+        reloc_table = new_reloc_table;
+    }
+
     // TODO
-    // pobrać relokacje
-    // dodać nowe do listy
     // sprawdzić czy są na końcu
     // jeśli nie to czy się zmieszczą
     // jeśli się nie mieszczę to przenieść na koniec do nowej sekcji + powiększyć sekcję żeby się zmieściły w przyszłości
     // zapisać, zmienić wielkość sekcji/tablicy relokacji
-
-    QList<RelocationTable> reloc_table;
-    if(!getRelocations(reloc_table))
-        return false;
 
     return true;
 }

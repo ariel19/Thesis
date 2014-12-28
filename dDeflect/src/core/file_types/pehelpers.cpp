@@ -243,3 +243,41 @@ const uint8_t BinaryCode<Register_x86>::addrSize = 4;
 
 template <>
 const uint8_t BinaryCode<Register_x64>::addrSize = 8;
+
+
+bool RelocationTable::addOffset(uint16_t offset)
+{
+    bool added = false, ok = false;
+    QList<TypeOffset> new_to;
+
+    TypeOffset to;
+    to.Type = 3;
+    to.Offset = offset;
+
+    for(QList<TypeOffset>::iterator it = TypeOffsets.begin(); it != TypeOffsets.end(); ++it)
+    {
+        if(it->Offset == offset)
+            added = true;
+
+        if(it->Offset > offset && !added)
+        {
+            added = ok = true;
+            new_to.append(to);
+        }
+
+        new_to.append(*it);
+    }
+
+    if(!added)
+    {
+        new_to.append(to);
+        ok = true;
+    }
+
+    TypeOffsets = new_to;
+
+    if(ok)
+        SizeOfBlock += sizeof(uint16_t);
+
+    return ok;
+}

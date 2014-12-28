@@ -140,6 +140,8 @@ struct RelocationTable
     uint32_t VirtualAddress;
     uint32_t SizeOfBlock;
     QList<TypeOffset> TypeOffsets;
+
+    bool addOffset(uint16_t offset);
 };
 
 #endif // PEHELPERS_H
