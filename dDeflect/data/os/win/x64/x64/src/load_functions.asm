@@ -59,13 +59,14 @@ found:
 			mov		rax, [rax + 0x20]				; Adres kernel32.dll
 			mov		r12, rax						; Zapamietujemy adres kernel32
 			
-			add		rax, [rax + 0x3C]				; e_lfanew
-			mov		rax, [rax + 0x88]				; Export Table offset
+			mov		r8d, [rax + 0x3C]				; e_lfanew
+			add		rax, r8
+			mov		eax, [rax + 0x88]				; Export Table offset
 			add		rax, r12						; Export Table address
 			mov		r13, rax						; Zapamietujemy IMAGE_EXPORT_DIRECTORY
 			
-			mov		rcx, [rax + 0x18]				; Liczba nazw funkcji
-			mov		rax, [rax + 0x20]				; Offset tablicy nazw
+			mov		ecx, [rax + 0x18]				; Liczba nazw funkcji
+			mov		eax, [rax + 0x20]				; Offset tablicy nazw
 			add		rax, r12						; Adres tablicy nazw
 			
 			call	load_f_str
@@ -74,7 +75,7 @@ load_f_str:
 			pop		rsi
 			
 enum_fun:
-			mov		rdi, [rax + 8 * rcx - 8]		; Offset nazwy
+			mov		edi, [rax + 4 * rcx - 4]		; Offset nazwy
 			add		rdi, r12
 			xor		rbx, rbx						; Licznik liter
 			
@@ -95,12 +96,12 @@ next_f:
 			jmp		not_found						; Funkcja nie znaleziona
 			
 f_found:
-			mov		rdi, [r13 + 0x24]				; Offset AddressOfNameOrdinals
+			mov		edi, [r13 + 0x24]				; Offset AddressOfNameOrdinals
 			add		rdi, r12						; Adres AddressOfNameOrdinals
 			
 			movzx	rdi, WORD [rdi + 2 * rcx - 2]	; Index adresu funkcji
 			
-			mov		rcx, [r13 + 0x1C]				; Offset AddressOfFunctions
+			mov		ecx, [r13 + 0x1C]				; Offset AddressOfFunctions
 			add		rcx, r12						; Adres
 			
 			mov		r13d, DWORD [rcx + 4 * rdi]		; Offset adresu funkcji
