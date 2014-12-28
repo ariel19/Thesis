@@ -175,7 +175,9 @@
 int main()
 {
     //QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
-    QFile f("C:\\Windows\\System32\\calc.exe");
+    //QFile f("C:\\Windows\\System32\\calc.exe");
+    //QFile f("C:\\Users\\jablonskim\\Desktop\\Project1.exe");
+
     if(!f.open(QFile::ReadOnly))
         return 1;
 
@@ -189,8 +191,8 @@ int main()
         return 1;
     }
 
-    QList<InjectDescription<Register_x86>*> ids;
-    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "create_thread.asm", true)));
+    QList<InjectDescription<Register_x64>*> ids;
+    ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::EntryPoint, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "create_thread.asm", true)));
     if(pe.injectCode(ids))
         puts("Success!");
     else

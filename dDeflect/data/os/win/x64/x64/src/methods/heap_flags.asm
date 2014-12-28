@@ -19,5 +19,5 @@
 
 			; ForceFlags
 			; HEAP_TAIL_CHECKING_ENABLED
-			cmp 	dword [rdx + rcx + 0x74], 0x400000060
+			cmp 	dword [rdx + rcx + 0x74], 0x40000060
 			setz al ; set if being debugged
