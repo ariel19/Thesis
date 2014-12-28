@@ -213,6 +213,89 @@ QString PEFile::getRandomSectionName()
     return name;
 }
 
+bool PEFile::addRelocations(QList<int64_t> relocations)
+{
+    if(!parsed)
+        return false;
+
+    // TODO
+    // pobrać relokacje
+    // dodać nowe do listy
+    // sprawdzić czy są na końcu
+    // jeśli nie to czy się zmieszczą
+    // jeśli się nie mieszczę to przenieść na koniec do nowej sekcji + powiększyć sekcję żeby się zmieściły w przyszłości
+    // zapisać, zmienić wielkość sekcji/tablicy relokacji
+
+    QList<RelocationTable> reloc_table;
+    if(!getRelocations(reloc_table))
+        return false;
+
+    return true;
+}
+
+bool PEFile::getRelocations(QList<RelocationTable> &rt)
+{
+    if(!parsed)
+        return false;
+
+    PIMAGE_DATA_DIRECTORY relocDir = getDataDirectory(IMAGE_DIRECTORY_ENTRY_BASERELOC);
+    if(relocDir->Size == 0)
+        return true;
+
+    PIMAGE_SECTION_HEADER hdr = getSectionHeaderByVirtualAddress(relocDir->VirtualAddress);
+    if(!hdr)
+        return false;
+
+    uint32_t shift = relocDir->VirtualAddress - hdr->VirtualAddress;
+    uint32_t relocBase = hdr->PointerToRawData + shift;
+    char *raw = b_data.data();
+    uint32_t i = 0;
+
+    while(i < relocDir->Size)
+    {
+        IMAGE_BASE_RELOCATION reloc_tab = *reinterpret_cast<IMAGE_BASE_RELOCATION*>(&raw[relocBase + i]);
+
+        RelocationTable t;
+        t.SizeOfBlock = reloc_tab.SizeOfBlock;
+        t.VirtualAddress = reloc_tab.VirtualAddress;
+
+        uint32_t j = IMAGE_SIZEOF_BASE_RELOCATION;
+
+        while(j < t.SizeOfBlock)
+        {
+            RelocationTable::TypeOffset typeOffset;
+
+            typeOffset.Type = ((*reinterpret_cast<uint16_t*>(&raw[relocBase + i + j])) & 0xF000) >> 12;
+            typeOffset.Offset = (*reinterpret_cast<uint16_t*>(&raw[relocBase + i + j])) & 0x0FFF;
+
+            t.TypeOffsets.append(typeOffset);
+            j += 2;
+        }
+
+        rt.append(t);
+        i += reloc_tab.SizeOfBlock;
+    }
+
+    return true;
+}
+
+PIMAGE_SECTION_HEADER PEFile::getSectionHeaderByVirtualAddress(uint32_t va)
+{
+    if(!parsed)
+        return NULL;
+
+    for(unsigned int i = 0; i < getNumberOfSections(); ++i)
+    {
+        uint32_t sva = getSectionHeader(i)->VirtualAddress;
+        uint32_t svs = getSectionHeader(i)->Misc.VirtualSize;
+
+        if(sva <= va && sva + svs > va)
+            return getSectionHeader(i);
+    }
+
+    return NULL;
+}
+
 bool PEFile::isValid()
 {
     return parsed;

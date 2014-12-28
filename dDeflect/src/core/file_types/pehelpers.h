@@ -129,4 +129,17 @@ public:
     QList<uint64_t> getRelocations(uint64_t codeBase);
 };
 
+struct RelocationTable
+{
+    struct TypeOffset
+    {
+        uint8_t Type;
+        uint16_t Offset;
+    };
+
+    uint32_t VirtualAddress;
+    uint32_t SizeOfBlock;
+    QList<TypeOffset> TypeOffsets;
+};
+
 #endif // PEHELPERS_H

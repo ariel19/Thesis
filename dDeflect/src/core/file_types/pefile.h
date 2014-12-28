@@ -101,6 +101,10 @@ private:
     template <typename Register>
     bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers);
 
+    bool addRelocations(QList<int64_t> relocations);
+    bool getRelocations(QList<RelocationTable> &rt);
+    PIMAGE_SECTION_HEADER getSectionHeaderByVirtualAddress(uint32_t va);
+
 public:
     PEFile(QByteArray d);
     ~PEFile();
