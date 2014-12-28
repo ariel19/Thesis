@@ -597,12 +597,12 @@ bool PEFile::generateParametersLoadingCode<Register_x86, uint32_t>
         int internalSize = PECodeDefines<Reg>::internalRegs.length();
 
         // Wywołanie LoadLibrary
-        code.append(PECodeDefines<Reg>::storeValue(lib_name_addr));
+        code.append(PECodeDefines<Reg>::storeValue(lib_name_addr), true);
         code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
         code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
 
         // Wywołanie GetProcAddr
-        code.append(PECodeDefines<Reg>::storeValue(func_name_addr));
+        code.append(PECodeDefines<Reg>::storeValue(func_name_addr), true);
         code.append(PECodeDefines<Reg>::saveRegister(Reg::EAX));
         code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
         code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
@@ -742,12 +742,12 @@ uint64_t PEFile::generateThreadCode<Register_x86>
         code.append(PECodeDefines<Register>::restoreRegister(Register::EDX));
         code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
 
-        code.append(PECodeDefines<Register>::storeValue(lib_name_addr));
+        code.append(PECodeDefines<Register>::storeValue(lib_name_addr), true);
         code.append(PECodeDefines<Register>::callReg(Register::EDX));
 
         code.append(PECodeDefines<Register>::restoreRegister(Register::EDX));
 
-        code.append(PECodeDefines<Register>::storeValue(func_name_addr));
+        code.append(PECodeDefines<Register>::storeValue(func_name_addr), true);
         code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
         code.append(PECodeDefines<Register>::callReg(Register::EDX));
         code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
@@ -905,7 +905,7 @@ bool PEFile::generateActionConditionCode(BinaryCode<Register> &code, uint64_t ac
     call_code.append(PECodeDefines<Register>::callReg(act));
 
     if(is_x64 && PECodeDefines<Register>::internalRegs.length() % 2 != 0)
-        call_code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
+        call_code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::align16Size));
 
     call_code.append(PECodeDefines<Register>::restoreAllInternal());
 
