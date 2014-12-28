@@ -237,6 +237,15 @@ template QList<uint64_t> BinaryCode<Register_x86>::getRelocations(uint64_t codeB
 template QList<uint64_t> BinaryCode<Register_x64>::getRelocations(uint64_t codeBase);
 
 
+template <typename Register>
+int BinaryCode<Register>::length()
+{
+    return code.length();
+}
+template int BinaryCode<Register_x86>::length();
+template int BinaryCode<Register_x64>::length();
+
+
 template <>
 const uint8_t BinaryCode<Register_x86>::addrSize = 4;
 
@@ -280,4 +289,20 @@ bool RelocationTable::addOffset(uint16_t offset)
         SizeOfBlock += sizeof(uint16_t);
 
     return ok;
+}
+
+QByteArray RelocationTable::toBytes()
+{
+    QByteArray bytes;
+
+    bytes.append(reinterpret_cast<const char*>(&VirtualAddress), sizeof(uint32_t));
+    bytes.append(reinterpret_cast<const char*>(&SizeOfBlock), sizeof(uint32_t));
+
+    foreach(TypeOffset to, TypeOffsets)
+    {
+        uint16_t bin_to = (to.Type << 12) | to.Offset;
+        bytes.append(reinterpret_cast<const char*>(&bin_to), sizeof(uint16_t));
+    }
+
+    return bytes;
 }

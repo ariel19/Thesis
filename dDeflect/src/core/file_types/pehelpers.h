@@ -127,6 +127,7 @@ public:
     void append(QByteArray _code, bool relocation = false);
     QByteArray getBytes();
     QList<uint64_t> getRelocations(uint64_t codeBase);
+    int length();
 };
 
 struct RelocationTable
@@ -142,6 +143,7 @@ struct RelocationTable
     QList<TypeOffset> TypeOffsets;
 
     bool addOffset(uint16_t offset);
+    QByteArray toBytes();
 };
 
 #endif // PEHELPERS_H

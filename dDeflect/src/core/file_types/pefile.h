@@ -76,32 +76,37 @@ private:
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
     template <typename Register>
-    uint64_t generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs);
+    uint64_t generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
 
     template <typename Register>
-    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime);
+    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations);
 
     template <typename Register, typename T>
-    bool generateParametersLoadingCode(QByteArray &code, T getFunctionsCodeAddr, QMap<Register,
+    bool generateParametersLoadingCode(BinaryCode<Register> &code, T getFunctionsCodeAddr, QMap<Register,
                                        QString> params, QMap<QByteArray, uint64_t> &ptrs, T threadCodePtr);
 
     template <typename Register>
-    bool generateActionConditionCode(QByteArray &code, uint64_t action, Register cond, Register act);
+    bool generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
 
     uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
-    uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs);
+
+    template <typename Register>
+    uint64_t injectUniqueData(BinaryCode<Register> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
+
+    uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs, bool *inserted = NULL);
+
     QString getRandomSectionName();
 
     template <typename Register>
-    bool injectEpCode(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers);
+    bool injectEpCode(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 
     template <typename Register>
-    bool injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers);
+    bool injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 
     template <typename Register>
-    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers);
+    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 
-    bool addRelocations(QList<int64_t> relocations);
+    bool addRelocations(QList<uint64_t> relocations);
     bool getRelocations(QList<RelocationTable> &rt);
     PIMAGE_SECTION_HEADER getSectionHeaderByVirtualAddress(uint32_t va);
 
