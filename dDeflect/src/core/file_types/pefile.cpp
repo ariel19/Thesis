@@ -173,7 +173,7 @@ uint64_t PEFile::injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &p
         is_added = addDataToSection(i, data, fileOffset, memOffset);
 
     // Tworzenie nowej sekcji, lub rozszerzanie ostatniej
-    std::default_random_engine gen;
+    std::default_random_engine gen(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<int> prob(0, 9);
     if(prob(gen) == 0)
     {
@@ -220,7 +220,7 @@ template uint64_t PEFile::injectUniqueData(BinaryCode<Register_x64> data, QMap<Q
 QString PEFile::getRandomSectionName()
 {
     QString name;
-    std::default_random_engine generator;
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<int> no_letters(1, 7);
     std::uniform_int_distribution<int> char_gen('a', 'z');
 
@@ -296,9 +296,13 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
         reloc_table = new_reloc_table;
     }
 
+    printf("\n");
     QByteArray raw_table;
     foreach(RelocationTable rt, reloc_table)
+    {
+        printf("%x: %d\n", rt.VirtualAddress, rt.SizeOfBlock);
         raw_table.append(rt.toBytes());
+    }
 
     unsigned int file_offset, mem_offset;
     if(!addNewSection(getRandomSectionName(), raw_table, file_offset, mem_offset))
@@ -334,6 +338,8 @@ bool PEFile::getRelocations(QList<RelocationTable> &rt)
         RelocationTable t;
         t.SizeOfBlock = reloc_tab.SizeOfBlock;
         t.VirtualAddress = reloc_tab.VirtualAddress;
+
+        printf("%x: %d\n", t.VirtualAddress, t.SizeOfBlock);
 
         uint32_t j = IMAGE_SIZEOF_BASE_RELOCATION;
 

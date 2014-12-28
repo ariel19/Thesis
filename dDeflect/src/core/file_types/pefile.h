@@ -15,6 +15,7 @@
 #include <QCryptographicHash>
 #include <QByteArray>
 #include <cstdint>
+#include <chrono>
 #include <core/file_types/pecodedefines.h>
 #include <core/file_types/pehelpers.h>
 
