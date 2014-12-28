@@ -40,6 +40,7 @@ l_ok:
 test32:
 			add		rdx, 12							; 6 * 2
 			cmp		BYTE [rdx], 0x33				; Porownanie z '3'
+			jne		inv_name
 			
 			add		rdx, 2
 			cmp		BYTE [rdx], 0x32				; Porownanie z '2'
