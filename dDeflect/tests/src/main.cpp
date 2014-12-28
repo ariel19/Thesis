@@ -176,7 +176,7 @@ int main()
 {
     //QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
     //QFile f("C:\\Windows\\System32\\calc.exe");
-    //QFile f("C:\\Users\\jablonskim\\Desktop\\Project1.exe");
+    QFile f("C:\\Users\\jablonskim\\Desktop\\Project1.exe");
 
     if(!f.open(QFile::ReadOnly))
         return 1;

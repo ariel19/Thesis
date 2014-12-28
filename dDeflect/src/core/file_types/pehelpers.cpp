@@ -187,7 +187,7 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
     else if(name.contains("load_functions"))
     {
         returns = Register::None;
-        regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI});
+        regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI, Register::R8, Register::R9, Register::R10, Register::R11, Register::R12, Register::R13});
     }
     else if(name.contains("nt_global_flag"))
     {

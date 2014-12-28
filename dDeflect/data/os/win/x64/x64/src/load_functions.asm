@@ -1,14 +1,15 @@
 [bits 64]
 ; Znajdowanie adresów funkcji LoadLibrary i GetProcAddress
-
+			
+			push	0x60
+			pop		rsi
+			gs		lodsq							; PEB
+			
 			call	load_k_str
 			db		"KERNEL"
 load_k_str:
 			pop		rsi
 			
-			push	0x60
-			pop		rsi
-			gs		lodsq							; PEB
 			mov		rax, [rax + 0x18]				; PEB.Ldr
 			mov		rax, [rax + 0x20]				; PEB.Ldr.InMemoryOrderModuleList
 			
