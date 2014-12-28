@@ -237,6 +237,9 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
     if(!parsed)
         return false;
 
+    if(getRelocationsSize() == 0)
+        return true;
+
     QList<RelocationTable> reloc_table;
     if(!getRelocations(reloc_table))
         return false;
@@ -303,6 +306,24 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
     // jeśli się nie mieszczę to przenieść na koniec do nowej sekcji + powiększyć sekcję żeby się zmieściły w przyszłości
     // zapisać, zmienić wielkość sekcji/tablicy relokacji
 
+    //uint32_t reloc_sec_id = getSectionByVirtualAddress(getRelocationsVirtualAddress());
+
+//    if(getRelocationsVirtualAddress() + getRelocationsSize() ==
+//            getSectionHeader(reloc_sec_id)->VirtualAddress + getSectionHeader(reloc_sec_id)->Misc.VirtualSize)
+//            //&& getSectionFreeSpace(reloc_sec_id) >= raw_table.length() - getRelocationsSize())
+//    {
+//        // TODO: próba dodania do sekcji
+//        // TODO: próba rozszerzenia sekcji
+//    }
+
+    // TODO: dodanie nowej sekcji i przeniesienie tablicy
+    unsigned int file_offset, mem_offset;
+    if(!addNewSection(getRandomSectionName(), raw_table, file_offset, mem_offset))
+        return false;
+
+    getDataDirectory(IMAGE_DIRECTORY_ENTRY_BASERELOC)->Size = raw_table.length();
+    getDataDirectory(IMAGE_DIRECTORY_ENTRY_BASERELOC)->VirtualAddress = mem_offset;
+
     return true;
 }
 
@@ -311,20 +332,19 @@ bool PEFile::getRelocations(QList<RelocationTable> &rt)
     if(!parsed)
         return false;
 
-    PIMAGE_DATA_DIRECTORY relocDir = getDataDirectory(IMAGE_DIRECTORY_ENTRY_BASERELOC);
-    if(relocDir->Size == 0)
+    if(getRelocationsSize() == 0)
         return true;
 
-    PIMAGE_SECTION_HEADER hdr = getSectionHeaderByVirtualAddress(relocDir->VirtualAddress);
+    PIMAGE_SECTION_HEADER hdr = getSectionHeader(getSectionByVirtualAddress(getRelocationsVirtualAddress()));
     if(!hdr)
         return false;
 
-    uint32_t shift = relocDir->VirtualAddress - hdr->VirtualAddress;
+    uint32_t shift = getRelocationsVirtualAddress() - hdr->VirtualAddress;
     uint32_t relocBase = hdr->PointerToRawData + shift;
     char *raw = b_data.data();
     uint32_t i = 0;
 
-    while(i < relocDir->Size)
+    while(i < getRelocationsSize())
     {
         IMAGE_BASE_RELOCATION reloc_tab = *reinterpret_cast<IMAGE_BASE_RELOCATION*>(&raw[relocBase + i]);
 
@@ -352,10 +372,10 @@ bool PEFile::getRelocations(QList<RelocationTable> &rt)
     return true;
 }
 
-PIMAGE_SECTION_HEADER PEFile::getSectionHeaderByVirtualAddress(uint32_t va)
+uint32_t PEFile::getSectionByVirtualAddress(uint32_t va)
 {
     if(!parsed)
-        return NULL;
+        return 0;
 
     for(unsigned int i = 0; i < getNumberOfSections(); ++i)
     {
@@ -363,10 +383,24 @@ PIMAGE_SECTION_HEADER PEFile::getSectionHeaderByVirtualAddress(uint32_t va)
         uint32_t svs = getSectionHeader(i)->Misc.VirtualSize;
 
         if(sva <= va && sva + svs > va)
-            return getSectionHeader(i);
+            return i;
     }
 
-    return NULL;
+    return 0;
+}
+
+uint32_t PEFile::getRelocationsSize()
+{
+    PIMAGE_DATA_DIRECTORY relocDir = getDataDirectory(IMAGE_DIRECTORY_ENTRY_BASERELOC);
+
+    return relocDir->Size;
+}
+
+uint32_t PEFile::getRelocationsVirtualAddress()
+{
+    PIMAGE_DATA_DIRECTORY relocDir = getDataDirectory(IMAGE_DIRECTORY_ENTRY_BASERELOC);
+
+    return relocDir->VirtualAddress;
 }
 
 bool PEFile::isValid()
@@ -1539,7 +1573,7 @@ uint64_t PEFile::getImageBase()
     return getOptHdrImageBase();
 }
 
-bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset)
+bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset, bool useReserved)
 {
     if(!parsed)
         return false;
@@ -1548,7 +1582,7 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
     unsigned int newFileOffset = alignNumber(b_data.length(), getOptHdrFileAlignment());
 
     // Header się nie zmieści.
-    if(getFreeSpaceBeforeFirstSectionFile() < sizeof(IMAGE_SECTION_HEADER))
+    if(getFreeSpaceBeforeFirstSectionFile() < sizeof(IMAGE_SECTION_HEADER) * (useReserved ? 1 : 2))
         return false;
 
     QByteArray d_header(sizeof(IMAGE_SECTION_HEADER), 0x00);

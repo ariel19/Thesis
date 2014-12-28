@@ -108,7 +108,9 @@ private:
 
     bool addRelocations(QList<uint64_t> relocations);
     bool getRelocations(QList<RelocationTable> &rt);
-    PIMAGE_SECTION_HEADER getSectionHeaderByVirtualAddress(uint32_t va);
+    uint32_t getSectionByVirtualAddress(uint32_t va);
+    uint32_t getRelocationsSize();
+    uint32_t getRelocationsVirtualAddress();
 
 public:
     PEFile(QByteArray d);
@@ -233,7 +235,7 @@ public:
      * @param memOffset: Offset nowej sekcji w pamięci.
      * @return True w przypadku sukcesu.
      */
-    bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
+    bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset, bool useReserved = false);
 };
 
 #endif // PEFILE_H
