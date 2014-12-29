@@ -70,6 +70,10 @@ private:
     PIMAGE_TLS_DIRECTORY64 getTlsDirectory64();
 
     uint64_t getTlsDirectoryFileOffset();
+    size_t getImageTlsDirectorySize();
+
+    uint64_t getTlsAddressOfCallBacks();
+    void setTlsAddressOfCallBacks(uint64_t addr);
 
     bool parse();
     bool parse32();

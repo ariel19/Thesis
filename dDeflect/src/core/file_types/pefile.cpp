@@ -151,6 +151,32 @@ uint64_t PEFile::getTlsDirectoryFileOffset()
     return hdr->PointerToRawData + (va - hdr->VirtualAddress);
 }
 
+size_t PEFile::getImageTlsDirectorySize()
+{
+    return is_x64 ? sizeof(IMAGE_TLS_DIRECTORY64) : sizeof(IMAGE_TLS_DIRECTORY32);
+}
+
+uint64_t PEFile::getTlsAddressOfCallBacks()
+{
+    return is_x64 ?
+                (getTlsDirectory64() ? getTlsDirectory64()->AddressOfCallBacks : 0) :
+                (getTlsDirectory32() ? getTlsDirectory32()->AddressOfCallBacks : 0);
+}
+
+void PEFile::setTlsAddressOfCallBacks(uint64_t addr)
+{
+    if(is_x64)
+    {
+        if(getTlsDirectory64())
+            getTlsDirectory64()->AddressOfCallBacks = addr;
+    }
+    else
+    {
+        if(getTlsDirectory32())
+            getTlsDirectory32()->AddressOfCallBacks = addr;
+    }
+}
+
 PEFile::PEFile(QByteArray d) :
     parsed(false),
     is_x64(false),
@@ -456,16 +482,13 @@ bool PEFile::injectEpCode<Register_x86>
     return true;
 }
 
-template <>
-bool PEFile::injectTlsCode<Register_x86>
-(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+template <typename Register>
+bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &)
 {
-    typedef Register_x86 Register;
-
     // Tworzenie tablicy TLS jeśli nie istnieje
     if(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress == 0)
     {
-        QByteArray new_tls(sizeof(IMAGE_TLS_DIRECTORY32), '\x00');
+        QByteArray new_tls(getImageTlsDirectorySize(), '\x00');
         uint64_t addr = injectUniqueData(new_tls, codePointers);
 
         if(addr == 0)
@@ -474,43 +497,48 @@ bool PEFile::injectTlsCode<Register_x86>
         addr -= getImageBase();
 
         getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress = addr;
-        getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->Size = sizeof(IMAGE_TLS_DIRECTORY32);
+        getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->Size = getImageTlsDirectorySize();
     }
 
     QByteArray tlsCallbacks;
 
     // Zapisanie istniejących callbacków
-    if(getTlsDirectory32()->AddressOfCallBacks != 0)
+    if(getTlsAddressOfCallBacks() != 0)
     {
-        uint32_t va = getTlsDirectory32()->AddressOfCallBacks;
+        uint32_t va = getTlsAddressOfCallBacks() - getImageBase();
         PIMAGE_SECTION_HEADER hdr = getSectionHeader(getSectionByVirtualAddress(va));
 
         if(!hdr)
             return false;
 
-        uint32_t *ptr = reinterpret_cast<uint32_t*>(&b_data.data()[hdr->PointerToRawData + (va - hdr->VirtualAddress)]);
+        uint32_t fileptr = hdr->PointerToRawData + (va - hdr->VirtualAddress);
+        uint64_t value = is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
 
-        while(*ptr != 0)
+        while(value != 0)
         {
-            tlsCallbacks.append(reinterpret_cast<const char*>(ptr), sizeof(uint32_t));
-            ptr++;
+            tlsCallbacks.append(reinterpret_cast<const char*>(&value), PECodeDefines<Register>::stackCellSize);
+            fileptr += PECodeDefines<Register>::stackCellSize;
+            value = is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
         }
     }
 
+    // Dodanie nowych callbacków
     foreach(uint64_t cbk, tlsMethods)
-        tlsCallbacks.append(reinterpret_cast<const char*>(&cbk), sizeof(uint32_t));
+        tlsCallbacks.append(reinterpret_cast<const char*>(&cbk), PECodeDefines<Register>::stackCellSize);
 
-    tlsCallbacks.append(QByteArray(sizeof(uint32_t), '\x00'));
+    tlsCallbacks.append(QByteArray(PECodeDefines<Register>::stackCellSize, '\x00'));
 
     uint64_t cb_pointer = injectUniqueData(tlsCallbacks, codePointers);
 
     if(cb_pointer == 0)
         return false;
 
-    getTlsDirectory32()->AddressOfCallBacks = cb_pointer;
+    setTlsAddressOfCallBacks(cb_pointer);
 
     return true;
 }
+template bool PEFile::injectTlsCode<Register_x86>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
+template bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 
 template <>
 bool PEFile::injectTrampolineCode<Register_x86>
@@ -559,14 +587,14 @@ bool PEFile::injectEpCode<Register_x64>
     return true;
 }
 
-template <>
-bool PEFile::injectTlsCode<Register_x64>
-(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
-{
-    typedef Register_x64 Register;
-    // TODO
-    return true;
-}
+//template <>
+//bool PEFile::injectTlsCode<Register_x64>
+//(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+//{
+//    typedef Register_x64 Register;
+//    // TODO
+//    return true;
+//}
 
 template <>
 bool PEFile::injectTrampolineCode<Register_x64>
