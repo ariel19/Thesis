@@ -22,4 +22,5 @@
 			
 			call	r10		; CreateThread
 			
+			add		rsp, 16
 			add		rsp, 0x20
