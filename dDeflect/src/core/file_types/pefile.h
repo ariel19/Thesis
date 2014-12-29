@@ -45,7 +45,7 @@ private:
     unsigned int getOptHdrAddressOfEntryPoint();
     unsigned int getNtHdrSignature();
     unsigned int getOptHdrNumberOfRvaAndSizes();
-    uint64_t getOptHdrImageBase(); // TODO: 32/64
+    uint64_t getOptHdrImageBase();
 
     void setOptHdrSizeOfCode(size_t size);
     void setOptHdrSizeOfInitializedData(size_t size);
@@ -65,6 +65,11 @@ private:
 
     PIMAGE_SECTION_HEADER getSectionHeader(unsigned int n);
     PIMAGE_DATA_DIRECTORY getDataDirectory(unsigned int n);
+
+    PIMAGE_TLS_DIRECTORY32 getTlsDirectory32();
+    PIMAGE_TLS_DIRECTORY64 getTlsDirectory64();
+
+    uint64_t getTlsDirectoryFileOffset();
 
     bool parse();
     bool parse32();

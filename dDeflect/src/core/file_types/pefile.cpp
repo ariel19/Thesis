@@ -124,6 +124,33 @@ PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
                 NULL : reinterpret_cast<PIMAGE_DATA_DIRECTORY>(&(b_data.data()[dataDirectoriesIdx[n]]));
 }
 
+PIMAGE_TLS_DIRECTORY32 PEFile::getTlsDirectory32()
+{
+    uint64_t tls_offset = getTlsDirectoryFileOffset();
+    return tls_offset == 0 ? NULL : reinterpret_cast<PIMAGE_TLS_DIRECTORY32>(&(b_data.data()[tls_offset]));
+}
+
+PIMAGE_TLS_DIRECTORY64 PEFile::getTlsDirectory64()
+{
+    uint64_t tls_offset = getTlsDirectoryFileOffset();
+    return tls_offset == 0 ? NULL : reinterpret_cast<PIMAGE_TLS_DIRECTORY64>(&(b_data.data()[tls_offset]));
+}
+
+uint64_t PEFile::getTlsDirectoryFileOffset()
+{
+    uint32_t va = getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress;
+
+    if(va == 0)
+        return 0;
+
+    PIMAGE_SECTION_HEADER hdr = getSectionHeader(getSectionByVirtualAddress(va));
+
+    if(!hdr)
+        return 0;
+
+    return hdr->PointerToRawData + (va - hdr->VirtualAddress);
+}
+
 PEFile::PEFile(QByteArray d) :
     parsed(false),
     is_x64(false),
@@ -434,7 +461,54 @@ bool PEFile::injectTlsCode<Register_x86>
 (QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
 {
     typedef Register_x86 Register;
-    // TODO
+
+    // Tworzenie tablicy TLS jeśli nie istnieje
+    if(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress == 0)
+    {
+        QByteArray new_tls(sizeof(IMAGE_TLS_DIRECTORY32), '\x00');
+        uint64_t addr = injectUniqueData(new_tls, codePointers);
+
+        if(addr == 0)
+            return false;
+
+        addr -= getImageBase();
+
+        getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress = addr;
+        getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->Size = sizeof(IMAGE_TLS_DIRECTORY32);
+    }
+
+    QByteArray tlsCallbacks;
+
+    // Zapisanie istniejących callbacków
+    if(getTlsDirectory32()->AddressOfCallBacks != 0)
+    {
+        uint32_t va = getTlsDirectory32()->AddressOfCallBacks;
+        PIMAGE_SECTION_HEADER hdr = getSectionHeader(getSectionByVirtualAddress(va));
+
+        if(!hdr)
+            return false;
+
+        uint32_t *ptr = reinterpret_cast<uint32_t*>(&b_data.data()[hdr->PointerToRawData + (va - hdr->VirtualAddress)]);
+
+        while(*ptr != 0)
+        {
+            tlsCallbacks.append(reinterpret_cast<const char*>(ptr), sizeof(uint32_t));
+            ptr++;
+        }
+    }
+
+    foreach(uint64_t cbk, tlsMethods)
+        tlsCallbacks.append(reinterpret_cast<const char*>(&cbk), sizeof(uint32_t));
+
+    tlsCallbacks.append(QByteArray(sizeof(uint32_t), '\x00'));
+
+    uint64_t cb_pointer = injectUniqueData(tlsCallbacks, codePointers);
+
+    if(cb_pointer == 0)
+        return false;
+
+    getTlsDirectory32()->AddressOfCallBacks = cb_pointer;
+
     return true;
 }
 
