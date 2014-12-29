@@ -527,7 +527,7 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
             break;
 
         case CallingMethod::TLS:
-            tlsMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations));
+            tlsMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations, true));
             if(epMethods.last() == 0)
                 return false;
             break;
@@ -925,7 +925,8 @@ template bool PEFile::generateActionConditionCode(BinaryCode<Register_x86> &code
 template bool PEFile::generateActionConditionCode(BinaryCode<Register_x64> &code, uint64_t action, Register_x64 cond, Register_x64 act);
 
 template <typename Register>
-uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations)
+uint64_t PEFile::generateCode
+(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations, bool isTlsCallback)
 {
     if(!parsed)
         return 0;
@@ -1022,7 +1023,10 @@ uint64_t PEFile::generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &
 
     // Niszczenie ramki stosu i ret
     code.append(PECodeDefines<Register>::endFunc);
-    code.append(PECodeDefines<Register>::ret);
+    if(isTlsCallback && !is_x64)
+        code.append(PECodeDefines<Register>::retN(3 * PECodeDefines<Register>::stackCellSize));
+    else
+        code.append(PECodeDefines<Register>::ret);
 
     return injectUniqueData(code, ptrs, relocations);
 }

@@ -51,8 +51,10 @@ const QByteArray PECodeDefines<Register_x64>::_clear_stack = QByteArray("\x48\x8
 template <>
 const QByteArray PECodeDefines<Register_x86>::_store_dword = QByteArray("\x68");
 
-template <>
-const QByteArray PECodeDefines<Register_x86>::_ret_n = QByteArray("\xC2");
+template <typename Register>
+const QByteArray PECodeDefines<Register>::_ret_n = QByteArray("\xC2");
+template const QByteArray PECodeDefines<Register_x86>::_ret_n;
+template const QByteArray PECodeDefines<Register_x64>::_ret_n;
 
 template <typename Register>
 const QByteArray PECodeDefines<Register>::ret = QByteArray("\xC3");
@@ -595,4 +597,4 @@ QByteArray PECodeDefines<Register>::retN(uint16_t n)
     return QByteArray(_ret_n).append(reinterpret_cast<const char*>(&n), sizeof(uint16_t));
 }
 template QByteArray PECodeDefines<Register_x86>::retN(uint16_t n);
-//template QByteArray PECodeDefines<Register_x64>::retN(uint16_t n);
+template QByteArray PECodeDefines<Register_x64>::retN(uint16_t n);
