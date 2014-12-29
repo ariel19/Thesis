@@ -208,14 +208,14 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
     {
         returns = Register::None;
         regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::R8, Register::R9, Register::R11});
-        params.insert(Register::R11, "kernel32!ExitProcess");
+        params.insert(Register::R12, "kernel32!ExitProcess");
         params.insert(Register::RAX, "user32!MessageBoxA");
     }
     else
     {
         returns = Register::RAX;
         regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::R8, Register::R9, Register::R11});
-        params.insert(Register::R11, "kernel32!ExitProcess");
+        params.insert(Register::R12, "kernel32!ExitProcess");
         params.insert(Register::RAX, "user32!MessageBoxA");
     }
 

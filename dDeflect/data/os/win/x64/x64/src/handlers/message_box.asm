@@ -1,7 +1,7 @@
 [bits 64]
 ; MessageBox
 ; @rax = user32!MessageBoxA
-; @r11 = kernel32!ExitProcess
+; @r12 = kernel32!ExitProcess
 
 		sub		rsp, 0x10
 		xor		rcx, rcx
@@ -17,7 +17,7 @@ msg:
 		
 		xor		rcx, rcx
 		inc		rcx
-		call	r11
+		call	r12
 		xor		rax, rax
 		add		rsp, 0x20
 		
