@@ -1650,8 +1650,9 @@ bool PEFile::isSectionExecutable(unsigned int section)
     if(!parsed || section >= numberOfSections)
         return false;
 
-    return ((getSectionHeader(section)->Characteristics & IMAGE_SCN_MEM_EXECUTE) |
-            (getSectionHeader(section)->Characteristics & IMAGE_SCN_CNT_CODE)) != 0;
+    uint32_t flags = IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_CNT_CODE;
+
+    return (getSectionHeader(section)->Characteristics & flags) == flags;
 }
 
 bool PEFile::setNewEntryPoint(unsigned int newEP)

@@ -75,6 +75,9 @@ private:
     uint64_t getTlsAddressOfCallBacks();
     void setTlsAddressOfCallBacks(uint64_t addr);
 
+    uint64_t getTlsAddressOfIndex();
+    void setTlsAddressOfIndex(uint64_t addr);
+
     bool parse();
     bool parse32();
     bool parse64();
