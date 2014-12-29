@@ -177,6 +177,27 @@ void PEFile::setTlsAddressOfCallBacks(uint64_t addr)
     }
 }
 
+uint64_t PEFile::getTlsAddressOfIndex()
+{
+    return is_x64 ?
+                (getTlsDirectory64() ? getTlsDirectory64()->AddressOfIndex : 0) :
+                (getTlsDirectory32() ? getTlsDirectory32()->AddressOfIndex: 0);
+}
+
+void PEFile::setTlsAddressOfIndex(uint64_t addr)
+{
+    if(is_x64)
+    {
+        if(getTlsDirectory64())
+            getTlsDirectory64()->AddressOfIndex = addr;
+    }
+    else
+    {
+        if(getTlsDirectory32())
+            getTlsDirectory32()->AddressOfIndex = addr;
+    }
+}
+
 PEFile::PEFile(QByteArray d) :
     parsed(false),
     is_x64(false),
@@ -526,7 +547,8 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
     foreach(uint64_t cbk, tlsMethods)
         tlsCallbacks.append(reinterpret_cast<const char*>(&cbk), PECodeDefines<Register>::stackCellSize);
 
-    tlsCallbacks.append(QByteArray(PECodeDefines<Register>::stackCellSize, '\x00'));
+    // Dodanie NULL-byte i pola do zapisu TLSIndex
+    tlsCallbacks.append(QByteArray(PECodeDefines<Register>::stackCellSize * 2, '\x00'));
 
     uint64_t cb_pointer = injectUniqueData(tlsCallbacks, codePointers);
 
@@ -534,6 +556,9 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
         return false;
 
     setTlsAddressOfCallBacks(cb_pointer);
+    if(getTlsAddressOfIndex() == 0)
+        setTlsAddressOfIndex(cb_pointer + tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize);
+    // TODO: relokacje
 
     return true;
 }
