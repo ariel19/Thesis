@@ -500,7 +500,10 @@ QByteArray PECodeDefines<Register>::restoreAllInternal()
 {
     QByteArray code;
 
-    foreach (Register r, internalRegs)
+    std::list<Register> revList = internalRegs.toStdList();
+    revList.reverse();
+
+    foreach (Register r, revList)
         code.append(restoreRegister(r));
 
     return code;

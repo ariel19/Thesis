@@ -3,6 +3,8 @@
 
 #include <QByteArray>
 #include <QSet>
+#include <QList>
+#include <list>
 #include <core/file_types/pehelpers.h>
 
 template <typename Register>
