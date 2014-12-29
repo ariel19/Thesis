@@ -587,15 +587,6 @@ bool PEFile::injectEpCode<Register_x64>
     return true;
 }
 
-//template <>
-//bool PEFile::injectTlsCode<Register_x64>
-//(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
-//{
-//    typedef Register_x64 Register;
-//    // TODO
-//    return true;
-//}
-
 template <>
 bool PEFile::injectTrampolineCode<Register_x64>
 (QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
@@ -630,13 +621,13 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
 
         case CallingMethod::TLS:
             tlsMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations, true));
-            if(epMethods.last() == 0)
+            if(tlsMethods.last() == 0)
                 return false;
             break;
 
         case CallingMethod::Trampoline:
             tramMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations));
-            if(epMethods.last() == 0)
+            if(tramMethods.last() == 0)
                 return false;
             break;
         }
