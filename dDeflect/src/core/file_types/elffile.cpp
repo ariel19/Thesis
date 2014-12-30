@@ -1,6 +1,17 @@
 #include <core/file_types/elffile.h>
 #include <utility>
 
+#define section_type_stringify(sec_type) \
+    QString(".%1").arg(QString((std::string(#sec_type).substr(std::string(#sec_type).find_last_of(':') != std::string::npos ? \
+                                  std::string(#sec_type).find_last_of(':') + 1 : 0)).c_str()).toLower())
+
+/// init section type dictionary
+QMap<ELF::SectionType, ELF::section_info> ELF::section_type = {
+    { ELF::SectionType::CTORS,      ELF::section_info(section_type_stringify(ELF::SectionType::CTORS),      SHT_PROGBITS)   },
+    { ELF::SectionType::INIT,       ELF::section_info(section_type_stringify(ELF::SectionType::INIT),       SHT_PROGBITS)   },
+    { ELF::SectionType::INIT_ARRAY, ELF::section_info(section_type_stringify(ELF::SectionType::INIT_ARRAY), SHT_INIT_ARRAY) }
+};
+
 void* ELF::get_ph_seg_offset(uint32_t idx) {
     try {
         void *ph = get_ph_header(idx);
@@ -162,6 +173,137 @@ bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
     if (!parsed)
         return false;
     return get_entry_point(b_data, old_ep);
+}
+
+bool ELF::get_section_content(const QByteArray &data, ELF::SectionType sec_type, QByteArray &section_data) {
+    // TODO:  kind of stupid check, everyone can specify data he wants
+    if (!parsed)
+        return false;
+
+    switch (cls) {
+    case classes::ELF32:
+        return __get_section_content<Elf32_Ehdr, Elf32_Shdr>(data, sec_type, section_data);
+    case classes::ELF64:
+        return __get_section_content<Elf64_Ehdr, Elf64_Shdr>(data, sec_type, section_data);
+    default:
+        return false;
+    }
+}
+
+template <typename ElfHeaderType, typename ElfSectionHeaderType>
+bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_type, QByteArray &section_data) {
+    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(data.data());
+    // if section header table exists
+    if (!eh->e_shoff)
+        return false;
+
+    if (!section_type.contains(sec_type))
+        return false;
+
+    const ElfSectionHeaderType *shstrtab = reinterpret_cast<const ElfSectionHeaderType*>(eh->e_shstrndx);
+
+    // get section header string table
+    if (!shstrtab)
+        return false;
+
+    const char *pshstrtab = reinterpret_cast<const char*>(data.data() + shstrtab->sh_offset);
+
+    if (!pshstrtab)
+        return false;
+
+    const ElfSectionHeaderType *sh =
+            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
+    // word size is the same for x64 and x86
+    for (Elf32_Word i = 0; i < eh->e_shnum; ++i) {
+        if (!sh)
+            return false;
+
+        // check if section is ours
+        if (sh->sh_type == section_type[sec_type].sh_type &&
+            section_type[sec_type].sh_name == QString(pshstrtab + sh->sh_name)) {
+
+            section_data = QByteArray(data.data() + sh->sh_offset, sh->sh_size);
+            return true;
+        }
+
+        // next section header
+        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const int8_t*>(sh) + eh->e_shentsize);
+    }
+    return false;
+}
+
+bool ELF::set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data) {
+    // TODO:  kind of stupid check, everyone can specify data he wants
+    if (!parsed)
+        return false;
+
+    switch (cls) {
+    case classes::ELF32:
+        return __set_section_content<Elf32_Ehdr, Elf32_Shdr>(data, sec_type, section_data);
+    case classes::ELF64:
+        return __set_section_content<Elf64_Ehdr, Elf64_Shdr>(data, sec_type, section_data);
+    default:
+        return false;
+    }
+}
+
+// TODO: should be the same with __get_section_content
+template <typename ElfHeaderType, typename ElfSectionHeaderType>
+bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data) {
+    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(data.data());
+    // if section header table exists
+    if (!eh->e_shoff)
+        return false;
+
+    if (!section_type.contains(sec_type))
+        return false;
+
+    const ElfSectionHeaderType *shstrtab = reinterpret_cast<const ElfSectionHeaderType*>(eh->e_shstrndx);
+
+    // get section header string table
+    if (!shstrtab)
+        return false;
+
+    const char *pshstrtab = reinterpret_cast<const char*>(data.data() + shstrtab->sh_offset);
+
+    if (!pshstrtab)
+        return false;
+
+    const ElfSectionHeaderType *sh =
+            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
+    // word size is the same for x64 and x86
+    for (Elf32_Word i = 0; i < eh->e_shnum; ++i) {
+        if (!sh)
+            return false;
+
+        // check if section is ours
+        if (sh->sh_type == section_type[sec_type].sh_type &&
+            section_type[sec_type].sh_name == QString(pshstrtab + sh->sh_name)) {
+
+            // check if there is enough space to change data
+            if (sh->sh_size < section_data.size())
+                return false;
+
+            // TODO: do with replace??? :)
+
+            // fill with new data
+            // pad section data. with nops, idk why, just with nops :)
+            QByteArray new_section_data(data.data(), sh->sh_offset);
+            new_section_data.append(section_data);
+            // fill rest with nops
+            new_section_data.append(QByteArray(sh->sh_size - section_data.size(), '\x90'));
+            new_section_data.append(data.data() + sh->sh_offset + sh->sh_size,
+                                    data.size() - sh->sh_offset - sh->sh_size);
+
+            data = new_section_data;
+
+            return true;
+        }
+
+        // next section header
+        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const int8_t*>(sh) + eh->e_shentsize);
+    }
+    return false;
 }
 
 bool ELF::get_ph_addresses() {
@@ -332,11 +474,11 @@ bool ELF::parse() {
     if (!is_open())
         return false;
 
-    char *data = b_data.data();
+    const char *data = b_data.data();
 
     try {
         // get ELF_header
-        Elf32_Ehdr *elf_hdr = reinterpret_cast<Elf32_Ehdr*>(data);
+        const Elf32_Ehdr *elf_hdr = reinterpret_cast<const Elf32_Ehdr*>(data);
         if (!check_magic(elf_hdr))
             return false;
         // check if file format is supported
