@@ -504,7 +504,7 @@ bool PEFile::injectEpCode<Register_x86>
 }
 
 template <typename Register>
-bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &)
+bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
 {
     // Tworzenie tablicy TLS jeśli nie istnieje
     if(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress == 0)
@@ -542,6 +542,12 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
             value = is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
         }
     }
+    else
+    {
+        // Adres tablicy z callbackami nie istniał. Trzeba dodać do relokacji.
+        relocations.append(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress + getImageBase() +
+                           3 * PECodeDefines<Register>::stackCellSize);
+    }
 
     // Dodanie nowych callbacków
     foreach(uint64_t cbk, tlsMethods)
@@ -555,9 +561,19 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
     if(cb_pointer == 0)
         return false;
 
+    for(uint64_t i = 0; i < static_cast<uint64_t>(tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize * 2);
+        i += PECodeDefines<Register>::stackCellSize)
+    {
+        tlsCallbacks.append(i + cb_pointer);
+    }
+
     setTlsAddressOfCallBacks(cb_pointer);
     if(getTlsAddressOfIndex() == 0)
+    {
+        relocations.append(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress + getImageBase() +
+                           2 * PECodeDefines<Register>::stackCellSize);
         setTlsAddressOfIndex(cb_pointer + tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize);
+    }
     // TODO: relokacje
 
     return true;
