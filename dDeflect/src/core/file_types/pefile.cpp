@@ -572,7 +572,7 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
     for(uint64_t i = 0; i < static_cast<uint64_t>(tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize * 2);
         i += PECodeDefines<Register>::stackCellSize)
     {
-        tlsCallbacks.append(i + cb_pointer);
+        relocations.append(i + cb_pointer);
     }
 
     setTlsAddressOfCallBacks(cb_pointer);
