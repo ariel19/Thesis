@@ -198,6 +198,11 @@ void PEFile::setTlsAddressOfIndex(uint64_t addr)
     }
 }
 
+uint8_t PEFile::getRelocationType()
+{
+    return is_x64 ? IMAGE_REL_BASED_DIR64 : IMAGE_REL_BASED_HIGHLOW;
+}
+
 PEFile::PEFile(QByteArray d) :
     parsed(false),
     is_x64(false),
@@ -339,7 +344,7 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
             if(it->VirtualAddress == va)
             {
                 RelocationTable r = *it;
-                r.addOffset(offset);
+                r.addOffset(offset, getRelocationType());
                 new_reloc_table.append(r);
 
                 added = true;
@@ -350,7 +355,7 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
                 RelocationTable r;
                 r.VirtualAddress = va;
                 r.SizeOfBlock = IMAGE_SIZEOF_BASE_RELOCATION;
-                r.addOffset(offset);
+                r.addOffset(offset, getRelocationType());
                 new_reloc_table.append(r);
 
                 added = true;
@@ -363,7 +368,7 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
             RelocationTable r;
             r.VirtualAddress = va;
             r.SizeOfBlock = IMAGE_SIZEOF_BASE_RELOCATION;
-            r.addOffset(offset);
+            r.addOffset(offset, getRelocationType());
             new_reloc_table.append(r);
         }
 
@@ -374,8 +379,8 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
     QByteArray raw_table;
     foreach(RelocationTable rt, reloc_table)
     {
-        printf("%x: %d\n", rt.VirtualAddress, rt.SizeOfBlock);
         raw_table.append(rt.toBytes());
+        printf("%x: %d\n", rt.VirtualAddress, rt.SizeOfBlock);
     }
 
     unsigned int file_offset, mem_offset;
@@ -424,7 +429,10 @@ bool PEFile::getRelocations(QList<RelocationTable> &rt)
             typeOffset.Type = ((*reinterpret_cast<uint16_t*>(&raw[relocBase + i + j])) & 0xF000) >> 12;
             typeOffset.Offset = (*reinterpret_cast<uint16_t*>(&raw[relocBase + i + j])) & 0x0FFF;
 
-            t.TypeOffsets.append(typeOffset);
+            if(typeOffset.Type == IMAGE_REL_BASED_ABSOLUTE)
+                t.SizeOfBlock -= 2;
+            else
+                t.TypeOffsets.append(typeOffset);
             j += 2;
         }
 
@@ -574,7 +582,6 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
                            2 * PECodeDefines<Register>::stackCellSize);
         setTlsAddressOfIndex(cb_pointer + tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize);
     }
-    // TODO: relokacje
 
     return true;
 }

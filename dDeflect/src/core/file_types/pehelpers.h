@@ -142,7 +142,7 @@ struct RelocationTable
     uint32_t SizeOfBlock;
     QList<TypeOffset> TypeOffsets;
 
-    bool addOffset(uint16_t offset);
+    bool addOffset(uint16_t offset, uint8_t type);
     QByteArray toBytes();
 };
 

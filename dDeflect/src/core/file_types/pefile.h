@@ -78,6 +78,8 @@ private:
     uint64_t getTlsAddressOfIndex();
     void setTlsAddressOfIndex(uint64_t addr);
 
+    uint8_t getRelocationType();
+
     bool parse();
     bool parse32();
     bool parse64();

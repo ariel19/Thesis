@@ -322,13 +322,13 @@ template <>
 const uint8_t BinaryCode<Register_x64>::addrSize = 8;
 
 
-bool RelocationTable::addOffset(uint16_t offset)
+bool RelocationTable::addOffset(uint16_t offset, uint8_t type)
 {
     bool added = false, ok = false;
     QList<TypeOffset> new_to;
 
     TypeOffset to;
-    to.Type = 3;
+    to.Type = type;
     to.Offset = offset;
 
     for(QList<TypeOffset>::iterator it = TypeOffsets.begin(); it != TypeOffsets.end(); ++it)
@@ -362,6 +362,16 @@ bool RelocationTable::addOffset(uint16_t offset)
 QByteArray RelocationTable::toBytes()
 {
     QByteArray bytes;
+
+    if(SizeOfBlock % 4 != 0)
+    {
+        TypeOffset align;
+        align.Type = 0;
+        align.Offset = 0;
+
+        SizeOfBlock += sizeof(uint16_t);
+        TypeOffsets.append(align);
+    }
 
     bytes.append(reinterpret_cast<const char*>(&VirtualAddress), sizeof(uint32_t));
     bytes.append(reinterpret_cast<const char*>(&SizeOfBlock), sizeof(uint32_t));
