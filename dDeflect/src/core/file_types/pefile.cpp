@@ -203,9 +203,10 @@ uint8_t PEFile::getRelocationType()
     return is_x64 ? IMAGE_REL_BASED_DIR64 : IMAGE_REL_BASED_HIGHLOW;
 }
 
-PEFile::PEFile(QByteArray d) :
+PEFile::PEFile(QByteArray d, QString filePath) :
     parsed(false),
     is_x64(false),
+    exePath(filePath),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
 {
@@ -593,7 +594,26 @@ bool PEFile::injectTrampolineCode<Register_x86>
 (QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
 {
     typedef Register_x86 Register;
-    // TODO
+
+    QProcess objdump;
+
+    objdump.setProcessChannelMode(QProcess::MergedChannels);
+    objdump.start(Wrapper<Register>::objdumpPath, {"-d", exePath});
+
+    if(!objdump.waitForStarted())
+        return false;
+
+    QByteArray assembly;
+
+    while(objdump.waitForReadyRead(-1))
+        assembly.append(objdump.readAll());
+
+    QStringList asm_lines = QString(assembly).split(PECodeDefines<Register>::newLineRegExp, QString::SkipEmptyParts);
+    QStringList call_lines = asm_lines.filter(PECodeDefines<Register>::callRegExp);
+    QStringList jmp_lines = asm_lines.filter(PECodeDefines<Register>::jmpRegExp);
+
+    printf("%d\n%d\n", call_lines.length(), jmp_lines.length());
+
     return true;
 }
 

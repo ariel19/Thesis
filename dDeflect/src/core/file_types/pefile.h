@@ -25,6 +25,7 @@ private:
     bool parsed;
     bool is_x64;
     QByteArray b_data;
+    QString exePath;
 
     unsigned int dosHeaderIdx;
     unsigned int ntHeadersIdx;
@@ -128,7 +129,7 @@ private:
     uint32_t getRelocationsVirtualAddress();
 
 public:
-    PEFile(QByteArray d);
+    PEFile(QByteArray d, QString filePath);
     ~PEFile();
 
     template <typename Register>

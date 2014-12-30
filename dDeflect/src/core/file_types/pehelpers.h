@@ -67,6 +67,7 @@ public:
     static Wrapper *fromFile(QString name, bool thread_code = false);
     static const QString methodsPath;
     static const QString nasmPath;
+    static const QString objdumpPath;
 
     QByteArray getCode();
     QList<Register> getRegistersToSave();

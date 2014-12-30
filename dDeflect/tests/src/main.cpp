@@ -7,6 +7,7 @@
 //#include <core/file_types/pefile.h>
 
 #include <core/file_types/pefile.h>
+#include <QCoreApplication>
 
 //void wrapper()
 //{
@@ -172,16 +173,17 @@
 //    return code;
 //}
 
-int main()
+int main(int argc, char **argv)
 {
-    //QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
-    QFile f("C:\\Windows\\System32\\calc.exe");
+    QCoreApplication app(argc, argv);
+    QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
+    //QFile f("C:\\Windows\\System32\\calc.exe");
     //QFile f("C:\\Users\\jablonskim\\Desktop\\Project1.exe");
 
     if(!f.open(QFile::ReadOnly))
         return 1;
 
-    PEFile pe(f.readAll());
+    PEFile pe(f.readAll(), QFileInfo(f).absoluteFilePath());
 
     f.close();
 
@@ -193,7 +195,8 @@ int main()
 
     QList<InjectDescription<Register_x86>*> ids;
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "create_thread.asm", true)));
-    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::TLS, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
+    //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::TLS, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
+    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::Trampoline, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
 
     //QList<InjectDescription<Register_x64>*> ids;
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::EntryPoint, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "create_thread.asm", true)));
