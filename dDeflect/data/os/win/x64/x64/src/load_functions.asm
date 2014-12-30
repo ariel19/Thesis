@@ -116,7 +116,9 @@ f_found:
 			db		"LoadLibraryA", 0x00
 load_l_str:
 			pop		rdx
+			sub		rsp, 0x20
 			call	r13
+			add		rsp, 0x20
 			
 			jmp		endf
 			
