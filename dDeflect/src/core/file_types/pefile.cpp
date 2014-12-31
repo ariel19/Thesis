@@ -478,7 +478,7 @@ uint32_t PEFile::getRelocationsVirtualAddress()
 void PEFile::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset)
 {
     foreach(QString op, opcodes)
-        fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset);
+        fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset + 1);
 }
 
 bool PEFile::isValid()
