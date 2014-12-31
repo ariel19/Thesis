@@ -3,7 +3,6 @@
 #include <QDebug>
 
 #include <core/adding_methods/wrappers/linux/daddingmethods.h>
-// #include <core/adding_methods/wrappers/linux/asmcodegenerator.h>
 
 #define mnemonic_stringify(mnemonic) \
     QString((std::string(#mnemonic).substr(std::string(#mnemonic).find_last_of(':') != std::string::npos ? \

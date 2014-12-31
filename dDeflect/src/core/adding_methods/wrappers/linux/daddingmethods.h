@@ -16,7 +16,10 @@ public:
     enum class CallingMethod {
         OEP,
         Thread,
-        Trampoline
+        Trampoline,
+        INIT,
+        INIT_ARRAY,
+        CTORS
     };
 
     /**
@@ -93,7 +96,8 @@ public:
      */
     template <typename RegistersType>
     class TrampolineWrapper : public Wrapper<RegistersType> {
-
+    public:
+        Wrapper<RegistersType> *tramp_action;
     };
 
     /**
@@ -313,6 +317,8 @@ bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &cod
     return true;
 }
 
+// TODO: parameter for x segment
+// TODO: name of file should be changed
 template <typename RegistersType>
 bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc) {
     QString code2compile,
@@ -368,10 +374,19 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
             return false;
         break;
     }
-    case CallingMethod::Trampoline: {
-        // TODO: should be implemented
+    case CallingMethod::Trampoline:
+    case CallingMethod::INIT_ARRAY:
+    case CallingMethod::CTORS :
+    case CallingMethod::INIT: {
+        TrampolineWrapper<RegistersType> *trmwrapper =
+                dynamic_cast<TrampolineWrapper<RegistersType>*>(inject_desc.adding_method);
+        if (!trmwrapper)
+            return false;
+        if (!wrapper_gen_code<RegistersType>(trmwrapper->tramp_action, code_ddetect))
+            return false;
         break;
     }
+
     default:
         return false;
     }
@@ -388,14 +403,26 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         return false;
 
     // add jump to old original entry point
-    // TODO: change
-    if (elf.is_x86()) {
-        code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, oldep));
-        code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
-    }
-    else {
-        code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, oldep));
-        code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
+    switch(inject_desc.cm) {
+    case CallingMethod::Thread:
+    case CallingMethod::OEP:
+        if (elf.is_x86()) {
+            code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, oldep));
+            code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
+        }
+        else {
+            code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, oldep));
+            code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
+        }
+        break;
+    case CallingMethod::CTORS:
+        break;
+    case CallingMethod::INIT:
+        break;
+    case CallingMethod::INIT_ARRAY:
+        break;
+    default:
+        return false;
     }
 
     // 4. compile code
@@ -403,17 +430,72 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         return false;
 
     // 5. secure elf file
+
+    QByteArray nf;
     Elf64_Addr nva;
 
-    // TODO: parameter for x segment
-    QByteArray nf = elf.extend_segment(compiled_code, false, nva);
-    if (!nf.length())
-        return false;
+    switch(inject_desc.cm) {
+    case CallingMethod::Thread:
+    case CallingMethod::OEP: {
+        // TODO: parameter for x segment
+        nf = elf.extend_segment(compiled_code, false, nva);
+        if (!nf.length())
+            return false;
 
-    if (!elf.set_entry_point(nva, nf))
-        return false;
+        if (!elf.set_entry_point(nva, nf))
+            return false;
 
-    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
+        qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
+        break;
+    }
+    case CallingMethod::CTORS: {
+        QByteArray section_data;
+        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::CTORS, section_data))
+            return false;
+        // TODO: change one of the pointers and make a call then to old one after
+
+        break;
+    }
+    case CallingMethod::INIT: {
+        QByteArray section_data;
+        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT, section_data))
+            return false;
+        // compiled_code = debugger detection + previous init
+        compiled_code.append(section_data);
+
+        // TODO: parameter for x segment
+        nf = elf.extend_segment(compiled_code, false, nva);
+        if (!nf.length())
+            return false;
+
+        // change section content
+        QByteArray init_section_code;
+        if (elf.is_x86()) {
+            init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, nva));
+            init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
+        }
+        else {
+            init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, nva));
+            init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
+        }
+
+        if (!elf.set_section_content(nf, ELF::SectionType::INIT, init_section_code))
+            return false;
+
+        break;
+    }
+    case CallingMethod::INIT_ARRAY: {
+        QByteArray section_data;
+        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT_ARRAY, section_data))
+            return false;
+        // TODO: change one of the pointers and make a call then to old one after
+
+        break;
+    }
+    default:
+        return false;
+    }
+
 
     // TODO: name of file should be changed
     elf.write_to_file("template", nf);
