@@ -501,6 +501,400 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
     return true;
 }
 
+bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
+                            const QString &method, const QString &handl) {
+    // DAddingMethods::InjectDescription inject_desc;
+    ELF elf(elf_fname);
+    // qDebug() << "valid: " << elf.is_valid();
+    if (!elf.is_valid())
+        return false;
+
+    QFile code;
+
+    DAddingMethods dam;
+    if (elf.is_x86()) {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
+
+        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x86> trmwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> trmaction;
+
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "127" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        // qDebug() << handler.code;
+
+        code.close();
+
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmaction.code = code.readAll();
+        trmaction.detect_handler = nullptr;
+        trmaction.ret = DAddingMethods::Registers_x86::EAX;
+        trmaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
+                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
+                                DAddingMethods::Registers_x86::ESI };
+
+        // qDebug() << oepaction.code;
+
+        code.close();
+
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmwrapper.detect_handler = &handler;
+        trmwrapper.tramp_action = &trmaction;
+        trmwrapper.code = code.readAll();
+        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+
+        // qDebug() << oepwrapper.code;
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::INIT;
+        inject_desc.adding_method = &trmwrapper;
+
+        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+            return false;
+    }
+    else {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
+        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> trmwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
+
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "188" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        // qDebug() << handler.code;
+
+        code.close();
+
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmaction.code = code.readAll();
+        trmaction.detect_handler = nullptr;
+        trmaction.ret = DAddingMethods::Registers_x64::RAX;
+        trmaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
+                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
+                                DAddingMethods::Registers_x64::R10 };
+
+        // qDebug() << oepaction.code;
+
+        code.close();
+
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmwrapper.detect_handler = &handler;
+        trmwrapper.oep_action = &trmaction;
+        trmwrapper.code = code.readAll();
+        trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+
+        // qDebug() << oepwrapper.code;
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::INIT;
+        inject_desc.adding_method = &trmwrapper;
+
+        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+            return false;
+    }
+
+    // rename file on hard drive
+    QFile::rename("template", QString("_%1oinit").arg(elf_fname));
+    qDebug() << "saving to file: " <<  QString("_%1oinit").arg(elf_fname);
+
+    return true;
+}
+
+bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrapper,
+                            const QString &method, const QString &handl) {
+    // DAddingMethods::InjectDescription inject_desc;
+    ELF elf(elf_fname);
+    // qDebug() << "valid: " << elf.is_valid();
+    if (!elf.is_valid())
+        return false;
+
+    QFile code;
+
+    DAddingMethods dam;
+    if (elf.is_x86()) {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
+
+        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x86> trmwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> trmaction;
+
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "127" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        // qDebug() << handler.code;
+
+        code.close();
+
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmaction.code = code.readAll();
+        trmaction.detect_handler = nullptr;
+        trmaction.ret = DAddingMethods::Registers_x86::EAX;
+        trmaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
+                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
+                                DAddingMethods::Registers_x86::ESI };
+
+        // qDebug() << oepaction.code;
+
+        code.close();
+
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmwrapper.detect_handler = &handler;
+        trmwrapper.tramp_action = &trmaction;
+        trmwrapper.code = code.readAll();
+        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+
+        // qDebug() << oepwrapper.code;
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
+        inject_desc.adding_method = &trmwrapper;
+
+        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+            return false;
+    }
+    else {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
+        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> trmwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
+
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "188" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        // qDebug() << handler.code;
+
+        code.close();
+
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmaction.code = code.readAll();
+        trmaction.detect_handler = nullptr;
+        trmaction.ret = DAddingMethods::Registers_x64::RAX;
+        trmaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
+                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
+                                DAddingMethods::Registers_x64::R10 };
+
+        // qDebug() << oepaction.code;
+
+        code.close();
+
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmwrapper.detect_handler = &handler;
+        trmwrapper.oep_action = &trmaction;
+        trmwrapper.code = code.readAll();
+        trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+
+        // qDebug() << oepwrapper.code;
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
+        inject_desc.adding_method = &trmwrapper;
+
+        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+            return false;
+    }
+
+    // rename file on hard drive
+    QFile::rename("template", QString("_%1oinita").arg(elf_fname));
+    qDebug() << "saving to file: " <<  QString("_%1oinita").arg(elf_fname);
+
+    return true;
+}
+
+bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
+                            const QString &method, const QString &handl) {
+    // DAddingMethods::InjectDescription inject_desc;
+    ELF elf(elf_fname);
+    // qDebug() << "valid: " << elf.is_valid();
+    if (!elf.is_valid())
+        return false;
+
+    QFile code;
+
+    DAddingMethods dam;
+    if (elf.is_x86()) {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
+
+        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x86> trmwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> trmaction;
+
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "127" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        // qDebug() << handler.code;
+
+        code.close();
+
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmaction.code = code.readAll();
+        trmaction.detect_handler = nullptr;
+        trmaction.ret = DAddingMethods::Registers_x86::EAX;
+        trmaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
+                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
+                                DAddingMethods::Registers_x86::ESI };
+
+        // qDebug() << oepaction.code;
+
+        code.close();
+
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmwrapper.detect_handler = &handler;
+        trmwrapper.tramp_action = &trmaction;
+        trmwrapper.code = code.readAll();
+        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+
+        // qDebug() << oepwrapper.code;
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
+        inject_desc.adding_method = &trmwrapper;
+
+        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+            return false;
+    }
+    else {
+        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
+        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> trmwrapper;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
+        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
+
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        handler.params = { { "ret", "188" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+
+        // qDebug() << handler.code;
+
+        code.close();
+
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmaction.code = code.readAll();
+        trmaction.detect_handler = nullptr;
+        trmaction.ret = DAddingMethods::Registers_x64::RAX;
+        trmaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
+                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
+                                DAddingMethods::Registers_x64::R10 };
+
+        // qDebug() << oepaction.code;
+
+        code.close();
+
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+
+        trmwrapper.detect_handler = &handler;
+        trmwrapper.oep_action = &trmaction;
+        trmwrapper.code = code.readAll();
+        trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+
+        // qDebug() << oepwrapper.code;
+
+        code.close();
+
+        inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
+        inject_desc.adding_method = &trmwrapper;
+
+        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+            return false;
+    }
+
+    // rename file on hard drive
+    QFile::rename("template", QString("_%1octors").arg(elf_fname));
+    qDebug() << "saving to file: " <<  QString("_%1octors").arg(elf_fname);
+
+    return true;
+}
+
+/*
 void test_wrappers() {
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
@@ -649,6 +1043,229 @@ void test_wrappers() {
 
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
 }
+*/
+
+void test_wrappers() {
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + ctors for my 32-bit app...";
+
+    // test oep + ptrace
+    if (!test_ctors_oep_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + ctors for my 32-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + ctors for my 64-bit app...";
+
+    if (!test_ctors_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + ctors for my 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+
+    qDebug() << "Testing OEP + ctors for derby 32-bit app...";
+
+    // test oep + ptrace
+    if (!test_ctors_oep_wrappers("derby32", "oep_t.asm", "ptrace_t.asm", "exit_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + ctors for derby 32-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+
+    qDebug() << "Testing OEP + ctors for derby 64-bit app...";
+
+    if (!test_ctors_oep_wrappers("derby64", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + ctors for derby 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + ctors for edb 64-bit app...";
+
+    if (!test_ctors_oep_wrappers("edb", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + ctors for edb 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + ctors for dDeflect 64-bit app...";
+
+    if (!test_ctors_oep_wrappers("dDeflect", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + ctors for dDeflect 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + init for my 32-bit app...";
+
+    // test oep + ptrace
+    if (!test_init_oep_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + init for my 32-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + init for my 64-bit app...";
+
+    if (!test_init_oep_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + init for my 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + init for derby 32-bit app...";
+
+    // test oep + ptrace
+    if (!test_init_oep_wrappers("derby32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + init for derby 32-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + init for derby 64-bit app...";
+
+    if (!test_init_oep_wrappers("derby64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + init for derby 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + init for edb 64-bit app...";
+
+    if (!test_init_oep_wrappers("edb", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + init for edb 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + init for dDeflect 64-bit app...";
+
+    if (!test_init_oep_wrappers("dDeflect", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + init for dDeflect 64-bit app done";
+
+
+
+    qDebug() << "Testing OEP + initarray for my 32-bit app...";
+
+    // test oep + ptrace
+    if (!test_initarray_oep_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + initarray for my 32-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + initarray for my 64-bit app...";
+
+    if (!test_initarray_oep_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + initarray for my 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + initarray for derby 32-bit app...";
+
+    // test oep + ptrace
+    if (!test_initarray_oep_wrappers("derby32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + initarray for derby 32-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + initarray for derby 64-bit app...";
+
+    if (!test_initarray_oep_wrappers("derby64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + initarray for derby 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + initarray for edb 64-bit app...";
+
+    if (!test_initarray_oep_wrappers("edb", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + initarray for edb 64-bit app done";
+    qDebug() << "=========================================";
+
+
+
+
+    qDebug() << "Testing OEP + initarray for dDeflect 64-bit app...";
+
+    if (!test_initarray_oep_wrappers("dDeflect", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+
+    qDebug() << "Testing OEP + initarray for dDeflect 64-bit app done";
+}
+
 
 
 int main() {
