@@ -475,6 +475,12 @@ uint32_t PEFile::getRelocationsVirtualAddress()
     return relocDir->VirtualAddress;
 }
 
+void PEFile::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset)
+{
+    foreach(QString op, opcodes)
+        fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset);
+}
+
 bool PEFile::isValid()
 {
     return parsed;
@@ -591,28 +597,38 @@ template bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, Q
 
 template <>
 bool PEFile::injectTrampolineCode<Register_x86>
-(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
+ QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset)
 {
     typedef Register_x86 Register;
 
-    QProcess objdump;
+    QTemporaryFile temp_file;
+    if(!temp_file.open())
+        return false;
 
-    objdump.setProcessChannelMode(QProcess::MergedChannels);
-    objdump.start(Wrapper<Register>::objdumpPath, {"-d", exePath});
+    temp_file.write(text_section);
+    temp_file.flush();
 
-    if(!objdump.waitForStarted())
+    QProcess ndisasm;
+
+    ndisasm.setProcessChannelMode(QProcess::MergedChannels);
+    ndisasm.start(Wrapper<Register>::ndisasmPath, {"-a", "-b", "32", QFileInfo(temp_file).absoluteFilePath()});
+
+    if(!ndisasm.waitForStarted())
         return false;
 
     QByteArray assembly;
 
-    while(objdump.waitForReadyRead(-1))
-        assembly.append(objdump.readAll());
+    while(ndisasm.waitForReadyRead(-1))
+        assembly.append(ndisasm.readAll());
 
     QStringList asm_lines = QString(assembly).split(PECodeDefines<Register>::newLineRegExp, QString::SkipEmptyParts);
     QStringList call_lines = asm_lines.filter(PECodeDefines<Register>::callRegExp);
     QStringList jmp_lines = asm_lines.filter(PECodeDefines<Register>::jmpRegExp);
 
-    printf("%d\n%d\n", call_lines.length(), jmp_lines.length());
+    QList<uint32_t> jmp_offsets, call_offsets;
+    getFileOffsetsFromOpcodes(call_lines, call_offsets, text_section_offset);
+    getFileOffsetsFromOpcodes(jmp_lines, jmp_offsets, text_section_offset);
 
     return true;
 }
@@ -657,7 +673,8 @@ bool PEFile::injectEpCode<Register_x64>
 
 template <>
 bool PEFile::injectTrampolineCode<Register_x64>
-(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
+ QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset)
 {
     typedef Register_x64 Register;
     // TODO
@@ -673,6 +690,13 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
 
     if(!parsed)
         return false;
+
+    PIMAGE_SECTION_HEADER text_hdr = getSectionHeader(getSectionByVirtualAddress(getEntryPoint() + getImageBase()));
+    if(!text_hdr)
+        return false;
+
+    QByteArray text_section(&b_data.data()[text_hdr->PointerToRawData], text_hdr->Misc.VirtualSize);
+    uint32_t text_section_offset = text_hdr->PointerToRawData;
 
     foreach(InjectDescription<Register> *desc, descs)
     {
@@ -701,6 +725,12 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
         }
     }
 
+    if(!tramMethods.empty())
+    {
+        if(!injectTrampolineCode<Register>(tramMethods, codePointers, relocations, text_section, text_section_offset))
+            return false;
+    }
+
     if(!epMethods.empty())
     {
         if(!injectEpCode<Register>(epMethods, codePointers, relocations))
@@ -710,12 +740,6 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
     if(!tlsMethods.empty())
     {
         if(!injectTlsCode<Register>(tlsMethods, codePointers, relocations))
-            return false;
-    }
-
-    if(!tramMethods.empty())
-    {
-        if(!injectTrampolineCode<Register>(tramMethods, codePointers, relocations))
             return false;
     }
 

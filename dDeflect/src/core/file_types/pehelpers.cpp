@@ -11,9 +11,9 @@ template <typename Register>
 const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
 
 template <typename Register>
-const QString Wrapper<Register>::objdumpPath = "X:\\Programy\\MinGW\\bin\\objdump.exe"; // TODO: wczytywanie z config
-template const QString Wrapper<Register_x86>::objdumpPath;
-template const QString Wrapper<Register_x64>::objdumpPath;
+const QString Wrapper<Register>::ndisasmPath = "X:\\Programy\\Nasm\\ndisasm.exe"; // TODO: wczytywanie z config
+template const QString Wrapper<Register_x86>::ndisasmPath;
+template const QString Wrapper<Register_x64>::ndisasmPath;
 
 template <typename Register>
 InjectDescription<Register>::InjectDescription(CallingMethod _method, Wrapper<Register> *_wrapper) :

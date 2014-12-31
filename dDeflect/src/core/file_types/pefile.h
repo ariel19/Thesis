@@ -14,6 +14,7 @@
 #include <QStringList>
 #include <QCryptographicHash>
 #include <QByteArray>
+#include <QTemporaryFile>
 #include <cstdint>
 #include <chrono>
 #include <core/file_types/pecodedefines.h>
@@ -120,13 +121,16 @@ private:
     bool injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 
     template <typename Register>
-    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
+    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
+                              QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset);
 
     bool addRelocations(QList<uint64_t> relocations);
     bool getRelocations(QList<RelocationTable> &rt);
     uint32_t getSectionByVirtualAddress(uint32_t va);
     uint32_t getRelocationsSize();
     uint32_t getRelocationsVirtualAddress();
+
+    void getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset);
 
 public:
     PEFile(QByteArray d, QString filePath);

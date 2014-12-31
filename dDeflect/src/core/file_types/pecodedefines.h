@@ -37,6 +37,10 @@ public:
     static const uint8_t align16Size;
     static const uint8_t stackCellSize;
 
+    static const QRegExp newLineRegExp;
+    static const QRegExp callRegExp;
+    static const QRegExp jmpRegExp;
+
     static QByteArray saveRegister(Register reg);
     static QByteArray restoreRegister(Register reg);
     template <typename T>

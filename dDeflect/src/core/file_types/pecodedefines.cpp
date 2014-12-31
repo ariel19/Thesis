@@ -1,5 +1,16 @@
 #include "pecodedefines.h"
 
+template <typename Register>
+const QRegExp PECodeDefines<Register>::newLineRegExp = QRegExp("[\r\n]");
+template const QRegExp PECodeDefines<Register_x86>::newLineRegExp;
+template const QRegExp PECodeDefines<Register_x64>::newLineRegExp;
+
+template <>
+const QRegExp PECodeDefines<Register_x86>::callRegExp = QRegExp("^[0-9a-f]{8}  E8[0-9a-f]{6}(00|ff) ", Qt::CaseInsensitive);
+
+template <>
+const QRegExp PECodeDefines<Register_x86>::jmpRegExp = QRegExp("^^[0-9a-f]{8}  E9[0-9a-f]{6}(00|ff) ", Qt::CaseInsensitive);
+
 template <>
 const uint8_t PECodeDefines<Register_x64>::shadowSize = 4;
 
