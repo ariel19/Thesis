@@ -203,10 +203,10 @@ uint8_t PEFile::getRelocationType()
     return is_x64 ? IMAGE_REL_BASED_DIR64 : IMAGE_REL_BASED_HIGHLOW;
 }
 
-PEFile::PEFile(QByteArray d, QString filePath) :
+PEFile::PEFile(QByteArray d) :
     parsed(false),
     is_x64(false),
-    exePath(filePath),
+    gen(std::chrono::system_clock::now().time_since_epoch().count()),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
 {
@@ -253,7 +253,6 @@ uint64_t PEFile::injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &p
         is_added = addDataToSection(i, data, fileOffset, memOffset);
 
     // Tworzenie nowej sekcji, lub rozszerzanie ostatniej
-    std::default_random_engine gen(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<int> prob(0, 9);
     if(prob(gen) == 0)
     {
@@ -300,14 +299,13 @@ template uint64_t PEFile::injectUniqueData(BinaryCode<Register_x64> data, QMap<Q
 QString PEFile::getRandomSectionName()
 {
     QString name;
-    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<int> no_letters(1, 7);
     std::uniform_int_distribution<int> char_gen('a', 'z');
 
     name += '.';
-    int n = no_letters(generator);
+    int n = no_letters(gen);
     for(int i = 0; i < n; ++i)
-        name += static_cast<char>(char_gen(generator));
+        name += static_cast<char>(char_gen(gen));
 
     return name;
 }
@@ -504,6 +502,29 @@ bool PEFile::isValid()
 }
 
 template <>
+uint8_t PEFile::getRandomRegister<Register_x86>()
+{
+    typedef Register_x86 Reg;
+    QList<Reg> r = {Reg::EAX, Reg::ECX, Reg::EDX, Reg::EBX, Reg::ESI, Reg::EDI};
+
+    std::uniform_int_distribution<int> idx(0, r.length() - 1);
+
+    return static_cast<uint8_t>(r[idx(gen)]);
+}
+
+template <>
+uint8_t PEFile::getRandomRegister<Register_x64>()
+{
+    typedef Register_x64 Reg;
+    QList<Reg> r = {Reg::RAX, Reg::RDX, Reg::RCX, Reg::RBX, Reg::RSI, Reg::RDI,
+                    Reg::R8, Reg::R9, Reg::R10, Reg::R11, Reg::R12, Reg::R13, Reg::R14, Reg::R15};
+
+    std::uniform_int_distribution<int> idx(0, r.length() - 1);
+
+    return static_cast<uint8_t>(r[idx(gen)]);
+}
+
+template <>
 bool PEFile::injectEpCode<Register_x86>
 (QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
 {
@@ -648,7 +669,6 @@ bool PEFile::injectTrampolineCode<Register_x86>
     getFileOffsetsFromOpcodes(jmp_lines, jmp_offsets, text_section_offset);
 
     uint8_t percentage = 10;
-    std::default_random_engine gen(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<int> prob(0, 99);
 
     int method_idx = 0;
@@ -664,8 +684,9 @@ bool PEFile::injectTrampolineCode<Register_x86>
         BinaryCode<Register> code;
 
         code.append(PECodeDefines<Register>::saveAll());
-        code.append(PECodeDefines<Register>::movValueToReg(tramMethods[method_idx], Register::EAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+        Register r = static_cast<Register>(getRandomRegister<Register>());
+        code.append(PECodeDefines<Register>::movValueToReg(tramMethods[method_idx], r), true);
+        code.append(PECodeDefines<Register>::callReg(r));
         code.append(PECodeDefines<Register>::restoreAll());
 
         code.append(PECodeDefines<Register>::storeValue(call_addr), true);

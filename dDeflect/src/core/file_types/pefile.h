@@ -26,7 +26,6 @@ private:
     bool parsed;
     bool is_x64;
     QByteArray b_data;
-    QString exePath;
 
     unsigned int dosHeaderIdx;
     unsigned int ntHeadersIdx;
@@ -36,6 +35,7 @@ private:
     size_t optionalHeaderSize;
     unsigned int numberOfSections;
     unsigned int numberOfDataDirectories;
+    std::default_random_engine gen;
 
     unsigned int *sectionHeadersIdx;
     unsigned int *dataDirectoriesIdx;
@@ -133,8 +133,11 @@ private:
     void getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset);
     uint32_t fileOffsetToRVA(uint32_t fileOffset);
 
+    template <typename Register>
+    uint8_t getRandomRegister();
+
 public:
-    PEFile(QByteArray d, QString filePath);
+    PEFile(QByteArray d);
     ~PEFile();
 
     template <typename Register>
