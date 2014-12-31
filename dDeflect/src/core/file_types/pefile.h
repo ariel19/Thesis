@@ -136,6 +136,9 @@ private:
     template <typename Register>
     uint8_t getRandomRegister();
 
+    template <typename Register>
+    BinaryCode<Register> generateTrampolineCode(uint64_t realAddr, uint64_t wrapperAddr);
+
 public:
     PEFile(QByteArray d);
     ~PEFile();

@@ -25,10 +25,11 @@ private:
     static const QByteArray _jmp_rel;
     static const QByteArray _reserve_stack;
     static const QByteArray _clear_stack;
-    static const QByteArray _store_dword;
+    static const QByteArray _store_value;
     static const QByteArray _ret_n;
     static const QByteArray _pushad;
     static const QByteArray _popad;
+    static const QByteArray _store_high_bytes;
 
     static uint64_t seed;
 

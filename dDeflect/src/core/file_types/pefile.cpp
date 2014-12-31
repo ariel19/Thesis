@@ -296,6 +296,7 @@ uint64_t PEFile::injectUniqueData(BinaryCode<Register> data, QMap<QByteArray, ui
 template uint64_t PEFile::injectUniqueData(BinaryCode<Register_x86> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
 template uint64_t PEFile::injectUniqueData(BinaryCode<Register_x64> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
 
+
 QString PEFile::getRandomSectionName()
 {
     QString name;
@@ -374,13 +375,9 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
         reloc_table = new_reloc_table;
     }
 
-    printf("\n");
     QByteArray raw_table;
     foreach(RelocationTable rt, reloc_table)
-    {
         raw_table.append(rt.toBytes());
-        printf("%x: %d\n", rt.VirtualAddress, rt.SizeOfBlock);
-    }
 
     unsigned int file_offset, mem_offset;
     if(!addNewSection(getRandomSectionName(), raw_table, file_offset, mem_offset))
@@ -525,6 +522,53 @@ uint8_t PEFile::getRandomRegister<Register_x64>()
 }
 
 template <>
+BinaryCode<Register_x86> PEFile::generateTrampolineCode<Register_x86>(uint64_t realAddr, uint64_t wrapperAddr)
+{
+    typedef Register_x86 Register;
+
+    BinaryCode<Register> code;
+
+    code.append(PECodeDefines<Register>::storeValue(static_cast<uint32_t>(realAddr)), true);
+
+    code.append(PECodeDefines<Register>::saveAll());
+    Register r = static_cast<Register>(getRandomRegister<Register>());
+    code.append(PECodeDefines<Register>::movValueToReg(wrapperAddr, r), true);
+    code.append(PECodeDefines<Register>::callReg(r));
+    code.append(PECodeDefines<Register>::restoreAll());
+
+    code.append(PECodeDefines<Register>::ret);
+
+    return code;
+}
+
+template <>
+BinaryCode<Register_x64> PEFile::generateTrampolineCode<Register_x64>(uint64_t realAddr, uint64_t wrapperAddr)
+{
+    typedef Register_x64 Register;
+
+    BinaryCode<Register> code;
+
+    Register r = static_cast<Register>(getRandomRegister<Register>());
+    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
+    code.append(PECodeDefines<Register>::saveRegister(r));
+    code.append(PECodeDefines<Register>::movValueToReg(realAddr, r), true);
+    code.append(PECodeDefines<Register>::readFromRegToEspMem(r, PECodeDefines<Register>::stackCellSize));
+    code.append(PECodeDefines<Register>::restoreRegister(r));
+
+    code.append(PECodeDefines<Register>::saveAll());
+    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
+    r = static_cast<Register>(getRandomRegister<Register>());
+    code.append(PECodeDefines<Register>::movValueToReg(wrapperAddr, r), true);
+    code.append(PECodeDefines<Register>::callReg(r));
+    code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
+    code.append(PECodeDefines<Register>::restoreAll());
+
+    code.append(PECodeDefines<Register>::ret);
+
+    return code;
+}
+
+template <>
 bool PEFile::injectEpCode<Register_x86>
 (QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
 {
@@ -633,13 +677,12 @@ bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_
 template bool PEFile::injectTlsCode<Register_x86>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 template bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
 
-template <>
-bool PEFile::injectTrampolineCode<Register_x86>
-(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
- QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset)
-{
-    typedef Register_x86 Register;
 
+template <typename Register>
+bool PEFile::injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
+                                  QList<uint64_t> &relocations, QByteArray text_section,
+                                  uint32_t text_section_offset)
+{
     QTemporaryFile temp_file;
     if(!temp_file.open())
         return false;
@@ -650,7 +693,7 @@ bool PEFile::injectTrampolineCode<Register_x86>
     QProcess ndisasm;
 
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
-    ndisasm.start(Wrapper<Register>::ndisasmPath, {"-a", "-b", "32", QFileInfo(temp_file).absoluteFilePath()});
+    ndisasm.start(Wrapper<Register>::ndisasmPath, {"-a", "-b", is_x64 ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
 
     if(!ndisasm.waitForStarted())
         return false;
@@ -668,7 +711,7 @@ bool PEFile::injectTrampolineCode<Register_x86>
     getFileOffsetsFromOpcodes(call_lines, call_offsets, text_section_offset);
     getFileOffsetsFromOpcodes(jmp_lines, jmp_offsets, text_section_offset);
 
-    uint8_t percentage = 10;
+    uint8_t percentage = 100;
     std::uniform_int_distribution<int> prob(0, 99);
 
     int method_idx = 0;
@@ -679,24 +722,15 @@ bool PEFile::injectTrampolineCode<Register_x86>
             continue;
 
         int32_t call_off = *reinterpret_cast<int32_t*>(&b_data.data()[offset]);
-        uint32_t call_addr = getImageBase() + fileOffsetToRVA(offset + 4) + call_off;
+        uint64_t call_addr = getImageBase() + fileOffsetToRVA(offset + 4) + call_off;
 
-        BinaryCode<Register> code;
-
-        code.append(PECodeDefines<Register>::saveAll());
-        Register r = static_cast<Register>(getRandomRegister<Register>());
-        code.append(PECodeDefines<Register>::movValueToReg(tramMethods[method_idx], r), true);
-        code.append(PECodeDefines<Register>::callReg(r));
-        code.append(PECodeDefines<Register>::restoreAll());
-
-        code.append(PECodeDefines<Register>::storeValue(call_addr), true);
-        code.append(PECodeDefines<Register>::ret);
+        BinaryCode<Register> code = generateTrampolineCode<Register>(call_addr, tramMethods[method_idx]);
 
         uint64_t addr = injectUniqueData(code, codePointers, relocations);
         if(addr == 0)
             return false;
 
-        uint32_t new_call_off = addr - getImageBase() - fileOffsetToRVA(offset + 4);
+        uint32_t new_call_off = (addr - getImageBase()) - fileOffsetToRVA(offset + 4);
         *reinterpret_cast<int32_t*>(&b_data.data()[offset]) = new_call_off;
         printf("%x\n", new_call_off);
 
@@ -741,16 +775,6 @@ bool PEFile::injectEpCode<Register_x64>
     if(!setNewEntryPoint(new_ep))
         return false;
 
-    return true;
-}
-
-template <>
-bool PEFile::injectTrampolineCode<Register_x64>
-(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
- QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset)
-{
-    typedef Register_x64 Register;
-    // TODO
     return true;
 }
 

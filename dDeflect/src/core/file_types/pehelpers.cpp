@@ -7,11 +7,12 @@ template <>
 const QString Wrapper<Register_x64>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x64\\x64\\src\\"; // TODO: wczytywanie z config
 
 template <typename Register>
-//const QString Wrapper<Register>::nasmPath = "C:\\jablonskim\\Programy\\nasm\\nasm.exe"; // TODO: wczytywanie z config
-const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
+const QString Wrapper<Register>::nasmPath = "C:\\jablonskim\\Programy\\nasm\\nasm.exe"; // TODO: wczytywanie z config
+//const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
 
 template <typename Register>
-const QString Wrapper<Register>::ndisasmPath = "X:\\Programy\\Nasm\\ndisasm.exe"; // TODO: wczytywanie z config
+const QString Wrapper<Register>::ndisasmPath = "C:\\jablonskim\\Programy\\nasm\\ndisasm.exe"; // TODO: wczytywanie z config
+//const QString Wrapper<Register>::ndisasmPath = "X:\\Programy\\Nasm\\ndisasm.exe"; // TODO: wczytywanie z config
 template const QString Wrapper<Register_x86>::ndisasmPath;
 template const QString Wrapper<Register_x64>::ndisasmPath;
 
@@ -221,6 +222,12 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
         regToSave.append({Register::RAX, Register::RCX, Register::RDX, Register::R8, Register::R9, Register::R11});
         params.insert(Register::R12, "kernel32!ExitProcess");
         params.insert(Register::RAX, "user32!MessageBoxA");
+    }
+    else if(name.contains("printf_test"))
+    {
+        returns = Register::None;
+        regToSave.append({Register::RAX, Register::RCX, Register::RDX});
+        params.insert(Register::RAX, "msvcrt!printf");
     }
     else
     {

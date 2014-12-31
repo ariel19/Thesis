@@ -8,11 +8,15 @@ const QRegExp PECodeDefines<Register>::newLineRegExp = QRegExp("[\r\n]");
 template const QRegExp PECodeDefines<Register_x86>::newLineRegExp;
 template const QRegExp PECodeDefines<Register_x64>::newLineRegExp;
 
-template <>
-const QRegExp PECodeDefines<Register_x86>::callRegExp = QRegExp("^[0-9a-f]{8}  E8[0-9a-f]{6}(00|ff) ", Qt::CaseInsensitive);
+template <typename Register>
+const QRegExp PECodeDefines<Register>::callRegExp = QRegExp("^[0-9a-f]{8}  E8[0-9a-f]{6}(00|ff) ", Qt::CaseInsensitive);
+template const QRegExp PECodeDefines<Register_x86>::callRegExp;
+template const QRegExp PECodeDefines<Register_x64>::callRegExp;
 
-template <>
-const QRegExp PECodeDefines<Register_x86>::jmpRegExp = QRegExp("^^[0-9a-f]{8}  E9[0-9a-f]{6}(00|ff) ", Qt::CaseInsensitive);
+template <typename Register>
+const QRegExp PECodeDefines<Register>::jmpRegExp = QRegExp("^^[0-9a-f]{8}  E9[0-9a-f]{6}(00|ff) ", Qt::CaseInsensitive);
+template const QRegExp PECodeDefines<Register_x86>::jmpRegExp;
+template const QRegExp PECodeDefines<Register_x64>::jmpRegExp;
 
 template <>
 const uint8_t PECodeDefines<Register_x64>::shadowSize = 4;
@@ -68,8 +72,11 @@ const QByteArray PECodeDefines<Register_x86>::_clear_stack = QByteArray("\x83\xC
 template <>
 const QByteArray PECodeDefines<Register_x64>::_clear_stack = QByteArray("\x48\x83\xC4");
 
+template <typename Register>
+const QByteArray PECodeDefines<Register>::_store_value = QByteArray("\x68");
+
 template <>
-const QByteArray PECodeDefines<Register_x86>::_store_dword = QByteArray("\x68");
+const QByteArray PECodeDefines<Register_x64>::_store_high_bytes = QByteArray("\xC7\x44\x24\x04");
 
 template <typename Register>
 const QByteArray PECodeDefines<Register>::_ret_n = QByteArray("\xC2");
@@ -574,9 +581,20 @@ template QByteArray PECodeDefines<Register_x64>::clearStackSpace(uint16_t noPara
 
 template <>
 template <>
-QByteArray PECodeDefines<Register_x86>::storeValue(uint32_t dword)
+QByteArray PECodeDefines<Register_x86>::storeValue(uint32_t value)
 {
-    return QByteArray(_store_dword).append(reinterpret_cast<const char*>(&dword), sizeof(uint32_t));
+    return QByteArray(_store_value).append(reinterpret_cast<const char*>(&value), sizeof(uint32_t));
+}
+
+
+template <>
+template <>
+QByteArray PECodeDefines<Register_x64>::storeValue(uint64_t value)
+{
+    return QByteArray(_store_value)
+            .append(reinterpret_cast<const char*>(&value), sizeof(uint32_t))
+            .append(_store_high_bytes)
+            .append(reinterpret_cast<const char*>(&value) + 4, sizeof(uint32_t));
 }
 
 
