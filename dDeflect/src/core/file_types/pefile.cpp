@@ -707,16 +707,16 @@ bool PEFile::injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray,
     QStringList call_lines = asm_lines.filter(PECodeDefines<Register>::callRegExp);
     QStringList jmp_lines = asm_lines.filter(PECodeDefines<Register>::jmpRegExp);
 
-    QList<uint32_t> jmp_offsets, call_offsets;
-    getFileOffsetsFromOpcodes(call_lines, call_offsets, text_section_offset);
-    getFileOffsetsFromOpcodes(jmp_lines, jmp_offsets, text_section_offset);
+    QList<uint32_t> fileOffsets;
+    getFileOffsetsFromOpcodes(call_lines, fileOffsets, text_section_offset);
+    getFileOffsetsFromOpcodes(jmp_lines, fileOffsets, text_section_offset);
 
     uint8_t percentage = 100;
     std::uniform_int_distribution<int> prob(0, 99);
 
     int method_idx = 0;
 
-    foreach(uint32_t offset, call_offsets)
+    foreach(uint32_t offset, fileOffsets)
     {
         if(prob(gen) >= percentage)
             continue;
@@ -732,7 +732,6 @@ bool PEFile::injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray,
 
         uint32_t new_call_off = (addr - getImageBase()) - fileOffsetToRVA(offset + 4);
         *reinterpret_cast<int32_t*>(&b_data.data()[offset]) = new_call_off;
-        printf("%x\n", new_call_off);
 
         method_idx = (method_idx + 1) % tramMethods.length();
     }
