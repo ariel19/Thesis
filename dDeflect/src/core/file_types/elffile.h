@@ -39,6 +39,12 @@ public:
     virtual ~ELF();
 
     /**
+     * @brief Pobiera zawartość pliku.
+     * @return Zawartość aktualnie analizowalnego pliku.
+     */
+    const QByteArray& get_elf_content() const { return b_data; }
+
+    /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
      * @return True jeżeli poprawny, False w innym przypadku.
      */
@@ -46,13 +52,13 @@ public:
 
     /**
      * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 32-bitowym.
-     * @return True jezeli spelnia warunki, False w pozostalych przypadkach.
+     * @return True jezeli spełnia warunki, False w pozostałych przypadkach.
      */
     bool is_x86() const { return is_valid() & (cls == classes::ELF32); }
 
     /**
      * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 64-bitowym.
-     * @return True jezeli spelnia warunki, False w pozostalych przypadkach.
+     * @return True jezeli spełnia warunki, False w pozostałych przypadkach.
      */
     bool is_x64() const { return is_valid() & (cls == classes::ELF64); }
 
@@ -117,16 +123,16 @@ public:
     bool set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep = nullptr);
 
     /**
-     * @brief Dostarcza informacje o punkcie wejsciowym pliku podanego jako parameter.
+     * @brief Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter.
      * @param data zawartosc pliku ELF.
-     * @param old_ep referencja na wartosc punktu wejsciowego programu.
+     * @param old_ep referencja na wartość punktu wejściowego programu.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
     bool get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const;
 
     /**
-     * @brief Dostarcza informacje o punkcie wejsciowym pliku.
-     * @param old_ep referencja na wartosc punktu wejsciowego programu.
+     * @brief Dostarcza informacje o punkcie wejściowym pliku.
+     * @param old_ep referencja na wartość punktu wejściowego programu.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
     bool get_entry_point(Elf64_Addr &old_ep) const;
@@ -145,9 +151,10 @@ public:
      * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
      * @param section_data zawartość sekcji.
+     * @param filler bajt, którym jest dopełniana sekcja.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
-    bool set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data);
+    bool set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
 
 private:
     typedef struct _section_info {
@@ -254,8 +261,8 @@ private:
     bool is_supported(const Elf32_Ehdr *elf_hdr);
 
     /**
-     * @brief Pobiera informacje dotyczace pierwszego offsetu w pliku.
-     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
+     * @brief Pobiera informacje dotyczące pierwszego offsetu w pliku.
+     * @param elf_hdr wskaźnik na strukturę, przechowującą informacje.
      * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     template <typename ElfHeaderType>
@@ -263,13 +270,13 @@ private:
 
     /**
      * @brief Pobiera informacje dotyczące offsetu.
-     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
+     * @param elf_hdr wskaźnik na strukturę, przechowującą informacje.
      * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     bool get_ph_info(const void *elf_hdr);
 
     /**
-     * @brief Parsowanie danych, znajdujacych sie w pamięci jako pliku ELF.
+     * @brief Parsowanie danych, znajdujących się w pamięci jako pliku ELF.
      * @return True jeżeli dane w pamięci sa zgodne z formatem ELF, False w pozostałych przypadkach.
      */
     bool parse();
@@ -369,10 +376,11 @@ private:
      * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
      * @param section_data zawartość sekcji.
+     * @param filler bajt, którym jest dopełniana sekcja.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    bool __set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data);
+    bool __set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
 };
 
 #endif // ELFFILE_H

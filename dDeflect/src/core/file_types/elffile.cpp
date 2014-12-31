@@ -232,16 +232,16 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
     return false;
 }
 
-bool ELF::set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data) {
+bool ELF::set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
     // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
         return false;
 
     switch (cls) {
     case classes::ELF32:
-        return __set_section_content<Elf32_Ehdr, Elf32_Shdr>(data, sec_type, section_data);
+        return __set_section_content<Elf32_Ehdr, Elf32_Shdr>(data, sec_type, section_data, filler);
     case classes::ELF64:
-        return __set_section_content<Elf64_Ehdr, Elf64_Shdr>(data, sec_type, section_data);
+        return __set_section_content<Elf64_Ehdr, Elf64_Shdr>(data, sec_type, section_data, filler);
     default:
         return false;
     }
@@ -249,7 +249,7 @@ bool ELF::set_section_content(QByteArray &data, ELF::SectionType sec_type, const
 
 // TODO: should be the same with __get_section_content
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data) {
+bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
     const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(data.data());
     // if section header table exists
     if (!eh->e_shoff)
@@ -291,7 +291,7 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
             QByteArray new_section_data(data.data(), sh->sh_offset);
             new_section_data.append(section_data);
             // fill rest with nops
-            new_section_data.append(QByteArray(sh->sh_size - section_data.size(), '\x90'));
+            new_section_data.append(QByteArray(sh->sh_size - section_data.size(), filler));
             new_section_data.append(data.data() + sh->sh_offset + sh->sh_size,
                                     data.size() - sh->sh_offset - sh->sh_size);
 
