@@ -131,6 +131,7 @@ private:
     uint32_t getRelocationsVirtualAddress();
 
     void getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset);
+    uint32_t fileOffsetToRVA(uint32_t fileOffset);
 
 public:
     PEFile(QByteArray d, QString filePath);

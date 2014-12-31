@@ -1,6 +1,9 @@
 #include "pecodedefines.h"
 
 template <typename Register>
+uint64_t PECodeDefines<Register>::seed = 0;
+
+template <typename Register>
 const QRegExp PECodeDefines<Register>::newLineRegExp = QRegExp("[\r\n]");
 template const QRegExp PECodeDefines<Register_x86>::newLineRegExp;
 template const QRegExp PECodeDefines<Register_x64>::newLineRegExp;
@@ -31,6 +34,12 @@ const QByteArray PECodeDefines<Register_x86>::startFunc = QByteArray("\x55\x89\x
 
 template <>
 const QByteArray PECodeDefines<Register_x64>::startFunc = QByteArray("\x55\x48\x89\xE5");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_pushad = QByteArray("\x60");
+
+template <>
+const QByteArray PECodeDefines<Register_x86>::_popad = QByteArray("\x61");
 
 template <typename Register>
 const QByteArray PECodeDefines<Register>::endFunc = QByteArray("\x5D");
@@ -612,3 +621,63 @@ QByteArray PECodeDefines<Register>::retN(uint16_t n)
 }
 template QByteArray PECodeDefines<Register_x86>::retN(uint16_t n);
 template QByteArray PECodeDefines<Register_x64>::retN(uint16_t n);
+
+
+template <>
+QByteArray PECodeDefines<Register_x86>::saveAll()
+{
+    return _pushad;
+}
+
+template <>
+QByteArray PECodeDefines<Register_x64>::saveAll()
+{
+    typedef Register_x64 Reg;
+
+    QList<Reg> regs = {Reg::RAX, Reg::RCX, Reg::RDX, Reg::RBX, Reg::RSI, Reg::RDI,
+                       Reg::R8, Reg::R9, Reg::R10, Reg::R11, Reg::R12, Reg::R13, Reg::R14, Reg::R15};
+
+    seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine gen(seed);
+    std::uniform_int_distribution<int> idx(0, 99);
+
+    QByteArray code;
+
+    while(!regs.empty())
+    {
+        int i = idx(gen) % regs.length();
+        code.append(PECodeDefines::saveRegister(regs[i]));
+        regs.removeAt(i);
+    }
+
+    return code;
+}
+
+template <>
+QByteArray PECodeDefines<Register_x86>::restoreAll()
+{
+    return _popad;
+}
+
+template <>
+QByteArray PECodeDefines<Register_x64>::restoreAll()
+{
+    typedef Register_x64 Reg;
+
+    QList<Reg> regs = {Reg::RAX, Reg::RCX, Reg::RDX, Reg::RBX, Reg::RSI, Reg::RDI,
+                       Reg::R8, Reg::R9, Reg::R10, Reg::R11, Reg::R12, Reg::R13, Reg::R14, Reg::R15};
+
+    std::default_random_engine gen(seed);
+    std::uniform_int_distribution<int> idx(0, 99);
+
+    QByteArray code;
+
+    while(!regs.empty())
+    {
+        int i = idx(gen) % regs.length();
+        code.prepend(PECodeDefines::restoreRegister(regs[i]));
+        regs.removeAt(i);
+    }
+
+    return code;
+}

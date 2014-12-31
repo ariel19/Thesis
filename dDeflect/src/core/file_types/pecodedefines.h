@@ -5,6 +5,7 @@
 #include <QSet>
 #include <QList>
 #include <list>
+#include <chrono>
 #include <core/file_types/pehelpers.h>
 
 template <typename Register>
@@ -26,6 +27,10 @@ private:
     static const QByteArray _clear_stack;
     static const QByteArray _store_dword;
     static const QByteArray _ret_n;
+    static const QByteArray _pushad;
+    static const QByteArray _popad;
+
+    static uint64_t seed;
 
 public:
     static const QByteArray startFunc;
@@ -59,6 +64,8 @@ public:
     static QByteArray readFromEspMemToReg(Register reg, int8_t base);
     static QByteArray readFromRegToEspMem(Register reg, int8_t base);
     static QByteArray retN(uint16_t n);
+    static QByteArray saveAll();
+    static QByteArray restoreAll();
 };
 
 #endif // PECODEDEFINES_H

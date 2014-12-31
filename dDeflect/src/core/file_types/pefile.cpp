@@ -481,6 +481,23 @@ void PEFile::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fi
         fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset + 1);
 }
 
+uint32_t PEFile::fileOffsetToRVA(uint32_t fileOffset)
+{
+    for(unsigned int i = 0; i < numberOfSections; ++i)
+    {
+        PIMAGE_SECTION_HEADER hdr = getSectionHeader(i);
+        if(fileOffset >= hdr->PointerToRawData)
+        {
+            if(fileOffset < hdr->PointerToRawData + hdr->SizeOfRawData)
+            {
+                return fileOffset - hdr->PointerToRawData + hdr->VirtualAddress;
+            }
+        }
+    }
+
+    return 0;
+}
+
 bool PEFile::isValid()
 {
     return parsed;
@@ -629,6 +646,41 @@ bool PEFile::injectTrampolineCode<Register_x86>
     QList<uint32_t> jmp_offsets, call_offsets;
     getFileOffsetsFromOpcodes(call_lines, call_offsets, text_section_offset);
     getFileOffsetsFromOpcodes(jmp_lines, jmp_offsets, text_section_offset);
+
+    uint8_t percentage = 10;
+    std::default_random_engine gen(std::chrono::system_clock::now().time_since_epoch().count());
+    std::uniform_int_distribution<int> prob(0, 99);
+
+    int method_idx = 0;
+
+    foreach(uint32_t offset, call_offsets)
+    {
+        if(prob(gen) >= percentage)
+            continue;
+
+        int32_t call_off = *reinterpret_cast<int32_t*>(&b_data.data()[offset]);
+        uint32_t call_addr = getImageBase() + fileOffsetToRVA(offset + 4) + call_off;
+
+        BinaryCode<Register> code;
+
+        code.append(PECodeDefines<Register>::saveAll());
+        code.append(PECodeDefines<Register>::movValueToReg(tramMethods[method_idx], Register::EAX), true);
+        code.append(PECodeDefines<Register>::callReg(Register::EAX));
+        code.append(PECodeDefines<Register>::restoreAll());
+
+        code.append(PECodeDefines<Register>::storeValue(call_addr), true);
+        code.append(PECodeDefines<Register>::ret);
+
+        uint64_t addr = injectUniqueData(code, codePointers, relocations);
+        if(addr == 0)
+            return false;
+
+        uint32_t new_call_off = addr - getImageBase() - fileOffsetToRVA(offset + 4);
+        *reinterpret_cast<int32_t*>(&b_data.data()[offset]) = new_call_off;
+        printf("%x\n", new_call_off);
+
+        method_idx = (method_idx + 1) % tramMethods.length();
+    }
 
     return true;
 }

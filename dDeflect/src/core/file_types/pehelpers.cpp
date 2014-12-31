@@ -150,6 +150,12 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
         params.insert(Register::EDI, "kernel32!ExitProcess");
         params.insert(Register::ECX, "user32!MessageBoxA");
     }
+    else if(name.contains("printf_test"))
+    {
+        returns = Register::None;
+        regToSave.append({Register::EAX});
+        params.insert(Register::EAX, "msvcrt!printf");
+    }
     else
     {
         returns = Register::EAX;
