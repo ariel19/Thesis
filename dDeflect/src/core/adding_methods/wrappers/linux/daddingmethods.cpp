@@ -1,6 +1,7 @@
 #include <QProcess>
 #include <QString>
 #include <QDebug>
+#include <QDataStream>
 
 #include <core/adding_methods/wrappers/linux/daddingmethods.h>
 
@@ -101,6 +102,7 @@ bool DAddingMethods::compile(const QString &code2compile, QByteArray &compiled_c
 
     file.close();
 
+    // TODO: change file names and etc.
     if (QProcess::execute("nasm", { "tocompile.asm" }))
         return false;
 
@@ -112,5 +114,23 @@ bool DAddingMethods::compile(const QString &code2compile, QByteArray &compiled_c
     compiled_code = file.readAll();
 
     file.close();
+    return true;
+}
+
+bool DAddingMethods::get_addresses(const QByteArray &addr_data, uint8_t addr_size, QList<Elf64_Addr> &addr_list) {
+    if (addr_data.size() % addr_size)
+        return false;
+
+    quint64 addr;
+    int data_size = addr_data.size();
+
+    // TODO: take DataStream otside the loop
+    for (int i = 0; i < data_size; i += addr_size) {
+        QDataStream ds(QByteArray(addr_data.data() + i, addr_size));
+        ds >> addr;
+        if (addr)
+            addr_list.append(addr);
+    }
+
     return true;
 }

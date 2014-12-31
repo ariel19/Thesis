@@ -177,6 +177,15 @@ private:
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
     bool compile(const QString &code2compile, QByteArray &compiled_code);
+
+    /**
+     * @brief Metoda odpowiada za pobieranie adresów z wyspecyfikowanych danych.
+     * @param data tablica z adresami.
+     * @param addr_size wielkość adresu w bajtach.
+     * @param addr_list listra adresów.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list);
 };
 
 class AsmCodeGenerator {
@@ -469,19 +478,39 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         QByteArray section_data;
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::CTORS, section_data))
             return false;
-        // TODO: change one of the pointers and make a call then to old one after
-        // TOOO: write a function for addresses
-        QList<Elf64_Addr> pointers;
 
-        // no place to store our pointer
-        if (!pointers.size())
+        QList<Elf64_Addr> addresses;
+        uint8_t addr_size = elf.is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
+        if (!get_addresses(section_data, addr_size, addresses))
             return false;
 
-        // compiled_code += call to old address
-        // TODO: address should be randomized, not always 0
-        compiled_code.append(AsmCodeGenerator::call_const(pointers.at(0)));
+        // no place to store our pointer
+        if (!addresses.size())
+            return false;
 
-        // TODO: set section content, set filler for elf function
+        // TODO: address should be randomized, not always 0
+        int idx = 0;
+
+        // compiled_code += call to old address
+        QByteArray compiled_call;
+        if (!compile(AsmCodeGenerator::call_const(addresses.at(idx)), compiled_call))
+            return false;
+
+        compiled_code.append(compiled_call);
+
+        // TODO: parameter for x segment
+        nf = elf.extend_segment(compiled_code, false, nva);
+        if (!nf.length())
+            return false;
+
+        QByteArray addr_new;
+        for (uint8_t i = 0; i < addr_size; ++i)
+            addr_new.append((nva >> (i * 8)) & 0xff);
+
+        // set section content, set filler for elf function
+        section_data.replace(idx * addr_size, addr_size, addr_new);
+        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data))
+            return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
 
@@ -510,7 +539,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
 
-        if (!elf.set_section_content(nf, ELF::SectionType::INIT, init_section_code, '\x90'))
+        // TODO: compile code here before usage
+        QByteArray compiled_jmp;
+        if (!compile(init_section_code, compiled_jmp))
+            return false;
+
+        if (!elf.set_section_content(nf, ELF::SectionType::INIT, compiled_jmp, '\x90'))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -521,19 +555,40 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         QByteArray section_data;
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT_ARRAY, section_data))
             return false;
-        // TODO: change one of the pointers and make a call then to old one after
-        // TOOO: write a function for addresses
-        QList<Elf64_Addr> pointers;
 
-        // no place to store our pointer
-        if (!pointers.size())
+        QList<Elf64_Addr> addresses;
+        uint8_t addr_size = elf.is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
+        if (!get_addresses(section_data, addr_size, addresses))
             return false;
 
-        // compiled_code += call to old address
-        // TODO: address should be randomized, not always 0
-        compiled_code.append(AsmCodeGenerator::call_const(pointers.at(0)));
+        // no place to store our pointer
+        if (!addresses.size())
+            return false;
 
-        // TODO: set section content, set filler for elf function
+        // TODO: address should be randomized, not always 0
+        int idx = 0;
+
+        // compiled_code += call to old address
+
+        QByteArray compiled_call;
+        if (!compile(AsmCodeGenerator::call_const(addresses.at(idx)), compiled_call))
+            return false;
+
+        compiled_code.append(compiled_call);
+
+        // TODO: parameter for x segment
+        nf = elf.extend_segment(compiled_code, false, nva);
+        if (!nf.length())
+            return false;
+
+        QByteArray addr_new;
+        for (uint8_t i = 0; i < addr_size; ++i)
+            addr_new.append((nva >> (i * 8)) & 0xff);
+
+        // set section content, set filler for elf function
+        section_data.replace(idx * addr_size, addr_size, addr_new);
+        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data))
+            return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
 
@@ -542,7 +597,6 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
     default:
         return false;
     }
-
 
     // TODO: name of file should be changed
     elf.write_to_file("template", nf);
