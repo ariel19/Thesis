@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QString>
 #include <QList>
+#include <QMap>
 #include <map>
 
 typedef uint32_t offset_t;
@@ -16,6 +17,156 @@ typedef Elf64_Half esize_t;
 typedef Elf64_Off ex_offset_t;
 
 class ELF {
+public:
+    /**
+     * @brief Type sekcji.
+     */
+    enum class SectionType {
+        INIT,
+        CTORS,
+        INIT_ARRAY
+    };
+
+    /**
+     * @brief Konstruktor.
+     * @param _fname nazwa pliku.
+     */
+    ELF(QString _fname);
+
+    /**
+     * @brief Destruktor.
+     */
+    virtual ~ELF();
+
+    /**
+     * @brief Pobiera zawartość pliku.
+     * @return Zawartość aktualnie analizowalnego pliku.
+     */
+    const QByteArray& get_elf_content() const { return b_data; }
+
+    /**
+     * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
+     * @return True jeżeli poprawny, False w innym przypadku.
+     */
+    bool is_valid() const { return elf_file.isOpen() & parsed; }
+
+    /**
+     * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 32-bitowym.
+     * @return True jezeli spełnia warunki, False w pozostałych przypadkach.
+     */
+    bool is_x86() const { return is_valid() & (cls == classes::ELF32); }
+
+    /**
+     * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 64-bitowym.
+     * @return True jezeli spełnia warunki, False w pozostałych przypadkach.
+     */
+    bool is_x64() const { return is_valid() & (cls == classes::ELF64); }
+
+    /**
+     * @brief Sprawdza czy plik jest otwarty.
+     * @return True jeżeli jest otwarty, False jeżeli nie.
+     */
+    bool is_open() const { return elf_file.isOpen(); }
+
+    /**
+     * @brief Pobiera ilość segmentów w pliku.
+     * @return Ilość segmentów w pliku, -1 w razie błędu.
+     */
+    int get_number_of_segments() const { return is_valid() ? ph_num : - 1; }
+
+    /**
+     * @brief Pobiera offset w pliku dla podanego segmentu.
+     * @param idx indeks segmentu.
+     * @return Offset jeżeli dane są poprawne, nullptr w innych przypadkach.
+     */
+    void* get_ph_seg_offset(uint32_t idx = 0);
+
+    /**
+     * @brief Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.
+     * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
+     * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
+     * @param va nowy adres wirtualny w rozszerzonym segmencie.
+     * @return Reprezentacjz binarna nowego pliku, długość danych równa się 0 jeżeli operacja nie powiodła się.
+     */
+    QByteArray extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
+
+    /**
+     * @brief Zapisuje podane dane do określonego pliku.
+     * @param fname nazwa pliku.
+     * @param data zapisywane dane.
+     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
+     */
+    bool write_to_file(const QString &fname, const QByteArray &data) const;
+
+    /**
+     * @brief Zapisuje wewnętrzne dane do pliku.
+     * @param fname nazwa pliku.
+     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
+     */
+    bool write_to_file(const QString &fname) const;
+
+    /**
+     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
+     * @param entry_point wartość punktu wejściowego.
+     * @param data dane, w których należy ustawić punkt wejściowy.
+     * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep = nullptr);
+
+    /**
+     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
+     * @param entry_point wartość punktu wejściowego.
+     * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep = nullptr);
+
+    /**
+     * @brief Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter.
+     * @param data zawartosc pliku ELF.
+     * @param old_ep referencja na wartość punktu wejściowego programu.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const;
+
+    /**
+     * @brief Dostarcza informacje o punkcie wejściowym pliku.
+     * @param old_ep referencja na wartość punktu wejściowego programu.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool get_entry_point(Elf64_Addr &old_ep) const;
+
+    /**
+     * @brief Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.
+     * @param data zawartość pliku ELF.
+     * @param sec_type typ sekcji.
+     * @param section_data zawartość sekcji.
+     * @return True jeżeli sekcja istnieje, False w innych przypadkach.
+     */
+    bool get_section_content(const QByteArray &data, SectionType sec_type, QByteArray &section_data);
+
+    /**
+     * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
+     * @param data zawartość pliku ELF.
+     * @param sec_type typ sekcji.
+     * @param section_data zawartość sekcji.
+     * @param filler bajt, którym jest dopełniana sekcja.
+     * @return True jeżeli sekcja istnieje, False w innych przypadkach.
+     */
+    bool set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
+
+private:
+    typedef struct _section_info {
+        QString    sh_name;
+        uint32_t   sh_type;
+        _section_info() {}
+        _section_info(const QString &name, const uint32_t type) :
+            sh_name(name), sh_type(type) {}
+    } section_info;
+
+    static QMap<SectionType, section_info> section_type;
+
     typedef struct _best_segment {
         uint32_t post_pad,
                  pre_pad;
@@ -110,8 +261,8 @@ class ELF {
     bool is_supported(const Elf32_Ehdr *elf_hdr);
 
     /**
-     * @brief Pobiera informacje dotyczace pierwszego offsetu w pliku.
-     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
+     * @brief Pobiera informacje dotyczące pierwszego offsetu w pliku.
+     * @param elf_hdr wskaźnik na strukturę, przechowującą informacje.
      * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     template <typename ElfHeaderType>
@@ -119,13 +270,13 @@ class ELF {
 
     /**
      * @brief Pobiera informacje dotyczące offsetu.
-     * @param elf_hdr wskaznik na strukture, przechowujaca informacje.
+     * @param elf_hdr wskaźnik na strukturę, przechowującą informacje.
      * @return True jeżeli dane wejściowe są poprawne, False w innych przypadkach.
      */
     bool get_ph_info(const void *elf_hdr);
 
     /**
-     * @brief Parsowanie danych, znajdujacych sie w pamięci jako pliku ELF.
+     * @brief Parsowanie danych, znajdujących się w pamięci jako pliku ELF.
      * @return True jeżeli dane w pamięci sa zgodne z formatem ELF, False w pozostałych przypadkach.
      */
     bool parse();
@@ -193,100 +344,43 @@ class ELF {
      * @param data zawartość pliku.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    void fix_section_table(QByteArray &data, ex_offset_t file_off, uint32_t insert_space);
+    void fix_section_table(QByteArray &data, const ex_offset_t file_off, const uint32_t insert_space);
 
     /**
      * @brief Naprawia tablicę segmentów.
      * @param data zawartość pliku.
      */
     template <typename ElfProgramHeaderType>
-    Elf64_Addr fix_segment_table(QByteArray &data, ex_offset_t file_off, uint32_t payload_size);
+    Elf64_Addr fix_segment_table(QByteArray &data, const ex_offset_t file_off,
+                                 const uint32_t insert_space, const uint32_t payload_size);
 
     /**
      * @brief Naprawia VMA.
      * @param data zawartość pliku.
      */
+    template <typename ElfDynType, typename ElfSymType, typename ElfWordType>
     void fix_vma(QByteArray &data, const best_segment &bs, ex_offset_t file_off, const Elf64_Addr &new_vma);
 
-    void* get_file_offset(const QByteArray &data, const Elf64_Addr &addr);
-
-    //void segment_info(best_segment &bs, const uint32_t post_pad, const uint32_t pre_pad, bool change_vma);
-
-public:
     /**
-     * @brief Konstruktor.
-     * @param _fname nazwa pliku.
+     * @brief Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.
+     * @param data zawartość pliku ELF.
+     * @param sec_type typ sekcji.
+     * @param section_data zawartość sekcji.
+     * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
-    ELF(QString _fname);
-
-    /**
-     * @brief Destruktor.
-     */
-    virtual ~ELF();
+    template <typename ElfHeaderType, typename ElfSectionHeaderType>
+    bool __get_section_content(const QByteArray &data, SectionType sec_type, QByteArray &section_data);
 
     /**
-     * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
-     * @return True jeżeli poprawny, False w innym przypadku.
+     * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
+     * @param data zawartość pliku ELF.
+     * @param sec_type typ sekcji.
+     * @param section_data zawartość sekcji.
+     * @param filler bajt, którym jest dopełniana sekcja.
+     * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
-    bool is_valid() const { return elf_file.isOpen() & parsed; }
-
-    /**
-     * @brief Sprawdza czy plik jest otwarty.
-     * @return True jeżeli jest otwarty, False jeżeli nie.
-     */
-    bool is_open() const { return elf_file.isOpen(); }
-
-    /**
-     * @brief Pobiera ilość segmentów w pliku.
-     * @return Ilość segmentów w pliku, -1 w razie błędu.
-     */
-    int get_number_of_segments() const { return is_valid() ? ph_num : - 1; }
-
-    /**
-     * @brief Pobiera offset w pliku dla podanego segmentu.
-     * @param idx indeks segmentu.
-     * @return Offset jeżeli dane są poprawne, nullptr w innych przypadkach.
-     */
-    void* get_ph_seg_offset(uint32_t idx = 0);
-
-    /**
-     * @brief Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.
-     * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
-     * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
-     * @param va nowy adres wirtualny w rozszerzonym segmencie.
-     * @return Reprezentacjz binarna nowego pliku, długość danych równa się 0 jeżeli operacja nie powiodła się.
-     */
-    QByteArray extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
-
-    /**
-     * @brief Zapisuje podane dane do określonego pliku.
-     * @param fname nazwa pliku.
-     * @param data zapisywane dane.
-     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
-     */
-    bool write_to_file(const QString &fname, const QByteArray &data) const;
-
-    /**
-     * @brief Zapisuje wewnętrzne dane do pliku.
-     * @param fname nazwa pliku.
-     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
-     */
-    bool write_to_file(const QString &fname) const;
-
-    /**
-     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
-     * @param entry_point wartość punktu wejściowego.
-     * @param data dane, w których należy ustawić punkt wejściowy.
-     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data);
-
-    /**
-     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
-     * @param entry_point wartość punktu wejściowego.
-     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    bool set_entry_point(const Elf64_Addr &entry_point);
+    template <typename ElfHeaderType, typename ElfSectionHeaderType>
+    bool __set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
 };
 
 #endif // ELFFILE_H
