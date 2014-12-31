@@ -200,7 +200,13 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
     if (!section_type.contains(sec_type))
         return false;
 
-    const ElfSectionHeaderType *shstrtab = reinterpret_cast<const ElfSectionHeaderType*>(eh->e_shstrndx);
+    const ElfSectionHeaderType *sh =
+            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
+
+    if (!sh)
+        return false;
+
+    const ElfSectionHeaderType *shstrtab = &sh[eh->e_shstrndx];
 
     // get section header string table
     if (!shstrtab)
@@ -211,8 +217,6 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
     if (!pshstrtab)
         return false;
 
-    const ElfSectionHeaderType *sh =
-            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
     // word size is the same for x64 and x86
     for (Elf32_Word i = 0; i < eh->e_shnum; ++i) {
         if (!sh)
@@ -227,7 +231,7 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
         }
 
         // next section header
-        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const int8_t*>(sh) + eh->e_shentsize);
+        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const char*>(sh) + eh->e_shentsize);
     }
     return false;
 }
@@ -258,7 +262,13 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
     if (!section_type.contains(sec_type))
         return false;
 
-    const ElfSectionHeaderType *shstrtab = reinterpret_cast<const ElfSectionHeaderType*>(eh->e_shstrndx);
+    const ElfSectionHeaderType *sh =
+            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
+
+    if (!sh)
+        return false;
+
+    const ElfSectionHeaderType *shstrtab = &sh[eh->e_shstrndx];
 
     // get section header string table
     if (!shstrtab)
@@ -268,9 +278,6 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
 
     if (!pshstrtab)
         return false;
-
-    const ElfSectionHeaderType *sh =
-            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
     // word size is the same for x64 and x86
     for (Elf32_Word i = 0; i < eh->e_shnum; ++i) {
         if (!sh)
@@ -301,7 +308,7 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
         }
 
         // next section header
-        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const int8_t*>(sh) + eh->e_shentsize);
+        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const char*>(sh) + eh->e_shentsize);
     }
     return false;
 }
