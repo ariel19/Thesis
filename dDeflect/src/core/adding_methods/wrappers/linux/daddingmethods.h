@@ -187,7 +187,8 @@ class AsmCodeGenerator {
         POP,
         PUSH,
         MOV,
-        JMP
+        JMP,
+        CALL
     };
 
     static const QMap<Instructions, QString> instructions;
@@ -215,6 +216,13 @@ public:
 
     template <typename RegistersType>
     static QString get_reg(const RegistersType reg);
+
+    template <typename RegistersType>
+    static QString call_reg(const RegistersType);
+
+    static QString call_const(Elf64_Addr value) {
+        return QString("%1 %2\n").arg(instructions[Instructions::CALL], QString::number(value));
+    }
 };
 
 template <typename RegistersType>
@@ -287,6 +295,15 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
                 regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
                     std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
                         regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::call_reg(const RegistersType reg) {
+    QString qreg = std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+                        regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
+                            std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+                                regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    return QString("%1 %2\n").arg(instructions[Instructions::CALL], qreg);
 }
 
 template <typename RegistersType>
@@ -453,6 +470,20 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::CTORS, section_data))
             return false;
         // TODO: change one of the pointers and make a call then to old one after
+        // TOOO: write a function for addresses
+        QList<Elf64_Addr> pointers;
+
+        // no place to store our pointer
+        if (!pointers.size())
+            return false;
+
+        // compiled_code += call to old address
+        // TODO: address should be randomized, not always 0
+        compiled_code.append(AsmCodeGenerator::call_const(pointers.at(0)));
+
+        // TODO: set section content, set filler for elf function
+
+        qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
 
         break;
     }
@@ -479,8 +510,10 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
 
-        if (!elf.set_section_content(nf, ELF::SectionType::INIT, init_section_code))
+        if (!elf.set_section_content(nf, ELF::SectionType::INIT, init_section_code, '\x90'))
             return false;
+
+        qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
 
         break;
     }
@@ -489,6 +522,20 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT_ARRAY, section_data))
             return false;
         // TODO: change one of the pointers and make a call then to old one after
+        // TOOO: write a function for addresses
+        QList<Elf64_Addr> pointers;
+
+        // no place to store our pointer
+        if (!pointers.size())
+            return false;
+
+        // compiled_code += call to old address
+        // TODO: address should be randomized, not always 0
+        compiled_code.append(AsmCodeGenerator::call_const(pointers.at(0)));
+
+        // TODO: set section content, set filler for elf function
+
+        qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
 
         break;
     }
