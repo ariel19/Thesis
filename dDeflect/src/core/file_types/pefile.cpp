@@ -681,7 +681,7 @@ template bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, Q
 template <typename Register>
 bool PEFile::injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
                                   QList<uint64_t> &relocations, QByteArray text_section,
-                                  uint32_t text_section_offset)
+                                  uint32_t text_section_offset, uint8_t codeCoverage)
 {
     QTemporaryFile temp_file;
     if(!temp_file.open())
@@ -711,14 +711,13 @@ bool PEFile::injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray,
     getFileOffsetsFromOpcodes(call_lines, fileOffsets, text_section_offset);
     getFileOffsetsFromOpcodes(jmp_lines, fileOffsets, text_section_offset);
 
-    uint8_t percentage = 100;
     std::uniform_int_distribution<int> prob(0, 99);
 
     int method_idx = 0;
 
     foreach(uint32_t offset, fileOffsets)
     {
-        if(prob(gen) >= percentage)
+        if(prob(gen) >= codeCoverage)
             continue;
 
         int32_t call_off = *reinterpret_cast<int32_t*>(&b_data.data()[offset]);
@@ -778,7 +777,7 @@ bool PEFile::injectEpCode<Register_x64>
 }
 
 template <typename Register>
-bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
+bool PEFile::injectCode(QList<InjectDescription<Register> *> descs, uint8_t codeCoverage)
 {
     QMap<QByteArray, uint64_t> codePointers;
     QList<uint64_t> relocations;
@@ -823,7 +822,7 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
 
     if(!tramMethods.empty())
     {
-        if(!injectTrampolineCode<Register>(tramMethods, codePointers, relocations, text_section, text_section_offset))
+        if(!injectTrampolineCode<Register>(tramMethods, codePointers, relocations, text_section, text_section_offset, codeCoverage))
             return false;
     }
 
@@ -841,8 +840,8 @@ bool PEFile::injectCode(QList<InjectDescription<Register> *> descs)
 
     return addRelocations(relocations);
 }
-template bool PEFile::injectCode(QList<InjectDescription<Register_x86> *> descs);
-template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs);
+template bool PEFile::injectCode(QList<InjectDescription<Register_x86> *> descs, uint8_t codeCoverage);
+template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs, uint8_t codeCoverage);
 
 
 template <>

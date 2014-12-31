@@ -122,7 +122,7 @@ private:
 
     template <typename Register>
     bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
-                              QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset);
+                              QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset, uint8_t codeCoverage);
 
     bool addRelocations(QList<uint64_t> relocations);
     bool getRelocations(QList<RelocationTable> &rt);
@@ -144,7 +144,7 @@ public:
     ~PEFile();
 
     template <typename Register>
-    bool injectCode(QList<InjectDescription<Register>*> descs);
+    bool injectCode(QList<InjectDescription<Register>*> descs, uint8_t codeCoverage);
 
     /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
