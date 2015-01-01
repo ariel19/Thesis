@@ -264,3 +264,5 @@ public:
      */
     bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset, bool useReserved = false);
 };
+
+#endif

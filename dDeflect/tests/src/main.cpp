@@ -4,16 +4,16 @@
 #include <iostream>
 #include <QVariant>
 #include <QDebug>
+#include <QCoreApplication>
+
 
 /*
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/linux/daddingmethods.h>
 */
 
-/*
-#include <core/file_types/pefile.h>
-#include <QCoreApplication>
-*/
+
+//#include <core/file_types/pefile.h>
 
 /*
 int main(int argc, char **argv)
@@ -277,8 +277,8 @@ int test_flagx(const QString &elf_fname, const QString &elf_out) {
 
     QByteArray nf = elf.extend_segment(nops, true, nva);
 
-    /*if (!elf.set_entry_point(nva, nf))
-        return 1;*/
+//    if (!elf.set_entry_point(nva, nf))
+//        return 1;
 
     qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
 
