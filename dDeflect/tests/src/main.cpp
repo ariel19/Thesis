@@ -14,7 +14,7 @@
 #include <core/file_types/pefile.h>
 
 
-int main(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     puts("OK!");
 
     return 0;
-}
+}*/
 
 int main() {
     // test();
