@@ -8,10 +8,14 @@ Project {
         consoleApplication: true
         files: [
             "src/*/*.cpp",
-            "src/*/*.h",
-            "src/*/*/*.cpp",
-            "src/*/*/*.h",
-            "src/*/*.qrc",
+           "src/*/*.h",
+           "src/*/*/*.cpp",
+           "src/*/*/*.h",
+           "src/*/*/*/*.cpp",
+           "src/*/*/*/*.h",
+           "src/*/*/*/*/*.cpp",
+           "src/*/*/*/*/*.h",
+           "src/*/*.qrc"
         ]
 
         Group {     // Properties for the produced executable
@@ -49,7 +53,16 @@ Project {
         name: "tester"
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
-        files: ["tests/src/*.cpp", "tests/src/*.h", "src/core/file_types/*.h", "src/core/file_types/*.cpp"]
+        files: [
+           "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",
+           "src/core/adding_methods/wrappers/linux/daddingmethods.h",
+           "src/core/detection/wrappers/ddebuggerdetection.cpp",
+           "src/core/detection/wrappers/ddebuggerdetection.h",
+           "tests/src/*.cpp",
+           "tests/src/*.h",
+           "src/core/file_types/*.cpp",
+           "src/core/file_types/*.h",
+        ]
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
         cpp.cxxFlags: ["-Wold-style-cast", "-std=c++11"]
