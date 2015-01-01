@@ -1,5 +1,5 @@
 [bits 64]
-; @rax = NtSetDebugFilterState
+; @rax = ntdll!NtSetDebugFilterState
 
 
 			sub		rsp, 0x20

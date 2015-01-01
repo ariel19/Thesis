@@ -1,5 +1,5 @@
 [bits 32]
-; @eax = NtSetDebugFilterState
+; @eax = ntdll!NtSetDebugFilterState
 
 
 			
