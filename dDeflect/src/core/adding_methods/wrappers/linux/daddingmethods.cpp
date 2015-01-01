@@ -68,6 +68,11 @@ DAddingMethods::DAddingMethods() {
         { PlaceholderMnemonics::DDETECTIONMETHOD,   mnemonic_stringify(PlaceholderMnemonics::DDETECTIONMETHOD)  },
         { PlaceholderMnemonics::DDRET,              mnemonic_stringify(PlaceholderMnemonics::DDRET)             }
     };
+
+    arch_type = {
+        { ArchitectureType::BITS32, "[bits 32]" },
+        { ArchitectureType::BITS64, "[bits 65]" }
+    };
 }
 
 uint64_t DAddingMethods::fill_params(QString &code, const QMap<QString, QString> &params) {

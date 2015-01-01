@@ -10,6 +10,15 @@
 
 class DAddingMethods {
 public:
+
+    /**
+     * @brief Typ kompilowanego pliku assembly.
+     */
+    enum class ArchitectureType {
+        BITS32,
+        BITS64
+    };
+
     /**
      * @brief Typy możliwości wstrzyknięcia kodu.
      */
@@ -143,6 +152,7 @@ private:
 
     QMap<PlaceholderTypes, QString> placeholder_id;
     QMap<PlaceholderMnemonics, QString> placeholder_mnm;
+    QMap<ArchitectureType, QString> arch_type;
 
     /**
      * @brief Metoda odpowiada za generowanie kodu dla dowolnego opakowania.
@@ -356,18 +366,17 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         return false;
 
     // check platform version
-    // TODO: bits identifier
     if (std::is_same<RegistersType, Registers_x86>::value)
-        code2compile.append(QString("[bits 32]\n"));
+        code2compile.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS32]));
     else if(std::is_same<RegistersType, Registers_x64>::value)
-        code2compile.append(QString("[bits 64]\n"));
+        code2compile.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS64]));
     else return false;
 
     // add to params
     if (!inject_desc.adding_method || !inject_desc.adding_method->detect_handler)
         return false;
 
-    // adding a param value for ?^_^ddret^_^?
+    // adding a param value for (?^_^ddret^_^?)
     inject_desc.adding_method->params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf.is_x86() ?
                 AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->detect_handler->ret)) :
                 AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->detect_handler->ret));
@@ -493,7 +502,8 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
 
         // compiled_code += call to old address
         QByteArray compiled_call;
-        if (!compile(AsmCodeGenerator::call_const(addresses.at(idx)), compiled_call))
+        if (!compile(QString("%1\n%2").arg(elf.is_x86() ? arch_type[ArchitectureType::BITS32] : arch_type[ArchitectureType::BITS64],
+                                           AsmCodeGenerator::call_const(addresses.at(idx))), compiled_call))
             return false;
 
         compiled_code.append(compiled_call);
@@ -531,10 +541,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // change section content
         QByteArray init_section_code;
         if (elf.is_x86()) {
+            init_section_code.append(arch_type[ArchitectureType::BITS32]);
             init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, nva));
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
         }
         else {
+            init_section_code.append(arch_type[ArchitectureType::BITS64]);
             init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, nva));
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
@@ -571,7 +583,8 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // compiled_code += call to old address
 
         QByteArray compiled_call;
-        if (!compile(AsmCodeGenerator::call_const(addresses.at(idx)), compiled_call))
+        if (!compile(QString("%1\n%2").arg(elf.is_x86() ? arch_type[ArchitectureType::BITS32] : arch_type[ArchitectureType::BITS64],
+                                           AsmCodeGenerator::call_const(addresses.at(idx))), compiled_call))
             return false;
 
         compiled_code.append(compiled_call);
