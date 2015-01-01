@@ -59,6 +59,10 @@
 
 #define IMAGE_SCN_SCALE_INDEX 0x00000001
 
+#define IMAGE_DIRECTORY_ENTRY_TLS             9   // TLS Directory
+
+#define IMAGE_REL_BASED_DIR64                 10
+
 typedef uint16_t WORD;
 typedef int32_t LONG;
 typedef uint32_t DWORD;
@@ -197,6 +201,44 @@ typedef struct _IMAGE_SECTION_HEADER {
     WORD NumberOfLinenumbers;
     DWORD Characteristics;
 } IMAGE_SECTION_HEADER,*PIMAGE_SECTION_HEADER;
+
+//
+// Thread Local Storage
+//
+
+typedef VOID (NTAPI *PIMAGE_TLS_CALLBACK) (PVOID DllHandle, DWORD Reason, PVOID Reserved);
+
+typedef struct _IMAGE_TLS_DIRECTORY64 {
+    ULONGLONG   StartAddressOfRawData;
+    ULONGLONG   EndAddressOfRawData;
+    PDWORD  AddressOfIndex;
+    PIMAGE_TLS_CALLBACK *AddressOfCallBacks;
+    DWORD   SizeOfZeroFill;
+    DWORD   Characteristics;
+} IMAGE_TLS_DIRECTORY64;
+typedef IMAGE_TLS_DIRECTORY64 * PIMAGE_TLS_DIRECTORY64;
+
+typedef struct _IMAGE_TLS_DIRECTORY32 {
+    DWORD   StartAddressOfRawData;
+    DWORD   EndAddressOfRawData;
+    PDWORD  AddressOfIndex;
+    PIMAGE_TLS_CALLBACK *AddressOfCallBacks;
+    DWORD   SizeOfZeroFill;
+    DWORD   Characteristics;
+} IMAGE_TLS_DIRECTORY32;
+typedef IMAGE_TLS_DIRECTORY32 * PIMAGE_TLS_DIRECTORY32;
+
+//
+// Based relocation format.
+//
+
+typedef struct _IMAGE_BASE_RELOCATION {
+    DWORD   VirtualAddress;
+    DWORD   SizeOfBlock;
+//  WORD    TypeOffset[1];
+} IMAGE_BASE_RELOCATION;
+
+typedef IMAGE_BASE_RELOCATION UNALIGNED * PIMAGE_BASE_RELOCATION;
 
 #endif /* _WINDEF_ */
 
