@@ -771,6 +771,7 @@ void test_wrappers() {
 */
 
 void test_wrappers() {
+    /*
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ctors for my 32-bit app...";
     // test oep + ptrace
@@ -810,78 +811,81 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + ctors for dDeflect 64-bit app done";
     qDebug() << "=========================================";
+    */
     qDebug() << "Testing OEP + init for my 32-bit app...";
     // test oep + ptrace
-    if (!test_init_oep_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+    if (!test_init_oep_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for my 32-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + init for my 64-bit app...";
-    if (!test_init_oep_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_init_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for my 64-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + init for derby 32-bit app...";
     // test oep + ptrace
-    if (!test_init_oep_wrappers("derby32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+    if (!test_init_oep_wrappers("derby32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for derby 32-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + init for derby 64-bit app...";
-    if (!test_init_oep_wrappers("derby64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_init_oep_wrappers("derby64", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for derby 64-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + init for edb 64-bit app...";
-    if (!test_init_oep_wrappers("edb", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_init_oep_wrappers("edb", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for edb 64-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + init for dDeflect 64-bit app...";
-    if (!test_init_oep_wrappers("dDeflect", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_init_oep_wrappers("dDeflect", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for dDeflect 64-bit app done";
+    /*
     qDebug() << "Testing OEP + initarray for my 32-bit app...";
     // test oep + ptrace
-    if (!test_initarray_oep_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+    if (!test_initarray_oep_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for my 32-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + initarray for my 64-bit app...";
-    if (!test_initarray_oep_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_initarray_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for my 64-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + initarray for derby 32-bit app...";
     // test oep + ptrace
-    if (!test_initarray_oep_wrappers("derby32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+    if (!test_initarray_oep_wrappers("derby32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for derby 32-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + initarray for derby 64-bit app...";
-    if (!test_initarray_oep_wrappers("derby64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_initarray_oep_wrappers("derby64", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for derby 64-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + initarray for edb 64-bit app...";
-    if (!test_initarray_oep_wrappers("edb", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_initarray_oep_wrappers("edb", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for edb 64-bit app done";
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + initarray for dDeflect 64-bit app...";
-    if (!test_initarray_oep_wrappers("dDeflect", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+    if (!test_initarray_oep_wrappers("dDeflect", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for dDeflect 64-bit app done";
+    */
 }
