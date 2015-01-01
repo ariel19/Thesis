@@ -13,9 +13,9 @@
 */
 
 
-//#include <core/file_types/pefile.h>
+#include <core/file_types/pefile.h>
 
-/*
+
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
@@ -37,9 +37,9 @@ int main(int argc, char **argv)
     }
 
     QList<InjectDescription<Register_x86>*> ids;
-    //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "create_thread.asm", true)));
+    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::TLS, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
-    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::Trampoline, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "printf_test.asm")));
+    //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::Trampoline, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "printf_test.asm")));
 
     //QList<InjectDescription<Register_x64>*> ids;
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::EntryPoint, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "create_thread.asm", true)));
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     puts("OK!");
 
     return 0;
-}*/
+}
 
 /*
 int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {

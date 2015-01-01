@@ -1004,7 +1004,8 @@ uint64_t PEFile::generateThreadCode<Register_x86>
 
     if(sleepTime)
     {
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        // TODO: ścieżka z config!
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
         if(!func_wrap)
             return 0;
 
@@ -1085,7 +1086,7 @@ uint64_t PEFile::generateThreadCode<Register_x64>
 
     if(sleepTime)
     {
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
         if(!func_wrap)
             return 0;
 
@@ -1260,7 +1261,7 @@ uint64_t PEFile::generateCode
     // Ładowanie parametrów
     if(!w->getParameters().empty())
     {
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::methodsPath + "load_functions.asm");
+        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
         if(!func_wrap)
             return 0;
 

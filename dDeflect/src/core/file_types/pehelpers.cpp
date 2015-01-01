@@ -1,10 +1,22 @@
 #include "pehelpers.h"
 
 template <>
-const QString Wrapper<Register_x86>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
+const QString Wrapper<Register_x86>::methodsPath = "..\\..\\..\\..\\dDeflect\\src\\core\\detection\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
 
 template <>
-const QString Wrapper<Register_x64>::methodsPath = "..\\..\\..\\..\\dDeflect\\data\\os\\win\\x64\\x64\\src\\"; // TODO: wczytywanie z config
+const QString Wrapper<Register_x64>::methodsPath = "..\\..\\..\\..\\dDeflect\\src\\core\\detection\\os\\win\\x64\\src\\"; // TODO: wczytywanie z config
+
+template <>
+const QString Wrapper<Register_x86>::handlersPath = "..\\..\\..\\..\\dDeflect\\src\\core\\handlers\\win\\x86\\"; // TODO: wczytywanie z config
+
+template <>
+const QString Wrapper<Register_x64>::handlersPath = "..\\..\\..\\..\\dDeflect\\src\\core\\handlers\\win\\x64\\"; // TODO: wczytywanie z config
+
+template <>
+const QString Wrapper<Register_x86>::helpersPath = "..\\..\\..\\..\\dDeflect\\src\\core\\helper_func\\win\\x86\\"; // TODO: wczytywanie z config
+
+template <>
+const QString Wrapper<Register_x64>::helpersPath = "..\\..\\..\\..\\dDeflect\\src\\core\\helper_func\\win\\x64\\"; // TODO: wczytywanie z config
 
 template <typename Register>
 //const QString Wrapper<Register>::nasmPath = "C:\\jablonskim\\Programy\\nasm\\nasm.exe"; // TODO: wczytywanie z config
@@ -141,7 +153,7 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
     {
         returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
-        action = fromFile(Wrapper::methodsPath + "handlers\\message_box.asm");
+        action = fromFile(Wrapper::handlersPath + "message_box.asm");
         params.insert(Register::EAX, "kernel32!GetVersion");
     }
     else if(name.contains("message_box"))
@@ -166,7 +178,7 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
     }
 
     return thread_code ?
-                new (std::nothrow) ThreadWrapper<Register>(code, {Wrapper::fromFile(Wrapper::methodsPath + "methods\\heap_flags.asm")}, 5, regToSave, params, returns, action) :
+                new (std::nothrow) ThreadWrapper<Register>(code, {Wrapper::fromFile(Wrapper::methodsPath + "heap_flags.asm")}, 5, regToSave, params, returns, action) :
                 new (std::nothrow) Wrapper(code, regToSave, params, returns, action);
 }
 

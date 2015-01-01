@@ -66,6 +66,8 @@ public:
     virtual ~Wrapper();
     static Wrapper *fromFile(QString name, bool thread_code = false);
     static const QString methodsPath;
+    static const QString handlersPath;
+    static const QString helpersPath;
     static const QString nasmPath;
     static const QString ndisasmPath;
 
