@@ -4,6 +4,6 @@
 			pop		rsi
 			gs		lodsq
 			xor		rcx, rcx
-			cmp		BYTE [rax + 0x02], rcx
+			cmp		BYTE [rax + 0x02], cl
 			setne	cl
 			

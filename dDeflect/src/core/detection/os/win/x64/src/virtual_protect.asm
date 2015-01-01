@@ -1,4 +1,4 @@
-[bits 32]
+[bits 64]
 ; @rax = kernel32!VirtualAlloc
 ; @rbx = kernel32!VirtualProtect
 ; @rdi = kernel32!VirtualFree
