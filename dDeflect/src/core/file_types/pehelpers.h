@@ -1,7 +1,7 @@
 #ifndef PEHELPERS_H
 #define PEHELPERS_H
 
-#include <Qlist>
+#include <QList>
 #include <QMap>
 #include <QString>
 #include <QProcess>
