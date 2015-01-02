@@ -544,8 +544,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
     }
     else {
         DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> trmwrapper;
+        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x64> trmwrapper;
         DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
         DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
         // debugger detection handler
@@ -574,7 +573,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         if (!code.open(QIODevice::ReadOnly))
             return false;
         trmwrapper.detect_handler = &handler;
-        trmwrapper.oep_action = &trmaction;
+        trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
@@ -642,8 +641,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     }
     else {
         DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> trmwrapper;
+        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x64> trmwrapper;
         DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
         DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
         // debugger detection handler
@@ -672,7 +670,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         trmwrapper.detect_handler = &handler;
-        trmwrapper.oep_action = &trmaction;
+        trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
@@ -810,6 +808,7 @@ void test_wrappers() {
     qDebug() << "Testing OEP + ctors for dDeflect 64-bit app done";
     qDebug() << "=========================================";
     */
+    /*
     qDebug() << "Testing OEP + init for my 32-bit app...";
     // test oep + ptrace
     if (!test_init_oep_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
@@ -847,7 +846,8 @@ void test_wrappers() {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for dDeflect 64-bit app done";
-    /*
+    */
+
     qDebug() << "Testing OEP + initarray for my 32-bit app...";
     // test oep + ptrace
     if (!test_initarray_oep_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
@@ -885,5 +885,5 @@ void test_wrappers() {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for dDeflect 64-bit app done";
-    */
+
 }
