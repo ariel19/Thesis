@@ -149,14 +149,14 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
     }
-    else if(name.contains("open_process"))
+    else if(name.contains("create_file"))
     {
         returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
         action = fromFile(Wrapper::helpersPath + "printf_test.asm");
-        params.insert(Register::EAX, "ntdll!CsrGetProcessId");
-        params.insert(Register::EBX, "kernel32!OpenProcess");
-        //params.insert(Register::EDI, "ntdll!NtQueryInformationProcess");
+        params.insert(Register::EAX, "kernel32!GetModuleFileNameA");
+        params.insert(Register::EDI, "kernel32!CreateFileA");
+        params.insert(Register::EBX, "kernel32!CloseHandle");
     }
     else if(name.contains("message_box"))
     {
