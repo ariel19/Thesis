@@ -149,12 +149,12 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
     }
-    else if(name.contains("find_window"))
+    else if(name.contains("tls_ep_breakpoint"))
     {
         returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
         action = fromFile(Wrapper::helpersPath + "printf_test.asm");
-        params.insert(Register::EBX, "user32!FindWindowA");
+        //params.insert(Register::EBX, "user32!FindWindowA");
         //params.insert(Register::EDX, "kernel32!VirtualProtect");
         //params.insert(Register::EDI, "ntdll!NtQueryInformationProcess");
     }
