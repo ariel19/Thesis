@@ -501,25 +501,25 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // TODO: address should be randomized, not always 0
         int idx = 0;
 
-        // compiled_code += call to old address
-        QByteArray compiled_call;
-        if (!compile(QString("%1\n%2").arg(elf.is_x86() ? arch_type[ArchitectureType::BITS32] : arch_type[ArchitectureType::BITS64],
-                                           AsmCodeGenerator::call_const(addresses.at(idx))), compiled_call))
-            return false;
+        // compiled_code += jmp to old address
 
-        compiled_code.append(compiled_call);
+        if (elf.is_x86()) {
+            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Register_x86::EAX));
+            compiled_code.append(PECodeDefines<Register_x86>::jmpReg(Register_x86::EAX));
+        }
+        else {
+            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Register_x64::RAX));
+            compiled_code.append(PECodeDefines<Register_x64>::jmpReg(Register_x64::RAX));
+        }
 
         // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, false, nva);
         if (!nf.length())
             return false;
 
-        QByteArray addr_new;
-        for (uint8_t i = 0; i < addr_size; ++i)
-            addr_new.append((nva >> (i * 8)) & 0xff);
-
         // set section content, set filler for elf function
-        section_data.first.replace(idx * addr_size, addr_size, addr_new);
+        section_data.first.replace(idx * addr_size, addr_size, QByteArray(reinterpret_cast<const char *>(&nva), addr_size));
+
         if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data.first))
             return false;
 
@@ -645,27 +645,26 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // TODO: address should be randomized, not always 0
         int idx = 0;
 
-        // compiled_code += call to old address
+        // compiled_code += jmp to old address
 
-        QByteArray compiled_call;
-        if (!compile(QString("%1\n%2").arg(elf.is_x86() ? arch_type[ArchitectureType::BITS32] : arch_type[ArchitectureType::BITS64],
-                                           AsmCodeGenerator::call_const(addresses.at(idx))), compiled_call))
-            return false;
-
-        compiled_code.append(compiled_call);
+        if (elf.is_x86()) {
+            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Register_x86::EAX));
+            compiled_code.append(PECodeDefines<Register_x86>::jmpReg(Register_x86::EAX));
+        }
+        else {
+            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Register_x64::RAX));
+            compiled_code.append(PECodeDefines<Register_x64>::jmpReg(Register_x64::RAX));
+        }
 
         // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, false, nva);
         if (!nf.length())
             return false;
 
-        QByteArray addr_new;
-        for (uint8_t i = 0; i < addr_size; ++i)
-            addr_new.append((nva >> (i * 8)) & 0xff);
-
         // set section content, set filler for elf function
-        section_data.first.replace(idx * addr_size, addr_size, addr_new);
-        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data.first))
+        section_data.first.replace(idx * addr_size, addr_size, QByteArray(reinterpret_cast<const char *>(&nva), addr_size));
+
+        if (!elf.set_section_content(nf, ELF::SectionType::INIT_ARRAY, section_data.first))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);

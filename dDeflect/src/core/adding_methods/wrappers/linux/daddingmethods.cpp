@@ -123,18 +123,18 @@ bool DAddingMethods::compile(const QString &code2compile, QByteArray &compiled_c
 }
 
 bool DAddingMethods::get_addresses(const QByteArray &addr_data, uint8_t addr_size, QList<Elf64_Addr> &addr_list) {
-    if (addr_data.size() % addr_size)
+    int data_size = addr_data.size();
+    if (data_size % addr_size)
         return false;
 
     quint64 addr;
-    int data_size = addr_data.size();
 
-    // TODO: take DataStream otside the loop
     for (int i = 0; i < data_size; i += addr_size) {
-        QDataStream ds(QByteArray(addr_data.data() + i, addr_size));
-        ds >> addr;
+        addr = 0;
+        for (int j = 0; j < addr_size; ++j)
+            addr |= (static_cast<const char>((addr_data.data())[i + j]) & 0xff) << (j * 8);
         if (addr)
-            addr_list.append(addr);
+            addr_list.push_back(addr);
     }
 
     return true;
