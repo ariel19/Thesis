@@ -52,6 +52,7 @@ public:
     template <typename T>
     static QByteArray movValueToReg(T value, Register reg);
     static QByteArray callReg(Register reg);
+    static QByteArray callRelative(uint32_t pos);
     static QByteArray jmpReg(Register reg);
     static QByteArray testReg(Register reg);
     static QByteArray jzRelative(int8_t pos);

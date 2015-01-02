@@ -471,6 +471,14 @@ QByteArray PECodeDefines<Register>::callReg(Register reg)
 template QByteArray PECodeDefines<Register_x86>::callReg(Register_x86 reg);
 template QByteArray PECodeDefines<Register_x64>::callReg(Register_x64 reg);
 
+template <typename Register>
+QByteArray PECodeDefines<Register>::callRelative(uint32_t pos) {
+    // TODO: some const value in class
+    return QByteArray("\xe8", 1).append(reinterpret_cast<const char*>(&pos), sizeof(uint32_t));
+}
+template QByteArray PECodeDefines<Register_x86>::callRelative(uint32_t pos);
+template QByteArray PECodeDefines<Register_x64>::callRelative(uint32_t pos);
+
 
 template <typename Register>
 QByteArray PECodeDefines<Register>::jmpReg(Register reg)
