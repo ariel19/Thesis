@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include <core/file_types/elffile.h>
+#include <core/file_types/pecodedefines.h>
 
 class DAddingMethods {
 public:
@@ -484,13 +485,13 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         break;
     }
     case CallingMethod::CTORS: {
-        QByteArray section_data;
+        QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::CTORS, section_data))
             return false;
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf.is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data, addr_size, addresses))
+        if (!get_addresses(section_data.first, addr_size, addresses))
             return false;
 
         // no place to store our pointer
@@ -518,8 +519,8 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
             addr_new.append((nva >> (i * 8)) & 0xff);
 
         // set section content, set filler for elf function
-        section_data.replace(idx * addr_size, addr_size, addr_new);
-        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data))
+        section_data.first.replace(idx * addr_size, addr_size, addr_new);
+        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data.first))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -527,11 +528,75 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         break;
     }
     case CallingMethod::INIT: {
-        QByteArray section_data;
+        QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT, section_data))
             return false;
-        // compiled_code = debugger detection + previous init
-        compiled_code.append(section_data);
+
+        // whole code will look like:
+        // detection code
+        // jmp to copy to init code
+        // init code
+        // change memory protection +w
+        // copy to init code
+        // restore old memory protection
+        // jmp to init code
+
+        // compiled_code = debugger detection + jmp to copy routine
+        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ESI));
+        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::EDI));
+        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
+
+        compiled_code.append(PECodeDefines<Register_x86>::callRelative(section_data.first.size()));
+        // compiled_code = debugger detection + jmp to copy routine + previous init
+        compiled_code.append(section_data.first);
+        // copy routine
+
+        // mov ecx, data_size
+        compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<uint32_t>(section_data.first.size(), Register_x86::ECX));
+
+        if (elf.is_x86()) {
+            // mov esi, src
+            compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
+            // mov edi, dst
+            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(section_data.second, Register_x86::EDI));
+        }
+        else {
+            // mov rsi, src
+            compiled_code.append(PECodeDefines<Register_x64>::restoreRegister(Register_x64::RSI));
+            // mov rdi, dst
+            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(section_data.second, Register_x64::RDI));
+        }
+
+        // TODO: change memory protection here to copy a data
+        /*
+        // change memory protect for page with init section
+        // TODO: change shitty dummy solution
+        QFile protect("protect");
+        if (!protect.open(QIODevice::ReadOnly))
+            return false;
+
+        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
+        compiled_code.append(protect.readAll());
+        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
+        protect.close();
+        */
+
+        // rep movsb
+        compiled_code.append("\xf3\xa4", 2);
+
+        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
+        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EDI));
+        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
+
+        // jmp to init
+        if (elf.is_x86()) {
+            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf64_Addr>(section_data.second, Register_x86::EAX));
+            compiled_code.append(PECodeDefines<Register_x86>::jmpReg(Register_x86::EAX));
+        }
+        else {
+            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(section_data.second, Register_x64::RAX));
+            compiled_code.append(PECodeDefines<Register_x64>::jmpReg(Register_x64::RAX));
+        }
 
         // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, false, nva);
@@ -541,12 +606,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // change section content
         QByteArray init_section_code;
         if (elf.is_x86()) {
-            init_section_code.append(arch_type[ArchitectureType::BITS32]);
+            init_section_code.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS32]));
             init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, nva));
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
         }
         else {
-            init_section_code.append(arch_type[ArchitectureType::BITS64]);
+            init_section_code.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS64]));
             init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, nva));
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
@@ -564,13 +629,13 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         break;
     }
     case CallingMethod::INIT_ARRAY: {
-        QByteArray section_data;
+        QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT_ARRAY, section_data))
             return false;
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf.is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data, addr_size, addresses))
+        if (!get_addresses(section_data.first, addr_size, addresses))
             return false;
 
         // no place to store our pointer
@@ -599,8 +664,8 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
             addr_new.append((nva >> (i * 8)) & 0xff);
 
         // set section content, set filler for elf function
-        section_data.replace(idx * addr_size, addr_size, addr_new);
-        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data))
+        section_data.first.replace(idx * addr_size, addr_size, addr_new);
+        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data.first))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);

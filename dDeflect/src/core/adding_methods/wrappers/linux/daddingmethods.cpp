@@ -71,7 +71,7 @@ DAddingMethods::DAddingMethods() {
 
     arch_type = {
         { ArchitectureType::BITS32, "[bits 32]" },
-        { ArchitectureType::BITS64, "[bits 65]" }
+        { ArchitectureType::BITS64, "[bits 64]" }
     };
 }
 
