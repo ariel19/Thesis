@@ -149,7 +149,7 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
     }
-    else if(name.contains("tls_ep_breakpoint"))
+    else if(name.contains("anti_step_over"))
     {
         returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
