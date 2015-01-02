@@ -149,13 +149,13 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
     }
-    else if(name.contains("anti_step_over"))
+    else if(name.contains("open_process"))
     {
         returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
         action = fromFile(Wrapper::helpersPath + "printf_test.asm");
-        //params.insert(Register::EBX, "user32!FindWindowA");
-        //params.insert(Register::EDX, "kernel32!VirtualProtect");
+        params.insert(Register::EAX, "ntdll!CsrGetProcessId");
+        params.insert(Register::EBX, "kernel32!OpenProcess");
         //params.insert(Register::EDI, "ntdll!NtQueryInformationProcess");
     }
     else if(name.contains("message_box"))
