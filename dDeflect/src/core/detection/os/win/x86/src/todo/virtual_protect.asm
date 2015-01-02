@@ -12,6 +12,12 @@
 			
 			mov		BYTE [eax], 0xC3	; ret
 			
+			call	flag
+			nop
+flag:
+			mov		edx, [esp]
+			mov		BYTE [edx], 0x1
+			
 			push	eax
 			push	eax
 			
@@ -28,22 +34,32 @@ xxx:
 			push	DWORD [fs:0x00]
 			mov		[fs:0x00], esp
 			call	yyy
-			jmp		is_dbg
+			jmp		endf
 yyy:
 			jmp		[esp + 12]
-		
-is_dbg:
-			xor		eax, eax
-			add		eax, 1
-			jmp		endf
 			
 no_dbg:
+			call	get_flag
+get_flag:
+			pop		edx
+			mov		BYTE [edx - 58], 0
+			;mov		eax, [esp + 0x0C]
+			;sub		edx, 11
+			;mov		DWORD [eax + 0xB8], edx
+			xor		eax, eax
+			ret		4
+
+endf:
+			pop		ecx
+			mov		[fs:0x00], ecx
+			add		esp, 4
 			pop		eax
-			push	0x8000				; MEM_RELEASE
+			
+			push	0x8000
 			push	0
 			push	eax
 			call	edi
 			
-			xor		eax, eax
-
-endf:
+			pop		eax
+			movzx	eax, BYTE [eax]
+			

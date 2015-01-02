@@ -14,7 +14,7 @@
 #include <core/file_types/pefile.h>
 
 
-/*int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
@@ -35,9 +35,9 @@
     }
 
     QList<InjectDescription<Register_x86>*> ids;
-    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));
+    //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::TLS, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
-    //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::Trampoline, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "printf_test.asm")));
+    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "find_window.asm")));
 
     //QList<InjectDescription<Register_x64>*> ids;
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::EntryPoint, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "create_thread.asm", true)));
@@ -60,9 +60,9 @@
     puts("OK!");
 
     return 0;
-}*/
+}
 
-int main() {
+/*int main() {
     // test();
     // oep_ptrace("test", "ptrace", "test3");
     // test_flagx("a", "a2");
@@ -75,4 +75,4 @@ int main() {
 
     test_wrappers();
     return 0;
-}
+}*/

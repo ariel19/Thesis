@@ -18,4 +18,4 @@
 			bswap	ecx 					; swap heap flags
 			and 	cl, 0xef 				; ~HEAP_SKIP_VALIDATION_CHECK
 			cmp 	ecx, 0x62000040 		; HEAP_GROWABLE + HEAP_TAIL_CHECKING_ENABLED + HEAP_FREE_CHECKING_ENABLED + HEAP_VALIDATE_PARAMETRES_ENABLED
-			setz al
+			setz 	al

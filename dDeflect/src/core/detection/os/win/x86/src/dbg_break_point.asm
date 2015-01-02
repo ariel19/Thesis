@@ -11,6 +11,6 @@
 			push	ebx
 			
 			call	edx
-			mov		BYTE [edx], 0xC3	; ret
-			pop		eax
+			mov		BYTE [ebx], 0xC3	; ret
+			add		esp, 4
 			
