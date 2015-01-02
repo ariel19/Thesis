@@ -175,7 +175,7 @@ bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
     return get_entry_point(b_data, old_ep);
 }
 
-bool ELF::get_section_content(const QByteArray &data, ELF::SectionType sec_type, QByteArray &section_data) {
+bool ELF::get_section_content(const QByteArray &data, ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
     // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
         return false;
@@ -191,7 +191,7 @@ bool ELF::get_section_content(const QByteArray &data, ELF::SectionType sec_type,
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_type, QByteArray &section_data) {
+bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
     const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(data.data());
     // if section header table exists
     if (!eh->e_shoff)
@@ -226,7 +226,7 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
         if (sh->sh_type == section_type[sec_type].sh_type &&
             section_type[sec_type].sh_name == QString(pshstrtab + sh->sh_name)) {
 
-            section_data = QByteArray(data.data() + sh->sh_offset, sh->sh_size);
+            section_data = QPair<QByteArray, Elf64_Addr>(QByteArray(data.data() + sh->sh_offset, sh->sh_size), sh->sh_addr);
             return true;
         }
 
@@ -670,11 +670,18 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, const ex_offset_t file_off,
         if (ph->p_offset >= file_off)
             ph->p_offset += insert_space;
 
+        // TODO: REMOVE THIS AFTER CHECK
+        /*
+        if (ph->p_type == PT_LOAD)
+            ph->p_flags |= PF_W;
+        */
+
         // check if current one is extended segment
         if (ph->p_type == PT_LOAD && ph->p_offset + ph->p_filesz == file_off) {
             ph->p_filesz += payload_size;
             ph->p_memsz = ph->p_filesz;
             // set executable flag on segment (may provide to vulnerabilities)
+            // TODO: fuck of W
             ph->p_flags |= PF_X;
 
             va = ph->p_vaddr + ph->p_memsz;
