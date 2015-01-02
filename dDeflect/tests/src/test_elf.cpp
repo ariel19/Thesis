@@ -447,8 +447,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     }
     else {
         DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> trmwrapper;
+        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x64> trmwrapper;
         DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
         DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
         // debugger detection handler
@@ -477,7 +476,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         trmwrapper.detect_handler = &handler;
-        trmwrapper.oep_action = &trmaction;
+        trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
@@ -688,7 +687,6 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     qDebug() << "saving to file: " << QString("_%1octors").arg(elf_fname);
     return true;
 }
-
 /*
 void test_wrappers() {
     qDebug() << "=========================================";
