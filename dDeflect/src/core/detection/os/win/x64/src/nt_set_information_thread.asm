@@ -1,0 +1,1 @@
+[bits 64]; @rax = ntdll!NtSetInformationThread			sub		rsp, 0x20						mov		rcx, -2			mov		rdx, 0x11			xor		r8, r8			mov		r9, r8			call	rax						add		rsp, 0x20			
