@@ -1,0 +1,28 @@
+{
+  "name": "CheckRemoteDebuggerPresent",
+  "used_registers": [
+    "RAX",
+    "RDX",
+    "RCX",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+	"R12"
+  ],
+  "parameters": [
+    {
+      "R12": "kernel32!CheckRemoteDebuggerPresent"
+    }
+  ],
+  "returns": "RAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x64",
+  "path": "detection/os/win/x64/src/check_remote_debugger_present.asm",
+  "description": "TODO"
+}

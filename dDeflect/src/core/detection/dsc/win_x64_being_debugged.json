@@ -1,0 +1,20 @@
+{
+  "name": "BeingDebugged",
+  "used_registers": [
+    "RAX",
+    "RCX",
+	"RSI"
+  ],
+  "parameters": [
+  ],
+  "returns": "RCX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x64",
+  "path": "detection/os/win/x64/src/being_debugged.asm",
+  "description": "TODO"
+}
