@@ -10,6 +10,7 @@
   "methods": [
     "TLS"
   ],
+  "architecture": "win_x86",
   "path": "detection/os/win/x86/src/tls_ep_breakpoint.asm",
   "description": "TODO"
 }

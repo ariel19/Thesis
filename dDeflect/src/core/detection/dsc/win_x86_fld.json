@@ -1,0 +1,18 @@
+{
+  "name": "OllyDbg Floating Point Exception",
+  "used_registers": [
+    "EAX"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x86",
+  "path": "detection/os/win/x86/src/fld.asm",
+  "description": "TODO"
+}

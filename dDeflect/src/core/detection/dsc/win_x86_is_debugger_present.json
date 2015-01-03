@@ -1,0 +1,23 @@
+{
+  "name": "IsDebuggerPresent",
+  "used_registers": [
+    "EAX",
+    "ECX",
+    "EDX"
+  ],
+  "parameters": [
+    {
+      "EAX": "kernel32!IsDebuggerPresent"
+    }
+  ],
+  "returns": "EAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x86",
+  "path": "detection/os/win/x86/src/is_debugger_present.asm",
+  "description": "TODO"
+}

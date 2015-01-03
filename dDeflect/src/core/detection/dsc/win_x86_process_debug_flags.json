@@ -17,6 +17,7 @@
     "Trampoline",
     "Thread"
   ],
+  "architecture": "win_x86",
   "path": "detection/os/win/x86/src/process_debug_flags.asm",
   "description": "TODO"
 }
