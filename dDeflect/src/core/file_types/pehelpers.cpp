@@ -149,12 +149,12 @@ Wrapper<Register_x86> *Wrapper<Register_x86>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
     }
-    else if(name.contains("process_debug_port"))
+    else if(name.contains("fld"))
     {
         returns = Register::EAX;
         regToSave.append({Register::EAX, Register::EBX, Register::ECX, Register::EDX, Register::ESI, Register::EDI});
         action = fromFile(Wrapper::helpersPath + "printf_test.asm");
-        params.insert(Register::EAX, "ntdll!NtQueryInformationProcess");
+        //params.insert(Register::EAX, "ntdll!NtQueryInformationProcess");
         //params.insert(Register::EDI, "kernel32!CreateFileA");
         //params.insert(Register::EBX, "kernel32!CloseHandle");
     }
