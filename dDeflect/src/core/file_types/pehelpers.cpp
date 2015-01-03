@@ -19,12 +19,12 @@ template <>
 const QString Wrapper<Register_x64>::helpersPath = "..\\..\\..\\..\\dDeflect\\src\\core\\helper_func\\win\\x64\\"; // TODO: wczytywanie z config
 
 template <typename Register>
-//const QString Wrapper<Register>::nasmPath = "C:\\jablonskim\\Programy\\nasm\\nasm.exe"; // TODO: wczytywanie z config
-const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
+const QString Wrapper<Register>::nasmPath = "C:\\jablonskim\\Programy\\nasm\\nasm.exe"; // TODO: wczytywanie z config
+//const QString Wrapper<Register>::nasmPath = "X:\\Programy\\Nasm\\nasm.exe"; // TODO: wczytywanie z config
 
 template <typename Register>
-//const QString Wrapper<Register>::ndisasmPath = "C:\\jablonskim\\Programy\\nasm\\ndisasm.exe"; // TODO: wczytywanie z config
-const QString Wrapper<Register>::ndisasmPath = "X:\\Programy\\Nasm\\ndisasm.exe"; // TODO: wczytywanie z config
+const QString Wrapper<Register>::ndisasmPath = "C:\\jablonskim\\Programy\\nasm\\ndisasm.exe"; // TODO: wczytywanie z config
+//const QString Wrapper<Register>::ndisasmPath = "X:\\Programy\\Nasm\\ndisasm.exe"; // TODO: wczytywanie z config
 template const QString Wrapper<Register_x86>::ndisasmPath;
 template const QString Wrapper<Register_x64>::ndisasmPath;
 
@@ -223,12 +223,14 @@ Wrapper<Register_x64> *Wrapper<Register_x64>::fromFile(QString name, bool thread
         returns = Register::None;
         regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI, Register::R8, Register::R9, Register::R10, Register::R11, Register::R12, Register::R13});
     }
-    else if(name.contains("nt_global_flag"))
+    else if(name.contains("tls_ep_breakpoint"))
     {
         returns = Register::RAX;
-        regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI});
-        action = fromFile(Wrapper::methodsPath + "handlers\\message_box.asm");
-        //params.insert(Register::RAX, "kernel32!GetVersion");
+        regToSave.append({Register::RAX, Register::RBX, Register::RCX, Register::RDX, Register::RSI, Register::RDI, Register::R8, Register::R9, Register::R10, Register::R11, Register::R12, Register::R13, Register::R14, Register::R15});
+        action = fromFile(Wrapper::helpersPath + "printf_test.asm");
+        //params.insert(Register::RAX, "ntdll!NtSetInformationThread");
+        //params.insert(Register::RBX, "ntdll!DbgBreakPoint");
+        //params.insert(Register::R12, "kernel32!VirtualProtect");
     }
     else if(name.contains("message_box"))
     {

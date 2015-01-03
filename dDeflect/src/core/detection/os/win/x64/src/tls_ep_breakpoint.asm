@@ -15,6 +15,6 @@
 			add		rdx, rax
 			
 			xor		rax, rax
-			cmp		byte [edx], 0xCC
+			cmp		byte [rdx], 0xCC			; TODO: dlaczego nie działa?
 			sete	al
 			

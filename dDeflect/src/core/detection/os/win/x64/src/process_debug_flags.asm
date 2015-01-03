@@ -11,6 +11,8 @@
 			push	0
 			sub		rsp, 0x20
 			call	rax
-			mov		DWORD eax, [rsp + 0x28]
+			mov		DWORD ecx, [rsp + 0x28]
 			add		rsp, 0x30
-			not		rax
+			xor		rax, rax
+			test	rcx, rcx
+			setz	al
