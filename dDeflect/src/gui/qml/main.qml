@@ -40,6 +40,7 @@ ApplicationWindow {
         onFileUrlChanged:{
             fileUrlText.text = fileUrl;
         }
+
     }
 
     toolBar: ToolBar {
@@ -90,8 +91,11 @@ ApplicationWindow {
         text: "&Open"
         shortcut: StandardKey.Open
         iconSource: "../images/document-open.png"
-        onTriggered: fileDialog.open()
-        tooltip: "Open an image"
+        onTriggered: {
+            fileDialog.open();
+            applicationManager.fileOpened(fileDialog.fileUrl);
+        }
+        tooltip: "Open a file to protect"
     }
 
     TabView {

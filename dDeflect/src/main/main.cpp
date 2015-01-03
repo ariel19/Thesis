@@ -13,35 +13,20 @@
 
 #include "DJsonParser/djsonparser.h"
 #include "./core/adding_methods/wrappers/linux/daddingmethods.h"
+#include "ApplicationManager/applicationmanager.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+    ApplicationManager manager;
+
+    engine.rootContext()->setContextProperty("applicationManager",&manager);
 
     qmlRegisterType<Method>("jsk.components", 1, 0, "Method");
     qmlRegisterType<MethodList>("jsk.components", 1, 0, "MethodList");
 
-    DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> w;
-    w.cm = DAddingMethods::CallingMethod::Thread;
 
-    DAddingMethods::Wrapper<DAddingMethods::Registers_x86> wrapper;
-    wrapper.code = QString("Code");
-    QMap<QString,QString> m;
-    m.insert("Arg1","RAX");
-    m.insert("arg2","EBX");
-    wrapper.params = m;
-    wrapper.used_regs.append(DAddingMethods::Registers_x86::EAX);
-    wrapper.used_regs.append(DAddingMethods::Registers_x86::EBX);
-    wrapper.ret = DAddingMethods::Registers_x86::EDI;
-    wrapper.ddetec_handler = nullptr;
-    wrapper.code = "kod bla bla bla bla bla";
-
-    w.adding_method = &wrapper;
-
-    DJsonParser parser;
-    parser.saveIncjectionDescription(w);
-    parser.loadInjectDescription();
     engine.load(QUrl(QStringLiteral("qrc:///qml/main.qml")));
 
     return app.exec();

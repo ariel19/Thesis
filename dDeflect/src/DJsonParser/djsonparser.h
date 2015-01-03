@@ -10,9 +10,11 @@ class DJsonParser
     DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> *injectionRead;
     QString m_path;
 public:
-    DJsonParser();
-    bool loadInjectDescription();
-    bool saveIncjectionDescription(DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> &inj);
+    DJsonParser(QString path);
+    bool loadInjectDescription(QString name);
+    bool saveIncjectDescription(QString name, DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> &inj);
+
+    DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> *getInjectionRead() const;
 };
 
 #endif // DJSONPARSER_H

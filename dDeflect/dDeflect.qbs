@@ -48,6 +48,8 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: [
+            "src/ApplicationManager/applicationmanager.cpp",
+            "src/ApplicationManager/applicationmanager.h",
             "src/DJsonParser/djsonparser.cpp",
             "src/DJsonParser/djsonparser.h",
             "src/core/adding_methods/wrappers/linux/asmcodegenerator.cpp",
