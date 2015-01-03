@@ -1,0 +1,22 @@
+{
+  "name": "ProcessDebugFlags",
+  "used_registers": [
+    "EAX",
+    "ECX",
+    "EDX"
+  ],
+  "parameters": [
+    {
+      "EAX": "ntdll!NtQueryInformationProcess"
+    }
+  ],
+  "returns": "EAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "path": "detection/os/win/x86/src/process_debug_flags.asm",
+  "description": "TODO"
+}

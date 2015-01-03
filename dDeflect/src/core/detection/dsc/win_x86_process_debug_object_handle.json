@@ -1,0 +1,22 @@
+{
+  "name": "ProcessDebugObjectHandle",
+  "used_registers": [
+    "EAX",
+    "ECX",
+    "EDX"
+  ],
+  "parameters": [
+    {
+      "EAX": "ntdll!NtQueryInformationProcess"
+    }
+  ],
+  "returns": "EAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "path": "detection/os/win/x86/src/process_debug_object_handle.asm",
+  "description": "TODO"
+}
