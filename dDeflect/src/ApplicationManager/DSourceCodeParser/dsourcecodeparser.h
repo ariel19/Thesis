@@ -10,14 +10,21 @@
 #include <QTextStream>
 #include <fstream>
 
+#include <core/adding_methods/wrappers/linux/daddingmethods.h>
+
 using namespace std;
 
 class DSourceCodeParser
 {
 public:
-    //static QProcess * g_process;
+    template <typename Reg>
+    using IDList = QList<DAddingMethods::InjectDescription<Reg>*>;
+    template <typename Reg>
+    using FIDMapping = QHash<QString, IDList<Reg>>;
+
     DSourceCodeParser();
-    QStringList getMethods(const QString &path);
+    QStringList getFunctions(const QString &path);
+    void insertMethods(const QString &path, FIDMapping<DAddingMethods::Registers_x86>);
 private:
 
 };

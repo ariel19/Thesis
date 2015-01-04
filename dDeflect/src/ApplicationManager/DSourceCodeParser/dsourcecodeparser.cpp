@@ -6,7 +6,7 @@ DSourceCodeParser::DSourceCodeParser()
 
 }
 
-QStringList DSourceCodeParser::getMethods(const QString &path)
+QStringList DSourceCodeParser::getFunctions(const QString &path)
 {
     QString program = "/home/jsk/static_analysis/llvm/Debug+Asserts/bin/functionFinder";
     QFile functionFinder("/home/jsk/static_analysis/llvm/Debug+Asserts/bin/functionFinder");
@@ -40,4 +40,31 @@ QStringList DSourceCodeParser::getMethods(const QString &path)
         functionList.append(QString::fromStdString(methodName));
 
     return functionList;
+}
+
+void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<DAddingMethods::Registers_x86> map)
+{
+    QString program = "/home/jsk/static_analysis/llvm/Debug+Asserts/bin/methodInsert";
+    QFile methodInsert("/home/jsk/static_analysis/llvm/Debug+Asserts/bin/methodInsert");
+
+    if(!methodInsert.exists()){
+        qDebug() << "path to methodInsert is not correct";
+        return;
+    }
+
+    QStringList arguments;
+
+    // TODO: przygotuj kod do wstawienia tak aby działał
+    QString codeToInsert;
+    codeToInsert.append("__asm__(");
+    codeToInsert.append(map["main"].first()->adding_method->code);
+    codeToInsert.append(");");
+    arguments << path << "--" << "main" << codeToInsert.toStdString();
+
+    QProcess * myProcess = new QProcess();
+    myProcess->start(program, arguments);
+    if(!myProcess->waitForFinished()){
+        qDebug() << "timeout passed, methodInsert not executed.";
+        return;
+    }
 }
