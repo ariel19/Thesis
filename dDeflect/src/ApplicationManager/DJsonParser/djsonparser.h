@@ -4,7 +4,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-#include "../core/adding_methods/wrappers/linux/daddingmethods.h"
+#include "../../core/adding_methods/wrappers/linux/daddingmethods.h"
 class DJsonParser
 {
     DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> *injectionRead;

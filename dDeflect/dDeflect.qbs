@@ -50,8 +50,8 @@ Project {
         files: [
             "src/ApplicationManager/applicationmanager.cpp",
             "src/ApplicationManager/applicationmanager.h",
-            "src/DJsonParser/djsonparser.cpp",
-            "src/DJsonParser/djsonparser.h",
+            "src/ApplicationManager/DJsonParser/djsonparser.cpp",
+            "src/ApplicationManager/DJsonParser/djsonparser.h",
             "src/core/adding_methods/wrappers/linux/asmcodegenerator.cpp",
             "src/core/adding_methods/wrappers/linux/asmcodegenerator.h",
             "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",

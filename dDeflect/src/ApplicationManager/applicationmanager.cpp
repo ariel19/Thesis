@@ -1,4 +1,5 @@
 #include "applicationmanager.h"
+#include "DSourceCodeParser/dsourcecodeparser.h"
 
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser("./injectDescriptions/")
@@ -15,6 +16,12 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     // TODO: Lista do uzupełnienia o wszystkie rozszerzenia, albo stworzyć plik ze stringami i innymi danymi
     sourceExtensionList<<"cpp"<<"cxx"<<"c";
     setState(IDLE);
+
+}
+
+ApplicationManager::~ApplicationManager()
+{
+    delete sourceParser;
 }
 
 void ApplicationManager::setState(ApplicationManager::State state)
@@ -41,4 +48,12 @@ void ApplicationManager::fileOpened(QString path)
     else
         setState(EXEC);
 
+
 }
+
+void ApplicationManager::insertMethods(FIDMapping<DAddingMethods::Registers_x86> Map)
+{
+
+}
+
+
