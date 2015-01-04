@@ -5,7 +5,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <core/file_types/elffile.h>
-#include <core/adding_methods/wrappers/linux/daddingmethods.h>
+#include <core/adding_methods/wrappers/daddingmethods.h>
 
 int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
     ELF elf(elf_fname);
@@ -202,15 +202,15 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     DAddingMethods dam;
     if (elf.is_x86()) {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
-        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x86> oepwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> oepaction;
+        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
+        DAddingMethods::OEPWrapper<Registers_x86> oepwrapper;
+        DAddingMethods::Wrapper<Registers_x86> handler;
+        DAddingMethods::Wrapper<Registers_x86> oepaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "127" } };
+        handler.static_params = { { "ret", "127" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -221,10 +221,10 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         oepaction.code = code.readAll();
         oepaction.detect_handler = nullptr;
-        oepaction.ret = DAddingMethods::Registers_x86::EAX;
-        oepaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
-                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
-                                DAddingMethods::Registers_x86::ESI };
+        oepaction.ret = Registers_x86::EAX;
+        oepaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                                Registers_x86::EBX, Registers_x86::EDX,
+                                Registers_x86::ESI };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -234,25 +234,25 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.detect_handler = &handler;
         oepwrapper.oep_action = &oepaction;
         oepwrapper.code = code.readAll();
-        oepwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+        oepwrapper.used_regs = { Registers_x86::EDI };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
         inject_desc.adding_method = &oepwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
             return false;
     }
     else {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
+        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::OEPWrapper<DAddingMethods::Registers_x64> oepwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> oepaction;
+        DAddingMethods::OEPWrapper<Registers_x64> oepwrapper;
+        DAddingMethods::Wrapper<Registers_x64> handler;
+        DAddingMethods::Wrapper<Registers_x64> oepaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "188" } };
+        handler.static_params = { { "ret", "188" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -263,10 +263,10 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         oepaction.code = code.readAll();
         oepaction.detect_handler = nullptr;
-        oepaction.ret = DAddingMethods::Registers_x64::RAX;
-        oepaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
-                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                                DAddingMethods::Registers_x64::R10 };
+        oepaction.ret = Registers_x64::RAX;
+        oepaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
+                                Registers_x64::RSI, Registers_x64::RDX,
+                                Registers_x64::R10 };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -276,12 +276,12 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.detect_handler = &handler;
         oepwrapper.oep_action = &oepaction;
         oepwrapper.code = code.readAll();
-        oepwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+        oepwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
         inject_desc.adding_method = &oepwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
             return false;
     }
     // rename file on hard drive
@@ -299,15 +299,15 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     DAddingMethods dam;
     if (elf.is_x86()) {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
-        DAddingMethods::ThreadWrapper<DAddingMethods::Registers_x86> twrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> taction;
+        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
+        DAddingMethods::ThreadWrapper<Registers_x86> twrapper;
+        DAddingMethods::Wrapper<Registers_x86> handler;
+        DAddingMethods::Wrapper<Registers_x86> taction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "127" } };
+        handler.static_params = { { "ret", "127" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -318,10 +318,10 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         taction.code = code.readAll();
         taction.detect_handler = nullptr;
-        taction.ret = DAddingMethods::Registers_x86::EAX;
-        taction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
-                              DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
-                              DAddingMethods::Registers_x86::ESI, DAddingMethods::Registers_x86::EDI };
+        taction.ret = Registers_x86::EAX;
+        taction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                              Registers_x86::EBX, Registers_x86::EDX,
+                              Registers_x86::ESI, Registers_x86::EDI };
         // qDebug() << taction.code;
         code.close();
         // wrapper like OEP or thread
@@ -329,31 +329,31 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         twrapper.detect_handler = &handler;
-        twrapper.thread_action = &taction;
+        twrapper.thread_actions = { &taction };
         twrapper.code = code.readAll();
-        twrapper.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
-                               DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
-                               DAddingMethods::Registers_x86::ESI, DAddingMethods::Registers_x86::EDI };
-        twrapper.params = { { "sleep1", "0" },
+        twrapper.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                               Registers_x86::EBX, Registers_x86::EDX,
+                               Registers_x86::ESI, Registers_x86::EDI };
+        twrapper.static_params = { { "sleep1", "0" },
                             { "sleep2", "5" } };
         // qDebug() << twrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::Thread;
         inject_desc.adding_method = &twrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
             return false;
     }
     else {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
+        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::ThreadWrapper<DAddingMethods::Registers_x64> twrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> taction;
+        DAddingMethods::ThreadWrapper<Registers_x64> twrapper;
+        DAddingMethods::Wrapper<Registers_x64> handler;
+        DAddingMethods::Wrapper<Registers_x64> taction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "188" } };
+        handler.static_params = { { "ret", "188" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -364,10 +364,10 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         taction.code = code.readAll();
         taction.detect_handler = nullptr;
-        taction.ret = DAddingMethods::Registers_x64::RAX;
-        taction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
-                              DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                              DAddingMethods::Registers_x64::R10 };
+        taction.ret = Registers_x64::RAX;
+        taction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
+                              Registers_x64::RSI, Registers_x64::RDX,
+                              Registers_x64::R10 };
         // qDebug() << taction.code;
         code.close();
         // wrapper like OEP or thread
@@ -375,18 +375,18 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         twrapper.detect_handler = &handler;
-        twrapper.thread_action = &taction;
+        twrapper.thread_actions = { &taction };
         twrapper.code = code.readAll();
-        twrapper.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
-                               DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                               DAddingMethods::Registers_x64::R10, DAddingMethods::Registers_x64::R8 };
-        twrapper.params = { { "sleep1", "0" },
+        twrapper.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
+                               Registers_x64::RSI, Registers_x64::RDX,
+                               Registers_x64::R10, Registers_x64::R8 };
+        twrapper.static_params = { { "sleep1", "0" },
                             { "sleep2", "5" } };
         // qDebug() << twrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::Thread;
         inject_desc.adding_method = &twrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
             return false;
     }
     // rename file on hard drive
@@ -405,15 +405,15 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     DAddingMethods dam;
     if (elf.is_x86()) {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x86> trmwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> trmaction;
+        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
+        DAddingMethods::Wrapper<Registers_x86> handler;
+        DAddingMethods::Wrapper<Registers_x86> trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "127" } };
+        handler.static_params = { { "ret", "127" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -424,10 +424,10 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         trmaction.code = code.readAll();
         trmaction.detect_handler = nullptr;
-        trmaction.ret = DAddingMethods::Registers_x86::EAX;
-        trmaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
-                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
-                                DAddingMethods::Registers_x86::ESI };
+        trmaction.ret = Registers_x86::EAX;
+        trmaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                                Registers_x86::EBX, Registers_x86::EDX,
+                                Registers_x86::ESI };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -437,24 +437,24 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+        trmwrapper.used_regs = { Registers_x86::EDI };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
             return false;
     }
     else {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
-        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x64> trmwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
+        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x64> trmwrapper;
+        DAddingMethods::Wrapper<Registers_x64> handler;
+        DAddingMethods::Wrapper<Registers_x64> trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "188" } };
+        handler.static_params = { { "ret", "188" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -465,10 +465,10 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         trmaction.code = code.readAll();
         trmaction.detect_handler = nullptr;
-        trmaction.ret = DAddingMethods::Registers_x64::RAX;
-        trmaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
-                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                                DAddingMethods::Registers_x64::R10 };
+        trmaction.ret = Registers_x64::RAX;
+        trmaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
+                                Registers_x64::RSI, Registers_x64::RDX,
+                                Registers_x64::R10 };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -478,12 +478,12 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+        trmwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
             return false;
     }
     // rename file on hard drive
@@ -502,15 +502,15 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
     QFile code;
     DAddingMethods dam;
     if (elf.is_x86()) {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x86> trmwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> trmaction;
+        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
+        DAddingMethods::Wrapper<Registers_x86> handler;
+        DAddingMethods::Wrapper<Registers_x86> trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "127" } };
+        handler.static_params = { { "ret", "127" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -521,10 +521,10 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
             return false;
         trmaction.code = code.readAll();
         trmaction.detect_handler = nullptr;
-        trmaction.ret = DAddingMethods::Registers_x86::EAX;
-        trmaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
-                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
-                                DAddingMethods::Registers_x86::ESI };
+        trmaction.ret = Registers_x86::EAX;
+        trmaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                                Registers_x86::EBX, Registers_x86::EDX,
+                                Registers_x86::ESI };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -534,24 +534,24 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+        trmwrapper.used_regs = { Registers_x86::EDI };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
             return false;
     }
     else {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
-        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x64> trmwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
+        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x64> trmwrapper;
+        DAddingMethods::Wrapper<Registers_x64> handler;
+        DAddingMethods::Wrapper<Registers_x64> trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "188" } };
+        handler.static_params = { { "ret", "188" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -562,10 +562,10 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
             return false;
         trmaction.code = code.readAll();
         trmaction.detect_handler = nullptr;
-        trmaction.ret = DAddingMethods::Registers_x64::RAX;
-        trmaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
-                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                                DAddingMethods::Registers_x64::R10 };
+        trmaction.ret = Registers_x64::RAX;
+        trmaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
+                                Registers_x64::RSI, Registers_x64::RDX,
+                                Registers_x64::R10 };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -575,12 +575,12 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+        trmwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
             return false;
     }
     // rename file on hard drive
@@ -599,15 +599,15 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     DAddingMethods dam;
     if (elf.is_x86()) {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x86> trmwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x86> trmaction;
+        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
+        DAddingMethods::Wrapper<Registers_x86> handler;
+        DAddingMethods::Wrapper<Registers_x86> trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "127" } };
+        handler.static_params = { { "ret", "127" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -618,10 +618,10 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         trmaction.code = code.readAll();
         trmaction.detect_handler = nullptr;
-        trmaction.ret = DAddingMethods::Registers_x86::EAX;
-        trmaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
-                                DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
-                                DAddingMethods::Registers_x86::ESI };
+        trmaction.ret = Registers_x86::EAX;
+        trmaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                                Registers_x86::EBX, Registers_x86::EDX,
+                                Registers_x86::ESI };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -631,24 +631,24 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+        trmwrapper.used_regs = { Registers_x86::EDI };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x86>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
             return false;
     }
     else {
-        DAddingMethods::InjectDescription<DAddingMethods::Registers_x64> inject_desc;
-        DAddingMethods::TrampolineWrapper<DAddingMethods::Registers_x64> trmwrapper;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> handler;
-        DAddingMethods::Wrapper<DAddingMethods::Registers_x64> trmaction;
+        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x64> trmwrapper;
+        DAddingMethods::Wrapper<Registers_x64> handler;
+        DAddingMethods::Wrapper<Registers_x64> trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
             return false;
-        handler.params = { { "ret", "188" } };
+        handler.static_params = { { "ret", "188" } };
         handler.detect_handler = nullptr;
         handler.code = code.readAll();
         // qDebug() << handler.code;
@@ -659,10 +659,10 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
         trmaction.code = code.readAll();
         trmaction.detect_handler = nullptr;
-        trmaction.ret = DAddingMethods::Registers_x64::RAX;
-        trmaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
-                                DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                                DAddingMethods::Registers_x64::R10 };
+        trmaction.ret = Registers_x64::RAX;
+        trmaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
+                                Registers_x64::RSI, Registers_x64::RDX,
+                                Registers_x64::R10 };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -672,12 +672,12 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+        trmwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<DAddingMethods::Registers_x64>(elf, inject_desc))
+        if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
             return false;
     }
     // rename file on hard drive

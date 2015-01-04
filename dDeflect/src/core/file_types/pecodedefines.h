@@ -4,9 +4,62 @@
 #include <QByteArray>
 #include <QSet>
 #include <QList>
+#include <QMap>
+#include <QRegExp>
 #include <list>
 #include <chrono>
-#include <core/file_types/pehelpers.h>
+
+/**
+ * @brief Rejestry dla architektury x86.
+ */
+enum class Registers_x86 {
+    EAX,
+    EBX,
+    ECX,
+    EDX,
+    ESI,
+    EDI,
+    EBP,
+    ESP
+};
+
+/**
+ * @brief Rejestry dla architektury x64.
+ */
+enum class Registers_x64 {
+    RAX,
+    RBX,
+    RCX,
+    RDX,
+    RSI,
+    RDI,
+    RBP,
+    RSP,
+    R8,
+    R9,
+    R10,
+    R11,
+    R12,
+    R13,
+    R14,
+    R15
+};
+
+template <typename Register>
+class BinaryCode
+{
+private:
+    QByteArray code;
+    QList<uint64_t> relocations;
+    static const uint8_t addrSize;
+
+public:
+    BinaryCode() { }
+    void append(QByteArray _code, bool relocation = false);
+    QByteArray getBytes();
+    QList<uint64_t> getRelocations(uint64_t codeBase);
+    int length();
+};
 
 template <typename Register>
 class PECodeDefines

@@ -1,5 +1,5 @@
 #include "pehelpers.h"
-
+/*
 template <>
 const QString Wrapper<Register_x86>::methodsPath = "..\\..\\..\\..\\dDeflect\\src\\core\\detection\\os\\win\\x86\\src\\"; // TODO: wczytywanie z config
 
@@ -302,119 +302,8 @@ Wrapper<Register> *Wrapper<Register>::getAction()
 }
 template Wrapper<Register_x86> *Wrapper<Register_x86>::getAction();
 template Wrapper<Register_x64> *Wrapper<Register_x64>::getAction();
+*/
 
 
-template <typename Register>
-QByteArray BinaryCode<Register>::getBytes()
-{
-    return code;
-}
-template QByteArray BinaryCode<Register_x86>::getBytes();
-template QByteArray BinaryCode<Register_x64>::getBytes();
 
 
-template <typename Register>
-void BinaryCode<Register>::append(QByteArray _code, bool relocation)
-{
-    code.append(_code);
-
-    if(relocation)
-        relocations.append(code.length() - addrSize);
-}
-template void BinaryCode<Register_x86>::append(QByteArray _code, bool relocation);
-template void BinaryCode<Register_x64>::append(QByteArray _code, bool relocation);
-
-
-template <typename Register>
-QList<uint64_t> BinaryCode<Register>::getRelocations(uint64_t codeBase)
-{
-    QList<uint64_t> rel;
-
-    foreach(uint64_t val, relocations)
-        rel.append(val + codeBase);
-
-    return rel;
-}
-template QList<uint64_t> BinaryCode<Register_x86>::getRelocations(uint64_t codeBase);
-template QList<uint64_t> BinaryCode<Register_x64>::getRelocations(uint64_t codeBase);
-
-
-template <typename Register>
-int BinaryCode<Register>::length()
-{
-    return code.length();
-}
-template int BinaryCode<Register_x86>::length();
-template int BinaryCode<Register_x64>::length();
-
-
-template <>
-const uint8_t BinaryCode<Register_x86>::addrSize = 4;
-
-
-template <>
-const uint8_t BinaryCode<Register_x64>::addrSize = 8;
-
-
-bool RelocationTable::addOffset(uint16_t offset, uint8_t type)
-{
-    bool added = false, ok = false;
-    QList<TypeOffset> new_to;
-
-    TypeOffset to;
-    to.Type = type;
-    to.Offset = offset;
-
-    for(QList<TypeOffset>::iterator it = TypeOffsets.begin(); it != TypeOffsets.end(); ++it)
-    {
-        if(it->Offset == offset)
-            added = true;
-
-        if(it->Offset > offset && !added)
-        {
-            added = ok = true;
-            new_to.append(to);
-        }
-
-        new_to.append(*it);
-    }
-
-    if(!added)
-    {
-        new_to.append(to);
-        ok = true;
-    }
-
-    TypeOffsets = new_to;
-
-    if(ok)
-        SizeOfBlock += sizeof(uint16_t);
-
-    return ok;
-}
-
-QByteArray RelocationTable::toBytes()
-{
-    QByteArray bytes;
-
-    if(SizeOfBlock % 4 != 0)
-    {
-        TypeOffset align;
-        align.Type = 0;
-        align.Offset = 0;
-
-        SizeOfBlock += sizeof(uint16_t);
-        TypeOffsets.append(align);
-    }
-
-    bytes.append(reinterpret_cast<const char*>(&VirtualAddress), sizeof(uint32_t));
-    bytes.append(reinterpret_cast<const char*>(&SizeOfBlock), sizeof(uint32_t));
-
-    foreach(TypeOffset to, TypeOffsets)
-    {
-        uint16_t bin_to = (to.Type << 12) | to.Offset;
-        bytes.append(reinterpret_cast<const char*>(&bin_to), sizeof(uint16_t));
-    }
-
-    return bytes;
-}

@@ -5,7 +5,7 @@ unsigned int PEFile::getOptHdrFileAlignment()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;
+    return _is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;
 }
 
 unsigned int PEFile::getOptHdrSectionAlignment()
@@ -13,7 +13,7 @@ unsigned int PEFile::getOptHdrSectionAlignment()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->SectionAlignment : getOptionalHeader32()->SectionAlignment;
+    return _is_x64 ? getOptionalHeader64()->SectionAlignment : getOptionalHeader32()->SectionAlignment;
 }
 
 size_t PEFile::getOptHdrSizeOfCode()
@@ -21,7 +21,7 @@ size_t PEFile::getOptHdrSizeOfCode()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->SizeOfCode : getOptionalHeader32()->SizeOfCode;
+    return _is_x64 ? getOptionalHeader64()->SizeOfCode : getOptionalHeader32()->SizeOfCode;
 }
 
 size_t PEFile::getOptHdrSizeOfInitializedData()
@@ -29,7 +29,7 @@ size_t PEFile::getOptHdrSizeOfInitializedData()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->SizeOfInitializedData : getOptionalHeader32()->SizeOfInitializedData;
+    return _is_x64 ? getOptionalHeader64()->SizeOfInitializedData : getOptionalHeader32()->SizeOfInitializedData;
 }
 
 unsigned int PEFile::getOptHdrAddressOfEntryPoint()
@@ -37,7 +37,7 @@ unsigned int PEFile::getOptHdrAddressOfEntryPoint()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->AddressOfEntryPoint : getOptionalHeader32()->AddressOfEntryPoint;
+    return _is_x64 ? getOptionalHeader64()->AddressOfEntryPoint : getOptionalHeader32()->AddressOfEntryPoint;
 }
 
 unsigned int PEFile::getNtHdrSignature()
@@ -45,7 +45,7 @@ unsigned int PEFile::getNtHdrSignature()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getNtHeaders64()->Signature : getNtHeaders32()->Signature;
+    return _is_x64 ? getNtHeaders64()->Signature : getNtHeaders32()->Signature;
 }
 
 unsigned int PEFile::getOptHdrNumberOfRvaAndSizes()
@@ -53,7 +53,7 @@ unsigned int PEFile::getOptHdrNumberOfRvaAndSizes()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->NumberOfRvaAndSizes : getOptionalHeader32()->NumberOfRvaAndSizes;
+    return _is_x64 ? getOptionalHeader64()->NumberOfRvaAndSizes : getOptionalHeader32()->NumberOfRvaAndSizes;
 }
 
 uint64_t PEFile::getOptHdrImageBase()
@@ -61,7 +61,7 @@ uint64_t PEFile::getOptHdrImageBase()
     if(!parsed)
         return 0;
 
-    return is_x64 ? getOptionalHeader64()->ImageBase : getOptionalHeader32()->ImageBase;
+    return _is_x64 ? getOptionalHeader64()->ImageBase : getOptionalHeader32()->ImageBase;
 }
 
 bool PEFile::setOptHdrSizeOfCode(size_t size)
@@ -69,7 +69,7 @@ bool PEFile::setOptHdrSizeOfCode(size_t size)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
         getOptionalHeader64()->SizeOfCode = size;
     else
         getOptionalHeader32()->SizeOfCode = size;
@@ -82,7 +82,7 @@ bool PEFile::setOptHdrSizeOfInitializedData(size_t size)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
         getOptionalHeader64()->SizeOfInitializedData = size;
     else
         getOptionalHeader32()->SizeOfInitializedData = size;
@@ -95,7 +95,7 @@ bool PEFile::setOptHdrSizeOfImage(size_t size)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
         getOptionalHeader64()->SizeOfImage = size;
     else
         getOptionalHeader32()->SizeOfImage = size;
@@ -108,7 +108,7 @@ bool PEFile::setOptHdrSizeOfHeaders(size_t size)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
         getOptionalHeader64()->SizeOfHeaders = size;
     else
         getOptionalHeader32()->SizeOfHeaders = size;
@@ -121,7 +121,7 @@ bool PEFile::setOptHdrAddressOfEntryPoint(unsigned int ep)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
         getOptionalHeader64()->AddressOfEntryPoint = ep;
     else
         getOptionalHeader32()->AddressOfEntryPoint = ep;
@@ -139,7 +139,7 @@ PIMAGE_DOS_HEADER PEFile::getDosHeader()
 
 PIMAGE_NT_HEADERS32 PEFile::getNtHeaders32()
 {
-    if(!parsed || is_x64)
+    if(!parsed || _is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_NT_HEADERS32>(&(b_data.data()[ntHeadersIdx]));
@@ -147,7 +147,7 @@ PIMAGE_NT_HEADERS32 PEFile::getNtHeaders32()
 
 PIMAGE_NT_HEADERS64 PEFile::getNtHeaders64()
 {
-    if(!parsed || !is_x64)
+    if(!parsed || !_is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_NT_HEADERS64>(&(b_data.data()[ntHeadersIdx]));
@@ -163,7 +163,7 @@ PIMAGE_FILE_HEADER PEFile::getFileHeader()
 
 PIMAGE_OPTIONAL_HEADER32 PEFile::getOptionalHeader32()
 {
-    if(!parsed || is_x64)
+    if(!parsed || _is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_OPTIONAL_HEADER32>(&(b_data.data()[optionalHeaderIdx]));
@@ -171,7 +171,7 @@ PIMAGE_OPTIONAL_HEADER32 PEFile::getOptionalHeader32()
 
 PIMAGE_OPTIONAL_HEADER64 PEFile::getOptionalHeader64()
 {
-    if(!parsed || !is_x64)
+    if(!parsed || !_is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_OPTIONAL_HEADER64>(&(b_data.data()[optionalHeaderIdx]));
@@ -197,7 +197,7 @@ PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
 
 PIMAGE_TLS_DIRECTORY32 PEFile::getTlsDirectory32()
 {
-    if(!parsed || is_x64)
+    if(!parsed || _is_x64)
         return nullptr;
 
     uint64_t tls_offset = getTlsDirectoryFileOffset();
@@ -206,7 +206,7 @@ PIMAGE_TLS_DIRECTORY32 PEFile::getTlsDirectory32()
 
 PIMAGE_TLS_DIRECTORY64 PEFile::getTlsDirectory64()
 {
-    if(!parsed || !is_x64)
+    if(!parsed || !_is_x64)
         return nullptr;
 
     uint64_t tls_offset = getTlsDirectoryFileOffset();
@@ -233,7 +233,7 @@ uint64_t PEFile::getTlsDirectoryFileOffset()
 
 size_t PEFile::getImageTlsDirectorySize() const
 {
-    return is_x64 ? sizeof(IMAGE_TLS_DIRECTORY64) : sizeof(IMAGE_TLS_DIRECTORY32);
+    return _is_x64 ? sizeof(IMAGE_TLS_DIRECTORY64) : sizeof(IMAGE_TLS_DIRECTORY32);
 }
 
 uint64_t PEFile::getTlsAddressOfCallBacks()
@@ -241,7 +241,7 @@ uint64_t PEFile::getTlsAddressOfCallBacks()
     if(!parsed)
         return 0;
 
-    return is_x64 ?
+    return _is_x64 ?
                 (getTlsDirectory64() ? getTlsDirectory64()->AddressOfCallBacks : 0) :
                 (getTlsDirectory32() ? getTlsDirectory32()->AddressOfCallBacks : 0);
 }
@@ -251,7 +251,7 @@ bool PEFile::setTlsAddressOfCallBacks(uint64_t addr)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
     {
         if(getTlsDirectory64())
             getTlsDirectory64()->AddressOfCallBacks = addr;
@@ -274,7 +274,7 @@ uint64_t PEFile::getTlsAddressOfIndex()
     if(!parsed)
         return 0;
 
-    return is_x64 ?
+    return _is_x64 ?
                 (getTlsDirectory64() ? getTlsDirectory64()->AddressOfIndex : 0) :
                 (getTlsDirectory32() ? getTlsDirectory32()->AddressOfIndex: 0);
 }
@@ -284,7 +284,7 @@ bool PEFile::setTlsAddressOfIndex(uint64_t addr)
     if(!parsed)
         return false;
 
-    if(is_x64)
+    if(_is_x64)
     {
         if(getTlsDirectory64())
             getTlsDirectory64()->AddressOfIndex = addr;
@@ -304,12 +304,12 @@ bool PEFile::setTlsAddressOfIndex(uint64_t addr)
 
 uint8_t PEFile::getRelocationType()
 {
-    return is_x64 ? IMAGE_REL_BASED_DIR64 : IMAGE_REL_BASED_HIGHLOW;
+    return _is_x64 ? IMAGE_REL_BASED_DIR64 : IMAGE_REL_BASED_HIGHLOW;
 }
 
 PEFile::PEFile(QByteArray d) :
     parsed(false),
-    is_x64(false),
+    _is_x64(false),
     gen(std::chrono::system_clock::now().time_since_epoch().count()),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
@@ -397,9 +397,8 @@ uint64_t PEFile::injectUniqueData(BinaryCode<Register> data, QMap<QByteArray, ui
 
     return offset;
 }
-template uint64_t PEFile::injectUniqueData(BinaryCode<Register_x86> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
-template uint64_t PEFile::injectUniqueData(BinaryCode<Register_x64> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
-
+template uint64_t PEFile::injectUniqueData(BinaryCode<Registers_x86> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
+template uint64_t PEFile::injectUniqueData(BinaryCode<Registers_x64> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
 
 QString PEFile::getRandomSectionName()
 {
@@ -493,6 +492,88 @@ bool PEFile::addRelocations(QList<uint64_t> relocations)
     return true;
 }
 
+bool PEFile::hasTls()
+{
+    if(!parsed)
+        return false;
+
+    return getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress == 0;
+}
+
+bool PEFile::setTlsDirectoryAddress(uint64_t addr)
+{
+    if(!parsed)
+        return false;
+
+    getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress = addr;
+    getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->Size = getImageTlsDirectorySize();
+
+    return true;
+}
+
+uint64_t PEFile::getTlsDirectoryAddress()
+{
+    if(!parsed)
+        return 0;
+
+    return getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress;
+}
+
+QList<uint64_t> PEFile::getTlsCallbacks()
+{
+    QList<uint64_t> tlsCallbacks;
+
+    uint32_t va = getTlsAddressOfCallBacks() - getImageBase();
+    PIMAGE_SECTION_HEADER hdr = getSectionHeader(getSectionByVirtualAddress(va));
+
+    if(!hdr)
+        return tlsCallbacks;
+
+    uint32_t fileptr = hdr->PointerToRawData + (va - hdr->VirtualAddress);
+    uint64_t value = _is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
+
+    while(value != 0)
+    {
+        tlsCallbacks.append(value);
+        fileptr += (_is_x64 ? PECodeDefines<Registers_x64>::stackCellSize : PECodeDefines<Registers_x86>::stackCellSize);
+        value = _is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
+    }
+
+    return tlsCallbacks;
+}
+
+bool PEFile::is_x64()
+{
+    return _is_x64;
+}
+
+bool PEFile::is_x86()
+{
+    return !_is_x64;
+}
+
+uint64_t PEFile::getAddressAtCallInstructionOffset(uint32_t offset)
+{
+    if(!parsed)
+        return 0;
+
+    int32_t call_off = *reinterpret_cast<int32_t*>(&b_data.data()[offset]);
+    uint64_t call_addr = getImageBase() + fileOffsetToRVA(offset + 4) + call_off;
+
+    return call_addr;
+}
+
+bool PEFile::setAddressAtCallInstructionOffset(uint32_t offset, uint64_t address)
+{
+    if(!parsed)
+        return false;
+
+    uint32_t new_call_off = (address - getImageBase()) - fileOffsetToRVA(offset + 4);
+    *reinterpret_cast<int32_t*>(&b_data.data()[offset]) = new_call_off;
+
+    return true;
+}
+
 bool PEFile::getRelocations(QList<RelocationTable> &rt)
 {
     if(!parsed)
@@ -574,12 +655,6 @@ uint32_t PEFile::getRelocationsVirtualAddress()
     return relocDir->VirtualAddress;
 }
 
-void PEFile::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset)
-{
-    foreach(QString op, opcodes)
-        fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset + 1);
-}
-
 uint32_t PEFile::fileOffsetToRVA(uint32_t fileOffset)
 {
     for(unsigned int i = 0; i < numberOfSections; ++i)
@@ -602,820 +677,6 @@ bool PEFile::isValid()
     return parsed;
 }
 
-template <>
-uint8_t PEFile::getRandomRegister<Register_x86>()
-{
-    typedef Register_x86 Reg;
-    QList<Reg> r = {Reg::EAX, Reg::ECX, Reg::EDX, Reg::EBX, Reg::ESI, Reg::EDI};
-
-    std::uniform_int_distribution<int> idx(0, r.length() - 1);
-
-    return static_cast<uint8_t>(r[idx(gen)]);
-}
-
-template <>
-uint8_t PEFile::getRandomRegister<Register_x64>()
-{
-    typedef Register_x64 Reg;
-    QList<Reg> r = {Reg::RAX, Reg::RDX, Reg::RCX, Reg::RBX, Reg::RSI, Reg::RDI,
-                    Reg::R8, Reg::R9, Reg::R10, Reg::R11, Reg::R12, Reg::R13, Reg::R14, Reg::R15};
-
-    std::uniform_int_distribution<int> idx(0, r.length() - 1);
-
-    return static_cast<uint8_t>(r[idx(gen)]);
-}
-
-template <>
-BinaryCode<Register_x86> PEFile::generateTrampolineCode<Register_x86>(uint64_t realAddr, uint64_t wrapperAddr)
-{
-    typedef Register_x86 Register;
-
-    BinaryCode<Register> code;
-
-    code.append(PECodeDefines<Register>::storeValue(static_cast<uint32_t>(realAddr)), true);
-
-    code.append(PECodeDefines<Register>::saveAll());
-    Register r = static_cast<Register>(getRandomRegister<Register>());
-    code.append(PECodeDefines<Register>::movValueToReg(wrapperAddr, r), true);
-    code.append(PECodeDefines<Register>::callReg(r));
-    code.append(PECodeDefines<Register>::restoreAll());
-
-    code.append(PECodeDefines<Register>::ret);
-
-    return code;
-}
-
-template <>
-BinaryCode<Register_x64> PEFile::generateTrampolineCode<Register_x64>(uint64_t realAddr, uint64_t wrapperAddr)
-{
-    typedef Register_x64 Register;
-
-    BinaryCode<Register> code;
-
-    Register r = static_cast<Register>(getRandomRegister<Register>());
-    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
-    code.append(PECodeDefines<Register>::saveRegister(r));
-    code.append(PECodeDefines<Register>::movValueToReg(realAddr, r), true);
-    code.append(PECodeDefines<Register>::readFromRegToEspMem(r, PECodeDefines<Register>::stackCellSize));
-    code.append(PECodeDefines<Register>::restoreRegister(r));
-
-    code.append(PECodeDefines<Register>::saveAll());
-    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
-    r = static_cast<Register>(getRandomRegister<Register>());
-    code.append(PECodeDefines<Register>::movValueToReg(wrapperAddr, r), true);
-    code.append(PECodeDefines<Register>::callReg(r));
-    code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
-    code.append(PECodeDefines<Register>::restoreAll());
-
-    code.append(PECodeDefines<Register>::ret);
-
-    return code;
-}
-
-template <>
-bool PEFile::injectEpCode<Register_x86>
-(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
-{
-    typedef Register_x86 Register;
-
-    BinaryCode<Register> code;
-
-    // Wywołanie każdej z metod
-    foreach(uint64_t offset, epMethods)
-    {
-        code.append(PECodeDefines<Register>::movValueToReg(offset, Register::EAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
-    }
-
-    // Skok do Entry Point
-    code.append(PECodeDefines<Register>::movValueToReg(getEntryPoint() + getImageBase(), Register::EAX), true);
-    code.append(PECodeDefines<Register>::jmpReg(Register::EAX));
-
-    uint64_t new_ep = injectUniqueData(code, codePointers, relocations);
-
-    if(new_ep == 0)
-        return false;
-
-    new_ep -= getImageBase();
-
-    if(!setNewEntryPoint(new_ep))
-        return false;
-
-    return true;
-}
-
-template <typename Register>
-bool PEFile::injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
-{
-    // Tworzenie tablicy TLS jeśli nie istnieje
-    if(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress == 0)
-    {
-        QByteArray new_tls(getImageTlsDirectorySize(), '\x00');
-        uint64_t addr = injectUniqueData(new_tls, codePointers);
-
-        if(addr == 0)
-            return false;
-
-        addr -= getImageBase();
-
-        getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress = addr;
-        getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->Size = getImageTlsDirectorySize();
-    }
-
-    QByteArray tlsCallbacks;
-
-    // Zapisanie istniejących callbacków
-    if(getTlsAddressOfCallBacks() != 0)
-    {
-        uint32_t va = getTlsAddressOfCallBacks() - getImageBase();
-        PIMAGE_SECTION_HEADER hdr = getSectionHeader(getSectionByVirtualAddress(va));
-
-        if(!hdr)
-            return false;
-
-        uint32_t fileptr = hdr->PointerToRawData + (va - hdr->VirtualAddress);
-        uint64_t value = is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
-
-        while(value != 0)
-        {
-            tlsCallbacks.append(reinterpret_cast<const char*>(&value), PECodeDefines<Register>::stackCellSize);
-            fileptr += PECodeDefines<Register>::stackCellSize;
-            value = is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
-        }
-    }
-    else
-    {
-        // Adres tablicy z callbackami nie istniał. Trzeba dodać do relokacji.
-        relocations.append(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress + getImageBase() +
-                           3 * PECodeDefines<Register>::stackCellSize);
-    }
-
-    // Dodanie nowych callbacków
-    foreach(uint64_t cbk, tlsMethods)
-        tlsCallbacks.append(reinterpret_cast<const char*>(&cbk), PECodeDefines<Register>::stackCellSize);
-
-    // Dodanie NULL-byte i pola do zapisu TLSIndex
-    tlsCallbacks.append(QByteArray(PECodeDefines<Register>::stackCellSize * 2, '\x00'));
-
-    uint64_t cb_pointer = injectUniqueData(tlsCallbacks, codePointers);
-
-    if(cb_pointer == 0)
-        return false;
-
-    for(uint64_t i = 0; i < static_cast<uint64_t>(tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize * 2);
-        i += PECodeDefines<Register>::stackCellSize)
-    {
-        relocations.append(i + cb_pointer);
-    }
-
-    setTlsAddressOfCallBacks(cb_pointer);
-    if(getTlsAddressOfIndex() == 0)
-    {
-        relocations.append(getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress + getImageBase() +
-                           2 * PECodeDefines<Register>::stackCellSize);
-        setTlsAddressOfIndex(cb_pointer + tlsCallbacks.length() - PECodeDefines<Register>::stackCellSize);
-    }
-
-    return true;
-}
-template bool PEFile::injectTlsCode<Register_x86>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
-template bool PEFile::injectTlsCode<Register_x64>(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
-
-
-template <typename Register>
-bool PEFile::injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
-                                  QList<uint64_t> &relocations, QByteArray text_section,
-                                  uint32_t text_section_offset, uint8_t codeCoverage)
-{
-    QTemporaryFile temp_file;
-    if(!temp_file.open())
-        return false;
-
-    temp_file.write(text_section);
-    temp_file.flush();
-
-    QProcess ndisasm;
-
-    ndisasm.setProcessChannelMode(QProcess::MergedChannels);
-    ndisasm.start(Wrapper<Register>::ndisasmPath, {"-a", "-b", is_x64 ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
-
-    if(!ndisasm.waitForStarted())
-        return false;
-
-    QByteArray assembly;
-
-    while(ndisasm.waitForReadyRead(-1))
-        assembly.append(ndisasm.readAll());
-
-    QStringList asm_lines = QString(assembly).split(PECodeDefines<Register>::newLineRegExp, QString::SkipEmptyParts);
-    QStringList call_lines = asm_lines.filter(PECodeDefines<Register>::callRegExp);
-    QStringList jmp_lines = asm_lines.filter(PECodeDefines<Register>::jmpRegExp);
-
-    QList<uint32_t> fileOffsets;
-    getFileOffsetsFromOpcodes(call_lines, fileOffsets, text_section_offset);
-    getFileOffsetsFromOpcodes(jmp_lines, fileOffsets, text_section_offset);
-
-    std::uniform_int_distribution<int> prob(0, 99);
-
-    int method_idx = 0;
-
-    foreach(uint32_t offset, fileOffsets)
-    {
-        if(prob(gen) >= codeCoverage)
-            continue;
-
-        int32_t call_off = *reinterpret_cast<int32_t*>(&b_data.data()[offset]);
-        uint64_t call_addr = getImageBase() + fileOffsetToRVA(offset + 4) + call_off;
-
-        BinaryCode<Register> code = generateTrampolineCode<Register>(call_addr, tramMethods[method_idx]);
-
-        uint64_t addr = injectUniqueData(code, codePointers, relocations);
-        if(addr == 0)
-            return false;
-
-        uint32_t new_call_off = (addr - getImageBase()) - fileOffsetToRVA(offset + 4);
-        *reinterpret_cast<int32_t*>(&b_data.data()[offset]) = new_call_off;
-
-        method_idx = (method_idx + 1) % tramMethods.length();
-    }
-
-    return true;
-}
-
-template <>
-bool PEFile::injectEpCode<Register_x64>
-(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
-{
-    typedef Register_x64 Register;
-
-    BinaryCode<Register> code;
-
-    // Alokacja Shadow Space
-    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
-
-    // Wywołanie każdej z metod
-    foreach(uint64_t offset, epMethods)
-    {
-        code.append(PECodeDefines<Register>::movValueToReg(offset, Register::RAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::RAX));
-    }
-
-    // Usunięcie Shadow Space
-    code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
-
-    // Skok do Entry Point
-    code.append(PECodeDefines<Register>::movValueToReg(getEntryPoint() + getImageBase(), Register::RAX), true);
-    code.append(PECodeDefines<Register>::jmpReg(Register::RAX));
-
-    uint64_t new_ep = injectUniqueData(code, codePointers, relocations);
-
-    if(new_ep == 0)
-        return false;
-
-    new_ep -= getImageBase();
-
-    if(!setNewEntryPoint(new_ep))
-        return false;
-
-    return true;
-}
-
-template <typename Register>
-bool PEFile::injectCode(QList<InjectDescription<Register> *> descs, uint8_t codeCoverage)
-{
-    QMap<QByteArray, uint64_t> codePointers;
-    QList<uint64_t> relocations;
-    QList<uint64_t> epMethods, tlsMethods, tramMethods;
-
-    if(!parsed)
-        return false;
-
-    PIMAGE_SECTION_HEADER text_hdr = getSectionHeader(getSectionByVirtualAddress(getEntryPoint() + getImageBase()));
-    if(!text_hdr)
-        return false;
-
-    QByteArray text_section(&b_data.data()[text_hdr->PointerToRawData], text_hdr->Misc.VirtualSize);
-    uint32_t text_section_offset = text_hdr->PointerToRawData;
-
-    foreach(InjectDescription<Register> *desc, descs)
-    {
-        if(!desc)
-            return false;
-
-        switch(desc->getCallingMethod())
-        {
-        case CallingMethod::EntryPoint:
-            epMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations));
-            if(epMethods.last() == 0)
-                return false;
-            break;
-
-        case CallingMethod::TLS:
-            tlsMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations, true));
-            if(tlsMethods.last() == 0)
-                return false;
-            break;
-
-        case CallingMethod::Trampoline:
-            tramMethods.append(generateCode<Register>(desc->getWrapper(), codePointers, relocations));
-            if(tramMethods.last() == 0)
-                return false;
-            break;
-        }
-    }
-
-    if(!tramMethods.empty())
-    {
-        if(!injectTrampolineCode<Register>(tramMethods, codePointers, relocations, text_section, text_section_offset, codeCoverage))
-            return false;
-    }
-
-    if(!epMethods.empty())
-    {
-        if(!injectEpCode<Register>(epMethods, codePointers, relocations))
-            return false;
-    }
-
-    if(!tlsMethods.empty())
-    {
-        if(!injectTlsCode<Register>(tlsMethods, codePointers, relocations))
-            return false;
-    }
-
-    return addRelocations(relocations);
-}
-template bool PEFile::injectCode(QList<InjectDescription<Register_x86> *> descs, uint8_t codeCoverage);
-template bool PEFile::injectCode(QList<InjectDescription<Register_x64> *> descs, uint8_t codeCoverage);
-
-
-template <>
-bool PEFile::generateParametersLoadingCode<Register_x86, uint32_t>
-(BinaryCode<Register_x86> &code, uint32_t getFunctionsCodeAddr, QMap<Register_x86, QString> params,
- QMap<QByteArray, uint64_t> &ptrs, uint32_t threadCodePtr)
-{
-    typedef Register_x86 Reg;
-
-    // Rezerwowanie miejsca na GetProcAddr, LoadLibrary i tmp
-    code.append(PECodeDefines<Reg>::reserveStackSpace(3));
-
-    // Wczytywanie adresów GetProcAddr i LoadLibrary
-    code.append(PECodeDefines<Reg>::movValueToReg(getFunctionsCodeAddr, Reg::EAX), true);
-    code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
-
-    // Wczytywanie wymaganych adresów do rejestrów
-    QList<Reg> keys = params.keys();
-    foreach (Reg r, keys)
-    {
-        QList<QString> func_name = params[r].split('!');
-        if(func_name.length() != 2)
-            return false;
-
-        // Jeżeli szukana wartość jest adresem funkcji wątku to przypisujemy
-        if(threadCodePtr && func_name[0] == "THREAD" && func_name[1] == "THREAD")
-        {
-            code.append(PECodeDefines<Reg>::movValueToReg(threadCodePtr, r), true);
-            continue;
-        }
-
-        // Generowanie nazw biblioteki i funkcji
-        uint32_t lib_name_addr = generateString(func_name[0], ptrs);
-        uint32_t func_name_addr = generateString(func_name[1], ptrs);
-
-        // Zachowywanie wypełnionych już wcześniej rejestrów
-        code.append(PECodeDefines<Reg>::saveAllInternal());
-
-        int internalSize = PECodeDefines<Reg>::internalRegs.length();
-
-        // Wywołanie LoadLibrary
-        code.append(PECodeDefines<Reg>::storeValue(lib_name_addr), true);
-        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
-        code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
-
-        // Wywołanie GetProcAddr
-        code.append(PECodeDefines<Reg>::storeValue(func_name_addr), true);
-        code.append(PECodeDefines<Reg>::saveRegister(Reg::EAX));
-        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
-        code.append(PECodeDefines<Reg>::callReg(Reg::EAX));
-
-        // Zapisanie adresu szukanej funkcji do tmp
-        code.append(PECodeDefines<Reg>::readFromRegToEspMem(Reg::EAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
-
-        // Odtworzenie wypełnionych wcześniej rejestrów
-        code.append(PECodeDefines<Reg>::restoreAllInternal());
-
-        // Przypisanie znalezionego adresu szukanej funkcji
-        code.append(PECodeDefines<Reg>::readFromEspMemToReg(r, 2 * PECodeDefines<Reg>::stackCellSize));
-    }
-
-    code.append(PECodeDefines<Reg>::clearStackSpace(3));
-
-    return true;
-}
-
-template <>
-bool PEFile::generateParametersLoadingCode<Register_x64, uint64_t>
-(BinaryCode<Register_x64> &code, uint64_t getFunctionsCodeAddr, QMap<Register_x64, QString> params,
- QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
-{
-    typedef Register_x64 Reg;
-
-    // Rezerwowanie miejsca na GetProcAddr, LoadLibrary i tmp z wyrównaniem do 16
-    code.append(PECodeDefines<Reg>::reserveStackSpace(4));
-
-    // Wczytywanie adresów GetProcAddr i LoadLibrary
-    code.append(PECodeDefines<Reg>::movValueToReg(getFunctionsCodeAddr, Reg::RAX), true);
-    code.append(PECodeDefines<Reg>::callReg(Reg::RAX));
-
-    // Wczytywanie wymaganych adresów do rejestrów
-    QList<Reg> keys = params.keys();
-    foreach (Reg r, keys)
-    {
-        QList<QString> func_name = params[r].split('!');
-        if(func_name.length() != 2)
-            return false;
-
-        // Jeżeli szukana wartość jest adresem funkcji wątku to przypisujemy
-        if(threadCodePtr && func_name[0] == "THREAD" && func_name[1] == "THREAD")
-        {
-            code.append(PECodeDefines<Reg>::movValueToReg(threadCodePtr, r), true);
-            continue;
-        }
-
-        // Generowanie nazw biblioteki i funkcji
-        uint64_t lib_name_addr = generateString(func_name[0], ptrs);
-        uint64_t func_name_addr = generateString(func_name[1], ptrs);
-
-        // Zapisanie wszystkich wypełnionych wcześniej rejestrów + wyrównanie do 16
-        code.append(PECodeDefines<Reg>::saveAllInternal());
-        int internalSize = PECodeDefines<Reg>::internalRegs.length();
-        if(PECodeDefines<Reg>::internalRegs.length() % 2 != 0)
-        {
-            code.append(PECodeDefines<Reg>::reserveStackSpace(PECodeDefines<Reg>::align16Size));
-            internalSize++;
-        }
-
-        code.append(PECodeDefines<Reg>::reserveStackSpace(PECodeDefines<Reg>::shadowSize));
-        internalSize += PECodeDefines<Reg>::shadowSize;
-
-        // Wywołanie LoadLibrary
-        code.append(PECodeDefines<Reg>::movValueToReg(lib_name_addr, Reg::RCX), true);
-        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::RAX, (1 + internalSize) * PECodeDefines<Reg>::stackCellSize));
-        code.append(PECodeDefines<Reg>::callReg(Reg::RAX));
-
-        // Wywołanie GetProcAddr
-        code.append(PECodeDefines<Reg>::saveRegister(Reg::RAX));
-        code.append(PECodeDefines<Reg>::restoreRegister(Reg::RCX));
-        code.append(PECodeDefines<Reg>::movValueToReg(func_name_addr, Reg::RDX), true);
-        code.append(PECodeDefines<Reg>::readFromEspMemToReg(Reg::RAX, (internalSize) * PECodeDefines<Reg>::stackCellSize));
-        code.append(PECodeDefines<Reg>::callReg(Reg::RAX));
-
-        // Zapisanie znalezionej wartości jako tmp
-        code.append(PECodeDefines<Reg>::readFromRegToEspMem(Reg::RAX, (2 + internalSize) * PECodeDefines<Reg>::stackCellSize));
-
-        code.append(PECodeDefines<Reg>::clearStackSpace(PECodeDefines<Reg>::shadowSize));
-        if(PECodeDefines<Reg>::internalRegs.length() % 2 != 0)
-            code.append(PECodeDefines<Reg>::clearStackSpace(PECodeDefines<Reg>::align16Size));
-
-        code.append(PECodeDefines<Reg>::restoreAllInternal());
-
-        // Odtworzenie zapisanej wartości adresu szukanej funkcji i przypisanie do rejestru
-        code.append(PECodeDefines<Reg>::readFromEspMemToReg(r, 2 * PECodeDefines<Reg>::stackCellSize));
-    }
-
-    code.append(PECodeDefines<Reg>::clearStackSpace(4));
-
-    return true;
-}
-
-template <>
-bool PEFile::generateParametersLoadingCode<Register_x86, uint64_t>
-(BinaryCode<Register_x86> &code, uint64_t getFunctionsCodeAddr, QMap<Register_x86, QString> params,
- QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
-{
-    return generateParametersLoadingCode<Register_x86, uint32_t>
-            (code, static_cast<uint32_t>(getFunctionsCodeAddr), params, ptrs, static_cast<uint32_t>(threadCodePtr));
-}
-
-
-template <>
-uint64_t PEFile::generateThreadCode<Register_x86>
-(QList<Wrapper<Register_x86>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations)
-{
-    typedef Register_x86 Register;
-
-    BinaryCode<Register> code;
-
-    code.append(PECodeDefines<Register>::startFunc);
-    int jmp_offset = 0;
-
-    if(sleepTime)
-    {
-        // TODO: ścieżka z config!
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
-        if(!func_wrap)
-            return 0;
-
-        uint32_t get_functions = generateCode(func_wrap, ptrs, relocations);
-        delete func_wrap;
-        if(get_functions == 0)
-            return 0;
-
-        uint32_t lib_name_addr = generateString("kernel32", ptrs);
-        uint32_t func_name_addr = generateString("Sleep", ptrs);
-        if(!lib_name_addr || !func_name_addr)
-            return 0;
-
-        code.append(PECodeDefines<Register>::reserveStackSpace(2));
-        code.append(PECodeDefines<Register>::movValueToReg(get_functions, Register::EAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
-
-        code.append(PECodeDefines<Register>::restoreRegister(Register::EAX));
-        code.append(PECodeDefines<Register>::restoreRegister(Register::EDX));
-        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
-
-        code.append(PECodeDefines<Register>::storeValue(lib_name_addr), true);
-        code.append(PECodeDefines<Register>::callReg(Register::EDX));
-
-        code.append(PECodeDefines<Register>::restoreRegister(Register::EDX));
-
-        code.append(PECodeDefines<Register>::storeValue(func_name_addr), true);
-        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
-        code.append(PECodeDefines<Register>::callReg(Register::EDX));
-        code.append(PECodeDefines<Register>::saveRegister(Register::EAX));
-
-        jmp_offset = code.length();
-
-        // Pętla
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::EAX, 0));
-        code.append(PECodeDefines<Register>::storeValue(static_cast<uint32_t>(sleepTime * 1000)));
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
-    }
-
-    foreach(Wrapper<Register> *w, wrappers)
-    {
-        if(!w)
-            return 0;
-
-        uint32_t fnc = generateCode(w, ptrs, relocations);
-        code.append(PECodeDefines<Register>::movValueToReg(fnc, Register::EAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::EAX));
-    }
-
-    if(sleepTime)
-    {
-        jmp_offset = code.length() + 2 - jmp_offset;
-        if(jmp_offset > 126)
-            return 0;
-
-        code.append(PECodeDefines<Register>::jmpRelative(-jmp_offset));
-        code.append(PECodeDefines<Register>::clearStackSpace(1));
-    }
-
-    code.append(PECodeDefines<Register>::movValueToReg(0U, Register::EAX));
-    code.append(PECodeDefines<Register>::endFunc);
-    code.append(PECodeDefines<Register>::retN(4));
-
-    return injectUniqueData(code, ptrs, relocations);
-}
-
-template <>
-uint64_t PEFile::generateThreadCode<Register_x64>
-(QList<Wrapper<Register_x64>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations)
-{
-    typedef Register_x64 Register;
-
-    BinaryCode<Register> code;
-
-    code.append(PECodeDefines<Register>::startFunc);
-
-    int jmp_offset = 0;
-
-    if(sleepTime)
-    {
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
-        if(!func_wrap)
-            return 0;
-
-        uint64_t get_functions = generateCode(func_wrap, ptrs, relocations);
-        delete func_wrap;
-        if(get_functions == 0)
-            return 0;
-
-        uint64_t lib_name_addr = generateString("kernel32", ptrs);
-        uint64_t func_name_addr = generateString("Sleep", ptrs);
-        if(!lib_name_addr || !func_name_addr)
-            return 0;
-
-        // Alokacja Shadow Space. W pierwszych 2 komórkach znajdą się adresy LoadLibrary i GetProcAddr
-        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
-
-        // Pobieranie adresów
-        code.append(PECodeDefines<Register>::movValueToReg(get_functions, Register::RAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::RAX));
-
-        // Shadow Space dla LoadLibrary i GetProcAddr
-        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
-
-        // Wczytywanie adresu LoadLibrary
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::RDX, (PECodeDefines<Register>::shadowSize + 1) * PECodeDefines<Register>::stackCellSize));
-
-        // Wywoływanie LoadLibrary
-        code.append(PECodeDefines<Register>::movValueToReg(lib_name_addr, Register::RCX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::RDX));
-
-        // Wczytywanie adresu GetProcAddr
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::R8, (PECodeDefines<Register>::shadowSize) * PECodeDefines<Register>::stackCellSize));
-
-        // Wywołanie GetProcAddr
-        code.append(PECodeDefines<Register>::saveRegister(Register::RAX));
-        code.append(PECodeDefines<Register>::restoreRegister(Register::RCX));
-        code.append(PECodeDefines<Register>::movValueToReg(func_name_addr, Register::RDX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::R8));
-
-        // Usunięcie Shadow Space dla LoadLibrary i GetProcAddr
-        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
-
-        // Odłożenie adresu Sleep w Shadow Space
-        code.append(PECodeDefines<Register>::readFromRegToEspMem(Register::RAX, 0));
-
-        jmp_offset = code.length();
-
-        // Pętla
-        code.append(PECodeDefines<Register>::readFromEspMemToReg(Register::RAX, 0));
-        code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint64_t>(sleepTime * 1000), Register::RCX));
-
-        // Sleep
-        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
-        code.append(PECodeDefines<Register>::callReg(Register::RAX));
-        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
-    }
-
-    code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::shadowSize));
-
-    foreach(Wrapper<Register> *w, wrappers)
-    {
-        if(!w)
-            return 0;
-
-        uint64_t fnc = generateCode(w, ptrs, relocations);
-        code.append(PECodeDefines<Register>::movValueToReg(fnc, Register::RAX), true);
-        code.append(PECodeDefines<Register>::callReg(Register::RAX));
-    }
-
-    code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
-
-    if(sleepTime)
-    {
-        jmp_offset = code.length() + 2 - jmp_offset;
-        if(jmp_offset > 126)
-            return 0;
-
-        code.append(PECodeDefines<Register>::jmpRelative(-jmp_offset));
-        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::shadowSize));
-    }
-
-    code.append(PECodeDefines<Register>::movValueToReg(static_cast<uint64_t>(0), Register::RAX));
-    code.append(PECodeDefines<Register>::endFunc);
-    code.append(PECodeDefines<Register>::ret);
-
-    return injectUniqueData(code, ptrs, relocations);
-}
-
-template <typename Register>
-bool PEFile::generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act)
-{
-    code.append(PECodeDefines<Register>::movValueToReg(action, act), true);
-    code.append(PECodeDefines<Register>::testReg(cond));
-
-    QByteArray call_code;
-    call_code.append(PECodeDefines<Register>::saveAllInternal());
-
-    if(is_x64 && PECodeDefines<Register>::internalRegs.length() % 2 != 0)
-        call_code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
-
-    call_code.append(PECodeDefines<Register>::callReg(act));
-
-    if(is_x64 && PECodeDefines<Register>::internalRegs.length() % 2 != 0)
-        call_code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::align16Size));
-
-    call_code.append(PECodeDefines<Register>::restoreAllInternal());
-
-
-    code.append(PECodeDefines<Register>::jzRelative(call_code.length()));
-    code.append(call_code);
-
-    return true;
-}
-template bool PEFile::generateActionConditionCode(BinaryCode<Register_x86> &code, uint64_t action, Register_x86 cond, Register_x86 act);
-template bool PEFile::generateActionConditionCode(BinaryCode<Register_x64> &code, uint64_t action, Register_x64 cond, Register_x64 act);
-
-template <typename Register>
-uint64_t PEFile::generateCode
-(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations, bool isTlsCallback)
-{
-    if(!parsed)
-        return 0;
-
-    if(!w)
-        return 0;
-
-    uint64_t action = 0;
-    uint64_t thread = 0;
-
-    // Generowanie kodu dla akcji.
-    if(w->getAction())
-    {
-        action = generateCode(w->getAction(), ptrs, relocations);
-        if(!action) return 0;
-    }
-
-    // Generowanie kodu dla funkcji wątku.
-    ThreadWrapper<Register> *tw = dynamic_cast<ThreadWrapper<Register>*>(w);
-
-    if(tw && tw->getThreadWrappers().empty())
-        return 0;
-
-    if(tw && !tw->getThreadWrappers().empty())
-    {
-        thread = generateThreadCode(tw->getThreadWrappers(), ptrs, tw->getSleepTime(), relocations);
-        if(!thread) return 0;
-    }
-
-    // Generowanie kodu
-    BinaryCode<Register> code;
-
-    // Tworzenie ramki stosu
-    code.append(PECodeDefines<Register>::startFunc);
-
-    std::list<Register> rts = w->getRegistersToSave().toStdList();
-    bool align = false;
-
-    // Zachowywanie rejestrów
-    for(auto it = rts.begin(); it != rts.end(); ++it)
-    {
-        if(PECodeDefines<Register>::externalRegs.contains(*it))
-        {
-            code.append(PECodeDefines<Register>::saveRegister(*it));
-            align = !align;
-        }
-    }
-
-    // Wyrównanie do 16 w przypadku x64
-    if(is_x64 && align)
-        code.append(PECodeDefines<Register>::reserveStackSpace(PECodeDefines<Register>::align16Size));
-
-    // Ładowanie parametrów
-    if(!w->getParameters().empty())
-    {
-        Wrapper<Register> *func_wrap = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
-        if(!func_wrap)
-            return 0;
-
-        uint64_t get_functions = generateCode(func_wrap, ptrs, relocations);
-        delete func_wrap;
-
-        if(!get_functions)
-            return 0;
-
-        if(!generateParametersLoadingCode<Register>(code, get_functions, w->getParameters(), ptrs, thread))
-            return 0;
-    }
-
-    // Doklejanie właściwego kodu
-    code.append(w->getCode());
-
-    // Handler
-    if(action)
-    {
-        Register cond = w->getReturns();
-        int act_idx = PECodeDefines<Register>::internalRegs.indexOf(cond);
-        Register act = act_idx == -1 ? PECodeDefines<Register>::internalRegs[0] :
-                PECodeDefines<Register>::internalRegs[(act_idx + 1) % PECodeDefines<Register>::internalRegs.length()];
-
-        generateActionConditionCode<Register>(code, action, cond, act);
-    }
-
-    // Wyrównanie do 16 w przypadku x64
-    if(is_x64 && align)
-        code.append(PECodeDefines<Register>::clearStackSpace(PECodeDefines<Register>::align16Size));
-
-    // Przywracanie rejestrów
-    for(auto it = rts.rbegin(); it != rts.rend(); ++it)
-    {
-        if(PECodeDefines<Register>::externalRegs.contains(*it))
-            code.append(PECodeDefines<Register>::restoreRegister(*it));
-    }
-
-    // Niszczenie ramki stosu i ret
-    code.append(PECodeDefines<Register>::endFunc);
-    if(isTlsCallback && !is_x64)
-        code.append(PECodeDefines<Register>::retN(3 * PECodeDefines<Register>::stackCellSize));
-    else
-        code.append(PECodeDefines<Register>::ret);
-
-    return injectUniqueData(code, ptrs, relocations);
-}
-
 bool PEFile::parse()
 {
     char *data = b_data.data();
@@ -1427,12 +688,12 @@ bool PEFile::parse()
     if(length < sizeof(IMAGE_DOS_HEADER) || dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
         return false;
 
-    is_x64 = isPE_64(dosHeader->e_lfanew);
+    _is_x64 = isPE_64(dosHeader->e_lfanew);
 
     PIMAGE_NT_HEADERS32 ntHeaders32 = NULL;
     PIMAGE_NT_HEADERS64 ntHeaders64 = NULL;
 
-    if(is_x64)
+    if(_is_x64)
     {
         ntHeaders64 = reinterpret_cast<PIMAGE_NT_HEADERS64>(reinterpret_cast<char*>(dosHeader) +
                                                             dosHeader->e_lfanew);
@@ -1453,7 +714,7 @@ bool PEFile::parse()
             return false;
     }
 
-    PIMAGE_FILE_HEADER fileHeader = is_x64 ?
+    PIMAGE_FILE_HEADER fileHeader = _is_x64 ?
                 reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders64->FileHeader) :
                 reinterpret_cast<PIMAGE_FILE_HEADER>(&ntHeaders32->FileHeader);
 
@@ -1465,23 +726,23 @@ bool PEFile::parse()
     PIMAGE_OPTIONAL_HEADER32 optionalHeader32 = NULL;
     PIMAGE_OPTIONAL_HEADER64 optionalHeader64 = NULL;
 
-    if(is_x64)
+    if(_is_x64)
         optionalHeader64 = reinterpret_cast<PIMAGE_OPTIONAL_HEADER64>(&ntHeaders64->OptionalHeader);
     else
         optionalHeader32 = reinterpret_cast<PIMAGE_OPTIONAL_HEADER32>(&ntHeaders32->OptionalHeader);
 
     optionalHeaderSize = fileHeader->SizeOfOptionalHeader;
-    optionalHeaderIdx = is_x64 ?
+    optionalHeaderIdx = _is_x64 ?
                 (reinterpret_cast<char*>(optionalHeader64) - reinterpret_cast<char*>(dosHeader)) :
                 (reinterpret_cast<char*>(optionalHeader32) - reinterpret_cast<char*>(dosHeader));
 
     if(length < optionalHeaderIdx + optionalHeaderSize)
         return false;
 
-    if(is_x64 && optionalHeader64->Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+    if(_is_x64 && optionalHeader64->Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
         return false;
 
-    if(!is_x64 && optionalHeader32->Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC)
+    if(!_is_x64 && optionalHeader32->Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC)
         return false;
 
     // Data Directories
@@ -1500,7 +761,7 @@ bool PEFile::parse()
         return false;
     }
 
-    unsigned int firstDataDirIdx = is_x64 ?
+    unsigned int firstDataDirIdx = _is_x64 ?
                 reinterpret_cast<char*>(&(optionalHeader64->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader) :
         reinterpret_cast<char*>(&(optionalHeader32->DataDirectory[0])) - reinterpret_cast<char*>(dosHeader);
 
@@ -1988,7 +1249,7 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
     setOptHdrSizeOfInitializedData(getOptHdrSizeOfInitializedData() + header->SizeOfRawData);
     setOptHdrSizeOfImage(alignNumber(header->VirtualAddress + header->Misc.VirtualSize,
                                      getOptHdrSectionAlignment()));
-    if(is_x64)
+    if(_is_x64)
         setOptHdrSizeOfHeaders(alignNumber(sizeof(IMAGE_DOS_HEADER::e_lfanew) + sizeof(IMAGE_NT_HEADERS64::Signature) +
                                            sizeof(IMAGE_FILE_HEADER) + sizeof(IMAGE_OPTIONAL_HEADER64) +
                                            sizeof(IMAGE_SECTION_HEADER) * (getNumberOfSections() + 1),
@@ -2016,4 +1277,91 @@ bool PEFile::addNewSection(QString name, QByteArray data, unsigned int &fileOffs
     b_data.replace(newFileOffset, sizeOfNewData, data);
 
     return parse();
+}
+
+QByteArray PEFile::getTextSection()
+{
+    if(!parsed)
+        return QByteArray();
+
+    PIMAGE_SECTION_HEADER text_hdr = getSectionHeader(getSectionByVirtualAddress(getEntryPoint() + getImageBase()));
+    if(!text_hdr)
+        return QByteArray();
+
+    return QByteArray(&b_data.data()[text_hdr->PointerToRawData], text_hdr->Misc.VirtualSize);
+}
+
+uint32_t PEFile::getTextSectionOffset()
+{
+    if(!parsed)
+        return 0;
+
+    PIMAGE_SECTION_HEADER text_hdr = getSectionHeader(getSectionByVirtualAddress(getEntryPoint() + getImageBase()));
+    if(!text_hdr)
+        return 0;
+
+    return text_hdr->PointerToRawData;
+}
+
+bool PEFile::RelocationTable::addOffset(uint16_t offset, uint8_t type)
+{
+    bool added = false, ok = false;
+    QList<TypeOffset> new_to;
+
+    TypeOffset to;
+    to.Type = type;
+    to.Offset = offset;
+
+    for(QList<TypeOffset>::iterator it = TypeOffsets.begin(); it != TypeOffsets.end(); ++it)
+    {
+        if(it->Offset == offset)
+            added = true;
+
+        if(it->Offset > offset && !added)
+        {
+            added = ok = true;
+            new_to.append(to);
+        }
+
+        new_to.append(*it);
+    }
+
+    if(!added)
+    {
+        new_to.append(to);
+        ok = true;
+    }
+
+    TypeOffsets = new_to;
+
+    if(ok)
+        SizeOfBlock += sizeof(uint16_t);
+
+    return ok;
+}
+
+QByteArray PEFile::RelocationTable::toBytes()
+{
+    QByteArray bytes;
+
+    if(SizeOfBlock % 4 != 0)
+    {
+        TypeOffset align;
+        align.Type = 0;
+        align.Offset = 0;
+
+        SizeOfBlock += sizeof(uint16_t);
+        TypeOffsets.append(align);
+    }
+
+    bytes.append(reinterpret_cast<const char*>(&VirtualAddress), sizeof(uint32_t));
+    bytes.append(reinterpret_cast<const char*>(&SizeOfBlock), sizeof(uint32_t));
+
+    foreach(TypeOffset to, TypeOffsets)
+    {
+        uint16_t bin_to = (to.Type << 12) | to.Offset;
+        bytes.append(reinterpret_cast<const char*>(&bin_to), sizeof(uint16_t));
+    }
+
+    return bytes;
 }

@@ -18,7 +18,7 @@
 #include <cstdint>
 #include <chrono>
 #include <core/file_types/pecodedefines.h>
-#include <core/file_types/pehelpers.h>
+
 
 /**
  * @brief Klasa odpowiedzialna za parsowanie plików PE
@@ -26,6 +26,22 @@
 class PEFile
 {
 private:
+
+    struct RelocationTable
+    {
+        struct TypeOffset
+        {
+            uint8_t Type;
+            uint16_t Offset;
+        };
+
+        uint32_t VirtualAddress;
+        uint32_t SizeOfBlock;
+        QList<TypeOffset> TypeOffsets;
+
+        bool addOffset(uint16_t offset, uint8_t type);
+        QByteArray toBytes();
+    };
 
     /**
      * @brief Flaga zawierająca informację czy plik został poprawnie sparsowany.
@@ -35,7 +51,7 @@ private:
     /**
      * @brief Flaga zawierająca informacje o architekturze pliku.
      */
-    bool is_x64;
+    bool _is_x64;
 
     /**
      * @brief Zawartość pliku PE.
@@ -260,38 +276,10 @@ private:
      */
     uint64_t getTlsDirectoryFileOffset();
 
-    /**
-     * @brief Pobiera rozmiar struktury IMAGE_TLS_DIRECTORY.
-     * @return Rozmiar
-     */
-    size_t getImageTlsDirectorySize() const;
-
-    /**
-     * @brief Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji TLS.
-     * @return IMAGE_TLS_DIRECTORY.AddressOfCallBacks
-     */
-    uint64_t getTlsAddressOfCallBacks();
 
 
-    /**
-     * @brief Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji TLS.
-     * @param addr Nowy adres
-     * @return True w przypadku powodzenia
-     */
-    bool setTlsAddressOfCallBacks(uint64_t addr);
 
-    /**
-     * @brief Pobiera adres wirtualny pod którym znajduje się index TLS.
-     * @return IMAGE_TLS_DIRECTORY.AddressOfIndex
-     */
-    uint64_t getTlsAddressOfIndex();
 
-    /**
-     * @brief Ustawia adres wirtualny pod którym znajduje się index TLS.
-     * @param addr Nowy adres
-     * @return True w przypadku powodzenia
-     */
-    bool setTlsAddressOfIndex(uint64_t addr);
 
     /**
      * @brief Pobiera typ relokacji
@@ -330,52 +318,28 @@ private:
      */
     bool addDataToSectionExVirtual(unsigned int section, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset);
 
-    template <typename Register>
-    uint64_t generateCode(Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations, bool isTlsCallback = false);
 
-    template <typename Register>
-    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations);
 
-    template <typename Register, typename T>
-    bool generateParametersLoadingCode(BinaryCode<Register> &code, T getFunctionsCodeAddr, QMap<Register,
-                                       QString> params, QMap<QByteArray, uint64_t> &ptrs, T threadCodePtr);
 
-    template <typename Register>
-    bool generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
 
-    uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
 
-    template <typename Register>
-    uint64_t injectUniqueData(BinaryCode<Register> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
 
-    uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs, bool *inserted = NULL);
+
+
 
     QString getRandomSectionName();
 
-    template <typename Register>
-    bool injectEpCode(QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
-
-    template <typename Register>
-    bool injectTlsCode(QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
-
-    template <typename Register>
-    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
-                              QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset, uint8_t codeCoverage);
-
-    bool addRelocations(QList<uint64_t> relocations);
     bool getRelocations(QList<RelocationTable> &rt);
     uint32_t getSectionByVirtualAddress(uint32_t va);
     uint32_t getRelocationsSize();
     uint32_t getRelocationsVirtualAddress();
 
-    void getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset);
+
     uint32_t fileOffsetToRVA(uint32_t fileOffset);
 
-    template <typename Register>
-    uint8_t getRandomRegister();
 
-    template <typename Register>
-    BinaryCode<Register> generateTrampolineCode(uint64_t realAddr, uint64_t wrapperAddr);
+
+
 
 public:
     /**
@@ -385,9 +349,6 @@ public:
     PEFile(QByteArray d);
 
     ~PEFile();
-
-    template <typename Register>
-    bool injectCode(QList<InjectDescription<Register>*> descs, uint8_t codeCoverage);
 
     /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
@@ -507,6 +468,57 @@ public:
      * @return True w przypadku sukcesu.
      */
     bool addNewSection(QString name, QByteArray data, unsigned int &fileOffset, unsigned int &memOffset, bool useReserved = false);
+
+    QByteArray getTextSection();
+    uint32_t getTextSectionOffset();
+    bool addRelocations(QList<uint64_t> relocations);
+
+    template <typename Register>
+    uint64_t injectUniqueData(BinaryCode<Register> data, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations);
+    bool hasTls();
+    bool setTlsDirectoryAddress(uint64_t addr);
+    uint64_t getTlsDirectoryAddress();
+
+    QList<uint64_t> getTlsCallbacks();
+    bool is_x64();
+    bool is_x86();
+    uint64_t getAddressAtCallInstructionOffset(uint32_t offset);
+    bool setAddressAtCallInstructionOffset(uint32_t offset, uint64_t address);
+    uint64_t generateString(QString str, QMap<QByteArray, uint64_t> &ptrs);
+
+    /**
+     * @brief Pobiera rozmiar struktury IMAGE_TLS_DIRECTORY.
+     * @return Rozmiar
+     */
+    size_t getImageTlsDirectorySize() const;
+
+    /**
+     * @brief Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji TLS.
+     * @return IMAGE_TLS_DIRECTORY.AddressOfCallBacks
+     */
+    uint64_t getTlsAddressOfCallBacks();
+
+    uint64_t injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &ptrs, bool *inserted = NULL);
+
+    /**
+     * @brief Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji TLS.
+     * @param addr Nowy adres
+     * @return True w przypadku powodzenia
+     */
+    bool setTlsAddressOfCallBacks(uint64_t addr);
+
+    /**
+     * @brief Pobiera adres wirtualny pod którym znajduje się index TLS.
+     * @return IMAGE_TLS_DIRECTORY.AddressOfIndex
+     */
+    uint64_t getTlsAddressOfIndex();
+
+    /**
+     * @brief Ustawia adres wirtualny pod którym znajduje się index TLS.
+     * @param addr Nowy adres
+     * @return True w przypadku powodzenia
+     */
+    bool setTlsAddressOfIndex(uint64_t addr);
 };
 
 #endif

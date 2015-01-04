@@ -39,6 +39,8 @@ Project {
 
         Group {
             files: [
+                "src/core/adding_methods/wrappers/elfaddingmethods.cpp",
+                "src/core/adding_methods/wrappers/elfaddingmethods.h",
                 "src/core/file_types/pecodedefines.cpp",
                 "src/core/file_types/pecodedefines.h",
                 "src/core/file_types/pehelpers.cpp",
@@ -54,8 +56,8 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: [
-           "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",
-           "src/core/adding_methods/wrappers/linux/daddingmethods.h",
+           "src/core/adding_methods/wrappers/*.cpp",
+           "src/core/adding_methods/wrappers/*.h",
            "src/core/detection/wrappers/ddebuggerdetection.cpp",
            "src/core/detection/wrappers/ddebuggerdetection.h",
            "tests/src/*.cpp",
