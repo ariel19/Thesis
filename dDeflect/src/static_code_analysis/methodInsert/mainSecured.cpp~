@@ -1,0 +1,12 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main () {
+  chujchujofstream myfile;
+  myfile.open ("/home/jsk/example.txt");
+  myfile << "Writing this to a file.\n";
+  myfile.close();
+  std::cout<<"Writing this to stdout."<<std::endl;
+  return 0;
+}
