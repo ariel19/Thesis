@@ -39,6 +39,7 @@ ApplicationWindow {
         nameFilters: [ "C++ files (*.cc *.cpp *.CPP *.c++ *.cp *.cxx)", "Executive files (*.exe)" ]
         onFileUrlChanged:{
             fileUrlText.text = fileUrl;
+            applicationManager.fileOpened(fileDialog.fileUrl);
         }
 
     }
@@ -93,7 +94,7 @@ ApplicationWindow {
         iconSource: "../images/document-open.png"
         onTriggered: {
             fileDialog.open();
-            applicationManager.fileOpened(fileDialog.fileUrl);
+
         }
         tooltip: "Open a file to protect"
     }
@@ -105,20 +106,28 @@ ApplicationWindow {
         //anchors.margins: Qt.platform.os === "osx" ? 12 : 2
 
         Tab {
-            title: "FT(validating)"
+            title: "Executable"
             RowLayout{
                 anchors.fill: parent
                 anchors.margins: 12
 
-                TableView {
+                Component {
+                    id: contactDelegate
+                    Item {
+                        width: 180; height: 20
+                        Row {
+                            anchors.centerIn: parent.Center
+                            CheckBox{}
+                            Text{text: '<b>Name:</b> ' + modelData }
+                        }
+                    }
+                }
+                ListView {
+                    id: lv
                     anchors.fill: parent
                     anchors.rightMargin: frame.width/2
-                    model: ["method1", "method2"]
-                    TableViewColumn {
-                        role: "title"
-                        title: "Method's Name"
-                        //width: 120
-                    }
+                    model: applicationManager.x86MethodsNames
+                    delegate: contactDelegate
 
                 }
                 ColumnLayout{
@@ -142,7 +151,7 @@ ApplicationWindow {
 
         }
         Tab {
-            title: "inv. method"
+            title: "Source"
             RowLayout{
                 anchors.fill: parent
                 anchors.margins: 12

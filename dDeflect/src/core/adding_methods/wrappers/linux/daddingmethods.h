@@ -14,7 +14,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-#include <algorithm>
+#include <string>
 
 #include <core/file_types/elffile.h>
 
@@ -247,11 +247,13 @@ public:
      */
     template <typename RegistersType>
     struct InjectDescription {
+    public:
+        std::string name;
         CallingMethod cm;
         Wrapper<RegistersType> *adding_method;
-    public:
+
         ~InjectDescription(){
-            delete adding_method;
+            //delete adding_method;
         }
 
         /**
@@ -260,13 +262,12 @@ public:
          */
         void read(const QJsonObject &json){
 
-            delete adding_method;
+            //delete adding_method;
             Wrapper<RegistersType> * w = new Wrapper<RegistersType>();
             if(w){
-                const char* cmString = json["cm"].toString().toLocal8Bit().constData();
-                cm = static_cast<CallingMethod>(std::distance(CallingMethodNames, std::find(CallingMethodNames, CallingMethodNames + CMSIZE,cmString)));
 
-                QJsonValue jv = json["adding_method"].toObject();
+
+                QJsonValue jv = json;
                 if(jv.isObject()){
                     w->read(jv.toObject());
                     adding_method = w;
@@ -275,6 +276,11 @@ public:
                     delete w;
                     w = nullptr;
                 }
+                // FIXME: nie da sie załadować
+                name = json["name"].toString().toStdString();
+                const char* cmString = json["cm"].toString().toLocal8Bit().constData();
+                cm = static_cast<CallingMethod>(std::distance(CallingMethodNames, std::find(CallingMethodNames, CallingMethodNames + CMSIZE,cmString)));
+
             } else
                 qDebug()<<"nie przydzielono pamięci dla adding_method";
         }
@@ -285,10 +291,13 @@ public:
         void write(QJsonObject &json) const{
 
             QString s(CallingMethodNames[static_cast<int>(cm)]);
+            json["name"] = QString::fromStdString(name);
             json["cm"] = s;
+
             QJsonObject o;
-            adding_method->write(o);
-            json["adding_method"]=o;
+            adding_method->write(json);
+            //json["adding_method"]=o;
+
 
         }
     };

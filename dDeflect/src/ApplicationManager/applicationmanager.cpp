@@ -7,12 +7,24 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     // TODO: dodać obsługę listy metod 64 bitowych
     QDir descriptionsLocation("./injectDescriptions/");
     Q_ASSERT(descriptionsLocation.exists());
-    QDirIterator it("./injectDescriptions/", QStringList() << "*.json", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-        jsonParser.loadInjectDescription(it.fileInfo().fileName());
-        m_x86methodsList.append(jsonParser.getInjectionRead());
-        it.next();
+    QDirIterator it("./injectDescriptions/", QStringList() << "*.json", QDir::Files);
+
+    QFileInfoList files = descriptionsLocation.entryInfoList();
+    foreach(const QFileInfo &fi, files) {
+        QString Path = fi.absoluteFilePath();
+        if(fi.completeSuffix()=="json"){
+          m_x86methodsList.append(jsonParser.loadInjectDescription(fi.fileName()));
+        }
     }
+
+//    QString filename;
+//    while (it.hasNext()) {
+
+//        filename = it.fileName();
+//        m_x86methodsList.append(jsonParser.loadInjectDescription(filename));
+//        it.next();
+
+//    }
     // TODO: Lista do uzupełnienia o wszystkie rozszerzenia, albo stworzyć plik ze stringami i innymi danymi
     sourceExtensionList<<"cpp"<<"cxx"<<"c";
     setState(IDLE);
@@ -32,6 +44,15 @@ void ApplicationManager::setState(ApplicationManager::State state)
 
 ApplicationManager::State ApplicationManager::state() const
 { return m_state; }
+
+QVariantList ApplicationManager::x86MethodsNames()
+{
+    foreach(DAddingMethods::InjectDescription<DAddingMethods::Registers_x86>* id, m_x86methodsList){
+        QVariant* p = new QVariant(QString::fromStdString(id->name));
+        m_x86MethodsNames.append(*p);
+    }
+    return m_x86MethodsNames;
+}
 
 void ApplicationManager::fileOpened(QString path)
 {

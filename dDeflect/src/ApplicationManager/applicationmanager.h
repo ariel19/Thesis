@@ -14,7 +14,7 @@ class ApplicationManager : public QObject
     Q_OBJECT
     Q_ENUMS(State)
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
-
+    Q_PROPERTY(QVariantList x86MethodsNames READ x86MethodsNames NOTIFY x86MethodsNamesChanged)
 public:
     template <typename Reg>
     using IDList = QList<DAddingMethods::InjectDescription<Reg>*>;
@@ -28,16 +28,19 @@ public:
     void setState(State state);
     State state() const;
 
-
+    QVariantList x86MethodsNames();
 signals:
     void stateChanged(State);
+    void x86MethodsNamesChanged();
 public slots:
     void fileOpened(QString);
     void insertMethods(FIDMapping<DAddingMethods::Registers_x86>);
 private:
     State m_state;
     IDList<DAddingMethods::Registers_x86> m_x86methodsList;
+    QVariantList m_x86MethodsNames;
     IDList<DAddingMethods::Registers_x64> m_x64methodsList;
+    QVariantList m_x64MethodsNames;
     QString m_targetPath;
     QStringList sourceExtensionList;
     DJsonParser jsonParser;

@@ -56,10 +56,12 @@ void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<DAddingMet
 
     // TODO: przygotuj kod do wstawienia tak aby działał
     QString codeToInsert;
-    codeToInsert.append("__asm__(");
-    codeToInsert.append(map["main"].first()->adding_method->code);
-    codeToInsert.append(");");
-    arguments << path << "--" << "main" << codeToInsert.toStdString();
+    foreach(DAddingMethods::InjectDescription<DAddingMethods::Registers_x86>* id, map["main"]){
+        codeToInsert.append("__asm__(");
+        codeToInsert.append(id->adding_method->code);
+        codeToInsert.append(");\n");
+    }
+    arguments << path << "--" << "main" << codeToInsert;
 
     QProcess * myProcess = new QProcess();
     myProcess->start(program, arguments);

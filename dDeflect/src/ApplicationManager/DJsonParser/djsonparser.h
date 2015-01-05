@@ -11,7 +11,7 @@ class DJsonParser
     QString m_path;
 public:
     DJsonParser(QString path);
-    bool loadInjectDescription(QString name);
+    DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> * loadInjectDescription(QString name);
     bool saveIncjectDescription(QString name, DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> &inj);
 
     DAddingMethods::InjectDescription<DAddingMethods::Registers_x86> *getInjectionRead() const;
