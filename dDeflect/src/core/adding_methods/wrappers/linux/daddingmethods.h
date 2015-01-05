@@ -604,12 +604,13 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // change memory protect for page with init section
         QString mprotect_code;
         QByteArray mprotect_compiled;
+        Elf64_Addr aligned_vaddr = section_data.second- (section_data.second % align);
         if (elf.is_x86()) {
-            if (!set_prot_flags_gen_code_x86(section_data.second- (section_data.second % align), 0x1,
+            if (!set_prot_flags_gen_code_x86(aligned_vaddr, section_data.second - aligned_vaddr + section_data.first.size(),
                                              prot_flags | PF_W, mprotect_code))
                 return false;
         }
-        else if (!set_prot_flags_gen_code_x64(section_data.second- (section_data.second % align), 0x1,
+        else if (!set_prot_flags_gen_code_x64(aligned_vaddr, section_data.second - aligned_vaddr + section_data.first.size(),
                                               prot_flags | PF_W, mprotect_code))
                 return false;
 
@@ -622,10 +623,10 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(section_data.first.size(), Register_x86::ECX));
         // rep movsb
         compiled_code.append("\xf3\xa4", 2);
-        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
 
         // TODO: restore memory protect flags
 
+        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EDI));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
 
