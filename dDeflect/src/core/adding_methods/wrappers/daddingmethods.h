@@ -7,7 +7,7 @@
 #include <QDebug>
 
 #include <core/file_types/elffile.h>
-#include <core/file_types/pecodedefines.h>
+#include <core/file_types/codedefines.h>
 
 class DAddingMethods {
 public:
@@ -471,12 +471,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // compiled_code += jmp to old address
 
         if (elf.is_x86()) {
-            compiled_code.append(PECodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
-            compiled_code.append(PECodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
         }
         else {
-            compiled_code.append(PECodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
-            compiled_code.append(PECodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
         // TODO: parameter for x segment
@@ -509,29 +509,29 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // jmp to init code
 
         // compiled_code = debugger detection + jmp to copy routine
-        compiled_code.append(PECodeDefines<Registers_x86>::saveRegister(Registers_x86::ESI));
-        compiled_code.append(PECodeDefines<Registers_x86>::saveRegister(Registers_x86::EDI));
-        compiled_code.append(PECodeDefines<Registers_x86>::saveRegister(Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ESI));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EDI));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ECX));
 
-        compiled_code.append(PECodeDefines<Registers_x86>::callRelative(section_data.first.size()));
+        compiled_code.append(CodeDefines<Registers_x86>::callRelative(section_data.first.size()));
         // compiled_code = debugger detection + jmp to copy routine + previous init
         compiled_code.append(section_data.first);
         // copy routine
 
         // mov ecx, data_size
-        compiled_code.append(PECodeDefines<Registers_x86>::movValueToReg<uint32_t>(section_data.first.size(), Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<uint32_t>(section_data.first.size(), Registers_x86::ECX));
 
         if (elf.is_x86()) {
             // mov esi, src
-            compiled_code.append(PECodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
+            compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
             // mov edi, dst
-            compiled_code.append(PECodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(section_data.second, Registers_x86::EDI));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(section_data.second, Registers_x86::EDI));
         }
         else {
             // mov rsi, src
-            compiled_code.append(PECodeDefines<Registers_x64>::restoreRegister(Registers_x64::RSI));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::RSI));
             // mov rdi, dst
-            compiled_code.append(PECodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x64::RDI));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x64::RDI));
         }
 
         // TODO: change memory protection here to copy a data
@@ -551,18 +551,18 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // rep movsb
         compiled_code.append("\xf3\xa4", 2);
 
-        compiled_code.append(PECodeDefines<Registers_x86>::restoreRegister(Registers_x86::ECX));
-        compiled_code.append(PECodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI));
-        compiled_code.append(PECodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
 
         // jmp to init
         if (elf.is_x86()) {
-            compiled_code.append(PECodeDefines<Registers_x86>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x86::EAX));
-            compiled_code.append(PECodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
         }
         else {
-            compiled_code.append(PECodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x64::RAX));
-            compiled_code.append(PECodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
         // TODO: parameter for x segment
@@ -615,12 +615,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // compiled_code += jmp to old address
 
         if (elf.is_x86()) {
-            compiled_code.append(PECodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
-            compiled_code.append(PECodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
         }
         else {
-            compiled_code.append(PECodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
-            compiled_code.append(PECodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
         // TODO: parameter for x segment

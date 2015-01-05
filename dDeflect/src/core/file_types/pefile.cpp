@@ -535,7 +535,7 @@ QList<uint64_t> PEFile::getTlsCallbacks()
     while(value != 0)
     {
         tlsCallbacks.append(value);
-        fileptr += (_is_x64 ? PECodeDefines<Registers_x64>::stackCellSize : PECodeDefines<Registers_x86>::stackCellSize);
+        fileptr += (_is_x64 ? CodeDefines<Registers_x64>::stackCellSize : CodeDefines<Registers_x86>::stackCellSize);
         value = _is_x64 ? *reinterpret_cast<uint64_t*>(&b_data.data()[fileptr]) : *reinterpret_cast<uint32_t*>(&b_data.data()[fileptr]);
     }
 

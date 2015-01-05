@@ -41,8 +41,8 @@ Project {
             files: [
                 "src/core/adding_methods/wrappers/elfaddingmethods.cpp",
                 "src/core/adding_methods/wrappers/elfaddingmethods.h",
-                "src/core/file_types/pecodedefines.cpp",
-                "src/core/file_types/pecodedefines.h",
+                "src/core/file_types/codedefines.cpp",
+                "src/core/file_types/codedefines.h",
                 "src/core/file_types/pehelpers.cpp",
                 "src/core/file_types/pehelpers.h",
             ]
