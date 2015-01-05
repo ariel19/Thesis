@@ -2,6 +2,7 @@
 
 PEAddingMethods::PEAddingMethods(PEFile *f) :
     DAddingMethods(f),
+    codeCoverage(5),
     gen(std::chrono::system_clock::now().time_since_epoch().count())
 {
 
@@ -12,9 +13,14 @@ PEAddingMethods::~PEAddingMethods()
 
 }
 
+void PEAddingMethods::setCodeCoverage(uint8_t new_coverage)
+{
+    codeCoverage = new_coverage > 100 ? 100 : new_coverage;
+}
+
 
 template <typename Register>
-bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs, uint8_t codeCoverage)
+bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs)
 {
     QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
@@ -28,8 +34,8 @@ bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs, uin
     if(!pe->isValid())
         return false;
 
-    QByteArray text_section = pe->getTextSection();
-    uint32_t text_section_offset = pe->getTextSectionOffset();
+    text_section = pe->getTextSection();
+    text_section_offset = pe->getTextSectionOffset();
 
     foreach(InjectDescription<Register> *desc, descs)
     {
@@ -63,7 +69,7 @@ bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs, uin
 
     if(!tramMethods.empty())
     {
-        if(!injectTrampolineCode<Register>(tramMethods, text_section, text_section_offset, codeCoverage))
+        if(!injectTrampolineCode<Register>(tramMethods))
             return false;
     }
 
@@ -81,8 +87,8 @@ bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs, uin
 
     return pe->addRelocations(relocations);
 }
-template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x86> *> descs, uint8_t codeCoverage);
-template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x64> *> descs, uint8_t codeCoverage);
+template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x86> *> descs);
+template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x64> *> descs);
 
 
 template <typename Register>
@@ -341,8 +347,7 @@ template bool PEAddingMethods::injectTlsCode<Registers_x64>(QList<uint64_t> &tls
 
 
 template <typename Register>
-bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods, QByteArray text_section,
-                                  uint32_t text_section_offset, uint8_t codeCoverage)
+bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods)
 {
     PEFile *pe = dynamic_cast<PEFile*>(file);
     if(!pe)

@@ -53,7 +53,8 @@ int main(int argc, char **argv)
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::Trampoline, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "printf_test.asm")));
 
     PEAddingMethods adder(&pe);
-    if(adder.injectCode(ids, 5))
+    adder.setCodeCoverage(10);
+    if(adder.injectCode(ids))
         puts("Success!");
     else
         puts("Failed!");

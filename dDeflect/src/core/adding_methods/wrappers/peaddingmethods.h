@@ -12,10 +12,6 @@
 class PEAddingMethods : public DAddingMethods
 {
 private:
-    /**
-     * @brief Generator liczb losowych
-     */
-    std::default_random_engine gen;
 
     /**
      * @brief Mapa z adresami wklejanych danych/kawałków kodu/napisów.
@@ -26,6 +22,26 @@ private:
      * @brief Tablica adresów na wartości do zrelokowania
      */
     QList<uint64_t> relocations;
+
+    /**
+     * @brief Zawartość sekcji .text pliku PE
+     */
+    QByteArray text_section;
+
+    /**
+     * @brief Offset sekcji .text pliku PE
+     */
+    uint32_t text_section_offset;
+
+    /**
+     * @brief Procentowe pokrycie kodu dla metod zamieniających adresy skoków
+     */
+    uint8_t codeCoverage;
+
+    /**
+     * @brief Generator liczb losowych
+     */
+    std::default_random_engine gen;
 
 
     /**
@@ -70,14 +86,10 @@ private:
     /**
      * @brief Metoda dodająca kod jako trampolinę
      * @param tramMethods Wybrane metody zabezpieczania
-     * @param text_section Zawartość sekcji .text
-     * @param text_section_offset Offset sekcji .text w pliku
-     * @param codeCoverage Procentowe pokrycie kodu
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectTrampolineCode(QList<uint64_t> &tramMethods,
-                              QByteArray text_section, uint32_t text_section_offset, uint8_t codeCoverage);
+    bool injectTrampolineCode(QList<uint64_t> &tramMethods);
 
     /**
      * @brief Metoda generująca kod wątku
@@ -133,11 +145,16 @@ public:
     /**
      * @brief Metoda zabezpieczająca plik PE podanymi metodami
      * @param descs Lista wybranych metod
-     * @param codeCoverage Procentowe pokrycie kodu dla metod zamieniających adresy skoków
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectCode(QList<InjectDescription<Register>*> descs, uint8_t codeCoverage);
+    bool injectCode(QList<InjectDescription<Register>*> descs);
+
+    /**
+     * @brief Ustawia nowe procentowe pokrycie kodu
+     * @param new_coverage Pokrycie kodu
+     */
+    void setCodeCoverage(uint8_t new_coverage);
 };
 
 #endif // PEADDINGMETHODS_H
