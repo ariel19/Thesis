@@ -140,3 +140,49 @@ bool DAddingMethods::get_addresses(const QByteArray &addr_data, uint8_t addr_siz
 
     return true;
 }
+
+bool DAddingMethods::set_prot_flags_gen_code_x86(Elf32_Addr vaddr, Elf32_Word mem_size,
+                                                 Elf32_Word flags, QString &code) {
+    // TODO: generated using JSON parser, here is stupid dummy solution
+    Wrapper<Registers_x86> mprotect;
+
+    // TODO: should be changed
+    mprotect.detect_handler = nullptr;
+    mprotect.used_regs = { Registers_x86::EAX, Registers_x86::EBX, Registers_x86::ECX, Registers_x86::EDX };
+    mprotect.params = { { "vaddr", QString::number(vaddr) },
+                        { "vsize", QString::number(mem_size) },
+                        { "flags", QString::number(flags) } };
+    mprotect.ret = Registers_x86::NONE;
+
+    QFile protect("mprotect.asm");
+    if (!protect.open(QIODevice::ReadOnly))
+        return false;
+
+    mprotect.code = protect.readAll();
+    code = QString("%1\n").arg(arch_type[ArchitectureType::BITS32]);
+
+    return wrapper_gen_code<Registers_x86>(&mprotect, code);
+}
+
+bool DAddingMethods::set_prot_flags_gen_code_x64(Elf64_Addr vaddr, Elf64_Xword mem_size,
+                                                 Elf64_Word flags, QString &code) {
+    // TODO: generated using JSON parser, here is stupid dummy solution
+    Wrapper<Registers_x64> mprotect;
+
+    // TODO: should be changed
+    mprotect.detect_handler = nullptr;
+    mprotect.used_regs = { Registers_x64::RAX, Registers_x64::RDX, Registers_x64::RSI, Registers_x64::RDI };
+    mprotect.params = { { "vaddr", QString::number(vaddr) },
+                        { "vsize", QString::number(mem_size) },
+                        { "flags", QString::number(flags) } };
+    mprotect.ret = Registers_x64::NONE;
+
+    QFile protect("mprotect64.asm");
+    if (!protect.open(QIODevice::ReadOnly))
+        return false;
+
+    mprotect.code = protect.readAll();
+    code = QString("%1\n").arg(arch_type[ArchitectureType::BITS64]);
+
+    return wrapper_gen_code<Registers_x64>(&mprotect, code);
+}

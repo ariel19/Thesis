@@ -43,7 +43,8 @@ public:
         ESI,
         EDI,
         EBP,
-        ESP
+        ESP,
+        NONE
     };
 
     /**
@@ -65,7 +66,8 @@ public:
         R12,
         R13,
         R14,
-        R15
+        R15,
+        NONE
     };
 
 
@@ -202,6 +204,26 @@ private:
      */
     bool get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
                        const QList<Elf64_Addr> &except_list);
+
+    /**
+     * @brief Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci.
+     * @param vaddr adres wirtualny.
+     * @param mem_size wielkość pamięci.
+     * @param flags prawa dostępu do pamięci.
+     * @param code wygenerowany kod.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_prot_flags_gen_code_x86(Elf32_Addr vaddr, Elf32_Word mem_size, Elf32_Word flags, QString &code);
+
+    /**
+     * @brief Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci.
+     * @param vaddr adres wirtualny.
+     * @param mem_size wielkość pamięci.
+     * @param flags prawa dostępu do pamięci.
+     * @param code wygenerowany kod.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_prot_flags_gen_code_x64(Elf64_Addr vaddr, Elf64_Xword mem_size, Elf64_Word flags, QString &code);
 };
 
 class AsmCodeGenerator {
@@ -558,17 +580,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // compiled_code = debugger detection + jmp to copy routine
         compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ESI));
         compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::EDI));
-        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
-        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::EBX));
 
         compiled_code.append(PECodeDefines<Register_x86>::callRelative(section_data.first.size()));
         // compiled_code = debugger detection + jmp to copy routine + previous init
         compiled_code.append(section_data.first);
+
         // copy routine
-
-        // mov ecx, data_size
-        compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<uint32_t>(section_data.first.size(), Register_x86::ECX));
-
         if (elf.is_x86()) {
             // mov esi, src
             compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
@@ -585,21 +602,30 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // TODO: change memory protection here to copy a data
 
         // change memory protect for page with init section
-        // TODO: change shitty dummy solution
-        QFile protect("protect");
-        if (!protect.open(QIODevice::ReadOnly))
+        QString mprotect_code;
+        QByteArray mprotect_compiled;
+        if (elf.is_x86()) {
+            if (!set_prot_flags_gen_code_x86(section_data.second- (section_data.second % align), 0x1,
+                                             prot_flags | PF_W, mprotect_code))
+                return false;
+        }
+        else if (!set_prot_flags_gen_code_x64(section_data.second- (section_data.second % align), 0x1,
+                                              prot_flags | PF_W, mprotect_code))
+                return false;
+
+        if (!compile(mprotect_code, mprotect_compiled))
             return false;
 
-        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
-        compiled_code.append(protect.readAll());
-        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
-        protect.close();
+        compiled_code.append(mprotect_compiled);
 
+        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
+        compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(section_data.first.size(), Register_x86::ECX));
         // rep movsb
         compiled_code.append("\xf3\xa4", 2);
-
-        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EBX));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
+
+        // TODO: restore memory protect flags
+
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EDI));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
 
