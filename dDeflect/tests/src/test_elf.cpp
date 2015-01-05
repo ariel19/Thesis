@@ -200,7 +200,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam;
+    DAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::OEPWrapper<Registers_x86> oepwrapper;
@@ -297,7 +297,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam;
+    DAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::ThreadWrapper<Registers_x86> twrapper;
@@ -403,7 +403,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam;
+    DAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
@@ -500,7 +500,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam;
+    DAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
@@ -597,7 +597,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam;
+    DAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;

@@ -90,7 +90,7 @@ public:
     /**
      * @brief Konstruktor.
      */
-    DAddingMethods();
+    DAddingMethods(BinaryFile *f);
 
     /**
      * @brief Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody.
@@ -100,6 +100,9 @@ public:
      */
     template <typename RegistersType>
     bool secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc);
+
+protected:
+    BinaryFile *file;
 
 private:
     enum class PlaceholderMnemonics {

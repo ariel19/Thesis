@@ -52,8 +52,8 @@ int main(int argc, char **argv)
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::TLS, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "handlers\\message_box.asm")));
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::Trampoline, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "printf_test.asm")));
 
-    PEAddingMethods adder;
-    if(adder.injectCode(pe, ids, 5))
+    PEAddingMethods adder(&pe);
+    if(adder.injectCode(ids, 5))
         puts("Success!");
     else
         puts("Failed!");

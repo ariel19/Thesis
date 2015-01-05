@@ -1,6 +1,7 @@
 #include "elfaddingmethods.h"
 
-ELFAddingMethods::ELFAddingMethods()
+ELFAddingMethods::ELFAddingMethods(ELF *f) :
+    DAddingMethods(f)
 {
 
 }

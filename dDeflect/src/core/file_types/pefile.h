@@ -17,13 +17,14 @@
 #include <QTemporaryFile>
 #include <cstdint>
 #include <chrono>
+#include <core/file_types/binaryfile.h>
 #include <core/file_types/codedefines.h>
 
 
 /**
  * @brief Klasa odpowiedzialna za parsowanie plików PE
  */
-class PEFile
+class PEFile : public BinaryFile
 {
 private:
 

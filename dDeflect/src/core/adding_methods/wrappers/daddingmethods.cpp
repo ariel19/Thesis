@@ -55,7 +55,9 @@ const QMap<AsmCodeGenerator::Instructions, QString> AsmCodeGenerator::instructio
     { AsmCodeGenerator::Instructions::CALL, instruction_stringify(AsmCodeGenerator::Instructions::CALL) }
 };
 
-DAddingMethods::DAddingMethods() {
+DAddingMethods::DAddingMethods(BinaryFile *f) :
+    file(f)
+{
     placeholder_id = {
         { PlaceholderTypes::PARAM_PRE,          QString("(?^_^")     },
         { PlaceholderTypes::PARAM_POST,         QString("^_^?)")     },

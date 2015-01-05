@@ -6,7 +6,7 @@
 class ELFAddingMethods : public DAddingMethods
 {
 public:
-    ELFAddingMethods();
+    ELFAddingMethods(ELF *f);
     ~ELFAddingMethods();
 };
 

@@ -1,6 +1,7 @@
 #include "peaddingmethods.h"
 
-PEAddingMethods::PEAddingMethods() :
+PEAddingMethods::PEAddingMethods(PEFile *f) :
+    DAddingMethods(f),
     gen(std::chrono::system_clock::now().time_since_epoch().count())
 {
 
@@ -13,17 +14,22 @@ PEAddingMethods::~PEAddingMethods()
 
 
 template <typename Register>
-bool PEAddingMethods::injectCode(PEFile &pe, QList<InjectDescription<Register> *> descs, uint8_t codeCoverage)
+bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs, uint8_t codeCoverage)
 {
-    QMap<QByteArray, uint64_t> codePointers;
     QList<uint64_t> relocations;
     QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
-    if(!pe.isValid())
+    codePointers.clear();
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
         return false;
 
-    QByteArray text_section = pe.getTextSection();
-    uint32_t text_section_offset = pe.getTextSectionOffset();
+    if(!pe->isValid())
+        return false;
+
+    QByteArray text_section = pe->getTextSection();
+    uint32_t text_section_offset = pe->getTextSectionOffset();
 
     foreach(InjectDescription<Register> *desc, descs)
     {
@@ -33,19 +39,19 @@ bool PEAddingMethods::injectCode(PEFile &pe, QList<InjectDescription<Register> *
         switch(desc->cm)
         {
         case CallingMethod::OEP:
-            epMethods.append(generateCode<Register>(pe, desc->adding_method, codePointers, relocations));
+            epMethods.append(generateCode<Register>(desc->adding_method, relocations));
             if(epMethods.last() == 0)
                 return false;
             break;
 
         case CallingMethod::TLS:
-            tlsMethods.append(generateCode<Register>(pe, desc->adding_method, codePointers, relocations, true));
+            tlsMethods.append(generateCode<Register>(desc->adding_method, relocations, true));
             if(tlsMethods.last() == 0)
                 return false;
             break;
 
         case CallingMethod::Trampoline:
-            tramMethods.append(generateCode<Register>(pe, desc->adding_method, codePointers, relocations));
+            tramMethods.append(generateCode<Register>(desc->adding_method, relocations));
             if(tramMethods.last() == 0)
                 return false;
             break;
@@ -57,32 +63,36 @@ bool PEAddingMethods::injectCode(PEFile &pe, QList<InjectDescription<Register> *
 
     if(!tramMethods.empty())
     {
-        if(!injectTrampolineCode<Register>(pe, tramMethods, codePointers, relocations, text_section, text_section_offset, codeCoverage))
+        if(!injectTrampolineCode<Register>(tramMethods, relocations, text_section, text_section_offset, codeCoverage))
             return false;
     }
 
     if(!epMethods.empty())
     {
-        if(!injectEpCode<Register>(pe, epMethods, codePointers, relocations))
+        if(!injectEpCode<Register>(epMethods, relocations))
             return false;
     }
 
     if(!tlsMethods.empty())
     {
-        if(!injectTlsCode<Register>(pe, tlsMethods, codePointers, relocations))
+        if(!injectTlsCode<Register>(tlsMethods, relocations))
             return false;
     }
 
-    return pe.addRelocations(relocations);
+    return pe->addRelocations(relocations);
 }
-template bool PEAddingMethods::injectCode(PEFile &pe, QList<InjectDescription<Registers_x86> *> descs, uint8_t codeCoverage);
-template bool PEAddingMethods::injectCode(PEFile &pe, QList<InjectDescription<Registers_x64> *> descs, uint8_t codeCoverage);
+template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x86> *> descs, uint8_t codeCoverage);
+template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x64> *> descs, uint8_t codeCoverage);
 
 
 template <typename Register>
 uint64_t PEAddingMethods::generateCode
-(PEFile &pe, Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations, bool isTlsCallback)
+(Wrapper<Register> *w, QList<uint64_t> &relocations, bool isTlsCallback)
 {
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return 0;
+
     if(!w)
         return 0;
 
@@ -92,7 +102,7 @@ uint64_t PEAddingMethods::generateCode
     // Generowanie kodu dla akcji.
     if(w->detect_handler)
     {
-        action = generateCode(pe, w->detect_handler, ptrs, relocations);
+        action = generateCode(w->detect_handler, relocations);
         if(!action) return 0;
     }
 
@@ -104,7 +114,7 @@ uint64_t PEAddingMethods::generateCode
 
     if(tw && !tw->thread_actions.empty())
     {
-        thread = generateThreadCode(pe, tw->thread_actions, ptrs, tw->sleep_time, relocations);
+        thread = generateThreadCode(tw->thread_actions, tw->sleep_time, relocations);
         if(!thread) return 0;
     }
 
@@ -139,13 +149,13 @@ uint64_t PEAddingMethods::generateCode
         if(!func_wrap)
             return 0;
 
-        uint64_t get_functions = generateCode(pe, func_wrap, ptrs, relocations);
+        uint64_t get_functions = generateCode(func_wrap, relocations);
         delete func_wrap;
 
         if(!get_functions)
             return 0;
 
-        if(!generateParametersLoadingCode<Register>(pe, code, get_functions, w->dynamic_params, ptrs, thread))
+        if(!generateParametersLoadingCode<Register>(code, get_functions, w->dynamic_params, thread))
             return 0;
     }
 
@@ -160,7 +170,7 @@ uint64_t PEAddingMethods::generateCode
         Register act = act_idx == -1 ? CodeDefines<Register>::internalRegs[0] :
                 CodeDefines<Register>::internalRegs[(act_idx + 1) % CodeDefines<Register>::internalRegs.length()];
 
-        generateActionConditionCode<Register>(pe, code, action, cond, act);
+        generateActionConditionCode<Register>(code, action, cond, act);
     }
 
     // Wyrównanie do 16 w przypadku x64
@@ -181,14 +191,17 @@ uint64_t PEAddingMethods::generateCode
     else
         code.append(CodeDefines<Register>::ret);
 
-    return pe.injectUniqueData(code, ptrs, relocations);
+    return pe->injectUniqueData(code, codePointers, relocations);
 }
 
 template <>
-bool PEAddingMethods::injectEpCode<Registers_x86>
-(PEFile &pe, QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+bool PEAddingMethods::injectEpCode<Registers_x86>(QList<uint64_t> &epMethods, QList<uint64_t> &relocations)
 {
     typedef Registers_x86 Register;
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
 
     BinaryCode<Register> code;
 
@@ -200,27 +213,30 @@ bool PEAddingMethods::injectEpCode<Registers_x86>
     }
 
     // Skok do Entry Point
-    code.append(CodeDefines<Register>::movValueToReg(pe.getEntryPoint() + pe.getImageBase(), Register::EAX), true);
+    code.append(CodeDefines<Register>::movValueToReg(pe->getEntryPoint() + pe->getImageBase(), Register::EAX), true);
     code.append(CodeDefines<Register>::jmpReg(Register::EAX));
 
-    uint64_t new_ep = pe.injectUniqueData(code, codePointers, relocations);
+    uint64_t new_ep = pe->injectUniqueData(code, codePointers, relocations);
 
     if(new_ep == 0)
         return false;
 
-    new_ep -= pe.getImageBase();
+    new_ep -= pe->getImageBase();
 
-    if(!pe.setNewEntryPoint(new_ep))
+    if(!pe->setNewEntryPoint(new_ep))
         return false;
 
     return true;
 }
 
 template <>
-bool PEAddingMethods::injectEpCode<Registers_x64>
-(PEFile &pe, QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+bool PEAddingMethods::injectEpCode<Registers_x64>(QList<uint64_t> &epMethods, QList<uint64_t> &relocations)
 {
     typedef Registers_x64 Register;
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
 
     BinaryCode<Register> code;
 
@@ -238,45 +254,49 @@ bool PEAddingMethods::injectEpCode<Registers_x64>
     code.append(CodeDefines<Register>::clearStackSpace(CodeDefines<Register>::shadowSize));
 
     // Skok do Entry Point
-    code.append(CodeDefines<Register>::movValueToReg(pe.getEntryPoint() + pe.getImageBase(), Register::RAX), true);
+    code.append(CodeDefines<Register>::movValueToReg(pe->getEntryPoint() + pe->getImageBase(), Register::RAX), true);
     code.append(CodeDefines<Register>::jmpReg(Register::RAX));
 
-    uint64_t new_ep = pe.injectUniqueData(code, codePointers, relocations);
+    uint64_t new_ep = pe->injectUniqueData(code, codePointers, relocations);
 
     if(new_ep == 0)
         return false;
 
-    new_ep -= pe.getImageBase();
+    new_ep -= pe->getImageBase();
 
-    if(!pe.setNewEntryPoint(new_ep))
+    if(!pe->setNewEntryPoint(new_ep))
         return false;
 
     return true;
 }
 
 template <typename Register>
-bool PEAddingMethods::injectTlsCode(PEFile &pe, QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations)
+bool PEAddingMethods::injectTlsCode(QList<uint64_t> &tlsMethods, QList<uint64_t> &relocations)
 {
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
+
     // Tworzenie tablicy TLS jeśli nie istnieje
-    if(!pe.hasTls())
+    if(!pe->hasTls())
     {
-        QByteArray new_tls(pe.getImageTlsDirectorySize(), '\x00');
-        uint64_t addr = pe.injectUniqueData(new_tls, codePointers);
+        QByteArray new_tls(pe->getImageTlsDirectorySize(), '\x00');
+        uint64_t addr = pe->injectUniqueData(new_tls, codePointers);
 
         if(addr == 0)
             return false;
 
-        addr -= pe.getImageBase();
+        addr -= pe->getImageBase();
 
-        pe.setTlsDirectoryAddress(addr);
+        pe->setTlsDirectoryAddress(addr);
     }
 
     QByteArray tlsCallbacks;
 
     // Zapisanie istniejących callbacków
-    if(pe.getTlsAddressOfCallBacks() != 0)
+    if(pe->getTlsAddressOfCallBacks() != 0)
     {
-        QList<uint64_t> clbks = pe.getTlsCallbacks();
+        QList<uint64_t> clbks = pe->getTlsCallbacks();
         foreach(uint64_t value, clbks)
         {
             tlsCallbacks.append(reinterpret_cast<const char*>(&value), CodeDefines<Register>::stackCellSize);
@@ -285,7 +305,7 @@ bool PEAddingMethods::injectTlsCode(PEFile &pe, QList<uint64_t> &tlsMethods, QMa
     else
     {
         // Adres tablicy z callbackami nie istniał. Trzeba dodać do relokacji.
-        relocations.append(pe.getTlsDirectoryAddress() + pe.getImageBase() +
+        relocations.append(pe->getTlsDirectoryAddress() + pe->getImageBase() +
                            3 * CodeDefines<Register>::stackCellSize);
     }
 
@@ -296,7 +316,7 @@ bool PEAddingMethods::injectTlsCode(PEFile &pe, QList<uint64_t> &tlsMethods, QMa
     // Dodanie NULL-byte i pola do zapisu TLSIndex
     tlsCallbacks.append(QByteArray(CodeDefines<Register>::stackCellSize * 2, '\x00'));
 
-    uint64_t cb_pointer = pe.injectUniqueData(tlsCallbacks, codePointers);
+    uint64_t cb_pointer = pe->injectUniqueData(tlsCallbacks, codePointers);
 
     if(cb_pointer == 0)
         return false;
@@ -307,25 +327,29 @@ bool PEAddingMethods::injectTlsCode(PEFile &pe, QList<uint64_t> &tlsMethods, QMa
         relocations.append(i + cb_pointer);
     }
 
-    pe.setTlsAddressOfCallBacks(cb_pointer);
-    if(pe.getTlsAddressOfIndex() == 0)
+    pe->setTlsAddressOfCallBacks(cb_pointer);
+    if(pe->getTlsAddressOfIndex() == 0)
     {
-        relocations.append(pe.getTlsDirectoryAddress() + pe.getImageBase() +
+        relocations.append(pe->getTlsDirectoryAddress() + pe->getImageBase() +
                            2 * CodeDefines<Register>::stackCellSize);
-        pe.setTlsAddressOfIndex(cb_pointer + tlsCallbacks.length() - CodeDefines<Register>::stackCellSize);
+        pe->setTlsAddressOfIndex(cb_pointer + tlsCallbacks.length() - CodeDefines<Register>::stackCellSize);
     }
 
     return true;
 }
-template bool PEAddingMethods::injectTlsCode<Registers_x86>(PEFile &pe, QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
-template bool PEAddingMethods::injectTlsCode<Registers_x64>(PEFile &pe, QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
+template bool PEAddingMethods::injectTlsCode<Registers_x86>(QList<uint64_t> &tlsMethods, QList<uint64_t> &relocations);
+template bool PEAddingMethods::injectTlsCode<Registers_x64>(QList<uint64_t> &tlsMethods, QList<uint64_t> &relocations);
 
 
 template <typename Register>
-bool PEAddingMethods::injectTrampolineCode(PEFile &pe, QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
+bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods,
                                   QList<uint64_t> &relocations, QByteArray text_section,
                                   uint32_t text_section_offset, uint8_t codeCoverage)
 {
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
+
     QTemporaryFile temp_file;
     if(!temp_file.open())
         return false;
@@ -364,13 +388,13 @@ bool PEAddingMethods::injectTrampolineCode(PEFile &pe, QList<uint64_t> &tramMeth
         if(prob(gen) >= codeCoverage)
             continue;
 
-        BinaryCode<Register> code = generateTrampolineCode<Register>(pe.getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
+        BinaryCode<Register> code = generateTrampolineCode<Register>(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
 
-        uint64_t addr = pe.injectUniqueData(code, codePointers, relocations);
+        uint64_t addr = pe->injectUniqueData(code, codePointers, relocations);
         if(addr == 0)
             return false;
 
-        pe.setAddressAtCallInstructionOffset(offset, addr);
+        pe->setAddressAtCallInstructionOffset(offset, addr);
 
         method_idx = (method_idx + 1) % tramMethods.length();
     }
@@ -380,9 +404,13 @@ bool PEAddingMethods::injectTrampolineCode(PEFile &pe, QList<uint64_t> &tramMeth
 
 template <>
 uint64_t PEAddingMethods::generateThreadCode<Registers_x86>
-(PEFile &pe, QList<Wrapper<Registers_x86>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations)
+(QList<Wrapper<Registers_x86>*> wrappers, uint16_t sleepTime, QList<uint64_t> &relocations)
 {
     typedef Registers_x86 Register;
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
 
     BinaryCode<Register> code;
 
@@ -396,13 +424,13 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x86>
         if(!func_wrap)
             return 0;
 
-        uint32_t get_functions = generateCode(pe, func_wrap, ptrs, relocations);
+        uint32_t get_functions = generateCode(func_wrap, relocations);
         delete func_wrap;
         if(get_functions == 0)
             return 0;
 
-        uint32_t lib_name_addr = pe.generateString("kernel32", ptrs);
-        uint32_t func_name_addr = pe.generateString("Sleep", ptrs);
+        uint32_t lib_name_addr = pe->generateString("kernel32", codePointers);
+        uint32_t func_name_addr = pe->generateString("Sleep", codePointers);
         if(!lib_name_addr || !func_name_addr)
             return 0;
 
@@ -437,7 +465,7 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x86>
         if(!w)
             return 0;
 
-        uint32_t fnc = generateCode(pe, w, ptrs, relocations);
+        uint32_t fnc = generateCode(w, relocations);
         code.append(CodeDefines<Register>::movValueToReg(fnc, Register::EAX), true);
         code.append(CodeDefines<Register>::callReg(Register::EAX));
     }
@@ -456,14 +484,18 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x86>
     code.append(CodeDefines<Register>::endFunc);
     code.append(CodeDefines<Register>::retN(4));
 
-    return pe.injectUniqueData(code, ptrs, relocations);
+    return pe->injectUniqueData(code, codePointers, relocations);
 }
 
 template <>
 uint64_t PEAddingMethods::generateThreadCode<Registers_x64>
-(PEFile &pe, QList<Wrapper<Registers_x64>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations)
+(QList<Wrapper<Registers_x64>*> wrappers, uint16_t sleepTime, QList<uint64_t> &relocations)
 {
     typedef Registers_x64 Register;
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
 
     BinaryCode<Register> code;
 
@@ -478,13 +510,13 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>
         if(!func_wrap)
             return 0;
 
-        uint64_t get_functions = generateCode(pe, func_wrap, ptrs, relocations);
+        uint64_t get_functions = generateCode(func_wrap, relocations);
         delete func_wrap;
         if(get_functions == 0)
             return 0;
 
-        uint64_t lib_name_addr = pe.generateString("kernel32", ptrs);
-        uint64_t func_name_addr = pe.generateString("Sleep", ptrs);
+        uint64_t lib_name_addr = pe->generateString("kernel32", codePointers);
+        uint64_t func_name_addr = pe->generateString("Sleep", codePointers);
         if(!lib_name_addr || !func_name_addr)
             return 0;
 
@@ -539,7 +571,7 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>
         if(!w)
             return 0;
 
-        uint64_t fnc = generateCode(pe, w, ptrs, relocations);
+        uint64_t fnc = generateCode(w, relocations);
         code.append(CodeDefines<Register>::movValueToReg(fnc, Register::RAX), true);
         code.append(CodeDefines<Register>::callReg(Register::RAX));
     }
@@ -560,15 +592,18 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>
     code.append(CodeDefines<Register>::endFunc);
     code.append(CodeDefines<Register>::ret);
 
-    return pe.injectUniqueData(code, ptrs, relocations);
+    return pe->injectUniqueData(code, codePointers, relocations);
 }
 
 template <>
 bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint32_t>
-(PEFile &pe, BinaryCode<Registers_x86> &code, uint32_t getFunctionsCodeAddr, QMap<Registers_x86, QString> params,
- QMap<QByteArray, uint64_t> &ptrs, uint32_t threadCodePtr)
+(BinaryCode<Registers_x86> &code, uint32_t getFunctionsCodeAddr, QMap<Registers_x86, QString> params, uint32_t threadCodePtr)
 {
     typedef Registers_x86 Reg;
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
 
     // Rezerwowanie miejsca na GetProcAddr, LoadLibrary i tmp
     code.append(CodeDefines<Reg>::reserveStackSpace(3));
@@ -593,8 +628,8 @@ bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint32_t>
         }
 
         // Generowanie nazw biblioteki i funkcji
-        uint32_t lib_name_addr = pe.generateString(func_name[0], ptrs);
-        uint32_t func_name_addr = pe.generateString(func_name[1], ptrs);
+        uint32_t lib_name_addr = pe->generateString(func_name[0], codePointers);
+        uint32_t func_name_addr = pe->generateString(func_name[1], codePointers);
 
         // Zachowywanie wypełnionych już wcześniej rejestrów
         code.append(CodeDefines<Reg>::saveAllInternal());
@@ -629,10 +664,13 @@ bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint32_t>
 
 template <>
 bool PEAddingMethods::generateParametersLoadingCode<Registers_x64, uint64_t>
-(PEFile &pe, BinaryCode<Registers_x64> &code, uint64_t getFunctionsCodeAddr, QMap<Registers_x64, QString> params,
- QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
+(BinaryCode<Registers_x64> &code, uint64_t getFunctionsCodeAddr, QMap<Registers_x64, QString> params, uint64_t threadCodePtr)
 {
     typedef Registers_x64 Reg;
+
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
 
     // Rezerwowanie miejsca na GetProcAddr, LoadLibrary i tmp z wyrównaniem do 16
     code.append(CodeDefines<Reg>::reserveStackSpace(4));
@@ -657,8 +695,8 @@ bool PEAddingMethods::generateParametersLoadingCode<Registers_x64, uint64_t>
         }
 
         // Generowanie nazw biblioteki i funkcji
-        uint64_t lib_name_addr = pe.generateString(func_name[0], ptrs);
-        uint64_t func_name_addr = pe.generateString(func_name[1], ptrs);
+        uint64_t lib_name_addr = pe->generateString(func_name[0], codePointers);
+        uint64_t func_name_addr = pe->generateString(func_name[1], codePointers);
 
         // Zapisanie wszystkich wypełnionych wcześniej rejestrów + wyrównanie do 16
         code.append(CodeDefines<Reg>::saveAllInternal());
@@ -704,28 +742,31 @@ bool PEAddingMethods::generateParametersLoadingCode<Registers_x64, uint64_t>
 
 template <>
 bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint64_t>
-(PEFile &pe, BinaryCode<Registers_x86> &code, uint64_t getFunctionsCodeAddr, QMap<Registers_x86, QString> params,
- QMap<QByteArray, uint64_t> &ptrs, uint64_t threadCodePtr)
+(BinaryCode<Registers_x86> &code, uint64_t getFunctionsCodeAddr, QMap<Registers_x86, QString> params, uint64_t threadCodePtr)
 {
     return generateParametersLoadingCode<Registers_x86, uint32_t>
-            (pe, code, static_cast<uint32_t>(getFunctionsCodeAddr), params, ptrs, static_cast<uint32_t>(threadCodePtr));
+            (code, static_cast<uint32_t>(getFunctionsCodeAddr), params, static_cast<uint32_t>(threadCodePtr));
 }
 
 template <typename Register>
-bool PEAddingMethods::generateActionConditionCode(PEFile &pe, BinaryCode<Register> &code, uint64_t action, Register cond, Register act)
+bool PEAddingMethods::generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act)
 {
+    PEFile *pe = dynamic_cast<PEFile*>(file);
+    if(!pe)
+        return false;
+
     code.append(CodeDefines<Register>::movValueToReg(action, act), true);
     code.append(CodeDefines<Register>::testReg(cond));
 
     QByteArray call_code;
     call_code.append(CodeDefines<Register>::saveAllInternal());
 
-    if(pe.is_x64() && CodeDefines<Register>::internalRegs.length() % 2 != 0)
+    if(pe->is_x64() && CodeDefines<Register>::internalRegs.length() % 2 != 0)
         call_code.append(CodeDefines<Register>::reserveStackSpace(CodeDefines<Register>::align16Size));
 
     call_code.append(CodeDefines<Register>::callReg(act));
 
-    if(pe.is_x64() && CodeDefines<Register>::internalRegs.length() % 2 != 0)
+    if(pe->is_x64() && CodeDefines<Register>::internalRegs.length() % 2 != 0)
         call_code.append(CodeDefines<Register>::clearStackSpace(CodeDefines<Register>::align16Size));
 
     call_code.append(CodeDefines<Register>::restoreAllInternal());
@@ -736,8 +777,8 @@ bool PEAddingMethods::generateActionConditionCode(PEFile &pe, BinaryCode<Registe
 
     return true;
 }
-template bool PEAddingMethods::generateActionConditionCode(PEFile &pe, BinaryCode<Registers_x86> &code, uint64_t action, Registers_x86 cond, Registers_x86 act);
-template bool PEAddingMethods::generateActionConditionCode(PEFile &pe, BinaryCode<Registers_x64> &code, uint64_t action, Registers_x64 cond, Registers_x64 act);
+template bool PEAddingMethods::generateActionConditionCode(BinaryCode<Registers_x86> &code, uint64_t action, Registers_x86 cond, Registers_x86 act);
+template bool PEAddingMethods::generateActionConditionCode(BinaryCode<Registers_x64> &code, uint64_t action, Registers_x64 cond, Registers_x64 act);
 
 void PEAddingMethods::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset)
 {

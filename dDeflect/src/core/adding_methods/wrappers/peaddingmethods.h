@@ -17,24 +17,26 @@ private:
      */
     std::default_random_engine gen;
 
+    /**
+     * @brief Mapa z adresami wklejanych danych/kawałków kodu/napisów.
+     */
+    QMap<QByteArray, uint64_t> codePointers;
+
 
     /**
      * @brief Metoda generująca kod ładujący parametry dla metod.
-     * @param pe Plik PE
      * @param code Wygenerowany kod
      * @param getFunctionsCodeAddr Adres metody uzyskującej dostęp do API Windows
      * @param params Parametry metody
-     * @param ptrs Mapa z adresami wcześniej wklejonych kawałków kodu
      * @param threadCodePtr Adres wklejonego kodu stworzenia wątku
      * @return True w przypadku sukcesu
      */
     template <typename Register, typename T>
-    bool generateParametersLoadingCode(PEFile &pe, BinaryCode<Register> &code, T getFunctionsCodeAddr, QMap<Register,
-                                       QString> params, QMap<QByteArray, uint64_t> &ptrs, T threadCodePtr);
+    bool generateParametersLoadingCode(BinaryCode<Register> &code, T getFunctionsCodeAddr,
+                                       QMap<Register, QString> params, T threadCodePtr);
 
     /**
      * @brief Metoda generująca kod sprawdzający warunek wywołania akcji (handlera) dla metody
-     * @param pe Plik PE
      * @param code Wygenerowany kod
      * @param action Adres metody, która ma być wywołana jako akcja
      * @param cond Rejestr, w którym jest zwracana z metody flaga warunku
@@ -42,35 +44,29 @@ private:
      * @return True w przypadku powodzenia
      */
     template <typename Register>
-    bool generateActionConditionCode(PEFile &pe, BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
+    bool generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
 
     /**
      * @brief Metoda dodająca kod w EntryPoint
-     * @param pe Plik PE
      * @param epMethods Wybrane metody zabezpieczania
-     * @param codePointers Mapa z adresami wcześniej wklejonych kawałków kodu
      * @param relocations Tablica relokacji do wypełnienia
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectEpCode(PEFile &pe, QList<uint64_t> &epMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
+    bool injectEpCode(QList<uint64_t> &epMethods, QList<uint64_t> &relocations);
 
     /**
      * @brief Metoda dodająca kod do Thread Local Storage
-     * @param pe Plik PE
      * @param tlsMethods Wybrane metody zabezpieczania
-     * @param codePointers Mapa z adresami wcześniej wklejonych kawałków kodu
      * @param relocations Tablica relokacji do wypełnienia
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectTlsCode(PEFile &pe, QList<uint64_t> &tlsMethods, QMap<QByteArray, uint64_t> &codePointers, QList<uint64_t> &relocations);
+    bool injectTlsCode(QList<uint64_t> &tlsMethods, QList<uint64_t> &relocations);
 
     /**
      * @brief Metoda dodająca kod jako trampolinę
-     * @param pe Plik PE
      * @param tramMethods Wybrane metody zabezpieczania
-     * @param codePointers Mapa z adresami wcześniej wklejonych kawałków kodu
      * @param relocations Tablica relokacji do wypełnienia
      * @param text_section Zawartość sekcji .text
      * @param text_section_offset Offset sekcji .text w pliku
@@ -78,32 +74,28 @@ private:
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectTrampolineCode(PEFile &pe, QList<uint64_t> &tramMethods, QMap<QByteArray, uint64_t> &codePointers,
-                              QList<uint64_t> &relocations, QByteArray text_section, uint32_t text_section_offset, uint8_t codeCoverage);
+    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QList<uint64_t> &relocations,
+                              QByteArray text_section, uint32_t text_section_offset, uint8_t codeCoverage);
 
     /**
      * @brief Metoda generująca kod wątku
-     * @param pe Plik PE
      * @param wrappers Metody do uruchomienia w wątku
-     * @param ptrs Mapa z adresami wcześniej wklejonych kawałków kodu
      * @param sleepTime Czas snu wątku
      * @param relocations Tablica relokacji do wypełnienia
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    uint64_t generateThreadCode(PEFile &pe, QList<Wrapper<Register>*> wrappers, QMap<QByteArray, uint64_t> &ptrs, uint16_t sleepTime, QList<uint64_t> &relocations);
+    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, uint16_t sleepTime, QList<uint64_t> &relocations);
 
     /**
      * @brief Generowanie kodu metody
-     * @param pe Plik PE
      * @param w Opis metody
-     * @param ptrs Mapa z adresami wcześniej wklejonych kawałków kodu
      * @param relocations Tablica relokacji do wypełnienia
      * @param isTlsCallback Informacja czy metoda jest callbackiem TLS
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    uint64_t generateCode(PEFile &pe, Wrapper<Register> *w, QMap<QByteArray, uint64_t> &ptrs, QList<uint64_t> &relocations, bool isTlsCallback = false);
+    uint64_t generateCode(Wrapper<Register> *w, QList<uint64_t> &relocations, bool isTlsCallback = false);
 
     /**
      * @brief Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu
@@ -132,20 +124,20 @@ private:
 public:
     /**
      * @brief Konstruktor
+     * @param f Plik PE
      */
-    PEAddingMethods();
+    PEAddingMethods(PEFile *f);
 
     ~PEAddingMethods();
 
     /**
      * @brief Metoda zabezpieczająca plik PE podanymi metodami
-     * @param pe Plik do zabezpieczenia
      * @param descs Lista wybranych metod
      * @param codeCoverage Procentowe pokrycie kodu dla metod zamieniających adresy skoków
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectCode(PEFile &pe, QList<InjectDescription<Register>*> descs, uint8_t codeCoverage);
+    bool injectCode(QList<InjectDescription<Register>*> descs, uint8_t codeCoverage);
 };
 
 #endif // PEADDINGMETHODS_H

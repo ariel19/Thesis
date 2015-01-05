@@ -11,12 +11,13 @@
 #include <QList>
 #include <QMap>
 #include <map>
+#include <core/file_types/binaryfile.h>
 
 typedef uint32_t offset_t;
 typedef Elf64_Half esize_t;
 typedef Elf64_Off ex_offset_t;
 
-class ELF {
+class ELF : public BinaryFile {
 public:
     /**
      * @brief Type sekcji.
