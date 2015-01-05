@@ -68,6 +68,7 @@ public:
         R15
     };
 
+
     /**
      * @brief Klasa bazowa reprezentująca opakowanie dla kawałków kodu.
      */
@@ -118,6 +119,8 @@ public:
     public:
         CallingMethod cm;
         Wrapper<RegistersType> *adding_method;
+        QString saved_fname;
+        bool change_x_only;
     };
 
     /**
@@ -193,10 +196,12 @@ private:
      * @brief Metoda odpowiada za pobieranie adresów z wyspecyfikowanych danych.
      * @param data tablica z adresami.
      * @param addr_size wielkość adresu w bajtach.
-     * @param addr_list listra adresów.
+     * @param addr_list lista adresów.
+     * @param except_list lista adresów, które nie trzeba dołączać do listy wynikowej.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list);
+    bool get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
+                       const QList<Elf64_Addr> &except_list);
 };
 
 class AsmCodeGenerator {
@@ -474,7 +479,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
     case CallingMethod::Thread:
     case CallingMethod::OEP: {
         // TODO: parameter for x segment
-        nf = elf.extend_segment(compiled_code, false, nva);
+        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
 
@@ -491,7 +496,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf.is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data.first, addr_size, addresses))
+        if (!get_addresses(section_data.first, addr_size, addresses, { 0, 0xffffffff, 0xffffffffffffffff }))
             return false;
 
         // no place to store our pointer
@@ -513,7 +518,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         }
 
         // TODO: parameter for x segment
-        nf = elf.extend_segment(compiled_code, false, nva);
+        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
 
@@ -532,6 +537,15 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT, section_data))
             return false;
 
+        int prot_flags;
+        Elf64_Addr align;
+
+        // get relevant info
+        if (!elf.get_segment_prot_flags(section_data.second, prot_flags))
+            return false;
+        if (!elf.get_segment_align(section_data.second, align))
+            return false;
+
         // whole code will look like:
         // detection code
         // jmp to copy to init code
@@ -545,6 +559,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ESI));
         compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::EDI));
         compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
+        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::EBX));
 
         compiled_code.append(PECodeDefines<Register_x86>::callRelative(section_data.first.size()));
         // compiled_code = debugger detection + jmp to copy routine + previous init
@@ -568,7 +583,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         }
 
         // TODO: change memory protection here to copy a data
-        /*
+
         // change memory protect for page with init section
         // TODO: change shitty dummy solution
         QFile protect("protect");
@@ -579,11 +594,11 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         compiled_code.append(protect.readAll());
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
         protect.close();
-        */
 
         // rep movsb
         compiled_code.append("\xf3\xa4", 2);
 
+        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EBX));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EDI));
         compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
@@ -599,7 +614,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         }
 
         // TODO: parameter for x segment
-        nf = elf.extend_segment(compiled_code, false, nva);
+        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
 
@@ -635,7 +650,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf.is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data.first, addr_size, addresses))
+        if (!get_addresses(section_data.first, addr_size, addresses, { 0 }))
             return false;
 
         // no place to store our pointer
@@ -657,7 +672,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         }
 
         // TODO: parameter for x segment
-        nf = elf.extend_segment(compiled_code, false, nva);
+        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
 
@@ -676,6 +691,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
     }
 
     // TODO: name of file should be changed
+    // elf.write_to_file(inject_desc.saved_fname, nf);
     elf.write_to_file("template", nf);
 
     return true;

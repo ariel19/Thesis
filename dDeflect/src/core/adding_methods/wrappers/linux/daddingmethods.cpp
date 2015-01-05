@@ -122,7 +122,8 @@ bool DAddingMethods::compile(const QString &code2compile, QByteArray &compiled_c
     return true;
 }
 
-bool DAddingMethods::get_addresses(const QByteArray &addr_data, uint8_t addr_size, QList<Elf64_Addr> &addr_list) {
+bool DAddingMethods::get_addresses(const QByteArray &addr_data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
+                                   const QList<Elf64_Addr> &except_list) {
     int data_size = addr_data.size();
     if (data_size % addr_size)
         return false;
@@ -133,7 +134,7 @@ bool DAddingMethods::get_addresses(const QByteArray &addr_data, uint8_t addr_siz
         addr = 0;
         for (int j = 0; j < addr_size; ++j)
             addr |= (static_cast<const char>((addr_data.data())[i + j]) & 0xff) << (j * 8);
-        if (addr)
+        if (!except_list.contains(addr))
             addr_list.push_back(addr);
     }
 
