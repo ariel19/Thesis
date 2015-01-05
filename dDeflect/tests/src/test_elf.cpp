@@ -5,7 +5,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <core/file_types/elffile.h>
-#include <core/adding_methods/wrappers/daddingmethods.h>
+#include <core/adding_methods/wrappers/elfaddingmethods.h>
 
 int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
     QFile f(elf_fname);
@@ -220,7 +220,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam(&elf);
+    ELFAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::OEPWrapper<Registers_x86> oepwrapper;
@@ -331,7 +331,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam(&elf);
+    ELFAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::ThreadWrapper<Registers_x86> twrapper;
@@ -442,7 +442,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam(&elf);
+    ELFAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
@@ -561,7 +561,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam(&elf);
+    ELFAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
@@ -680,7 +680,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     if (!elf.is_valid())
         return false;
     QFile code;
-    DAddingMethods dam(&elf);
+    ELFAddingMethods dam(&elf);
     if (elf.is_x86()) {
         DAddingMethods::InjectDescription<Registers_x86> inject_desc;
         DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
