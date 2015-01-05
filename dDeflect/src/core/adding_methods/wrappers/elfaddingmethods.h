@@ -152,13 +152,13 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     else return false;
 
     // add to params
-    if (!inject_desc.adding_method || !inject_desc.adding_method->detect_handler)
+    if (!inject_desc.adding_method)
         return false;
 
     // adding a param value for (?^_^ddret^_^?)
     inject_desc.adding_method->static_params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf.is_x86() ?
-                AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->detect_handler->ret)) :
-                AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->detect_handler->ret));
+                AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->ret)) :
+                AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->ret));
 
     // 0. take code from input
     if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method, code2compile))

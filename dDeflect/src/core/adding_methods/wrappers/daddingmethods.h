@@ -128,7 +128,7 @@ class AsmCodeGenerator {
     static const QMap<Instructions, QString> instructions;
 
 public:
-    AsmCodeGenerator() {}
+    AsmCodeGenerator() { }
 
     template <typename RegistersType>
     static QString push_regs(const RegistersType reg);

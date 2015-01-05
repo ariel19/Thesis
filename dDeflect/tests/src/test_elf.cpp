@@ -247,7 +247,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
         // FXIME: FOR CC METHOD
         oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
-                             { "vaddr", QString::number(section_data.second) } };
+                                    { "vaddr", QString::number(section_data.second) } };
         oepaction.detect_handler = nullptr;
         oepaction.ret = Registers_x86::EAX;
         oepaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
@@ -263,6 +263,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.oep_action = &oepaction;
         oepwrapper.code = code.readAll();
         oepwrapper.used_regs = { Registers_x86::EDI };
+        oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
@@ -306,6 +307,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.oep_action = &oepaction;
         oepwrapper.code = code.readAll();
         oepwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
+        oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
@@ -369,7 +371,8 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
                                Registers_x86::EBX, Registers_x86::EDX,
                                Registers_x86::ESI, Registers_x86::EDI };
         twrapper.static_params = { { "sleep1", "0" },
-                            { "sleep2", "5" } };
+                                   { "sleep2", "5" } };
+        twrapper.ret = taction.ret;
         // qDebug() << twrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::Thread;
@@ -416,6 +419,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
                                Registers_x64::R10, Registers_x64::R8 };
         twrapper.static_params = { { "sleep1", "0" },
                             { "sleep2", "5" } };
+        twrapper.ret = taction.ret;
         // qDebug() << twrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::Thread;
@@ -484,6 +488,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                                Registers_x86::ESI, Registers_x86::EDI };
         trmwrapper.static_params = { { "sleep1", "0" },
                               { "sleep2", "5" } };
+        trmwrapper.ret = trmaction.ret;
 
         // qDebug() << oepwrapper.code;
         code.close();
@@ -534,6 +539,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
         trmwrapper.static_params = { { "sleep1", "0" },
                               { "sleep2", "5" } };
+        trmwrapper.ret = trmaction.ret;
 
         // qDebug() << oepwrapper.code;
         code.close();
@@ -605,6 +611,8 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.static_params = { { "sleep1", "0" },
                               { "sleep2", "5" } };
 
+        trmwrapper.ret = trmaction.ret;
+
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
@@ -652,6 +660,8 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
                                Registers_x64::R10, Registers_x64::R8 };
         trmwrapper.static_params = { { "sleep1", "0" },
                             { "sleep2", "5" } };
+
+        trmwrapper.ret = trmaction.ret;
 
         // qDebug() << oepwrapper.code;
         code.close();
@@ -715,6 +725,8 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { Registers_x86::EDI };
+
+        trmwrapper.ret = trmaction.ret;
         // qDebug() << oepwrapper.code;
 
         code.close();
@@ -757,6 +769,8 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
+
+        trmwrapper.ret = trmaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
@@ -771,7 +785,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 }
 
 void test_wrappers() {
-    /*
+
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
@@ -780,6 +794,7 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + ptrace for my 32-bit app done";
     qDebug() << "=========================================";
+    /*
     qDebug() << "Testing OEP + ptrace for my 64-bit app...";
     if (!test_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
         qDebug() << "something went wrong :(";
@@ -850,6 +865,7 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
     */
 
+    /*
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
@@ -858,7 +874,7 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + ptrace for my 32-bit app done";
     qDebug() << "=========================================";
-
+    */
 
     /*
     qDebug() << "Testing OEP + ptrace for my 64-bit app...";
