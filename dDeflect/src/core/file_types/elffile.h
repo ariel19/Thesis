@@ -11,12 +11,13 @@
 #include <QList>
 #include <QMap>
 #include <map>
+#include <core/file_types/binaryfile.h>
 
 typedef uint32_t offset_t;
 typedef Elf64_Half esize_t;
 typedef Elf64_Off ex_offset_t;
 
-class ELF {
+class ELF : public BinaryFile {
 public:
     /**
      * @brief Type sekcji.
@@ -32,7 +33,7 @@ public:
      * @brief Konstruktor.
      * @param _fname nazwa pliku.
      */
-    ELF(QString _fname);
+    ELF(QByteArray _data);
 
     /**
      * @brief Destruktor.
@@ -49,7 +50,7 @@ public:
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
      * @return True jeżeli poprawny, False w innym przypadku.
      */
-    bool is_valid() const { return elf_file.isOpen() & parsed; }
+    bool is_valid() const { return parsed; }
 
     /**
      * @brief Dostarcza informacje czy plik jest poprawnym plikiem ELF 32-bitowym.
@@ -62,12 +63,6 @@ public:
      * @return True jezeli spełnia warunki, False w pozostałych przypadkach.
      */
     bool is_x64() const { return is_valid() & (cls == classes::ELF64); }
-
-    /**
-     * @brief Sprawdza czy plik jest otwarty.
-     * @return True jeżeli jest otwarty, False jeżeli nie.
-     */
-    bool is_open() const { return elf_file.isOpen(); }
 
     /**
      * @brief Pobiera ilość segmentów w pliku.
@@ -213,7 +208,6 @@ private:
     };
 
     bool parsed;
-    QFile elf_file;
     QByteArray b_data;
     classes::CLASS cls;
 

@@ -7,7 +7,7 @@
 #include <QDebug>
 
 #include <core/file_types/elffile.h>
-#include <core/file_types/pecodedefines.h>
+#include <core/file_types/codedefines.h>
 
 class DAddingMethods {
 public:
@@ -29,45 +29,8 @@ public:
         Trampoline,
         INIT,
         INIT_ARRAY,
-        CTORS
-    };
-
-    /**
-     * @brief Rejestry dla architektury x86.
-     */
-    enum class Registers_x86 {
-        EAX,
-        EBX,
-        ECX,
-        EDX,
-        ESI,
-        EDI,
-        EBP,
-        ESP,
-        NONE
-    };
-
-    /**
-     * @brief Rejestry dla architektury x64.
-     */
-    enum class Registers_x64 {
-        RAX,
-        RBX,
-        RCX,
-        RDX,
-        RSI,
-        RDI,
-        RBP,
-        RSP,
-        R8,
-        R9,
-        R10,
-        R11,
-        R12,
-        R13,
-        R14,
-        R15,
-        NONE
+        CTORS,
+        TLS
     };
 
 
@@ -78,9 +41,10 @@ public:
     class Wrapper {
     public:
         QList<RegistersType> used_regs;
-        QMap<QString, QString> params;
+        QMap<RegistersType, QString> dynamic_params;
+        QMap<QString, QString> static_params;
         RegistersType ret;
-        QString code;
+        QByteArray code;
         Wrapper<RegistersType> *detect_handler;
 
         virtual ~Wrapper() {}
@@ -92,7 +56,8 @@ public:
     template <typename RegistersType>
     class ThreadWrapper : public Wrapper<RegistersType> {
     public:
-        Wrapper<RegistersType> *thread_action;
+        QList<Wrapper<RegistersType>*> thread_actions;
+        uint16_t sleep_time;
     };
 
     /**
@@ -128,7 +93,7 @@ public:
     /**
      * @brief Konstruktor.
      */
-    DAddingMethods();
+    DAddingMethods(BinaryFile *f);
 
     /**
      * @brief Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody.
@@ -138,6 +103,9 @@ public:
      */
     template <typename RegistersType>
     bool secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc);
+
+protected:
+    BinaryFile *file;
 
 private:
     enum class PlaceholderMnemonics {
@@ -227,8 +195,8 @@ private:
 };
 
 class AsmCodeGenerator {
-    static const QMap<DAddingMethods::Registers_x86, QString> regs_x86;
-    static const QMap<DAddingMethods::Registers_x64, QString> regs_x64;
+    static const QMap<Registers_x86, QString> regs_x86;
+    static const QMap<Registers_x64, QString> regs_x64;
 
     enum class Instructions {
         POP,
@@ -274,9 +242,9 @@ public:
 
 template <typename RegistersType>
 QString AsmCodeGenerator::push_regs(const RegistersType reg) {
-    return std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+    return std::is_same<RegistersType, Registers_x86>::value ?
                QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x86[reg]) :
-               std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+               std::is_same<RegistersType, Registers_x64>::value ?
                    QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x64[reg]) :
                    QString();
 }
@@ -284,22 +252,22 @@ QString AsmCodeGenerator::push_regs(const RegistersType reg) {
 template <typename RegistersType>
 QString AsmCodeGenerator::push_regs(const QList<RegistersType> &regs) {
     QString gen_code;
-    if (std::is_same<RegistersType, DAddingMethods::Registers_x86>::value)
+    if (std::is_same<RegistersType, Registers_x86>::value)
         foreach (RegistersType reg, regs)
             gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
-                            regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)]));
-    else if (std::is_same<RegistersType, DAddingMethods::Registers_x64>::value)
+                            regs_x86[static_cast<Registers_x86>(reg)]));
+    else if (std::is_same<RegistersType, Registers_x64>::value)
         foreach (RegistersType reg, regs)
             gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
-                            regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)]));
+                            regs_x64[static_cast<Registers_x64>(reg)]));
     return gen_code;
 }
 
 template <typename RegistersType>
 QString AsmCodeGenerator::pop_regs(const RegistersType reg) {
-    return std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
+    return std::is_same<RegistersType, Registers_x86>::value ?
                QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x86[reg]) :
-               std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
+               std::is_same<RegistersType, Registers_x64>::value ?
                    QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x64[reg]) :
                    QString();
 }
@@ -307,49 +275,49 @@ QString AsmCodeGenerator::pop_regs(const RegistersType reg) {
 template <typename RegistersType>
 QString AsmCodeGenerator::pop_regs(const QList<RegistersType> &regs) {
     QString gen_code;
-    if (std::is_same<RegistersType, DAddingMethods::Registers_x86>::value)
+    if (std::is_same<RegistersType, Registers_x86>::value)
         foreach (RegistersType reg, regs)
             gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
-                            regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)]));
-    else if (std::is_same<RegistersType, DAddingMethods::Registers_x64>::value)
+                            regs_x86[static_cast<Registers_x86>(reg)]));
+    else if (std::is_same<RegistersType, Registers_x64>::value)
         foreach (RegistersType reg, regs)
             gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
-                            regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)]));
+                            regs_x64[static_cast<Registers_x64>(reg)]));
     return gen_code;
 }
 
 template <typename RegistersType>
 QString AsmCodeGenerator::mov_reg_const(const RegistersType reg, Elf64_Addr value) {
-    QString qreg = std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
-                        regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
-                            std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
-                                regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    QString qreg = std::is_same<RegistersType, Registers_x86>::value ?
+                        regs_x86[static_cast<Registers_x86>(reg)] :
+                            std::is_same<RegistersType, Registers_x64>::value ?
+                                regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     return QString("%1 %2, %3\n").arg(instructions[Instructions::MOV], qreg, QString::number(value));
 }
 
 template <typename RegistersType>
 QString AsmCodeGenerator::jmp_reg(const RegistersType reg) {
-    QString qreg = std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
-                        regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
-                            std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
-                                regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    QString qreg = std::is_same<RegistersType, Registers_x86>::value ?
+                        regs_x86[static_cast<Registers_x86>(reg)] :
+                            std::is_same<RegistersType, Registers_x64>::value ?
+                                regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     return QString("%1 %2\n").arg(instructions[Instructions::JMP], qreg);
 }
 
 template <typename RegistersType>
 QString AsmCodeGenerator::get_reg(const RegistersType reg) {
-    return std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
-                regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
-                    std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
-                        regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    return std::is_same<RegistersType, Registers_x86>::value ?
+                regs_x86[static_cast<Registers_x86>(reg)] :
+                    std::is_same<RegistersType, Registers_x64>::value ?
+                        regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
 }
 
 template <typename RegistersType>
 QString AsmCodeGenerator::call_reg(const RegistersType reg) {
-    QString qreg = std::is_same<RegistersType, DAddingMethods::Registers_x86>::value ?
-                        regs_x86[static_cast<DAddingMethods::Registers_x86>(reg)] :
-                            std::is_same<RegistersType, DAddingMethods::Registers_x64>::value ?
-                                regs_x64[static_cast<DAddingMethods::Registers_x64>(reg)] : "xxx";
+    QString qreg = std::is_same<RegistersType, Registers_x86>::value ?
+                        regs_x86[static_cast<Registers_x86>(reg)] :
+                            std::is_same<RegistersType, Registers_x64>::value ?
+                                regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     return QString("%1 %2\n").arg(instructions[Instructions::CALL], qreg);
 }
 
@@ -368,7 +336,7 @@ bool DAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &cod
     code.append(wrap->code);
     // fill params
     // TODO: use return value
-    uint64_t filled_params = fill_params(code, wrap->params);
+    uint64_t filled_params = fill_params(code, wrap->static_params);
 
     // generate pop registers
     // TODO: dummy solution change
@@ -405,7 +373,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         return false;
 
     // adding a param value for (?^_^ddret^_^?)
-    inject_desc.adding_method->params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf.is_x86() ?
+    inject_desc.adding_method->static_params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf.is_x86() ?
                 AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->detect_handler->ret)) :
                 AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->detect_handler->ret));
 
@@ -433,7 +401,7 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
                 dynamic_cast<ThreadWrapper<RegistersType>*>(inject_desc.adding_method);
         if (!twrapper)
             return false;
-        if (!wrapper_gen_code<RegistersType>(twrapper->thread_action, code_ddetect))
+        if (!wrapper_gen_code<RegistersType>(twrapper->thread_actions[0], code_ddetect))
             return false;
         break;
     }
@@ -531,12 +499,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // compiled_code += jmp to old address
 
         if (elf.is_x86()) {
-            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Register_x86::EAX));
-            compiled_code.append(PECodeDefines<Register_x86>::jmpReg(Register_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
         }
         else {
-            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Register_x64::RAX));
-            compiled_code.append(PECodeDefines<Register_x64>::jmpReg(Register_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
         // TODO: parameter for x segment
@@ -578,25 +546,25 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // jmp to init code
 
         // compiled_code = debugger detection + jmp to copy routine
-        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ESI));
-        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::EDI));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ESI));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EDI));
 
-        compiled_code.append(PECodeDefines<Register_x86>::callRelative(section_data.first.size()));
+        compiled_code.append(CodeDefines<Registers_x86>::callRelative(section_data.first.size()));
         // compiled_code = debugger detection + jmp to copy routine + previous init
         compiled_code.append(section_data.first);
 
         // copy routine
         if (elf.is_x86()) {
             // mov esi, src
-            compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
+            compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
             // mov edi, dst
-            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(section_data.second, Register_x86::EDI));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(section_data.second, Registers_x86::EDI));
         }
         else {
             // mov rsi, src
-            compiled_code.append(PECodeDefines<Register_x64>::restoreRegister(Register_x64::RSI));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::RSI));
             // mov rdi, dst
-            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(section_data.second, Register_x64::RDI));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x64::RDI));
         }
 
         // TODO: change memory protection here to copy a data
@@ -619,25 +587,25 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
 
         compiled_code.append(mprotect_compiled);
 
-        compiled_code.append(PECodeDefines<Register_x86>::saveRegister(Register_x86::ECX));
-        compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(section_data.first.size(), Register_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(section_data.first.size(), Registers_x86::ECX));
         // rep movsb
         compiled_code.append("\xf3\xa4", 2);
 
         // TODO: restore memory protect flags
 
-        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ECX));
-        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::EDI));
-        compiled_code.append(PECodeDefines<Register_x86>::restoreRegister(Register_x86::ESI));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
 
         // jmp to init
         if (elf.is_x86()) {
-            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf64_Addr>(section_data.second, Register_x86::EAX));
-            compiled_code.append(PECodeDefines<Register_x86>::jmpReg(Register_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
         }
         else {
-            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(section_data.second, Register_x64::RAX));
-            compiled_code.append(PECodeDefines<Register_x64>::jmpReg(Register_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(section_data.second, Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
         // TODO: parameter for x segment
@@ -690,12 +658,12 @@ bool DAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType>
         // compiled_code += jmp to old address
 
         if (elf.is_x86()) {
-            compiled_code.append(PECodeDefines<Register_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Register_x86::EAX));
-            compiled_code.append(PECodeDefines<Register_x86>::jmpReg(Register_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
+            compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
         }
         else {
-            compiled_code.append(PECodeDefines<Register_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Register_x64::RAX));
-            compiled_code.append(PECodeDefines<Register_x64>::jmpReg(Register_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
+            compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
         // TODO: parameter for x segment

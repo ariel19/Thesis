@@ -7,7 +7,8 @@
 #include <QCoreApplication>
 
 #include <core/file_types/elffile.h>
-#include <core/adding_methods/wrappers/linux/daddingmethods.h>
+#include <core/adding_methods/wrappers/daddingmethods.h>
+#include <core/adding_methods/wrappers/peaddingmethods.h>
 
 #include "test_elf.h"
 
@@ -34,22 +35,30 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    QList<InjectDescription<Register_x86>*> ids;
+    QList<DAddingMethods::InjectDescription<Registers_x86>*> ids;
+
+    DAddingMethods::Wrapper<Registers_x86> wrapper;
+
+    DAddingMethods::InjectDescription<Registers_x86> method1;
+    method1.cm = DAddingMethods::CallingMethod::OEP;
+    method1.adding_method = &wrapper;
+    ids.append(&method1);
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::TLS, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
-    ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::Trampoline, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "nt_set_information_thread.asm")));
+    //ids.append(new (std::nothrow) InjectDescription<Registers_x86>(CallingMethod::Trampoline, Wrapper<Registers_x86>::fromFile(Wrapper<Registers_x86>::methodsPath + "nt_set_information_thread.asm")));
 
     //QList<InjectDescription<Register_x64>*> ids;
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::EntryPoint, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "create_thread.asm", true)));
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::TLS, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "handlers\\message_box.asm")));
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::Trampoline, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "printf_test.asm")));
 
-    if(pe.injectCode(ids, 5))
+    PEAddingMethods adder(&pe);
+    adder.setCodeCoverage(10);
+    if(adder.injectCode(ids))
         puts("Success!");
     else
         puts("Failed!");
 
-    qDeleteAll(ids);
 
     QFile nf("new_example.exe");
     if(!nf.open(QFile::WriteOnly))
