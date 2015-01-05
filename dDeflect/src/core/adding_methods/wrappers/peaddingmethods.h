@@ -22,6 +22,11 @@ private:
      */
     QMap<QByteArray, uint64_t> codePointers;
 
+    /**
+     * @brief Tablica adresów na wartości do zrelokowania
+     */
+    QList<uint64_t> relocations;
+
 
     /**
      * @brief Metoda generująca kod ładujący parametry dla metod.
@@ -49,53 +54,48 @@ private:
     /**
      * @brief Metoda dodająca kod w EntryPoint
      * @param epMethods Wybrane metody zabezpieczania
-     * @param relocations Tablica relokacji do wypełnienia
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectEpCode(QList<uint64_t> &epMethods, QList<uint64_t> &relocations);
+    bool injectEpCode(QList<uint64_t> &epMethods);
 
     /**
      * @brief Metoda dodająca kod do Thread Local Storage
      * @param tlsMethods Wybrane metody zabezpieczania
-     * @param relocations Tablica relokacji do wypełnienia
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectTlsCode(QList<uint64_t> &tlsMethods, QList<uint64_t> &relocations);
+    bool injectTlsCode(QList<uint64_t> &tlsMethods);
 
     /**
      * @brief Metoda dodająca kod jako trampolinę
      * @param tramMethods Wybrane metody zabezpieczania
-     * @param relocations Tablica relokacji do wypełnienia
      * @param text_section Zawartość sekcji .text
      * @param text_section_offset Offset sekcji .text w pliku
      * @param codeCoverage Procentowe pokrycie kodu
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool injectTrampolineCode(QList<uint64_t> &tramMethods, QList<uint64_t> &relocations,
+    bool injectTrampolineCode(QList<uint64_t> &tramMethods,
                               QByteArray text_section, uint32_t text_section_offset, uint8_t codeCoverage);
 
     /**
      * @brief Metoda generująca kod wątku
      * @param wrappers Metody do uruchomienia w wątku
      * @param sleepTime Czas snu wątku
-     * @param relocations Tablica relokacji do wypełnienia
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, uint16_t sleepTime, QList<uint64_t> &relocations);
+    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, uint16_t sleepTime);
 
     /**
      * @brief Generowanie kodu metody
      * @param w Opis metody
-     * @param relocations Tablica relokacji do wypełnienia
      * @param isTlsCallback Informacja czy metoda jest callbackiem TLS
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    uint64_t generateCode(Wrapper<Register> *w, QList<uint64_t> &relocations, bool isTlsCallback = false);
+    uint64_t generateCode(Wrapper<Register> *w, bool isTlsCallback = false);
 
     /**
      * @brief Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu
