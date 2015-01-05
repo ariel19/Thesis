@@ -473,6 +473,7 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>
 
     if(sleepTime)
     {
+        // TODO
         Wrapper<Register> *func_wrap;// = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
         if(!func_wrap)
             return 0;
