@@ -8,7 +8,12 @@
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
 int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return 1;
+    }
+    ELF elf(f.readAll());
     qDebug() << "valid: " << elf.is_valid();
     qDebug() << "segments no: " << elf.get_number_of_segments();
     QFile first_test(ptrace_fname);
@@ -51,7 +56,12 @@ int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QStr
 }
 
 int create_thread(const QString &elf_fname, const QString &thread_fname, const QString &elf_out) {
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return 1;
+    }
+    ELF elf(f.readAll());
     qDebug() << "valid: " << elf.is_valid();
     qDebug() << "segments no: " << elf.get_number_of_segments();
     QFile first_test(thread_fname);
@@ -173,7 +183,12 @@ void test() {
 }
 
 int test_flagx(const QString &elf_fname, const QString &elf_out) {
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return 1;
+    }
+    ELF elf(f.readAll());
     qDebug() << "valid: " << elf.is_valid();
     qDebug() << "segments no: " << elf.get_number_of_segments();
     // QByteArray nops(12, '\x90');
@@ -195,7 +210,12 @@ return 1;*/
 bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                        const QString &method, const QString &handl) {
     // DAddingMethods::InjectDescription inject_desc;
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return false;
+    }
+    ELF elf(f.readAll());
     // qDebug() << "valid: " << elf.is_valid();
     if (!elf.is_valid())
         return false;
@@ -292,7 +312,12 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
 bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
                           const QString &method, const QString &handl) {
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return false;
+    }
+    ELF elf(f.readAll());
     // qDebug() << "valid: " << elf.is_valid();
     if (!elf.is_valid())
         return false;
@@ -398,7 +423,12 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
 bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                             const QString &method, const QString &handl) {
     // DAddingMethods::InjectDescription inject_desc;
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return false;
+    }
+    ELF elf(f.readAll());
     // qDebug() << "valid: " << elf.is_valid();
     if (!elf.is_valid())
         return false;
@@ -495,7 +525,12 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                                  const QString &method, const QString &handl) {
     // DAddingMethods::InjectDescription inject_desc;
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return false;
+    }
+    ELF elf(f.readAll());
     // qDebug() << "valid: " << elf.is_valid();
     if (!elf.is_valid())
         return false;
@@ -592,7 +627,12 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
 bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                              const QString &method, const QString &handl) {
     // DAddingMethods::InjectDescription inject_desc;
-    ELF elf(elf_fname);
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return false;
+    }
+    ELF elf(f.readAll());
     // qDebug() << "valid: " << elf.is_valid();
     if (!elf.is_valid())
         return false;
