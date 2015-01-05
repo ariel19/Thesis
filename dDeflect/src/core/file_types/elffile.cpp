@@ -710,7 +710,7 @@ bool ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) cons
         if (!ph)
             return false;
 
-        if (ph->p_vaddr == vaddr) {
+        if (ph->p_vaddr <= vaddr && ph->p_align + ph->p_vaddr > vaddr) {
             prot_flags = ph->p_flags;
             return true;
         }
@@ -744,7 +744,7 @@ bool ELF::__get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
         if (!ph)
             return false;
 
-        if (ph->p_vaddr == vaddr) {
+        if (ph->p_vaddr <= vaddr && ph->p_align + ph->p_vaddr > vaddr) {
             align = ph->p_align;
             return true;
         }
