@@ -58,8 +58,6 @@ Project {
         files: [
            "src/core/adding_methods/wrappers/*.cpp",
            "src/core/adding_methods/wrappers/*.h",
-           "src/core/detection/wrappers/ddebuggerdetection.cpp",
-           "src/core/detection/wrappers/ddebuggerdetection.h",
            "tests/src/*.cpp",
            "tests/src/*.h",
            "src/core/file_types/*.cpp",
