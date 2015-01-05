@@ -670,12 +670,6 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, const ex_offset_t file_off,
         if (ph->p_offset >= file_off)
             ph->p_offset += insert_space;
 
-        // TODO: REMOVE THIS AFTER CHECK
-        /*
-        if (ph->p_type == PT_LOAD)
-            ph->p_flags |= PF_W;
-        */
-
         // check if current one is extended segment
         if (ph->p_type == PT_LOAD && ph->p_offset + ph->p_filesz == file_off) {
             ph->p_filesz += payload_size;
@@ -689,6 +683,74 @@ Elf64_Addr ELF::fix_segment_table(QByteArray &data, const ex_offset_t file_off,
     }
 
     return va;
+}
+
+bool ELF::get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const {
+    if (!parsed)
+        return false;
+
+    switch (cls) {
+    case classes::ELF32:
+        return __get_segment_prot_flags<Elf32_Phdr>(vaddr, prot_flags);
+    case classes::ELF64:
+        return __get_segment_prot_flags<Elf64_Phdr>(vaddr, prot_flags);
+    default:
+        return false;
+    }
+
+    return true;
+}
+
+template <typename ElfProgramHeaderType>
+bool ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const {
+
+    const ElfProgramHeaderType *ph = nullptr;
+    foreach (ex_offset_t fo, ph_idx) {
+        ph = reinterpret_cast<const ElfProgramHeaderType*>(b_data.data() + fo);
+        if (!ph)
+            return false;
+
+        if (ph->p_vaddr == vaddr) {
+            prot_flags = ph->p_flags;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool ELF::get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
+    if (!parsed)
+        return false;
+
+    switch (cls) {
+    case classes::ELF32:
+        return __get_segment_align<Elf32_Phdr>(vaddr, align);
+    case classes::ELF64:
+        return __get_segment_align<Elf64_Phdr>(vaddr, align);
+    default:
+        return false;
+    }
+
+    return true;
+}
+
+template <typename ElfProgramHeaderType>
+bool ELF::__get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
+
+    const ElfProgramHeaderType *ph = nullptr;
+    foreach (ex_offset_t fo, ph_idx) {
+        ph = reinterpret_cast<const ElfProgramHeaderType*>(b_data.data() + fo);
+        if (!ph)
+            return false;
+
+        if (ph->p_vaddr == vaddr) {
+            align = ph->p_align;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 template <typename ElfDynType, typename ElfSymType, typename ElfWordType>

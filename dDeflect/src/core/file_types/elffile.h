@@ -156,6 +156,22 @@ public:
      */
     bool set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
 
+    /**
+     * @brief Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.
+     * @param vaddr adres wirtualny pod który ładuje segment.
+     * @param prot_flags flagi ochrony pamięci.
+     * @return True jeżeli segment istnieje, False w innych przypadkach.
+     */
+    bool get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const;
+
+    /**
+     * @brief Pobiera wartość wyrównania segmentu.
+     * @param vaddr adres wirtualny pod który ładuje segment.
+     * @param align wartość wyrównywania strony.
+     * @return True jeżeli segment istnieje, False w innych przypadkach.
+     */
+    bool get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const;
+
 private:
     typedef struct _section_info {
         QString    sh_name;
@@ -381,6 +397,24 @@ private:
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
     bool __set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
+
+    /**
+     * @brief Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.
+     * @param vaddr adres wirtualny pod który ładuje segment.
+     * @param prot_flags flagi ochrony pamięci.
+     * @return True jeżeli segment istnieje, False w innych przypadkach.
+     */
+    template <typename ElfProgramHeaderType>
+    bool __get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const;
+
+    /**
+     * @brief Pobiera wartość wyrównania segmentu.
+     * @param vaddr adres wirtualny pod który ładuje segment.
+     * @param align wartość wyrównywania strony.
+     * @return True jeżeli segment istnieje, False w innych przypadkach.
+     */
+    template <typename ElfProgramHeaderType>
+    bool __get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const;
 };
 
 #endif // ELFFILE_H
