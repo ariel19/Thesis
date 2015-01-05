@@ -13,7 +13,7 @@
 
 #include <core/file_types/pefile.h>
 
-
+/*
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
@@ -61,8 +61,9 @@ int main(int argc, char **argv)
 
     return 0;
 }
+*/
 
-/*int main() {
+int main() {
     // test();
     // oep_ptrace("test", "ptrace", "test3");
     // test_flagx("a", "a2");
@@ -75,4 +76,4 @@ int main(int argc, char **argv)
 
     test_wrappers();
     return 0;
-}*/
+}

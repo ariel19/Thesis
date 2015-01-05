@@ -220,6 +220,14 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         oepaction.code = code.readAll();
+        // for cc code
+        QPair<QByteArray, Elf64_Addr> section_data;
+        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::TEXT, section_data))
+            return false;
+
+        // FXIME: FOR CC METHOD
+        oepaction.params = { { "vsize", QString::number(section_data.first.size()) },
+                             { "vaddr", QString::number(section_data.second) } };
         oepaction.detect_handler = nullptr;
         oepaction.ret = DAddingMethods::Registers_x86::EAX;
         oepaction.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
@@ -266,7 +274,8 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepaction.ret = DAddingMethods::Registers_x64::RAX;
         oepaction.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
                                 DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
-                                DAddingMethods::Registers_x64::R10 };
+                                DAddingMethods::Registers_x64::RBP, DAddingMethods::Registers_x64::R10,
+                                DAddingMethods::Registers_x64::R15, DAddingMethods::Registers_x64::R14 };
         // qDebug() << oepaction.code;
         code.close();
         // wrapper like OEP or thread
@@ -438,6 +447,14 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
+
+        // FIXME: only fo threads
+        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
+                               DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
+                               DAddingMethods::Registers_x86::ESI, DAddingMethods::Registers_x86::EDI };
+        trmwrapper.params = { { "sleep1", "0" },
+                              { "sleep2", "5" } };
+
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT;
@@ -479,6 +496,15 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+
+        // FIXME: only fo threads
+        trmwrapper.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
+                               DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
+                               DAddingMethods::Registers_x64::R10, DAddingMethods::Registers_x64::R8 };
+
+        trmwrapper.params = { { "sleep1", "0" },
+                              { "sleep2", "5" } };
+
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT;
@@ -536,6 +562,14 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
         // qDebug() << oepwrapper.code;
+
+        // FIXME: only fo threads
+        trmwrapper.used_regs = { DAddingMethods::Registers_x86::EAX, DAddingMethods::Registers_x86::ECX,
+                                 DAddingMethods::Registers_x86::EBX, DAddingMethods::Registers_x86::EDX,
+                                 DAddingMethods::Registers_x86::ESI, DAddingMethods::Registers_x86::EDI };
+        trmwrapper.params = { { "sleep1", "0" },
+                              { "sleep2", "5" } };
+
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
@@ -576,6 +610,14 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x64::R11, DAddingMethods::Registers_x64::R12 };
+
+        // FIXME: only fo threads
+        trmwrapper.used_regs = { DAddingMethods::Registers_x64::RAX, DAddingMethods::Registers_x64::RDI,
+                               DAddingMethods::Registers_x64::RSI, DAddingMethods::Registers_x64::RDX,
+                               DAddingMethods::Registers_x64::R10, DAddingMethods::Registers_x64::R8 };
+        trmwrapper.params = { { "sleep1", "0" },
+                            { "sleep2", "5" } };
+
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
@@ -588,6 +630,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
     qDebug() << "saving to file: " << QString("_%1oinita").arg(elf_fname);
     return true;
 }
+
 
 bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                              const QString &method, const QString &handl) {
@@ -633,6 +676,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.code = code.readAll();
         trmwrapper.used_regs = { DAddingMethods::Registers_x86::EDI };
         // qDebug() << oepwrapper.code;
+
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
@@ -685,8 +729,9 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     qDebug() << "saving to file: " << QString("_%1octors").arg(elf_fname);
     return true;
 }
-/*
+
 void test_wrappers() {
+    /*
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
@@ -763,11 +808,46 @@ void test_wrappers() {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
-}
-*/
+    */
 
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + ptrace for my 32-bit app...";
+    // test oep + ptrace
+    if (!test_oep_wrappers("my32", "oep_t.asm", "cc.asm", "exit_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for my 32-bit app done";
+    qDebug() << "=========================================";
+
+
+    /*
+    qDebug() << "Testing OEP + ptrace for my 64-bit app...";
+    if (!test_oep_wrappers("my64", "oep64_t.asm", "sigtrap64.asm", "exit64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for my 64-bit app done";
+    qDebug() << "=========================================";
+    */
+}
+
+
+#if 0
 void test_wrappers() {
     /*
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + ctors for ctors 32-bit app...";
+    // test oep + ptrace
+    if (!test_ctors_oep_wrappers("ctors32", "oep_t.asm", "ptrace_t.asm", "exit_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ctors for my 32-bit ctors done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + ctors for my 64-bit ctors...";
+    if (!test_ctors_oep_wrappers("ctors64", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ctors for my 64-bit ctors done";
+
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ctors for my 32-bit app...";
     // test oep + ptrace
@@ -808,6 +888,7 @@ void test_wrappers() {
     qDebug() << "Testing OEP + ctors for dDeflect 64-bit app done";
     qDebug() << "=========================================";
     */
+
     /*
     qDebug() << "Testing OEP + init for my 32-bit app...";
     // test oep + ptrace
@@ -816,12 +897,16 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + init for my 32-bit app done";
     qDebug() << "=========================================";
+
+
     qDebug() << "Testing OEP + init for my 64-bit app...";
     if (!test_init_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for my 64-bit app done";
     qDebug() << "=========================================";
+
+
     qDebug() << "Testing OEP + init for derby 32-bit app...";
     // test oep + ptrace
     if (!test_init_oep_wrappers("derby32", "oep_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
@@ -829,12 +914,14 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + init for derby 32-bit app done";
     qDebug() << "=========================================";
+
     qDebug() << "Testing OEP + init for derby 64-bit app...";
     if (!test_init_oep_wrappers("derby64", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for derby 64-bit app done";
     qDebug() << "=========================================";
+
     qDebug() << "Testing OEP + init for edb 64-bit app...";
     if (!test_init_oep_wrappers("edb", "oep64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
         qDebug() << "something went wrong :(";
@@ -846,7 +933,8 @@ void test_wrappers() {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + init for dDeflect 64-bit app done";
-    */
+
+
 
     qDebug() << "Testing OEP + initarray for my 32-bit app...";
     // test oep + ptrace
@@ -885,5 +973,93 @@ void test_wrappers() {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + initarray for dDeflect 64-bit app done";
+    */
+
+    /*
+    qDebug() << "Testing THREAD + init for my 32-bit app...";
+    // test oep + ptrace
+    if (!test_init_oep_wrappers("my32", "thread_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + init for my 32-bit app done";
+    qDebug() << "=========================================";
+
+
+    qDebug() << "Testing THREAD + init for my 64-bit app...";
+    if (!test_init_oep_wrappers("my64", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + init for my 64-bit app done";
+    qDebug() << "=========================================";
+
+
+    qDebug() << "Testing THREAD + init for derby 32-bit app...";
+    // test oep + ptrace
+    if (!test_init_oep_wrappers("derby32", "thread_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + init for derby 32-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing THREAD + init for derby 64-bit app...";
+    if (!test_init_oep_wrappers("derby64", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + init for derby 64-bit app done";
+    qDebug() << "=========================================";
+
+    qDebug() << "Testing THREAD + init for edb 64-bit app...";
+    if (!test_init_oep_wrappers("edb", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + init for edb 64-bit app done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + init for dDeflect 64-bit app...";
+    if (!test_init_oep_wrappers("dDeflect", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + init for dDeflect 64-bit app done";
+
+
+    qDebug() << "Testing THREAD + initarray for my 32-bit app...";
+    // test oep + ptrace
+    if (!test_initarray_oep_wrappers("my32", "thread_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + initarray for my 32-bit app done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing THREAD + initarray for my 64-bit app...";
+    if (!test_initarray_oep_wrappers("my64", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + initarray for my 64-bit app done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing THREAD + initarray for derby 32-bit app...";
+    // test oep + ptrace
+    if (!test_initarray_oep_wrappers("derby32", "thread_t.asm", "ptrace_t.asm", "exit_group_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + initarray for derby 32-bit app done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing THREAD + initarray for derby 64-bit app...";
+    if (!test_initarray_oep_wrappers("derby64", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + initarray for derby 64-bit app done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing THREAD + initarray for edb 64-bit app...";
+    if (!test_initarray_oep_wrappers("edb", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + initarray for edb 64-bit app done";
+    qDebug() << "=========================================";
+    qDebug() << "Testing THREAD + initarray for dDeflect 64-bit app...";
+    if (!test_initarray_oep_wrappers("dDeflect", "thread64_t.asm", "ptrace64_t.asm", "exit_group64_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing THREAD + initarray for dDeflect 64-bit app done";
+    */
+
 
 }
+#endif
