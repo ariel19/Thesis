@@ -15,6 +15,8 @@ class ApplicationManager : public QObject
     Q_ENUMS(State)
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(QVariantList x86MethodsNames READ x86MethodsNames NOTIFY x86MethodsNamesChanged)
+    //Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
+
 public:
     template <typename Reg>
     using IDList = QList<DAddingMethods::InjectDescription<Reg>*>;
@@ -26,14 +28,20 @@ public:
     enum State{IDLE, EXEC, SOURCE};
 
     void setState(State state);
+    //void setPath(const QString &path);
+
     State state() const;
+    //QString path() const;
 
     QVariantList x86MethodsNames();
 signals:
     void stateChanged(State);
     void x86MethodsNamesChanged();
+    void pathChanged();
+
 public slots:
     void fileOpened(QString);
+    void applyClicked(QVariantList methodsChosen);
     void insertMethods(FIDMapping<DAddingMethods::Registers_x86>);
 private:
     State m_state;

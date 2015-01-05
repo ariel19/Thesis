@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
 
     qmlRegisterType<Method>("jsk.components", 1, 0, "Method");
     qmlRegisterType<MethodList>("jsk.components", 1, 0, "MethodList");
-
+    qmlRegisterType<ApplicationManager>("jsk.components", 1, 0, "Manager");
 
     engine.load(QUrl(QStringLiteral("qrc:///qml/main.qml")));
 

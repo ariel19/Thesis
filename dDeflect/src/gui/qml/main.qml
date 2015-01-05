@@ -5,13 +5,15 @@ import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
 import jsk.components 1.0
 
-ApplicationWindow {        
-
+ApplicationWindow {
+    id:root
     visible: true
     width: 640
     height: 480
     title: qsTr("dDeflect - debugger detection")
     color: "white" //"#5989a6"
+    property int appState: Manager.IDLE
+
     menuBar: MenuBar {
         id: mb
         Menu {
@@ -104,54 +106,79 @@ ApplicationWindow {
         style: touchStyle
         anchors.fill: parent
         //anchors.margins: Qt.platform.os === "osx" ? 12 : 2
-
-        Tab {
-            title: "Executable"
-            RowLayout{
-                anchors.fill: parent
-                anchors.margins: 12
-
-                Component {
-                    id: contactDelegate
-                    Item {
-                        width: 180; height: 20
-                        Row {
-                            anchors.centerIn: parent.Center
-                            CheckBox{}
-                            Text{text: '<b>Name:</b> ' + modelData }
-                        }
-                    }
-                }
-                ListView {
-                    id: lv
-                    anchors.fill: parent
-                    anchors.rightMargin: frame.width/2
-                    model: applicationManager.x86MethodsNames
-                    delegate: contactDelegate
-
-                }
-                ColumnLayout{
-                    anchors.fill: parent
-                    anchors.leftMargin: frame.width/2
-                    TextArea{
-
-                        anchors.fill: parent
-                        anchors.bottomMargin: 40
-                        text: "The only method:"
-                    }
-                    Button{
-                        height:50
-                        text: "Apply Method"
-                        anchors.bottom: parent.bottom
-
-                    }
-                }
-
-            }
+        Text{
+            //anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            text: appState===Manager.IDLE ? fileUrlText.text :""
 
         }
+
+    }
+    Component {
+        id: touchStyle
+        TabViewStyle {
+            tabsAlignment: Qt.AlignVCenter
+            tabOverlap: 0
+            frame: Item { }
+            tab: Item {
+                implicitWidth: control.width/control.count
+                implicitHeight: 50
+                BorderImage {
+                    anchors.fill: parent
+                    border.bottom: 8
+                    border.top: 8
+                    source: styleData.selected ? "../images/tab_selected.png":"../images/tabs_standard.png"
+                    Text {
+                        anchors.centerIn: parent
+                        color: "white"
+                        text: styleData.title.toUpperCase()
+                        font.pixelSize: 16
+                    }
+                }
+            }
+        }
+    }
+
+    MethodList{
+        id: sourceCodeMethods
+        path: "/home/jsk/code/Thesis/build-dDeflect-Desktop_Qt_5_3_GCC_64bit-Debug/qtc_Desktop_Qt_5_3_GCC_64bit-debug/install-root/bin/methods.json"
+    }
+    property var t:[]
+    Connections{
+     target: applicationManager
+     onStateChanged: {
+         console.log("state changed: "+ applicationManager.state);
+         if(applicationManager.state === 2){
+             if(appState !== 2){
+                console.log("SOURCE STATE")
+                frame.addTab("SOURCE",sourceTab)
+                frame.addTab("PACKING",packingTab)
+                frame.addTab("OBFUSCATION",obfuscationTab)
+                appState = applicationManager.state;
+             }
+         } else if(applicationManager.state === 1){
+            if(appState !== 1){
+             frame.addTab("EXECUTABLE",execTab)
+             frame.addTab("PACKING",packingTab)
+             frame.addTab("OBFUSCATION",obfuscationTab)
+            }
+         } else {
+             if(appState!== Manager.IDLE){
+                 frame.removeTab(0);
+                 frame.removeTab(0);
+                 frame.removeTab(0);
+             }
+         }
+     }
+    }
+    Component{
+        id: execTab
+
         Tab {
-            title: "Source"
+            title: "Executable
+"
+            visible:true
             RowLayout{
                 anchors.fill: parent
                 anchors.margins: 12
@@ -161,7 +188,6 @@ ApplicationWindow {
                     anchors.fill: parent
                     anchors.rightMargin: frame.width/2
                     model: sourceCodeMethods.names
-
 
                     TableViewColumn {
                         role: "title"
@@ -191,8 +217,12 @@ ApplicationWindow {
 
             }
         }
+    }
+    Component{
+        id: obfuscationTab
         Tab {
             title: "Obfuscation"
+            visible: true
             RowLayout{
                 anchors.fill: parent
                 anchors.margins: 12
@@ -221,14 +251,16 @@ ApplicationWindow {
                         height:50
                         text: "Apply Method"
                         anchors.bottom: parent.bottom
-
                     }
                 }
-
             }
         }
+    }
+    Component{
+        id:packingTab
         Tab {
             title: "Packing"
+            visible:true
             RowLayout{
                 anchors.fill: parent
                 anchors.margins: 12
@@ -264,39 +296,73 @@ ApplicationWindow {
             }
         }
     }
-
     Component {
-        id: touchStyle
-        TabViewStyle {
-            tabsAlignment: Qt.AlignVCenter
-            tabOverlap: 0
-            frame: Item { }
-            tab: Item {
-                implicitWidth: control.width/control.count
-                implicitHeight: 50
-                BorderImage {
-                    anchors.fill: parent
-                    border.bottom: 8
-                    border.top: 8
-                    source: styleData.selected ? "../images/tab_selected.png":"../images/tabs_standard.png"
-                    Text {
-                        anchors.centerIn: parent
-                        color: "white"
-                        text: styleData.title.toUpperCase()
-                        font.pixelSize: 16
-                    }
+        id:sourceTab
 
+        Tab{
+            title: "Source"
+            visible:true
+            RowLayout{
+                anchors.fill: parent
+                anchors.margins: 12
+
+                Component {
+                    id: contactDelegate
+                    Item {
+                        width: 180; height: 20
+                        Row {
+                            anchors.centerIn: parent.Center
+                            CheckBox{
+                                onCheckedChanged: {
+                                    if(checked===true){
+                                        if(t.indexOf(index)===-1){
+                                            t.push(index);
+                                            console.log(t);
+                                        }
+                                    }else{
+                                        if(t.indexOf(index)!==-1){
+                                            var i = t.indexOf(index);
+                                            t.splice(i,1);
+                                            console.log(t);
+                                        }
+                                    }
+                                }
+                            }
+                            Text{text: '<b>Name:</b> ' + modelData }
+                        }
+                    }
+                }
+                ListView {
+                    id: lv
+                    anchors.fill: parent
+                    anchors.rightMargin: frame.width/2
+                    model: applicationManager.x86MethodsNames
+                    delegate: contactDelegate
+
+                }
+                ColumnLayout{
+                    anchors.fill: parent
+                    anchors.leftMargin: frame.width/2
+                    TextArea{
+
+                        anchors.fill: parent
+                        anchors.bottomMargin: 40
+                        text: "The only method:"
+                    }
+                    Button{
+                        height:50
+                        text: "Apply Method"
+                        anchors.bottom: parent.bottom
+                        onClicked: {
+                            applicationManager.applyClicked(t)
+                            applicationManager.state = Manager.IDLE
+                            appState = Manager.IDLE
+                            fileUrlText.text = "Choose a C++ source file or an executive file."
+                        }
+                    }
                 }
             }
         }
     }
-
-    MethodList{
-        id: sourceCodeMethods
-        path: "/home/jsk/code/Thesis/build-dDeflect-Desktop_Qt_5_3_GCC_64bit-Debug/qtc_Desktop_Qt_5_3_GCC_64bit-debug/install-root/bin/methods.json"
-    }
-
-
-
 }
 

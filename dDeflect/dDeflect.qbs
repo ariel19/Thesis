@@ -52,6 +52,8 @@ Project {
             "src/ApplicationManager/applicationmanager.h",
             "src/ApplicationManager/DJsonParser/djsonparser.cpp",
             "src/ApplicationManager/DJsonParser/djsonparser.h",
+            "src/ApplicationManager/DSourceCodeParser/*.cpp",
+            "src/ApplicationManager/DSourceCodeParser/*.h",
             "src/core/adding_methods/wrappers/linux/asmcodegenerator.cpp",
             "src/core/adding_methods/wrappers/linux/asmcodegenerator.h",
             "src/core/adding_methods/wrappers/linux/daddingmethods.cpp",
