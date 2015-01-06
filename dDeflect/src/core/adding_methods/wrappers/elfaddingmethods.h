@@ -254,6 +254,8 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         break;
     case CallingMethod::INIT_ARRAY:
         break;
+    case CallingMethod::Trampoline:
+        break;
     default:
         return false;
     }
@@ -526,7 +528,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
 
         QByteArray full_compiled_code;
         // TODO: choose randomy few addresses
-        Elf32_Addr rva;
+        int32_t rva;
         Elf64_Addr inst_addr;
 
         // TODO: should be changed
@@ -534,7 +536,17 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         std::default_random_engine gen;
         uint8_t code_cover = 5;
 
+        // FIXME: delete test purposes
+        /*
+        QList<Elf64_Addr> fo = { file_off.at(file_off.size() - 5), file_off.at(file_off.size() - 6) };
+        file_off = fo;
+        */
         foreach (Elf64_Addr off, file_off) {
+            // FIXME: test purposes
+            /*
+            if(prob(gen) >= code_cover)
+                continue;
+            */
             if(prob(gen) >= code_cover)
                 continue;
 
@@ -546,9 +558,11 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             full_compiled_code.append(compiled_code);
             // calculate address
             if (elf.is_x86())
-                full_compiled_code.append(CodeDefines<Registers_x86>::storeValue(static_cast<Elf32_Addr>(inst_addr + rva)));
+                // 5 - size of call instruction (minus 1 byte for call byte)
+                full_compiled_code.append(CodeDefines<Registers_x86>::storeValue(static_cast<Elf32_Addr>(inst_addr + rva + 4)));
             else
-                full_compiled_code.append(CodeDefines<Registers_x64>::storeValue(inst_addr + rva));
+                // 5 - size of call instruction (minus 1 byte for call byte)
+                full_compiled_code.append(CodeDefines<Registers_x64>::storeValue(inst_addr + rva + 4));
             full_compiled_code.append(CodeDefines<RegistersType>::ret);
         }
 
@@ -561,10 +575,12 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         int i = 0;
 
         foreach (Elf64_Addr fo, tramp_file_off) {
-            if (!elf.set_relative_address(fo, nva + (tramp_size * i) - (text_data.second + fo - base_off)))
+            // 5 - size of call instruction (minus 1 byte for call byte)
+            if (!elf.set_relative_address(fo, nva + (tramp_size * i) - (text_data.second + fo - base_off) - 4))
                 return false;
-            qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo - base_off, 0, 16)
+            qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo - base_off - 1, 0, 16)
                      << "to: " << QString("0x%1 ").arg(nva + (tramp_size * i), 0, 16);
+            ++i;
         }
 
         break;
