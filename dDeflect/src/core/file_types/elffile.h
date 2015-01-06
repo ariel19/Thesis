@@ -31,7 +31,7 @@ public:
 
     /**
      * @brief Konstruktor.
-     * @param _fname nazwa pliku.
+     * @param _data zawartość pliku.
      */
     ELF(QByteArray _data);
 
@@ -82,17 +82,9 @@ public:
      * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
      * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
      * @param va nowy adres wirtualny w rozszerzonym segmencie.
-     * @return Reprezentacjz binarna nowego pliku, długość danych równa się 0 jeżeli operacja nie powiodła się.
+     * @return True jeżeli rozszerzenie się powiodło, False w pozostałych przypadkach.
      */
-    QByteArray extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
-
-    /**
-     * @brief Zapisuje podane dane do określonego pliku.
-     * @param fname nazwa pliku.
-     * @param data zapisywane dane.
-     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
-     */
-    bool write_to_file(const QString &fname, const QByteArray &data) const;
+    bool extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
 
     /**
      * @brief Zapisuje wewnętrzne dane do pliku.
@@ -104,27 +96,10 @@ public:
     /**
      * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
      * @param entry_point wartość punktu wejściowego.
-     * @param data dane, w których należy ustawić punkt wejściowy.
-     * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
-     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    bool set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep = nullptr);
-
-    /**
-     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
-     * @param entry_point wartość punktu wejściowego.
      * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
     bool set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep = nullptr);
-
-    /**
-     * @brief Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter.
-     * @param data zawartosc pliku ELF.
-     * @param old_ep referencja na wartość punktu wejściowego programu.
-     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    bool get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const;
 
     /**
      * @brief Dostarcza informacje o punkcie wejściowym pliku.
@@ -140,7 +115,7 @@ public:
      * @param section_data zawartość sekcji oraz adres witualny.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
-    bool get_section_content(const QByteArray &data, SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
+    bool get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
 
     /**
      * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
@@ -150,7 +125,7 @@ public:
      * @param filler bajt, którym jest dopełniana sekcja.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
-    bool set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
+    bool set_section_content(SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
 
     /**
      * @brief Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.
@@ -199,17 +174,15 @@ private:
             ph(nullptr), change_vma(false) {}
     } best_segment;
 
-    struct classes {
-        enum CLASS {
-            NONE,
-            ELF32,
-            ELF64
-        };
+    enum class classes {
+        NONE,
+        ELF32,
+        ELF64
     };
 
     bool parsed;
     QByteArray b_data;
-    classes::CLASS cls;
+    classes cls;
 
     offset_t elf_header_idx;
 
@@ -381,6 +354,31 @@ private:
     void __fix_vma(QByteArray &data, const best_segment &bs, ex_offset_t file_off, const Elf64_Addr &new_vma);
 
     /**
+     * @brief Zapisuje podane dane do określonego pliku.
+     * @param fname nazwa pliku.
+     * @param data zapisywane dane.
+     * @return True, jeżeli operacja zapisu się powiodła, False w innych przypadkach.
+     */
+    bool __write_to_file(const QString &fname, const QByteArray &data) const;
+
+    /**
+     * @brief Ustawia punkt wejściowy dla pliku wykonywalnego.
+     * @param entry_point wartość punktu wejściowego.
+     * @param data dane, w których należy ustawić punkt wejściowy.
+     * @param old_ep wartosc starego punkt wejsciowego, parametr opcjonalny.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool __set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep = nullptr);
+
+    /**
+     * @brief Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter.
+     * @param data zawartosc pliku ELF.
+     * @param old_ep referencja na wartość punktu wejściowego programu.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool __get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const;
+
+    /**
      * @brief Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.
      * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
@@ -388,7 +386,7 @@ private:
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    bool __get_section_content(const QByteArray &data, SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
+    bool __get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
 
     /**
      * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
@@ -399,7 +397,7 @@ private:
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    bool __set_section_content(QByteArray &data, SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
+    bool __set_section_content(SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
 
     /**
      * @brief Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.

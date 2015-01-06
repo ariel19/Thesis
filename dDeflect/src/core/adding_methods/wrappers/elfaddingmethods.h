@@ -247,11 +247,10 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     switch(inject_desc.cm) {
     case CallingMethod::Thread:
     case CallingMethod::OEP: {
-        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
-        if (!nf.length())
+        if (!elf.extend_segment(compiled_code, inject_desc.change_x_only, nva))
             return false;
 
-        if (!elf.set_entry_point(nva, nf))
+        if (!elf.set_entry_point(nva))
             return false;
 
         qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
@@ -259,7 +258,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     }
     case CallingMethod::CTORS: {
         QPair<QByteArray, Elf64_Addr> section_data;
-        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::CTORS, section_data))
+        if (!elf.get_section_content(ELF::SectionType::CTORS, section_data))
             return false;
 
         QList<Elf64_Addr> addresses;
@@ -285,14 +284,13 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
-        if (!nf.length())
+        if (!elf.extend_segment(compiled_code, inject_desc.change_x_only, nva))
             return false;
 
         // set section content, set filler for elf function
         section_data.first.replace(idx * addr_size, addr_size, QByteArray(reinterpret_cast<const char *>(&nva), addr_size));
 
-        if (!elf.set_section_content(nf, ELF::SectionType::CTORS, section_data.first))
+        if (!elf.set_section_content(ELF::SectionType::CTORS, section_data.first))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -301,7 +299,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     }
     case CallingMethod::INIT: {
         QPair<QByteArray, Elf64_Addr> section_data;
-        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT, section_data))
+        if (!elf.get_section_content(ELF::SectionType::INIT, section_data))
             return false;
 
         int prot_flags;
@@ -385,8 +383,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
-        if (!nf.length())
+        if (!elf.extend_segment(compiled_code, inject_desc.change_x_only, nva))
             return false;
 
         // change section content
@@ -406,7 +403,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         if (!compile(init_section_code, compiled_jmp))
             return false;
 
-        if (!elf.set_section_content(nf, ELF::SectionType::INIT, compiled_jmp, '\x90'))
+        if (!elf.set_section_content(ELF::SectionType::INIT, compiled_jmp, '\x90'))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -415,7 +412,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     }
     case CallingMethod::INIT_ARRAY: {
         QPair<QByteArray, Elf64_Addr> section_data;
-        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::INIT_ARRAY, section_data))
+        if (!elf.get_section_content(ELF::SectionType::INIT_ARRAY, section_data))
             return false;
 
         QList<Elf64_Addr> addresses;
@@ -441,14 +438,13 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
-        if (!nf.length())
+        if (!elf.extend_segment(compiled_code, inject_desc.change_x_only, nva))
             return false;
 
         // set section content, set filler for elf function
         section_data.first.replace(idx * addr_size, addr_size, QByteArray(reinterpret_cast<const char *>(&nva), addr_size));
 
-        if (!elf.set_section_content(nf, ELF::SectionType::INIT_ARRAY, section_data.first))
+        if (!elf.set_section_content(ELF::SectionType::INIT_ARRAY, section_data.first))
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -460,7 +456,7 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     }
 
     qDebug() << "saving to file: " << inject_desc.saved_fname;
-    elf.write_to_file(inject_desc.saved_fname, nf);
+    elf.write_to_file(inject_desc.saved_fname);
 
     return true;
 }

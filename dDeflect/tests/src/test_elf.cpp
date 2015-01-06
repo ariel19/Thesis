@@ -7,206 +7,6 @@
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 
-int oep_ptrace(const QString &elf_fname, const QString &ptrace_fname, const QString &elf_out) {
-    QFile f(elf_fname);
-    if(!f.open(QFile::ReadOnly)) {
-        qDebug() << "Error opening file: " << elf_fname;
-        return 1;
-    }
-    ELF elf(f.readAll());
-    qDebug() << "valid: " << elf.is_valid();
-    qDebug() << "segments no: " << elf.get_number_of_segments();
-    QFile first_test(ptrace_fname);
-    if (!first_test.open(QIODevice::ReadOnly))
-        return 1;
-    QByteArray whole = first_test.readAll();
-    // TODO: should be in wrapper after add jump instruction here
-    Elf64_Addr oldep;
-    if (!elf.get_entry_point(oldep))
-        return 1;
-    QByteArray jmp;
-    if (elf.is_x86() || oldep < 0x100000000) {
-        jmp.append(0xb8); // mov eax, addr
-        // oldep -= 0x5;
-        for(uint i = 0; i < sizeof(Elf32_Addr); ++i) {
-            int a = (oldep >> (i * 8) & 0xff);
-            jmp.append(static_cast<char>(a));
-        }
-        jmp.append("\xff\xe0", 2); // jmp eax
-    }
-    else if (elf.is_x64()) {
-        jmp.append("\x48\xb8", 2); // mov rax, addr
-        for(uint i = 0; i < sizeof(Elf64_Addr); ++i) {
-            int a = (oldep >> (i * 8) & 0xff);
-            jmp.append(static_cast<char>(a));
-        }
-        jmp.append("\xff\xe0", 2);
-    }
-    else return 1;
-    // QByteArray nops(12, '\x90');
-    Elf64_Addr nva;
-    whole.append(jmp);
-    QByteArray nf = elf.extend_segment(whole, true, nva);
-    if (!elf.set_entry_point(nva, nf))
-        return 1;
-    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
-    elf.write_to_file(elf_out, nf);
-    qDebug() << "saving to file: " << elf_out;
-    return 0;
-}
-
-int create_thread(const QString &elf_fname, const QString &thread_fname, const QString &elf_out) {
-    QFile f(elf_fname);
-    if(!f.open(QFile::ReadOnly)) {
-        qDebug() << "Error opening file: " << elf_fname;
-        return 1;
-    }
-    ELF elf(f.readAll());
-    qDebug() << "valid: " << elf.is_valid();
-    qDebug() << "segments no: " << elf.get_number_of_segments();
-    QFile first_test(thread_fname);
-    if (!first_test.open(QIODevice::ReadOnly))
-        return 1;
-    QByteArray whole = first_test.readAll();
-    // TODO: should be in wrapper after add jump instruction here
-    Elf64_Addr oldep;
-    if (!elf.get_entry_point(oldep))
-        return 1;
-    QByteArray jmp;
-    if (elf.is_x86() || oldep < 0x100000000) {
-        jmp.append(0xb8); // mov eax, addr
-        // oldep -= 0x5;
-        for(uint i = 0; i < sizeof(Elf32_Addr); ++i) {
-            int a = (oldep >> (i * 8) & 0xff);
-            jmp.append(static_cast<char>(a));
-        }
-        jmp.append("\xff\xe0", 2); // jmp eax
-    }
-    else if (elf.is_x64()) {
-        jmp.append("\x48\xb8", 2); // mov rax, addr
-        for(uint i = 0; i < sizeof(Elf64_Addr); ++i) {
-            int a = (oldep >> (i * 8) & 0xff);
-            jmp.append(static_cast<char>(a));
-        }
-        jmp.append("\xff\xe0", 2);
-    }
-    else return 1;
-    // QByteArray nops(12, '\x90');
-    Elf64_Addr nva;
-    whole.append(jmp);
-    QByteArray nf = elf.extend_segment(whole, true, nva);
-    if (!elf.set_entry_point(nva, nf))
-        return 1;
-    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
-    elf.write_to_file(elf_out, nf);
-    qDebug() << "saving to file: " << elf_out;
-    return 0;
-}
-
-void test() {
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + ptrace for my 32-bit app...";
-    // test oep + ptrace
-    if (oep_ptrace("my32", "ptrace", "_my32")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + ptrace for my 32-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + ptrace for my 64-bit app...";
-    if (oep_ptrace("my64", "ptrace64", "_my64")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + ptrace for my 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + ptrace for derby 32-bit app...";
-    // test oep + ptrace
-    if (oep_ptrace("derby32", "ptrace", "_derby32")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + ptrace for derby 32-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + ptrace for derby 64-bit app...";
-    if (oep_ptrace("derby64", "ptrace64", "_derby64")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + ptrace for derby 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + ptrace for edb 64-bit app...";
-    if (oep_ptrace("edb", "ptrace64", "_edb64")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + ptrace for edb 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + ptrace for dDeflect 64-bit app...";
-    if (oep_ptrace("dDeflect", "ptrace64", "_dDeflect64")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + ptrace for dDeflect 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + thread for my 32-bit app...";
-    // test oep + ptrace
-    if (oep_ptrace("my32", "thread", "_my32t")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + thread for my 32-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + thread for my 64-bit app...";
-    if (oep_ptrace("my64", "thread64", "_my64t")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + thread for my 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + thread for derby 32-bit app...";
-    // test oep + ptrace
-    if (oep_ptrace("derby32", "thread", "_derby32t")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + thread for derby 32-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + thread for derby 64-bit app...";
-    if (oep_ptrace("derby64", "thread64", "_derby64t")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + thread for derby 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + thread for edb 64-bit app...";
-    if (oep_ptrace("edb", "thread64", "_edb64t")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + thread for edb 64-bit app done";
-    qDebug() << "=========================================";
-    qDebug() << "Testing OEP + thread for dDeflect 64-bit app...";
-    if (oep_ptrace("dDeflect", "thread64", "_dDeflect64t")) {
-        qDebug() << "something went wrong :(";
-    }
-    qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
-}
-
-int test_flagx(const QString &elf_fname, const QString &elf_out) {
-    QFile f(elf_fname);
-    if(!f.open(QFile::ReadOnly)) {
-        qDebug() << "Error opening file: " << elf_fname;
-        return 1;
-    }
-    ELF elf(f.readAll());
-    qDebug() << "valid: " << elf.is_valid();
-    qDebug() << "segments no: " << elf.get_number_of_segments();
-    // QByteArray nops(12, '\x90');
-    QByteArray nops(5, '\x00');
-    // TODO: should be in wrapper after add jump instruction here
-    Elf64_Addr oldep;
-    if (!elf.get_entry_point(oldep))
-        return 1;
-    Elf64_Addr nva;
-    QByteArray nf = elf.extend_segment(nops, true, nva);
-    /*if (!elf.set_entry_point(nva, nf))
-return 1;*/
-    qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
-    elf.write_to_file(elf_out, nf);
-    qDebug() << "saving to file: " << elf_out;
-    return 0;
-}
-
 bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                        const QString &method, const QString &handl) {
     // DAddingMethods::InjectDescription inject_desc;
@@ -242,7 +42,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepaction.code = code.readAll();
         // for cc code
         QPair<QByteArray, Elf64_Addr> section_data;
-        if (!elf.get_section_content(elf.get_elf_content(), ELF::SectionType::TEXT, section_data))
+        if (!elf.get_section_content(ELF::SectionType::TEXT, section_data))
             return false;
 
         // FXIME: FOR CC METHOD
@@ -268,6 +68,8 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
         inject_desc.adding_method = &oepwrapper;
+        inject_desc.saved_fname = "my32ccc";
+
         if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
             return false;
     }
@@ -291,10 +93,20 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         oepaction.code = code.readAll();
+
+        // for cc code
+        QPair<QByteArray, Elf64_Addr> section_data;
+        if (!elf.get_section_content(ELF::SectionType::TEXT, section_data))
+            return false;
+
+        // FXIME: FOR CC METHOD
+        oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
+                                    { "vaddr", QString::number(section_data.second) } };
+
         oepaction.detect_handler = nullptr;
         oepaction.ret = Registers_x64::RAX;
-        oepaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
-                                Registers_x64::RSI, Registers_x64::RDX,
+        oepaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI, Registers_x64::RCX,
+                                Registers_x64::RSI, Registers_x64::RDX, Registers_x64::RBX,
                                 Registers_x64::RBP, Registers_x64::R10,
                                 Registers_x64::R15, Registers_x64::R14 };
         // qDebug() << oepaction.code;
@@ -312,12 +124,14 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
         inject_desc.adding_method = &oepwrapper;
+        inject_desc.saved_fname = "my64ccc";
+
         if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
             return false;
     }
     // rename file on hard drive
-    QFile::rename("template", QString("_%1o").arg(elf_fname));
-    qDebug() << "saving to file: " << QString("_%1o").arg(elf_fname);
+    // QFile::rename("template", QString("_%1o").arg(elf_fname));
+    // qDebug() << "saving to file: " << QString("_%1o").arg(elf_fname);
     return true;
 }
 
@@ -785,7 +599,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 }
 
 void test_wrappers() {
-
+    /*
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
@@ -794,6 +608,7 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + ptrace for my 32-bit app done";
     qDebug() << "=========================================";
+    */
     /*
     qDebug() << "Testing OEP + ptrace for my 64-bit app...";
     if (!test_oep_wrappers("my64", "oep64_t.asm", "ptrace64_t.asm", "exit64_t.asm")) {
@@ -865,7 +680,6 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
     */
 
-    /*
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
@@ -874,16 +688,21 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + ptrace for my 32-bit app done";
     qDebug() << "=========================================";
-    */
 
     /*
     qDebug() << "Testing OEP + ptrace for my 64-bit app...";
-    if (!test_oep_wrappers("my64", "oep64_t.asm", "sigtrap64.asm", "exit64_t.asm")) {
+    if (!test_oep_wrappers("my64", "oep64_t.asm", "cc64.asm", "exit64_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + ptrace for my 64-bit app done";
     qDebug() << "=========================================";
     */
+
+
+}
+
+void test_methods() {
+    // QList<QString> dmeth_x86 = { "cc.asm", "ptrace.asm" };
 }
 
 

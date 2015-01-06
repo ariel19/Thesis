@@ -27,10 +27,9 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
     }
 }
 
-QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va) {
-    static QByteArray failed;
+bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va) {
     if (!parsed)
-        return failed;
+        return false;
 
     QByteArray data(_data);
     // go through all executable segments and find the best one to extend
@@ -51,19 +50,19 @@ QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr 
         ph_without_meta = __get_ph_header(i);
         ph = reinterpret_cast<Elf32_Phdr*>(ph_without_meta);
         if (!ph)
-            return QByteArray();
+            return false;
         if (ph->p_type == PT_LOAD)
             load_seg.push_back(std::make_pair(i, ph_without_meta));
     }
 
     // there are no any LOAD segments in a file
     if (!load_seg.size())
-        return failed;
+        return false;
 
     int size = load_seg.size();
 
     if (cls != classes::ELF32 && cls != classes::ELF64)
-        return failed;
+        return false;
 
     i = 0;
     do {
@@ -81,16 +80,24 @@ QByteArray ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr 
 
     // no suitable segments were found
     if (!bs.ph)
-        return failed;
+        return false;
 
     // construct a new QByteArray
     std::pair<QByteArray, Elf64_Addr> d = __construct_data(data, bs);
     va = d.second;
 
-    return d.first;
+    QByteArray old_b_data = b_data;
+    b_data = d.first;
+
+    if (!__parse()) {
+        b_data = old_b_data;
+        return false;
+    }
+
+    return true;
 }
 
-bool ELF::write_to_file(const QString &fname, const QByteArray &data) const {
+bool ELF::__write_to_file(const QString &fname, const QByteArray &data) const {
     QFile of(fname);
     if (!of.open(QFile::WriteOnly))
         return false;
@@ -106,10 +113,10 @@ bool ELF::write_to_file(const QString &fname, const QByteArray &data) const {
 }
 
 bool ELF::write_to_file(const QString &fname) const {
-    return write_to_file(fname, b_data);
+    return __write_to_file(fname, b_data);
 }
 
-bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep) {
+bool ELF::__set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep) {
     Elf32_Ehdr *eh_86 = nullptr;
     Elf64_Ehdr *eh_64 = nullptr;
 
@@ -144,10 +151,10 @@ bool ELF::set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64
 bool ELF::set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep) {
     if (!parsed)
         return false;
-    return set_entry_point(entry_point, b_data, old_ep);
+    return __set_entry_point(entry_point, b_data, old_ep);
 }
 
-bool ELF::get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
+bool ELF::__get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
     switch(cls) {
     case classes::ELF32:
         try {
@@ -173,27 +180,27 @@ bool ELF::get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
 bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
     if (!parsed)
         return false;
-    return get_entry_point(b_data, old_ep);
+    return __get_entry_point(b_data, old_ep);
 }
 
-bool ELF::get_section_content(const QByteArray &data, ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
+bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
     // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
         return false;
 
     switch (cls) {
     case classes::ELF32:
-        return __get_section_content<Elf32_Ehdr, Elf32_Shdr>(data, sec_type, section_data);
+        return __get_section_content<Elf32_Ehdr, Elf32_Shdr>(sec_type, section_data);
     case classes::ELF64:
-        return __get_section_content<Elf64_Ehdr, Elf64_Shdr>(data, sec_type, section_data);
+        return __get_section_content<Elf64_Ehdr, Elf64_Shdr>(sec_type, section_data);
     default:
         return false;
     }
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
-    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(data.data());
+bool ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
+    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
     // if section header table exists
     if (!eh->e_shoff)
         return false;
@@ -202,7 +209,7 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
         return false;
 
     const ElfSectionHeaderType *sh =
-            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
+            reinterpret_cast<const ElfSectionHeaderType*>(b_data.data() + eh->e_shoff);
 
     if (!sh)
         return false;
@@ -213,7 +220,7 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
     if (!shstrtab)
         return false;
 
-    const char *pshstrtab = reinterpret_cast<const char*>(data.data() + shstrtab->sh_offset);
+    const char *pshstrtab = reinterpret_cast<const char*>(b_data.data() + shstrtab->sh_offset);
 
     if (!pshstrtab)
         return false;
@@ -227,7 +234,7 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
         if (sh->sh_type == section_type[sec_type].sh_type &&
                 section_type[sec_type].sh_name == QString(pshstrtab + sh->sh_name)) {
 
-            section_data = QPair<QByteArray, Elf64_Addr>(QByteArray(data.data() + sh->sh_offset, sh->sh_size), sh->sh_addr);
+            section_data = QPair<QByteArray, Elf64_Addr>(QByteArray(b_data.data() + sh->sh_offset, sh->sh_size), sh->sh_addr);
             return true;
         }
 
@@ -237,16 +244,16 @@ bool ELF::__get_section_content(const QByteArray &data, ELF::SectionType sec_typ
     return false;
 }
 
-bool ELF::set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
+bool ELF::set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
     // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
         return false;
 
     switch (cls) {
     case classes::ELF32:
-        return __set_section_content<Elf32_Ehdr, Elf32_Shdr>(data, sec_type, section_data, filler);
+        return __set_section_content<Elf32_Ehdr, Elf32_Shdr>(sec_type, section_data, filler);
     case classes::ELF64:
-        return __set_section_content<Elf64_Ehdr, Elf64_Shdr>(data, sec_type, section_data, filler);
+        return __set_section_content<Elf64_Ehdr, Elf64_Shdr>(sec_type, section_data, filler);
     default:
         return false;
     }
@@ -254,8 +261,8 @@ bool ELF::set_section_content(QByteArray &data, ELF::SectionType sec_type, const
 
 // TODO: should be the same with __get_section_content
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
-    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(data.data());
+bool ELF::__set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
+    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
     // if section header table exists
     if (!eh->e_shoff)
         return false;
@@ -264,7 +271,7 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
         return false;
 
     const ElfSectionHeaderType *sh =
-            reinterpret_cast<const ElfSectionHeaderType*>(data.data() + eh->e_shoff);
+            reinterpret_cast<const ElfSectionHeaderType*>(b_data.data() + eh->e_shoff);
 
     if (!sh)
         return false;
@@ -275,7 +282,7 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
     if (!shstrtab)
         return false;
 
-    const char *pshstrtab = reinterpret_cast<const char*>(data.data() + shstrtab->sh_offset);
+    const char *pshstrtab = reinterpret_cast<const char*>(b_data.data() + shstrtab->sh_offset);
 
     if (!pshstrtab)
         return false;
@@ -296,14 +303,21 @@ bool ELF::__set_section_content(QByteArray &data, ELF::SectionType sec_type, con
 
             // fill with new data
             // pad section data. with nops, idk why, just with nops :)
-            QByteArray new_section_data(data.data(), sh->sh_offset);
+            QByteArray new_section_data(b_data.data(), sh->sh_offset);
             new_section_data.append(section_data);
             // fill rest with nops
             new_section_data.append(QByteArray(sh->sh_size - section_data.size(), filler));
-            new_section_data.append(data.data() + sh->sh_offset + sh->sh_size,
-                                    data.size() - sh->sh_offset - sh->sh_size);
+            new_section_data.append(b_data.data() + sh->sh_offset + sh->sh_size,
+                                    b_data.size() - sh->sh_offset - sh->sh_size);
 
-            data = new_section_data;
+            QByteArray old_b_data = b_data;
+
+            b_data = new_section_data;
+
+            if (!__parse()) {
+                b_data = old_b_data;
+                return false;
+            }
 
             return true;
         }
@@ -361,7 +375,7 @@ bool ELF::__check_magic(const Elf32_Ehdr *elf_hdr) const {
         return false;
 
     try {
-        return (elf_hdr->e_ident[EI_MAG0] == ELFMAG0) &
+        return  (elf_hdr->e_ident[EI_MAG0] == ELFMAG0) &
                 (elf_hdr->e_ident[EI_MAG1] == ELFMAG1) &
                 (elf_hdr->e_ident[EI_MAG2] == ELFMAG2) &
                 (elf_hdr->e_ident[EI_MAG3] == ELFMAG3);
