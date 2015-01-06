@@ -118,11 +118,9 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
 
     code.append(wrap->code);
     // fill params
-    // TODO: use return value
     uint64_t filled_params = fill_params(code, wrap->static_params);
 
     // generate pop registers
-    // TODO: dummy solution change
     QList<RegistersType> rused_args;
     rused_args.reserve(wrap->used_regs.size());
     std::reverse_copy(wrap->used_regs.begin(), wrap->used_regs.end(), std::back_inserter(rused_args));
@@ -132,8 +130,6 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
     return true;
 }
 
-// TODO: parameter for x segment
-// TODO: name of file should be changed
 template <typename RegistersType>
 bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc) {
     QString code2compile,
@@ -251,7 +247,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     switch(inject_desc.cm) {
     case CallingMethod::Thread:
     case CallingMethod::OEP: {
-        // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
@@ -290,7 +285,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
@@ -391,7 +385,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
@@ -409,7 +402,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
 
-        // TODO: compile code here before usage
         QByteArray compiled_jmp;
         if (!compile(init_section_code, compiled_jmp))
             return false;
@@ -449,7 +441,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        // TODO: parameter for x segment
         nf = elf.extend_segment(compiled_code, inject_desc.change_x_only, nva);
         if (!nf.length())
             return false;
@@ -468,9 +459,8 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         return false;
     }
 
-    // TODO: name of file should be changed
-    // elf.write_to_file(inject_desc.saved_fname, nf);
-    elf.write_to_file("template", nf);
+    qDebug() << "saving to file: " << inject_desc.saved_fname;
+    elf.write_to_file(inject_desc.saved_fname, nf);
 
     return true;
 }

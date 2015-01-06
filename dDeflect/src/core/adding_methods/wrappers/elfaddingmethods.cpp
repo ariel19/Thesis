@@ -17,10 +17,7 @@ ELFAddingMethods::ELFAddingMethods(ELF *f) :
     };
 }
 
-ELFAddingMethods::~ELFAddingMethods()
-{
-
-}
+ELFAddingMethods::~ELFAddingMethods() {}
 
 uint64_t ELFAddingMethods::fill_params(QString &code, const QMap<QString, QString> &params) {
     uint64_t cnt = 0;
