@@ -1,17 +1,14 @@
 {
 	"name": "Single check",
 	"used_registers": [],
-	"parameters": [
-		"ddetectionmethod" : "tofill",
-		"ddret" : "tofill",
-		"ddetectionhandler" : "tofill"
-	],
+	"parameters": [],
 	"returns": "EAX",
 	"methods": [
 		"OEP",
 		"INIT",
 		"INIT_ARRAY",
-		"CTORS"
+		"CTORS",
+		"Trampoline"
 	],
 	"architecture": "lin_x86",
 	"path": "adding_methods/methods/linux/content/x86/single.asm",

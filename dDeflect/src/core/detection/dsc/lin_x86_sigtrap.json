@@ -1,0 +1,22 @@
+{
+  "name": "0xcc Byte Search",
+  "used_registers": [
+    "EAX",
+    "EBX",
+    "ECX",
+    "ESI"
+  ],
+  "parameters": [],
+  "returns": "EAX",
+  "methods": [
+    "OEP",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x86",
+  "path": "detection/os/linux/x86/sigtrap.asm",
+  "description": "TODO"
+}

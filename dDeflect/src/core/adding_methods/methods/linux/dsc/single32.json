@@ -1,17 +1,14 @@
 {
 	"name": "Single check",
 	"used_registers": [],
-	"parameters": [
-		"ddetectionmethod" : "tofill",
-		"ddret" : "tofill",
-		"ddetectionhandler" : "tofill"
-	],
+	"parameters": [],
 	"returns": "RAX",
 	"methods": [
 		"OEP",
 		"INIT",
 		"INIT_ARRAY",
-		"CTORS"
+		"CTORS",
+		"Trampoline"
 	],
 	"architecture": "lin_x64",
 	"path": "adding_methods/methods/linux/content/x64/single.asm",

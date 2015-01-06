@@ -9,9 +9,6 @@
 		"EDI"
 	],
 	"parameters": [
-		"ddetectionmethod" : "tofill",
-		"ddret" : "tofill",
-		"ddetectionhandler" : "tofill",
 		"sleep1" : 0,
 		"sleep2" : 5
 	],

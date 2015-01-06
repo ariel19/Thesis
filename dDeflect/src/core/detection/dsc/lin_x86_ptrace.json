@@ -1,0 +1,23 @@
+{
+  "name": "Ptrace",
+  "used_registers": [
+    "EAX",
+    "EBX",
+    "ECX",
+    "EDX",
+    "ESI"
+  ],
+  "parameters": [],
+  "returns": "EAX",
+  "methods": [
+    "OEP",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x86",
+  "path": "detection/os/linux/x86/ptrace.asm",
+  "description": "TODO"
+}

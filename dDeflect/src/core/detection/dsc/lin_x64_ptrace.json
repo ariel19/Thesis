@@ -1,0 +1,23 @@
+{
+  "name": "Ptrace",
+  "used_registers": [
+    "RAX",
+    "RDX",
+    "RDI",
+    "RSI",
+    "R10"
+  ],
+  "parameters": [],
+  "returns": "RAX",
+  "methods": [
+    "OEP",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "path": "detection/os/linux/x64/ptrace.asm",
+  "description": "TODO"
+}

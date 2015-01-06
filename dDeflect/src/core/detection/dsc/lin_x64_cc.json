@@ -1,0 +1,25 @@
+{
+  "name": "0xcc Byte Search",
+  "used_registers": [
+    "RAX",
+    "RBX",
+    "RCX",
+    "RDI"
+  ],
+  "parameters": [
+    "vsize" : "tofill",
+    "vaddr" : "tofill"
+  ],
+  "returns": "RAX",
+  "methods": [
+    "OEP",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "path": "detection/os/linux/x64/cc.asm",
+  "description": "TODO"
+}
