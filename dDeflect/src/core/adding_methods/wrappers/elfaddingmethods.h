@@ -1,6 +1,9 @@
 #ifndef ELFADDINGMETHODS_H
 #define ELFADDINGMETHODS_H
 
+#include <QTemporaryFile>
+#include <QFileInfo>
+
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
 class ELFAddingMethods : public DAddingMethods
@@ -102,6 +105,14 @@ private:
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
     bool set_prot_flags_gen_code_x64(Elf64_Addr vaddr, Elf64_Xword mem_size, Elf64_Word flags, QString &code);
+
+    /**
+     * @brief Metoda odpowiada za pobieranie offsetow instrukcji w pliku.
+     * @param opcodes lista instrukcji.
+     * @param file_off offset w pliku.
+     * @param base_off wartość bazowa offsetu.
+     */
+    void get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off);
 };
 
 template <typename RegistersType>
@@ -130,6 +141,9 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
     return true;
 }
 
+// ===============================================================================
+// TODO: add detect method return value to wrapper used_regs, and push it on stack
+// ===============================================================================
 template <typename RegistersType>
 bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc) {
     QString code2compile,
@@ -241,7 +255,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
 
     // 5. secure elf file
 
-    QByteArray nf;
     Elf64_Addr nva;
 
     switch(inject_desc.cm) {
@@ -448,6 +461,78 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
+
+        break;
+    }
+    case CallingMethod::Trampoline: {
+        // look for jmp's and call's in code
+        // get virtual address in code of such instruction and calculate address
+        // case 'call': add code that performs debug check + call to previous code using push : ret
+        // case 'jmp' : add code that performs debug check + call to previous code
+
+        // get call's and jmp's from text section
+
+        QTemporaryFile temp_file;
+        if(!temp_file.open())
+            return false;
+
+        QPair<QByteArray, Elf64_Addr> text_data;
+        if (!elf.get_section_content(ELF::SectionType::TEXT, text_data))
+            return false;
+
+        temp_file.write(text_data.first);
+        temp_file.flush();
+
+        QProcess ndisasm;
+
+        ndisasm.setProcessChannelMode(QProcess::MergedChannels);
+
+        // TODO: change
+        ndisasm.start("ndisasm", {"-a", "-b", elf.is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+
+        if(!ndisasm.waitForStarted())
+            return false;
+
+        QByteArray assembly;
+
+        while(ndisasm.waitForReadyRead(-1))
+            assembly.append(ndisasm.readAll());
+
+        QStringList asm_inst = QString(assembly).split(CodeDefines<RegistersType>::newLineRegExp, QString::SkipEmptyParts);
+        QStringList call_inst = asm_inst.filter(CodeDefines<RegistersType>::callRegExp);
+        QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
+
+        QList<Elf64_Addr> file_off;
+
+        // TODO: change base address
+        get_file_offsets_from_opcodes(call_inst, file_off, 0);
+        get_file_offsets_from_opcodes(jmp_inst, file_off, 0);
+
+        QByteArray full_compiled_code;
+        // choose randomy few addresses
+
+        foreach (Elf64_Addr off, file_off) {
+
+
+        }
+
+        /*
+        foreach(uint32_t offset, fileOffsets)
+        {
+            if(prob(gen) >= codeCoverage)
+                continue;
+
+            BinaryCode<Register> code = generateTrampolineCode<Register>(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
+
+            uint64_t addr = pe->injectUniqueData(code, codePointers, relocations);
+            if(addr == 0)
+                return false;
+
+            pe->setAddressAtCallInstructionOffset(offset, addr);
+
+            method_idx = (method_idx + 1) % tramMethods.length();
+        }
+        */
 
         break;
     }
