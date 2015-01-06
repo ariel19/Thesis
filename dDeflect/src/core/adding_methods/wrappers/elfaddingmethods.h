@@ -472,6 +472,8 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
 
         // get call's and jmp's from text section
 
+        qDebug() << "trampoline";
+
         QTemporaryFile temp_file;
         if(!temp_file.open())
             return false;
@@ -503,36 +505,58 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
 
         QList<Elf64_Addr> file_off;
+        QList<Elf64_Addr> tramp_file_off;
 
-        // TODO: change base address
-        get_file_offsets_from_opcodes(call_inst, file_off, 0);
-        get_file_offsets_from_opcodes(jmp_inst, file_off, 0);
+        Elf64_Addr base_off;
+
+        if (!elf.get_section_file_off(ELF::SectionType::TEXT, base_off))
+            return false;
+
+        get_file_offsets_from_opcodes(call_inst, file_off, base_off);
+        get_file_offsets_from_opcodes(jmp_inst, file_off, base_off);
 
         QByteArray full_compiled_code;
-        // choose randomy few addresses
+        // TODO: choose randomy few addresses
+        Elf32_Addr rva;
+        Elf64_Addr inst_addr;
+
+        // TODO: should be changed
+        std::uniform_int_distribution<int> prob(0, 99);
+        std::default_random_engine gen;
+        uint8_t code_cover = 5;
 
         foreach (Elf64_Addr off, file_off) {
-
-
-        }
-
-        /*
-        foreach(uint32_t offset, fileOffsets)
-        {
-            if(prob(gen) >= codeCoverage)
+            if(prob(gen) >= code_cover)
                 continue;
 
-            BinaryCode<Register> code = generateTrampolineCode<Register>(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
-
-            uint64_t addr = pe->injectUniqueData(code, codePointers, relocations);
-            if(addr == 0)
+            if (!elf.get_relative_address(off, rva))
                 return false;
 
-            pe->setAddressAtCallInstructionOffset(offset, addr);
-
-            method_idx = (method_idx + 1) % tramMethods.length();
+            inst_addr = text_data.second + off - base_off;
+            tramp_file_off.push_back(off);
+            full_compiled_code.append(compiled_code);
+            // calculate address
+            if (elf.is_x86())
+                full_compiled_code.append(CodeDefines<Registers_x86>::storeValue(static_cast<Elf32_Addr>(inst_addr + rva)));
+            else
+                full_compiled_code.append(CodeDefines<Registers_x64>::storeValue(inst_addr + rva));
+            full_compiled_code.append(CodeDefines<RegistersType>::ret);
         }
-        */
+
+        Elf64_Addr nva;
+        if (!elf.extend_segment(full_compiled_code, inject_desc.change_x_only, nva))
+            return false;
+
+        // TODO: check if divisible without extras
+        Elf32_Addr tramp_size = full_compiled_code.size() / tramp_file_off.size();
+        int i = 0;
+
+        foreach (Elf64_Addr fo, tramp_file_off) {
+            if (!elf.set_relative_address(fo, nva + (tramp_size * i) - (text_data.second + fo - base_off)))
+                return false;
+            qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo - base_off, 0, 16)
+                     << "to: " << QString("0x%1 ").arg(nva + (tramp_size * i), 0, 16);
+        }
 
         break;
     }
