@@ -1,6 +1,9 @@
 #ifndef ELFADDINGMETHODS_H
 #define ELFADDINGMETHODS_H
 
+#include <QTemporaryFile>
+#include <QFileInfo>
+
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
 class ELFAddingMethods : public DAddingMethods
@@ -102,6 +105,14 @@ private:
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
     bool set_prot_flags_gen_code_x64(Elf64_Addr vaddr, Elf64_Xword mem_size, Elf64_Word flags, QString &code);
+
+    /**
+     * @brief Metoda odpowiada za pobieranie offsetow instrukcji w pliku.
+     * @param opcodes lista instrukcji.
+     * @param file_off offset w pliku.
+     * @param base_off wartość bazowa offsetu.
+     */
+    void get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off);
 };
 
 template <typename RegistersType>
@@ -130,6 +141,9 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
     return true;
 }
 
+// ===============================================================================
+// TODO: add detect method return value to wrapper used_regs, and push it on stack
+// ===============================================================================
 template <typename RegistersType>
 bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersType> &inject_desc) {
     QString code2compile,
@@ -148,13 +162,22 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
     else return false;
 
     // add to params
-    if (!inject_desc.adding_method)
+    if (!inject_desc.adding_method || !inject_desc.adding_method->detect_handler)
         return false;
 
     // adding a param value for (?^_^ddret^_^?)
     inject_desc.adding_method->static_params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf.is_x86() ?
                 AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->ret)) :
                 AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->ret));
+
+    // make a wrapper save register that is used for debugger detection function to return value
+    if (!inject_desc.adding_method->used_regs.contains(inject_desc.adding_method->ret))
+        inject_desc.adding_method->used_regs.push_back(inject_desc.adding_method->ret);
+
+    if (elf.is_x86())
+        inject_desc.adding_method->ret = static_cast<RegistersType>(Registers_x86::None);
+    else
+        inject_desc.adding_method->ret = static_cast<RegistersType>(Registers_x64::None);
 
     // 0. take code from input
     if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method, code2compile))
@@ -231,6 +254,8 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
         break;
     case CallingMethod::INIT_ARRAY:
         break;
+    case CallingMethod::Trampoline:
+        break;
     default:
         return false;
     }
@@ -241,7 +266,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
 
     // 5. secure elf file
 
-    QByteArray nf;
     Elf64_Addr nva;
 
     switch(inject_desc.cm) {
@@ -448,6 +472,116 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
             return false;
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
+
+        break;
+    }
+    case CallingMethod::Trampoline: {
+        // look for jmp's and call's in code
+        // get virtual address in code of such instruction and calculate address
+        // case 'call': add code that performs debug check + call to previous code using push : ret
+        // case 'jmp' : add code that performs debug check + call to previous code
+
+        // get call's and jmp's from text section
+
+        qDebug() << "trampoline";
+
+        QTemporaryFile temp_file;
+        if(!temp_file.open())
+            return false;
+
+        QPair<QByteArray, Elf64_Addr> text_data;
+        if (!elf.get_section_content(ELF::SectionType::TEXT, text_data))
+            return false;
+
+        temp_file.write(text_data.first);
+        temp_file.flush();
+
+        QProcess ndisasm;
+
+        ndisasm.setProcessChannelMode(QProcess::MergedChannels);
+
+        // TODO: change
+        ndisasm.start("ndisasm", {"-a", "-b", elf.is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+
+        if(!ndisasm.waitForStarted())
+            return false;
+
+        QByteArray assembly;
+
+        while(ndisasm.waitForReadyRead(-1))
+            assembly.append(ndisasm.readAll());
+
+        QStringList asm_inst = QString(assembly).split(CodeDefines<RegistersType>::newLineRegExp, QString::SkipEmptyParts);
+        QStringList call_inst = asm_inst.filter(CodeDefines<RegistersType>::callRegExp);
+        QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
+
+        QList<Elf64_Addr> file_off;
+        QList<Elf64_Addr> tramp_file_off;
+
+        Elf64_Addr base_off;
+
+        if (!elf.get_section_file_off(ELF::SectionType::TEXT, base_off))
+            return false;
+
+        get_file_offsets_from_opcodes(call_inst, file_off, base_off);
+        get_file_offsets_from_opcodes(jmp_inst, file_off, base_off);
+
+        QByteArray full_compiled_code;
+        // TODO: choose randomy few addresses
+        int32_t rva;
+        Elf64_Addr inst_addr;
+
+        // TODO: should be changed
+        std::uniform_int_distribution<int> prob(0, 99);
+        std::default_random_engine gen;
+        uint8_t code_cover = 5;
+
+        // FIXME: delete test purposes
+        /*
+        QList<Elf64_Addr> fo = { file_off.at(file_off.size() - 5), file_off.at(file_off.size() - 6) };
+        file_off = fo;
+        */
+        foreach (Elf64_Addr off, file_off) {
+            // FIXME: test purposes
+            /*
+            if(prob(gen) >= code_cover)
+                continue;
+            */
+            if(prob(gen) >= code_cover)
+                continue;
+
+            if (!elf.get_relative_address(off, rva))
+                return false;
+
+            inst_addr = text_data.second + off - base_off;
+            tramp_file_off.push_back(off);
+            full_compiled_code.append(compiled_code);
+            // calculate address
+            if (elf.is_x86())
+                // 5 - size of call instruction (minus 1 byte for call byte)
+                full_compiled_code.append(CodeDefines<Registers_x86>::storeValue(static_cast<Elf32_Addr>(inst_addr + rva + 4)));
+            else
+                // 5 - size of call instruction (minus 1 byte for call byte)
+                full_compiled_code.append(CodeDefines<Registers_x64>::storeValue(inst_addr + rva + 4));
+            full_compiled_code.append(CodeDefines<RegistersType>::ret);
+        }
+
+        Elf64_Addr nva;
+        if (!elf.extend_segment(full_compiled_code, inject_desc.change_x_only, nva))
+            return false;
+
+        // TODO: check if divisible without extras
+        Elf32_Addr tramp_size = full_compiled_code.size() / tramp_file_off.size();
+        int i = 0;
+
+        foreach (Elf64_Addr fo, tramp_file_off) {
+            // 5 - size of call instruction (minus 1 byte for call byte)
+            if (!elf.set_relative_address(fo, nva + (tramp_size * i) - (text_data.second + fo - base_off) - 4))
+                return false;
+            qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo - base_off - 1, 0, 16)
+                     << "to: " << QString("0x%1 ").arg(nva + (tramp_size * i), 0, 16);
+            ++i;
+        }
 
         break;
     }

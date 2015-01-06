@@ -130,3 +130,8 @@ bool ELFAddingMethods::set_prot_flags_gen_code_x64(Elf64_Addr vaddr, Elf64_Xword
 
     return wrapper_gen_code<Registers_x64>(&mprotect, code);
 }
+
+void ELFAddingMethods::get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off) {
+    foreach(QString op, opcodes)
+        file_off.append(op.mid(0, 8).toUInt(NULL, 16) + base_off + 1);
+}
