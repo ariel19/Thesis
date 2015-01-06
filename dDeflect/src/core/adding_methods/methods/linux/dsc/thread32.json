@@ -1,0 +1,25 @@
+{
+	"name": "Thread check",
+	"used_registers": [
+		"EAX",
+		"EBX",
+		"ECX",
+		"EDX",
+		"ESI",
+		"EDI"
+	],
+	"parameters": [
+		"ddetectionmethod" : "tofill",
+		"ddret" : "tofill",
+		"ddetectionhandler" : "tofill",
+		"sleep1" : 0,
+		"sleep2" : 5
+	],
+	"returns": "EAX",
+	"methods": [
+		"Thread"
+	],
+	"architecture": "lin_x86",
+	"path": "adding_methods/methods/linux/content/x86/thread.asm",
+	"description": "TODO"
+}

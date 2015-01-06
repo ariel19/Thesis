@@ -1,0 +1,25 @@
+{
+	"name": "Thread check",
+	"used_registers": [
+		"RAX",
+		"RDX",
+		"RDI",
+		"RSI",
+		"R8",
+		"R10"
+	],
+	"parameters": [
+		"ddetectionmethod" : "tofill",
+		"ddret" : "tofill",
+		"ddetectionhandler" : "tofill",
+		"sleep1" : 0,
+		"sleep2" : 5
+	],
+	"returns": "RAX",
+	"methods": [
+		"Thread"
+	],
+	"architecture": "lin_x86",
+	"path": "adding_methods/methods/linux/content/x64/thread.asm",
+	"description": "TODO"
+}
