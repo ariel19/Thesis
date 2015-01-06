@@ -1,4 +1,4 @@
-#include <gui/methodlist.h>
+#include <DMethods/methodlist.h>
 #include <QQmlListProperty>
 #include <QDebug>
 
@@ -70,7 +70,7 @@ bool MethodList::loadList()
     return true;
 }
 
-bool MethodList::saveList()
+bool MethodList::   saveList()
 {
     QFile saveFile(m_path);
 

@@ -7,12 +7,12 @@
 #include <QList>
 #include <QString>
 
-#include <gui/method.h>
+#include <DMethods/method.h>
 
 class MethodList : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Method> methods READ methods)
+    Q_PROPERTY(QQmlListProperty<Method> methods READ methods NOTIFY methodsChanged)
     Q_PROPERTY(QVariantList names READ names NOTIFY namesChanged)
     Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
 
@@ -36,6 +36,7 @@ public slots:
 signals:
     void pathChanged();
     void namesChanged();
+    void methodsChanged();
 
     friend QDebug operator<< (QDebug d, const MethodList &ml);
 private:

@@ -51,3 +51,61 @@ DAddingMethods::DAddingMethods(BinaryFile *f) :
         { ArchitectureType::BITS64, "[bits 64]" }
     };
 }
+
+template <typename Reg>
+const QMap<QString, typename DAddingMethods::Wrapper<Reg>::WrapperType> DAddingMethods::Wrapper<Reg>::wrapperTypes =
+{
+    { "Handler", DAddingMethods::Wrapper<Reg>::WrapperType::Handler },
+    { "Method", DAddingMethods::Wrapper<Reg>::WrapperType::Method },
+    { "Thread", DAddingMethods::Wrapper<Reg>::WrapperType::Thread },
+    { "Helper", DAddingMethods::Wrapper<Reg>::WrapperType::Helper }
+};
+template const QMap<QString, DAddingMethods::Wrapper<Registers_x86>::WrapperType> DAddingMethods::Wrapper<Registers_x86>::wrapperTypes;
+template const QMap<QString, DAddingMethods::Wrapper<Registers_x64>::WrapperType> DAddingMethods::Wrapper<Registers_x64>::wrapperTypes;
+
+const QMap<QString, DAddingMethods::CallingMethod> DAddingMethods::callingMethods =
+{
+    { "EntryPoint", DAddingMethods::CallingMethod::OEP },
+    { "Thread", DAddingMethods::CallingMethod::Thread },
+    { "Trampoline", DAddingMethods::CallingMethod::Trampoline },
+    { "INIT", DAddingMethods::CallingMethod::INIT },
+    { "INIT_ARRAY", DAddingMethods::CallingMethod::INIT_ARRAY },
+    { "CTORS", DAddingMethods::CallingMethod::CTORS },
+    { "TLS", DAddingMethods::CallingMethod::TLS }
+};
+
+template <>
+const QMap<QString, Registers_x86> DAddingMethods::Wrapper<Registers_x86>::registerTypes =
+{
+    { "EAX", Registers_x86::EAX },
+    { "EBX", Registers_x86::EBX },
+    { "ECX", Registers_x86::ECX },
+    { "EDX", Registers_x86::EDX },
+    { "ESI", Registers_x86::ESI },
+    { "EDI", Registers_x86::EDI },
+    { "ESP", Registers_x86::ESP },
+    { "EBP", Registers_x86::EBP },
+    { "None", Registers_x86::None }
+};
+
+template <>
+const QMap<QString, Registers_x64> DAddingMethods::Wrapper<Registers_x64>::registerTypes =
+{
+    { "RAX", Registers_x64::RAX },
+    { "RBX", Registers_x64::RAX },
+    { "RCX", Registers_x64::RAX },
+    { "RDX", Registers_x64::RAX },
+    { "RSI", Registers_x64::RAX },
+    { "RDI", Registers_x64::RAX },
+    { "RSP", Registers_x64::RAX },
+    { "RBP", Registers_x64::RAX },
+    { "R8", Registers_x64::RAX },
+    { "R9", Registers_x64::RAX },
+    { "R10", Registers_x64::RAX },
+    { "R11", Registers_x64::RAX },
+    { "R12", Registers_x64::RAX },
+    { "R13", Registers_x64::RAX },
+    { "R14", Registers_x64::RAX },
+    { "R15", Registers_x64::RAX },
+    { "None", Registers_x64::None }
+};

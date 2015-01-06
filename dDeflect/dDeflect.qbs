@@ -62,6 +62,16 @@ Project {
            "tests/src/*.h",
            "src/core/file_types/*.cpp",
            "src/core/file_types/*.h",
+            "src/ApplicationManager/applicationmanager.cpp",
+            "src/ApplicationManager/applicationmanager.h",
+            "src/ApplicationManager/DJsonParser/djsonparser.cpp",
+            "src/ApplicationManager/DJsonParser/djsonparser.h",
+            "src/ApplicationManager/DSourceCodeParser/*.cpp",
+            "src/ApplicationManager/DSourceCodeParser/*.h",
+            "tests/src/*.cpp",
+            "tests/src/*.h",
+            "src/core/file_types/*.cpp",
+            "src/core/file_types/*.h",
         ]
         Depends { name: "Qt"; submodules: ["core"] }
         cpp.warningLevel: "all"
