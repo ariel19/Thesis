@@ -2,6 +2,8 @@
 #define PEADDINGMETHODS_H
 
 #include <QProcess>
+#include <QFile>
+#include <QFileInfo>
 
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/file_types/pefile.h>
@@ -132,6 +134,13 @@ private:
      */
     template <typename Register>
     uint8_t getRandomRegister();
+
+    /**
+     * @brief Kompiluje kod assemblerowy
+     * @param code Kod
+     * @return Kod binarny
+     */
+    QByteArray compileCode(QByteArray code);
 
 public:
     /**

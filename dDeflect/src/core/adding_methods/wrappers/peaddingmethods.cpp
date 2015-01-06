@@ -165,7 +165,11 @@ uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
     }
 
     // Doklejanie właściwego kodu
-    code.append(w->code);
+    QByteArray binCode = compileCode(w->code);
+    if(binCode.length() == 0)
+        return 0;
+
+    code.append(binCode);
 
     // Handler
     if(action)
@@ -785,6 +789,40 @@ void PEAddingMethods::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint
 {
     foreach(QString op, opcodes)
         fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset + 1);
+}
+
+QByteArray PEAddingMethods::compileCode(QByteArray code)
+{
+    QByteArray bin;
+
+    QTemporaryFile temp_file;
+    if(!temp_file.open())
+        return bin;
+
+    temp_file.write(code);
+    temp_file.flush();
+
+    QProcess nasm;
+
+    nasm.setProcessChannelMode(QProcess::MergedChannels);
+    // TODO
+    //nasm.start(Wrapper<Register>::nasmPath, {"-f", "bin", "-o", "~tmpfile.bin", QFileInfo(temp_file).absoluteFilePath()});
+
+    if(!nasm.waitForFinished())
+        return bin;
+
+    temp_file.close();
+
+    QFile f("~tmpfile.bin");
+
+    if(!f.open(QFile::ReadOnly))
+        return bin;
+
+    bin = f.readAll();
+
+    f.close();
+
+    return bin;
 }
 
 template <>
