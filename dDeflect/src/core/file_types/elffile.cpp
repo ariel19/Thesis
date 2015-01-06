@@ -847,12 +847,12 @@ bool ELF::get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &s
     return true;
 }
 
-bool ELF::get_relative_address(Elf64_Off file_off, Elf32_Addr &rva) const {
+bool ELF::get_relative_address(Elf64_Off file_off, int32_t &rva) const {
     if (!parsed || b_data.size() < file_off + sizeof(rva))
         return false;
 
     std::memcpy(&rva, b_data.data() + file_off, sizeof(rva));
-    return false;
+    return true;
 }
 
 template <typename ElfProgramHeaderType>

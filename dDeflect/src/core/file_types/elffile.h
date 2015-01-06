@@ -169,7 +169,7 @@ public:
      * @param file_off offset w pliku.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool get_relative_address(Elf64_Off file_off, Elf32_Addr &rva) const;
+    bool get_relative_address(Elf64_Off file_off, int32_t &rva) const;
 
 private:
     typedef struct _section_info {
