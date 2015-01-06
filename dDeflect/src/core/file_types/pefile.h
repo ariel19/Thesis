@@ -80,20 +80,9 @@ private:
     };
 
     /**
-     * @brief Flaga zawierająca informację czy plik został poprawnie sparsowany.
-     */
-    bool parsed;
-
-    /**
      * @brief Flaga zawierająca informacje o architekturze pliku.
      */
     bool _is_x64;
-
-    /**
-     * @brief Zawartość pliku PE.
-     */
-    QByteArray b_data;
-
 
     /**
      * @brief Indeks struktury IMAGE_DOS_HEADER.
@@ -487,28 +476,22 @@ public:
     ~PEFile();
 
     /**
-     * @brief Pobiera zawartość pliku PE.
-     * @return Plik PE.
-     */
-    QByteArray getData();
-
-    /**
      * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
      * @return True jeżeli plik jest poprawny.
      */
-    bool isValid();
+    bool is_valid() const;
 
     /**
      * @brief Metoda informująca czy wczytany plik jest 64-bitowy.
      * @return True gdy plik x64
      */
-    bool is_x64();
+    bool is_x64() const;
 
     /**
      * @brief Metoda informująca czy wczytany plik jest 32-bitowy.
      * @return True gdy plik x86
      */
-    bool is_x86();
+    bool is_x86() const;
 
     /**
      * @brief Ustawia nowy EntryPoint.

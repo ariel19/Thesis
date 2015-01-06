@@ -180,8 +180,6 @@ private:
         ELF64
     };
 
-    bool parsed;
-    QByteArray b_data;
     classes cls;
 
     offset_t elf_header_idx;

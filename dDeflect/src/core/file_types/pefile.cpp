@@ -308,13 +308,12 @@ uint8_t PEFile::getRelocationType()
 }
 
 PEFile::PEFile(QByteArray d) :
-    parsed(false),
+    BinaryFile(d),
     _is_x64(false),
     gen(std::chrono::system_clock::now().time_since_epoch().count()),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
 {
-    b_data = d;
     parsed = parse();
 }
 
@@ -326,7 +325,6 @@ PEFile::~PEFile()
     if(dataDirectoriesIdx)
         delete [] dataDirectoriesIdx;
 }
-
 
 
 uint64_t PEFile::generateString(QString str, QMap<QByteArray, uint64_t> &ptrs)
@@ -542,14 +540,14 @@ QList<uint64_t> PEFile::getTlsCallbacks()
     return tlsCallbacks;
 }
 
-bool PEFile::is_x64()
+bool PEFile::is_x64() const
 {
-    return _is_x64;
+    return parsed && _is_x64;
 }
 
-bool PEFile::is_x86()
+bool PEFile::is_x86() const
 {
-    return !_is_x64;
+    return parsed && !_is_x64;
 }
 
 uint64_t PEFile::getAddressAtCallInstructionOffset(uint32_t offset)
@@ -672,7 +670,7 @@ uint32_t PEFile::fileOffsetToRVA(uint32_t fileOffset)
     return 0;
 }
 
-bool PEFile::isValid()
+bool PEFile::is_valid() const
 {
     return parsed;
 }
@@ -918,11 +916,6 @@ bool PEFile::makeSectionExecutable(unsigned int section)
     getSectionHeader(section)->Characteristics &= (~IMAGE_SCN_MEM_DISCARDABLE);
 
     return true;
-}
-
-QByteArray PEFile::getData()
-{
-    return b_data;
 }
 
 unsigned int PEFile::getLastSectionNumberMem()

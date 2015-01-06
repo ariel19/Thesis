@@ -863,7 +863,8 @@ void ELF::__fix_vma(QByteArray &data, const best_segment &bs,
 }
 
 ELF::ELF(QByteArray _data) :
-    parsed(false), b_data(_data), cls(classes::NONE) {
+    BinaryFile(_data),
+    cls(classes::NONE) {
     parsed = __parse();
 }
 

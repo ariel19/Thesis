@@ -31,7 +31,7 @@ bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs)
     if(!pe)
         return false;
 
-    if(!pe->isValid())
+    if(!pe->is_valid())
         return false;
 
     text_section = pe->getTextSection();
