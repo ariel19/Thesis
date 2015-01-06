@@ -1,5 +1,6 @@
 #include <core/file_types/elffile.h>
 #include <utility>
+#include <cstring>
 
 #define section_type_stringify(sec_type) \
     QString(".%1").arg(QString((std::string(#sec_type).substr(std::string(#sec_type).find_last_of(':') != std::string::npos ? \
@@ -184,7 +185,6 @@ bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
 }
 
 bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
-    // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
         return false;
 
@@ -244,6 +244,66 @@ bool ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf
     return false;
 }
 
+bool ELF::get_section_file_off(SectionType sec_type, Elf64_Addr &file_off) {
+    if (!parsed)
+        return false;
+
+    switch (cls) {
+    case classes::ELF32:
+        return __get_section_file_off<Elf32_Ehdr, Elf32_Shdr>(sec_type, file_off);
+    case classes::ELF64:
+        return __get_section_file_off<Elf64_Ehdr, Elf64_Shdr>(sec_type, file_off);
+    default:
+        return false;
+    }
+}
+
+template <typename ElfHeaderType, typename ElfSectionHeaderType>
+bool ELF::__get_section_file_off(ELF::SectionType sec_type, Elf64_Addr &file_off) {
+    const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
+    // if section header table exists
+    if (!eh->e_shoff)
+        return false;
+
+    if (!section_type.contains(sec_type))
+        return false;
+
+    const ElfSectionHeaderType *sh =
+            reinterpret_cast<const ElfSectionHeaderType*>(b_data.data() + eh->e_shoff);
+
+    if (!sh)
+        return false;
+
+    const ElfSectionHeaderType *shstrtab = &sh[eh->e_shstrndx];
+
+    // get section header string table
+    if (!shstrtab)
+        return false;
+
+    const char *pshstrtab = reinterpret_cast<const char*>(b_data.data() + shstrtab->sh_offset);
+
+    if (!pshstrtab)
+        return false;
+
+    // word size is the same for x64 and x86
+    for (Elf32_Word i = 0; i < eh->e_shnum; ++i) {
+        if (!sh)
+            return false;
+
+        // check if section is ours
+        if (sh->sh_type == section_type[sec_type].sh_type &&
+                section_type[sec_type].sh_name == QString(pshstrtab + sh->sh_name)) {
+
+            file_off = sh->sh_offset;
+            return true;
+        }
+
+        // next section header
+        sh = reinterpret_cast<const ElfSectionHeaderType*>(reinterpret_cast<const char*>(sh) + eh->e_shentsize);
+    }
+    return false;
+}
+
 bool ELF::set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
     // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
@@ -257,6 +317,13 @@ bool ELF::set_section_content(ELF::SectionType sec_type, const QByteArray &secti
     default:
         return false;
     }
+}
+
+bool ELF::set_relative_address(Elf64_Off file_off, Elf32_Addr rva) {
+    if (!parsed || b_data.size() < file_off + sizeof(rva))
+        return false;
+    std::memcpy(b_data.data() + file_off, &rva, sizeof(rva));
+    return true;
 }
 
 // TODO: should be the same with __get_section_content
@@ -778,6 +845,14 @@ bool ELF::get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &s
     }
 
     return true;
+}
+
+bool ELF::get_relative_address(Elf64_Off file_off, Elf32_Addr &rva) const {
+    if (!parsed || b_data.size() < file_off + sizeof(rva))
+        return false;
+
+    std::memcpy(&rva, b_data.data() + file_off, sizeof(rva));
+    return false;
 }
 
 template <typename ElfProgramHeaderType>

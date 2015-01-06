@@ -110,7 +110,6 @@ public:
 
     /**
      * @brief Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.
-     * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
      * @param section_data zawartość sekcji oraz adres witualny.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
@@ -118,14 +117,28 @@ public:
     bool get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
 
     /**
+     * @brief Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.
+     * @param sec_type typ sekcji.
+     * @param file_off offset sekcji w pliku.
+     * @return True jeżeli sekcja istnieje, False w innych przypadkach.
+     */
+    bool get_section_file_off(SectionType sec_type, Elf64_Addr &file_off);
+
+    /**
      * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
-     * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
      * @param section_data zawartość sekcji.
      * @param filler bajt, którym jest dopełniana sekcja.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
     bool set_section_content(SectionType sec_type, const QByteArray &section_data, const char filler = '\x00');
+
+    /**
+     * @brief Ustawia nowy adres instrukcji dla skoku relatywnego.
+     * @param file_off offset w pliku.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool set_relative_address(Elf64_Off file_off, Elf32_Addr rva);
 
     /**
      * @brief Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.
@@ -150,6 +163,13 @@ public:
      * @return True jeżeli segment istnieje, False w innych przypadkach.
      */
     bool get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &segment_data) const;
+
+    /**
+     * @brief Pobiera aktualną wartość adresu relatywnego dla skoku.
+     * @param file_off offset w pliku.
+     * @return True jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool get_relative_address(Elf64_Off file_off, Elf32_Addr &rva) const;
 
 private:
     typedef struct _section_info {
@@ -385,6 +405,15 @@ private:
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
     bool __get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
+
+    /**
+     * @brief Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.
+     * @param sec_type typ sekcji.
+     * @param file_off offset sekcji w pliku.
+     * @return True jeżeli sekcja istnieje, False w innych przypadkach.
+     */
+    template <typename ElfHeaderType, typename ElfSectionHeaderType>
+    bool __get_section_file_off(SectionType sec_type, Elf64_Addr &file_off);
 
     /**
      * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
