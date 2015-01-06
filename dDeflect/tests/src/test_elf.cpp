@@ -7,6 +7,135 @@
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 
+
+bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
+                              const QString &method, const QString &handl) {
+    // DAddingMethods::InjectDescription inject_desc;
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return false;
+    }
+    ELF elf(f.readAll());
+    // qDebug() << "valid: " << elf.is_valid();
+    if (!elf.is_valid())
+        return false;
+    QFile code;
+    ELFAddingMethods dam(&elf);
+    if (elf.is_x86()) {
+        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
+        DAddingMethods::TrampolineWrapper<Registers_x86> oepwrapper;
+        DAddingMethods::Wrapper<Registers_x86> handler;
+        DAddingMethods::Wrapper<Registers_x86> oepaction;
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+        handler.static_params = { { "ret", "127" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+        // qDebug() << handler.code;
+        code.close();
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+        oepaction.code = code.readAll();
+        // for cc code
+        QPair<QByteArray, Elf64_Addr> section_data;
+        if (!elf.get_section_content(ELF::SectionType::TEXT, section_data))
+            return false;
+
+        // FXIME: FOR CC METHOD
+        oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
+                                    { "vaddr", QString::number(section_data.second) } };
+        oepaction.detect_handler = nullptr;
+        oepaction.ret = Registers_x86::EAX;
+        oepaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
+                                Registers_x86::EBX, Registers_x86::EDX,
+                                Registers_x86::ESI };
+        // qDebug() << oepaction.code;
+        code.close();
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+        oepwrapper.detect_handler = &handler;
+        oepwrapper.tramp_action = &oepaction;
+        oepwrapper.code = code.readAll();
+        oepwrapper.used_regs = { Registers_x86::EDI };
+        oepwrapper.ret = oepaction.ret;
+        // qDebug() << oepwrapper.code;
+        code.close();
+        inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
+        inject_desc.adding_method = &oepwrapper;
+        inject_desc.saved_fname = "my32trm";
+
+        if (!dam.secure_elf<Registers_x86>(elf, inject_desc))
+            return false;
+    }
+    else {
+        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
+        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        DAddingMethods::TrampolineWrapper<Registers_x64> oepwrapper;
+        DAddingMethods::Wrapper<Registers_x64> handler;
+        DAddingMethods::Wrapper<Registers_x64> oepaction;
+        // debugger detection handler
+        code.setFileName(handl);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+        handler.static_params = { { "ret", "188" } };
+        handler.detect_handler = nullptr;
+        handler.code = code.readAll();
+        // qDebug() << handler.code;
+        code.close();
+        // debugger detection method
+        code.setFileName(method);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+        oepaction.code = code.readAll();
+
+        // for cc code
+        QPair<QByteArray, Elf64_Addr> section_data;
+        if (!elf.get_section_content(ELF::SectionType::TEXT, section_data))
+            return false;
+
+        // FXIME: FOR CC METHOD
+        oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
+                                    { "vaddr", QString::number(section_data.second) } };
+
+        oepaction.detect_handler = nullptr;
+        oepaction.ret = Registers_x64::RAX;
+        oepaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI, Registers_x64::RCX,
+                                Registers_x64::RSI, Registers_x64::RDX, Registers_x64::RBX,
+                                Registers_x64::RBP, Registers_x64::R10,
+                                Registers_x64::R15, Registers_x64::R14 };
+        // qDebug() << oepaction.code;
+        code.close();
+        // wrapper like OEP or thread
+        code.setFileName(wrapper);
+        if (!code.open(QIODevice::ReadOnly))
+            return false;
+        oepwrapper.detect_handler = &handler;
+        oepwrapper.tramp_action = &oepaction;
+        oepwrapper.code = code.readAll();
+        oepwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
+        oepwrapper.ret = oepaction.ret;
+        // qDebug() << oepwrapper.code;
+        code.close();
+        inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
+        inject_desc.adding_method = &oepwrapper;
+        inject_desc.saved_fname = "my64trm";
+
+        if (!dam.secure_elf<Registers_x64>(elf, inject_desc))
+            return false;
+    }
+    // rename file on hard drive
+    // QFile::rename("template", QString("_%1o").arg(elf_fname));
+    // qDebug() << "saving to file: " << QString("_%1o").arg(elf_fname);
+    return true;
+}
+
 bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
                        const QString &method, const QString &handl) {
     // DAddingMethods::InjectDescription inject_desc;
@@ -67,6 +196,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        //inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = "my32ccc";
 
@@ -123,6 +253,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         // qDebug() << oepwrapper.code;
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        // inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = "my64ccc";
 
@@ -679,11 +810,21 @@ void test_wrappers() {
     }
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
     */
+    /*
+    qDebug() << "=========================================";
+    qDebug() << "Testing OEP + ptrace for my 32-bit app...";
+    // test oep + ptrace
+    if (!test_trampoline_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_t.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    qDebug() << "Testing OEP + ptrace for my 32-bit app done";
+    qDebug() << "=========================================";
+    */
 
     qDebug() << "=========================================";
     qDebug() << "Testing OEP + ptrace for my 32-bit app...";
     // test oep + ptrace
-    if (!test_oep_wrappers("my32", "oep_t.asm", "cc.asm", "exit_t.asm")) {
+    if (!test_oep_wrappers("my32", "oep_t.asm", "ptrace_t.asm", "exit_t.asm")) {
         qDebug() << "something went wrong :(";
     }
     qDebug() << "Testing OEP + ptrace for my 32-bit app done";
