@@ -7,6 +7,7 @@
 
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/file_types/pefile.h>
+#include <ApplicationManager/DJsonParser/djsonparser.h>
 
 /**
  * @brief Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików PE
@@ -14,6 +15,9 @@
 class PEAddingMethods : public DAddingMethods
 {
 private:
+
+    static const QString windowsApiLoadingFunction_x86;
+    static const QString windowsApiLoadingFunction_x64;
 
     /**
      * @brief Mapa z adresami wklejanych danych/kawałków kodu/napisów.

@@ -1,5 +1,8 @@
 #include "peaddingmethods.h"
 
+const QString PEAddingMethods::windowsApiLoadingFunction_x86 = "win_x86_helper_load_functions.json";
+const QString PEAddingMethods::windowsApiLoadingFunction_x64 = "win_x64_helper_load_functions.json";
+
 PEAddingMethods::PEAddingMethods(PEFile *f) :
     DAddingMethods(f),
     codeCoverage(5),
@@ -150,7 +153,9 @@ uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
     if(!w->dynamic_params.empty())
     {
         // TODO
-        Wrapper<Register> *func_wrap;// = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
+        DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+        QString apiLoaderName = pe->is_x64() ? windowsApiLoadingFunction_x64 : windowsApiLoadingFunction_x86;
+        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(apiLoaderName);
         if(!func_wrap)
             return 0;
 
@@ -368,7 +373,7 @@ bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods)
 
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
     // TODO
-    //ndisasm.start(Wrapper<Register>::ndisasmPath, {"-a", "-b", pe.is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+    ndisasm.start("C:\\jablonskim\\Programy\\Nasm\\ndisasm.exe", {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
 
     if(!ndisasm.waitForStarted())
         return false;
@@ -426,7 +431,9 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x86>(QList<Wrapper<Regist
     if(sleepTime)
     {
         // TODO: ścieżka z config!
-        Wrapper<Register> *func_wrap;// = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
+        DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+        QString apiLoaderName = pe->is_x64() ? windowsApiLoadingFunction_x64 : windowsApiLoadingFunction_x86;
+        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(apiLoaderName);
         if(!func_wrap)
             return 0;
 
@@ -511,7 +518,9 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>(QList<Wrapper<Regist
     if(sleepTime)
     {
         // TODO
-        Wrapper<Register> *func_wrap;// = Wrapper<Register>::fromFile(Wrapper<Register>::helpersPath + "load_functions.asm");
+        DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+        QString apiLoaderName = pe->is_x64() ? windowsApiLoadingFunction_x64 : windowsApiLoadingFunction_x86;
+        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(apiLoaderName);
         if(!func_wrap)
             return 0;
 
@@ -806,7 +815,7 @@ QByteArray PEAddingMethods::compileCode(QByteArray code)
 
     nasm.setProcessChannelMode(QProcess::MergedChannels);
     // TODO
-    //nasm.start(Wrapper<Register>::nasmPath, {"-f", "bin", "-o", "~tmpfile.bin", QFileInfo(temp_file).absoluteFilePath()});
+    nasm.start("C:\\jablonskim\\Programy\\Nasm\\nasm.exe", {"-f", "bin", "-o", "~tmpfile.bin", QFileInfo(temp_file).absoluteFilePath()});
 
     if(!nasm.waitForFinished())
         return bin;

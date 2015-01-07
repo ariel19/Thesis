@@ -126,14 +126,14 @@ public:
                 allowed_methods.append(callingMethods[m.toString()]);
 
             // used_regs
-            QJsonArray regList = json["used_regs"].toArray();
+            QJsonArray regList = json["used_registers"].toArray();
             foreach(auto r, regList)
                 used_regs.append(registerTypes[r.toString()]);
 
             // static_params
             if(system_type == SystemType::Linux)
             {
-                QMap<QString, QVariant> tempMap = json["params"].toObject().toVariantMap();
+                QMap<QString, QVariant> tempMap = json["parameters"].toObject().toVariantMap();
 
                 foreach(QString key, tempMap.keys()) {
                     static_params.insert(key, tempMap.value(key).toString());
@@ -143,14 +143,22 @@ public:
             // dynamic_params
             if(system_type == SystemType::Windows)
             {
-                // TODO
+                QJsonArray temp = json["parameters"].toArray();
+
+                foreach(auto key, temp) {
+                    if(key.toObject().keys().length() != 1)
+                        return false;
+                    QString k = key.toObject().keys()[0];
+                    dynamic_params.insert(registerTypes[k], key.toObject()[k].toString());
+                }
             }
 
             // ret
             ret = registerTypes[json["ret"].toString()];
 
             // code
-            QFile codeFile(json["path_to_method"].toString());
+            // TODO: sciezka
+            QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
             if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 

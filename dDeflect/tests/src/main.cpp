@@ -9,18 +9,19 @@
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/adding_methods/wrappers/peaddingmethods.h>
+#include <ApplicationManager/DJsonParser/djsonparser.h>
 
 #include "test_elf.h"
 
 #include <core/file_types/pefile.h>
 
-/*
+
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
-    QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
+    //QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
     //QFile f("C:\\Windows\\System32\\calc.exe");
-    //QFile f("C:\\Users\\jablonskim\\Desktop\\Project1.exe");
+    QFile f("C:\\Users\\jablonskim\\Desktop\\putty.exe");
 
     if(!f.open(QFile::ReadOnly))
         return 1;
@@ -29,7 +30,7 @@ int main(int argc, char **argv)
 
     f.close();
 
-    if(!pe.isValid())
+    if(!pe.is_valid())
     {
         puts("Bad format!");
         return 1;
@@ -37,11 +38,12 @@ int main(int argc, char **argv)
 
     QList<DAddingMethods::InjectDescription<Registers_x86>*> ids;
 
-    DAddingMethods::Wrapper<Registers_x86> wrapper;
-
+    DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+    DAddingMethods::Wrapper<Registers_x86> *wrapper = parser.loadInjectDescription<Registers_x86>("win_x86_is_debugger_present.json");
+    wrapper->detect_handler = parser.loadInjectDescription<Registers_x86>("win_x86_handler_message_box.json");
     DAddingMethods::InjectDescription<Registers_x86> method1;
     method1.cm = DAddingMethods::CallingMethod::OEP;
-    method1.adding_method = &wrapper;
+    method1.adding_method = wrapper;
     ids.append(&method1);
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::TLS, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::methodsPath + "handlers\\message_box.asm")));
@@ -70,9 +72,8 @@ int main(int argc, char **argv)
 
     return 0;
 }
-*/
 
-int main() {
+//int main() {
     // test();
     // oep_ptrace("test", "ptrace", "test3");
     // test_flagx("a", "a2");
@@ -83,6 +84,6 @@ int main() {
     // test_thread_wrappers("my64", "thread64p_t.asm", "ptrace64_t.asm", "exit_group64_t.asm");
     // test_thread_wrappers("my32", "threadp_t.asm", "ptrace_t.asm", "exit_group_t.asm");
 
-    test_wrappers();
-    return 0;
-}
+    //test_wrappers();
+    //return 0;
+//}

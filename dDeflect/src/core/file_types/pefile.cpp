@@ -2,73 +2,46 @@
 
 unsigned int PEFile::getOptHdrFileAlignment()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;
 }
 
 unsigned int PEFile::getOptHdrSectionAlignment()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->SectionAlignment : getOptionalHeader32()->SectionAlignment;
 }
 
 size_t PEFile::getOptHdrSizeOfCode()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->SizeOfCode : getOptionalHeader32()->SizeOfCode;
 }
 
 size_t PEFile::getOptHdrSizeOfInitializedData()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->SizeOfInitializedData : getOptionalHeader32()->SizeOfInitializedData;
 }
 
 unsigned int PEFile::getOptHdrAddressOfEntryPoint()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->AddressOfEntryPoint : getOptionalHeader32()->AddressOfEntryPoint;
 }
 
 unsigned int PEFile::getNtHdrSignature()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getNtHeaders64()->Signature : getNtHeaders32()->Signature;
 }
 
 unsigned int PEFile::getOptHdrNumberOfRvaAndSizes()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->NumberOfRvaAndSizes : getOptionalHeader32()->NumberOfRvaAndSizes;
 }
 
 uint64_t PEFile::getOptHdrImageBase()
 {
-    if(!parsed)
-        return 0;
-
     return _is_x64 ? getOptionalHeader64()->ImageBase : getOptionalHeader32()->ImageBase;
 }
 
 bool PEFile::setOptHdrSizeOfCode(size_t size)
 {
-    if(!parsed)
-        return false;
-
     if(_is_x64)
         getOptionalHeader64()->SizeOfCode = size;
     else
@@ -79,9 +52,6 @@ bool PEFile::setOptHdrSizeOfCode(size_t size)
 
 bool PEFile::setOptHdrSizeOfInitializedData(size_t size)
 {
-    if(!parsed)
-        return false;
-
     if(_is_x64)
         getOptionalHeader64()->SizeOfInitializedData = size;
     else
@@ -92,9 +62,6 @@ bool PEFile::setOptHdrSizeOfInitializedData(size_t size)
 
 bool PEFile::setOptHdrSizeOfImage(size_t size)
 {
-    if(!parsed)
-        return false;
-
     if(_is_x64)
         getOptionalHeader64()->SizeOfImage = size;
     else
@@ -105,9 +72,6 @@ bool PEFile::setOptHdrSizeOfImage(size_t size)
 
 bool PEFile::setOptHdrSizeOfHeaders(size_t size)
 {
-    if(!parsed)
-        return false;
-
     if(_is_x64)
         getOptionalHeader64()->SizeOfHeaders = size;
     else
@@ -118,9 +82,6 @@ bool PEFile::setOptHdrSizeOfHeaders(size_t size)
 
 bool PEFile::setOptHdrAddressOfEntryPoint(unsigned int ep)
 {
-    if(!parsed)
-        return false;
-
     if(_is_x64)
         getOptionalHeader64()->AddressOfEntryPoint = ep;
     else
@@ -131,15 +92,12 @@ bool PEFile::setOptHdrAddressOfEntryPoint(unsigned int ep)
 
 PIMAGE_DOS_HEADER PEFile::getDosHeader()
 {
-    if(!parsed)
-        return nullptr;
-
     return reinterpret_cast<PIMAGE_DOS_HEADER>(&(b_data.data()[dosHeaderIdx]));
 }
 
 PIMAGE_NT_HEADERS32 PEFile::getNtHeaders32()
 {
-    if(!parsed || _is_x64)
+    if(_is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_NT_HEADERS32>(&(b_data.data()[ntHeadersIdx]));
@@ -147,7 +105,7 @@ PIMAGE_NT_HEADERS32 PEFile::getNtHeaders32()
 
 PIMAGE_NT_HEADERS64 PEFile::getNtHeaders64()
 {
-    if(!parsed || !_is_x64)
+    if(!_is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_NT_HEADERS64>(&(b_data.data()[ntHeadersIdx]));
@@ -155,15 +113,12 @@ PIMAGE_NT_HEADERS64 PEFile::getNtHeaders64()
 
 PIMAGE_FILE_HEADER PEFile::getFileHeader()
 {
-    if(!parsed)
-        return nullptr;
-
     return reinterpret_cast<PIMAGE_FILE_HEADER>(&(b_data.data()[fileHeaderIdx]));
 }
 
 PIMAGE_OPTIONAL_HEADER32 PEFile::getOptionalHeader32()
 {
-    if(!parsed || _is_x64)
+    if(_is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_OPTIONAL_HEADER32>(&(b_data.data()[optionalHeaderIdx]));
@@ -171,7 +126,7 @@ PIMAGE_OPTIONAL_HEADER32 PEFile::getOptionalHeader32()
 
 PIMAGE_OPTIONAL_HEADER64 PEFile::getOptionalHeader64()
 {
-    if(!parsed || !_is_x64)
+    if(!_is_x64)
         return nullptr;
 
     return reinterpret_cast<PIMAGE_OPTIONAL_HEADER64>(&(b_data.data()[optionalHeaderIdx]));
@@ -179,25 +134,19 @@ PIMAGE_OPTIONAL_HEADER64 PEFile::getOptionalHeader64()
 
 PIMAGE_SECTION_HEADER PEFile::getSectionHeader(unsigned int n)
 {
-    if(!parsed)
-        return nullptr;
-
     return n >= numberOfSections ?
                 nullptr : reinterpret_cast<PIMAGE_SECTION_HEADER>(&(b_data.data()[sectionHeadersIdx[n]]));
 }
 
 PIMAGE_DATA_DIRECTORY PEFile::getDataDirectory(unsigned int n)
 {
-    if(!parsed)
-        return nullptr;
-
     return n >= numberOfDataDirectories ?
                 nullptr : reinterpret_cast<PIMAGE_DATA_DIRECTORY>(&(b_data.data()[dataDirectoriesIdx[n]]));
 }
 
 PIMAGE_TLS_DIRECTORY32 PEFile::getTlsDirectory32()
 {
-    if(!parsed || _is_x64)
+    if(_is_x64)
         return nullptr;
 
     uint64_t tls_offset = getTlsDirectoryFileOffset();
@@ -206,7 +155,7 @@ PIMAGE_TLS_DIRECTORY32 PEFile::getTlsDirectory32()
 
 PIMAGE_TLS_DIRECTORY64 PEFile::getTlsDirectory64()
 {
-    if(!parsed || !_is_x64)
+    if(!_is_x64)
         return nullptr;
 
     uint64_t tls_offset = getTlsDirectoryFileOffset();
@@ -215,9 +164,6 @@ PIMAGE_TLS_DIRECTORY64 PEFile::getTlsDirectory64()
 
 uint64_t PEFile::getTlsDirectoryFileOffset()
 {
-    if(!parsed)
-        return 0;
-
     uint32_t va = getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress;
 
     if(va == 0)
@@ -574,9 +520,6 @@ bool PEFile::setAddressAtCallInstructionOffset(uint32_t offset, uint64_t address
 
 bool PEFile::getRelocations(QList<RelocationTable> &rt)
 {
-    if(!parsed)
-        return false;
-
     if(getRelocationsSize() == 0)
         return true;
 
@@ -624,9 +567,6 @@ bool PEFile::getRelocations(QList<RelocationTable> &rt)
 
 uint32_t PEFile::getSectionByVirtualAddress(uint32_t va)
 {
-    if(!parsed)
-        return 0;
-
     for(unsigned int i = 0; i < getNumberOfSections(); ++i)
     {
         uint32_t sva = getSectionHeader(i)->VirtualAddress;
@@ -799,9 +739,6 @@ bool PEFile::isPE_64(unsigned int pe_offset) const
 
 size_t PEFile::getFreeSpaceBeforeNextSectionMem(unsigned int section)
 {
-    if(!parsed)
-        return false;
-
     unsigned int secEnd = getSectionHeader(section)->VirtualAddress + getSectionHeader(section)->SizeOfRawData;
 
     int next = -1;
@@ -825,9 +762,6 @@ size_t PEFile::getFreeSpaceBeforeNextSectionMem(unsigned int section)
 
 size_t PEFile::getFreeSpaceBeforeFirstSectionFile()
 {
-    if(!parsed)
-        return false;
-
     int first = -1;
     unsigned int offset = ~0;
 
@@ -905,9 +839,6 @@ bool PEFile::addDataToSectionExVirtual(unsigned int section, QByteArray data, un
 
 bool PEFile::makeSectionExecutable(unsigned int section)
 {
-    if(!parsed)
-        return false;
-
     if(section >= numberOfSections)
         return false;
 
@@ -920,9 +851,6 @@ bool PEFile::makeSectionExecutable(unsigned int section)
 
 unsigned int PEFile::getLastSectionNumberMem()
 {
-    if(!parsed)
-        return 0;
-
     unsigned int last = 0;
     unsigned int lastRVA = 0;
 
@@ -941,9 +869,6 @@ unsigned int PEFile::getLastSectionNumberMem()
 
 unsigned int PEFile::getLastSectionNumberRaw()
 {
-    if(!parsed)
-        return 0;
-
     unsigned int last = 0;
     unsigned int lastRD = 0;
 
