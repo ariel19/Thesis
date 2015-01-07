@@ -483,8 +483,6 @@ bool ELFAddingMethods::secure_elf(ELF &elf, const InjectDescription<RegistersTyp
 
         // get call's and jmp's from text section
 
-        qDebug() << "trampoline";
-
         QTemporaryFile temp_file;
         if(!temp_file.open())
             return false;
