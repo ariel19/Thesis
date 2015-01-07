@@ -1,0 +1,6 @@
+<map id="PEFile::getLastSectionNumberRaw" name="PEFile::getLastSectionNumberRaw">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a02637152fe9ad85d48b25a8b8065a141" title="Dodawanie danych do sekcji wirtualnej. " alt="" coords="283,5,461,46"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ac0b05750bc440bb32cac22d0b1e0fece" title="Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. " alt="" coords="510,41,703,68"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#afa6e5d2b833b528707cc711912d79172" title="Rozszerza sekcję i dodaje do niej dane. " alt="" coords="285,121,459,148"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="522,121,691,148"/>
+</map>

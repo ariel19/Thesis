@@ -1,0 +1,12 @@
+<map id="PEFile::getNtHdrSignature" name="PEFile::getNtHdrSignature">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a5cad3b303c988a59e0df69eeea762638" title="Metoda odpowiedzialna za parsowanie pliku PE i wypełnianie wszystkich struktur. " alt="" coords="232,148,333,175"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ae8d99a8a0dabc4891ba5f7ef5031bcdc" title="Konstruktor. " alt="" coords="417,5,525,32"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a02637152fe9ad85d48b25a8b8065a141" title="Dodawanie danych do sekcji wirtualnej. " alt="" coords="382,57,559,98"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#ac0b05750bc440bb32cac22d0b1e0fece" title="Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. " alt="" coords="609,123,802,149"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#afa6e5d2b833b528707cc711912d79172" title="Rozszerza sekcję i dodaje do niej dane. " alt="" coords="384,224,557,251"/>
+<area shape="rect" id="node8" href="$class_p_e_file.html#ac2af0ea1633bb97beec46a898862880c" title="Dodanie danych do istniejącej sekcji bez rozszerzania. " alt="" coords="382,173,559,200"/>
+<area shape="rect" id="node9" href="$class_p_e_file.html#ab2c5c7a95e9bcc5b5bc7da1042fb72ca" title="Dodaje nową wykonywalną sekcję. " alt="" coords="390,275,551,301"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="621,224,790,251"/>
+<area shape="rect" id="node10" href="$class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b" title="Metoda dodająca wpisy do tablicy relokacji. " alt="" coords="626,275,785,301"/>
+<area shape="rect" id="node11" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="851,275,1051,301"/>
+</map>

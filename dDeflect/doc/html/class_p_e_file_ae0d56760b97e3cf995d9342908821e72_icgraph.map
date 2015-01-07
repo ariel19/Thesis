@@ -1,0 +1,10 @@
+<map id="PEFile::getTlsDirectoryFileOffset" name="PEFile::getTlsDirectoryFileOffset">
+<area shape="rect" id="node2" href="$class_p_e_file.html#abe408c5a83eef65d6f1f7659fc2dd8d2" title="Metoda pobierająca 32&#45;bitową wersję struktury IMAGE_TLS_DIRECTORY. " alt="" coords="233,103,405,129"/>
+<area shape="rect" id="node9" href="$class_p_e_file.html#a1341deeaa1ad21de371dc474751167d2" title="Metoda pobierająca 64&#45;bitową wersję struktury IMAGE_TLS_DIRECTORY. " alt="" coords="233,153,405,180"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ab385de72db3e791e1477cb6593266d45" title="Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji TLS. " alt="" coords="458,26,649,67"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#a698dd8d1b169ac0b9d01ebfecd16bc51" title="Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji TLS. " alt="" coords="458,91,649,133"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#aa60f615dfd569e601e3d25eaded2d3ed" title="Pobiera adres wirtualny pod którym znajduje się index TLS. " alt="" coords="454,157,653,184"/>
+<area shape="rect" id="node8" href="$class_p_e_file.html#a2d6f55148b572f564bc30e881d97d9f8" title="Ustawia adres wirtualny pod którym znajduje się index TLS. " alt="" coords="454,208,653,235"/>
+<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a16ab45ebef33f806f962985dbb921d54" title="Metoda dodająca kod do Thread Local Storage. " alt="" coords="912,107,1131,133"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#af718219d753f57388e3db28a55928b3e" title="Metoda pobierająca adresy funkcji TLS. " alt="" coords="701,5,864,32"/>
+</map>

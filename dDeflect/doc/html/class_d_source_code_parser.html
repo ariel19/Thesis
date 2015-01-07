@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Dokumentacja klasy DSourceCodeParser</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -103,6 +105,7 @@ $(document).ready(function(){initNavTree('class_d_source_code_parser.html','');}
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Typy publiczne</a> &#124;
 <a href="#pub-methods">Metody publiczne</a> &#124;
 <a href="class_d_source_code_parser-members.html">Lista wszystkich składowych</a>  </div>
   <div class="headertitle">
@@ -112,16 +115,61 @@ $(document).ready(function(){initNavTree('class_d_source_code_parser.html','');}
 
 <p><code>#include &lt;<a class="el" href="dsourcecodeparser_8h_source.html">dsourcecodeparser.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Typy publiczne</h2></td></tr>
+<tr class="memitem:a549c58566517a32131066635fc033088"><td class="memTemplParams" colspan="2">template&lt;typename Reg &gt; </td></tr>
+<tr class="memitem:a549c58566517a32131066635fc033088"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html#a549c58566517a32131066635fc033088">IDList</a> = QList&lt; <a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt; Reg &gt; * &gt;</td></tr>
+<tr class="separator:a549c58566517a32131066635fc033088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c023f4442337d52a190e157505fee11"><td class="memTemplParams" colspan="2">template&lt;typename Reg &gt; </td></tr>
+<tr class="memitem:a0c023f4442337d52a190e157505fee11"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html#a0c023f4442337d52a190e157505fee11">FIDMapping</a> = QHash&lt; QString, <a class="el" href="class_d_source_code_parser.html#a549c58566517a32131066635fc033088">IDList</a>&lt; Reg &gt;&gt;</td></tr>
+<tr class="separator:a0c023f4442337d52a190e157505fee11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Metody publiczne</h2></td></tr>
 <tr class="memitem:adc1af3adbbe65247fcf93aedf8d72a4b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html#adc1af3adbbe65247fcf93aedf8d72a4b">DSourceCodeParser</a> ()</td></tr>
+<tr class="separator:adc1af3adbbe65247fcf93aedf8d72a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bc1f34f3cf29f7f8e4e867dace9721f"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html#a2bc1f34f3cf29f7f8e4e867dace9721f">getFunctions</a> (const QString &amp;path)</td></tr>
-<tr class="memitem:acb80a33d6f64af51009f3a09fbfd430b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b">insertMethods</a> (const QString &amp;path, FIDMapping&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;)</td></tr>
+<tr class="separator:a2bc1f34f3cf29f7f8e4e867dace9721f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb80a33d6f64af51009f3a09fbfd430b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b">insertMethods</a> (const QString &amp;path, <a class="el" href="class_d_source_code_parser.html#a0c023f4442337d52a190e157505fee11">FIDMapping</a>&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;)</td></tr>
+<tr class="separator:acb80a33d6f64af51009f3a09fbfd430b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2>Opis szczegółowy</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Opis szczegółowy</h2>
 <div class="textblock">
 <p>Definicja w linii <a class="el" href="dsourcecodeparser_8h_source.html#l00017">17</a> pliku <a class="el" href="dsourcecodeparser_8h_source.html">dsourcecodeparser.h</a>.</p>
-</div><h2>Dokumentacja konstruktora i destruktora</h2>
+</div><h2 class="groupheader">Dokumentacja składowych definicji typu</h2>
+<a class="anchor" id="a0c023f4442337d52a190e157505fee11"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Reg &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="class_d_source_code_parser.html#a0c023f4442337d52a190e157505fee11">DSourceCodeParser::FIDMapping</a> =  QHash&lt;QString, <a class="el" href="class_d_source_code_parser.html#a549c58566517a32131066635fc033088">IDList</a>&lt;Reg&gt;&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="dsourcecodeparser_8h_source.html#l00023">23</a> pliku <a class="el" href="dsourcecodeparser_8h_source.html">dsourcecodeparser.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a549c58566517a32131066635fc033088"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Reg &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="class_d_source_code_parser.html#a549c58566517a32131066635fc033088">DSourceCodeParser::IDList</a> =  QList&lt;<a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt;Reg&gt;*&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="dsourcecodeparser_8h_source.html#l00021">21</a> pliku <a class="el" href="dsourcecodeparser_8h_source.html">dsourcecodeparser.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja konstruktora i destruktora</h2>
 <a class="anchor" id="adc1af3adbbe65247fcf93aedf8d72a4b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -139,7 +187,7 @@ Metody publiczne</h2></td></tr>
 
 </div>
 </div>
-<h2>Dokumentacja funkcji składowych</h2>
+<h2 class="groupheader">Dokumentacja funkcji składowych</h2>
 <a class="anchor" id="a2bc1f34f3cf29f7f8e4e867dace9721f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +219,7 @@ Metody publiczne</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">FIDMapping&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_d_source_code_parser.html#a0c023f4442337d52a190e157505fee11">FIDMapping</a>&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;&#160;</td>
           <td class="paramname"><em>map</em>&#160;</td>
         </tr>
         <tr>
@@ -183,6 +231,15 @@ Metody publiczne</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definicja w linii <a class="el" href="dsourcecodeparser_8cpp_source.html#l00045">45</a> pliku <a class="el" href="dsourcecodeparser_8cpp_source.html">dsourcecodeparser.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_d_source_code_parser_acb80a33d6f64af51009f3a09fbfd430b_icgraph.png" border="0" usemap="#class_d_source_code_parser_acb80a33d6f64af51009f3a09fbfd430b_icgraph" alt=""/></div>
+<map name="class_d_source_code_parser_acb80a33d6f64af51009f3a09fbfd430b_icgraph" id="class_d_source_code_parser_acb80a33d6f64af51009f3a09fbfd430b_icgraph">
+<area shape="rect" id="node2" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2" title="ApplicationManager\l::insertMethods" alt="" coords="205,5,341,46"/><area shape="rect" id="node3" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0" title="ApplicationManager\l::applyClicked" alt="" coords="389,5,525,46"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -196,9 +253,9 @@ Metody publiczne</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_d_source_code_parser.html">DSourceCodeParser</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:48 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:42 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

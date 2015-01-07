@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Plik źródłowy core/file_types/binaryfile.h</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -109,35 +111,44 @@ $(document).ready(function(){initNavTree('binaryfile_8h_source.html','');});
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="code" href="class_binary_file.html">    6</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_binary_file.html">BinaryFile</a></div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="class_binary_file.html">    6</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_binary_file.html">BinaryFile</a></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <a class="code" href="class_binary_file.html#a1afe5dffc5edf5f25ea22deef606eb4b">BinaryFile</a>(QByteArray _data);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_binary_file.html#a8ff1b2e140421fd040bff0854c1322ff">~BinaryFile</a>();</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">virtual</span> QByteArray <a class="code" href="class_binary_file.html#a5ffee8a6230cf3c82cf6ee0e9fb53048" title="Pobiera zawartość pliku binarnego.">getData</a>();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">virtual</span> QByteArray <a class="code" href="class_binary_file.html#a5ffee8a6230cf3c82cf6ee0e9fb53048">getData</a>();</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#a6007435bc4451bb80a3169d977f4f125" title="Sprawdza czy w pamięci przechowywany jest poprawny plik.">is_valid</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#a6007435bc4451bb80a3169d977f4f125">is_valid</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#a36b7998c72bbee68ab492d93368c14ca" title="Metoda informująca czy wczytany plik jest 64-bitowy.">is_x64</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#a36b7998c72bbee68ab492d93368c14ca">is_x64</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#aa7d43cde4ab8cc9723d2b5c769719bd9" title="Metoda informująca czy wczytany plik jest 32-bitowy.">is_x86</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#aa7d43cde4ab8cc9723d2b5c769719bd9">is_x86</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="class_binary_file.html#ae16774932979ddb6d57b46b3c387a159">   37</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#ae16774932979ddb6d57b46b3c387a159">parsed</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="class_binary_file.html#acdfdb2fae63d8395dfa899be21bd8036">   38</a></span>&#160;    QByteArray <a class="code" href="class_binary_file.html#acdfdb2fae63d8395dfa899be21bd8036">b_data</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_binary_file.html#ae16774932979ddb6d57b46b3c387a159">   37</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_binary_file.html#ae16774932979ddb6d57b46b3c387a159">parsed</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_binary_file.html#acdfdb2fae63d8395dfa899be21bd8036">   38</a></span>&#160;    QByteArray <a class="code" href="class_binary_file.html#acdfdb2fae63d8395dfa899be21bd8036">b_data</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#endif // BINARYFILE_H</span></div>
+<div class="ttc" id="class_binary_file_html_a1afe5dffc5edf5f25ea22deef606eb4b"><div class="ttname"><a href="class_binary_file.html#a1afe5dffc5edf5f25ea22deef606eb4b">BinaryFile::BinaryFile</a></div><div class="ttdeci">BinaryFile(QByteArray _data)</div><div class="ttdef"><b>Definition:</b> <a href="binaryfile_8cpp_source.html#l00003">binaryfile.cpp:3</a></div></div>
+<div class="ttc" id="class_binary_file_html"><div class="ttname"><a href="class_binary_file.html">BinaryFile</a></div><div class="ttdef"><b>Definition:</b> <a href="binaryfile_8h_source.html#l00006">binaryfile.h:6</a></div></div>
+<div class="ttc" id="class_binary_file_html_a6007435bc4451bb80a3169d977f4f125"><div class="ttname"><a href="class_binary_file.html#a6007435bc4451bb80a3169d977f4f125">BinaryFile::is_valid</a></div><div class="ttdeci">virtual bool is_valid() const =0</div><div class="ttdoc">Sprawdza czy w pamięci przechowywany jest poprawny plik. </div></div>
+<div class="ttc" id="class_binary_file_html_a36b7998c72bbee68ab492d93368c14ca"><div class="ttname"><a href="class_binary_file.html#a36b7998c72bbee68ab492d93368c14ca">BinaryFile::is_x64</a></div><div class="ttdeci">virtual bool is_x64() const =0</div><div class="ttdoc">Metoda informująca czy wczytany plik jest 64-bitowy. </div></div>
+<div class="ttc" id="class_binary_file_html_a8ff1b2e140421fd040bff0854c1322ff"><div class="ttname"><a href="class_binary_file.html#a8ff1b2e140421fd040bff0854c1322ff">BinaryFile::~BinaryFile</a></div><div class="ttdeci">virtual ~BinaryFile()</div><div class="ttdef"><b>Definition:</b> <a href="binaryfile_8cpp_source.html#l00010">binaryfile.cpp:10</a></div></div>
+<div class="ttc" id="class_binary_file_html_acdfdb2fae63d8395dfa899be21bd8036"><div class="ttname"><a href="class_binary_file.html#acdfdb2fae63d8395dfa899be21bd8036">BinaryFile::b_data</a></div><div class="ttdeci">QByteArray b_data</div><div class="ttdef"><b>Definition:</b> <a href="binaryfile_8h_source.html#l00038">binaryfile.h:38</a></div></div>
+<div class="ttc" id="class_binary_file_html_ae16774932979ddb6d57b46b3c387a159"><div class="ttname"><a href="class_binary_file.html#ae16774932979ddb6d57b46b3c387a159">BinaryFile::parsed</a></div><div class="ttdeci">bool parsed</div><div class="ttdef"><b>Definition:</b> <a href="binaryfile_8h_source.html#l00037">binaryfile.h:37</a></div></div>
+<div class="ttc" id="class_binary_file_html_a5ffee8a6230cf3c82cf6ee0e9fb53048"><div class="ttname"><a href="class_binary_file.html#a5ffee8a6230cf3c82cf6ee0e9fb53048">BinaryFile::getData</a></div><div class="ttdeci">virtual QByteArray getData()</div><div class="ttdoc">Pobiera zawartość pliku binarnego. </div><div class="ttdef"><b>Definition:</b> <a href="binaryfile_8cpp_source.html#l00015">binaryfile.cpp:15</a></div></div>
+<div class="ttc" id="class_binary_file_html_aa7d43cde4ab8cc9723d2b5c769719bd9"><div class="ttname"><a href="class_binary_file.html#aa7d43cde4ab8cc9723d2b5c769719bd9">BinaryFile::is_x86</a></div><div class="ttdeci">virtual bool is_x86() const =0</div><div class="ttdoc">Metoda informująca czy wczytany plik jest 32-bitowy. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_c1ba1c2b8a0e94bf76babf8745cc7d39.html">file_types</a></li><li class="navelem"><a class="el" href="binaryfile_8h.html">binaryfile.h</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:41 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

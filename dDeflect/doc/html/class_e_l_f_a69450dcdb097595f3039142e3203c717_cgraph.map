@@ -1,0 +1,7 @@
+<map id="ELF::__set_section_content" name="ELF::__set_section_content">
+<area shape="rect" id="node2" href="$class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="190,56,290,83"/>
+<area shape="rect" id="node3" href="$class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38" title="Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF. " alt="" coords="339,5,485,32"/>
+<area shape="rect" id="node4" href="$class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4" title="Sprawdza czy architektura, kolejność bajtów są podtrzymywane. " alt="" coords="341,56,483,83"/>
+<area shape="rect" id="node5" href="$class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="345,107,479,133"/>
+<area shape="rect" id="node6" href="$class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="534,107,709,133"/>
+</map>

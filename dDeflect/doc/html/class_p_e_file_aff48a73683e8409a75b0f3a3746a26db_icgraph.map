@@ -1,0 +1,5 @@
+<map id="PEFile::fileOffsetToRVA" name="PEFile::fileOffsetToRVA">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a1cf0f58cf7e061011a1dd95b16076e07" title="Metoda pobierająca adres skoku instrukcji call lub jmp znajdującej się pod konkretnym offsetem..." alt="" coords="219,5,389,46"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a6c06d44bec906ab659326541e6244850" title="Metoda ustawiająca adres skoku instrukcji call lub jmp znajdującej się w konkretnym miejscu w pliku..." alt="" coords="219,70,389,111"/>
+<area shape="rect" id="node3" href="$class_p_e_adding_methods.html#a7bfc807cbd6863be7a0caaab742668bb" title="Metoda dodająca kod jako trampolinę " alt="" coords="437,45,701,72"/>
+</map>

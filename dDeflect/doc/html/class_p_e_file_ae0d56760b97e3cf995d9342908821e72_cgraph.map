@@ -1,0 +1,6 @@
+<map id="PEFile::getTlsDirectoryFileOffset" name="PEFile::getTlsDirectoryFileOffset">
+<area shape="rect" id="node2" href="$class_p_e_file.html#aaf46e49176cedd59ea9ae063a817ddb9" title="Metoda pobierająca n&#45;tą strukturę IMAGE_DATA_DIRECTORY. " alt="" coords="240,5,408,32"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="477,60,651,87"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a6ac76bef1134ab12de6638e9587533e7" title="Metoda pobierająca numer sekcji, w której znajduje się podany adres. " alt="" coords="232,107,416,149"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a704f552cbaaed1d1f62e3e5a95c6dd67" title="Pobiera ilość sekcji w pliku. " alt="" coords="465,115,663,141"/>
+</map>

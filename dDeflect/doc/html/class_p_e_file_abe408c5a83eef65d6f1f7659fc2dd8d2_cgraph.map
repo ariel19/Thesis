@@ -1,0 +1,7 @@
+<map id="PEFile::getTlsDirectory32" name="PEFile::getTlsDirectory32">
+<area shape="rect" id="node2" href="$class_p_e_file.html#ae0d56760b97e3cf995d9342908821e72" title="Pobiera index struktury IMAGE_TLS_DIRECTORY w pliku. " alt="" coords="227,49,405,90"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#aaf46e49176cedd59ea9ae063a817ddb9" title="Metoda pobierająca n&#45;tą strukturę IMAGE_DATA_DIRECTORY. " alt="" coords="461,5,629,32"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="699,60,872,87"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a6ac76bef1134ab12de6638e9587533e7" title="Metoda pobierająca numer sekcji, w której znajduje się podany adres. " alt="" coords="453,107,637,149"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#a704f552cbaaed1d1f62e3e5a95c6dd67" title="Pobiera ilość sekcji w pliku. " alt="" coords="686,115,885,141"/>
+</map>

@@ -12,26 +12,28 @@ Klasa odpowiedzialna za parsowanie plików P\-E.
 
 
 
-Diagram dziedziczenia dla P\-E\-File\nopagebreak
+Diagram dziedziczenia dla P\-E\-File
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=140pt]{class_p_e_file__inherit__graph}
+\includegraphics[width=138pt]{class_p_e_file__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Diagram współpracy dla P\-E\-File\-:\nopagebreak
+Diagram współpracy dla P\-E\-File\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=140pt]{class_p_e_file__coll__graph}
+\includegraphics[width=138pt]{class_p_e_file__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Komponenty}
 \begin{DoxyCompactItemize}
 \item 
-struct {\bfseries Relocation\-Table}
+struct \hyperlink{struct_p_e_file_1_1_relocation_table}{Relocation\-Table}
 \begin{DoxyCompactList}\small\item\em Struktura odpowiedzialna za przechowywanie wpisu w tablicy relokacji. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Metody publiczne}
 \begin{DoxyCompactItemize}
@@ -86,6 +88,130 @@ uint64\-\_\-t \hyperlink{class_p_e_file_a1cf0f58cf7e061011a1dd95b16076e07}{get\-
 \begin{DoxyCompactList}\small\item\em Metoda pobierająca adres skoku instrukcji call lub jmp znajdującej się pod konkretnym offsetem. \end{DoxyCompactList}\item 
 bool \hyperlink{class_p_e_file_a6c06d44bec906ab659326541e6244850}{set\-Address\-At\-Call\-Instruction\-Offset} (uint32\-\_\-t offset, uint64\-\_\-t address)
 \begin{DoxyCompactList}\small\item\em Metoda ustawiająca adres skoku instrukcji call lub jmp znajdującej się w konkretnym miejscu w pliku. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody prywatne}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_p_e_file_a5cad3b303c988a59e0df69eeea762638}{parse} ()
+\begin{DoxyCompactList}\small\item\em Metoda odpowiedzialna za parsowanie pliku P\-E i wypełnianie wszystkich struktur. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_aa415803ce1fbb7e807e568ce25121515}{is\-P\-E\-\_\-64} (unsigned int pe\-\_\-offset) const 
+\begin{DoxyCompactList}\small\item\em Wewnętrzna metoda badająca czy plik jest plikiem P\-E32+ (P\-E x64). \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_aaed631503b058e37835ef1446a928d5f}{P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{class_p_e_file_a9b129e61566361c90db87a6dcbadd05c}{get\-Dos\-Header} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca strukturę I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_af5abf38c0a38de08149b1c0f7ec4a77f}{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32} \hyperlink{class_p_e_file_a05a8546f2cfbfb50d1fe6c750704f5ac}{get\-Nt\-Headers32} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca 32-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_a9f6c372da5d74274df064a820641b9af}{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64} \hyperlink{class_p_e_file_a8c27cf9069fcfd79fab620e7a734a93d}{get\-Nt\-Headers64} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca 64-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_ad59939d555bb89d353f970635be236ea}{P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{class_p_e_file_a9779bdd02a58e6ea2db36eb193f9ffc7}{get\-File\-Header} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca strukturę I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_a3c22e256ff6db46507cdd956477cc106}{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32} \hyperlink{class_p_e_file_a7a58a8b45e351c4aa260a604122ff7d5}{get\-Optional\-Header32} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca 32-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_a139717379813761e8b84795ce6e85b69}{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64} \hyperlink{class_p_e_file_ad40c792d0076f06a503f550fb01e37c7}{get\-Optional\-Header64} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca 64-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_a47626b2fa073ef74937a4c5bf44104e2}{P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{class_p_e_file_aa78066badcca992f9d4c3d3b6fae41bf}{get\-Section\-Header} (unsigned int n)
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca n-\/tą strukturę I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_aa9458b3977365bbd4f380d0ab283084a}{P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y} \hyperlink{class_p_e_file_aaf46e49176cedd59ea9ae063a817ddb9}{get\-Data\-Directory} (unsigned int n)
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca n-\/tą strukturę I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_a0fdb1e3e0c8bfc33cad7c169148b5906}{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32} \hyperlink{class_p_e_file_abe408c5a83eef65d6f1f7659fc2dd8d2}{get\-Tls\-Directory32} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca 32-\/bitową wersję struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\item 
+\hyperlink{winheader_8h_a18d0683249747b9c8290194976089ffb}{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64} \hyperlink{class_p_e_file_a1341deeaa1ad21de371dc474751167d2}{get\-Tls\-Directory64} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca 64-\/bitową wersję struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a1f1c615e94907f34d9536c3f7a446589}{get\-Opt\-Hdr\-File\-Alignment} ()
+\begin{DoxyCompactList}\small\item\em Pobiera zawartość pola opisującego wyrównanie danych w pliku. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_ad3099b5323833b3d3039f483b7f454ff}{get\-Opt\-Hdr\-Section\-Alignment} ()
+\begin{DoxyCompactList}\small\item\em Pobiera zawartość pola opisującego wyrównanie danych w pamięci. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a08145038525bdbd95f125e055286149f}{get\-Nt\-Hdr\-Signature} ()
+\begin{DoxyCompactList}\small\item\em Pobiera sygnaturę pliku P\-E. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_aba5f21e866470adc21d621994bdf9c8a}{get\-Opt\-Hdr\-Image\-Base} ()
+\begin{DoxyCompactList}\small\item\em Pobiera adres bazowy pliku w pamięci. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_ac427597fb784a978b09094c8c8a461be}{get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes} ()
+\begin{DoxyCompactList}\small\item\em Pobiera liczbę wpisów w tablicy zawierającej I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_af8c30ffa5f05bea43df3a485b5390b10}{get\-Opt\-Hdr\-Size\-Of\-Code} ()
+\begin{DoxyCompactList}\small\item\em Pobiera rozmiar kodu. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a307f2a1e6d75753e5ff46955b9f9871d}{set\-Opt\-Hdr\-Size\-Of\-Code} (size\-\_\-t size)
+\begin{DoxyCompactList}\small\item\em Ustawia rozmiar kodu. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_aa64129c136b77f772cf91c108e7e88a5}{get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data} ()
+\begin{DoxyCompactList}\small\item\em Pobiera rozmiar zainicjalizowanych danych. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_ab53167f5c212c474b4be11da36ccd809}{set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data} (size\-\_\-t size)
+\begin{DoxyCompactList}\small\item\em Ustawia rozmiar zainicjalizowanych danych. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a0598aa7de2b74460d06a16bfef7c96e9}{get\-Opt\-Hdr\-Address\-Of\-Entry\-Point} ()
+\begin{DoxyCompactList}\small\item\em Pobiera Entry\-Point. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a2d741f3714914faf3aee402d712fde00}{set\-Opt\-Hdr\-Address\-Of\-Entry\-Point} (unsigned int ep)
+\begin{DoxyCompactList}\small\item\em Ustawia Entry\-Point. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a1bd08920ea37faddc4b0c7170a4ecce6}{set\-Opt\-Hdr\-Size\-Of\-Image} (size\-\_\-t size)
+\begin{DoxyCompactList}\small\item\em Ustawia rozmiar obrazu pliku w pamięci. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_adc3747d33e441041a82daa16fd7fda19}{set\-Opt\-Hdr\-Size\-Of\-Headers} (size\-\_\-t size)
+\begin{DoxyCompactList}\small\item\em Ustawia rozmiar nagłówków. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_ae0d56760b97e3cf995d9342908821e72}{get\-Tls\-Directory\-File\-Offset} ()
+\begin{DoxyCompactList}\small\item\em Pobiera index struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y w pliku. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{class_p_e_file_aaeb99f206d194a827388098011a8a66b}{get\-Relocation\-Type} ()
+\begin{DoxyCompactList}\small\item\em Pobiera typ relokacji. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_a79d634b16a4dcbfde4631749a1e24a21}{get\-Free\-Space\-Before\-Next\-Section\-Mem} (unsigned int section)
+\begin{DoxyCompactList}\small\item\em Pobiera ilość wolnego miejsca przed następną sekcją w pamięci. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_aa89e3a9a9aa3d4bfa0e9a6f794c8bbcf}{get\-Free\-Space\-Before\-First\-Section\-File} ()
+\begin{DoxyCompactList}\small\item\em Pobiera ilość wolnego miejsca przed pierwszą sekcją w pliku. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_afcc67325548b6b60a9f60a1807b4063b}{align\-Number} (unsigned int number, unsigned int alignment)
+\begin{DoxyCompactList}\small\item\em Metoda wyrównująca liczbę w górę do określonego zakresu. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a02637152fe9ad85d48b25a8b8065a141}{add\-Data\-To\-Section\-Ex\-Virtual} (unsigned int section, Q\-Byte\-Array data, unsigned int \&file\-Offset, unsigned int \&mem\-Offset)
+\begin{DoxyCompactList}\small\item\em Dodawanie danych do sekcji wirtualnej. \end{DoxyCompactList}\item 
+Q\-String \hyperlink{class_p_e_file_aaaa99ad42e736cbfa9ecd48015cf1b42}{get\-Random\-Section\-Name} ()
+\begin{DoxyCompactList}\small\item\em Metoda losująca nową nazwę sekcji. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a4eea22c0e10b83bb7bc1992ddca0ed01}{get\-Relocations} (Q\-List$<$ \hyperlink{struct_p_e_file_1_1_relocation_table}{Relocation\-Table} $>$ \&rt)
+\begin{DoxyCompactList}\small\item\em Metoda wypełniająca listę relokacjami adresów. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{class_p_e_file_a6ac76bef1134ab12de6638e9587533e7}{get\-Section\-By\-Virtual\-Address} (uint32\-\_\-t va)
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca numer sekcji, w której znajduje się podany adres. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{class_p_e_file_a1a73ab27e218aa395293d05ea77e1b8e}{get\-Relocations\-Size} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca rozmiar tablicy relokacji. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{class_p_e_file_a2fe6323c5c4551acedf9ea2897ed3475}{get\-Relocations\-Virtual\-Address} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca adres wirtualny tablicy relokacji. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{class_p_e_file_aff48a73683e8409a75b0f3a3746a26db}{file\-Offset\-To\-R\-V\-A} (uint32\-\_\-t file\-Offset)
+\begin{DoxyCompactList}\small\item\em Metoda konwertująca offset w pliku na relatywny adres wirtualny. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a32d068523df3459778388478cd07b54a}{make\-Section\-Executable} (unsigned int section)
+\begin{DoxyCompactList}\small\item\em Zmienia uprawnienia sekcji, aby była ona wykonywalna. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_adf019ed888aee58b468411366b9b60c5}{get\-Last\-Section\-Number\-Mem} ()
+\begin{DoxyCompactList}\small\item\em Pobiera numer ostatniej sekcji w pamięci. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a6d42fa783714881ebb5107ac95da02d6}{get\-Last\-Section\-Number\-Raw} ()
+\begin{DoxyCompactList}\small\item\em Pobiera numer ostatniej sekcji w pliku. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a704f552cbaaed1d1f62e3e5a95c6dd67}{get\-Number\-Of\-Sections} () const 
+\begin{DoxyCompactList}\small\item\em Pobiera ilość sekcji w pliku. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_a9a0464cc0e03f110597d6abd66e08007}{get\-Section\-Free\-Space} (unsigned int section)
+\begin{DoxyCompactList}\small\item\em Zwraca ilość wolnego miejsca w sekcji. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_ab5ab5850cce8abcb48c89e0fa44901ca}{is\-Section\-Raw\-Data\-Empty} (unsigned int section)
+\begin{DoxyCompactList}\small\item\em Pobiera informację o tym, czy sekcja istnieje w pliku czy jest tylko wirtualna. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_afa6e5d2b833b528707cc711912d79172}{resize\-Last\-Section} (Q\-Byte\-Array data, unsigned int \&file\-Offset, unsigned int \&mem\-Offset)
+\begin{DoxyCompactList}\small\item\em Rozszerza sekcję i dodaje do niej dane. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_ac2af0ea1633bb97beec46a898862880c}{add\-Data\-To\-Section} (unsigned int section, Q\-Byte\-Array data, unsigned int \&file\-Offset, unsigned int \&mem\-Offset)
+\begin{DoxyCompactList}\small\item\em Dodanie danych do istniejącej sekcji bez rozszerzania. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_ac0b05750bc440bb32cac22d0b1e0fece}{add\-Data\-To\-Section\-Ex} (unsigned int section, Q\-Byte\-Array data, unsigned int \&file\-Offset, unsigned int \&mem\-Offset, bool change\-Virtual=false)
+\begin{DoxyCompactList}\small\item\em Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a13b95be1db5cb677e28c85b03f08e5c0}{is\-Section\-Executable} (unsigned int section)
+\begin{DoxyCompactList}\small\item\em Pobiera informację czy sekcja jest wykonywalna. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_ab2c5c7a95e9bcc5b5bc7da1042fb72ca}{add\-New\-Section} (Q\-String name, Q\-Byte\-Array data, unsigned int \&file\-Offset, unsigned int \&mem\-Offset, bool use\-Reserved=false)
+\begin{DoxyCompactList}\small\item\em Dodaje nową wykonywalną sekcję. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_p_e_file_a28a6e9fe7d586a07fc2094076293216e}{\-\_\-is\-\_\-x64}
+\begin{DoxyCompactList}\small\item\em Flaga zawierająca informacje o architekturze pliku. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_aa813f4eef94aa75a0b537515b7253293}{dos\-Header\-Idx}
+\begin{DoxyCompactList}\small\item\em Indeks struktury I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_affd75caf053c5f827b335ea7ac0b1cfa}{nt\-Headers\-Idx}
+\begin{DoxyCompactList}\small\item\em Indeks struktury I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a1e3de62b90006b727516b9216c19af56}{file\-Header\-Idx}
+\begin{DoxyCompactList}\small\item\em Indeks struktury I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a56b4375d7c13859e289bfa6e6f58fffc}{optional\-Header\-Idx}
+\begin{DoxyCompactList}\small\item\em Indeks struktury I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_a4f2168508a33d89fa8a28b7912be97e3}{optional\-Header\-Size}
+\begin{DoxyCompactList}\small\item\em Rozmiar struktury I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_aa80eaa25eb050efe1bfced2518e21842}{number\-Of\-Sections}
+\begin{DoxyCompactList}\small\item\em Liczba sekcji w pliku P\-E. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a46392c7d5a4e12bc852674e9b692217e}{number\-Of\-Data\-Directories}
+\begin{DoxyCompactList}\small\item\em Liczba wpisów w I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\item 
+std\-::default\-\_\-random\-\_\-engine \hyperlink{class_p_e_file_a2778890ee00bd2ee99f4d5757961f222}{gen}
+\begin{DoxyCompactList}\small\item\em Generator liczb losowych. \end{DoxyCompactList}\item 
+unsigned int $\ast$ \hyperlink{class_p_e_file_a30065d3448d3f6f71cb18dd0ea954be2}{section\-Headers\-Idx}
+\begin{DoxyCompactList}\small\item\em Tablica indeksów do nagłówków sekcji (I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R). \end{DoxyCompactList}\item 
+unsigned int $\ast$ \hyperlink{class_p_e_file_acc624dc6b876fbfb22e7fe2114c36bdd}{data\-Directories\-Idx}
+\begin{DoxyCompactList}\small\item\em Tablica indeksów wpisów w I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Dodatkowe Dziedziczone Składowe}
 
 
@@ -117,6 +243,18 @@ Konstruktor.
 
 Definicja w linii 256 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ae8d99a8a0dabc4891ba5f7ef5031bcdc_cgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_a0e63ccc46a77ddc9106e98c9131674db}{\index{P\-E\-File@{P\-E\-File}!$\sim$\-P\-E\-File@{$\sim$\-P\-E\-File}}
 \index{$\sim$\-P\-E\-File@{$\sim$\-P\-E\-File}!PEFile@{P\-E\-File}}
 \subsubsection[{$\sim$\-P\-E\-File}]{\setlength{\rightskip}{0pt plus 5cm}P\-E\-File\-::$\sim$\-P\-E\-File (
@@ -131,6 +269,224 @@ Definicja w linii 266 pliku pefile.\-cpp.
 
 
 \subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_p_e_file_ac2af0ea1633bb97beec46a898862880c}{\index{P\-E\-File@{P\-E\-File}!add\-Data\-To\-Section@{add\-Data\-To\-Section}}
+\index{add\-Data\-To\-Section@{add\-Data\-To\-Section}!PEFile@{P\-E\-File}}
+\subsubsection[{add\-Data\-To\-Section}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::add\-Data\-To\-Section (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section, }
+\item[{Q\-Byte\-Array}]{data, }
+\item[{unsigned int \&}]{file\-Offset, }
+\item[{unsigned int \&}]{mem\-Offset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ac2af0ea1633bb97beec46a898862880c}
+
+
+Dodanie danych do istniejącej sekcji bez rozszerzania. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji. \\
+\hline
+{\em data} & Dane \\
+\hline
+{\em file\-Offset} & Obliczony offset dodanych danych w pliku. \\
+\hline
+{\em mem\-Offset} & Obliczony offset dodanych danych w pmięci (R\-V\-A). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku poprawnego dodania danych. 
+\end{DoxyReturn}
+
+
+Definicja w linii 1005 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac2af0ea1633bb97beec46a898862880c_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac2af0ea1633bb97beec46a898862880c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ac0b05750bc440bb32cac22d0b1e0fece}{\index{P\-E\-File@{P\-E\-File}!add\-Data\-To\-Section\-Ex@{add\-Data\-To\-Section\-Ex}}
+\index{add\-Data\-To\-Section\-Ex@{add\-Data\-To\-Section\-Ex}!PEFile@{P\-E\-File}}
+\subsubsection[{add\-Data\-To\-Section\-Ex}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::add\-Data\-To\-Section\-Ex (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section, }
+\item[{Q\-Byte\-Array}]{data, }
+\item[{unsigned int \&}]{file\-Offset, }
+\item[{unsigned int \&}]{mem\-Offset, }
+\item[{bool}]{change\-Virtual = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ac0b05750bc440bb32cac22d0b1e0fece}
+
+
+Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji. \\
+\hline
+{\em data} & Dane \\
+\hline
+{\em file\-Offset} & Obliczony offset dodanych danych w pliku. \\
+\hline
+{\em mem\-Offset} & Obliczony offset dodanych danych w pmięci (R\-V\-A). \\
+\hline
+{\em change\-Virtual} & Informacja czy zmieniać sekcję wirtualną. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku poprawnego dodania danych. 
+\end{DoxyReturn}
+
+
+Definicja w linii 1034 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac0b05750bc440bb32cac22d0b1e0fece_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a02637152fe9ad85d48b25a8b8065a141}{\index{P\-E\-File@{P\-E\-File}!add\-Data\-To\-Section\-Ex\-Virtual@{add\-Data\-To\-Section\-Ex\-Virtual}}
+\index{add\-Data\-To\-Section\-Ex\-Virtual@{add\-Data\-To\-Section\-Ex\-Virtual}!PEFile@{P\-E\-File}}
+\subsubsection[{add\-Data\-To\-Section\-Ex\-Virtual}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::add\-Data\-To\-Section\-Ex\-Virtual (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section, }
+\item[{Q\-Byte\-Array}]{data, }
+\item[{unsigned int \&}]{file\-Offset, }
+\item[{unsigned int \&}]{mem\-Offset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a02637152fe9ad85d48b25a8b8065a141}
+
+
+Dodawanie danych do sekcji wirtualnej. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji \\
+\hline
+{\em data} & Dane do dodania \\
+\hline
+{\em file\-Offset} & Offset w pliku do dodanych danych \\
+\hline
+{\em mem\-Offset} & Offset w pamięci do dodanych danych \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 799 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a02637152fe9ad85d48b25a8b8065a141_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a02637152fe9ad85d48b25a8b8065a141_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ab2c5c7a95e9bcc5b5bc7da1042fb72ca}{\index{P\-E\-File@{P\-E\-File}!add\-New\-Section@{add\-New\-Section}}
+\index{add\-New\-Section@{add\-New\-Section}!PEFile@{P\-E\-File}}
+\subsubsection[{add\-New\-Section}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::add\-New\-Section (
+\begin{DoxyParamCaption}
+\item[{Q\-String}]{name, }
+\item[{Q\-Byte\-Array}]{data, }
+\item[{unsigned int \&}]{file\-Offset, }
+\item[{unsigned int \&}]{mem\-Offset, }
+\item[{bool}]{use\-Reserved = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ab2c5c7a95e9bcc5b5bc7da1042fb72ca}
+
+
+Dodaje nową wykonywalną sekcję. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em name} & Nazwa \\
+\hline
+{\em data} & Zawartość nowej sekcji. \\
+\hline
+{\em file\-Offset} & Zwracany offset nowej sekcji w pliku. \\
+\hline
+{\em mem\-Offset} & Offset nowej sekcji w pamięci. \\
+\hline
+{\em use\-Reserved} & Flaga zezwalająca na użycie zarezerwowanego obszaru. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu. 
+\end{DoxyReturn}
+
+
+Definicja w linii 1140 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab2c5c7a95e9bcc5b5bc7da1042fb72ca_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab2c5c7a95e9bcc5b5bc7da1042fb72ca_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b}{\index{P\-E\-File@{P\-E\-File}!add\-Relocations@{add\-Relocations}}
 \index{add\-Relocations@{add\-Relocations}!PEFile@{P\-E\-File}}
 \subsubsection[{add\-Relocations}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::add\-Relocations (
@@ -156,11 +512,109 @@ Definicja w linii 361 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_afcc67325548b6b60a9f60a1807b4063b}{\index{P\-E\-File@{P\-E\-File}!align\-Number@{align\-Number}}
+\index{align\-Number@{align\-Number}!PEFile@{P\-E\-File}}
+\subsubsection[{align\-Number}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::align\-Number (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{number, }
+\item[{unsigned int}]{alignment}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_afcc67325548b6b60a9f60a1807b4063b}
+
+
+Metoda wyrównująca liczbę w górę do określonego zakresu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em number} & Liczba do wyrównania \\
+\hline
+{\em alignment} & Wyrównanie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Wyrównana liczba 
+\end{DoxyReturn}
+
+
+Definicja w linii 788 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_afcc67325548b6b60a9f60a1807b4063b_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aff48a73683e8409a75b0f3a3746a26db}{\index{P\-E\-File@{P\-E\-File}!file\-Offset\-To\-R\-V\-A@{file\-Offset\-To\-R\-V\-A}}
+\index{file\-Offset\-To\-R\-V\-A@{file\-Offset\-To\-R\-V\-A}!PEFile@{P\-E\-File}}
+\subsubsection[{file\-Offset\-To\-R\-V\-A}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t P\-E\-File\-::file\-Offset\-To\-R\-V\-A (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{file\-Offset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aff48a73683e8409a75b0f3a3746a26db}
+
+
+Metoda konwertująca offset w pliku na relatywny adres wirtualny. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em file\-Offset} & Offset \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Relatywny adres wirtualny 
+\end{DoxyReturn}
+
+
+Definicja w linii 596 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aff48a73683e8409a75b0f3a3746a26db_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aff48a73683e8409a75b0f3a3746a26db_icgraph}
 \end{center}
 \end{figure}
 
@@ -193,11 +647,24 @@ Definicja w linii 276 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_a2dca67d21245ba63171ee34456456f96_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2dca67d21245ba63171ee34456456f96_icgraph}
 \end{center}
 \end{figure}
 
@@ -227,7 +694,8 @@ Definicja w linii 499 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -235,6 +703,71 @@ Oto graf wywołań dla tej funkcji\-:\nopagebreak
 \end{center}
 \end{figure}
 
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1cf0f58cf7e061011a1dd95b16076e07_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aaf46e49176cedd59ea9ae063a817ddb9}{\index{P\-E\-File@{P\-E\-File}!get\-Data\-Directory@{get\-Data\-Directory}}
+\index{get\-Data\-Directory@{get\-Data\-Directory}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Data\-Directory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y} P\-E\-File\-::get\-Data\-Directory (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aaf46e49176cedd59ea9ae063a817ddb9}
+
+
+Metoda pobierająca n-\/tą strukturę I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em n} & Numer I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y, który chcemy pobrać. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+\end{DoxyReturn}
+
+
+Definicja w linii 141 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aaf46e49176cedd59ea9ae063a817ddb9_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a9b129e61566361c90db87a6dcbadd05c}{\index{P\-E\-File@{P\-E\-File}!get\-Dos\-Header@{get\-Dos\-Header}}
+\index{get\-Dos\-Header@{get\-Dos\-Header}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Dos\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R} P\-E\-File\-::get\-Dos\-Header (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a9b129e61566361c90db87a6dcbadd05c}
+
+
+Metoda pobierająca strukturę I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R. 
+\end{DoxyReturn}
+
+
+Definicja w linii 93 pliku pefile.\-cpp.
 
 \hypertarget{class_p_e_file_a82c9e3280a60fbdf13e7a7b7dbbf9ddb}{\index{P\-E\-File@{P\-E\-File}!get\-Entry\-Point@{get\-Entry\-Point}}
 \index{get\-Entry\-Point@{get\-Entry\-Point}!PEFile@{P\-E\-File}}
@@ -254,6 +787,149 @@ E\-P
 
 Definicja w linii 1124 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a82c9e3280a60fbdf13e7a7b7dbbf9ddb_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a82c9e3280a60fbdf13e7a7b7dbbf9ddb_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a9779bdd02a58e6ea2db36eb193f9ffc7}{\index{P\-E\-File@{P\-E\-File}!get\-File\-Header@{get\-File\-Header}}
+\index{get\-File\-Header@{get\-File\-Header}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-File\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R} P\-E\-File\-::get\-File\-Header (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a9779bdd02a58e6ea2db36eb193f9ffc7}
+
+
+Metoda pobierająca strukturę I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R. 
+\end{DoxyReturn}
+
+
+Definicja w linii 114 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a9779bdd02a58e6ea2db36eb193f9ffc7_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aa89e3a9a9aa3d4bfa0e9a6f794c8bbcf}{\index{P\-E\-File@{P\-E\-File}!get\-Free\-Space\-Before\-First\-Section\-File@{get\-Free\-Space\-Before\-First\-Section\-File}}
+\index{get\-Free\-Space\-Before\-First\-Section\-File@{get\-Free\-Space\-Before\-First\-Section\-File}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Free\-Space\-Before\-First\-Section\-File}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Free\-Space\-Before\-First\-Section\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aa89e3a9a9aa3d4bfa0e9a6f794c8bbcf}
+
+
+Pobiera ilość wolnego miejsca przed pierwszą sekcją w pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+Ilość miejsca w bajtach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 763 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa89e3a9a9aa3d4bfa0e9a6f794c8bbcf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa89e3a9a9aa3d4bfa0e9a6f794c8bbcf_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a79d634b16a4dcbfde4631749a1e24a21}{\index{P\-E\-File@{P\-E\-File}!get\-Free\-Space\-Before\-Next\-Section\-Mem@{get\-Free\-Space\-Before\-Next\-Section\-Mem}}
+\index{get\-Free\-Space\-Before\-Next\-Section\-Mem@{get\-Free\-Space\-Before\-Next\-Section\-Mem}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Free\-Space\-Before\-Next\-Section\-Mem}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Free\-Space\-Before\-Next\-Section\-Mem (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a79d634b16a4dcbfde4631749a1e24a21}
+
+
+Pobiera ilość wolnego miejsca przed następną sekcją w pamięci. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Ilość miejsca w bajtach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 740 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a79d634b16a4dcbfde4631749a1e24a21_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a79d634b16a4dcbfde4631749a1e24a21_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_ac3bf74a6efbc10bd642fbb345e71bf2d}{\index{P\-E\-File@{P\-E\-File}!get\-Image\-Base@{get\-Image\-Base}}
 \index{get\-Image\-Base@{get\-Image\-Base}!PEFile@{P\-E\-File}}
 \subsubsection[{get\-Image\-Base}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Image\-Base (
@@ -272,6 +948,30 @@ Image\-Base
 
 Definicja w linii 1132 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac3bf74a6efbc10bd642fbb345e71bf2d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac3bf74a6efbc10bd642fbb345e71bf2d_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_a45168c8ca08be4b58f79637a717135ac}{\index{P\-E\-File@{P\-E\-File}!get\-Image\-Tls\-Directory\-Size@{get\-Image\-Tls\-Directory\-Size}}
 \index{get\-Image\-Tls\-Directory\-Size@{get\-Image\-Tls\-Directory\-Size}!PEFile@{P\-E\-File}}
 \subsubsection[{get\-Image\-Tls\-Directory\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Image\-Tls\-Directory\-Size (
@@ -289,6 +989,908 @@ Rozmiar
 
 
 Definicja w linii 180 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a45168c8ca08be4b58f79637a717135ac_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_adf019ed888aee58b468411366b9b60c5}{\index{P\-E\-File@{P\-E\-File}!get\-Last\-Section\-Number\-Mem@{get\-Last\-Section\-Number\-Mem}}
+\index{get\-Last\-Section\-Number\-Mem@{get\-Last\-Section\-Number\-Mem}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Last\-Section\-Number\-Mem}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Last\-Section\-Number\-Mem (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_adf019ed888aee58b468411366b9b60c5}
+
+
+Pobiera numer ostatniej sekcji w pamięci. 
+
+\begin{DoxyReturn}{Zwraca}
+Numer ostatniej sekcji w pamięci. 
+\end{DoxyReturn}
+
+
+Definicja w linii 852 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_adf019ed888aee58b468411366b9b60c5_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_adf019ed888aee58b468411366b9b60c5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a6d42fa783714881ebb5107ac95da02d6}{\index{P\-E\-File@{P\-E\-File}!get\-Last\-Section\-Number\-Raw@{get\-Last\-Section\-Number\-Raw}}
+\index{get\-Last\-Section\-Number\-Raw@{get\-Last\-Section\-Number\-Raw}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Last\-Section\-Number\-Raw}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Last\-Section\-Number\-Raw (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a6d42fa783714881ebb5107ac95da02d6}
+
+
+Pobiera numer ostatniej sekcji w pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+Numer ostatniej sekcji w pliku. 
+\end{DoxyReturn}
+
+
+Definicja w linii 870 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6d42fa783714881ebb5107ac95da02d6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6d42fa783714881ebb5107ac95da02d6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a08145038525bdbd95f125e055286149f}{\index{P\-E\-File@{P\-E\-File}!get\-Nt\-Hdr\-Signature@{get\-Nt\-Hdr\-Signature}}
+\index{get\-Nt\-Hdr\-Signature@{get\-Nt\-Hdr\-Signature}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Nt\-Hdr\-Signature}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Nt\-Hdr\-Signature (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a08145038525bdbd95f125e055286149f}
+
+
+Pobiera sygnaturę pliku P\-E. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S.\-Signature. 
+\end{DoxyReturn}
+
+
+Definicja w linii 28 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a08145038525bdbd95f125e055286149f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a08145038525bdbd95f125e055286149f_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a05a8546f2cfbfb50d1fe6c750704f5ac}{\index{P\-E\-File@{P\-E\-File}!get\-Nt\-Headers32@{get\-Nt\-Headers32}}
+\index{get\-Nt\-Headers32@{get\-Nt\-Headers32}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Nt\-Headers32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32} P\-E\-File\-::get\-Nt\-Headers32 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a05a8546f2cfbfb50d1fe6c750704f5ac}
+
+
+Metoda pobierająca 32-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32. 
+\end{DoxyReturn}
+
+
+Definicja w linii 98 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a05a8546f2cfbfb50d1fe6c750704f5ac_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a8c27cf9069fcfd79fab620e7a734a93d}{\index{P\-E\-File@{P\-E\-File}!get\-Nt\-Headers64@{get\-Nt\-Headers64}}
+\index{get\-Nt\-Headers64@{get\-Nt\-Headers64}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Nt\-Headers64}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64} P\-E\-File\-::get\-Nt\-Headers64 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a8c27cf9069fcfd79fab620e7a734a93d}
+
+
+Metoda pobierająca 64-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64. 
+\end{DoxyReturn}
+
+
+Definicja w linii 106 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a8c27cf9069fcfd79fab620e7a734a93d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a704f552cbaaed1d1f62e3e5a95c6dd67}{\index{P\-E\-File@{P\-E\-File}!get\-Number\-Of\-Sections@{get\-Number\-Of\-Sections}}
+\index{get\-Number\-Of\-Sections@{get\-Number\-Of\-Sections}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Number\-Of\-Sections}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Number\-Of\-Sections (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a704f552cbaaed1d1f62e3e5a95c6dd67}
+
+
+Pobiera ilość sekcji w pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+Ilość sekcji. 
+\end{DoxyReturn}
+
+
+Definicja w linii 888 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a704f552cbaaed1d1f62e3e5a95c6dd67_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a0598aa7de2b74460d06a16bfef7c96e9}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-Address\-Of\-Entry\-Point@{get\-Opt\-Hdr\-Address\-Of\-Entry\-Point}}
+\index{get\-Opt\-Hdr\-Address\-Of\-Entry\-Point@{get\-Opt\-Hdr\-Address\-Of\-Entry\-Point}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-Address\-Of\-Entry\-Point}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Opt\-Hdr\-Address\-Of\-Entry\-Point (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a0598aa7de2b74460d06a16bfef7c96e9}
+
+
+Pobiera Entry\-Point. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-Address\-Of\-Entry\-Point 
+\end{DoxyReturn}
+
+
+Definicja w linii 23 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a0598aa7de2b74460d06a16bfef7c96e9_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a0598aa7de2b74460d06a16bfef7c96e9_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a1f1c615e94907f34d9536c3f7a446589}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-File\-Alignment@{get\-Opt\-Hdr\-File\-Alignment}}
+\index{get\-Opt\-Hdr\-File\-Alignment@{get\-Opt\-Hdr\-File\-Alignment}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-File\-Alignment}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Opt\-Hdr\-File\-Alignment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a1f1c615e94907f34d9536c3f7a446589}
+
+
+Pobiera zawartość pola opisującego wyrównanie danych w pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-File\-Alignment. 
+\end{DoxyReturn}
+
+
+Definicja w linii 3 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1f1c615e94907f34d9536c3f7a446589_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1f1c615e94907f34d9536c3f7a446589_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aba5f21e866470adc21d621994bdf9c8a}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-Image\-Base@{get\-Opt\-Hdr\-Image\-Base}}
+\index{get\-Opt\-Hdr\-Image\-Base@{get\-Opt\-Hdr\-Image\-Base}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-Image\-Base}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Opt\-Hdr\-Image\-Base (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aba5f21e866470adc21d621994bdf9c8a}
+
+
+Pobiera adres bazowy pliku w pamięci. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-Image\-Base. 
+\end{DoxyReturn}
+
+
+Definicja w linii 38 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aba5f21e866470adc21d621994bdf9c8a_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aba5f21e866470adc21d621994bdf9c8a_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ac427597fb784a978b09094c8c8a461be}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes@{get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes}}
+\index{get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes@{get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Opt\-Hdr\-Number\-Of\-Rva\-And\-Sizes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ac427597fb784a978b09094c8c8a461be}
+
+
+Pobiera liczbę wpisów w tablicy zawierającej I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-Number\-Of\-Rva\-And\-Sizes. 
+\end{DoxyReturn}
+
+
+Definicja w linii 33 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac427597fb784a978b09094c8c8a461be_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ac427597fb784a978b09094c8c8a461be_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ad3099b5323833b3d3039f483b7f454ff}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-Section\-Alignment@{get\-Opt\-Hdr\-Section\-Alignment}}
+\index{get\-Opt\-Hdr\-Section\-Alignment@{get\-Opt\-Hdr\-Section\-Alignment}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-Section\-Alignment}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Opt\-Hdr\-Section\-Alignment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ad3099b5323833b3d3039f483b7f454ff}
+
+
+Pobiera zawartość pola opisującego wyrównanie danych w pamięci. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-Section\-Alignment. 
+\end{DoxyReturn}
+
+
+Definicja w linii 8 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ad3099b5323833b3d3039f483b7f454ff_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ad3099b5323833b3d3039f483b7f454ff_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_af8c30ffa5f05bea43df3a485b5390b10}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-Size\-Of\-Code@{get\-Opt\-Hdr\-Size\-Of\-Code}}
+\index{get\-Opt\-Hdr\-Size\-Of\-Code@{get\-Opt\-Hdr\-Size\-Of\-Code}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-Size\-Of\-Code}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Opt\-Hdr\-Size\-Of\-Code (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_af8c30ffa5f05bea43df3a485b5390b10}
+
+
+Pobiera rozmiar kodu. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-Size\-Of\-Code. 
+\end{DoxyReturn}
+
+
+Definicja w linii 13 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_af8c30ffa5f05bea43df3a485b5390b10_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_af8c30ffa5f05bea43df3a485b5390b10_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aa64129c136b77f772cf91c108e7e88a5}{\index{P\-E\-File@{P\-E\-File}!get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data@{get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data}}
+\index{get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data@{get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Opt\-Hdr\-Size\-Of\-Initialized\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aa64129c136b77f772cf91c108e7e88a5}
+
+
+Pobiera rozmiar zainicjalizowanych danych. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R.\-Size\-Of\-Initialized\-Data 
+\end{DoxyReturn}
+
+
+Definicja w linii 18 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa64129c136b77f772cf91c108e7e88a5_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa64129c136b77f772cf91c108e7e88a5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a7a58a8b45e351c4aa260a604122ff7d5}{\index{P\-E\-File@{P\-E\-File}!get\-Optional\-Header32@{get\-Optional\-Header32}}
+\index{get\-Optional\-Header32@{get\-Optional\-Header32}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Optional\-Header32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32} P\-E\-File\-::get\-Optional\-Header32 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a7a58a8b45e351c4aa260a604122ff7d5}
+
+
+Metoda pobierająca 32-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32. 
+\end{DoxyReturn}
+
+
+Definicja w linii 119 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a7a58a8b45e351c4aa260a604122ff7d5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ad40c792d0076f06a503f550fb01e37c7}{\index{P\-E\-File@{P\-E\-File}!get\-Optional\-Header64@{get\-Optional\-Header64}}
+\index{get\-Optional\-Header64@{get\-Optional\-Header64}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Optional\-Header64}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64} P\-E\-File\-::get\-Optional\-Header64 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ad40c792d0076f06a503f550fb01e37c7}
+
+
+Metoda pobierająca 64-\/bitową wersję nagłówka I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64. 
+\end{DoxyReturn}
+
+
+Definicja w linii 127 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ad40c792d0076f06a503f550fb01e37c7_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aaaa99ad42e736cbfa9ecd48015cf1b42}{\index{P\-E\-File@{P\-E\-File}!get\-Random\-Section\-Name@{get\-Random\-Section\-Name}}
+\index{get\-Random\-Section\-Name@{get\-Random\-Section\-Name}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Random\-Section\-Name}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String P\-E\-File\-::get\-Random\-Section\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aaaa99ad42e736cbfa9ecd48015cf1b42}
+
+
+Metoda losująca nową nazwę sekcji. 
+
+\begin{DoxyReturn}{Zwraca}
+Nazwa sekcji 
+\end{DoxyReturn}
+
+
+Definicja w linii 347 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aaaa99ad42e736cbfa9ecd48015cf1b42_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a4eea22c0e10b83bb7bc1992ddca0ed01}{\index{P\-E\-File@{P\-E\-File}!get\-Relocations@{get\-Relocations}}
+\index{get\-Relocations@{get\-Relocations}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Relocations}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::get\-Relocations (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ {\bf Relocation\-Table} $>$ \&}]{rt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a4eea22c0e10b83bb7bc1992ddca0ed01}
+
+
+Metoda wypełniająca listę relokacjami adresów. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em rt} & Lista relokacji \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 521 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a4eea22c0e10b83bb7bc1992ddca0ed01_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a4eea22c0e10b83bb7bc1992ddca0ed01_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a1a73ab27e218aa395293d05ea77e1b8e}{\index{P\-E\-File@{P\-E\-File}!get\-Relocations\-Size@{get\-Relocations\-Size}}
+\index{get\-Relocations\-Size@{get\-Relocations\-Size}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Relocations\-Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t P\-E\-File\-::get\-Relocations\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a1a73ab27e218aa395293d05ea77e1b8e}
+
+
+Metoda pobierająca rozmiar tablicy relokacji. 
+
+\begin{DoxyReturn}{Zwraca}
+Rozmiar w bajtach 
+\end{DoxyReturn}
+
+
+Definicja w linii 582 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1a73ab27e218aa395293d05ea77e1b8e_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1a73ab27e218aa395293d05ea77e1b8e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a2fe6323c5c4551acedf9ea2897ed3475}{\index{P\-E\-File@{P\-E\-File}!get\-Relocations\-Virtual\-Address@{get\-Relocations\-Virtual\-Address}}
+\index{get\-Relocations\-Virtual\-Address@{get\-Relocations\-Virtual\-Address}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Relocations\-Virtual\-Address}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t P\-E\-File\-::get\-Relocations\-Virtual\-Address (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a2fe6323c5c4551acedf9ea2897ed3475}
+
+
+Metoda pobierająca adres wirtualny tablicy relokacji. 
+
+\begin{DoxyReturn}{Zwraca}
+Adres 
+\end{DoxyReturn}
+
+
+Definicja w linii 589 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2fe6323c5c4551acedf9ea2897ed3475_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2fe6323c5c4551acedf9ea2897ed3475_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aaeb99f206d194a827388098011a8a66b}{\index{P\-E\-File@{P\-E\-File}!get\-Relocation\-Type@{get\-Relocation\-Type}}
+\index{get\-Relocation\-Type@{get\-Relocation\-Type}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Relocation\-Type}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t P\-E\-File\-::get\-Relocation\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aaeb99f206d194a827388098011a8a66b}
+
+
+Pobiera typ relokacji. 
+
+\begin{DoxyReturn}{Zwraca}
+Typ relokacji 
+\end{DoxyReturn}
+
+
+Definicja w linii 251 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aaeb99f206d194a827388098011a8a66b_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a6ac76bef1134ab12de6638e9587533e7}{\index{P\-E\-File@{P\-E\-File}!get\-Section\-By\-Virtual\-Address@{get\-Section\-By\-Virtual\-Address}}
+\index{get\-Section\-By\-Virtual\-Address@{get\-Section\-By\-Virtual\-Address}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Section\-By\-Virtual\-Address}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t P\-E\-File\-::get\-Section\-By\-Virtual\-Address (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{va}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a6ac76bef1134ab12de6638e9587533e7}
+
+
+Metoda pobierająca numer sekcji, w której znajduje się podany adres. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em va} & Adres wirtualny \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Numer sekcji 
+\end{DoxyReturn}
+
+
+Definicja w linii 568 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6ac76bef1134ab12de6638e9587533e7_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6ac76bef1134ab12de6638e9587533e7_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a9a0464cc0e03f110597d6abd66e08007}{\index{P\-E\-File@{P\-E\-File}!get\-Section\-Free\-Space@{get\-Section\-Free\-Space}}
+\index{get\-Section\-Free\-Space@{get\-Section\-Free\-Space}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Section\-Free\-Space}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Section\-Free\-Space (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a9a0464cc0e03f110597d6abd66e08007}
+
+
+Zwraca ilość wolnego miejsca w sekcji. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Ilość bajtów. 
+\end{DoxyReturn}
+
+
+Definicja w linii 893 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a9a0464cc0e03f110597d6abd66e08007_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a9a0464cc0e03f110597d6abd66e08007_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_aa78066badcca992f9d4c3d3b6fae41bf}{\index{P\-E\-File@{P\-E\-File}!get\-Section\-Header@{get\-Section\-Header}}
+\index{get\-Section\-Header@{get\-Section\-Header}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Section\-Header}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R} P\-E\-File\-::get\-Section\-Header (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aa78066badcca992f9d4c3d3b6fae41bf}
+
+
+Metoda pobierająca n-\/tą strukturę I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em n} & Numer sekcji, której nagłówek chcemy pobrać. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik na I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R. 
+\end{DoxyReturn}
+
+
+Definicja w linii 135 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa78066badcca992f9d4c3d3b6fae41bf_icgraph}
+\end{center}
+\end{figure}
+
 
 \hypertarget{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5}{\index{P\-E\-File@{P\-E\-File}!get\-Text\-Section@{get\-Text\-Section}}
 \index{get\-Text\-Section@{get\-Text\-Section}!PEFile@{P\-E\-File}}
@@ -310,11 +1912,24 @@ Definicja w linii 1200 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5_icgraph}
 \end{center}
 \end{figure}
 
@@ -339,11 +1954,24 @@ Definicja w linii 1212 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_afdcc62870de787ebaee455b55af8f06f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_afdcc62870de787ebaee455b55af8f06f_icgraph}
 \end{center}
 \end{figure}
 
@@ -366,6 +1994,30 @@ I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y.\-Address\-Of\-Cal
 
 Definicja w linii 185 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab385de72db3e791e1477cb6593266d45_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab385de72db3e791e1477cb6593266d45_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_aa60f615dfd569e601e3d25eaded2d3ed}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Address\-Of\-Index@{get\-Tls\-Address\-Of\-Index}}
 \index{get\-Tls\-Address\-Of\-Index@{get\-Tls\-Address\-Of\-Index}!PEFile@{P\-E\-File}}
 \subsubsection[{get\-Tls\-Address\-Of\-Index}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Tls\-Address\-Of\-Index (
@@ -383,6 +2035,30 @@ I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y.\-Address\-Of\-Ind
 
 
 Definicja w linii 218 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa60f615dfd569e601e3d25eaded2d3ed_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa60f615dfd569e601e3d25eaded2d3ed_icgraph}
+\end{center}
+\end{figure}
+
 
 \hypertarget{class_p_e_file_af718219d753f57388e3db28a55928b3e}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Callbacks@{get\-Tls\-Callbacks}}
 \index{get\-Tls\-Callbacks@{get\-Tls\-Callbacks}!PEFile@{P\-E\-File}}
@@ -404,11 +2080,108 @@ Definicja w linii 466 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_af718219d753f57388e3db28a55928b3e_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_af718219d753f57388e3db28a55928b3e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_abe408c5a83eef65d6f1f7659fc2dd8d2}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Directory32@{get\-Tls\-Directory32}}
+\index{get\-Tls\-Directory32@{get\-Tls\-Directory32}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Directory32}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32} P\-E\-File\-::get\-Tls\-Directory32 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_abe408c5a83eef65d6f1f7659fc2dd8d2}
+
+
+Metoda pobierająca 32-\/bitową wersję struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32. N\-U\-L\-L gdy sekcja nie istnieje. 
+\end{DoxyReturn}
+
+
+Definicja w linii 147 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_abe408c5a83eef65d6f1f7659fc2dd8d2_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_abe408c5a83eef65d6f1f7659fc2dd8d2_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a1341deeaa1ad21de371dc474751167d2}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Directory64@{get\-Tls\-Directory64}}
+\index{get\-Tls\-Directory64@{get\-Tls\-Directory64}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Directory64}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64} P\-E\-File\-::get\-Tls\-Directory64 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a1341deeaa1ad21de371dc474751167d2}
+
+
+Metoda pobierająca 64-\/bitową wersję struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+\begin{DoxyReturn}{Zwraca}
+Wskaźnik do I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64. N\-U\-L\-L gdy sekcja nie istnieje. 
+\end{DoxyReturn}
+
+
+Definicja w linii 156 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1341deeaa1ad21de371dc474751167d2_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1341deeaa1ad21de371dc474751167d2_icgraph}
 \end{center}
 \end{figure}
 
@@ -431,6 +2204,72 @@ Adres
 
 Definicja w linii 458 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6a98e9259a0013bff708271b378648ef_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6a98e9259a0013bff708271b378648ef_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ae0d56760b97e3cf995d9342908821e72}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Directory\-File\-Offset@{get\-Tls\-Directory\-File\-Offset}}
+\index{get\-Tls\-Directory\-File\-Offset@{get\-Tls\-Directory\-File\-Offset}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Directory\-File\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Tls\-Directory\-File\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ae0d56760b97e3cf995d9342908821e72}
+
+
+Pobiera index struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y w pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+Offset od początku pliku. 
+\end{DoxyReturn}
+
+
+Definicja w linii 165 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ae0d56760b97e3cf995d9342908821e72_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ae0d56760b97e3cf995d9342908821e72_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_aecfb5938f29e1cb030e968349b3112ef}{\index{P\-E\-File@{P\-E\-File}!has\-Tls@{has\-Tls}}
 \index{has\-Tls@{has\-Tls}!PEFile@{P\-E\-File}}
 \subsubsection[{has\-Tls}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::has\-Tls (
@@ -448,6 +2287,30 @@ True gdy T\-L\-S istnieje
 
 
 Definicja w linii 439 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{class_p_e_file_aecfb5938f29e1cb030e968349b3112ef_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aecfb5938f29e1cb030e968349b3112ef_icgraph}
+\end{center}
+\end{figure}
+
 
 \hypertarget{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1}{\index{P\-E\-File@{P\-E\-File}!inject\-Unique\-Data@{inject\-Unique\-Data}}
 \index{inject\-Unique\-Data@{inject\-Unique\-Data}!PEFile@{P\-E\-File}}
@@ -480,11 +2343,24 @@ Definicja w linii 334 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1_icgraph}
 \end{center}
 \end{figure}
 
@@ -520,7 +2396,8 @@ Definicja w linii 281 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -551,6 +2428,18 @@ Implementuje \hyperlink{class_binary_file_a6007435bc4451bb80a3169d977f4f125}{Bin
 
 Definicja w linii 613 pliku pefile.\-cpp.
 
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a90a96d95f9d67ff48bf12ffcb0f22d41_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_aa8e69bdca4d00216df406278b4e96a28}{\index{P\-E\-File@{P\-E\-File}!is\-\_\-x64@{is\-\_\-x64}}
 \index{is\-\_\-x64@{is\-\_\-x64}!PEFile@{P\-E\-File}}
 \subsubsection[{is\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-\_\-x64 (
@@ -573,6 +2462,18 @@ Implementuje \hyperlink{class_binary_file_a36b7998c72bbee68ab492d93368c14ca}{Bin
 
 Definicja w linii 489 pliku pefile.\-cpp.
 
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa8e69bdca4d00216df406278b4e96a28_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_a371cc84eed9dd5d85b7c50d60c1eb56f}{\index{P\-E\-File@{P\-E\-File}!is\-\_\-x86@{is\-\_\-x86}}
 \index{is\-\_\-x86@{is\-\_\-x86}!PEFile@{P\-E\-File}}
 \subsubsection[{is\-\_\-x86}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-\_\-x86 (
@@ -594,6 +2495,277 @@ Implementuje \hyperlink{class_binary_file_aa7d43cde4ab8cc9723d2b5c769719bd9}{Bin
 
 
 Definicja w linii 494 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_aa415803ce1fbb7e807e568ce25121515}{\index{P\-E\-File@{P\-E\-File}!is\-P\-E\-\_\-64@{is\-P\-E\-\_\-64}}
+\index{is\-P\-E\-\_\-64@{is\-P\-E\-\_\-64}!PEFile@{P\-E\-File}}
+\subsubsection[{is\-P\-E\-\_\-64}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-P\-E\-\_\-64 (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{pe\-\_\-offset}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aa415803ce1fbb7e807e568ce25121515}
+
+
+Wewnętrzna metoda badająca czy plik jest plikiem P\-E32+ (P\-E x64). 
+
+
+\begin{DoxyParams}{Parametry}
+{\em pe\-\_\-offset} & Wyliczony offset do sprawdzenia. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku pliku P\-E32+. 
+\end{DoxyReturn}
+
+
+Definicja w linii 733 pliku pefile.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_aa415803ce1fbb7e807e568ce25121515_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a13b95be1db5cb677e28c85b03f08e5c0}{\index{P\-E\-File@{P\-E\-File}!is\-Section\-Executable@{is\-Section\-Executable}}
+\index{is\-Section\-Executable@{is\-Section\-Executable}!PEFile@{P\-E\-File}}
+\subsubsection[{is\-Section\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-Section\-Executable (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a13b95be1db5cb677e28c85b03f08e5c0}
+
+
+Pobiera informację czy sekcja jest wykonywalna. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & numer sekcji. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Czy sekcja jest wykonywalna 
+\end{DoxyReturn}
+
+
+Definicja w linii 1100 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a13b95be1db5cb677e28c85b03f08e5c0_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a13b95be1db5cb677e28c85b03f08e5c0_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ab5ab5850cce8abcb48c89e0fa44901ca}{\index{P\-E\-File@{P\-E\-File}!is\-Section\-Raw\-Data\-Empty@{is\-Section\-Raw\-Data\-Empty}}
+\index{is\-Section\-Raw\-Data\-Empty@{is\-Section\-Raw\-Data\-Empty}!PEFile@{P\-E\-File}}
+\subsubsection[{is\-Section\-Raw\-Data\-Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-Section\-Raw\-Data\-Empty (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ab5ab5850cce8abcb48c89e0fa44901ca}
+
+
+Pobiera informację o tym, czy sekcja istnieje w pliku czy jest tylko wirtualna. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Ilość bajtów. 
+\end{DoxyReturn}
+
+
+Definicja w linii 904 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab5ab5850cce8abcb48c89e0fa44901ca_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab5ab5850cce8abcb48c89e0fa44901ca_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a32d068523df3459778388478cd07b54a}{\index{P\-E\-File@{P\-E\-File}!make\-Section\-Executable@{make\-Section\-Executable}}
+\index{make\-Section\-Executable@{make\-Section\-Executable}!PEFile@{P\-E\-File}}
+\subsubsection[{make\-Section\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::make\-Section\-Executable (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{section}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a32d068523df3459778388478cd07b54a}
+
+
+Zmienia uprawnienia sekcji, aby była ona wykonywalna. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em section} & Numer sekcji. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu. 
+\end{DoxyReturn}
+
+
+Definicja w linii 840 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a32d068523df3459778388478cd07b54a_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a32d068523df3459778388478cd07b54a_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a5cad3b303c988a59e0df69eeea762638}{\index{P\-E\-File@{P\-E\-File}!parse@{parse}}
+\index{parse@{parse}!PEFile@{P\-E\-File}}
+\subsubsection[{parse}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::parse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a5cad3b303c988a59e0df69eeea762638}
+
+
+Metoda odpowiedzialna za parsowanie pliku P\-E i wypełnianie wszystkich struktur. 
+
+\begin{DoxyReturn}{Zwraca}
+True w przypadku poprawnie sparsowanego pliku. 
+\end{DoxyReturn}
+
+
+Definicja w linii 618 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a5cad3b303c988a59e0df69eeea762638_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a5cad3b303c988a59e0df69eeea762638_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_afa6e5d2b833b528707cc711912d79172}{\index{P\-E\-File@{P\-E\-File}!resize\-Last\-Section@{resize\-Last\-Section}}
+\index{resize\-Last\-Section@{resize\-Last\-Section}!PEFile@{P\-E\-File}}
+\subsubsection[{resize\-Last\-Section}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::resize\-Last\-Section (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{data, }
+\item[{unsigned int \&}]{file\-Offset, }
+\item[{unsigned int \&}]{mem\-Offset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_afa6e5d2b833b528707cc711912d79172}
+
+
+Rozszerza sekcję i dodaje do niej dane. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em data} & Dane do dodania. \\
+\hline
+{\em file\-Offset} & Obliczony offset dodanych danych w pliku. \\
+\hline
+{\em mem\-Offset} & Obliczony offset dodanych danych w pmięci (R\-V\-A). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku poprawnego dodania danych. 
+\end{DoxyReturn}
+
+
+Definicja w linii 912 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_afa6e5d2b833b528707cc711912d79172_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_afa6e5d2b833b528707cc711912d79172_icgraph}
+\end{center}
+\end{figure}
+
 
 \hypertarget{class_p_e_file_a6c06d44bec906ab659326541e6244850}{\index{P\-E\-File@{P\-E\-File}!set\-Address\-At\-Call\-Instruction\-Offset@{set\-Address\-At\-Call\-Instruction\-Offset}}
 \index{set\-Address\-At\-Call\-Instruction\-Offset@{set\-Address\-At\-Call\-Instruction\-Offset}!PEFile@{P\-E\-File}}
@@ -623,11 +2795,24 @@ Definicja w linii 510 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_file_a6c06d44bec906ab659326541e6244850_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6c06d44bec906ab659326541e6244850_icgraph}
 \end{center}
 \end{figure}
 
@@ -655,6 +2840,265 @@ true w przypadku sukcesu.
 
 Definicja w linii 1110 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a31cab72915687c9138e804e644f80ac6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a31cab72915687c9138e804e644f80ac6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a2d741f3714914faf3aee402d712fde00}{\index{P\-E\-File@{P\-E\-File}!set\-Opt\-Hdr\-Address\-Of\-Entry\-Point@{set\-Opt\-Hdr\-Address\-Of\-Entry\-Point}}
+\index{set\-Opt\-Hdr\-Address\-Of\-Entry\-Point@{set\-Opt\-Hdr\-Address\-Of\-Entry\-Point}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Opt\-Hdr\-Address\-Of\-Entry\-Point}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Opt\-Hdr\-Address\-Of\-Entry\-Point (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{ep}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a2d741f3714914faf3aee402d712fde00}
+
+
+Ustawia Entry\-Point. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em ep} & Nowy adres Entry\-Point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 83 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2d741f3714914faf3aee402d712fde00_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2d741f3714914faf3aee402d712fde00_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a307f2a1e6d75753e5ff46955b9f9871d}{\index{P\-E\-File@{P\-E\-File}!set\-Opt\-Hdr\-Size\-Of\-Code@{set\-Opt\-Hdr\-Size\-Of\-Code}}
+\index{set\-Opt\-Hdr\-Size\-Of\-Code@{set\-Opt\-Hdr\-Size\-Of\-Code}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Opt\-Hdr\-Size\-Of\-Code}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Opt\-Hdr\-Size\-Of\-Code (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a307f2a1e6d75753e5ff46955b9f9871d}
+
+
+Ustawia rozmiar kodu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em size} & Nowy rozmiar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia. 
+\end{DoxyReturn}
+
+
+Definicja w linii 43 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a307f2a1e6d75753e5ff46955b9f9871d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a307f2a1e6d75753e5ff46955b9f9871d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_adc3747d33e441041a82daa16fd7fda19}{\index{P\-E\-File@{P\-E\-File}!set\-Opt\-Hdr\-Size\-Of\-Headers@{set\-Opt\-Hdr\-Size\-Of\-Headers}}
+\index{set\-Opt\-Hdr\-Size\-Of\-Headers@{set\-Opt\-Hdr\-Size\-Of\-Headers}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Opt\-Hdr\-Size\-Of\-Headers}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Opt\-Hdr\-Size\-Of\-Headers (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_adc3747d33e441041a82daa16fd7fda19}
+
+
+Ustawia rozmiar nagłówków. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em size} & Nowy rozmiar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia. 
+\end{DoxyReturn}
+
+
+Definicja w linii 73 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_adc3747d33e441041a82daa16fd7fda19_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_adc3747d33e441041a82daa16fd7fda19_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a1bd08920ea37faddc4b0c7170a4ecce6}{\index{P\-E\-File@{P\-E\-File}!set\-Opt\-Hdr\-Size\-Of\-Image@{set\-Opt\-Hdr\-Size\-Of\-Image}}
+\index{set\-Opt\-Hdr\-Size\-Of\-Image@{set\-Opt\-Hdr\-Size\-Of\-Image}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Opt\-Hdr\-Size\-Of\-Image}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Opt\-Hdr\-Size\-Of\-Image (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a1bd08920ea37faddc4b0c7170a4ecce6}
+
+
+Ustawia rozmiar obrazu pliku w pamięci. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em size} & Nowy rozmiar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 63 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1bd08920ea37faddc4b0c7170a4ecce6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1bd08920ea37faddc4b0c7170a4ecce6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ab53167f5c212c474b4be11da36ccd809}{\index{P\-E\-File@{P\-E\-File}!set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data@{set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data}}
+\index{set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data@{set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Opt\-Hdr\-Size\-Of\-Initialized\-Data (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_ab53167f5c212c474b4be11da36ccd809}
+
+
+Ustawia rozmiar zainicjalizowanych danych. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em size} & Nowy rozmiar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia. 
+\end{DoxyReturn}
+
+
+Definicja w linii 53 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab53167f5c212c474b4be11da36ccd809_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab53167f5c212c474b4be11da36ccd809_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_a698dd8d1b169ac0b9d01ebfecd16bc51}{\index{P\-E\-File@{P\-E\-File}!set\-Tls\-Address\-Of\-Call\-Backs@{set\-Tls\-Address\-Of\-Call\-Backs}}
 \index{set\-Tls\-Address\-Of\-Call\-Backs@{set\-Tls\-Address\-Of\-Call\-Backs}!PEFile@{P\-E\-File}}
 \subsubsection[{set\-Tls\-Address\-Of\-Call\-Backs}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Tls\-Address\-Of\-Call\-Backs (
@@ -678,6 +3122,30 @@ True w przypadku powodzenia
 
 Definicja w linii 195 pliku pefile.\-cpp.
 
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a698dd8d1b169ac0b9d01ebfecd16bc51_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a698dd8d1b169ac0b9d01ebfecd16bc51_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_p_e_file_a2d6f55148b572f564bc30e881d97d9f8}{\index{P\-E\-File@{P\-E\-File}!set\-Tls\-Address\-Of\-Index@{set\-Tls\-Address\-Of\-Index}}
 \index{set\-Tls\-Address\-Of\-Index@{set\-Tls\-Address\-Of\-Index}!PEFile@{P\-E\-File}}
 \subsubsection[{set\-Tls\-Address\-Of\-Index}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Tls\-Address\-Of\-Index (
@@ -700,6 +3168,30 @@ True w przypadku powodzenia
 
 
 Definicja w linii 228 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2d6f55148b572f564bc30e881d97d9f8_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2d6f55148b572f564bc30e881d97d9f8_icgraph}
+\end{center}
+\end{figure}
+
 
 \hypertarget{class_p_e_file_a6cd64df26158260f265b26e40b3b5dea}{\index{P\-E\-File@{P\-E\-File}!set\-Tls\-Directory\-Address@{set\-Tls\-Directory\-Address}}
 \index{set\-Tls\-Directory\-Address@{set\-Tls\-Directory\-Address}!PEFile@{P\-E\-File}}
@@ -726,7 +3218,8 @@ Definicja w linii 447 pliku pefile.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -734,6 +3227,142 @@ Oto graf wywołań dla tej funkcji\-:\nopagebreak
 \end{center}
 \end{figure}
 
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6cd64df26158260f265b26e40b3b5dea_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_p_e_file_a28a6e9fe7d586a07fc2094076293216e}{\index{P\-E\-File@{P\-E\-File}!\-\_\-is\-\_\-x64@{\-\_\-is\-\_\-x64}}
+\index{\-\_\-is\-\_\-x64@{\-\_\-is\-\_\-x64}!PEFile@{P\-E\-File}}
+\subsubsection[{\-\_\-is\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::\-\_\-is\-\_\-x64\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a28a6e9fe7d586a07fc2094076293216e}
+
+
+Flaga zawierająca informacje o architekturze pliku. 
+
+
+
+Definicja w linii 85 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_acc624dc6b876fbfb22e7fe2114c36bdd}{\index{P\-E\-File@{P\-E\-File}!data\-Directories\-Idx@{data\-Directories\-Idx}}
+\index{data\-Directories\-Idx@{data\-Directories\-Idx}!PEFile@{P\-E\-File}}
+\subsubsection[{data\-Directories\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int$\ast$ P\-E\-File\-::data\-Directories\-Idx\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_acc624dc6b876fbfb22e7fe2114c36bdd}
+
+
+Tablica indeksów wpisów w I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+
+
+Definicja w linii 136 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_aa813f4eef94aa75a0b537515b7253293}{\index{P\-E\-File@{P\-E\-File}!dos\-Header\-Idx@{dos\-Header\-Idx}}
+\index{dos\-Header\-Idx@{dos\-Header\-Idx}!PEFile@{P\-E\-File}}
+\subsubsection[{dos\-Header\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::dos\-Header\-Idx\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aa813f4eef94aa75a0b537515b7253293}
+
+
+Indeks struktury I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+
+
+Definicja w linii 90 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_a1e3de62b90006b727516b9216c19af56}{\index{P\-E\-File@{P\-E\-File}!file\-Header\-Idx@{file\-Header\-Idx}}
+\index{file\-Header\-Idx@{file\-Header\-Idx}!PEFile@{P\-E\-File}}
+\subsubsection[{file\-Header\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::file\-Header\-Idx\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a1e3de62b90006b727516b9216c19af56}
+
+
+Indeks struktury I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+
+
+Definicja w linii 100 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_a2778890ee00bd2ee99f4d5757961f222}{\index{P\-E\-File@{P\-E\-File}!gen@{gen}}
+\index{gen@{gen}!PEFile@{P\-E\-File}}
+\subsubsection[{gen}]{\setlength{\rightskip}{0pt plus 5cm}std\-::default\-\_\-random\-\_\-engine P\-E\-File\-::gen\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a2778890ee00bd2ee99f4d5757961f222}
+
+
+Generator liczb losowych. 
+
+
+
+Definicja w linii 126 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_affd75caf053c5f827b335ea7ac0b1cfa}{\index{P\-E\-File@{P\-E\-File}!nt\-Headers\-Idx@{nt\-Headers\-Idx}}
+\index{nt\-Headers\-Idx@{nt\-Headers\-Idx}!PEFile@{P\-E\-File}}
+\subsubsection[{nt\-Headers\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::nt\-Headers\-Idx\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_affd75caf053c5f827b335ea7ac0b1cfa}
+
+
+Indeks struktury I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S. 
+
+
+
+Definicja w linii 95 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_a46392c7d5a4e12bc852674e9b692217e}{\index{P\-E\-File@{P\-E\-File}!number\-Of\-Data\-Directories@{number\-Of\-Data\-Directories}}
+\index{number\-Of\-Data\-Directories@{number\-Of\-Data\-Directories}!PEFile@{P\-E\-File}}
+\subsubsection[{number\-Of\-Data\-Directories}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::number\-Of\-Data\-Directories\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a46392c7d5a4e12bc852674e9b692217e}
+
+
+Liczba wpisów w I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+
+
+Definicja w linii 121 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_aa80eaa25eb050efe1bfced2518e21842}{\index{P\-E\-File@{P\-E\-File}!number\-Of\-Sections@{number\-Of\-Sections}}
+\index{number\-Of\-Sections@{number\-Of\-Sections}!PEFile@{P\-E\-File}}
+\subsubsection[{number\-Of\-Sections}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::number\-Of\-Sections\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_aa80eaa25eb050efe1bfced2518e21842}
+
+
+Liczba sekcji w pliku P\-E. 
+
+
+
+Definicja w linii 116 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_a56b4375d7c13859e289bfa6e6f58fffc}{\index{P\-E\-File@{P\-E\-File}!optional\-Header\-Idx@{optional\-Header\-Idx}}
+\index{optional\-Header\-Idx@{optional\-Header\-Idx}!PEFile@{P\-E\-File}}
+\subsubsection[{optional\-Header\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::optional\-Header\-Idx\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a56b4375d7c13859e289bfa6e6f58fffc}
+
+
+Indeks struktury I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+
+
+Definicja w linii 105 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_a4f2168508a33d89fa8a28b7912be97e3}{\index{P\-E\-File@{P\-E\-File}!optional\-Header\-Size@{optional\-Header\-Size}}
+\index{optional\-Header\-Size@{optional\-Header\-Size}!PEFile@{P\-E\-File}}
+\subsubsection[{optional\-Header\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::optional\-Header\-Size\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a4f2168508a33d89fa8a28b7912be97e3}
+
+
+Rozmiar struktury I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R. 
+
+
+
+Definicja w linii 111 pliku pefile.\-h.
+
+\hypertarget{class_p_e_file_a30065d3448d3f6f71cb18dd0ea954be2}{\index{P\-E\-File@{P\-E\-File}!section\-Headers\-Idx@{section\-Headers\-Idx}}
+\index{section\-Headers\-Idx@{section\-Headers\-Idx}!PEFile@{P\-E\-File}}
+\subsubsection[{section\-Headers\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int$\ast$ P\-E\-File\-::section\-Headers\-Idx\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_file_a30065d3448d3f6f71cb18dd0ea954be2}
+
+
+Tablica indeksów do nagłówków sekcji (I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R). 
+
+
+
+Definicja w linii 131 pliku pefile.\-h.
 
 
 

@@ -1,0 +1,8 @@
+<map id="ELF::__get_ph_addresses" name="ELF::__get_ph_addresses">
+<area shape="rect" id="node2" href="$class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="230,64,365,91"/>
+<area shape="rect" id="node3" href="$class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="414,64,514,91"/>
+<area shape="rect" id="node4" href="$class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="563,5,714,32"/>
+<area shape="rect" id="node6" href="$class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="571,57,706,98"/>
+<area shape="rect" id="node7" href="$class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="599,123,678,149"/>
+<area shape="rect" id="node5" href="$class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="763,5,967,32"/>
+</map>

@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['r10',['R10',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca33df7d5541bc0941336b1513815da7a5',1,'codedefines.h']]],
+  ['r11',['R11',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca7f6711cf763cf8d5648cb4fd0c3790df',1,'codedefines.h']]],
+  ['r12',['R12',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca1688316d15ac9218146e0f4ba5fc8d4f',1,'codedefines.h']]],
+  ['r13',['R13',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca503400c0ff4077a9ca69db92b6709274',1,'codedefines.h']]],
+  ['r14',['R14',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca05e151e78b54177fc4d64d35b94429bf',1,'codedefines.h']]],
+  ['r15',['R15',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca2d15b084feece054417b9159559cf893',1,'codedefines.h']]],
+  ['r8',['R8',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5cacfff813d86d447fa2a9c858650ebbb90',1,'codedefines.h']]],
+  ['r9',['R9',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca8d28dad91e1ffada38203b9e5f9af86d',1,'codedefines.h']]],
+  ['rax',['RAX',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca8fc0fe1771a6ed962d18efbf01d9dd48',1,'codedefines.h']]],
+  ['rbp',['RBP',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca17118bd8650bc1964a540d1d1ddcea93',1,'codedefines.h']]],
+  ['rbx',['RBX',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca72ced42981685c31ff7fa40b1f0ddd0a',1,'codedefines.h']]],
+  ['rcx',['RCX',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca5a6e47f019d213b226a4cb39ea6412c6',1,'codedefines.h']]],
+  ['rdi',['RDI',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca9cad85e1268a524c7041cb9a311d964c',1,'codedefines.h']]],
+  ['rdx',['RDX',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca43851ae6bcf8f6822ed0efc897f72f8f',1,'codedefines.h']]],
+  ['rsi',['RSI',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca643f8aeac63ad74266191eb6da0b09e9',1,'codedefines.h']]],
+  ['rsp',['RSP',['../codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5ca39b097df341e30b1ba206babdba89ea1',1,'codedefines.h']]]
+];

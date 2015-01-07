@@ -1,0 +1,8 @@
+<map id="PEFile::getRelocations" name="PEFile::getRelocations">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a1a73ab27e218aa395293d05ea77e1b8e" title="Metoda pobierająca rozmiar tablicy relokacji. " alt="" coords="217,5,399,32"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="467,127,640,153"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a6ac76bef1134ab12de6638e9587533e7" title="Metoda pobierająca numer sekcji, w której znajduje się podany adres. " alt="" coords="216,174,400,215"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#a2fe6323c5c4551acedf9ea2897ed3475" title="Metoda pobierająca adres wirtualny tablicy relokacji. " alt="" coords="211,57,405,98"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#aaf46e49176cedd59ea9ae063a817ddb9" title="Metoda pobierająca n&#45;tą strukturę IMAGE_DATA_DIRECTORY. " alt="" coords="469,35,637,61"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#a704f552cbaaed1d1f62e3e5a95c6dd67" title="Pobiera ilość sekcji w pliku. " alt="" coords="454,181,653,208"/>
+</map>

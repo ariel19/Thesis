@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Dokumentacja klasy ELF</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -106,6 +108,10 @@ $(document).ready(function(){initNavTree('class_e_l_f.html','');});
 <a href="#nested-classes">Komponenty</a> &#124;
 <a href="#pub-types">Typy publiczne</a> &#124;
 <a href="#pub-methods">Metody publiczne</a> &#124;
+<a href="#pri-types">Typy prywatne</a> &#124;
+<a href="#pri-methods">Metody prywatne</a> &#124;
+<a href="#pri-attribs">Atrybuty prywatne</a> &#124;
+<a href="#pri-static-attribs">Statyczne atrybuty prywatne</a> &#124;
 <a href="class_e_l_f-members.html">Lista wszystkich składowych</a>  </div>
   <div class="headertitle">
 <div class="title">Dokumentacja klasy ELF</div>  </div>
@@ -118,101 +124,359 @@ Diagram dziedziczenia dla ELF</div>
 <div class="dyncontent">
 <div class="center"><img src="class_e_l_f__inherit__graph.png" border="0" usemap="#_e_l_f_inherit__map" alt="Inheritance graph"/></div>
 <map name="_e_l_f_inherit__map" id="_e_l_f_inherit__map">
-<area shape="rect" id="node2" href="class_binary_file.html" title="BinaryFile" alt="" coords="5,5,85,35"/></map>
+<area shape="rect" id="node2" href="class_binary_file.html" title="BinaryFile" alt="" coords="4,5,83,32"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legenda</a>]</span></center></div>
 <div class="dynheader">
 Diagram współpracy dla ELF:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_e_l_f__coll__graph.png" border="0" usemap="#_e_l_f_coll__map" alt="Collaboration graph"/></div>
 <map name="_e_l_f_coll__map" id="_e_l_f_coll__map">
-<area shape="rect" id="node2" href="class_binary_file.html" title="BinaryFile" alt="" coords="5,5,85,35"/></map>
+<area shape="rect" id="node2" href="class_binary_file.html" title="BinaryFile" alt="" coords="4,5,83,32"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legenda</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Komponenty</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><b>_best_segment</b></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><b>_section_info</b></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_e_l_f_1_1__best__segment.html">_best_segment</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_e_l_f_1_1__section__info.html">_section_info</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-types"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Typy publiczne</h2></td></tr>
-<tr class="memitem:abaebdfb7048441e430684d68df8d73d1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> </td></tr>
+<tr class="memitem:abaebdfb7048441e430684d68df8d73d1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> { <a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1afaee4ca3c30ee18148ce3ada37466498">SectionType::INIT</a>, 
+<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a02f11aadd3ab1bd5b7ccd3040d8a0075">SectionType::CTORS</a>, 
+<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a8c11d1b1290b76379bf90434c0e83f4a">SectionType::INIT_ARRAY</a>, 
+<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a61a96ffcb251bb9bf0abf8fec19d0ea8">SectionType::TEXT</a>
+ }</td></tr>
 <tr class="memdesc:abaebdfb7048441e430684d68df8d73d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type sekcji.  <a href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">Więcej...</a><br/></td></tr>
+<tr class="separator:abaebdfb7048441e430684d68df8d73d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Metody publiczne</h2></td></tr>
 <tr class="memitem:a7bcefdc63dcaee056a3800f57cf73992"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992">ELF</a> (QByteArray _data)</td></tr>
-<tr class="memdesc:a7bcefdc63dcaee056a3800f57cf73992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Konstruktor.  <a href="#a7bcefdc63dcaee056a3800f57cf73992"></a><br/></td></tr>
+<tr class="memdesc:a7bcefdc63dcaee056a3800f57cf73992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Konstruktor.  <a href="#a7bcefdc63dcaee056a3800f57cf73992">Więcej...</a><br/></td></tr>
+<tr class="separator:a7bcefdc63dcaee056a3800f57cf73992"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d420911533a8753e9936cb5c9238747"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a8d420911533a8753e9936cb5c9238747">~ELF</a> ()</td></tr>
-<tr class="memdesc:a8d420911533a8753e9936cb5c9238747"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destruktor.  <a href="#a8d420911533a8753e9936cb5c9238747"></a><br/></td></tr>
+<tr class="memdesc:a8d420911533a8753e9936cb5c9238747"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destruktor.  <a href="#a8d420911533a8753e9936cb5c9238747">Więcej...</a><br/></td></tr>
+<tr class="separator:a8d420911533a8753e9936cb5c9238747"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2f8a0a47d56ee33a9234c9415414e00"><td class="memItemLeft" align="right" valign="top">const QByteArray &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ad2f8a0a47d56ee33a9234c9415414e00">get_elf_content</a> () const </td></tr>
-<tr class="memdesc:ad2f8a0a47d56ee33a9234c9415414e00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pliku.  <a href="#ad2f8a0a47d56ee33a9234c9415414e00"></a><br/></td></tr>
+<tr class="memdesc:ad2f8a0a47d56ee33a9234c9415414e00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pliku.  <a href="#ad2f8a0a47d56ee33a9234c9415414e00">Więcej...</a><br/></td></tr>
+<tr class="separator:ad2f8a0a47d56ee33a9234c9415414e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf0da9f62b61fc3674b7fd54d9885b5f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f">is_valid</a> () const </td></tr>
-<tr class="memdesc:aaf0da9f62b61fc3674b7fd54d9885b5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza czy w pamięci przechowywany jest poprawny plik.  <a href="#aaf0da9f62b61fc3674b7fd54d9885b5f"></a><br/></td></tr>
+<tr class="memdesc:aaf0da9f62b61fc3674b7fd54d9885b5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza czy w pamięci przechowywany jest poprawny plik.  <a href="#aaf0da9f62b61fc3674b7fd54d9885b5f">Więcej...</a><br/></td></tr>
+<tr class="separator:aaf0da9f62b61fc3674b7fd54d9885b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5c89b2b437f3e07aedc06f66cdab94d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ac5c89b2b437f3e07aedc06f66cdab94d">is_x86</a> () const </td></tr>
-<tr class="memdesc:ac5c89b2b437f3e07aedc06f66cdab94d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje czy plik jest poprawnym plikiem <a class="el" href="class_e_l_f.html">ELF</a> 32-bitowym.  <a href="#ac5c89b2b437f3e07aedc06f66cdab94d"></a><br/></td></tr>
+<tr class="memdesc:ac5c89b2b437f3e07aedc06f66cdab94d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje czy plik jest poprawnym plikiem <a class="el" href="class_e_l_f.html">ELF</a> 32-bitowym.  <a href="#ac5c89b2b437f3e07aedc06f66cdab94d">Więcej...</a><br/></td></tr>
+<tr class="separator:ac5c89b2b437f3e07aedc06f66cdab94d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a558b2f169db21b21b24d6ff19c38ac9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a558b2f169db21b21b24d6ff19c38ac9e">is_x64</a> () const </td></tr>
-<tr class="memdesc:a558b2f169db21b21b24d6ff19c38ac9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje czy plik jest poprawnym plikiem <a class="el" href="class_e_l_f.html">ELF</a> 64-bitowym.  <a href="#a558b2f169db21b21b24d6ff19c38ac9e"></a><br/></td></tr>
+<tr class="memdesc:a558b2f169db21b21b24d6ff19c38ac9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje czy plik jest poprawnym plikiem <a class="el" href="class_e_l_f.html">ELF</a> 64-bitowym.  <a href="#a558b2f169db21b21b24d6ff19c38ac9e">Więcej...</a><br/></td></tr>
+<tr class="separator:a558b2f169db21b21b24d6ff19c38ac9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b65b7ea1b57aa25d3171a25528a43f8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a8b65b7ea1b57aa25d3171a25528a43f8">get_number_of_segments</a> () const </td></tr>
-<tr class="memdesc:a8b65b7ea1b57aa25d3171a25528a43f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera ilość segmentów w pliku.  <a href="#a8b65b7ea1b57aa25d3171a25528a43f8"></a><br/></td></tr>
+<tr class="memdesc:a8b65b7ea1b57aa25d3171a25528a43f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera ilość segmentów w pliku.  <a href="#a8b65b7ea1b57aa25d3171a25528a43f8">Więcej...</a><br/></td></tr>
+<tr class="separator:a8b65b7ea1b57aa25d3171a25528a43f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdddb77f2822c068b2ae06e221ae1e10"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#abdddb77f2822c068b2ae06e221ae1e10">get_ph_seg_offset</a> (uint32_t idx=0)</td></tr>
-<tr class="memdesc:abdddb77f2822c068b2ae06e221ae1e10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera offset w pliku dla podanego segmentu.  <a href="#abdddb77f2822c068b2ae06e221ae1e10"></a><br/></td></tr>
+<tr class="memdesc:abdddb77f2822c068b2ae06e221ae1e10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera offset w pliku dla podanego segmentu.  <a href="#abdddb77f2822c068b2ae06e221ae1e10">Więcej...</a><br/></td></tr>
+<tr class="separator:abdddb77f2822c068b2ae06e221ae1e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11f004629212a5651dd4ca1355a7eb9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d">extend_segment</a> (const QByteArray &amp;data, bool only_x, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;va)</td></tr>
-<tr class="memdesc:a11f004629212a5651dd4ca1355a7eb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.  <a href="#a11f004629212a5651dd4ca1355a7eb9d"></a><br/></td></tr>
+<tr class="memdesc:a11f004629212a5651dd4ca1355a7eb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod.  <a href="#a11f004629212a5651dd4ca1355a7eb9d">Więcej...</a><br/></td></tr>
+<tr class="separator:a11f004629212a5651dd4ca1355a7eb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52b09dc778fd67aa92d1a80a96e9f580"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a52b09dc778fd67aa92d1a80a96e9f580">write_to_file</a> (const QString &amp;fname) const </td></tr>
-<tr class="memdesc:a52b09dc778fd67aa92d1a80a96e9f580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zapisuje wewnętrzne dane do pliku.  <a href="#a52b09dc778fd67aa92d1a80a96e9f580"></a><br/></td></tr>
+<tr class="memdesc:a52b09dc778fd67aa92d1a80a96e9f580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zapisuje wewnętrzne dane do pliku.  <a href="#a52b09dc778fd67aa92d1a80a96e9f580">Więcej...</a><br/></td></tr>
+<tr class="separator:a52b09dc778fd67aa92d1a80a96e9f580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8342542081d52e5518356f0f6cde3db8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a8342542081d52e5518356f0f6cde3db8">set_entry_point</a> (const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;entry_point, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> *old_ep=nullptr)</td></tr>
-<tr class="memdesc:a8342542081d52e5518356f0f6cde3db8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ustawia punkt wejściowy dla pliku wykonywalnego.  <a href="#a8342542081d52e5518356f0f6cde3db8"></a><br/></td></tr>
+<tr class="memdesc:a8342542081d52e5518356f0f6cde3db8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ustawia punkt wejściowy dla pliku wykonywalnego.  <a href="#a8342542081d52e5518356f0f6cde3db8">Więcej...</a><br/></td></tr>
+<tr class="separator:a8342542081d52e5518356f0f6cde3db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf71ac4ae5cfedb1b1415b2f5da2494f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#adf71ac4ae5cfedb1b1415b2f5da2494f">get_entry_point</a> (<a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;old_ep) const </td></tr>
-<tr class="memdesc:adf71ac4ae5cfedb1b1415b2f5da2494f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje o punkcie wejściowym pliku.  <a href="#adf71ac4ae5cfedb1b1415b2f5da2494f"></a><br/></td></tr>
+<tr class="memdesc:adf71ac4ae5cfedb1b1415b2f5da2494f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje o punkcie wejściowym pliku.  <a href="#adf71ac4ae5cfedb1b1415b2f5da2494f">Więcej...</a><br/></td></tr>
+<tr class="separator:adf71ac4ae5cfedb1b1415b2f5da2494f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa7edcb97e8cd8b0ca759d7df7984b12"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#aaa7edcb97e8cd8b0ca759d7df7984b12">get_section_content</a> (<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> sec_type, QPair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; &amp;section_data)</td></tr>
-<tr class="memdesc:aaa7edcb97e8cd8b0ca759d7df7984b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.  <a href="#aaa7edcb97e8cd8b0ca759d7df7984b12"></a><br/></td></tr>
+<tr class="memdesc:aaa7edcb97e8cd8b0ca759d7df7984b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.  <a href="#aaa7edcb97e8cd8b0ca759d7df7984b12">Więcej...</a><br/></td></tr>
+<tr class="separator:aaa7edcb97e8cd8b0ca759d7df7984b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af326c6489cd6953ae4d21ba194c76d41"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#af326c6489cd6953ae4d21ba194c76d41">get_section_file_off</a> (<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> sec_type, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;file_off)</td></tr>
-<tr class="memdesc:af326c6489cd6953ae4d21ba194c76d41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.  <a href="#af326c6489cd6953ae4d21ba194c76d41"></a><br/></td></tr>
+<tr class="memdesc:af326c6489cd6953ae4d21ba194c76d41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.  <a href="#af326c6489cd6953ae4d21ba194c76d41">Więcej...</a><br/></td></tr>
+<tr class="separator:af326c6489cd6953ae4d21ba194c76d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aede545aa3f960b681a4a7b9be8f67833"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#aede545aa3f960b681a4a7b9be8f67833">set_section_content</a> (<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> sec_type, const QByteArray &amp;section_data, const char filler= '\x00')</td></tr>
-<tr class="memdesc:aede545aa3f960b681a4a7b9be8f67833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.  <a href="#aede545aa3f960b681a4a7b9be8f67833"></a><br/></td></tr>
+<tr class="memdesc:aede545aa3f960b681a4a7b9be8f67833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.  <a href="#aede545aa3f960b681a4a7b9be8f67833">Więcej...</a><br/></td></tr>
+<tr class="separator:aede545aa3f960b681a4a7b9be8f67833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6844855ce268b49bb39b75e117bad008"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a6844855ce268b49bb39b75e117bad008">set_relative_address</a> (<a class="el" href="elf_8h.html#a6f7837bc80df7a68291fce54ff088849">Elf64_Off</a> file_off, <a class="el" href="elf_8h.html#a40c6d4571e6001f443cc6a6474620158">Elf32_Addr</a> rva)</td></tr>
-<tr class="memdesc:a6844855ce268b49bb39b75e117bad008"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ustawia nowy adres instrukcji dla skoku relatywnego.  <a href="#a6844855ce268b49bb39b75e117bad008"></a><br/></td></tr>
+<tr class="memdesc:a6844855ce268b49bb39b75e117bad008"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ustawia nowy adres instrukcji dla skoku relatywnego.  <a href="#a6844855ce268b49bb39b75e117bad008">Więcej...</a><br/></td></tr>
+<tr class="separator:a6844855ce268b49bb39b75e117bad008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6ba067b4210f37293eff8483edaa883"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ac6ba067b4210f37293eff8483edaa883">get_segment_prot_flags</a> (const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> vaddr, int &amp;prot_flags) const </td></tr>
-<tr class="memdesc:ac6ba067b4210f37293eff8483edaa883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.  <a href="#ac6ba067b4210f37293eff8483edaa883"></a><br/></td></tr>
+<tr class="memdesc:ac6ba067b4210f37293eff8483edaa883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.  <a href="#ac6ba067b4210f37293eff8483edaa883">Więcej...</a><br/></td></tr>
+<tr class="separator:ac6ba067b4210f37293eff8483edaa883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1eda85b8a7dc46325193c19074dd468"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ad1eda85b8a7dc46325193c19074dd468">get_segment_align</a> (const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> vaddr, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;align) const </td></tr>
-<tr class="memdesc:ad1eda85b8a7dc46325193c19074dd468"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera wartość wyrównania segmentu.  <a href="#ad1eda85b8a7dc46325193c19074dd468"></a><br/></td></tr>
+<tr class="memdesc:ad1eda85b8a7dc46325193c19074dd468"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera wartość wyrównania segmentu.  <a href="#ad1eda85b8a7dc46325193c19074dd468">Więcej...</a><br/></td></tr>
+<tr class="separator:ad1eda85b8a7dc46325193c19074dd468"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48849fcd82256a378da6f6cfb4d7001a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a48849fcd82256a378da6f6cfb4d7001a">get_load_segment_info</a> (int prot_flags, QPair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; &amp;segment_data) const </td></tr>
-<tr class="memdesc:a48849fcd82256a378da6f6cfb4d7001a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pierwszego segmenu LOAD, do którego pasują podane flagi ochrony pamięci.  <a href="#a48849fcd82256a378da6f6cfb4d7001a"></a><br/></td></tr>
+<tr class="memdesc:a48849fcd82256a378da6f6cfb4d7001a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pierwszego segmenu LOAD, do którego pasują podane flagi ochrony pamięci.  <a href="#a48849fcd82256a378da6f6cfb4d7001a">Więcej...</a><br/></td></tr>
+<tr class="separator:a48849fcd82256a378da6f6cfb4d7001a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a480f02b85a48aa18c1bc1ae23dba2b2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a480f02b85a48aa18c1bc1ae23dba2b2f">get_relative_address</a> (<a class="el" href="elf_8h.html#a6f7837bc80df7a68291fce54ff088849">Elf64_Off</a> file_off, int32_t &amp;rva) const </td></tr>
-<tr class="memdesc:a480f02b85a48aa18c1bc1ae23dba2b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera aktualną wartość adresu relatywnego dla skoku.  <a href="#a480f02b85a48aa18c1bc1ae23dba2b2f"></a><br/></td></tr>
-<tr class="inherit_header pub_methods_class_binary_file"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_binary_file')"><img src="closed.png" alt="-"/>&nbsp;Metody publiczne dziedziczone z <a class="el" href="class_binary_file.html">BinaryFile</a></td></tr>
+<tr class="memdesc:a480f02b85a48aa18c1bc1ae23dba2b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera aktualną wartość adresu relatywnego dla skoku.  <a href="#a480f02b85a48aa18c1bc1ae23dba2b2f">Więcej...</a><br/></td></tr>
+<tr class="separator:a480f02b85a48aa18c1bc1ae23dba2b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_binary_file"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_binary_file')"><img src="closed.png" alt="-"/>&#160;Metody publiczne dziedziczone z <a class="el" href="class_binary_file.html">BinaryFile</a></td></tr>
 <tr class="memitem:a1afe5dffc5edf5f25ea22deef606eb4b inherit pub_methods_class_binary_file"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_file.html#a1afe5dffc5edf5f25ea22deef606eb4b">BinaryFile</a> (QByteArray _data)</td></tr>
+<tr class="separator:a1afe5dffc5edf5f25ea22deef606eb4b inherit pub_methods_class_binary_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ff1b2e140421fd040bff0854c1322ff inherit pub_methods_class_binary_file"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_file.html#a8ff1b2e140421fd040bff0854c1322ff">~BinaryFile</a> ()</td></tr>
+<tr class="separator:a8ff1b2e140421fd040bff0854c1322ff inherit pub_methods_class_binary_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ffee8a6230cf3c82cf6ee0e9fb53048 inherit pub_methods_class_binary_file"><td class="memItemLeft" align="right" valign="top">virtual QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_file.html#a5ffee8a6230cf3c82cf6ee0e9fb53048">getData</a> ()</td></tr>
-<tr class="memdesc:a5ffee8a6230cf3c82cf6ee0e9fb53048 inherit pub_methods_class_binary_file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pliku binarnego.  <a href="#a5ffee8a6230cf3c82cf6ee0e9fb53048"></a><br/></td></tr>
+<tr class="memdesc:a5ffee8a6230cf3c82cf6ee0e9fb53048 inherit pub_methods_class_binary_file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pliku binarnego.  <a href="#a5ffee8a6230cf3c82cf6ee0e9fb53048">Więcej...</a><br/></td></tr>
+<tr class="separator:a5ffee8a6230cf3c82cf6ee0e9fb53048 inherit pub_methods_class_binary_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="inherited"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
+Typy prywatne</h2></td></tr>
+<tr class="memitem:a8ac9a5a7e999db1f2f11ab21bb31f5f8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8">classes</a> { <a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8ab50339a10e1de285ac99d4c3990b8693">classes::NONE</a>, 
+<a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8acd743c20bf0141c38f02f434409a89e7">classes::ELF32</a>, 
+<a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8a523e8094660cc5b0a46e1379cecd4ee0">classes::ELF64</a>
+ }</td></tr>
+<tr class="separator:a8ac9a5a7e999db1f2f11ab21bb31f5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453c51d672396e7f5f328153f55e94bc"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_e_l_f_1_1__section__info.html">ELF::_section_info</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">section_info</a></td></tr>
+<tr class="separator:a453c51d672396e7f5f328153f55e94bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc32d4569fb28ff6c041c20870d8c2e7"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_e_l_f_1_1__best__segment.html">ELF::_best_segment</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a></td></tr>
+<tr class="separator:acc32d4569fb28ff6c041c20870d8c2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Metody prywatne</h2></td></tr>
+<tr class="memitem:a2418b755f55687748e070983e7c69234"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeader &gt; </td></tr>
+<tr class="memitem:a2418b755f55687748e070983e7c69234"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a2418b755f55687748e070983e7c69234">__best_segment_choose</a> (<a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;bs, bool only_x, ElfProgramHeader *ph, uint32_t pad_post, uint32_t pad_pre, bool change_va)</td></tr>
+<tr class="memdesc:a2418b755f55687748e070983e7c69234"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uzupełnia informacje, dotyczące najlepszego segmentu na podstawie podanych argumentów.  <a href="#a2418b755f55687748e070983e7c69234">Więcej...</a><br/></td></tr>
+<tr class="separator:a2418b755f55687748e070983e7c69234"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f3e6694514eaf1d1e16ec871ac273ff"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType , typename ElfOffsetType &gt; </td></tr>
+<tr class="memitem:a2f3e6694514eaf1d1e16ec871ac273ff"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a2f3e6694514eaf1d1e16ec871ac273ff">__extend_segment_eligible</a> (<a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;bs, bool only_x, const QList&lt; std::pair&lt; <a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a>, void * &gt; &gt; &amp;load_seg, int i, const int data_size)</td></tr>
+<tr class="memdesc:a2f3e6694514eaf1d1e16ec871ac273ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza czy aktualnie przetwarzany segment da się rozszerzyć.  <a href="#a2f3e6694514eaf1d1e16ec871ac273ff">Więcej...</a><br/></td></tr>
+<tr class="separator:a2f3e6694514eaf1d1e16ec871ac273ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d65a37a3d2a5027110e52272329c398"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398">__get_ph_addresses</a> ()</td></tr>
+<tr class="memdesc:a0d65a37a3d2a5027110e52272329c398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wypełnia listę z indeksami struktur Program Header.  <a href="#a0d65a37a3d2a5027110e52272329c398">Więcej...</a><br/></td></tr>
+<tr class="separator:a0d65a37a3d2a5027110e52272329c398"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8014a3000e257793350ef0a94576aaa4"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a8014a3000e257793350ef0a94576aaa4">__get_elf_header</a> ()</td></tr>
+<tr class="memdesc:a8014a3000e257793350ef0a94576aaa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość struktury <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a>.  <a href="#a8014a3000e257793350ef0a94576aaa4">Więcej...</a><br/></td></tr>
+<tr class="separator:a8014a3000e257793350ef0a94576aaa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be37d68119acd34b16dddf97fc6bbaa"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a4be37d68119acd34b16dddf97fc6bbaa">__get_ph_header</a> (uint32_t idx=0)</td></tr>
+<tr class="memdesc:a4be37d68119acd34b16dddf97fc6bbaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość struktury <a class="el" href="struct_elf32___phdr.html">Elf32_Phdr</a>.  <a href="#a4be37d68119acd34b16dddf97fc6bbaa">Więcej...</a><br/></td></tr>
+<tr class="separator:a4be37d68119acd34b16dddf97fc6bbaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b7f0e590a18eb59fb67fa2e3e2d2d38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38">__check_magic</a> (const <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a> *elf_hdr) const </td></tr>
+<tr class="memdesc:a6b7f0e590a18eb59fb67fa2e3e2d2d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z <a class="el" href="class_e_l_f.html">ELF</a>.  <a href="#a6b7f0e590a18eb59fb67fa2e3e2d2d38">Więcej...</a><br/></td></tr>
+<tr class="separator:a6b7f0e590a18eb59fb67fa2e3e2d2d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0431b4ae3e583389ce50770a91e0fe4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4">__is_supported</a> (const <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a> *elf_hdr)</td></tr>
+<tr class="memdesc:ad0431b4ae3e583389ce50770a91e0fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprawdza czy architektura, kolejność bajtów są podtrzymywane.  <a href="#ad0431b4ae3e583389ce50770a91e0fe4">Więcej...</a><br/></td></tr>
+<tr class="separator:ad0431b4ae3e583389ce50770a91e0fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6d7b0491d7ba7be9a472d8e0d18d11e"><td class="memTemplParams" colspan="2">template&lt;typename ElfHeaderType &gt; </td></tr>
+<tr class="memitem:ae6d7b0491d7ba7be9a472d8e0d18d11e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ae6d7b0491d7ba7be9a472d8e0d18d11e">__get_ph_address</a> (const void *elf_hdr)</td></tr>
+<tr class="memdesc:ae6d7b0491d7ba7be9a472d8e0d18d11e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera informacje dotyczące pierwszego offsetu w pliku.  <a href="#ae6d7b0491d7ba7be9a472d8e0d18d11e">Więcej...</a><br/></td></tr>
+<tr class="separator:ae6d7b0491d7ba7be9a472d8e0d18d11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87c1d41bc1b48048895805df2327028c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a87c1d41bc1b48048895805df2327028c">__get_ph_info</a> (const void *elf_hdr)</td></tr>
+<tr class="memdesc:a87c1d41bc1b48048895805df2327028c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera informacje dotyczące offsetu.  <a href="#a87c1d41bc1b48048895805df2327028c">Więcej...</a><br/></td></tr>
+<tr class="separator:a87c1d41bc1b48048895805df2327028c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec9424fae0011a27d586829d595b96ed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed">__parse</a> ()</td></tr>
+<tr class="memdesc:aec9424fae0011a27d586829d595b96ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parsowanie danych, znajdujących się w pamięci jako pliku <a class="el" href="class_e_l_f.html">ELF</a>.  <a href="#aec9424fae0011a27d586829d595b96ed">Więcej...</a><br/></td></tr>
+<tr class="separator:aec9424fae0011a27d586829d595b96ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f21db1a5111b80cadeb2b4892f8721b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="elf_8h.html#a5447a48a3dae0bd24f606415268c6fe4">Elf64_Xword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a6f21db1a5111b80cadeb2b4892f8721b">__round_address_down</a> (<a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> addr, <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> align) const </td></tr>
+<tr class="memdesc:a6f21db1a5111b80cadeb2b4892f8721b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zaokrągla w dół adres, podany jako argument zgodnie z wyspecyfikowanym wyrównaniem.  <a href="#a6f21db1a5111b80cadeb2b4892f8721b">Więcej...</a><br/></td></tr>
+<tr class="separator:a6f21db1a5111b80cadeb2b4892f8721b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0ab53eca3120e572be14e7cbd93d58e"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType , typename ElfOffsetType &gt; </td></tr>
+<tr class="memitem:af0ab53eca3120e572be14e7cbd93d58e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#af0ab53eca3120e572be14e7cbd93d58e">__find_pre_pad</a> (const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn, const int dsize, uint32_t *pre_pad)</td></tr>
+<tr class="memdesc:af0ab53eca3120e572be14e7cbd93d58e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu.  <a href="#af0ab53eca3120e572be14e7cbd93d58e">Więcej...</a><br/></td></tr>
+<tr class="separator:af0ab53eca3120e572be14e7cbd93d58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a97963a6c22ce291e355bd2593c6ab1"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType , typename ElfOffsetType &gt; </td></tr>
+<tr class="memitem:a0a97963a6c22ce291e355bd2593c6ab1"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a0a97963a6c22ce291e355bd2593c6ab1">__find_post_pad</a> (const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn, const int dsize, const uint32_t pre_pad, uint32_t *post_pad, bool *change_vma)</td></tr>
+<tr class="memdesc:a0a97963a6c22ce291e355bd2593c6ab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu.  <a href="#a0a97963a6c22ce291e355bd2593c6ab1">Więcej...</a><br/></td></tr>
+<tr class="separator:a0a97963a6c22ce291e355bd2593c6ab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab54763d908ffbd053727e0490a3ce462"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType &gt; </td></tr>
+<tr class="memitem:ab54763d908ffbd053727e0490a3ce462"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>, <br class="typebreak"/>
+<a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ab54763d908ffbd053727e0490a3ce462">__get_new_data_va_fo</a> (<a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">ELF::best_segment</a> &amp;bs)</td></tr>
+<tr class="memdesc:ab54763d908ffbd053727e0490a3ce462"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wylicza offset w pliku oraz adres wirtualny dla nowych danych, dodawanych do pliku.  <a href="#ab54763d908ffbd053727e0490a3ce462">Więcej...</a><br/></td></tr>
+<tr class="separator:ab54763d908ffbd053727e0490a3ce462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac949a0fbd01c44004816c40cee240215"><td class="memItemLeft" align="right" valign="top">std::pair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ac949a0fbd01c44004816c40cee240215">__construct_data</a> (const QByteArray &amp;data, <a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;bs)</td></tr>
+<tr class="memdesc:ac949a0fbd01c44004816c40cee240215"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.  <a href="#ac949a0fbd01c44004816c40cee240215">Więcej...</a><br/></td></tr>
+<tr class="separator:ac949a0fbd01c44004816c40cee240215"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9423cefdbd65754572e33d1afa0c434"><td class="memTemplParams" colspan="2">template&lt;typename ElfHeaderType &gt; </td></tr>
+<tr class="memitem:af9423cefdbd65754572e33d1afa0c434"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#af9423cefdbd65754572e33d1afa0c434">__fix_elf_header</a> (QByteArray &amp;data, <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> file_off, uint32_t insert_space)</td></tr>
+<tr class="memdesc:af9423cefdbd65754572e33d1afa0c434"><td class="mdescLeft">&#160;</td><td class="mdescRight">Naprawia nagłówek pliku <a class="el" href="class_e_l_f.html">ELF</a>.  <a href="#af9423cefdbd65754572e33d1afa0c434">Więcej...</a><br/></td></tr>
+<tr class="separator:af9423cefdbd65754572e33d1afa0c434"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8df75db9989bc8bb05f46eab5852074e"><td class="memTemplParams" colspan="2">template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </td></tr>
+<tr class="memitem:a8df75db9989bc8bb05f46eab5852074e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a8df75db9989bc8bb05f46eab5852074e">__fix_section_table</a> (QByteArray &amp;data, const <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> file_off, const uint32_t insert_space)</td></tr>
+<tr class="memdesc:a8df75db9989bc8bb05f46eab5852074e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Naprawia tablicę sekcji.  <a href="#a8df75db9989bc8bb05f46eab5852074e">Więcej...</a><br/></td></tr>
+<tr class="separator:a8df75db9989bc8bb05f46eab5852074e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2a54385657bf538ab3a7284106d7535"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType &gt; </td></tr>
+<tr class="memitem:ad2a54385657bf538ab3a7284106d7535"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ad2a54385657bf538ab3a7284106d7535">__fix_segment_table</a> (QByteArray &amp;data, const <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> file_off, const uint32_t insert_space, const uint32_t payload_size)</td></tr>
+<tr class="memdesc:ad2a54385657bf538ab3a7284106d7535"><td class="mdescLeft">&#160;</td><td class="mdescRight">Naprawia tablicę segmentów.  <a href="#ad2a54385657bf538ab3a7284106d7535">Więcej...</a><br/></td></tr>
+<tr class="separator:ad2a54385657bf538ab3a7284106d7535"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5761261daab4f8008ca60129e0cc3652"><td class="memTemplParams" colspan="2">template&lt;typename ElfDynType , typename ElfSymType , typename ElfWordType &gt; </td></tr>
+<tr class="memitem:a5761261daab4f8008ca60129e0cc3652"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a5761261daab4f8008ca60129e0cc3652">__fix_vma</a> (QByteArray &amp;data, const <a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;bs, <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> file_off, const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;new_vma)</td></tr>
+<tr class="memdesc:a5761261daab4f8008ca60129e0cc3652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Naprawia VMA.  <a href="#a5761261daab4f8008ca60129e0cc3652">Więcej...</a><br/></td></tr>
+<tr class="separator:a5761261daab4f8008ca60129e0cc3652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa749001fa45676fbfacd2009df1eaea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#aaa749001fa45676fbfacd2009df1eaea">__write_to_file</a> (const QString &amp;fname, const QByteArray &amp;data) const </td></tr>
+<tr class="memdesc:aaa749001fa45676fbfacd2009df1eaea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zapisuje podane dane do określonego pliku.  <a href="#aaa749001fa45676fbfacd2009df1eaea">Więcej...</a><br/></td></tr>
+<tr class="separator:aaa749001fa45676fbfacd2009df1eaea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a746fc8b56c9d552229dba3c577df09d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a746fc8b56c9d552229dba3c577df09d1">__set_entry_point</a> (const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;entry_point, QByteArray &amp;data, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> *old_ep=nullptr)</td></tr>
+<tr class="memdesc:a746fc8b56c9d552229dba3c577df09d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ustawia punkt wejściowy dla pliku wykonywalnego.  <a href="#a746fc8b56c9d552229dba3c577df09d1">Więcej...</a><br/></td></tr>
+<tr class="separator:a746fc8b56c9d552229dba3c577df09d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5cd0d9abbb2843fd9f77ff235818b5f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ac5cd0d9abbb2843fd9f77ff235818b5f">__get_entry_point</a> (const QByteArray &amp;data, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;old_ep) const </td></tr>
+<tr class="memdesc:ac5cd0d9abbb2843fd9f77ff235818b5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter.  <a href="#ac5cd0d9abbb2843fd9f77ff235818b5f">Więcej...</a><br/></td></tr>
+<tr class="separator:ac5cd0d9abbb2843fd9f77ff235818b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a104fdaeda96cbf14cd5d0eceb1356355"><td class="memTemplParams" colspan="2">template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </td></tr>
+<tr class="memitem:a104fdaeda96cbf14cd5d0eceb1356355"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a104fdaeda96cbf14cd5d0eceb1356355">__get_section_content</a> (<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> sec_type, QPair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; &amp;section_data)</td></tr>
+<tr class="memdesc:a104fdaeda96cbf14cd5d0eceb1356355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.  <a href="#a104fdaeda96cbf14cd5d0eceb1356355">Więcej...</a><br/></td></tr>
+<tr class="separator:a104fdaeda96cbf14cd5d0eceb1356355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf393ee93c55e49fd2c6a6696b53d708"><td class="memTemplParams" colspan="2">template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </td></tr>
+<tr class="memitem:aaf393ee93c55e49fd2c6a6696b53d708"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#aaf393ee93c55e49fd2c6a6696b53d708">__get_section_file_off</a> (<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> sec_type, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;file_off)</td></tr>
+<tr class="memdesc:aaf393ee93c55e49fd2c6a6696b53d708"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.  <a href="#aaf393ee93c55e49fd2c6a6696b53d708">Więcej...</a><br/></td></tr>
+<tr class="separator:aaf393ee93c55e49fd2c6a6696b53d708"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69450dcdb097595f3039142e3203c717"><td class="memTemplParams" colspan="2">template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </td></tr>
+<tr class="memitem:a69450dcdb097595f3039142e3203c717"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a69450dcdb097595f3039142e3203c717">__set_section_content</a> (<a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a> sec_type, const QByteArray &amp;section_data, const char filler= '\x00')</td></tr>
+<tr class="memdesc:a69450dcdb097595f3039142e3203c717"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.  <a href="#a69450dcdb097595f3039142e3203c717">Więcej...</a><br/></td></tr>
+<tr class="separator:a69450dcdb097595f3039142e3203c717"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a585949d9d51084cace56893a4e84d659"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType &gt; </td></tr>
+<tr class="memitem:a585949d9d51084cace56893a4e84d659"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a585949d9d51084cace56893a4e84d659">__get_segment_prot_flags</a> (const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> vaddr, int &amp;prot_flags) const </td></tr>
+<tr class="memdesc:a585949d9d51084cace56893a4e84d659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym.  <a href="#a585949d9d51084cace56893a4e84d659">Więcej...</a><br/></td></tr>
+<tr class="separator:a585949d9d51084cace56893a4e84d659"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9819efee39857b02b6eaa7e96333cc0"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType &gt; </td></tr>
+<tr class="memitem:ab9819efee39857b02b6eaa7e96333cc0"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ab9819efee39857b02b6eaa7e96333cc0">__get_segment_align</a> (const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> vaddr, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;align) const </td></tr>
+<tr class="memdesc:ab9819efee39857b02b6eaa7e96333cc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera wartość wyrównania segmentu.  <a href="#ab9819efee39857b02b6eaa7e96333cc0">Więcej...</a><br/></td></tr>
+<tr class="separator:ab9819efee39857b02b6eaa7e96333cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95a0568b7b58105b79a1fca972335b02"><td class="memTemplParams" colspan="2">template&lt;typename ElfProgramHeaderType &gt; </td></tr>
+<tr class="memitem:a95a0568b7b58105b79a1fca972335b02"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a95a0568b7b58105b79a1fca972335b02">__get_load_segment_info</a> (int prot_flags, QPair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; &amp;segment_data) const </td></tr>
+<tr class="memdesc:a95a0568b7b58105b79a1fca972335b02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pobiera zawartość pierwszego segmenu LOAD, do którego pasują podane flagi ochrony pamięci.  <a href="#a95a0568b7b58105b79a1fca972335b02">Więcej...</a><br/></td></tr>
+<tr class="separator:a95a0568b7b58105b79a1fca972335b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Atrybuty prywatne</h2></td></tr>
+<tr class="memitem:a161d6f6b6c2cf90eac0fc68c9c71b2c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8">classes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a161d6f6b6c2cf90eac0fc68c9c71b2c0">cls</a></td></tr>
+<tr class="separator:a161d6f6b6c2cf90eac0fc68c9c71b2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf3b4ff3bf04249f73a62c5819beddd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="elffile_8h.html#a5883b60eda35e8f8d370ececc9f820ef">offset_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#abf3b4ff3bf04249f73a62c5819beddd1">elf_header_idx</a></td></tr>
+<tr class="separator:abf3b4ff3bf04249f73a62c5819beddd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3d418d35d3688f21989b20ae4e8c7d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#ad3d418d35d3688f21989b20ae4e8c7d6">ph_size</a></td></tr>
+<tr class="separator:ad3d418d35d3688f21989b20ae4e8c7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a407fa88b371e09b518d519f5614da5ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a407fa88b371e09b518d519f5614da5ba">ph_num</a></td></tr>
+<tr class="separator:a407fa88b371e09b518d519f5614da5ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66548f1b1a7f91f5c784cb684493f75e"><td class="memItemLeft" align="right" valign="top">QList&lt; <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a66548f1b1a7f91f5c784cb684493f75e">ph_idx</a></td></tr>
+<tr class="memdesc:a66548f1b1a7f91f5c784cb684493f75e"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of ph index headers  <a href="#a66548f1b1a7f91f5c784cb684493f75e">Więcej...</a><br/></td></tr>
+<tr class="separator:a66548f1b1a7f91f5c784cb684493f75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
+Statyczne atrybuty prywatne</h2></td></tr>
+<tr class="memitem:a083e9dd23053d80114879323b38927cc"><td class="memItemLeft" align="right" valign="top">static QMap&lt; <a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">SectionType</a>, <br class="typebreak"/>
+<a class="el" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">section_info</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html#a083e9dd23053d80114879323b38927cc">section_type</a></td></tr>
+<tr class="memdesc:a083e9dd23053d80114879323b38927cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">init section type dictionary  <a href="#a083e9dd23053d80114879323b38927cc">Więcej...</a><br/></td></tr>
+<tr class="separator:a083e9dd23053d80114879323b38927cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Dodatkowe Dziedziczone Składowe</h2></td></tr>
-<tr class="inherit_header pro_attribs_class_binary_file"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_binary_file')"><img src="closed.png" alt="-"/>&nbsp;Atrybuty chronione dziedziczone z <a class="el" href="class_binary_file.html">BinaryFile</a></td></tr>
+<tr class="inherit_header pro_attribs_class_binary_file"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_binary_file')"><img src="closed.png" alt="-"/>&#160;Atrybuty chronione dziedziczone z <a class="el" href="class_binary_file.html">BinaryFile</a></td></tr>
 <tr class="memitem:ae16774932979ddb6d57b46b3c387a159 inherit pro_attribs_class_binary_file"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_file.html#ae16774932979ddb6d57b46b3c387a159">parsed</a></td></tr>
+<tr class="separator:ae16774932979ddb6d57b46b3c387a159 inherit pro_attribs_class_binary_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdfdb2fae63d8395dfa899be21bd8036 inherit pro_attribs_class_binary_file"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_file.html#acdfdb2fae63d8395dfa899be21bd8036">b_data</a></td></tr>
+<tr class="separator:acdfdb2fae63d8395dfa899be21bd8036 inherit pro_attribs_class_binary_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2>Opis szczegółowy</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Opis szczegółowy</h2>
 <div class="textblock">
 <p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00020">20</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
-</div><h2>Dokumentacja składowych wyliczanych</h2>
+</div><h2 class="groupheader">Dokumentacja składowych definicji typu</h2>
+<a class="anchor" id="acc32d4569fb28ff6c041c20870d8c2e7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_e_l_f_1_1__best__segment.html">ELF::_best_segment</a>  <a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">ELF::best_segment</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a453c51d672396e7f5f328153f55e94bc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_e_l_f_1_1__section__info.html">ELF::_section_info</a>  <a class="el" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">ELF::section_info</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja składowych wyliczanych</h2>
+<a class="anchor" id="a8ac9a5a7e999db1f2f11ab21bb31f5f8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8">ELF::classes</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a8ac9a5a7e999db1f2f11ab21bb31f5f8ab50339a10e1de285ac99d4c3990b8693"></a>NONE</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a8ac9a5a7e999db1f2f11ab21bb31f5f8acd743c20bf0141c38f02f434409a89e7"></a>ELF32</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a8ac9a5a7e999db1f2f11ab21bb31f5f8a523e8094660cc5b0a46e1379cecd4ee0"></a>ELF64</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00197">197</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="abaebdfb7048441e430684d68df8d73d1"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">enum <a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">ELF::SectionType</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Type sekcji. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><em><a class="anchor" id="abaebdfb7048441e430684d68df8d73d1afaee4ca3c30ee18148ce3ada37466498"></a>INIT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="abaebdfb7048441e430684d68df8d73d1a02f11aadd3ab1bd5b7ccd3040d8a0075"></a>CTORS</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="abaebdfb7048441e430684d68df8d73d1a8c11d1b1290b76379bf90434c0e83f4a"></a>INIT_ARRAY</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="abaebdfb7048441e430684d68df8d73d1a61a96ffcb251bb9bf0abf8fec19d0ea8"></a>TEXT</em>&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
 
 <p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00025">25</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
 
 </div>
 </div>
-<h2>Dokumentacja konstruktora i destruktora</h2>
+<h2 class="groupheader">Dokumentacja konstruktora i destruktora</h2>
 <a class="anchor" id="a7bcefdc63dcaee056a3800f57cf73992"></a>
 <div class="memitem">
 <div class="memproto">
@@ -236,6 +500,15 @@ Dodatkowe Dziedziczone Składowe</h2></td></tr>
 </dl>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00940">940</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992_cgraph.png" border="0" usemap="#class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992_cgraph" alt=""/></div>
+<map name="class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992_cgraph" id="class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="134,56,234,83"/><area shape="rect" id="node3" href="class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38" title="Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF. " alt="" coords="283,5,429,32"/><area shape="rect" id="node4" href="class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4" title="Sprawdza czy architektura, kolejność bajtów są podtrzymywane. " alt="" coords="285,56,427,83"/><area shape="rect" id="node5" href="class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="289,107,423,133"/><area shape="rect" id="node6" href="class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="478,107,653,133"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -266,7 +539,1494 @@ Dodatkowe Dziedziczone Składowe</h2></td></tr>
 
 </div>
 </div>
-<h2>Dokumentacja funkcji składowych</h2>
+<h2 class="groupheader">Dokumentacja funkcji składowych</h2>
+<a class="anchor" id="a2418b755f55687748e070983e7c69234"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeader &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ELF::__best_segment_choose </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;&#160;</td>
+          <td class="paramname"><em>bs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>only_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ElfProgramHeader *&#160;</td>
+          <td class="paramname"><em>ph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pad_post</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pad_pre</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>change_va</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Uzupełnia informacje, dotyczące najlepszego segmentu na podstawie podanych argumentów. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bs</td><td>struktura, przedstawiająca informacje o segmencie. </td></tr>
+    <tr><td class="paramname">only_x</td><td>flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji. </td></tr>
+    <tr><td class="paramname">ph</td><td>wskaźnik na strukture, reprezentującą Elf_Phdr. </td></tr>
+    <tr><td class="paramname">pad_post</td><td>ilość bajtów potrzebnych do wypełnanie przed dodawanymi danymi. </td></tr>
+    <tr><td class="paramname">pad_pre</td><td>ilość bajtów potrzebnych do wypełnanie po dodawanych danych. </td></tr>
+    <tr><td class="paramname">change_va</td><td>informacja czy musi zostać zmieniony adres wirtualy. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00492">492</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6b7f0e590a18eb59fb67fa2e3e2d2d38"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__check_magic </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a> *&#160;</td>
+          <td class="paramname"><em>elf_hdr</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z <a class="el" href="class_e_l_f.html">ELF</a>. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elf_hdr</td><td>wskaźnik na strukturę <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli wartość magiczna jest poprawna, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00440">440</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a6b7f0e590a18eb59fb67fa2e3e2d2d38_icgraph.png" border="0" usemap="#class_e_l_f_a6b7f0e590a18eb59fb67fa2e3e2d2d38_icgraph" alt=""/></div>
+<map name="class_e_l_f_a6b7f0e590a18eb59fb67fa2e3e2d2d38_icgraph" id="class_e_l_f_a6b7f0e590a18eb59fb67fa2e3e2d2d38_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="201,64,301,91"/><area shape="rect" id="node3" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="350,5,501,32"/><area shape="rect" id="node5" href="class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="358,57,493,98"/><area shape="rect" id="node6" href="class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="386,123,465,149"/><area shape="rect" id="node4" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="550,5,754,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac949a0fbd01c44004816c40cee240215"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; ELF::__construct_data </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">ELF::best_segment</a> &amp;&#160;</td>
+          <td class="paramname"><em>bs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>nowy kod. </td></tr>
+    <tr><td class="paramname">bs</td><td>struktura przechowujące informacje o wyrównaniach oraz adresach. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>Nowa zawartość pliku (oraz adres wirtualny nowych danych) lub pustą tablice, jeżeli operacja nie powiadła się. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00652">652</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_ac949a0fbd01c44004816c40cee240215_icgraph.png" border="0" usemap="#class_e_l_f_ac949a0fbd01c44004816c40cee240215_icgraph" alt=""/></div>
+<map name="class_e_l_f_ac949a0fbd01c44004816c40cee240215_icgraph" id="class_e_l_f_ac949a0fbd01c44004816c40cee240215_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="209,5,359,32"/><area shape="rect" id="node3" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="409,5,613,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a2f3e6694514eaf1d1e16ec871ac273ff"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType , typename ElfOffsetType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__extend_segment_eligible </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;&#160;</td>
+          <td class="paramname"><em>bs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>only_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QList&lt; std::pair&lt; <a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a>, void * &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>load_seg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>data_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sprawdza czy aktualnie przetwarzany segment da się rozszerzyć. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bs</td><td>struktura, przedstawiająca informacje o segmencie. </td></tr>
+    <tr><td class="paramname">only_x</td><td>flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji. </td></tr>
+    <tr><td class="paramname">load_seg</td><td>referencja na listę ładowalnych (LOAD) segmentów pliku. </td></tr>
+    <tr><td class="paramname">i</td><td>aktualnie przetwarzany segment. </td></tr>
+    <tr><td class="paramname">data_size</td><td>wielkość wstawianych danych. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli rozszerzenie jest możliwe, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00505">505</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0a97963a6c22ce291e355bd2593c6ab1"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType , typename ElfOffsetType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__find_post_pad </td>
+          <td>(</td>
+          <td class="paramtype">const ElfProgramHeaderType *&#160;</td>
+          <td class="paramname"><em>ph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ElfProgramHeaderType *&#160;</td>
+          <td class="paramname"><em>phn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>dsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>pre_pad</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>post_pad</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool *&#160;</td>
+          <td class="paramname"><em>change_vma</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z tyłu. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ph</td><td>wskaźnik na strukture 32/64-bitowego nagłówka <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">phn</td><td>wskaźnik na strukture 32/64-bitowego nagłówka <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">dsize</td><td>wielkość danych. </td></tr>
+    <tr><td class="paramname">pre_pad</td><td>wartość dopełnenia przed danymi. </td></tr>
+    <tr><td class="paramname">post_pad</td><td>adres komórki pamięci, pod którą zapiszemy wartość. </td></tr>
+    <tr><td class="paramname">change_vma</td><td>adres komórki pamięci pod którą zapiszemy potrzebe zmiany VMA. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli operacja się powidła, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00616">616</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af0ab53eca3120e572be14e7cbd93d58e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType , typename ElfOffsetType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__find_pre_pad </td>
+          <td>(</td>
+          <td class="paramtype">const ElfProgramHeaderType *&#160;</td>
+          <td class="paramname"><em>ph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ElfProgramHeaderType *&#160;</td>
+          <td class="paramname"><em>phn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>dsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>pre_pad</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ph</td><td>wskaźnik na strukture 32/64-bitowego nagłówka <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">phn</td><td>wskaźnik na strukture 32/64-bitowego nagłówka <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">dsize</td><td>wielkość danych. </td></tr>
+    <tr><td class="paramname">pre_pad</td><td>adres komórki pamięci, pod którą zapiszemy wartość. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli operacja się powidła, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00588">588</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_af0ab53eca3120e572be14e7cbd93d58e_cgraph.png" border="0" usemap="#class_e_l_f_af0ab53eca3120e572be14e7cbd93d58e_cgraph" alt=""/></div>
+<map name="class_e_l_f_af0ab53eca3120e572be14e7cbd93d58e_cgraph" id="class_e_l_f_af0ab53eca3120e572be14e7cbd93d58e_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a6f21db1a5111b80cadeb2b4892f8721b" title="Zaokrągla w dół adres, podany jako argument zgodnie z wyspecyfikowanym wyrównaniem. " alt="" coords="198,5,389,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="af9423cefdbd65754572e33d1afa0c434"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ELF::__fix_elf_header </td>
+          <td>(</td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&#160;</td>
+          <td class="paramname"><em>file_off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>insert_space</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Naprawia nagłówek pliku <a class="el" href="class_e_l_f.html">ELF</a>. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartość pliku. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00709">709</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8df75db9989bc8bb05f46eab5852074e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ELF::__fix_section_table </td>
+          <td>(</td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&#160;</td>
+          <td class="paramname"><em>file_off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>insert_space</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Naprawia tablicę sekcji. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartość pliku. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00718">718</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2a54385657bf538ab3a7284106d7535"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> ELF::__fix_segment_table </td>
+          <td>(</td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&#160;</td>
+          <td class="paramname"><em>file_off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>insert_space</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>payload_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Naprawia tablicę segmentów. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartość pliku. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00738">738</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5761261daab4f8008ca60129e0cc3652"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfDynType , typename ElfSymType , typename ElfWordType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ELF::__fix_vma </td>
+          <td>(</td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">best_segment</a> &amp;&#160;</td>
+          <td class="paramname"><em>bs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&#160;</td>
+          <td class="paramname"><em>file_off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;&#160;</td>
+          <td class="paramname"><em>new_vma</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Naprawia VMA. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartość pliku. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00877">877</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8014a3000e257793350ef0a94576aaa4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * ELF::__get_elf_header </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera zawartość struktury <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a>. </p>
+<dl class="section return"><dt>Zwraca</dt><dd>Wskaźnik na strukturę <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a> jeżeli dane są poprawne, nullptr w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00414">414</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a8014a3000e257793350ef0a94576aaa4_cgraph.png" border="0" usemap="#class_e_l_f_a8014a3000e257793350ef0a94576aaa4_cgraph" alt=""/></div>
+<map name="class_e_l_f_a8014a3000e257793350ef0a94576aaa4_cgraph" id="class_e_l_f_a8014a3000e257793350ef0a94576aaa4_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="208,5,307,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac5cd0d9abbb2843fd9f77ff235818b5f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_entry_point </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;&#160;</td>
+          <td class="paramname"><em>old_ep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartosc pliku <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">old_ep</td><td>referencja na wartość punktu wejściowego programu. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli operacja się powiodła, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00158">158</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_ac5cd0d9abbb2843fd9f77ff235818b5f_icgraph.png" border="0" usemap="#class_e_l_f_ac5cd0d9abbb2843fd9f77ff235818b5f_icgraph" alt=""/></div>
+<map name="class_e_l_f_ac5cd0d9abbb2843fd9f77ff235818b5f_icgraph" id="class_e_l_f_ac5cd0d9abbb2843fd9f77ff235818b5f_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#adf71ac4ae5cfedb1b1415b2f5da2494f" title="Dostarcza informacje o punkcie wejściowym pliku. " alt="" coords="211,5,354,32"/><area shape="rect" id="node3" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="403,5,607,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a95a0568b7b58105b79a1fca972335b02"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_load_segment_info </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>prot_flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QPair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segment_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera zawartość pierwszego segmenu LOAD, do którego pasują podane flagi ochrony pamięci. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prot_flags</td><td>flagi ochrony pamięci. </td></tr>
+    <tr><td class="paramname">segment_data</td><td>zawartość segmentu oraz adres wirtualny. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli segment istnieje, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00859">859</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab54763d908ffbd053727e0490a3ce462"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>, <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a> &gt; ELF::__get_new_data_va_fo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#acc32d4569fb28ff6c041c20870d8c2e7">ELF::best_segment</a> &amp;&#160;</td>
+          <td class="paramname"><em>bs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wylicza offset w pliku oraz adres wirtualny dla nowych danych, dodawanych do pliku. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bs</td><td>referencja na strukture, ktora zawiera informacje o najlepszym znalezionym segmencie. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>Para nowy offset w pliku oraz nowy adres wirtualny. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00645">645</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae6d7b0491d7ba7be9a472d8e0d18d11e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_ph_address </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>elf_hdr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera informacje dotyczące pierwszego offsetu w pliku. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elf_hdr</td><td>wskaźnik na strukturę, przechowującą informacje. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli dane wejściowe są poprawne, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00528">528</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0d65a37a3d2a5027110e52272329c398"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_ph_addresses </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wypełnia listę z indeksami struktur Program Header. </p>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli wielkość tablicy się zgadza z zadeklarowaną, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00398">398</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a0d65a37a3d2a5027110e52272329c398_icgraph.png" border="0" usemap="#class_e_l_f_a0d65a37a3d2a5027110e52272329c398_icgraph" alt=""/></div>
+<map name="class_e_l_f_a0d65a37a3d2a5027110e52272329c398_icgraph" id="class_e_l_f_a0d65a37a3d2a5027110e52272329c398_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="230,64,365,91"/><area shape="rect" id="node3" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="414,64,514,91"/><area shape="rect" id="node4" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="563,5,714,32"/><area shape="rect" id="node6" href="class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="571,57,706,98"/><area shape="rect" id="node7" href="class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="599,123,678,149"/><area shape="rect" id="node5" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="763,5,967,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a4be37d68119acd34b16dddf97fc6bbaa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * ELF::__get_ph_header </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>idx</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera zawartość struktury <a class="el" href="struct_elf32___phdr.html">Elf32_Phdr</a>. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>Indeks </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>Wskaźnik na strukturę <a class="el" href="struct_elf32___phdr.html">Elf32_Phdr</a> jeżeli dane są poprawne, nullptr w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00425">425</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_cgraph.png" border="0" usemap="#class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_cgraph" alt=""/></div>
+<map name="class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_cgraph" id="class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="208,5,307,32"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_icgraph.png" border="0" usemap="#class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_icgraph" alt=""/></div>
+<map name="class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_icgraph" id="class_e_l_f_a4be37d68119acd34b16dddf97fc6bbaa_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#abdddb77f2822c068b2ae06e221ae1e10" title="Pobiera offset w pliku dla podanego segmentu. " alt="" coords="209,5,370,32"/><area shape="rect" id="node3" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="214,56,365,83"/><area shape="rect" id="node4" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="419,56,623,83"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a87c1d41bc1b48048895805df2327028c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_ph_info </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>elf_hdr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera informacje dotyczące offsetu. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elf_hdr</td><td>wskaźnik na strukturę, przechowującą informacje. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli dane wejściowe są poprawne, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00541">541</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a87c1d41bc1b48048895805df2327028c_cgraph.png" border="0" usemap="#class_e_l_f_a87c1d41bc1b48048895805df2327028c_cgraph" alt=""/></div>
+<map name="class_e_l_f_a87c1d41bc1b48048895805df2327028c_cgraph" id="class_e_l_f_a87c1d41bc1b48048895805df2327028c_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="190,5,365,32"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a87c1d41bc1b48048895805df2327028c_icgraph.png" border="0" usemap="#class_e_l_f_a87c1d41bc1b48048895805df2327028c_icgraph" alt=""/></div>
+<map name="class_e_l_f_a87c1d41bc1b48048895805df2327028c_icgraph" id="class_e_l_f_a87c1d41bc1b48048895805df2327028c_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="190,64,290,91"/><area shape="rect" id="node3" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="339,5,490,32"/><area shape="rect" id="node5" href="class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="347,57,482,98"/><area shape="rect" id="node6" href="class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="375,123,454,149"/><area shape="rect" id="node4" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="539,5,743,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a104fdaeda96cbf14cd5d0eceb1356355"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_section_content </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">ELF::SectionType</a>&#160;</td>
+          <td class="paramname"><em>sec_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QPair&lt; QByteArray, <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>section_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera zawartość sekcji, jeżeli podana sekcja istnieje. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartość pliku <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">sec_type</td><td>typ sekcji. </td></tr>
+    <tr><td class="paramname">section_data</td><td>zawartość sekcji oraz offset w pliku. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli sekcja istnieje, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00202">202</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaf393ee93c55e49fd2c6a6696b53d708"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_section_file_off </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">ELF::SectionType</a>&#160;</td>
+          <td class="paramname"><em>sec_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;&#160;</td>
+          <td class="paramname"><em>file_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sec_type</td><td>typ sekcji. </td></tr>
+    <tr><td class="paramname">file_off</td><td>offset sekcji w pliku. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli sekcja istnieje, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00262">262</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9819efee39857b02b6eaa7e96333cc0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_segment_align </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a>&#160;</td>
+          <td class="paramname"><em>vaddr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;&#160;</td>
+          <td class="paramname"><em>align</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera wartość wyrównania segmentu. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vaddr</td><td>adres wirtualny pod który ładuje segment. </td></tr>
+    <tr><td class="paramname">align</td><td>wartość wyrównywania strony. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli segment istnieje, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00817">817</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a585949d9d51084cace56893a4e84d659"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfProgramHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__get_segment_prot_flags </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a>&#160;</td>
+          <td class="paramname"><em>vaddr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>prot_flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vaddr</td><td>adres wirtualny pod który ładuje segment. </td></tr>
+    <tr><td class="paramname">prot_flags</td><td>flagi ochrony pamięci. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli segment istnieje, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00783">783</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad0431b4ae3e583389ce50770a91e0fe4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__is_supported </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a> *&#160;</td>
+          <td class="paramname"><em>elf_hdr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sprawdza czy architektura, kolejność bajtów są podtrzymywane. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elf_hdr</td><td>wskaźnik na strukturę <a class="el" href="struct_elf32___ehdr.html">Elf32_Ehdr</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli architektura, kolejność bajtów są podtrzymywane, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00455">455</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_ad0431b4ae3e583389ce50770a91e0fe4_icgraph.png" border="0" usemap="#class_e_l_f_ad0431b4ae3e583389ce50770a91e0fe4_icgraph" alt=""/></div>
+<map name="class_e_l_f_ad0431b4ae3e583389ce50770a91e0fe4_icgraph" id="class_e_l_f_ad0431b4ae3e583389ce50770a91e0fe4_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="198,64,298,91"/><area shape="rect" id="node3" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="347,5,498,32"/><area shape="rect" id="node5" href="class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="355,57,490,98"/><area shape="rect" id="node6" href="class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="383,123,462,149"/><area shape="rect" id="node4" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="547,5,751,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aec9424fae0011a27d586829d595b96ed"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__parse </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parsowanie danych, znajdujących się w pamięci jako pliku <a class="el" href="class_e_l_f.html">ELF</a>. </p>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli dane w pamięci sa zgodne z formatem <a class="el" href="class_e_l_f.html">ELF</a>, False w pozostałych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00561">561</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_aec9424fae0011a27d586829d595b96ed_cgraph.png" border="0" usemap="#class_e_l_f_aec9424fae0011a27d586829d595b96ed_cgraph" alt=""/></div>
+<map name="class_e_l_f_aec9424fae0011a27d586829d595b96ed_cgraph" id="class_e_l_f_aec9424fae0011a27d586829d595b96ed_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38" title="Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF. " alt="" coords="155,5,301,32"/><area shape="rect" id="node3" href="class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4" title="Sprawdza czy architektura, kolejność bajtów są podtrzymywane. " alt="" coords="157,56,299,83"/><area shape="rect" id="node4" href="class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="161,107,295,133"/><area shape="rect" id="node5" href="class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="350,107,525,133"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_aec9424fae0011a27d586829d595b96ed_icgraph.png" border="0" usemap="#class_e_l_f_aec9424fae0011a27d586829d595b96ed_icgraph" alt=""/></div>
+<map name="class_e_l_f_aec9424fae0011a27d586829d595b96ed_icgraph" id="class_e_l_f_aec9424fae0011a27d586829d595b96ed_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="155,5,306,32"/><area shape="rect" id="node4" href="class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="163,57,298,98"/><area shape="rect" id="node5" href="class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="191,123,270,149"/><area shape="rect" id="node3" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="355,5,559,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a6f21db1a5111b80cadeb2b4892f8721b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elf_8h.html#a5447a48a3dae0bd24f606415268c6fe4">Elf64_Xword</a> ELF::__round_address_down </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&#160;</td>
+          <td class="paramname"><em>align</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Zaokrągla w dół adres, podany jako argument zgodnie z wyspecyfikowanym wyrównaniem. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>adres do zaokrąglenia. </td></tr>
+    <tr><td class="paramname">align</td><td>wartość wyrównania. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>Zaokrąglony adres. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00583">583</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a6f21db1a5111b80cadeb2b4892f8721b_icgraph.png" border="0" usemap="#class_e_l_f_a6f21db1a5111b80cadeb2b4892f8721b_icgraph" alt=""/></div>
+<map name="class_e_l_f_a6f21db1a5111b80cadeb2b4892f8721b_icgraph" id="class_e_l_f_a6f21db1a5111b80cadeb2b4892f8721b_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#af0ab53eca3120e572be14e7cbd93d58e" title="Znajduje ilość bajtów, którymi musimy dopełnić nasze dane z przodu. " alt="" coords="246,5,389,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a746fc8b56c9d552229dba3c577df09d1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__set_entry_point </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> &amp;&#160;</td>
+          <td class="paramname"><em>entry_point</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> *&#160;</td>
+          <td class="paramname"><em>old_ep</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ustawia punkt wejściowy dla pliku wykonywalnego. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entry_point</td><td>wartość punktu wejściowego. </td></tr>
+    <tr><td class="paramname">data</td><td>dane, w których należy ustawić punkt wejściowy. </td></tr>
+    <tr><td class="paramname">old_ep</td><td>wartosc starego punkt wejsciowego, parametr opcjonalny. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli operacja się powiodła, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00120">120</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a746fc8b56c9d552229dba3c577df09d1_icgraph.png" border="0" usemap="#class_e_l_f_a746fc8b56c9d552229dba3c577df09d1_icgraph" alt=""/></div>
+<map name="class_e_l_f_a746fc8b56c9d552229dba3c577df09d1_icgraph" id="class_e_l_f_a746fc8b56c9d552229dba3c577df09d1_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a8342542081d52e5518356f0f6cde3db8" title="Ustawia punkt wejściowy dla pliku wykonywalnego. " alt="" coords="211,5,354,32"/><area shape="rect" id="node3" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="403,5,607,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a69450dcdb097595f3039142e3203c717"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ElfHeaderType , typename ElfSectionHeaderType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__set_section_content </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">ELF::SectionType</a>&#160;</td>
+          <td class="paramname"><em>sec_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>section_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>filler</em> = <code>'\x00'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>zawartość pliku <a class="el" href="class_e_l_f.html">ELF</a>. </td></tr>
+    <tr><td class="paramname">sec_type</td><td>typ sekcji. </td></tr>
+    <tr><td class="paramname">section_data</td><td>zawartość sekcji. </td></tr>
+    <tr><td class="paramname">filler</td><td>bajt, którym jest dopełniana sekcja. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True jeżeli sekcja istnieje, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00331">331</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a69450dcdb097595f3039142e3203c717_cgraph.png" border="0" usemap="#class_e_l_f_a69450dcdb097595f3039142e3203c717_cgraph" alt=""/></div>
+<map name="class_e_l_f_a69450dcdb097595f3039142e3203c717_cgraph" id="class_e_l_f_a69450dcdb097595f3039142e3203c717_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="190,56,290,83"/><area shape="rect" id="node3" href="class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38" title="Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF. " alt="" coords="339,5,485,32"/><area shape="rect" id="node4" href="class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4" title="Sprawdza czy architektura, kolejność bajtów są podtrzymywane. " alt="" coords="341,56,483,83"/><area shape="rect" id="node5" href="class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="345,107,479,133"/><area shape="rect" id="node6" href="class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="534,107,709,133"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aaa749001fa45676fbfacd2009df1eaea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ELF::__write_to_file </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>fname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Zapisuje podane dane do określonego pliku. </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fname</td><td>nazwa pliku. </td></tr>
+    <tr><td class="paramname">data</td><td>zapisywane dane. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Zwraca</dt><dd>True, jeżeli operacja zapisu się powiodła, False w innych przypadkach. </dd></dl>
+
+<p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00101">101</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_aaa749001fa45676fbfacd2009df1eaea_icgraph.png" border="0" usemap="#class_e_l_f_aaa749001fa45676fbfacd2009df1eaea_icgraph" alt=""/></div>
+<map name="class_e_l_f_aaa749001fa45676fbfacd2009df1eaea_icgraph" id="class_e_l_f_aaa749001fa45676fbfacd2009df1eaea_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a52b09dc778fd67aa92d1a80a96e9f580" title="Zapisuje wewnętrzne dane do pliku. " alt="" coords="193,5,317,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
 <a class="anchor" id="a11f004629212a5651dd4ca1355a7eb9d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -309,6 +2069,24 @@ Dodatkowe Dziedziczone Składowe</h2></td></tr>
 <dl class="section return"><dt>Zwraca</dt><dd>True jeżeli rozszerzenie się powiodło, False w pozostałych przypadkach. </dd></dl>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00031">31</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_cgraph.png" border="0" usemap="#class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_cgraph" alt=""/></div>
+<map name="class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_cgraph" id="class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a4be37d68119acd34b16dddf97fc6bbaa" title="Pobiera zawartość struktury Elf32_Phdr. " alt="" coords="206,5,359,32"/><area shape="rect" id="node4" href="class_e_l_f.html#ac949a0fbd01c44004816c40cee240215" title="Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_s..." alt="" coords="205,56,360,83"/><area shape="rect" id="node5" href="class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="233,107,333,133"/><area shape="rect" id="node3" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="432,5,531,32"/><area shape="rect" id="node6" href="class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38" title="Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF. " alt="" coords="409,56,554,83"/><area shape="rect" id="node7" href="class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4" title="Sprawdza czy architektura, kolejność bajtów są podtrzymywane. " alt="" coords="410,107,553,133"/><area shape="rect" id="node8" href="class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="414,157,549,184"/><area shape="rect" id="node9" href="class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="603,157,778,184"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_icgraph.png" border="0" usemap="#class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_icgraph" alt=""/></div>
+<map name="class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_icgraph" id="class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="206,5,410,32"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -364,6 +2142,24 @@ Dodatkowe Dziedziczone Składowe</h2></td></tr>
 <dl class="section return"><dt>Zwraca</dt><dd>True jeżeli operacja się powiodła, False w innych przypadkach. </dd></dl>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00181">181</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_cgraph.png" border="0" usemap="#class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_cgraph" alt=""/></div>
+<map name="class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_cgraph" id="class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#ac5cd0d9abbb2843fd9f77ff235818b5f" title="Dostarcza informacje o punkcie wejściowym pliku podanego jako parameter. " alt="" coords="197,5,355,32"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_icgraph.png" border="0" usemap="#class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_icgraph" alt=""/></div>
+<map name="class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_icgraph" id="class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="198,5,402,32"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -436,7 +2232,7 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8_cgraph.png" border="0" usemap="#class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8_cgraph" alt=""/></div>
 <map name="class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8_cgraph" id="class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8_cgraph">
-<area shape="rect" id="node3" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik." alt="" coords="195,13,293,43"/></map>
+<area shape="rect" id="node2" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="195,12,293,39"/></map>
 </div>
 </p>
 
@@ -466,6 +2262,15 @@ Oto graf wywołań dla tej funkcji:</div>
 <dl class="section return"><dt>Zwraca</dt><dd>Offset jeżeli dane są poprawne, nullptr w innych przypadkach. </dd></dl>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00017">17</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10_cgraph.png" border="0" usemap="#class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10_cgraph" alt=""/></div>
+<map name="class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10_cgraph" id="class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a4be37d68119acd34b16dddf97fc6bbaa" title="Pobiera zawartość struktury Elf32_Phdr. " alt="" coords="217,5,370,32"/><area shape="rect" id="node3" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="419,5,517,32"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -541,6 +2346,15 @@ Oto graf wywołań dla tej funkcji:</div>
 <dl class="section return"><dt>Zwraca</dt><dd>True jeżeli sekcja istnieje, False w innych przypadkach. </dd></dl>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00187">187</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12_icgraph.png" border="0" usemap="#class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12_icgraph" alt=""/></div>
+<map name="class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12_icgraph" id="class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="225,5,429,32"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -618,6 +2432,15 @@ Oto graf wywołań dla tej funkcji:</div>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00800">800</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
 
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_ad1eda85b8a7dc46325193c19074dd468_icgraph.png" border="0" usemap="#class_e_l_f_ad1eda85b8a7dc46325193c19074dd468_icgraph" alt=""/></div>
+<map name="class_e_l_f_ad1eda85b8a7dc46325193c19074dd468_icgraph" id="class_e_l_f_ad1eda85b8a7dc46325193c19074dd468_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="217,5,421,32"/></map>
+</div>
+</p>
+
 </div>
 </div>
 <a class="anchor" id="ac6ba067b4210f37293eff8483edaa883"></a>
@@ -656,6 +2479,15 @@ Oto graf wywołań dla tej funkcji:</div>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00766">766</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
 
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_ac6ba067b4210f37293eff8483edaa883_icgraph.png" border="0" usemap="#class_e_l_f_ac6ba067b4210f37293eff8483edaa883_icgraph" alt=""/></div>
+<map name="class_e_l_f_ac6ba067b4210f37293eff8483edaa883_icgraph" id="class_e_l_f_ac6ba067b4210f37293eff8483edaa883_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="214,12,418,39"/></map>
+</div>
+</p>
+
 </div>
 </div>
 <a class="anchor" id="aaf0da9f62b61fc3674b7fd54d9885b5f"></a>
@@ -685,6 +2517,15 @@ Oto graf wywołań dla tej funkcji:</div>
 <p>Implementuje <a class="el" href="class_binary_file.html#a6007435bc4451bb80a3169d977f4f125">BinaryFile</a>.</p>
 
 <p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00053">53</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f_icgraph.png" border="0" usemap="#class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f_icgraph" alt=""/></div>
+<map name="class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f_icgraph" id="class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="566,107,770,134"/><area shape="rect" id="node3" href="class_e_l_f.html#a8014a3000e257793350ef0a94576aaa4" title="Pobiera zawartość struktury Elf32_Ehdr. " alt="" coords="153,56,306,83"/><area shape="rect" id="node4" href="class_e_l_f.html#a4be37d68119acd34b16dddf97fc6bbaa" title="Pobiera zawartość struktury Elf32_Phdr. " alt="" coords="153,107,306,134"/><area shape="rect" id="node7" href="class_e_l_f.html#ac5c89b2b437f3e07aedc06f66cdab94d" title="Dostarcza informacje czy plik jest poprawnym plikiem ELF 32&#45;bitowym. " alt="" coords="390,158,482,184"/><area shape="rect" id="node8" href="class_e_l_f.html#a558b2f169db21b21b24d6ff19c38ac9e" title="Dostarcza informacje czy plik jest poprawnym plikiem ELF 64&#45;bitowym. " alt="" coords="183,208,275,235"/><area shape="rect" id="node9" href="class_e_l_f.html#a8b65b7ea1b57aa25d3171a25528a43f8" title="Pobiera ilość segmentów w pliku. " alt="" coords="159,260,299,301"/><area shape="rect" id="node5" href="class_e_l_f.html#abdddb77f2822c068b2ae06e221ae1e10" title="Pobiera offset w pliku dla podanego segmentu. " alt="" coords="355,56,517,83"/><area shape="rect" id="node6" href="class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="361,107,511,134"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -721,7 +2562,7 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e_cgraph.png" border="0" usemap="#class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e_cgraph" alt=""/></div>
 <map name="class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e_cgraph" id="class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e_cgraph">
-<area shape="rect" id="node3" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik." alt="" coords="147,5,245,35"/></map>
+<area shape="rect" id="node2" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="147,5,245,32"/></map>
 </div>
 </p>
 
@@ -760,7 +2601,16 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_cgraph.png" border="0" usemap="#class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_cgraph" alt=""/></div>
 <map name="class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_cgraph" id="class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_cgraph">
-<area shape="rect" id="node3" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik." alt="" coords="147,5,245,35"/></map>
+<area shape="rect" id="node2" href="class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="147,5,245,32"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_icgraph.png" border="0" usemap="#class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_icgraph" alt=""/></div>
+<map name="class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_icgraph" id="class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="147,5,351,32"/></map>
 </div>
 </p>
 
@@ -801,6 +2651,24 @@ Oto graf wywołań dla tej funkcji:</div>
 <dl class="section return"><dt>Zwraca</dt><dd>True jeżeli operacja się powiodła, False w innych przypadkach. </dd></dl>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00152">152</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
+
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a8342542081d52e5518356f0f6cde3db8_cgraph.png" border="0" usemap="#class_e_l_f_a8342542081d52e5518356f0f6cde3db8_cgraph" alt=""/></div>
+<map name="class_e_l_f_a8342542081d52e5518356f0f6cde3db8_cgraph" id="class_e_l_f_a8342542081d52e5518356f0f6cde3db8_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#a746fc8b56c9d552229dba3c577df09d1" title="Ustawia punkt wejściowy dla pliku wykonywalnego. " alt="" coords="197,5,355,32"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a8342542081d52e5518356f0f6cde3db8_icgraph.png" border="0" usemap="#class_e_l_f_a8342542081d52e5518356f0f6cde3db8_icgraph" alt=""/></div>
+<map name="class_e_l_f_a8342542081d52e5518356f0f6cde3db8_icgraph" id="class_e_l_f_a8342542081d52e5518356f0f6cde3db8_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="198,5,402,32"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -884,6 +2752,15 @@ Oto graf wywołań dla tej funkcji:</div>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00307">307</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
 
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_aede545aa3f960b681a4a7b9be8f67833_icgraph.png" border="0" usemap="#class_e_l_f_aede545aa3f960b681a4a7b9be8f67833_icgraph" alt=""/></div>
+<map name="class_e_l_f_aede545aa3f960b681a4a7b9be8f67833_icgraph" id="class_e_l_f_aede545aa3f960b681a4a7b9be8f67833_icgraph">
+<area shape="rect" id="node2" href="class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="225,5,429,32"/></map>
+</div>
+</p>
+
 </div>
 </div>
 <a class="anchor" id="a52b09dc778fd67aa92d1a80a96e9f580"></a>
@@ -911,6 +2788,159 @@ Oto graf wywołań dla tej funkcji:</div>
 
 <p>Definicja w linii <a class="el" href="elffile_8cpp_source.html#l00116">116</a> pliku <a class="el" href="elffile_8cpp_source.html">elffile.cpp</a>.</p>
 
+<p><div class="dynheader">
+Oto graf wywołań dla tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580_cgraph.png" border="0" usemap="#class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580_cgraph" alt=""/></div>
+<map name="class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580_cgraph" id="class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580_cgraph">
+<area shape="rect" id="node2" href="class_e_l_f.html#aaa749001fa45676fbfacd2009df1eaea" title="Zapisuje podane dane do określonego pliku. " alt="" coords="179,5,317,32"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja atrybutów składowych</h2>
+<a class="anchor" id="a161d6f6b6c2cf90eac0fc68c9c71b2c0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_e_l_f.html#a8ac9a5a7e999db1f2f11ab21bb31f5f8">classes</a> ELF::cls</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00203">203</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf3b4ff3bf04249f73a62c5819beddd1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elffile_8h.html#a5883b60eda35e8f8d370ececc9f820ef">offset_t</a> ELF::elf_header_idx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00205">205</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a66548f1b1a7f91f5c784cb684493f75e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;<a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a>&gt; ELF::ph_idx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>list of ph index headers </p>
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00213">213</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a407fa88b371e09b518d519f5614da5ba"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a> ELF::ph_num</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00209">209</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3d418d35d3688f21989b20ae4e8c7d6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a> ELF::ph_size</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>size of ph header structure according to the architecture number of program header entries </p>
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00209">209</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a083e9dd23053d80114879323b38927cc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt; <a class="el" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1">ELF::SectionType</a>, <a class="el" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">ELF::section_info</a> &gt; ELF::section_type</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Wartość początkowa:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    { <a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a02f11aadd3ab1bd5b7ccd3040d8a0075">ELF::SectionType::CTORS</a>,      <a class="code" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">ELF::section_info</a>(<a class="code" href="elffile_8cpp.html#a554451514a55fccb0c286a1368a80a30">section_type_stringify</a>(<a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a02f11aadd3ab1bd5b7ccd3040d8a0075">ELF::SectionType::CTORS</a>),      <a class="code" href="elf_8h.html#a4bff22edbae51353ba9b3572d424b91a">SHT_PROGBITS</a>)   },</div>
+<div class="line">    { <a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1afaee4ca3c30ee18148ce3ada37466498">ELF::SectionType::INIT</a>,       <a class="code" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">ELF::section_info</a>(<a class="code" href="elffile_8cpp.html#a554451514a55fccb0c286a1368a80a30">section_type_stringify</a>(<a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1afaee4ca3c30ee18148ce3ada37466498">ELF::SectionType::INIT</a>),       <a class="code" href="elf_8h.html#a4bff22edbae51353ba9b3572d424b91a">SHT_PROGBITS</a>)   },</div>
+<div class="line">    { <a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a8c11d1b1290b76379bf90434c0e83f4a">ELF::SectionType::INIT_ARRAY</a>, <a class="code" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">ELF::section_info</a>(<a class="code" href="elffile_8cpp.html#a554451514a55fccb0c286a1368a80a30">section_type_stringify</a>(<a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a8c11d1b1290b76379bf90434c0e83f4a">ELF::SectionType::INIT_ARRAY</a>), <a class="code" href="elf_8h.html#aa0269f148b09419d27be6289b4ce026f">SHT_INIT_ARRAY</a>) },</div>
+<div class="line">    { <a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a61a96ffcb251bb9bf0abf8fec19d0ea8">ELF::SectionType::TEXT</a>,       <a class="code" href="class_e_l_f.html#a453c51d672396e7f5f328153f55e94bc">ELF::section_info</a>(<a class="code" href="elffile_8cpp.html#a554451514a55fccb0c286a1368a80a30">section_type_stringify</a>(<a class="code" href="class_e_l_f.html#abaebdfb7048441e430684d68df8d73d1a61a96ffcb251bb9bf0abf8fec19d0ea8">ELF::SectionType::TEXT</a>),       <a class="code" href="elf_8h.html#a4bff22edbae51353ba9b3572d424b91a">SHT_PROGBITS</a>)   }</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p>init section type dictionary </p>
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00183">183</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
 </div>
 </div>
 <hr/>Dokumentacja dla tej klasy została wygenerowana z plików:<ul>
@@ -923,9 +2953,9 @@ Oto graf wywołań dla tej funkcji:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_e_l_f.html">ELF</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:48 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:42 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

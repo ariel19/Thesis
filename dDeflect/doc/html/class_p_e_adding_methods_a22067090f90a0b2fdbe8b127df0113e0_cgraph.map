@@ -1,0 +1,16 @@
+<map id="PEAddingMethods::injectEpCode" name="PEAddingMethods::injectEpCode">
+<area shape="rect" id="node2" href="$class_binary_code.html#a5f06f08736f891d6bc6d2d4fc93dca21" title="Dodaje kod do tablicy. " alt="" coords="287,5,427,32"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#a82c9e3280a60fbdf13e7a7b7dbbf9ddb" title="Pobiera EntryPoint. " alt="" coords="283,56,431,83"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#ac3bf74a6efbc10bd642fbb345e71bf2d" title="Pobiera ImageBase. " alt="" coords="281,107,434,133"/>
+<area shape="rect" id="node9" href="$class_p_e_file.html#ab14d9fb29123545e0a7528795e64d3c1" title="Metoda dodająca dane do pliku (jeżeli nie były już wcześniej dodane). Metoda na podstawie danych przy..." alt="" coords="273,308,442,335"/>
+<area shape="rect" id="node12" href="$class_p_e_file.html#a31cab72915687c9138e804e644f80ac6" title="Ustawia nowy EntryPoint. " alt="" coords="270,191,445,217"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a0598aa7de2b74460d06a16bfef7c96e9" title="Pobiera EntryPoint. " alt="" coords="521,23,698,65"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="774,115,965,141"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="774,64,965,91"/>
+<area shape="rect" id="node8" href="$class_p_e_file.html#aba5f21e866470adc21d621994bdf9c8a" title="Pobiera adres bazowy pliku w pamięci. " alt="" coords="512,89,707,116"/>
+<area shape="rect" id="node10" href="$class_binary_code.html#a0b9f52a511f1ba6989412d4424885f8f" title="Pobiera kod. " alt="" coords="534,359,685,385"/>
+<area shape="rect" id="node11" href="$class_binary_code.html#a16f19ea25857126aeaeb7993890a5ad3" title="Pobiera tablicę relokacji jako wartości absolutne. " alt="" coords="517,308,702,335"/>
+<area shape="rect" id="node13" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="783,232,956,259"/>
+<area shape="rect" id="node14" href="$class_p_e_file.html#adf019ed888aee58b468411366b9b60c5" title="Pobiera numer ostatniej sekcji w pamięci. " alt="" coords="494,257,725,284"/>
+<area shape="rect" id="node15" href="$class_p_e_file.html#a2d741f3714914faf3aee402d712fde00" title="Ustawia EntryPoint. " alt="" coords="521,141,698,182"/>
+</map>

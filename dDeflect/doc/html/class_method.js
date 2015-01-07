@@ -11,6 +11,8 @@ var class_method =
     [ "setName", "class_method.html#a4e8375fe026ed07964e8ff0671ed2446", null ],
     [ "write", "class_method.html#a706689fe25b5ed85f9b1480d78574bb7", null ],
     [ "operator<<", "class_method.html#adbde94b0435d11b4f6d17b782a67d553", null ],
+    [ "m_desc", "class_method.html#a1b82868cdbe5311123ea22b0cfb586ae", null ],
+    [ "m_name", "class_method.html#a9d32898717bfff12b9935ce28466bfbb", null ],
     [ "description", "class_method.html#ab9629abfec31f98ae690c575d48ccfe7", null ],
     [ "name", "class_method.html#a9131d3ff2cd50747c50290986126aff3", null ]
 ];

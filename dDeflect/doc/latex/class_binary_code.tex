@@ -23,6 +23,25 @@ Q\-List$<$ uint64\-\_\-t $>$ \hyperlink{class_binary_code_a16f19ea25857126aeaeb7
 \begin{DoxyCompactList}\small\item\em Pobiera tablicę relokacji jako wartości absolutne. \end{DoxyCompactList}\item 
 int \hyperlink{class_binary_code_a08ecf07ca01749c097929dc394871e6e}{length} ()
 \begin{DoxyCompactList}\small\item\em Metoda pobierająca wielkość kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody prywatne}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$$>$ }\\const uint8\-\_\-t \hyperlink{class_binary_code_a61d31942270e2200c91333f5b4717c35}{addr\-Size}
+\item 
+{\footnotesize template$<$$>$ }\\const uint8\-\_\-t \hyperlink{class_binary_code_a55498c908569d84e505b5eda3301c08f}{addr\-Size}
+\end{DoxyCompactItemize}
+\subsection*{Atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Byte\-Array \hyperlink{class_binary_code_aa680c4ee3718fe9c7998b3ab072fc01a}{code}
+\begin{DoxyCompactList}\small\item\em Kod binarny. \end{DoxyCompactList}\item 
+Q\-List$<$ uint64\-\_\-t $>$ \hyperlink{class_binary_code_a1816cae03a267887d41a56c6421c0d2d}{relocations}
+\begin{DoxyCompactList}\small\item\em Lista offsetów relokacji. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Statyczne atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+static const uint8\-\_\-t \hyperlink{class_binary_code_a1e49b1b07e4062b2be95de92c757f783}{addr\-Size}
+\begin{DoxyCompactList}\small\item\em Rozmiar adresu. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Opis szczegółowy}
@@ -53,6 +72,28 @@ Definicja w linii 77 pliku codedefines.\-h.
 
 
 \subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_binary_code_a61d31942270e2200c91333f5b4717c35}{\index{Binary\-Code@{Binary\-Code}!addr\-Size@{addr\-Size}}
+\index{addr\-Size@{addr\-Size}!BinaryCode@{Binary\-Code}}
+\subsubsection[{addr\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ const uint8\-\_\-t {\bf Binary\-Code}$<$ {\bf Registers\-\_\-x86} $>$\-::addr\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_binary_code_a61d31942270e2200c91333f5b4717c35}
+
+
+Definicja w linii 756 pliku codedefines.\-cpp.
+
+\hypertarget{class_binary_code_a55498c908569d84e505b5eda3301c08f}{\index{Binary\-Code@{Binary\-Code}!addr\-Size@{addr\-Size}}
+\index{addr\-Size@{addr\-Size}!BinaryCode@{Binary\-Code}}
+\subsubsection[{addr\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ const uint8\-\_\-t {\bf Binary\-Code}$<$ {\bf Registers\-\_\-x64} $>$\-::addr\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_binary_code_a55498c908569d84e505b5eda3301c08f}
+
+
+Definicja w linii 760 pliku codedefines.\-cpp.
+
 \hypertarget{class_binary_code_a5f06f08736f891d6bc6d2d4fc93dca21}{\index{Binary\-Code@{Binary\-Code}!append@{append}}
 \index{append@{append}!BinaryCode@{Binary\-Code}}
 \subsubsection[{append}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template void {\bf Binary\-Code}$<$ Register $>$\-::append (
@@ -76,6 +117,18 @@ Dodaje kod do tablicy.
 
 Definicja w linii 721 pliku codedefines.\-cpp.
 
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_binary_code_a5f06f08736f891d6bc6d2d4fc93dca21_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_binary_code_a0b9f52a511f1ba6989412d4424885f8f}{\index{Binary\-Code@{Binary\-Code}!get\-Bytes@{get\-Bytes}}
 \index{get\-Bytes@{get\-Bytes}!BinaryCode@{Binary\-Code}}
 \subsubsection[{get\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template Q\-Byte\-Array {\bf Binary\-Code}$<$ Register $>$\-::get\-Bytes (
@@ -93,6 +146,18 @@ Kod binarny
 
 
 Definicja w linii 712 pliku codedefines.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_binary_code_a0b9f52a511f1ba6989412d4424885f8f_icgraph}
+\end{center}
+\end{figure}
+
 
 \hypertarget{class_binary_code_a16f19ea25857126aeaeb7993890a5ad3}{\index{Binary\-Code@{Binary\-Code}!get\-Relocations@{get\-Relocations}}
 \index{get\-Relocations@{get\-Relocations}!BinaryCode@{Binary\-Code}}
@@ -117,6 +182,18 @@ Lista relokacji
 
 Definicja w linii 733 pliku codedefines.\-cpp.
 
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_binary_code_a16f19ea25857126aeaeb7993890a5ad3_icgraph}
+\end{center}
+\end{figure}
+
+
 \hypertarget{class_binary_code_a08ecf07ca01749c097929dc394871e6e}{\index{Binary\-Code@{Binary\-Code}!length@{length}}
 \index{length@{length}!BinaryCode@{Binary\-Code}}
 \subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template int {\bf Binary\-Code}$<$ Register $>$\-::length (
@@ -134,6 +211,54 @@ Rozmiar kodu
 
 
 Definicja w linii 747 pliku codedefines.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_binary_code_a08ecf07ca01749c097929dc394871e6e_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_binary_code_a1e49b1b07e4062b2be95de92c757f783}{\index{Binary\-Code@{Binary\-Code}!addr\-Size@{addr\-Size}}
+\index{addr\-Size@{addr\-Size}!BinaryCode@{Binary\-Code}}
+\subsubsection[{addr\-Size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register$>$ const uint8\-\_\-t {\bf Binary\-Code}$<$ Register $>$\-::addr\-Size\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{class_binary_code_a1e49b1b07e4062b2be95de92c757f783}
+
+
+Rozmiar adresu. 
+
+
+
+Definicja w linii 71 pliku codedefines.\-h.
+
+\hypertarget{class_binary_code_aa680c4ee3718fe9c7998b3ab072fc01a}{\index{Binary\-Code@{Binary\-Code}!code@{code}}
+\index{code@{code}!BinaryCode@{Binary\-Code}}
+\subsubsection[{code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register$>$ Q\-Byte\-Array {\bf Binary\-Code}$<$ Register $>$\-::code\hspace{0.3cm}{\ttfamily [private]}}}\label{class_binary_code_aa680c4ee3718fe9c7998b3ab072fc01a}
+
+
+Kod binarny. 
+
+
+
+Definicja w linii 61 pliku codedefines.\-h.
+
+\hypertarget{class_binary_code_a1816cae03a267887d41a56c6421c0d2d}{\index{Binary\-Code@{Binary\-Code}!relocations@{relocations}}
+\index{relocations@{relocations}!BinaryCode@{Binary\-Code}}
+\subsubsection[{relocations}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register$>$ Q\-List$<$uint64\-\_\-t$>$ {\bf Binary\-Code}$<$ Register $>$\-::relocations\hspace{0.3cm}{\ttfamily [private]}}}\label{class_binary_code_a1816cae03a267887d41a56c6421c0d2d}
+
+
+Lista offsetów relokacji. 
+
+
+
+Definicja w linii 66 pliku codedefines.\-h.
 
 
 

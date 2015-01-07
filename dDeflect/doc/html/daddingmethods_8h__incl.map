@@ -1,6 +1,6 @@
 <map id="core/adding_methods/wrappers/daddingmethods.h" name="core/adding_methods/wrappers/daddingmethods.h">
-<area shape="rect" id="node17" href="$elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="547,101,699,131"/>
-<area shape="rect" id="node34" href="$codedefines_8h.html" title="core/file_types/codedefines.h" alt="" coords="183,101,375,131"/>
-<area shape="rect" id="node19" href="$elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="733,179,888,208"/>
-<area shape="rect" id="node30" href="$binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="536,179,709,208"/>
+<area shape="rect" id="node9" href="$elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="554,96,707,123"/>
+<area shape="rect" id="node16" href="$codedefines_8h.html" title="core/file_types/codedefines.h" alt="" coords="187,96,379,123"/>
+<area shape="rect" id="node10" href="$elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="743,171,896,197"/>
+<area shape="rect" id="node14" href="$binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="543,171,717,197"/>
 </map>

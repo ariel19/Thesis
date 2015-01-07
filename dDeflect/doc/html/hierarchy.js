@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "ELF::_best_segment", "struct_e_l_f_1_1__best__segment.html", null ],
     [ "_IMAGE_BASE_RELOCATION", "struct___i_m_a_g_e___b_a_s_e___r_e_l_o_c_a_t_i_o_n.html", null ],
     [ "_IMAGE_DATA_DIRECTORY", "struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y.html", null ],
     [ "_IMAGE_DOS_HEADER", "struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html", null ],
@@ -11,7 +12,7 @@ var hierarchy =
     [ "_IMAGE_SECTION_HEADER", "struct___i_m_a_g_e___s_e_c_t_i_o_n___h_e_a_d_e_r.html", null ],
     [ "_IMAGE_TLS_DIRECTORY32", "struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y32.html", null ],
     [ "_IMAGE_TLS_DIRECTORY64", "struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y64.html", null ],
-    [ "ApplicationManager", "class_application_manager.html", null ],
+    [ "ELF::_section_info", "struct_e_l_f_1_1__section__info.html", null ],
     [ "AsmCodeGenerator", "class_asm_code_generator.html", null ],
     [ "BinaryCode< Register >", "class_binary_code.html", null ],
     [ "BinaryFile", "class_binary_file.html", [
@@ -62,13 +63,18 @@ var hierarchy =
     [ "Elf_Options", "struct_elf___options.html", null ],
     [ "Elf_Options_Hw", "struct_elf___options___hw.html", null ],
     [ "DAddingMethods::InjectDescription< RegistersType >", "class_d_adding_methods_1_1_inject_description.html", null ],
-    [ "Method", "class_method.html", null ],
-    [ "MethodList", "class_method_list.html", null ],
-    [ "ProcOut", "class_proc_out.html", null ],
+    [ "QObject", null, [
+      [ "ApplicationManager", "class_application_manager.html", null ],
+      [ "Method", "class_method.html", null ],
+      [ "MethodList", "class_method_list.html", null ],
+      [ "ProcOut", "class_proc_out.html", null ]
+    ] ],
+    [ "PEFile::RelocationTable", "struct_p_e_file_1_1_relocation_table.html", null ],
     [ "PEFile::RelocationTable::TypeOffset", "struct_p_e_file_1_1_relocation_table_1_1_type_offset.html", null ],
     [ "DAddingMethods::Wrapper< RegistersType >", "class_d_adding_methods_1_1_wrapper.html", [
       [ "DAddingMethods::OEPWrapper< RegistersType >", "class_d_adding_methods_1_1_o_e_p_wrapper.html", null ],
       [ "DAddingMethods::ThreadWrapper< RegistersType >", "class_d_adding_methods_1_1_thread_wrapper.html", null ],
       [ "DAddingMethods::TrampolineWrapper< RegistersType >", "class_d_adding_methods_1_1_trampoline_wrapper.html", null ]
-    ] ]
+    ] ],
+    [ "DAddingMethods::Wrapper< Registers_x86 >", "class_d_adding_methods_1_1_wrapper.html", null ]
 ];

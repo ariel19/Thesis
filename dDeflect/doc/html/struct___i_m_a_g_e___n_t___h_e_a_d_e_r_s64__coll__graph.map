@@ -1,5 +1,5 @@
 <map id="_IMAGE_NT_HEADERS64" name="_IMAGE_NT_HEADERS64">
-<area shape="rect" id="node2" href="$struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r64.html" title="_IMAGE_OPTIONAL_HEADER64" alt="" coords="5,101,229,131"/>
-<area shape="rect" id="node4" href="$struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y.html" title="_IMAGE_DATA_DIRECTORY" alt="" coords="16,5,219,35"/>
-<area shape="rect" id="node6" href="$struct___i_m_a_g_e___f_i_l_e___h_e_a_d_e_r.html" title="_IMAGE_FILE_HEADER" alt="" coords="253,101,424,131"/>
+<area shape="rect" id="node2" href="$struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r64.html" title="_IMAGE_OPTIONAL_HEADER64" alt="" coords="5,96,228,123"/>
+<area shape="rect" id="node3" href="$struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y.html" title="_IMAGE_DATA_DIRECTORY" alt="" coords="16,5,219,32"/>
+<area shape="rect" id="node4" href="$struct___i_m_a_g_e___f_i_l_e___h_e_a_d_e_r.html" title="_IMAGE_FILE_HEADER" alt="" coords="253,96,424,123"/>
 </map>

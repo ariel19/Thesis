@@ -1,0 +1,7 @@
+<map id="PEFile::setNewEntryPoint" name="PEFile::setNewEntryPoint">
+<area shape="rect" id="node2" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="519,5,692,32"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#adf019ed888aee58b468411366b9b60c5" title="Pobiera numer ostatniej sekcji w pamięci. " alt="" coords="230,41,461,68"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a2d741f3714914faf3aee402d712fde00" title="Ustawia EntryPoint. " alt="" coords="257,93,434,134"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="510,71,701,97"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="510,121,701,148"/>
+</map>

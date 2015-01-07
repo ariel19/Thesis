@@ -1,0 +1,5 @@
+<map id="PEFile::getSectionFreeSpace" name="PEFile::getSectionFreeSpace">
+<area shape="rect" id="node2" href="$class_p_e_file.html#ac2af0ea1633bb97beec46a898862880c" title="Dodanie danych do istniejącej sekcji bez rozszerzania. " alt="" coords="249,5,426,32"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#ac0b05750bc440bb32cac22d0b1e0fece" title="Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. " alt="" coords="475,56,669,83"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="487,5,657,32"/>
+</map>

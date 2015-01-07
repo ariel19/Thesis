@@ -1,3 +1,36 @@
 <map id="PEFile::addRelocations" name="PEFile::addRelocations">
-<area shape="rect" id="node3" href="$class_p_e_file.html#ac3bf74a6efbc10bd642fbb345e71bf2d" title="Pobiera ImageBase." alt="" coords="215,5,367,35"/>
+<area shape="rect" id="node2" href="$class_p_e_file.html#a1a73ab27e218aa395293d05ea77e1b8e" title="Metoda pobierająca rozmiar tablicy relokacji. " alt="" coords="502,63,685,89"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#aaf46e49176cedd59ea9ae063a817ddb9" title="Metoda pobierająca n&#45;tą strukturę IMAGE_DATA_DIRECTORY. " alt="" coords="800,63,968,89"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a4eea22c0e10b83bb7bc1992ddca0ed01" title="Metoda wypełniająca listę relokacjami adresów. " alt="" coords="243,180,399,207"/>
+<area shape="rect" id="node9" href="$class_p_e_file.html#ac3bf74a6efbc10bd642fbb345e71bf2d" title="Pobiera ImageBase. " alt="" coords="245,541,398,568"/>
+<area shape="rect" id="node13" href="$struct_p_e_file_1_1_relocation_table.html#afd8b0b16ce56bd171f26c5e202ab3bd6" title="Dodawanie nowego offsetu do tablicy. " alt="" coords="240,669,403,710"/>
+<area shape="rect" id="node14" href="$class_p_e_file.html#aaeb99f206d194a827388098011a8a66b" title="Pobiera typ relokacji. " alt="" coords="232,735,411,761"/>
+<area shape="rect" id="node15" href="$struct_p_e_file_1_1_relocation_table.html#ab4ffcdaf0bb39d4042dcab51436300fa" title="Metoda zwracająca relokacjie jako tablicę bajtów, gotową do wklejenia do pliku. " alt="" coords="240,786,403,827"/>
+<area shape="rect" id="node16" href="$class_p_e_file.html#ab2c5c7a95e9bcc5b5bc7da1042fb72ca" title="Dodaje nową wykonywalną sekcję. " alt="" coords="241,617,402,644"/>
+<area shape="rect" id="node35" href="$class_p_e_file.html#aaaa99ad42e736cbfa9ecd48015cf1b42" title="Metoda losująca nową nazwę sekcji. " alt="" coords="214,852,429,879"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="797,297,971,324"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#a6ac76bef1134ab12de6638e9587533e7" title="Metoda pobierająca numer sekcji, w której znajduje się podany adres. " alt="" coords="501,231,685,273"/>
+<area shape="rect" id="node8" href="$class_p_e_file.html#a2fe6323c5c4551acedf9ea2897ed3475" title="Metoda pobierająca adres wirtualny tablicy relokacji. " alt="" coords="497,114,690,155"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#a704f552cbaaed1d1f62e3e5a95c6dd67" title="Pobiera ilość sekcji w pliku. " alt="" coords="785,407,983,433"/>
+<area shape="rect" id="node10" href="$class_p_e_file.html#aba5f21e866470adc21d621994bdf9c8a" title="Pobiera adres bazowy pliku w pamięci. " alt="" coords="787,551,981,577"/>
+<area shape="rect" id="node11" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="1059,769,1250,796"/>
+<area shape="rect" id="node12" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="1059,820,1250,847"/>
+<area shape="rect" id="node17" href="$class_p_e_file.html#afcc67325548b6b60a9f60a1807b4063b" title="Metoda wyrównująca liczbę w górę do określonego zakresu. " alt="" coords="522,567,665,593"/>
+<area shape="rect" id="node18" href="$class_p_e_file.html#a1f1c615e94907f34d9536c3f7a446589" title="Pobiera zawartość pola opisującego wyrównanie danych w pliku. " alt="" coords="780,601,988,628"/>
+<area shape="rect" id="node19" href="$class_p_e_file.html#aa89e3a9a9aa3d4bfa0e9a6f794c8bbcf" title="Pobiera ilość wolnego miejsca przed pierwszą sekcją w pliku. " alt="" coords="499,399,687,441"/>
+<area shape="rect" id="node20" href="$class_p_e_file.html#adf019ed888aee58b468411366b9b60c5" title="Pobiera numer ostatniej sekcji w pamięci. " alt="" coords="478,348,709,375"/>
+<area shape="rect" id="node21" href="$class_p_e_file.html#ad3099b5323833b3d3039f483b7f454ff" title="Pobiera zawartość pola opisującego wyrównanie danych w pamięci. " alt="" coords="797,653,971,694"/>
+<area shape="rect" id="node22" href="$class_p_e_file.html#a307f2a1e6d75753e5ff46955b9f9871d" title="Ustawia rozmiar kodu. " alt="" coords="784,719,984,745"/>
+<area shape="rect" id="node23" href="$class_p_e_file.html#af8c30ffa5f05bea43df3a485b5390b10" title="Pobiera rozmiar kodu. " alt="" coords="784,769,984,796"/>
+<area shape="rect" id="node24" href="$class_p_e_file.html#ab53167f5c212c474b4be11da36ccd809" title="Ustawia rozmiar zainicjalizowanych danych. " alt="" coords="758,820,1010,847"/>
+<area shape="rect" id="node25" href="$class_p_e_file.html#aa64129c136b77f772cf91c108e7e88a5" title="Pobiera rozmiar zainicjalizowanych danych. " alt="" coords="758,871,1010,897"/>
+<area shape="rect" id="node26" href="$class_p_e_file.html#a1bd08920ea37faddc4b0c7170a4ecce6" title="Ustawia rozmiar obrazu pliku w pamięci. " alt="" coords="781,921,987,948"/>
+<area shape="rect" id="node27" href="$class_p_e_file.html#adc3747d33e441041a82daa16fd7fda19" title="Ustawia rozmiar nagłówków. " alt="" coords="775,972,993,999"/>
+<area shape="rect" id="node28" href="$class_p_e_file.html#a9779bdd02a58e6ea2db36eb193f9ffc7" title="Metoda pobierająca strukturę IMAGE_FILE_HEADER. " alt="" coords="518,1081,669,1108"/>
+<area shape="rect" id="node29" href="$class_p_e_file.html#a5cad3b303c988a59e0df69eeea762638" title="Metoda odpowiedzialna za parsowanie pliku PE i wypełnianie wszystkich struktur. " alt="" coords="543,1031,644,1057"/>
+<area shape="rect" id="node30" href="$class_p_e_file.html#aa415803ce1fbb7e807e568ce25121515" title="Wewnętrzna metoda badająca czy plik jest plikiem PE32+ (PE x64). " alt="" coords="825,1089,943,1116"/>
+<area shape="rect" id="node31" href="$class_p_e_file.html#a08145038525bdbd95f125e055286149f" title="Pobiera sygnaturę pliku PE. " alt="" coords="795,1140,973,1167"/>
+<area shape="rect" id="node34" href="$class_p_e_file.html#ac427597fb784a978b09094c8c8a461be" title="Pobiera liczbę wpisów w tablicy zawierającej IMAGE_DATA_DIRECTORY. " alt="" coords="789,1023,979,1065"/>
+<area shape="rect" id="node32" href="$class_p_e_file.html#a8c27cf9069fcfd79fab620e7a734a93d" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_NT_HEADERS. " alt="" coords="1073,1115,1237,1141"/>
+<area shape="rect" id="node33" href="$class_p_e_file.html#a05a8546f2cfbfb50d1fe6c750704f5ac" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_NT_HEADERS. " alt="" coords="1073,1165,1237,1192"/>
 </map>

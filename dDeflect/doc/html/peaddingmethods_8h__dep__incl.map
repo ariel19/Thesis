@@ -1,8 +1,8 @@
 <map id="core/adding_methods/wrappers/peaddingmethods.h" name="core/adding_methods/wrappers/peaddingmethods.h">
-<area shape="rect" id="node3" href="$applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="35,198,184,245"/>
-<area shape="rect" id="node7" href="$main_8cpp.html" title="main/main.cpp" alt="" coords="192,303,299,332"/>
-<area shape="rect" id="node9" href="$djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="259,102,443,149"/>
-<area shape="rect" id="node16" href="$peaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/peaddingmethods.cpp" alt="" coords="467,102,677,149"/>
-<area shape="rect" id="node5" href="$applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="5,294,168,341"/>
-<area shape="rect" id="node13" href="$djsonparser_8cpp.html" title="ApplicationManager\l/DJsonParser/djsonparser.cpp" alt="" coords="309,198,507,245"/>
+<area shape="rect" id="node2" href="$applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="35,187,183,229"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="main/main.cpp" alt="" coords="192,285,299,312"/>
+<area shape="rect" id="node5" href="$djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="259,97,443,138"/>
+<area shape="rect" id="node7" href="$peaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/peaddingmethods.cpp" alt="" coords="467,97,676,138"/>
+<area shape="rect" id="node3" href="$applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="5,278,168,319"/>
+<area shape="rect" id="node6" href="$djsonparser_8cpp.html" title="ApplicationManager\l/DJsonParser/djsonparser.cpp" alt="" coords="309,187,507,229"/>
 </map>

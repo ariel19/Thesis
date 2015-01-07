@@ -1,5 +1,4 @@
 <map id="ApplicationManager::ApplicationManager" name="ApplicationManager::ApplicationManager">
-<area shape="rect" id="node3" href="$class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="197,39,333,86"/>
-<area shape="rect" id="node5" href="$class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="381,5,517,51"/>
-<area shape="rect" id="node7" href="$class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910" title="ApplicationManager\l::stateChanged" alt="" coords="381,74,517,121"/>
+<area shape="rect" id="node2" href="$class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="197,5,333,46"/>
+<area shape="rect" id="node3" href="$class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="381,5,517,46"/>
 </map>

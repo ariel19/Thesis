@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Dokumentacja klasy DJsonParser</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -104,6 +106,7 @@ $(document).ready(function(){initNavTree('class_d_json_parser.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Metody publiczne</a> &#124;
+<a href="#pri-attribs">Atrybuty prywatne</a> &#124;
 <a href="class_d_json_parser-members.html">Lista wszystkich składowych</a>  </div>
   <div class="headertitle">
 <div class="title">Dokumentacja klasy DJsonParser</div>  </div>
@@ -111,23 +114,46 @@ $(document).ready(function(){initNavTree('class_d_json_parser.html','');});
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="djsonparser_8h_source.html">djsonparser.h</a>&gt;</code></p>
+<div class="dynheader">
+Diagram współpracy dla DJsonParser:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_d_json_parser__coll__graph.png" border="0" usemap="#_d_json_parser_coll__map" alt="Collaboration graph"/></div>
+<map name="_d_json_parser_coll__map" id="_d_json_parser_coll__map">
+<area shape="rect" id="node2" href="class_d_adding_methods_1_1_wrapper.html" title="DAddingMethods::Wrapper\l\&lt; Registers_x86 \&gt;" alt="" coords="5,203,184,245"/><area shape="rect" id="node3" href="class_d_adding_methods_1_1_wrapper.html" title="Klasa bazowa reprezentująca opakowanie dla kawałków kodu. " alt="" coords="5,97,184,138"/></map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legenda</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Metody publiczne</h2></td></tr>
 <tr class="memitem:ab1d4f6d9c863888595a4d4568114b7b4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#ab1d4f6d9c863888595a4d4568114b7b4">DJsonParser</a> (QString path)</td></tr>
-<tr class="memitem:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="memTemplParams" colspan="2">template&lt;typename Reg &gt; </td></tr>
-<tr class="memitem:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt; Reg &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#a3baa4948e78cb386c8eb7e6634ab4d03">loadInjectDescription</a> (QString name)</td></tr>
-<tr class="memdesc:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d_json_parser.html#a3baa4948e78cb386c8eb7e6634ab4d03" title="DJsonParser::loadInjectDescription tworzy obiekt InjectDescription deserializując go z z injectDescri...">DJsonParser::loadInjectDescription</a> tworzy obiekt InjectDescription deserializując go z z injectDescription.json.  <a href="#a3baa4948e78cb386c8eb7e6634ab4d03"></a><br/></td></tr>
+<tr class="separator:ab1d4f6d9c863888595a4d4568114b7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14c19cd1d981e908ef8dfbc4218b359f"><td class="memTemplParams" colspan="2">template&lt;typename Reg &gt; </td></tr>
+<tr class="memitem:a14c19cd1d981e908ef8dfbc4218b359f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt; Reg &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#a14c19cd1d981e908ef8dfbc4218b359f">loadInjectDescription</a> (QString name)</td></tr>
+<tr class="separator:a14c19cd1d981e908ef8dfbc4218b359f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d680ce58c2e6b638223071d996a2c0f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#a6d680ce58c2e6b638223071d996a2c0f">saveIncjectDescription</a> (QString name, <a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt; &amp;inj)</td></tr>
-<tr class="memdesc:a6d680ce58c2e6b638223071d996a2c0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">DJsonParser::saveIncjectionDescription zapisuje referencje obiekt wskazywany przez injection do pliku w formacie .json.  <a href="#a6d680ce58c2e6b638223071d996a2c0f"></a><br/></td></tr>
+<tr class="memdesc:a6d680ce58c2e6b638223071d996a2c0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">DJsonParser::saveIncjectionDescription zapisuje referencje obiekt wskazywany przez injection do pliku w formacie .json.  <a href="#a6d680ce58c2e6b638223071d996a2c0f">Więcej...</a><br/></td></tr>
+<tr class="separator:a6d680ce58c2e6b638223071d996a2c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0603bac0338a1ae401b3f58cfc1d67c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a><br class="typebreak"/>
 &lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#a0603bac0338a1ae401b3f58cfc1d67c9">getInjectionRead</a> () const </td></tr>
-<tr class="memdesc:a0603bac0338a1ae401b3f58cfc1d67c9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d_json_parser.html#a0603bac0338a1ae401b3f58cfc1d67c9" title="DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody.">DJsonParser::getInjectionRead</a> zwraca wskaźnik do wczytanej metody.  <a href="#a0603bac0338a1ae401b3f58cfc1d67c9"></a><br/></td></tr>
+<tr class="memdesc:a0603bac0338a1ae401b3f58cfc1d67c9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d_json_parser.html#a0603bac0338a1ae401b3f58cfc1d67c9" title="DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody. ">DJsonParser::getInjectionRead</a> zwraca wskaźnik do wczytanej metody.  <a href="#a0603bac0338a1ae401b3f58cfc1d67c9">Więcej...</a><br/></td></tr>
+<tr class="separator:a0603bac0338a1ae401b3f58cfc1d67c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="memTemplParams" colspan="2">template&lt;typename Register &gt; </td></tr>
+<tr class="memitem:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a><br class="typebreak"/>
+&lt; Register &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#a3baa4948e78cb386c8eb7e6634ab4d03">loadInjectDescription</a> (QString name)</td></tr>
+<tr class="memdesc:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_d_json_parser.html#a14c19cd1d981e908ef8dfbc4218b359f">DJsonParser::loadInjectDescription</a> tworzy obiekt InjectDescription deserializując go z z injectDescription.json.  <a href="#a3baa4948e78cb386c8eb7e6634ab4d03">Więcej...</a><br/></td></tr>
+<tr class="separator:a3baa4948e78cb386c8eb7e6634ab4d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Atrybuty prywatne</h2></td></tr>
+<tr class="memitem:abfae3a66c00ce3bf5f2dc5eab570a642"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a><br class="typebreak"/>
+&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#abfae3a66c00ce3bf5f2dc5eab570a642">injectionRead</a></td></tr>
+<tr class="separator:abfae3a66c00ce3bf5f2dc5eab570a642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac25fee79111d7700fa5ab08414d2c0d0"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_json_parser.html#ac25fee79111d7700fa5ab08414d2c0d0">m_path</a></td></tr>
+<tr class="separator:ac25fee79111d7700fa5ab08414d2c0d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2>Opis szczegółowy</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Opis szczegółowy</h2>
 <div class="textblock">
 <p>Definicja w linii <a class="el" href="djsonparser_8h_source.html#l00010">10</a> pliku <a class="el" href="djsonparser_8h_source.html">djsonparser.h</a>.</p>
-</div><h2>Dokumentacja konstruktora i destruktora</h2>
+</div><h2 class="groupheader">Dokumentacja konstruktora i destruktora</h2>
 <a class="anchor" id="ab1d4f6d9c863888595a4d4568114b7b4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -146,7 +172,7 @@ Metody publiczne</h2></td></tr>
 
 </div>
 </div>
-<h2>Dokumentacja funkcji składowych</h2>
+<h2 class="groupheader">Dokumentacja funkcji składowych</h2>
 <a class="anchor" id="a0603bac0338a1ae401b3f58cfc1d67c9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -160,10 +186,37 @@ Metody publiczne</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="class_d_json_parser.html#a0603bac0338a1ae401b3f58cfc1d67c9" title="DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody.">DJsonParser::getInjectionRead</a> zwraca wskaźnik do wczytanej metody. </p>
+<p><a class="el" href="class_d_json_parser.html#a0603bac0338a1ae401b3f58cfc1d67c9" title="DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody. ">DJsonParser::getInjectionRead</a> zwraca wskaźnik do wczytanej metody. </p>
 <dl class="section return"><dt>Zwraca</dt><dd>wskaźnik do wczytanej metody </dd></dl>
 
 <p>Definicja w linii <a class="el" href="djsonparser_8cpp_source.html#l00007">7</a> pliku <a class="el" href="djsonparser_8cpp_source.html">djsonparser.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a14c19cd1d981e908ef8dfbc4218b359f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Reg &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt;Reg&gt;* DJsonParser::loadInjectDescription </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_d_json_parser_a14c19cd1d981e908ef8dfbc4218b359f_icgraph.png" border="0" usemap="#class_d_json_parser_a14c19cd1d981e908ef8dfbc4218b359f_icgraph" alt=""/></div>
+<map name="class_d_json_parser_a14c19cd1d981e908ef8dfbc4218b359f_icgraph" id="class_d_json_parser_a14c19cd1d981e908ef8dfbc4218b359f_icgraph">
+<area shape="rect" id="node2" href="class_p_e_adding_methods.html#a85b7bf24809fee317810bcf1e8277bbf" title="Generowanie kodu metody. " alt="" coords="283,5,501,32"/><area shape="rect" id="node3" href="class_p_e_adding_methods.html#a471203b164d35d021dbfe753cc282223" title="PEAddingMethods::generate\lThreadCode" alt="" coords="298,57,486,98"/><area shape="rect" id="node4" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="367,123,417,149"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -183,7 +236,7 @@ template&lt;typename Register &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="class_d_json_parser.html#a3baa4948e78cb386c8eb7e6634ab4d03" title="DJsonParser::loadInjectDescription tworzy obiekt InjectDescription deserializując go z z injectDescri...">DJsonParser::loadInjectDescription</a> tworzy obiekt InjectDescription deserializując go z z injectDescription.json. </p>
+<p><a class="el" href="class_d_json_parser.html#a14c19cd1d981e908ef8dfbc4218b359f">DJsonParser::loadInjectDescription</a> tworzy obiekt InjectDescription deserializując go z z injectDescription.json. </p>
 <dl class="params"><dt>Parametry</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>nazwa metody </td></tr>
@@ -199,7 +252,7 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_d_json_parser_a3baa4948e78cb386c8eb7e6634ab4d03_cgraph.png" border="0" usemap="#class_d_json_parser_a3baa4948e78cb386c8eb7e6634ab4d03_cgraph" alt=""/></div>
 <map name="class_d_json_parser_a3baa4948e78cb386c8eb7e6634ab4d03_cgraph" id="class_d_json_parser_a3baa4948e78cb386c8eb7e6634ab4d03_cgraph">
-<area shape="rect" id="node3" href="class_d_adding_methods_1_1_wrapper.html#ad8951e3aea612be776608e90eebca99b" title="read this zostaje wczytany z pliku json" alt="" coords="283,5,461,51"/></map>
+<area shape="rect" id="node2" href="class_d_adding_methods_1_1_wrapper.html#ad8951e3aea612be776608e90eebca99b" title="read this zostaje wczytany z pliku json " alt="" coords="283,5,461,46"/></map>
 </div>
 </p>
 
@@ -243,6 +296,51 @@ Oto graf wywołań dla tej funkcji:</div>
 
 </div>
 </div>
+<h2 class="groupheader">Dokumentacja atrybutów składowych</h2>
+<a class="anchor" id="abfae3a66c00ce3bf5f2dc5eab570a642"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt;<a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a>&gt;* DJsonParser::injectionRead</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="djsonparser_8h_source.html#l00012">12</a> pliku <a class="el" href="djsonparser_8h_source.html">djsonparser.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac25fee79111d7700fa5ab08414d2c0d0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString DJsonParser::m_path</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="djsonparser_8h_source.html#l00013">13</a> pliku <a class="el" href="djsonparser_8h_source.html">djsonparser.h</a>.</p>
+
+</div>
+</div>
 <hr/>Dokumentacja dla tej klasy została wygenerowana z plików:<ul>
 <li>ApplicationManager/DJsonParser/<a class="el" href="djsonparser_8h_source.html">djsonparser.h</a></li>
 <li>ApplicationManager/DJsonParser/<a class="el" href="djsonparser_8cpp_source.html">djsonparser.cpp</a></li>
@@ -253,9 +351,9 @@ Oto graf wywołań dla tej funkcji:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_d_json_parser.html">DJsonParser</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:48 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:42 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

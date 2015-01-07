@@ -1,0 +1,7 @@
+<map id="ELF::__check_magic" name="ELF::__check_magic">
+<area shape="rect" id="node2" href="$class_e_l_f.html#aec9424fae0011a27d586829d595b96ed" title="Parsowanie danych, znajdujących się w pamięci jako pliku ELF. " alt="" coords="201,64,301,91"/>
+<area shape="rect" id="node3" href="$class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="350,5,501,32"/>
+<area shape="rect" id="node5" href="$class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="358,57,493,98"/>
+<area shape="rect" id="node6" href="$class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="386,123,465,149"/>
+<area shape="rect" id="node4" href="$class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="550,5,754,32"/>
+</map>

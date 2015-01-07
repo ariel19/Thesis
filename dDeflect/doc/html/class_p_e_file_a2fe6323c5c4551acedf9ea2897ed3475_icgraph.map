@@ -1,0 +1,5 @@
+<map id="PEFile::getRelocationsVirtualAddress" name="PEFile::getRelocationsVirtualAddress">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a4eea22c0e10b83bb7bc1992ddca0ed01" title="Metoda wypełniająca listę relokacjami adresów. " alt="" coords="249,12,405,39"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b" title="Metoda dodająca wpisy do tablicy relokacji. " alt="" coords="454,12,613,39"/>
+<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="661,12,861,39"/>
+</map>

@@ -1,8 +1,8 @@
 <map id="ApplicationManager/DSourceCodeParser/dsourcecodeparser.cpp" name="ApplicationManager/DSourceCodeParser/dsourcecodeparser.cpp">
-<area shape="rect" id="node3" href="$dsourcecodeparser_8h.html" title="dsourcecodeparser.h" alt="" coords="295,101,436,131"/>
-<area shape="rect" id="node21" href="$daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="561,179,751,226"/>
-<area shape="rect" id="node35" href="$elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="523,275,675,304"/>
-<area shape="rect" id="node51" href="$codedefines_8h.html" title="core/file_types/codedefines.h" alt="" coords="1088,275,1280,304"/>
-<area shape="rect" id="node37" href="$elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="316,352,471,381"/>
-<area shape="rect" id="node47" href="$binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="495,352,668,381"/>
+<area shape="rect" id="node2" href="$dsourcecodeparser_8h.html" title="dsourcecodeparser.h" alt="" coords="298,96,440,123"/>
+<area shape="rect" id="node11" href="$daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="568,171,757,213"/>
+<area shape="rect" id="node17" href="$elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="529,261,681,288"/>
+<area shape="rect" id="node23" href="$codedefines_8h.html" title="core/file_types/codedefines.h" alt="" coords="1096,261,1288,288"/>
+<area shape="rect" id="node18" href="$elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="317,336,471,363"/>
+<area shape="rect" id="node21" href="$binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="497,336,671,363"/>
 </map>

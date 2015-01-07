@@ -1,3 +1,8 @@
 <map id="PEFile::setAddressAtCallInstructionOffset" name="PEFile::setAddressAtCallInstructionOffset">
-<area shape="rect" id="node3" href="$class_p_e_file.html#ac3bf74a6efbc10bd642fbb345e71bf2d" title="Pobiera ImageBase." alt="" coords="225,13,377,43"/>
+<area shape="rect" id="node2" href="$class_p_e_file.html#ac3bf74a6efbc10bd642fbb345e71bf2d" title="Pobiera ImageBase. " alt="" coords="230,31,383,57"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#aff48a73683e8409a75b0f3a3746a26db" title="Metoda konwertująca offset w pliku na relatywny adres wirtualny. " alt="" coords="224,81,389,108"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#aba5f21e866470adc21d621994bdf9c8a" title="Pobiera adres bazowy pliku w pamięci. " alt="" coords="437,31,632,57"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="681,5,871,32"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="681,56,871,83"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#aa78066badcca992f9d4c3d3b6fae41bf" title="Metoda pobierająca n&#45;tą strukturę IMAGE_SECTION_HEADER. " alt="" coords="448,81,621,108"/>
 </map>

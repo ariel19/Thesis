@@ -1,0 +1,9 @@
+<map id="PEFile::setOptHdrSizeOfInitializedData" name="PEFile::setOptHdrSizeOfInitializedData">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a02637152fe9ad85d48b25a8b8065a141" title="Dodawanie danych do sekcji wirtualnej. " alt="" coords="307,5,485,46"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ac0b05750bc440bb32cac22d0b1e0fece" title="Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. " alt="" coords="534,41,727,68"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#afa6e5d2b833b528707cc711912d79172" title="Rozszerza sekcję i dodaje do niej dane. " alt="" coords="309,121,483,148"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#ab2c5c7a95e9bcc5b5bc7da1042fb72ca" title="Dodaje nową wykonywalną sekcję. " alt="" coords="315,172,477,199"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="546,121,715,148"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b" title="Metoda dodająca wpisy do tablicy relokacji. " alt="" coords="551,172,710,199"/>
+<area shape="rect" id="node8" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="776,172,976,199"/>
+</map>

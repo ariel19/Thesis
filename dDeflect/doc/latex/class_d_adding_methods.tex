@@ -7,7 +7,8 @@
 
 
 
-Diagram dziedziczenia dla D\-Adding\-Methods\nopagebreak
+Diagram dziedziczenia dla D\-Adding\-Methods
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -16,7 +17,8 @@ Diagram dziedziczenia dla D\-Adding\-Methods\nopagebreak
 \end{figure}
 
 
-Diagram współpracy dla D\-Adding\-Methods\-:\nopagebreak
+Diagram współpracy dla D\-Adding\-Methods\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -39,11 +41,24 @@ class \hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}
 \subsection*{Typy publiczne}
 \begin{DoxyCompactItemize}
 \item 
-enum \hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{Architecture\-Type} 
+enum \hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{Architecture\-Type} \{ \hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3a19c324fc35adafffc05d643f63e8eb5e}{Architecture\-Type\-::\-B\-I\-T\-S32}, 
+\hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3a316bc10be99a2862edd96d24e0d150d9}{Architecture\-Type\-::\-B\-I\-T\-S64}
+ \}
 \begin{DoxyCompactList}\small\item\em Typ kompilowanego pliku assembly. \end{DoxyCompactList}\item 
-enum \hyperlink{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}{System\-Type} 
+enum \hyperlink{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}{System\-Type} \{ \hyperlink{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327aaea23489ce3aa9b6406ebb28e0cda430}{System\-Type\-::\-Windows}, 
+\hyperlink{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327aedc9f0a5a5d57797bf68e37364743831}{System\-Type\-::\-Linux}
+ \}
 \item 
-enum \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{Calling\-Method} 
+enum \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{Calling\-Method} \{ \\*
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a1f69192f5c5359619a4410d97d1655be}{Calling\-Method\-::\-O\-E\-P}, 
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad97477d6d8a838ead9348185bb5b6742}{Calling\-Method\-::\-Thread}, 
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad113494f870355ce123dfb74beea602d}{Calling\-Method\-::\-Trampoline}, 
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0afaee4ca3c30ee18148ce3ada37466498}{Calling\-Method\-::\-I\-N\-I\-T}, 
+\\*
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a8c11d1b1290b76379bf90434c0e83f4a}{Calling\-Method\-::\-I\-N\-I\-T\-\_\-\-A\-R\-R\-A\-Y}, 
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a02f11aadd3ab1bd5b7ccd3040d8a0075}{Calling\-Method\-::\-C\-T\-O\-R\-S}, 
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a099d7d04319e5191b7473e016c55e320}{Calling\-Method\-::\-T\-L\-S}
+ \}
 \begin{DoxyCompactList}\small\item\em Typy możliwości wstrzyknięcia kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Metody publiczne}
 \begin{DoxyCompactItemize}
@@ -57,6 +72,12 @@ enum \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{Callin
 \item 
 Q\-Map$<$ \hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{Architecture\-Type}, Q\-String $>$ \hyperlink{class_d_adding_methods_aa368755d8aba57f3a92877d1fbe925b3}{arch\-\_\-type}
 \end{DoxyCompactItemize}
+\subsection*{Statyczne atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+static const Q\-Map$<$ Q\-String, \\*
+\hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{Calling\-Method} $>$ \hyperlink{class_d_adding_methods_a4c746112dd790909f893063563cd7877}{calling\-Methods}
+\end{DoxyCompactItemize}
 
 
 \subsection{Opis szczegółowy}
@@ -69,29 +90,66 @@ Definicja w linii 27 pliku daddingmethods.\-h.
 \subsection{Dokumentacja składowych wyliczanych}
 \hypertarget{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Architecture\-Type@{Architecture\-Type}}
 \index{Architecture\-Type@{Architecture\-Type}!DAddingMethods@{D\-Adding\-Methods}}
-\subsubsection[{Architecture\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-Architecture\-Type}}}\label{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}
+\subsubsection[{Architecture\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-Architecture\-Type}\hspace{0.3cm}{\ttfamily [strong]}}}\label{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}
 
 
 Typ kompilowanego pliku assembly. 
 
+\begin{Desc}
+\item[Wartości wyliczeń]\par
+\begin{description}
+\index{B\-I\-T\-S32@{B\-I\-T\-S32}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!B\-I\-T\-S32@{B\-I\-T\-S32}}\item[{\em 
+\hypertarget{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3a19c324fc35adafffc05d643f63e8eb5e}{B\-I\-T\-S32}\label{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3a19c324fc35adafffc05d643f63e8eb5e}
+}]\index{B\-I\-T\-S64@{B\-I\-T\-S64}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!B\-I\-T\-S64@{B\-I\-T\-S64}}\item[{\em 
+\hypertarget{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3a316bc10be99a2862edd96d24e0d150d9}{B\-I\-T\-S64}\label{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3a316bc10be99a2862edd96d24e0d150d9}
+}]\end{description}
+\end{Desc}
 
 
 Definicja w linii 33 pliku daddingmethods.\-h.
 
 \hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Calling\-Method@{Calling\-Method}}
 \index{Calling\-Method@{Calling\-Method}!DAddingMethods@{D\-Adding\-Methods}}
-\subsubsection[{Calling\-Method}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-Calling\-Method}}}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}
+\subsubsection[{Calling\-Method}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-Calling\-Method}\hspace{0.3cm}{\ttfamily [strong]}}}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}
 
 
 Typy możliwości wstrzyknięcia kodu. 
 
+\begin{Desc}
+\item[Wartości wyliczeń]\par
+\begin{description}
+\index{O\-E\-P@{O\-E\-P}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!O\-E\-P@{O\-E\-P}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a1f69192f5c5359619a4410d97d1655be}{O\-E\-P}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a1f69192f5c5359619a4410d97d1655be}
+}]\index{Thread@{Thread}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Thread@{Thread}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad97477d6d8a838ead9348185bb5b6742}{Thread}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad97477d6d8a838ead9348185bb5b6742}
+}]\index{Trampoline@{Trampoline}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Trampoline@{Trampoline}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad113494f870355ce123dfb74beea602d}{Trampoline}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad113494f870355ce123dfb74beea602d}
+}]\index{I\-N\-I\-T@{I\-N\-I\-T}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!I\-N\-I\-T@{I\-N\-I\-T}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0afaee4ca3c30ee18148ce3ada37466498}{I\-N\-I\-T}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0afaee4ca3c30ee18148ce3ada37466498}
+}]\index{I\-N\-I\-T\-\_\-\-A\-R\-R\-A\-Y@{I\-N\-I\-T\-\_\-\-A\-R\-R\-A\-Y}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!I\-N\-I\-T\-\_\-\-A\-R\-R\-A\-Y@{I\-N\-I\-T\-\_\-\-A\-R\-R\-A\-Y}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a8c11d1b1290b76379bf90434c0e83f4a}{I\-N\-I\-T\-\_\-\-A\-R\-R\-A\-Y}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a8c11d1b1290b76379bf90434c0e83f4a}
+}]\index{C\-T\-O\-R\-S@{C\-T\-O\-R\-S}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!C\-T\-O\-R\-S@{C\-T\-O\-R\-S}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a02f11aadd3ab1bd5b7ccd3040d8a0075}{C\-T\-O\-R\-S}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a02f11aadd3ab1bd5b7ccd3040d8a0075}
+}]\index{T\-L\-S@{T\-L\-S}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!T\-L\-S@{T\-L\-S}}\item[{\em 
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a099d7d04319e5191b7473e016c55e320}{T\-L\-S}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a099d7d04319e5191b7473e016c55e320}
+}]\end{description}
+\end{Desc}
 
 
 Definicja w linii 46 pliku daddingmethods.\-h.
 
 \hypertarget{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!System\-Type@{System\-Type}}
 \index{System\-Type@{System\-Type}!DAddingMethods@{D\-Adding\-Methods}}
-\subsubsection[{System\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-System\-Type}}}\label{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}
+\subsubsection[{System\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-System\-Type}\hspace{0.3cm}{\ttfamily [strong]}}}\label{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}
+\begin{Desc}
+\item[Wartości wyliczeń]\par
+\begin{description}
+\index{Windows@{Windows}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Windows@{Windows}}\item[{\em 
+\hypertarget{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327aaea23489ce3aa9b6406ebb28e0cda430}{Windows}\label{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327aaea23489ce3aa9b6406ebb28e0cda430}
+}]\index{Linux@{Linux}!D\-Adding\-Methods@{D\-Adding\-Methods}}\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Linux@{Linux}}\item[{\em 
+\hypertarget{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327aedc9f0a5a5d57797bf68e37364743831}{Linux}\label{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327aedc9f0a5a5d57797bf68e37364743831}
+}]\end{description}
+\end{Desc}
 
 
 Definicja w linii 38 pliku daddingmethods.\-h.
@@ -123,6 +181,26 @@ Definicja w linii 46 pliku daddingmethods.\-cpp.
 
 
 Definicja w linii 270 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_a4c746112dd790909f893063563cd7877}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!calling\-Methods@{calling\-Methods}}
+\index{calling\-Methods@{calling\-Methods}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{calling\-Methods}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Map$<$ Q\-String, {\bf D\-Adding\-Methods\-::\-Calling\-Method} $>$ D\-Adding\-Methods\-::calling\-Methods\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{class_d_adding_methods_a4c746112dd790909f893063563cd7877}
+{\bfseries Wartość początkowa\-:}
+\begin{DoxyCode}
+=
+\{
+    \{ \textcolor{stringliteral}{"EntryPoint"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a1f69192f5c5359619a4410d97d1655be}{DAddingMethods::CallingMethod::OEP} \},
+    \{ \textcolor{stringliteral}{"Thread"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad97477d6d8a838ead9348185bb5b6742}{DAddingMethods::CallingMethod::Thread} \},
+    \{ \textcolor{stringliteral}{"Trampoline"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0ad113494f870355ce123dfb74beea602d}{DAddingMethods::CallingMethod::Trampoline} \},
+    \{ \textcolor{stringliteral}{"INIT"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0afaee4ca3c30ee18148ce3ada37466498}{DAddingMethods::CallingMethod::INIT} \},
+    \{ \textcolor{stringliteral}{"INIT\_ARRAY"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a8c11d1b1290b76379bf90434c0e83f4a}{DAddingMethods::CallingMethod::INIT\_ARRAY} \},
+    \{ \textcolor{stringliteral}{"CTORS"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a02f11aadd3ab1bd5b7ccd3040d8a0075}{DAddingMethods::CallingMethod::CTORS} \},
+    \{ \textcolor{stringliteral}{"TLS"}, \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0a099d7d04319e5191b7473e016c55e320}{DAddingMethods::CallingMethod::TLS} \}
+\}
+\end{DoxyCode}
+
+
+Definicja w linii 273 pliku daddingmethods.\-h.
 
 \hypertarget{class_d_adding_methods_a87bdff1dd02ac26df6c10648fe406cd9}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!file@{file}}
 \index{file@{file}!DAddingMethods@{D\-Adding\-Methods}}

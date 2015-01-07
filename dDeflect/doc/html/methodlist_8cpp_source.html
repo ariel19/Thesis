@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Plik źródłowy DMethods/methodlist.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -108,49 +110,49 @@ $(document).ready(function(){initNavTree('methodlist_8cpp_source.html','');});
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;QQmlListProperty&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="code" href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">    5</a></span>&#160;<a class="code" href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">MethodList::MethodList</a>(QObject *parent) :</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">    5</a></span>&#160;<a class="code" href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">MethodList::MethodList</a>(QObject *parent) :</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    QObject(parent)</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="code" href="class_method_list.html#ac434ec0f3fea8b75ac0762d235441206">    9</a></span>&#160;<a class="code" href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">MethodList::MethodList</a>(QList&lt;Method *&gt; &amp;m, QString path, QObject *parent) : m_methods(m), QObject(parent), m_path(path)</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_method_list.html#ac434ec0f3fea8b75ac0762d235441206">    9</a></span>&#160;<a class="code" href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">MethodList::MethodList</a>(QList&lt;Method *&gt; &amp;m, QString path, QObject *parent) : m_methods(m), QObject(parent), m_path(path)</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;QQmlListProperty&lt;Method&gt; <a class="code" href="class_method_list.html#ac0e3f7172a72d25b66a50289d67a1e0f">MethodList::methods</a>()</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">return</span> QQmlListProperty&lt;Method&gt;(<span class="keyword">this</span>,m_methods);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">return</span> QQmlListProperty&lt;Method&gt;(<span class="keyword">this</span>,<a class="code" href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">m_methods</a>);</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;QVariantList <a class="code" href="class_method_list.html#a23142d6732e57d998153b8f4be2bc974">MethodList::names</a>()</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="class_method_list.html#aaad20483391f3c7f6ffe68a7a4973353">loadList</a>();</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment">// TODO: free Memory</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">foreach</span>(<a class="code" href="class_method.html">Method</a>* mp, m_methods){</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">foreach</span>(<a class="code" href="class_method.html">Method</a>* mp, <a class="code" href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">m_methods</a>){</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        QVariant* p = <span class="keyword">new</span> QVariant(QString(mp-&gt;<a class="code" href="class_method.html#a9131d3ff2cd50747c50290986126aff3">name</a>()));</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        m_names.append(*p);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="class_method_list.html#a8d597ca5cbd6837944817258b96fdf93">m_names</a>.append(*p);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        qDebug()&lt;&lt;mp-&gt;<a class="code" href="class_method.html#a9131d3ff2cd50747c50290986126aff3">name</a>();</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">return</span> m_names;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_method_list.html#a8d597ca5cbd6837944817258b96fdf93">m_names</a>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="class_method_list.html#ae9a0004ee6cbe2f7cccc1cbd5f5488bb">   30</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_method_list.html#ae9a0004ee6cbe2f7cccc1cbd5f5488bb">MethodList::read</a>(<span class="keyword">const</span> QJsonObject &amp;json)</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_method_list.html#ae9a0004ee6cbe2f7cccc1cbd5f5488bb">   30</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_method_list.html#ae9a0004ee6cbe2f7cccc1cbd5f5488bb">MethodList::read</a>(<span class="keyword">const</span> QJsonObject &amp;json)</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// TODO: free memory</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    m_methods.clear();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">m_methods</a>.clear();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    QJsonArray methodArray = json[<span class="stringliteral">&quot;methods&quot;</span>].toArray();</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i&lt; methodArray.size(); ++i){</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        QJsonObject mObject = methodArray[i].toObject();</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="class_method.html">Method</a> *m = <span class="keyword">new</span> <a class="code" href="class_method.html">Method</a>();</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        m-&gt;<a class="code" href="class_method.html#a7fb905d9402518987d08e2d6e5227d88">read</a>(mObject);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        m_methods.append(m);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">m_methods</a>.append(m);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="class_method_list.html#af0d4511d7f5bfb5003a33e8c0d50b4bd">   44</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_method_list.html#af0d4511d7f5bfb5003a33e8c0d50b4bd">MethodList::write</a>(QJsonObject &amp;json)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_method_list.html#af0d4511d7f5bfb5003a33e8c0d50b4bd">   44</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_method_list.html#af0d4511d7f5bfb5003a33e8c0d50b4bd">MethodList::write</a>(QJsonObject &amp;json)<span class="keyword"> const</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword"></span>{</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    QJsonArray methodArray;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">foreach</span> (<span class="keyword">const</span> <a class="code" href="class_method.html">Method</a> *m, m_methods) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">foreach</span> (<span class="keyword">const</span> <a class="code" href="class_method.html">Method</a> *m, <a class="code" href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">m_methods</a>) {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        QJsonObject mObject;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        m-&gt;<a class="code" href="class_method.html#a706689fe25b5ed85f9b1480d78574bb7">write</a>(mObject);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        methodArray.append(mObject);</div>
@@ -158,9 +160,9 @@ $(document).ready(function(){initNavTree('methodlist_8cpp_source.html','');});
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    json[<span class="stringliteral">&quot;methods&quot;</span>] = methodArray;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="class_method_list.html#aaad20483391f3c7f6ffe68a7a4973353">   55</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_method_list.html#aaad20483391f3c7f6ffe68a7a4973353">MethodList::loadList</a>()</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="class_method_list.html#aaad20483391f3c7f6ffe68a7a4973353">   55</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_method_list.html#aaad20483391f3c7f6ffe68a7a4973353">MethodList::loadList</a>()</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    QFile loadFile(m_path);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    QFile loadFile(<a class="code" href="class_method_list.html#a1586bb53f50209dc1adf309bcb5a4cd2">m_path</a>);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span> (!loadFile.open(QIODevice::ReadOnly)) {</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        qWarning(<span class="stringliteral">&quot;Couldn&#39;t open save file.&quot;</span>);</div>
@@ -176,9 +178,9 @@ $(document).ready(function(){initNavTree('methodlist_8cpp_source.html','');});
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="class_method_list.html#a76d02473ee8a03c714c72c202fdd20f4">   73</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_method_list.html#a76d02473ee8a03c714c72c202fdd20f4">MethodList::   saveList</a>()</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="class_method_list.html#a76d02473ee8a03c714c72c202fdd20f4">   73</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_method_list.html#a76d02473ee8a03c714c72c202fdd20f4">MethodList::   saveList</a>()</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    QFile saveFile(m_path);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    QFile saveFile(<a class="code" href="class_method_list.html#a1586bb53f50209dc1adf309bcb5a4cd2">m_path</a>);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span> (!saveFile.open(QIODevice::WriteOnly)) {</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        qWarning(<span class="stringliteral">&quot;Couldn&#39;t open save file.&quot;</span>);</div>
@@ -193,33 +195,53 @@ $(document).ready(function(){initNavTree('methodlist_8cpp_source.html','');});
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;QString <a class="code" href="class_method_list.html#ad2eb51d43787a28502722c7ef92b6f84">MethodList::path</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> m_path;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;QString <a class="code" href="class_method_list.html#ad2eb51d43787a28502722c7ef92b6f84">MethodList::path</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> <a class="code" href="class_method_list.html#a1586bb53f50209dc1adf309bcb5a4cd2">m_path</a>;}</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="code" href="class_method_list.html#ae08b28e21d8f75374c5d6e295516eeeb">   92</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_method_list.html#ae08b28e21d8f75374c5d6e295516eeeb">MethodList::setPath</a>(<span class="keyword">const</span> QString &amp;p){</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">if</span>(p!=m_path){</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        m_path = p;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="class_method_list.html#ae08b28e21d8f75374c5d6e295516eeeb">   92</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_method_list.html#ae08b28e21d8f75374c5d6e295516eeeb">MethodList::setPath</a>(<span class="keyword">const</span> QString &amp;p){</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">if</span>(p!=<a class="code" href="class_method_list.html#a1586bb53f50209dc1adf309bcb5a4cd2">m_path</a>){</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="class_method_list.html#a1586bb53f50209dc1adf309bcb5a4cd2">m_path</a> = p;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        emit <a class="code" href="class_method_list.html#a964af96ad04ea475a562ef9c437c9395">pathChanged</a>();</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="code" href="methodlist_8cpp.html#a4fcdf576a1904d6410d36d3bdbfd5307">   99</a></span>&#160;QDebug <a class="code" href="method_8cpp.html#adbde94b0435d11b4f6d17b782a67d553">operator&lt;&lt;</a>(QDebug d, <span class="keyword">const</span> <a class="code" href="class_method_list.html">MethodList</a> &amp;ml)</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="methodlist_8cpp.html#a4fcdf576a1904d6410d36d3bdbfd5307">   99</a></span>&#160;QDebug <a class="code" href="methodlist_8cpp.html#a4fcdf576a1904d6410d36d3bdbfd5307">operator&lt;&lt;</a>(QDebug d, <span class="keyword">const</span> <a class="code" href="class_method_list.html">MethodList</a> &amp;ml)</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;{</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">foreach</span>(<a class="code" href="class_method.html">Method</a>* mp, ml.m_methods) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">foreach</span>(<a class="code" href="class_method.html">Method</a>* mp, ml.<a class="code" href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">m_methods</a>) {</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        d&lt;&lt;*mp;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   }</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> d;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="ttc" id="class_method_list_html_ad2eb51d43787a28502722c7ef92b6f84"><div class="ttname"><a href="class_method_list.html#ad2eb51d43787a28502722c7ef92b6f84">MethodList::path</a></div><div class="ttdeci">QString path() const </div></div>
+<div class="ttc" id="class_method_list_html_a76d02473ee8a03c714c72c202fdd20f4"><div class="ttname"><a href="class_method_list.html#a76d02473ee8a03c714c72c202fdd20f4">MethodList::saveList</a></div><div class="ttdeci">bool saveList()</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00073">methodlist.cpp:73</a></div></div>
+<div class="ttc" id="class_method_list_html_a8d597ca5cbd6837944817258b96fdf93"><div class="ttname"><a href="class_method_list.html#a8d597ca5cbd6837944817258b96fdf93">MethodList::m_names</a></div><div class="ttdeci">QVariantList m_names</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8h_source.html#l00045">methodlist.h:45</a></div></div>
+<div class="ttc" id="class_method_list_html_af1534c7112c552f17e0042e0f83c02cf"><div class="ttname"><a href="class_method_list.html#af1534c7112c552f17e0042e0f83c02cf">MethodList::m_methods</a></div><div class="ttdeci">QList&lt; Method * &gt; m_methods</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8h_source.html#l00043">methodlist.h:43</a></div></div>
+<div class="ttc" id="class_method_list_html_a23142d6732e57d998153b8f4be2bc974"><div class="ttname"><a href="class_method_list.html#a23142d6732e57d998153b8f4be2bc974">MethodList::names</a></div><div class="ttdeci">QVariantList names()</div></div>
+<div class="ttc" id="class_method_list_html_ae9a0004ee6cbe2f7cccc1cbd5f5488bb"><div class="ttname"><a href="class_method_list.html#ae9a0004ee6cbe2f7cccc1cbd5f5488bb">MethodList::read</a></div><div class="ttdeci">void read(const QJsonObject &amp;json)</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00030">methodlist.cpp:30</a></div></div>
+<div class="ttc" id="class_method_html_a9131d3ff2cd50747c50290986126aff3"><div class="ttname"><a href="class_method.html#a9131d3ff2cd50747c50290986126aff3">Method::name</a></div><div class="ttdeci">QString name</div><div class="ttdef"><b>Definition:</b> <a href="method_8h_source.html#l00012">method.h:12</a></div></div>
+<div class="ttc" id="class_method_html_a7fb905d9402518987d08e2d6e5227d88"><div class="ttname"><a href="class_method.html#a7fb905d9402518987d08e2d6e5227d88">Method::read</a></div><div class="ttdeci">void read(const QJsonObject &amp;json)</div><div class="ttdef"><b>Definition:</b> <a href="method_8cpp_source.html#l00031">method.cpp:31</a></div></div>
+<div class="ttc" id="class_method_list_html_aaad20483391f3c7f6ffe68a7a4973353"><div class="ttname"><a href="class_method_list.html#aaad20483391f3c7f6ffe68a7a4973353">MethodList::loadList</a></div><div class="ttdeci">bool loadList()</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00055">methodlist.cpp:55</a></div></div>
+<div class="ttc" id="class_method_list_html_ae08b28e21d8f75374c5d6e295516eeeb"><div class="ttname"><a href="class_method_list.html#ae08b28e21d8f75374c5d6e295516eeeb">MethodList::setPath</a></div><div class="ttdeci">void setPath(const QString &amp;p)</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00092">methodlist.cpp:92</a></div></div>
+<div class="ttc" id="class_method_list_html_a964af96ad04ea475a562ef9c437c9395"><div class="ttname"><a href="class_method_list.html#a964af96ad04ea475a562ef9c437c9395">MethodList::pathChanged</a></div><div class="ttdeci">void pathChanged()</div></div>
+<div class="ttc" id="class_method_list_html_ae859d2576fa0bd370d458af57948e22e"><div class="ttname"><a href="class_method_list.html#ae859d2576fa0bd370d458af57948e22e">MethodList::MethodList</a></div><div class="ttdeci">MethodList(QObject *parent=0)</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00005">methodlist.cpp:5</a></div></div>
+<div class="ttc" id="class_method_html"><div class="ttname"><a href="class_method.html">Method</a></div><div class="ttdef"><b>Definition:</b> <a href="method_8h_source.html#l00009">method.h:9</a></div></div>
+<div class="ttc" id="class_method_list_html_a1586bb53f50209dc1adf309bcb5a4cd2"><div class="ttname"><a href="class_method_list.html#a1586bb53f50209dc1adf309bcb5a4cd2">MethodList::m_path</a></div><div class="ttdeci">QString m_path</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8h_source.html#l00044">methodlist.h:44</a></div></div>
+<div class="ttc" id="methodlist_8cpp_html_a4fcdf576a1904d6410d36d3bdbfd5307"><div class="ttname"><a href="methodlist_8cpp.html#a4fcdf576a1904d6410d36d3bdbfd5307">operator&lt;&lt;</a></div><div class="ttdeci">QDebug operator&lt;&lt;(QDebug d, const MethodList &amp;ml)</div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00099">methodlist.cpp:99</a></div></div>
+<div class="ttc" id="class_method_html_a706689fe25b5ed85f9b1480d78574bb7"><div class="ttname"><a href="class_method.html#a706689fe25b5ed85f9b1480d78574bb7">Method::write</a></div><div class="ttdeci">void write(QJsonObject &amp;json) const </div><div class="ttdef"><b>Definition:</b> <a href="method_8cpp_source.html#l00037">method.cpp:37</a></div></div>
+<div class="ttc" id="class_method_list_html_af0d4511d7f5bfb5003a33e8c0d50b4bd"><div class="ttname"><a href="class_method_list.html#af0d4511d7f5bfb5003a33e8c0d50b4bd">MethodList::write</a></div><div class="ttdeci">void write(QJsonObject &amp;json) const </div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8cpp_source.html#l00044">methodlist.cpp:44</a></div></div>
+<div class="ttc" id="class_method_list_html_ac0e3f7172a72d25b66a50289d67a1e0f"><div class="ttname"><a href="class_method_list.html#ac0e3f7172a72d25b66a50289d67a1e0f">MethodList::methods</a></div><div class="ttdeci">QQmlListProperty&lt; Method &gt; methods()</div></div>
+<div class="ttc" id="class_method_list_html"><div class="ttname"><a href="class_method_list.html">MethodList</a></div><div class="ttdef"><b>Definition:</b> <a href="methodlist_8h_source.html#l00012">methodlist.h:12</a></div></div>
+<div class="ttc" id="methodlist_8h_html"><div class="ttname"><a href="methodlist_8h.html">methodlist.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_b3cb42cd255ba1fc63a850c2dbf6142a.html">DMethods</a></li><li class="navelem"><a class="el" href="methodlist_8cpp.html">methodlist.cpp</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:42 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

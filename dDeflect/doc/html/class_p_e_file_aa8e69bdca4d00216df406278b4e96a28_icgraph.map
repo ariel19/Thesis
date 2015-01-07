@@ -1,0 +1,6 @@
+<map id="PEFile::is_x64" name="PEFile::is_x64">
+<area shape="rect" id="node2" href="$class_p_e_adding_methods.html#a85b7bf24809fee317810bcf1e8277bbf" title="Generowanie kodu metody. " alt="" coords="183,5,401,32"/>
+<area shape="rect" id="node3" href="$class_p_e_adding_methods.html#a7bfc807cbd6863be7a0caaab742668bb" title="Metoda dodająca kod jako trampolinę " alt="" coords="160,56,424,83"/>
+<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a471203b164d35d021dbfe753cc282223" title="PEAddingMethods::generate\lThreadCode" alt="" coords="198,107,386,149"/>
+<area shape="rect" id="node5" href="$class_p_e_adding_methods.html#a364d4eec1e6f1e93c93f8da7355e9958" title="Metoda generująca kod sprawdzający warunek wywołania akcji (handlera) dla metody. ..." alt="" coords="198,173,386,214"/>
+</map>

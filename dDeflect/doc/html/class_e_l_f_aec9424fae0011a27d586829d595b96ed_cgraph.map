@@ -1,0 +1,6 @@
+<map id="ELF::__parse" name="ELF::__parse">
+<area shape="rect" id="node2" href="$class_e_l_f.html#a6b7f0e590a18eb59fb67fa2e3e2d2d38" title="Sprawdza czy wartości magiczne w podanej strukturze zgadzają się z ELF. " alt="" coords="155,5,301,32"/>
+<area shape="rect" id="node3" href="$class_e_l_f.html#ad0431b4ae3e583389ce50770a91e0fe4" title="Sprawdza czy architektura, kolejność bajtów są podtrzymywane. " alt="" coords="157,56,299,83"/>
+<area shape="rect" id="node4" href="$class_e_l_f.html#a87c1d41bc1b48048895805df2327028c" title="Pobiera informacje dotyczące offsetu. " alt="" coords="161,107,295,133"/>
+<area shape="rect" id="node5" href="$class_e_l_f.html#a0d65a37a3d2a5027110e52272329c398" title="Wypełnia listę z indeksami struktur Program Header. " alt="" coords="350,107,525,133"/>
+</map>

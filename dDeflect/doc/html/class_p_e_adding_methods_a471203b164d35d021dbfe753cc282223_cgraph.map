@@ -1,0 +1,10 @@
+<map id="PEAddingMethods::generateThreadCode" name="PEAddingMethods::generateThreadCode">
+<area shape="rect" id="node2" href="$class_binary_code.html#a5f06f08736f891d6bc6d2d4fc93dca21" title="Dodaje kod do tablicy. " alt="" coords="287,5,427,32"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#aa8e69bdca4d00216df406278b4e96a28" title="Metoda informująca czy wczytany plik jest 64&#45;bitowy. " alt="" coords="304,56,411,83"/>
+<area shape="rect" id="node4" href="$class_d_json_parser.html#a14c19cd1d981e908ef8dfbc4218b359f" title="DJsonParser::loadInjectDescription" alt="" coords="243,107,471,133"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a2dca67d21245ba63171ee34456456f96" title="Metoda wklejająca unikalny string do pliku PE. " alt="" coords="281,157,434,184"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#ab14d9fb29123545e0a7528795e64d3c1" title="Metoda dodająca dane do pliku (jeżeli nie były już wcześniej dodane). Metoda na podstawie danych przy..." alt="" coords="521,183,690,209"/>
+<area shape="rect" id="node9" href="$class_binary_code.html#a08ecf07ca01749c097929dc394871e6e" title="Metoda pobierająca wielkość kodu. " alt="" coords="291,259,424,285"/>
+<area shape="rect" id="node7" href="$class_binary_code.html#a0b9f52a511f1ba6989412d4424885f8f" title="Pobiera kod. " alt="" coords="757,157,907,184"/>
+<area shape="rect" id="node8" href="$class_binary_code.html#a16f19ea25857126aeaeb7993890a5ad3" title="Pobiera tablicę relokacji jako wartości absolutne. " alt="" coords="739,208,925,235"/>
+</map>

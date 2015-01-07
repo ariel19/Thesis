@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Plik źródłowy ApplicationManager/applicationmanager.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -107,7 +109,7 @@ $(document).ready(function(){initNavTree('applicationmanager_8cpp_source.html','
 <a href="applicationmanager_8cpp.html">Idź do dokumentacji tego pliku.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="applicationmanager_8h.html">applicationmanager.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dsourcecodeparser_8h.html">DSourceCodeParser/dsourcecodeparser.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="code" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d">    4</a></span>&#160;<a class="code" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d">ApplicationManager::ApplicationManager</a>(QObject *parent) :</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d">    4</a></span>&#160;<a class="code" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d">ApplicationManager::ApplicationManager</a>(QObject *parent) :</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    QObject(parent), jsonParser(<span class="stringliteral">&quot;./injectDescriptions/&quot;</span>), sourceParser(), m_targetPath(<span class="stringliteral">&quot;Choose a C++ source file or an executive file.&quot;</span>)</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="comment">// TODO: dodać obsługę listy metod 64 bitowych</span></div>
@@ -125,45 +127,45 @@ $(document).ready(function(){initNavTree('applicationmanager_8cpp_source.html','
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="comment">// TODO: Lista do uzupełnienia o wszystkie rozszerzenia, albo stworzyć plik ze stringami i innymi danymi</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    sourceExtensionList&lt;&lt;<span class="stringliteral">&quot;cpp&quot;</span>&lt;&lt;<span class="stringliteral">&quot;cxx&quot;</span>&lt;&lt;<span class="stringliteral">&quot;c&quot;</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="class_application_manager.html#a64d34ed2c01cd33346e372f4174fa7aa">sourceExtensionList</a>&lt;&lt;<span class="stringliteral">&quot;cpp&quot;</span>&lt;&lt;<span class="stringliteral">&quot;cxx&quot;</span>&lt;&lt;<span class="stringliteral">&quot;c&quot;</span>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">setState</a>(<a class="code" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243a927b180d946b02d50c48311dbf9c3673">IDLE</a>);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="code" href="class_application_manager.html#a05a04d6e3834adf031606133bbee313d">   27</a></span>&#160;<a class="code" href="class_application_manager.html#a05a04d6e3834adf031606133bbee313d">ApplicationManager::~ApplicationManager</a>()</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_application_manager.html#a05a04d6e3834adf031606133bbee313d">   27</a></span>&#160;<a class="code" href="class_application_manager.html#a05a04d6e3834adf031606133bbee313d">ApplicationManager::~ApplicationManager</a>()</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">delete</span> sourceParser;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">delete</span> <a class="code" href="class_application_manager.html#af1e6bb5f28b480676de7b7f22d465baa">sourceParser</a>;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">   32</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">ApplicationManager::setState</a>(<a class="code" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">ApplicationManager::State</a> state)</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">   32</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">ApplicationManager::setState</a>(<a class="code" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">ApplicationManager::State</a> state)</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    m_state = <a class="code" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c">state</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="class_application_manager.html#a371f65b49801926244ecc6283d05a965">m_state</a> = <a class="code" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c">state</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    emit <a class="code" href="class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910">stateChanged</a>(state);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<a class="code" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">ApplicationManager::State</a> <a class="code" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c">ApplicationManager::state</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword"></span>{ <span class="keywordflow">return</span> m_state; }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword"></span>{ <span class="keywordflow">return</span> <a class="code" href="class_application_manager.html#a371f65b49801926244ecc6283d05a965">m_state</a>; }</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;QVariantList <a class="code" href="class_application_manager.html#a793af100a8c392337bb94fc1f81c4d9a">ApplicationManager::x86MethodsNames</a>()</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span>(m_x86MethodsNames.empty()){</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">foreach</span>(<a class="code" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper&lt;Registers_x86&gt;</a>* <span class="keywordtype">id</span>, m_x86methodsList){</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="class_application_manager.html#a4535135d50421609e8c984860b0f9af6">m_x86MethodsNames</a>.empty()){</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">foreach</span>(<a class="code" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper&lt;Registers_x86&gt;</a>* <span class="keywordtype">id</span>, <a class="code" href="class_application_manager.html#a95dbbdfce6b0865fad1dba671424bc81">m_x86methodsList</a>){</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            QVariant* p = <span class="keyword">new</span> QVariant(QString::fromStdString(id-&gt;<a class="code" href="class_d_adding_methods_1_1_wrapper.html#a41c5e8fdd7bde2f8610d2d499ae8f4b3">name</a>.toStdString()));</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            m_x86MethodsNames.append(*p);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="class_application_manager.html#a4535135d50421609e8c984860b0f9af6">m_x86MethodsNames</a>.append(*p);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> m_x86MethodsNames;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_application_manager.html#a4535135d50421609e8c984860b0f9af6">m_x86MethodsNames</a>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2">   52</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2">ApplicationManager::fileOpened</a>(QString path)</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2">   52</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2">ApplicationManager::fileOpened</a>(QString path)</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    m_targetPath = path;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="class_application_manager.html#afef59bc227cf3e7c4b88e5328572afee">m_targetPath</a> = path;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//emit targetPathChanged()</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    QFileInfo info(m_targetPath);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    QFileInfo info(<a class="code" href="class_application_manager.html#afef59bc227cf3e7c4b88e5328572afee">m_targetPath</a>);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    QString extension = info.completeSuffix();</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> isSource = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">foreach</span>(QString ext, sourceExtensionList)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">foreach</span>(QString ext, <a class="code" href="class_application_manager.html#a64d34ed2c01cd33346e372f4174fa7aa">sourceExtensionList</a>)</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        isSource |= (extension.compare(ext)==0);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span>(isSource)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <a class="code" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">setState</a>(<a class="code" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243ab5082059863677e68b76bfc68e21e882">SOURCE</a>);</div>
@@ -173,41 +175,67 @@ $(document).ready(function(){initNavTree('applicationmanager_8cpp_source.html','
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0">   70</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0">ApplicationManager::applyClicked</a>(QVariantList methodsChosen)</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0">   70</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0">ApplicationManager::applyClicked</a>(QVariantList methodsChosen)</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    m_targetPath =<span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="class_application_manager.html#afef59bc227cf3e7c4b88e5328572afee">m_targetPath</a> =<span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span>(methodsChosen.isEmpty()){</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        qDebug()&lt;&lt;<span class="stringliteral">&quot;Methods List is empty, verify in qml&quot;</span>;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">// TODO: umożliwić wybór funkcji do której chcemy wstrzyknąć</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    FIDMapping&lt;Registers_x86&gt; map;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    IDList&lt;Registers_x86&gt; methodsToInsert;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">FIDMapping&lt;Registers_x86&gt;</a> map;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList&lt;Registers_x86&gt;</a> methodsToInsert;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">foreach</span>(QVariant q, methodsChosen){</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">int</span> index = q.toInt();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        methodsToInsert.append(m_x86methodsList[index]);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        methodsToInsert.append(<a class="code" href="class_application_manager.html#a95dbbdfce6b0865fad1dba671424bc81">m_x86methodsList</a>[index]);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    map[<span class="stringliteral">&quot;main&quot;</span>] = methodsToInsert;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    qDebug()&lt;&lt;map;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">insertMethods</a>(map);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="code" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">   90</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">ApplicationManager::insertMethods</a>(FIDMapping&lt;Registers_x86&gt; Map)</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">   90</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">ApplicationManager::insertMethods</a>(<a class="code" href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">FIDMapping&lt;Registers_x86&gt;</a> Map)</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;{</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    sourceParser-&gt;<a class="code" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b">insertMethods</a>(m_targetPath,Map);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="class_application_manager.html#af1e6bb5f28b480676de7b7f22d465baa">sourceParser</a>-&gt;<a class="code" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b">insertMethods</a>(<a class="code" href="class_application_manager.html#afef59bc227cf3e7c4b88e5328572afee">m_targetPath</a>,Map);</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="ttc" id="class_application_manager_html_aeb5af7a2aa47623af5160ea1f20d0243ab5082059863677e68b76bfc68e21e882"><div class="ttname"><a href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243ab5082059863677e68b76bfc68e21e882">ApplicationManager::SOURCE</a></div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00029">applicationmanager.h:29</a></div></div>
+<div class="ttc" id="class_application_manager_html_a371f65b49801926244ecc6283d05a965"><div class="ttname"><a href="class_application_manager.html#a371f65b49801926244ecc6283d05a965">ApplicationManager::m_state</a></div><div class="ttdeci">State m_state</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00048">applicationmanager.h:48</a></div></div>
+<div class="ttc" id="class_application_manager_html_ace0c5e4596d968278acd0b61042472d2"><div class="ttname"><a href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">ApplicationManager::insertMethods</a></div><div class="ttdeci">void insertMethods(FIDMapping&lt; Registers_x86 &gt;)</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8cpp_source.html#l00090">applicationmanager.cpp:90</a></div></div>
+<div class="ttc" id="class_application_manager_html_af1a9357249748e88cdbbcb994d8a7fe0"><div class="ttname"><a href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0">ApplicationManager::applyClicked</a></div><div class="ttdeci">void applyClicked(QVariantList methodsChosen)</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8cpp_source.html#l00070">applicationmanager.cpp:70</a></div></div>
+<div class="ttc" id="class_application_manager_html_a95dbbdfce6b0865fad1dba671424bc81"><div class="ttname"><a href="class_application_manager.html#a95dbbdfce6b0865fad1dba671424bc81">ApplicationManager::m_x86methodsList</a></div><div class="ttdeci">IDList&lt; Registers_x86 &gt; m_x86methodsList</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00049">applicationmanager.h:49</a></div></div>
+<div class="ttc" id="class_d_source_code_parser_html_acb80a33d6f64af51009f3a09fbfd430b"><div class="ttname"><a href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b">DSourceCodeParser::insertMethods</a></div><div class="ttdeci">void insertMethods(const QString &amp;path, FIDMapping&lt; Registers_x86 &gt;)</div><div class="ttdef"><b>Definition:</b> <a href="dsourcecodeparser_8cpp_source.html#l00045">dsourcecodeparser.cpp:45</a></div></div>
+<div class="ttc" id="class_application_manager_html_af1e6bb5f28b480676de7b7f22d465baa"><div class="ttname"><a href="class_application_manager.html#af1e6bb5f28b480676de7b7f22d465baa">ApplicationManager::sourceParser</a></div><div class="ttdeci">DSourceCodeParser * sourceParser</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00056">applicationmanager.h:56</a></div></div>
+<div class="ttc" id="class_application_manager_html_a0c10f4864788ee7e13730eae75d8c910"><div class="ttname"><a href="class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910">ApplicationManager::stateChanged</a></div><div class="ttdeci">void stateChanged(State)</div></div>
+<div class="ttc" id="class_application_manager_html_aa86515d8c95bae5d713033e75becdf3c"><div class="ttname"><a href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c">ApplicationManager::state</a></div><div class="ttdeci">State state() const </div></div>
+<div class="ttc" id="applicationmanager_8h_html"><div class="ttname"><a href="applicationmanager_8h.html">applicationmanager.h</a></div></div>
+<div class="ttc" id="class_application_manager_html_aeb5af7a2aa47623af5160ea1f20d0243a927b180d946b02d50c48311dbf9c3673"><div class="ttname"><a href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243a927b180d946b02d50c48311dbf9c3673">ApplicationManager::IDLE</a></div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00029">applicationmanager.h:29</a></div></div>
+<div class="ttc" id="class_application_manager_html_aeb5af7a2aa47623af5160ea1f20d0243"><div class="ttname"><a href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">ApplicationManager::State</a></div><div class="ttdeci">State</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00029">applicationmanager.h:29</a></div></div>
+<div class="ttc" id="class_d_adding_methods_1_1_wrapper_html"><div class="ttname"><a href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper&lt; Registers_x86 &gt;</a></div></div>
+<div class="ttc" id="class_application_manager_html_a64d34ed2c01cd33346e372f4174fa7aa"><div class="ttname"><a href="class_application_manager.html#a64d34ed2c01cd33346e372f4174fa7aa">ApplicationManager::sourceExtensionList</a></div><div class="ttdeci">QStringList sourceExtensionList</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00054">applicationmanager.h:54</a></div></div>
+<div class="ttc" id="class_application_manager_html_a00564f65d5da07b75a4dc0d0d13c2dc1"><div class="ttname"><a href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">ApplicationManager::FIDMapping</a></div><div class="ttdeci">QHash&lt; QString, IDList&lt; Reg &gt;&gt; FIDMapping</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00025">applicationmanager.h:25</a></div></div>
+<div class="ttc" id="class_application_manager_html_afef59bc227cf3e7c4b88e5328572afee"><div class="ttname"><a href="class_application_manager.html#afef59bc227cf3e7c4b88e5328572afee">ApplicationManager::m_targetPath</a></div><div class="ttdeci">QString m_targetPath</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00053">applicationmanager.h:53</a></div></div>
+<div class="ttc" id="class_application_manager_html_a4535135d50421609e8c984860b0f9af6"><div class="ttname"><a href="class_application_manager.html#a4535135d50421609e8c984860b0f9af6">ApplicationManager::m_x86MethodsNames</a></div><div class="ttdeci">QVariantList m_x86MethodsNames</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00050">applicationmanager.h:50</a></div></div>
+<div class="ttc" id="class_application_manager_html_afc6759e44d61ba108cadcea101b30bc7"><div class="ttname"><a href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">ApplicationManager::IDList</a></div><div class="ttdeci">QList&lt; DAddingMethods::Wrapper&lt; Reg &gt; * &gt; IDList</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00023">applicationmanager.h:23</a></div></div>
+<div class="ttc" id="class_application_manager_html_a879feb4ed324b2f0c381e2cf377fe56d"><div class="ttname"><a href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d">ApplicationManager::ApplicationManager</a></div><div class="ttdeci">ApplicationManager(QObject *parent=0)</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8cpp_source.html#l00004">applicationmanager.cpp:4</a></div></div>
+<div class="ttc" id="class_d_adding_methods_1_1_wrapper_html_a41c5e8fdd7bde2f8610d2d499ae8f4b3"><div class="ttname"><a href="class_d_adding_methods_1_1_wrapper.html#a41c5e8fdd7bde2f8610d2d499ae8f4b3">DAddingMethods::Wrapper::name</a></div><div class="ttdeci">QString name</div><div class="ttdef"><b>Definition:</b> <a href="daddingmethods_8h_source.html#l00070">daddingmethods.h:70</a></div></div>
+<div class="ttc" id="class_application_manager_html_abbab98616d4848114b4338c8accedef2"><div class="ttname"><a href="class_application_manager.html#abbab98616d4848114b4338c8accedef2">ApplicationManager::fileOpened</a></div><div class="ttdeci">void fileOpened(QString)</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8cpp_source.html#l00052">applicationmanager.cpp:52</a></div></div>
+<div class="ttc" id="class_application_manager_html_a9923f3e608544e9e74d604a6018c9ae1"><div class="ttname"><a href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">ApplicationManager::setState</a></div><div class="ttdeci">void setState(State state)</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8cpp_source.html#l00032">applicationmanager.cpp:32</a></div></div>
+<div class="ttc" id="class_application_manager_html_a793af100a8c392337bb94fc1f81c4d9a"><div class="ttname"><a href="class_application_manager.html#a793af100a8c392337bb94fc1f81c4d9a">ApplicationManager::x86MethodsNames</a></div><div class="ttdeci">QVariantList x86MethodsNames()</div></div>
+<div class="ttc" id="dsourcecodeparser_8h_html"><div class="ttname"><a href="dsourcecodeparser_8h.html">dsourcecodeparser.h</a></div></div>
+<div class="ttc" id="class_application_manager_html_aeb5af7a2aa47623af5160ea1f20d0243ab12e09b9d69a153189e8f821e9090d2c"><div class="ttname"><a href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243ab12e09b9d69a153189e8f821e9090d2c">ApplicationManager::EXEC</a></div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8h_source.html#l00029">applicationmanager.h:29</a></div></div>
+<div class="ttc" id="class_application_manager_html_a05a04d6e3834adf031606133bbee313d"><div class="ttname"><a href="class_application_manager.html#a05a04d6e3834adf031606133bbee313d">ApplicationManager::~ApplicationManager</a></div><div class="ttdeci">virtual ~ApplicationManager()</div><div class="ttdef"><b>Definition:</b> <a href="applicationmanager_8cpp_source.html#l00027">applicationmanager.cpp:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97a07efbf3efccc61748cfeb1c0a63d9.html">ApplicationManager</a></li><li class="navelem"><a class="el" href="applicationmanager_8cpp.html">applicationmanager.cpp</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:41 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
 <title>dDeflect: Dokumentacja klasy ApplicationManager</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -12,6 +13,7 @@
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
   $(document).ready(initResizable);
+  $(window).load(resizeHeight);
 </script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -36,7 +38,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
 </script>
@@ -108,6 +110,7 @@ $(document).ready(function(){initNavTree('class_application_manager.html','');})
 <a href="#signals">Sygnały</a> &#124;
 <a href="#pub-methods">Metody publiczne</a> &#124;
 <a href="#properties">Właściwości</a> &#124;
+<a href="#pri-attribs">Atrybuty prywatne</a> &#124;
 <a href="class_application_manager-members.html">Lista wszystkich składowych</a>  </div>
   <div class="headertitle">
 <div class="title">Dokumentacja klasy ApplicationManager</div>  </div>
@@ -115,43 +118,131 @@ $(document).ready(function(){initNavTree('class_application_manager.html','');})
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>&gt;</code></p>
+<div class="dynheader">
+Diagram dziedziczenia dla ApplicationManager</div>
+<div class="dyncontent">
+<div class="center"><img src="class_application_manager__inherit__graph.png" border="0" usemap="#_application_manager_inherit__map" alt="Inheritance graph"/></div>
+<map name="_application_manager_inherit__map" id="_application_manager_inherit__map">
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legenda</a>]</span></center></div>
+<div class="dynheader">
+Diagram współpracy dla ApplicationManager:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_application_manager__coll__graph.png" border="0" usemap="#_application_manager_coll__map" alt="Collaboration graph"/></div>
+<map name="_application_manager_coll__map" id="_application_manager_coll__map">
+<area shape="rect" id="node3" href="class_d_source_code_parser.html" title="DSourceCodeParser" alt="" coords="99,309,241,336"/><area shape="rect" id="node4" href="class_d_json_parser.html" title="DJsonParser" alt="" coords="267,309,365,336"/><area shape="rect" id="node5" href="class_d_adding_methods_1_1_wrapper.html" title="DAddingMethods::Wrapper\l\&lt; Registers_x86 \&gt;" alt="" coords="227,203,405,245"/><area shape="rect" id="node6" href="class_d_adding_methods_1_1_wrapper.html" title="Klasa bazowa reprezentująca opakowanie dla kawałków kodu. " alt="" coords="227,97,405,138"/></map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legenda</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-types"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Typy publiczne</h2></td></tr>
 <tr class="memitem:aeb5af7a2aa47623af5160ea1f20d0243"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a> { <a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243a927b180d946b02d50c48311dbf9c3673">IDLE</a>, 
 <a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243ab12e09b9d69a153189e8f821e9090d2c">EXEC</a>, 
 <a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243ab5082059863677e68b76bfc68e21e882">SOURCE</a>
  }</td></tr>
+<tr class="separator:aeb5af7a2aa47623af5160ea1f20d0243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6759e44d61ba108cadcea101b30bc7"><td class="memTemplParams" colspan="2">template&lt;typename Reg &gt; </td></tr>
+<tr class="memitem:afc6759e44d61ba108cadcea101b30bc7"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a> = QList&lt; <a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt; Reg &gt; * &gt;</td></tr>
+<tr class="separator:afc6759e44d61ba108cadcea101b30bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00564f65d5da07b75a4dc0d0d13c2dc1"><td class="memTemplParams" colspan="2">template&lt;typename Reg &gt; </td></tr>
+<tr class="memitem:a00564f65d5da07b75a4dc0d0d13c2dc1"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">FIDMapping</a> = QHash&lt; QString, <a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a>&lt; Reg &gt;&gt;</td></tr>
+<tr class="separator:a00564f65d5da07b75a4dc0d0d13c2dc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-slots"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Sloty publiczne</h2></td></tr>
 <tr class="memitem:abbab98616d4848114b4338c8accedef2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2">fileOpened</a> (QString)</td></tr>
+<tr class="separator:abbab98616d4848114b4338c8accedef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1a9357249748e88cdbbcb994d8a7fe0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0">applyClicked</a> (QVariantList methodsChosen)</td></tr>
-<tr class="memitem:ace0c5e4596d968278acd0b61042472d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">insertMethods</a> (FIDMapping&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;)</td></tr>
+<tr class="separator:af1a9357249748e88cdbbcb994d8a7fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace0c5e4596d968278acd0b61042472d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2">insertMethods</a> (<a class="el" href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">FIDMapping</a>&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;)</td></tr>
+<tr class="separator:ace0c5e4596d968278acd0b61042472d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="signals"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Sygnały</h2></td></tr>
 <tr class="memitem:a0c10f4864788ee7e13730eae75d8c910"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910">stateChanged</a> (<a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a>)</td></tr>
+<tr class="separator:a0c10f4864788ee7e13730eae75d8c910"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac64a4e874ce1d4452d37f3b2ce996cda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#ac64a4e874ce1d4452d37f3b2ce996cda">x86MethodsNamesChanged</a> ()</td></tr>
+<tr class="separator:ac64a4e874ce1d4452d37f3b2ce996cda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade160ce272f9e98dd59250b399ec1b82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#ade160ce272f9e98dd59250b399ec1b82">pathChanged</a> ()</td></tr>
+<tr class="separator:ade160ce272f9e98dd59250b399ec1b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Metody publiczne</h2></td></tr>
 <tr class="memitem:a879feb4ed324b2f0c381e2cf377fe56d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d">ApplicationManager</a> (QObject *parent=0)</td></tr>
+<tr class="separator:a879feb4ed324b2f0c381e2cf377fe56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05a04d6e3834adf031606133bbee313d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a05a04d6e3834adf031606133bbee313d">~ApplicationManager</a> ()</td></tr>
+<tr class="separator:a05a04d6e3834adf031606133bbee313d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9923f3e608544e9e74d604a6018c9ae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1">setState</a> (<a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a> <a class="el" href="class_application_manager.html#a930a84127f404aa07e142c5b37dfe128">state</a>)</td></tr>
+<tr class="separator:a9923f3e608544e9e74d604a6018c9ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa86515d8c95bae5d713033e75becdf3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c">state</a> () const </td></tr>
+<tr class="separator:aa86515d8c95bae5d713033e75becdf3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a793af100a8c392337bb94fc1f81c4d9a"><td class="memItemLeft" align="right" valign="top">QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a793af100a8c392337bb94fc1f81c4d9a">x86MethodsNames</a> ()</td></tr>
+<tr class="separator:a793af100a8c392337bb94fc1f81c4d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="properties"></a>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Właściwości</h2></td></tr>
 <tr class="memitem:a930a84127f404aa07e142c5b37dfe128"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a930a84127f404aa07e142c5b37dfe128">state</a></td></tr>
+<tr class="separator:a930a84127f404aa07e142c5b37dfe128"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04d639af3af2e31840e42bfe72f99a0c"><td class="memItemLeft" align="right" valign="top">QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a04d639af3af2e31840e42bfe72f99a0c">x86MethodsNames</a></td></tr>
+<tr class="separator:a04d639af3af2e31840e42bfe72f99a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Atrybuty prywatne</h2></td></tr>
+<tr class="memitem:a371f65b49801926244ecc6283d05a965"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a371f65b49801926244ecc6283d05a965">m_state</a></td></tr>
+<tr class="separator:a371f65b49801926244ecc6283d05a965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95dbbdfce6b0865fad1dba671424bc81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a>&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a95dbbdfce6b0865fad1dba671424bc81">m_x86methodsList</a></td></tr>
+<tr class="separator:a95dbbdfce6b0865fad1dba671424bc81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4535135d50421609e8c984860b0f9af6"><td class="memItemLeft" align="right" valign="top">QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a4535135d50421609e8c984860b0f9af6">m_x86MethodsNames</a></td></tr>
+<tr class="separator:a4535135d50421609e8c984860b0f9af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36e1de12b3c278574f5a0f71cae72d37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a>&lt; <a class="el" href="codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5c">Registers_x64</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a36e1de12b3c278574f5a0f71cae72d37">m_x64methodsList</a></td></tr>
+<tr class="separator:a36e1de12b3c278574f5a0f71cae72d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77d122c9028919af104a0ac9992ecdc1"><td class="memItemLeft" align="right" valign="top">QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a77d122c9028919af104a0ac9992ecdc1">m_x64MethodsNames</a></td></tr>
+<tr class="separator:a77d122c9028919af104a0ac9992ecdc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afef59bc227cf3e7c4b88e5328572afee"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#afef59bc227cf3e7c4b88e5328572afee">m_targetPath</a></td></tr>
+<tr class="separator:afef59bc227cf3e7c4b88e5328572afee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d34ed2c01cd33346e372f4174fa7aa"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a64d34ed2c01cd33346e372f4174fa7aa">sourceExtensionList</a></td></tr>
+<tr class="separator:a64d34ed2c01cd33346e372f4174fa7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c80655f96f9d827b8260ff73113934c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_json_parser.html">DJsonParser</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#a8c80655f96f9d827b8260ff73113934c">jsonParser</a></td></tr>
+<tr class="separator:a8c80655f96f9d827b8260ff73113934c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1e6bb5f28b480676de7b7f22d465baa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_source_code_parser.html">DSourceCodeParser</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_application_manager.html#af1e6bb5f28b480676de7b7f22d465baa">sourceParser</a></td></tr>
+<tr class="separator:af1e6bb5f28b480676de7b7f22d465baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2>Opis szczegółowy</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Opis szczegółowy</h2>
 <div class="textblock">
 <p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00013">13</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
-</div><h2>Dokumentacja składowych wyliczanych</h2>
+</div><h2 class="groupheader">Dokumentacja składowych definicji typu</h2>
+<a class="anchor" id="a00564f65d5da07b75a4dc0d0d13c2dc1"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Reg &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">ApplicationManager::FIDMapping</a> =  QHash&lt;QString, <a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a>&lt;Reg&gt;&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00025">25</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afc6759e44d61ba108cadcea101b30bc7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Reg &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">ApplicationManager::IDList</a> =  QList&lt;<a class="el" href="class_d_adding_methods_1_1_wrapper.html">DAddingMethods::Wrapper</a>&lt;Reg&gt;*&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00023">23</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja składowych wyliczanych</h2>
 <a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243"></a>
 <div class="memitem">
 <div class="memproto">
@@ -161,22 +252,20 @@ Właściwości</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Wartości wyliczeń: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243a927b180d946b02d50c48311dbf9c3673"></a>IDLE</em>&nbsp;</td><td>
+<table class="fieldtable">
+<tr><th colspan="2">Wartości wyliczeń</th></tr><tr><td class="fieldname"><em><a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243a927b180d946b02d50c48311dbf9c3673"></a>IDLE</em>&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td valign="top"><em><a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243ab12e09b9d69a153189e8f821e9090d2c"></a>EXEC</em>&nbsp;</td><td>
+<tr><td class="fieldname"><em><a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243ab12e09b9d69a153189e8f821e9090d2c"></a>EXEC</em>&#160;</td><td class="fielddoc">
 </td></tr>
-<tr><td valign="top"><em><a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243ab5082059863677e68b76bfc68e21e882"></a>SOURCE</em>&nbsp;</td><td>
+<tr><td class="fieldname"><em><a class="anchor" id="aeb5af7a2aa47623af5160ea1f20d0243ab5082059863677e68b76bfc68e21e882"></a>SOURCE</em>&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-</dd>
-</dl>
 
 <p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00029">29</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
 
 </div>
 </div>
-<h2>Dokumentacja konstruktora i destruktora</h2>
+<h2 class="groupheader">Dokumentacja konstruktora i destruktora</h2>
 <a class="anchor" id="a879feb4ed324b2f0c381e2cf377fe56d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -206,7 +295,7 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_application_manager_a879feb4ed324b2f0c381e2cf377fe56d_cgraph.png" border="0" usemap="#class_application_manager_a879feb4ed324b2f0c381e2cf377fe56d_cgraph" alt=""/></div>
 <map name="class_application_manager_a879feb4ed324b2f0c381e2cf377fe56d_cgraph" id="class_application_manager_a879feb4ed324b2f0c381e2cf377fe56d_cgraph">
-<area shape="rect" id="node3" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="197,39,333,86"/><area shape="rect" id="node5" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="381,5,517,51"/><area shape="rect" id="node7" href="class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910" title="ApplicationManager\l::stateChanged" alt="" coords="381,74,517,121"/></map>
+<area shape="rect" id="node2" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="197,5,333,46"/><area shape="rect" id="node3" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="381,5,517,46"/></map>
 </div>
 </p>
 
@@ -237,7 +326,7 @@ Oto graf wywołań dla tej funkcji:</div>
 
 </div>
 </div>
-<h2>Dokumentacja funkcji składowych</h2>
+<h2 class="groupheader">Dokumentacja funkcji składowych</h2>
 <a class="anchor" id="af1a9357249748e88cdbbcb994d8a7fe0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +356,7 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_application_manager_af1a9357249748e88cdbbcb994d8a7fe0_cgraph.png" border="0" usemap="#class_application_manager_af1a9357249748e88cdbbcb994d8a7fe0_cgraph" alt=""/></div>
 <map name="class_application_manager_af1a9357249748e88cdbbcb994d8a7fe0_cgraph" id="class_application_manager_af1a9357249748e88cdbbcb994d8a7fe0_cgraph">
-<area shape="rect" id="node3" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2" title="ApplicationManager\l::insertMethods" alt="" coords="189,5,325,51"/><area shape="rect" id="node5" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b" title="DSourceCodeParser:\l:insertMethods" alt="" coords="373,5,520,51"/></map>
+<area shape="rect" id="node2" href="class_application_manager.html#ace0c5e4596d968278acd0b61042472d2" title="ApplicationManager\l::insertMethods" alt="" coords="189,5,325,46"/><area shape="rect" id="node3" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b" title="DSourceCodeParser::\linsertMethods" alt="" coords="374,5,525,46"/></map>
 </div>
 </p>
 
@@ -302,7 +391,7 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_application_manager_abbab98616d4848114b4338c8accedef2_cgraph.png" border="0" usemap="#class_application_manager_abbab98616d4848114b4338c8accedef2_cgraph" alt=""/></div>
 <map name="class_application_manager_abbab98616d4848114b4338c8accedef2_cgraph" id="class_application_manager_abbab98616d4848114b4338c8accedef2_cgraph">
-<area shape="rect" id="node3" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="189,39,325,86"/><area shape="rect" id="node5" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="373,5,509,51"/><area shape="rect" id="node7" href="class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910" title="ApplicationManager\l::stateChanged" alt="" coords="373,74,509,121"/></map>
+<area shape="rect" id="node2" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="189,5,325,46"/><area shape="rect" id="node3" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="373,5,509,46"/></map>
 </div>
 </p>
 
@@ -318,7 +407,7 @@ Oto graf wywołań dla tej funkcji:</div>
         <tr>
           <td class="memname">void ApplicationManager::insertMethods </td>
           <td>(</td>
-          <td class="paramtype">FIDMapping&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_application_manager.html#a00564f65d5da07b75a4dc0d0d13c2dc1">FIDMapping</a>&lt; <a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a> &gt;&#160;</td>
           <td class="paramname"><em>Map</em></td><td>)</td>
           <td></td>
         </tr>
@@ -337,7 +426,16 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_application_manager_ace0c5e4596d968278acd0b61042472d2_cgraph.png" border="0" usemap="#class_application_manager_ace0c5e4596d968278acd0b61042472d2_cgraph" alt=""/></div>
 <map name="class_application_manager_ace0c5e4596d968278acd0b61042472d2_cgraph" id="class_application_manager_ace0c5e4596d968278acd0b61042472d2_cgraph">
-<area shape="rect" id="node3" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b" title="DSourceCodeParser:\l:insertMethods" alt="" coords="189,5,336,51"/></map>
+<area shape="rect" id="node2" href="class_d_source_code_parser.html#acb80a33d6f64af51009f3a09fbfd430b" title="DSourceCodeParser::\linsertMethods" alt="" coords="190,5,341,46"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_application_manager_ace0c5e4596d968278acd0b61042472d2_icgraph.png" border="0" usemap="#class_application_manager_ace0c5e4596d968278acd0b61042472d2_icgraph" alt=""/></div>
+<map name="class_application_manager_ace0c5e4596d968278acd0b61042472d2_icgraph" id="class_application_manager_ace0c5e4596d968278acd0b61042472d2_icgraph">
+<area shape="rect" id="node2" href="class_application_manager.html#af1a9357249748e88cdbbcb994d8a7fe0" title="ApplicationManager\l::applyClicked" alt="" coords="189,5,325,46"/></map>
 </div>
 </p>
 
@@ -387,7 +485,16 @@ Oto graf wywołań dla tej funkcji:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_cgraph.png" border="0" usemap="#class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_cgraph" alt=""/></div>
 <map name="class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_cgraph" id="class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_cgraph">
-<area shape="rect" id="node3" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="189,5,325,51"/><area shape="rect" id="node5" href="class_application_manager.html#a0c10f4864788ee7e13730eae75d8c910" title="ApplicationManager\l::stateChanged" alt="" coords="189,74,325,121"/></map>
+<area shape="rect" id="node2" href="class_application_manager.html#aa86515d8c95bae5d713033e75becdf3c" title="ApplicationManager\l::state" alt="" coords="189,5,325,46"/></map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_icgraph.png" border="0" usemap="#class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_icgraph" alt=""/></div>
+<map name="class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_icgraph" id="class_application_manager_a9923f3e608544e9e74d604a6018c9ae1_icgraph">
+<area shape="rect" id="node2" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d" title="ApplicationManager\l::ApplicationManager" alt="" coords="189,5,333,46"/><area shape="rect" id="node3" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2" title="ApplicationManager\l::fileOpened" alt="" coords="193,70,329,111"/></map>
 </div>
 </p>
 
@@ -405,6 +512,15 @@ Oto graf wywołań dla tej funkcji:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_application_manager_aa86515d8c95bae5d713033e75becdf3c_icgraph.png" border="0" usemap="#class_application_manager_aa86515d8c95bae5d713033e75becdf3c_icgraph" alt=""/></div>
+<map name="class_application_manager_aa86515d8c95bae5d713033e75becdf3c_icgraph" id="class_application_manager_aa86515d8c95bae5d713033e75becdf3c_icgraph">
+<area shape="rect" id="node2" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="189,38,325,79"/><area shape="rect" id="node3" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d" title="ApplicationManager\l::ApplicationManager" alt="" coords="373,5,517,46"/><area shape="rect" id="node4" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2" title="ApplicationManager\l::fileOpened" alt="" coords="377,70,513,111"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -429,6 +545,15 @@ Oto graf wywołań dla tej funkcji:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p><div class="dynheader">
+Oto graf wywoływań tej funkcji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_application_manager_a0c10f4864788ee7e13730eae75d8c910_icgraph.png" border="0" usemap="#class_application_manager_a0c10f4864788ee7e13730eae75d8c910_icgraph" alt=""/></div>
+<map name="class_application_manager_a0c10f4864788ee7e13730eae75d8c910_icgraph" id="class_application_manager_a0c10f4864788ee7e13730eae75d8c910_icgraph">
+<area shape="rect" id="node2" href="class_application_manager.html#a9923f3e608544e9e74d604a6018c9ae1" title="ApplicationManager\l::setState" alt="" coords="189,38,325,79"/><area shape="rect" id="node3" href="class_application_manager.html#a879feb4ed324b2f0c381e2cf377fe56d" title="ApplicationManager\l::ApplicationManager" alt="" coords="373,5,517,46"/><area shape="rect" id="node4" href="class_application_manager.html#abbab98616d4848114b4338c8accedef2" title="ApplicationManager\l::fileOpened" alt="" coords="377,70,513,111"/></map>
+</div>
+</p>
 
 </div>
 </div>
@@ -470,7 +595,206 @@ Oto graf wywołań dla tej funkcji:</div>
 
 </div>
 </div>
-<h2>Dokumentacja właściwości</h2>
+<h2 class="groupheader">Dokumentacja atrybutów składowych</h2>
+<a class="anchor" id="a8c80655f96f9d827b8260ff73113934c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_json_parser.html">DJsonParser</a> ApplicationManager::jsonParser</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00055">55</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a371f65b49801926244ecc6283d05a965"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_application_manager.html#aeb5af7a2aa47623af5160ea1f20d0243">State</a> ApplicationManager::m_state</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00048">48</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afef59bc227cf3e7c4b88e5328572afee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString ApplicationManager::m_targetPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00053">53</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36e1de12b3c278574f5a0f71cae72d37"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a>&lt;<a class="el" href="codedefines_8h.html#a5e15b5c4d766f6faf29b5bcec37bde5c">Registers_x64</a>&gt; ApplicationManager::m_x64methodsList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00051">51</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a77d122c9028919af104a0ac9992ecdc1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantList ApplicationManager::m_x64MethodsNames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00052">52</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a95dbbdfce6b0865fad1dba671424bc81"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_application_manager.html#afc6759e44d61ba108cadcea101b30bc7">IDList</a>&lt;<a class="el" href="codedefines_8h.html#a0f84efe4ca4d99203713a78bd6e8c82e">Registers_x86</a>&gt; ApplicationManager::m_x86methodsList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00049">49</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4535135d50421609e8c984860b0f9af6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantList ApplicationManager::m_x86MethodsNames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00050">50</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64d34ed2c01cd33346e372f4174fa7aa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList ApplicationManager::sourceExtensionList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00054">54</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af1e6bb5f28b480676de7b7f22d465baa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_d_source_code_parser.html">DSourceCodeParser</a>* ApplicationManager::sourceParser</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="applicationmanager_8h_source.html#l00056">56</a> pliku <a class="el" href="applicationmanager_8h_source.html">applicationmanager.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja właściwości</h2>
 <a class="anchor" id="a930a84127f404aa07e142c5b37dfe128"></a>
 <div class="memitem">
 <div class="memproto">
@@ -525,9 +849,9 @@ Oto graf wywołań dla tej funkcji:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_application_manager.html">ApplicationManager</a></li>
-    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:48 dla dDeflect programem
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 11:15:42 dla dDeflect programem
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
 </div>
 </body>

@@ -1,0 +1,5 @@
+<map id="PEFile::getImageBase" name="PEFile::getImageBase">
+<area shape="rect" id="node2" href="$class_p_e_file.html#aba5f21e866470adc21d621994bdf9c8a" title="Pobiera adres bazowy pliku w pamięci. " alt="" coords="208,31,403,57"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="451,5,642,32"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="451,56,642,83"/>
+</map>

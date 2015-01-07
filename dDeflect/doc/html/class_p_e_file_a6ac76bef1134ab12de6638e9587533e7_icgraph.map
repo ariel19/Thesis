@@ -1,0 +1,16 @@
+<map id="PEFile::getSectionByVirtualAddress" name="PEFile::getSectionByVirtualAddress">
+<area shape="rect" id="node2" href="$class_p_e_file.html#ae0d56760b97e3cf995d9342908821e72" title="Pobiera index struktury IMAGE_TLS_DIRECTORY w pliku. " alt="" coords="245,146,424,187"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#af718219d753f57388e3db28a55928b3e" title="Metoda pobierająca adresy funkcji TLS. " alt="" coords="949,5,1112,32"/>
+<area shape="rect" id="node11" href="$class_p_e_file.html#a4eea22c0e10b83bb7bc1992ddca0ed01" title="Metoda wypełniająca listę relokacjami adresów. " alt="" coords="257,212,413,239"/>
+<area shape="rect" id="node14" href="$class_p_e_file.html#a842228e192f08a70f80f564fe4ee7bc5" title="Metoda pobierają◘ca zawartość sekcji .text. " alt="" coords="488,263,645,289"/>
+<area shape="rect" id="node15" href="$class_p_e_file.html#afdcc62870de787ebaee455b55af8f06f" title="Metoda pobierająca przesunięcie w pliku sekcji .text. " alt="" coords="238,313,431,340"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#abe408c5a83eef65d6f1f7659fc2dd8d2" title="Metoda pobierająca 32&#45;bitową wersję struktury IMAGE_TLS_DIRECTORY. " alt="" coords="481,107,653,133"/>
+<area shape="rect" id="node10" href="$class_p_e_file.html#a1341deeaa1ad21de371dc474751167d2" title="Metoda pobierająca 64&#45;bitową wersję struktury IMAGE_TLS_DIRECTORY. " alt="" coords="481,157,653,184"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#ab385de72db3e791e1477cb6593266d45" title="Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji TLS. " alt="" coords="706,33,897,74"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#a698dd8d1b169ac0b9d01ebfecd16bc51" title="Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji TLS. " alt="" coords="706,98,897,139"/>
+<area shape="rect" id="node8" href="$class_p_e_file.html#aa60f615dfd569e601e3d25eaded2d3ed" title="Pobiera adres wirtualny pod którym znajduje się index TLS. " alt="" coords="702,164,901,191"/>
+<area shape="rect" id="node9" href="$class_p_e_file.html#a2d6f55148b572f564bc30e881d97d9f8" title="Ustawia adres wirtualny pod którym znajduje się index TLS. " alt="" coords="702,215,901,241"/>
+<area shape="rect" id="node5" href="$class_p_e_adding_methods.html#a16ab45ebef33f806f962985dbb921d54" title="Metoda dodająca kod do Thread Local Storage. " alt="" coords="1160,107,1379,133"/>
+<area shape="rect" id="node12" href="$class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b" title="Metoda dodająca wpisy do tablicy relokacji. " alt="" coords="487,212,646,239"/>
+<area shape="rect" id="node13" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="701,265,901,292"/>
+</map>

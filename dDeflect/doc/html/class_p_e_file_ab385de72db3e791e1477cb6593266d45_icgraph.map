@@ -1,0 +1,4 @@
+<map id="PEFile::getTlsAddressOfCallBacks" name="PEFile::getTlsAddressOfCallBacks">
+<area shape="rect" id="node2" href="$class_p_e_adding_methods.html#a16ab45ebef33f806f962985dbb921d54" title="Metoda dodająca kod do Thread Local Storage. " alt="" coords="456,12,675,39"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#af718219d753f57388e3db28a55928b3e" title="Metoda pobierająca adresy funkcji TLS. " alt="" coords="245,37,408,64"/>
+</map>

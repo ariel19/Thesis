@@ -11,6 +11,7 @@ var dir_c1ba1c2b8a0e94bf76babf8745cc7d39 =
     [ "pefile.cpp", "pefile_8cpp.html", null ],
     [ "pefile.h", "pefile_8h.html", [
       [ "PEFile", "class_p_e_file.html", "class_p_e_file" ],
+      [ "RelocationTable", "struct_p_e_file_1_1_relocation_table.html", "struct_p_e_file_1_1_relocation_table" ],
       [ "TypeOffset", "struct_p_e_file_1_1_relocation_table_1_1_type_offset.html", "struct_p_e_file_1_1_relocation_table_1_1_type_offset" ]
     ] ],
     [ "pehelpers.cpp", "pehelpers_8cpp.html", null ],

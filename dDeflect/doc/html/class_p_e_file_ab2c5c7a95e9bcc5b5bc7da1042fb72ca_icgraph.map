@@ -1,0 +1,5 @@
+<map id="PEFile::addNewSection" name="PEFile::addNewSection">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="217,5,386,32"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b" title="Metoda dodająca wpisy do tablicy relokacji. " alt="" coords="222,56,381,83"/>
+<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="435,56,635,83"/>
+</map>

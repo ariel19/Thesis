@@ -1,0 +1,13 @@
+<map id="PEFile::getImageBase" name="PEFile::getImageBase">
+<area shape="rect" id="node2" href="$class_p_e_adding_methods.html#a22067090f90a0b2fdbe8b127df0113e0" title="PEAddingMethods::injectEpCode" alt="" coords="208,5,424,32"/>
+<area shape="rect" id="node3" href="$class_p_e_adding_methods.html#a16ab45ebef33f806f962985dbb921d54" title="Metoda dodająca kod do Thread Local Storage. " alt="" coords="495,107,713,133"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="231,107,401,133"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b" title="Metoda dodająca wpisy do tablicy relokacji. " alt="" coords="237,208,395,235"/>
+<area shape="rect" id="node7" href="$class_p_e_file.html#af718219d753f57388e3db28a55928b3e" title="Metoda pobierająca adresy funkcji TLS. " alt="" coords="235,157,397,184"/>
+<area shape="rect" id="node8" href="$class_p_e_file.html#a1cf0f58cf7e061011a1dd95b16076e07" title="Metoda pobierająca adres skoku instrukcji call lub jmp znajdującej się pod konkretnym offsetem..." alt="" coords="231,361,401,402"/>
+<area shape="rect" id="node10" href="$class_p_e_file.html#a6c06d44bec906ab659326541e6244850" title="Metoda ustawiająca adres skoku instrukcji call lub jmp znajdującej się w konkretnym miejscu w pliku..." alt="" coords="231,426,401,467"/>
+<area shape="rect" id="node11" href="$class_p_e_file.html#a842228e192f08a70f80f564fe4ee7bc5" title="Metoda pobierają◘ca zawartość sekcji .text. " alt="" coords="237,259,395,285"/>
+<area shape="rect" id="node12" href="$class_p_e_file.html#afdcc62870de787ebaee455b55af8f06f" title="Metoda pobierająca przesunięcie w pliku sekcji .text. " alt="" coords="219,309,413,336"/>
+<area shape="rect" id="node6" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="504,259,704,285"/>
+<area shape="rect" id="node9" href="$class_p_e_adding_methods.html#a7bfc807cbd6863be7a0caaab742668bb" title="Metoda dodająca kod jako trampolinę " alt="" coords="472,400,736,427"/>
+</map>

@@ -1,4 +1,3 @@
 <map id="main" name="main">
-<area shape="rect" id="node3" href="$class_d_json_parser.html#a3baa4948e78cb386c8eb7e6634ab4d03" title="DJsonParser::loadInjectDescription tworzy obiekt InjectDescription deserializując go z z injectDescri..." alt="" coords="105,13,332,43"/>
-<area shape="rect" id="node5" href="$class_d_adding_methods_1_1_wrapper.html#ad8951e3aea612be776608e90eebca99b" title="read this zostaje wczytany z pliku json" alt="" coords="381,5,560,51"/>
+<area shape="rect" id="node2" href="$class_d_json_parser.html#a14c19cd1d981e908ef8dfbc4218b359f" title="DJsonParser::loadInjectDescription" alt="" coords="105,5,333,32"/>
 </map>

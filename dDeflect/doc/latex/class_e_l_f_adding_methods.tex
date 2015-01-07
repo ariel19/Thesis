@@ -7,20 +7,22 @@
 
 
 
-Diagram dziedziczenia dla E\-L\-F\-Adding\-Methods\nopagebreak
+Diagram dziedziczenia dla E\-L\-F\-Adding\-Methods
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=182pt]{class_e_l_f_adding_methods__inherit__graph}
+\includegraphics[width=180pt]{class_e_l_f_adding_methods__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Diagram współpracy dla E\-L\-F\-Adding\-Methods\-:\nopagebreak
+Diagram współpracy dla E\-L\-F\-Adding\-Methods\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=182pt]{class_e_l_f_adding_methods__coll__graph}
+\includegraphics[width=180pt]{class_e_l_f_adding_methods__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Metody publiczne}
@@ -32,6 +34,47 @@ Diagram współpracy dla E\-L\-F\-Adding\-Methods\-:\nopagebreak
 \item 
 {\footnotesize template$<$typename Registers\-Type $>$ }\\bool \hyperlink{class_e_l_f_adding_methods_acaa41aa5ab101bb4fa0e23a3029020ad}{secure\-\_\-elf} (\hyperlink{class_e_l_f}{E\-L\-F} \&elf, const \hyperlink{class_d_adding_methods_1_1_inject_description}{Inject\-Description}$<$ Registers\-Type $>$ \&inject\-\_\-desc)
 \begin{DoxyCompactList}\small\item\em Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typy prywatne}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022}{Placeholder\-Mnemonics} \{ \hyperlink{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022aa229d6072e720d4ea51a461305a77419}{Placeholder\-Mnemonics\-::\-D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-R}, 
+\hyperlink{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022a27bbeb27ba0c0ff952f0fd2d60ae393d}{Placeholder\-Mnemonics\-::\-D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-M\-E\-T\-H\-O\-D}, 
+\hyperlink{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022a5f7c52080f7e0204b8d872cba032e24d}{Placeholder\-Mnemonics\-::\-D\-D\-R\-E\-T}
+ \}
+\item 
+enum \hyperlink{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150}{Placeholder\-Types} \{ \hyperlink{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a52f564497e8e79fb9faf8ef2e4e727ba}{Placeholder\-Types\-::\-P\-A\-R\-A\-M\-\_\-\-P\-R\-E}, 
+\hyperlink{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a64a5bcb12c5350fc77bead500da05d04}{Placeholder\-Types\-::\-P\-A\-R\-A\-M\-\_\-\-P\-O\-S\-T}, 
+\hyperlink{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a7f3e363cf91446c37876c5842a13ed14}{Placeholder\-Types\-::\-P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-R\-E}, 
+\hyperlink{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150ac48d0ec9c86b18c729c51ca6742cbf19}{Placeholder\-Types\-::\-P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-O\-S\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em Typy placeholderów. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody prywatne}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\bool \hyperlink{class_e_l_f_adding_methods_a5aba8ac68c5596fcd306563b3b1dc42d}{wrapper\-\_\-gen\-\_\-code} (\hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}$<$ Registers\-Type $>$ $\ast$wrap, Q\-String \&code)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za generowanie kodu dla dowolnego opakowania. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_e_l_f_adding_methods_a173aef7c3ca6dfd00a26676b7b1c799c}{fill\-\_\-params} (Q\-String \&code, const Q\-Map$<$ Q\-String, Q\-String $>$ \&params)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za wypełnianie parametrów w podanym kodzie. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_e_l_f_adding_methods_a1c71c7b3681912661e529ac4878dc8d8}{fill\-\_\-placeholders} (Q\-String \&code, const Q\-String \&gen\-\_\-code, \hyperlink{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022}{Placeholder\-Mnemonics} plc\-\_\-mnm)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za wypełnianie placeholdera w podanym kodzie, za pomocą podanego kodu. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_adding_methods_a2d8f6c6b99d1f3e22d9196cd70e9c017}{compile} (const Q\-String \&code2compile, Q\-Byte\-Array \&compiled\-\_\-code)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za kompilację kodu źródłowego assembly. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_adding_methods_aea9b58dda2bc9b6216a01c3970b1f214}{get\-\_\-addresses} (const Q\-Byte\-Array \&data, uint8\-\_\-t addr\-\_\-size, Q\-List$<$ \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} $>$ \&addr\-\_\-list, const Q\-List$<$ \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} $>$ \&except\-\_\-list)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za pobieranie adresów z wyspecyfikowanych danych. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_adding_methods_a2366eabcf1be00baed6d4e652c70cd99}{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86} (\hyperlink{elf_8h_a40c6d4571e6001f443cc6a6474620158}{Elf32\-\_\-\-Addr} vaddr, \hyperlink{elf_8h_af5924ece606c732e86f8263a19408e45}{Elf32\-\_\-\-Word} mem\-\_\-size, \hyperlink{elf_8h_af5924ece606c732e86f8263a19408e45}{Elf32\-\_\-\-Word} flags, Q\-String \&code)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_adding_methods_ab5fee890e1e3e4ae015f328b12312275}{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64} (\hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} vaddr, \hyperlink{elf_8h_a5447a48a3dae0bd24f606415268c6fe4}{Elf64\-\_\-\-Xword} mem\-\_\-size, \hyperlink{elf_8h_aa3aa1920ed115b7ef7e99716fece4401}{Elf64\-\_\-\-Word} flags, Q\-String \&code)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci. \end{DoxyCompactList}\item 
+void \hyperlink{class_e_l_f_adding_methods_a2f92b80d3e5470890c1d78cb8575c13d}{get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes} (Q\-String\-List \&opcodes, Q\-List$<$ \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} $>$ \&file\-\_\-off, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} base\-\_\-off)
+\begin{DoxyCompactList}\small\item\em Metoda odpowiada za pobieranie offsetow instrukcji w pliku. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Map$<$ \hyperlink{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150}{Placeholder\-Types}, Q\-String $>$ \hyperlink{class_e_l_f_adding_methods_a108205cdbf268927f0b64c2a783a96d5}{placeholder\-\_\-id}
+\item 
+Q\-Map$<$ \hyperlink{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022}{Placeholder\-Mnemonics}, \\*
+Q\-String $>$ \hyperlink{class_e_l_f_adding_methods_ad77df886acfad79f1b705f5ff1976e4a}{placeholder\-\_\-mnm}
+\end{DoxyCompactItemize}
 \subsection*{Dodatkowe Dziedziczone Składowe}
 
 
@@ -39,6 +82,51 @@ Diagram współpracy dla E\-L\-F\-Adding\-Methods\-:\nopagebreak
 
 
 Definicja w linii 9 pliku elfaddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja składowych wyliczanych}
+\hypertarget{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!Placeholder\-Mnemonics@{Placeholder\-Mnemonics}}
+\index{Placeholder\-Mnemonics@{Placeholder\-Mnemonics}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{Placeholder\-Mnemonics}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf E\-L\-F\-Adding\-Methods\-::\-Placeholder\-Mnemonics}\hspace{0.3cm}{\ttfamily [strong]}, {\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022}
+\begin{Desc}
+\item[Wartości wyliczeń]\par
+\begin{description}
+\index{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-R@{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-R}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-R@{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-R}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022aa229d6072e720d4ea51a461305a77419}{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-R}\label{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022aa229d6072e720d4ea51a461305a77419}
+}]\index{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-M\-E\-T\-H\-O\-D@{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-M\-E\-T\-H\-O\-D}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-M\-E\-T\-H\-O\-D@{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-M\-E\-T\-H\-O\-D}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022a27bbeb27ba0c0ff952f0fd2d60ae393d}{D\-D\-E\-T\-E\-C\-T\-I\-O\-N\-M\-E\-T\-H\-O\-D}\label{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022a27bbeb27ba0c0ff952f0fd2d60ae393d}
+}]\index{D\-D\-R\-E\-T@{D\-D\-R\-E\-T}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!D\-D\-R\-E\-T@{D\-D\-R\-E\-T}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022a5f7c52080f7e0204b8d872cba032e24d}{D\-D\-R\-E\-T}\label{class_e_l_f_adding_methods_a666b28eeb9569323a4f697d37c6a1022a5f7c52080f7e0204b8d872cba032e24d}
+}]\end{description}
+\end{Desc}
+
+
+Definicja w linii 25 pliku elfaddingmethods.\-h.
+
+\hypertarget{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!Placeholder\-Types@{Placeholder\-Types}}
+\index{Placeholder\-Types@{Placeholder\-Types}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{Placeholder\-Types}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf E\-L\-F\-Adding\-Methods\-::\-Placeholder\-Types}\hspace{0.3cm}{\ttfamily [strong]}, {\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150}
+
+
+Typy placeholderów. 
+
+\begin{Desc}
+\item[Wartości wyliczeń]\par
+\begin{description}
+\index{P\-A\-R\-A\-M\-\_\-\-P\-R\-E@{P\-A\-R\-A\-M\-\_\-\-P\-R\-E}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!P\-A\-R\-A\-M\-\_\-\-P\-R\-E@{P\-A\-R\-A\-M\-\_\-\-P\-R\-E}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a52f564497e8e79fb9faf8ef2e4e727ba}{P\-A\-R\-A\-M\-\_\-\-P\-R\-E}\label{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a52f564497e8e79fb9faf8ef2e4e727ba}
+}]\index{P\-A\-R\-A\-M\-\_\-\-P\-O\-S\-T@{P\-A\-R\-A\-M\-\_\-\-P\-O\-S\-T}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!P\-A\-R\-A\-M\-\_\-\-P\-O\-S\-T@{P\-A\-R\-A\-M\-\_\-\-P\-O\-S\-T}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a64a5bcb12c5350fc77bead500da05d04}{P\-A\-R\-A\-M\-\_\-\-P\-O\-S\-T}\label{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a64a5bcb12c5350fc77bead500da05d04}
+}]\index{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-R\-E@{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-R\-E}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-R\-E@{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-R\-E}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a7f3e363cf91446c37876c5842a13ed14}{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-R\-E}\label{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150a7f3e363cf91446c37876c5842a13ed14}
+}]\index{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-O\-S\-T@{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-O\-S\-T}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-O\-S\-T@{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-O\-S\-T}}\item[{\em 
+\hypertarget{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150ac48d0ec9c86b18c729c51ca6742cbf19}{P\-L\-A\-C\-E\-H\-O\-L\-D\-E\-R\-\_\-\-P\-O\-S\-T}\label{class_e_l_f_adding_methods_a7058ae8ed3ce82783edb1eb0a44c1150ac48d0ec9c86b18c729c51ca6742cbf19}
+}]\end{description}
+\end{Desc}
+
+
+Definicja w linii 34 pliku elfaddingmethods.\-h.
 
 
 
@@ -68,6 +156,193 @@ Definicja w linii 20 pliku elfaddingmethods.\-cpp.
 
 
 \subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_e_l_f_adding_methods_a2d8f6c6b99d1f3e22d9196cd70e9c017}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!compile@{compile}}
+\index{compile@{compile}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{compile}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-Adding\-Methods\-::compile (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{code2compile, }
+\item[{Q\-Byte\-Array \&}]{compiled\-\_\-code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a2d8f6c6b99d1f3e22d9196cd70e9c017}
+
+
+Metoda odpowiada za kompilację kodu źródłowego assembly. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code2compile} & kod, który musi zostać skompilowany. \\
+\hline
+{\em compiled\-\_\-code} & skompilowany kod. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 43 pliku elfaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_a2d8f6c6b99d1f3e22d9196cd70e9c017_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_adding_methods_a173aef7c3ca6dfd00a26676b7b1c799c}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!fill\-\_\-params@{fill\-\_\-params}}
+\index{fill\-\_\-params@{fill\-\_\-params}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{fill\-\_\-params}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t E\-L\-F\-Adding\-Methods\-::fill\-\_\-params (
+\begin{DoxyParamCaption}
+\item[{Q\-String \&}]{code, }
+\item[{const Q\-Map$<$ Q\-String, Q\-String $>$ \&}]{params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a173aef7c3ca6dfd00a26676b7b1c799c}
+
+
+Metoda odpowiada za wypełnianie parametrów w podanym kodzie. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code} & kod. \\
+\hline
+{\em params} & parametry. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+ilośc zamienionych parametrów. 
+\end{DoxyReturn}
+
+
+Definicja w linii 22 pliku elfaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_a173aef7c3ca6dfd00a26676b7b1c799c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_adding_methods_a1c71c7b3681912661e529ac4878dc8d8}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!fill\-\_\-placeholders@{fill\-\_\-placeholders}}
+\index{fill\-\_\-placeholders@{fill\-\_\-placeholders}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{fill\-\_\-placeholders}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t E\-L\-F\-Adding\-Methods\-::fill\-\_\-placeholders (
+\begin{DoxyParamCaption}
+\item[{Q\-String \&}]{code, }
+\item[{const Q\-String \&}]{gen\-\_\-code, }
+\item[{{\bf Placeholder\-Mnemonics}}]{plc\-\_\-mnm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a1c71c7b3681912661e529ac4878dc8d8}
+
+
+Metoda odpowiada za wypełnianie placeholdera w podanym kodzie, za pomocą podanego kodu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code} & kod. \\
+\hline
+{\em gen\-\_\-code} & kod, którym zostanie zamieniony placeholder. \\
+\hline
+{\em plc\-\_\-mnm} & placeholder. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+ilośc zamienionych parametrów. 
+\end{DoxyReturn}
+
+
+Definicja w linii 34 pliku elfaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_a1c71c7b3681912661e529ac4878dc8d8_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_adding_methods_aea9b58dda2bc9b6216a01c3970b1f214}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!get\-\_\-addresses@{get\-\_\-addresses}}
+\index{get\-\_\-addresses@{get\-\_\-addresses}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{get\-\_\-addresses}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-Adding\-Methods\-::get\-\_\-addresses (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{data, }
+\item[{uint8\-\_\-t}]{addr\-\_\-size, }
+\item[{Q\-List$<$ {\bf Elf64\-\_\-\-Addr} $>$ \&}]{addr\-\_\-list, }
+\item[{const Q\-List$<$ {\bf Elf64\-\_\-\-Addr} $>$ \&}]{except\-\_\-list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_aea9b58dda2bc9b6216a01c3970b1f214}
+
+
+Metoda odpowiada za pobieranie adresów z wyspecyfikowanych danych. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em data} & tablica z adresami. \\
+\hline
+{\em addr\-\_\-size} & wielkość adresu w bajtach. \\
+\hline
+{\em addr\-\_\-list} & lista adresów. \\
+\hline
+{\em except\-\_\-list} & lista adresów, które nie trzeba dołączać do listy wynikowej. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 69 pliku elfaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_aea9b58dda2bc9b6216a01c3970b1f214_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_adding_methods_a2f92b80d3e5470890c1d78cb8575c13d}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes@{get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes}}
+\index{get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes@{get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes}]{\setlength{\rightskip}{0pt plus 5cm}void E\-L\-F\-Adding\-Methods\-::get\-\_\-file\-\_\-offsets\-\_\-from\-\_\-opcodes (
+\begin{DoxyParamCaption}
+\item[{Q\-String\-List \&}]{opcodes, }
+\item[{Q\-List$<$ {\bf Elf64\-\_\-\-Addr} $>$ \&}]{file\-\_\-off, }
+\item[{{\bf Elf64\-\_\-\-Addr}}]{base\-\_\-off}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a2f92b80d3e5470890c1d78cb8575c13d}
+
+
+Metoda odpowiada za pobieranie offsetow instrukcji w pliku. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em opcodes} & lista instrukcji. \\
+\hline
+{\em file\-\_\-off} & offset w pliku. \\
+\hline
+{\em base\-\_\-off} & wartość bazowa offsetu. \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 134 pliku elfaddingmethods.\-cpp.
+
 \hypertarget{class_e_l_f_adding_methods_acaa41aa5ab101bb4fa0e23a3029020ad}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!secure\-\_\-elf@{secure\-\_\-elf}}
 \index{secure\-\_\-elf@{secure\-\_\-elf}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
 \subsubsection[{secure\-\_\-elf}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ bool E\-L\-F\-Adding\-Methods\-::secure\-\_\-elf (
@@ -96,7 +371,8 @@ Definicja w linii 148 pliku elfaddingmethods.\-h.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -104,6 +380,149 @@ Oto graf wywołań dla tej funkcji\-:\nopagebreak
 \end{center}
 \end{figure}
 
+
+\hypertarget{class_e_l_f_adding_methods_ab5fee890e1e3e4ae015f328b12312275}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64@{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64}}
+\index{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64@{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-Adding\-Methods\-::set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x64 (
+\begin{DoxyParamCaption}
+\item[{{\bf Elf64\-\_\-\-Addr}}]{vaddr, }
+\item[{{\bf Elf64\-\_\-\-Xword}}]{mem\-\_\-size, }
+\item[{{\bf Elf64\-\_\-\-Word}}]{flags, }
+\item[{Q\-String \&}]{code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_ab5fee890e1e3e4ae015f328b12312275}
+
+
+Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em vaddr} & adres wirtualny. \\
+\hline
+{\em mem\-\_\-size} & wielkość pamięci. \\
+\hline
+{\em flags} & prawa dostępu do pamięci. \\
+\hline
+{\em code} & wygenerowany kod. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 111 pliku elfaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_ab5fee890e1e3e4ae015f328b12312275_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_adding_methods_a2366eabcf1be00baed6d4e652c70cd99}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86@{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86}}
+\index{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86@{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-Adding\-Methods\-::set\-\_\-prot\-\_\-flags\-\_\-gen\-\_\-code\-\_\-x86 (
+\begin{DoxyParamCaption}
+\item[{{\bf Elf32\-\_\-\-Addr}}]{vaddr, }
+\item[{{\bf Elf32\-\_\-\-Word}}]{mem\-\_\-size, }
+\item[{{\bf Elf32\-\_\-\-Word}}]{flags, }
+\item[{Q\-String \&}]{code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a2366eabcf1be00baed6d4e652c70cd99}
+
+
+Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em vaddr} & adres wirtualny. \\
+\hline
+{\em mem\-\_\-size} & wielkość pamięci. \\
+\hline
+{\em flags} & prawa dostępu do pamięci. \\
+\hline
+{\em code} & wygenerowany kod. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 88 pliku elfaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_a2366eabcf1be00baed6d4e652c70cd99_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_adding_methods_a5aba8ac68c5596fcd306563b3b1dc42d}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!wrapper\-\_\-gen\-\_\-code@{wrapper\-\_\-gen\-\_\-code}}
+\index{wrapper\-\_\-gen\-\_\-code@{wrapper\-\_\-gen\-\_\-code}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{wrapper\-\_\-gen\-\_\-code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ bool E\-L\-F\-Adding\-Methods\-::wrapper\-\_\-gen\-\_\-code (
+\begin{DoxyParamCaption}
+\item[{{\bf Wrapper}$<$ Registers\-Type $>$ $\ast$}]{wrap, }
+\item[{Q\-String \&}]{code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a5aba8ac68c5596fcd306563b3b1dc42d}
+
+
+Metoda odpowiada za generowanie kodu dla dowolnego opakowania. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em wrap} & klasa opisująca kawałek kodu do wygenerowania. \\
+\hline
+{\em code} & wygenerowany kod. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 119 pliku elfaddingmethods.\-h.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_a5aba8ac68c5596fcd306563b3b1dc42d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_e_l_f_adding_methods_a108205cdbf268927f0b64c2a783a96d5}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!placeholder\-\_\-id@{placeholder\-\_\-id}}
+\index{placeholder\-\_\-id@{placeholder\-\_\-id}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{placeholder\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Map$<${\bf Placeholder\-Types}, Q\-String$>$ E\-L\-F\-Adding\-Methods\-::placeholder\-\_\-id\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_a108205cdbf268927f0b64c2a783a96d5}
+
+
+Definicja w linii 41 pliku elfaddingmethods.\-h.
+
+\hypertarget{class_e_l_f_adding_methods_ad77df886acfad79f1b705f5ff1976e4a}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!placeholder\-\_\-mnm@{placeholder\-\_\-mnm}}
+\index{placeholder\-\_\-mnm@{placeholder\-\_\-mnm}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{placeholder\-\_\-mnm}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Map$<${\bf Placeholder\-Mnemonics}, Q\-String$>$ E\-L\-F\-Adding\-Methods\-::placeholder\-\_\-mnm\hspace{0.3cm}{\ttfamily [private]}}}\label{class_e_l_f_adding_methods_ad77df886acfad79f1b705f5ff1976e4a}
+
+
+Definicja w linii 42 pliku elfaddingmethods.\-h.
 
 
 

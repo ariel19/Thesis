@@ -1,0 +1,8 @@
+<map id="BinaryCode::append" name="BinaryCode::append">
+<area shape="rect" id="node2" href="$class_p_e_adding_methods.html#a85b7bf24809fee317810bcf1e8277bbf" title="Generowanie kodu metody. " alt="" coords="195,5,413,32"/>
+<area shape="rect" id="node3" href="$class_p_e_adding_methods.html#a22067090f90a0b2fdbe8b127df0113e0" title="PEAddingMethods::injectEpCode" alt="" coords="196,56,412,83"/>
+<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a471203b164d35d021dbfe753cc282223" title="PEAddingMethods::generate\lThreadCode" alt="" coords="210,107,398,149"/>
+<area shape="rect" id="node5" href="$class_p_e_adding_methods.html#a963cfdaf85b7e1aecc20d4d17c8b2d01" title="PEAddingMethods::generate\lParametersLoadingCode" alt="" coords="210,173,398,214"/>
+<area shape="rect" id="node6" href="$class_p_e_adding_methods.html#a364d4eec1e6f1e93c93f8da7355e9958" title="Metoda generująca kod sprawdzający warunek wywołania akcji (handlera) dla metody. ..." alt="" coords="210,238,398,279"/>
+<area shape="rect" id="node7" href="$class_p_e_adding_methods.html#a1723723cc8e2d43b53e5aae0badf093e" title="PEAddingMethods::generate\lTrampolineCode" alt="" coords="210,303,398,345"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="PEFile::isSectionExecutable" name="PEFile::isSectionExecutable">
+<area shape="rect" id="node2" href="$class_p_e_file.html#a02637152fe9ad85d48b25a8b8065a141" title="Dodawanie danych do sekcji wirtualnej. " alt="" coords="243,5,421,46"/>
+<area shape="rect" id="node3" href="$class_p_e_file.html#ac0b05750bc440bb32cac22d0b1e0fece" title="Dodanie danych do istniejącej sekcji z rozszerzeniem jeśli wymagane. " alt="" coords="470,71,663,97"/>
+<area shape="rect" id="node4" href="$class_p_e_file.html#afa6e5d2b833b528707cc711912d79172" title="Rozszerza sekcję i dodaje do niej dane. " alt="" coords="245,172,419,199"/>
+<area shape="rect" id="node6" href="$class_p_e_file.html#ac2af0ea1633bb97beec46a898862880c" title="Dodanie danych do istniejącej sekcji bez rozszerzania. " alt="" coords="243,121,421,148"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5" title="Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. " alt="" coords="482,147,651,173"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="ELF::__parse" name="ELF::__parse">
+<area shape="rect" id="node2" href="$class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="155,5,306,32"/>
+<area shape="rect" id="node4" href="$class_e_l_f.html#a69450dcdb097595f3039142e3203c717" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. " alt="" coords="163,57,298,98"/>
+<area shape="rect" id="node5" href="$class_e_l_f.html#a7bcefdc63dcaee056a3800f57cf73992" title="Konstruktor. " alt="" coords="191,123,270,149"/>
+<area shape="rect" id="node3" href="$class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="355,5,559,32"/>
+</map>

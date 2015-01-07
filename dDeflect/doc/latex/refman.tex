@@ -1,74 +1,142 @@
-\documentclass{book}
-\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
-\usepackage{makeidx}
-\usepackage{natbib}
+\documentclass[twoside]{book}
+
+% Packages required by doxygen
+\usepackage{calc}
+\usepackage{doxygen}
 \usepackage{graphicx}
-\usepackage{multicol}
-\usepackage{float}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{ifthen}
-\usepackage[table]{xcolor}
-\usepackage{textcomp}
-\usepackage{alltt}
-\usepackage{ifpdf}
-\ifpdf
-\usepackage[pdftex,
-            pagebackref=true,
-            colorlinks=true,
-            linkcolor=blue,
-            unicode
-           ]{hyperref}
-\else
-\usepackage[ps2pdf,
-            pagebackref=true,
-            colorlinks=true,
-            linkcolor=blue,
-            unicode
-           ]{hyperref}
-\usepackage{pspicture}
-\fi
 \usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage[table]{xcolor}
+
+% NLS support packages
 \usepackage{polski}
 \usepackage[T1]{fontenc}
 
+% Font selection
+\usepackage[T1]{fontenc}
 \usepackage{mathptmx}
 \usepackage[scaled=.90]{helvet}
 \usepackage{courier}
-\usepackage{sectsty}
 \usepackage{amssymb}
-\usepackage[titles]{tocloft}
-\usepackage{doxygen}
-\lstset{language=C++,inputencoding=utf8,basicstyle=\footnotesize,breaklines=true,breakatwhitespace=true,tabsize=8,numbers=left }
-\makeindex
-\setcounter{tocdepth}{3}
-\renewcommand{\footrulewidth}{0.4pt}
+\usepackage{sectsty}
 \renewcommand{\familydefault}{\sfdefault}
-\hfuzz=15pt
-\setlength{\emergencystretch}{15pt}
-\hbadness=750
+\allsectionsfont{%
+  \fontseries{bc}\selectfont%
+  \color{darkgray}%
+}
+\renewcommand{\DoxyLabelFont}{%
+  \fontseries{bc}\selectfont%
+  \color{darkgray}%
+}
+
+% Page & text layout
+\usepackage{geometry}
+\geometry{%
+  a4paper,%
+  top=2.5cm,%
+  bottom=2.5cm,%
+  left=2.5cm,%
+  right=2.5cm%
+}
 \tolerance=750
+\hfuzz=15pt
+\hbadness=750
+\setlength{\emergencystretch}{15pt}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.2cm}
+\makeatletter
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}{0ex}{-1.0ex}{1.0ex}{%
+    \normalfont\normalsize\bfseries\SS@parafont%
+  }%
+}
+\renewcommand{\subparagraph}{%
+  \@startsection{subparagraph}{5}{0ex}{-1.0ex}{1.0ex}{%
+    \normalfont\normalsize\bfseries\SS@subparafont%
+  }%
+}
+\makeatother
+
+% Headers & footers
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead[LE]{\fancyplain{}{\bfseries\thepage}}
+\fancyhead[CE]{\fancyplain{}{}}
+\fancyhead[RE]{\fancyplain{}{\bfseries\leftmark}}
+\fancyhead[LO]{\fancyplain{}{\bfseries\rightmark}}
+\fancyhead[CO]{\fancyplain{}{}}
+\fancyhead[RO]{\fancyplain{}{\bfseries\thepage}}
+\fancyfoot[LE]{\fancyplain{}{}}
+\fancyfoot[CE]{\fancyplain{}{}}
+\fancyfoot[RE]{\fancyplain{}{\bfseries\scriptsize Wygenerowano Śr, 7 sty 2015 11\-:15\-:42 dla d\-Deflect programem Doxygen }}
+\fancyfoot[LO]{\fancyplain{}{\bfseries\scriptsize Wygenerowano Śr, 7 sty 2015 11\-:15\-:42 dla d\-Deflect programem Doxygen }}
+\fancyfoot[CO]{\fancyplain{}{}}
+\fancyfoot[RO]{\fancyplain{}{}}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{%
+  \markboth{#1}{}%
+}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\thesection\ #1}%
+}
+
+% Indices & bibliography
+\usepackage{natbib}
+\usepackage[titles]{tocloft}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+\makeindex
+
+% Hyperlinks (required, but should be loaded last)
+\usepackage{ifpdf}
+\ifpdf
+  \usepackage[pdftex,pagebackref=true]{hyperref}
+\else
+  \usepackage[ps2pdf,pagebackref=true]{hyperref}
+\fi
+\hypersetup{%
+  colorlinks=true,%
+  linkcolor=blue,%
+  citecolor=blue,%
+  unicode%
+}
+
+% Custom commands
+\newcommand{\clearemptydoublepage}{%
+  \newpage{\pagestyle{empty}\cleardoublepage}%
+}
+
+
+%===== C O N T E N T S =====
+
 \begin{document}
-\hypersetup{pageanchor=false,citecolor=blue}
+
+% Titlepage & ToC
+\hypersetup{pageanchor=false}
+\pagenumbering{roman}
 \begin{titlepage}
 \vspace*{7cm}
-\begin{center}
+\begin{center}%
 {\Large d\-Deflect \\[1ex]\large 1.\-0 }\\
 \vspace*{1cm}
-{\large Wygenerowano przez Doxygen 1.8.1.2}\\
+{\large Wygenerowano przez Doxygen 1.8.6}\\
 \vspace*{0.5cm}
-{\small Śr, 7 sty 2015 04:01:48}\\
+{\small Śr, 7 sty 2015 11:15:42}\\
 \end{center}
 \end{titlepage}
 \clearemptydoublepage
-\pagenumbering{roman}
 \tableofcontents
 \clearemptydoublepage
 \pagenumbering{arabic}
-\hypersetup{pageanchor=true,citecolor=blue}
+\hypersetup{pageanchor=true}
+
+%--- Begin generated contents ---
 \chapter{Indeks przestrzeni nazw}
 \input{namespaces}
-\chapter{Indeks klas}
+\chapter{Indeks hierarchiczny}
 \input{hierarchy}
 \chapter{Indeks klas}
 \input{annotated}
@@ -77,6 +145,7 @@
 \chapter{Dokumentacja przestrzeni nazw}
 \input{namespacegen__desc}
 \chapter{Dokumentacja klas}
+\input{struct_e_l_f_1_1__best__segment}
 \input{struct___i_m_a_g_e___b_a_s_e___r_e_l_o_c_a_t_i_o_n}
 \input{struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y}
 \input{struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r}
@@ -88,6 +157,7 @@
 \input{struct___i_m_a_g_e___s_e_c_t_i_o_n___h_e_a_d_e_r}
 \input{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y32}
 \input{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y64}
+\input{struct_e_l_f_1_1__section__info}
 \input{class_application_manager}
 \input{class_asm_code_generator}
 \input{class_binary_code}
@@ -141,6 +211,7 @@
 \input{class_p_e_adding_methods}
 \input{class_p_e_file}
 \input{class_proc_out}
+\input{struct_p_e_file_1_1_relocation_table}
 \input{class_d_adding_methods_1_1_thread_wrapper}
 \input{class_d_adding_methods_1_1_trampoline_wrapper}
 \input{struct_p_e_file_1_1_relocation_table_1_1_type_offset}
@@ -178,5 +249,12 @@
 \input{methodlist_8cpp}
 \input{methodlist_8h}
 \input{main_8cpp}
+%--- End generated contents ---
+
+% Index
+\newpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Indeks}
 \printindex
+
 \end{document}

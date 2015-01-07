@@ -12,20 +12,22 @@ Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików P\-E.
 
 
 
-Diagram dziedziczenia dla P\-E\-Adding\-Methods\nopagebreak
+Diagram dziedziczenia dla P\-E\-Adding\-Methods
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=178pt]{class_p_e_adding_methods__inherit__graph}
+\includegraphics[width=176pt]{class_p_e_adding_methods__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Diagram współpracy dla P\-E\-Adding\-Methods\-:\nopagebreak
+Diagram współpracy dla P\-E\-Adding\-Methods\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=178pt]{class_p_e_adding_methods__coll__graph}
+\includegraphics[width=176pt]{class_p_e_adding_methods__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Metody publiczne}
@@ -39,6 +41,75 @@ Diagram współpracy dla P\-E\-Adding\-Methods\-:\nopagebreak
 \begin{DoxyCompactList}\small\item\em Metoda zabezpieczająca plik P\-E podanymi metodami. \end{DoxyCompactList}\item 
 void \hyperlink{class_p_e_adding_methods_af7948de6504286fdee160acba2c811bf}{set\-Code\-Coverage} (uint8\-\_\-t new\-\_\-coverage)
 \begin{DoxyCompactList}\small\item\em Ustawia nowe procentowe pokrycie kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody prywatne}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Register , typename T $>$ }\\bool \hyperlink{class_p_e_adding_methods_ad9ff3b76f2baaa04bd71dc37508d0c12}{generate\-Parameters\-Loading\-Code} (\hyperlink{class_binary_code}{Binary\-Code}$<$ Register $>$ \&code, T get\-Functions\-Code\-Addr, Q\-Map$<$ Register, Q\-String $>$ params, T thread\-Code\-Ptr)
+\begin{DoxyCompactList}\small\item\em Metoda generująca kod ładujący parametry dla metod. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\bool \hyperlink{class_p_e_adding_methods_a364d4eec1e6f1e93c93f8da7355e9958}{generate\-Action\-Condition\-Code} (\hyperlink{class_binary_code}{Binary\-Code}$<$ Register $>$ \&code, uint64\-\_\-t action, Register cond, Register act)
+\begin{DoxyCompactList}\small\item\em Metoda generująca kod sprawdzający warunek wywołania akcji (handlera) dla metody. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\bool \hyperlink{class_p_e_adding_methods_a03c66cfef8c9a6aefb0166b63e501898}{inject\-Ep\-Code} (Q\-List$<$ uint64\-\_\-t $>$ \&ep\-Methods)
+\begin{DoxyCompactList}\small\item\em Metoda dodająca kod w Entry\-Point. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\bool \hyperlink{class_p_e_adding_methods_a16ab45ebef33f806f962985dbb921d54}{inject\-Tls\-Code} (Q\-List$<$ uint64\-\_\-t $>$ \&tls\-Methods)
+\begin{DoxyCompactList}\small\item\em Metoda dodająca kod do Thread Local Storage. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\bool \hyperlink{class_p_e_adding_methods_a7bfc807cbd6863be7a0caaab742668bb}{inject\-Trampoline\-Code} (Q\-List$<$ uint64\-\_\-t $>$ \&tram\-Methods)
+\begin{DoxyCompactList}\small\item\em Metoda dodająca kod jako trampolinę \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\uint64\-\_\-t \hyperlink{class_p_e_adding_methods_a5ea4a8e2b325176f2fbf6e4f90c56f9c}{generate\-Thread\-Code} (Q\-List$<$ \hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}$<$ Register $>$ $\ast$ $>$ wrappers, uint16\-\_\-t sleep\-Time)
+\begin{DoxyCompactList}\small\item\em Metoda generująca kod wątku. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\uint64\-\_\-t \hyperlink{class_p_e_adding_methods_a85b7bf24809fee317810bcf1e8277bbf}{generate\-Code} (\hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}$<$ Register $>$ $\ast$w, bool is\-Tls\-Callback=false)
+\begin{DoxyCompactList}\small\item\em Generowanie kodu metody. \end{DoxyCompactList}\item 
+void \hyperlink{class_p_e_adding_methods_aa009e39ea9cdd8976930b3d9ade337e1}{get\-File\-Offsets\-From\-Opcodes} (Q\-String\-List \&opcodes, Q\-List$<$ uint32\-\_\-t $>$ \&file\-Offsets, uint32\-\_\-t base\-Offset)
+\begin{DoxyCompactList}\small\item\em Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\\hyperlink{class_binary_code}{Binary\-Code}$<$ Register $>$ \hyperlink{class_p_e_adding_methods_a5a216258dd2373a007522b6f0b7be418}{generate\-Trampoline\-Code} (uint64\-\_\-t real\-Addr, uint64\-\_\-t wrapper\-Addr)
+\begin{DoxyCompactList}\small\item\em Metoda generująca kod trampoliny. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\uint8\-\_\-t \hyperlink{class_p_e_adding_methods_af180fc5ca237dda8df7d4e286e164c16}{get\-Random\-Register} ()
+\begin{DoxyCompactList}\small\item\em Metoda losująca rejestr. \end{DoxyCompactList}\item 
+Q\-Byte\-Array \hyperlink{class_p_e_adding_methods_ad603c09592143cde1df7c87d75a8b7bb}{compile\-Code} (Q\-Byte\-Array code)
+\begin{DoxyCompactList}\small\item\em Kompiluje kod assemblerowy. \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\bool \hyperlink{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0}{inject\-Ep\-Code} (Q\-List$<$ uint64\-\_\-t $>$ \&ep\-Methods)
+\item 
+{\footnotesize template$<$$>$ }\\bool \hyperlink{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0}{inject\-Ep\-Code} (Q\-List$<$ uint64\-\_\-t $>$ \&ep\-Methods)
+\item 
+{\footnotesize template$<$$>$ }\\uint64\-\_\-t \hyperlink{class_p_e_adding_methods_a471203b164d35d021dbfe753cc282223}{generate\-Thread\-Code} (Q\-List$<$ \hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}$<$ \hyperlink{codedefines_8h_a0f84efe4ca4d99203713a78bd6e8c82e}{Registers\-\_\-x86} $>$ $\ast$ $>$ wrappers, uint16\-\_\-t sleep\-Time)
+\item 
+{\footnotesize template$<$$>$ }\\uint64\-\_\-t \hyperlink{class_p_e_adding_methods_ac10d4323c2f2e61cd24db36137b5f5eb}{generate\-Thread\-Code} (Q\-List$<$ \hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}$<$ \hyperlink{codedefines_8h_a5e15b5c4d766f6faf29b5bcec37bde5c}{Registers\-\_\-x64} $>$ $\ast$ $>$ wrappers, uint16\-\_\-t sleep\-Time)
+\item 
+{\footnotesize template$<$$>$ }\\bool \hyperlink{class_p_e_adding_methods_a963cfdaf85b7e1aecc20d4d17c8b2d01}{generate\-Parameters\-Loading\-Code} (\hyperlink{class_binary_code}{Binary\-Code}$<$ \hyperlink{codedefines_8h_a0f84efe4ca4d99203713a78bd6e8c82e}{Registers\-\_\-x86} $>$ \&code, uint32\-\_\-t get\-Functions\-Code\-Addr, Q\-Map$<$ \hyperlink{codedefines_8h_a0f84efe4ca4d99203713a78bd6e8c82e}{Registers\-\_\-x86}, Q\-String $>$ params, uint32\-\_\-t thread\-Code\-Ptr)
+\item 
+{\footnotesize template$<$$>$ }\\bool \hyperlink{class_p_e_adding_methods_afdab5f7db1574197d673f8674dd8d86e}{generate\-Parameters\-Loading\-Code} (\hyperlink{class_binary_code}{Binary\-Code}$<$ \hyperlink{codedefines_8h_a5e15b5c4d766f6faf29b5bcec37bde5c}{Registers\-\_\-x64} $>$ \&code, uint64\-\_\-t get\-Functions\-Code\-Addr, Q\-Map$<$ \hyperlink{codedefines_8h_a5e15b5c4d766f6faf29b5bcec37bde5c}{Registers\-\_\-x64}, Q\-String $>$ params, uint64\-\_\-t thread\-Code\-Ptr)
+\item 
+{\footnotesize template$<$$>$ }\\bool \hyperlink{class_p_e_adding_methods_abd485937ce84b0a42427feed0517a023}{generate\-Parameters\-Loading\-Code} (\hyperlink{class_binary_code}{Binary\-Code}$<$ \hyperlink{codedefines_8h_a0f84efe4ca4d99203713a78bd6e8c82e}{Registers\-\_\-x86} $>$ \&code, uint64\-\_\-t get\-Functions\-Code\-Addr, Q\-Map$<$ \hyperlink{codedefines_8h_a0f84efe4ca4d99203713a78bd6e8c82e}{Registers\-\_\-x86}, Q\-String $>$ params, uint64\-\_\-t thread\-Code\-Ptr)
+\item 
+{\footnotesize template$<$$>$ }\\uint8\-\_\-t \hyperlink{class_p_e_adding_methods_adeaea127e3092b4c7269e042a664bf51}{get\-Random\-Register} ()
+\item 
+{\footnotesize template$<$$>$ }\\uint8\-\_\-t \hyperlink{class_p_e_adding_methods_adeaea127e3092b4c7269e042a664bf51}{get\-Random\-Register} ()
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{class_binary_code}{Binary\-Code}$<$ \hyperlink{codedefines_8h_a0f84efe4ca4d99203713a78bd6e8c82e}{Registers\-\_\-x86} $>$ \hyperlink{class_p_e_adding_methods_a1723723cc8e2d43b53e5aae0badf093e}{generate\-Trampoline\-Code} (uint64\-\_\-t real\-Addr, uint64\-\_\-t wrapper\-Addr)
+\item 
+{\footnotesize template$<$$>$ }\\\hyperlink{class_binary_code}{Binary\-Code}$<$ \hyperlink{codedefines_8h_a5e15b5c4d766f6faf29b5bcec37bde5c}{Registers\-\_\-x64} $>$ \hyperlink{class_p_e_adding_methods_a0a8d3c53ed444e2e90973758f3fc6038}{generate\-Trampoline\-Code} (uint64\-\_\-t real\-Addr, uint64\-\_\-t wrapper\-Addr)
+\end{DoxyCompactItemize}
+\subsection*{Atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \hyperlink{class_p_e_adding_methods_a82688d8dd0d6fac444e7b54ed6519600}{code\-Pointers}
+\begin{DoxyCompactList}\small\item\em Mapa z adresami wklejanych danych/kawałków kodu/napisów. \end{DoxyCompactList}\item 
+Q\-List$<$ uint64\-\_\-t $>$ \hyperlink{class_p_e_adding_methods_a52e354ff2cc785712a0a2fd91d1a550e}{relocations}
+\begin{DoxyCompactList}\small\item\em Tablica adresów na wartości do zrelokowania. \end{DoxyCompactList}\item 
+Q\-Byte\-Array \hyperlink{class_p_e_adding_methods_a3aeb84d0e21d2b26056ed9b934938692}{text\-\_\-section}
+\begin{DoxyCompactList}\small\item\em Zawartość sekcji .text pliku P\-E. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{class_p_e_adding_methods_a21614ff68440bb473986c1be1e93513b}{text\-\_\-section\-\_\-offset}
+\begin{DoxyCompactList}\small\item\em Offset sekcji .text pliku P\-E. \end{DoxyCompactList}\item 
+uint8\-\_\-t \hyperlink{class_p_e_adding_methods_af24025d4fc427613750acbca819978cd}{code\-Coverage}
+\begin{DoxyCompactList}\small\item\em Procentowe pokrycie kodu dla metod zamieniających adresy skoków. \end{DoxyCompactList}\item 
+std\-::default\-\_\-random\-\_\-engine \hyperlink{class_p_e_adding_methods_a43fe76ed7c6fc1345b85718c5d9a436a}{gen}
+\begin{DoxyCompactList}\small\item\em Generator liczb losowych. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Statyczne atrybuty prywatne}
+\begin{DoxyCompactItemize}
+\item 
+static const Q\-String \hyperlink{class_p_e_adding_methods_a870bc9dab219ab4fa3908b798060abf3}{windows\-Api\-Loading\-Function\-\_\-x86} = \char`\"{}win\-\_\-x86\-\_\-helper\-\_\-load\-\_\-functions.\-json\char`\"{}
+\item 
+static const Q\-String \hyperlink{class_p_e_adding_methods_a14df5f95fc35d203e3176e0381b109ef}{windows\-Api\-Loading\-Function\-\_\-x64} = \char`\"{}win\-\_\-x64\-\_\-helper\-\_\-load\-\_\-functions.\-json\char`\"{}
+\end{DoxyCompactItemize}
 \subsection*{Dodatkowe Dziedziczone Składowe}
 
 
@@ -84,6 +155,443 @@ Definicja w linii 14 pliku peaddingmethods.\-cpp.
 
 
 \subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_p_e_adding_methods_ad603c09592143cde1df7c87d75a8b7bb}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!compile\-Code@{compile\-Code}}
+\index{compile\-Code@{compile\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{compile\-Code}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array P\-E\-Adding\-Methods\-::compile\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_ad603c09592143cde1df7c87d75a8b7bb}
+
+
+Kompiluje kod assemblerowy. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code} & Kod \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Kod binarny 
+\end{DoxyReturn}
+
+
+Definicja w linii 803 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_ad603c09592143cde1df7c87d75a8b7bb_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a364d4eec1e6f1e93c93f8da7355e9958}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Action\-Condition\-Code@{generate\-Action\-Condition\-Code}}
+\index{generate\-Action\-Condition\-Code@{generate\-Action\-Condition\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Action\-Condition\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template bool P\-E\-Adding\-Methods\-::generate\-Action\-Condition\-Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-Code}$<$ Register $>$ \&}]{code, }
+\item[{uint64\-\_\-t}]{action, }
+\item[{Register}]{cond, }
+\item[{Register}]{act}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a364d4eec1e6f1e93c93f8da7355e9958}
+
+
+Metoda generująca kod sprawdzający warunek wywołania akcji (handlera) dla metody. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code} & Wygenerowany kod \\
+\hline
+{\em action} & Adres metody, która ma być wywołana jako akcja \\
+\hline
+{\em cond} & Rejestr, w którym jest zwracana z metody flaga warunku \\
+\hline
+{\em act} & Rejestr w którym znajdować będzie się adres akcji \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 766 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a364d4eec1e6f1e93c93f8da7355e9958_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a85b7bf24809fee317810bcf1e8277bbf}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Code@{generate\-Code}}
+\index{generate\-Code@{generate\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ uint64\-\_\-t P\-E\-Adding\-Methods\-::generate\-Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Wrapper}$<$ Register $>$ $\ast$}]{w, }
+\item[{bool}]{is\-Tls\-Callback = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a85b7bf24809fee317810bcf1e8277bbf}
+
+
+Generowanie kodu metody. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em w} & Opis metody \\
+\hline
+{\em is\-Tls\-Callback} & Informacja czy metoda jest callbackiem T\-L\-S \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+
+
+Definicja w linii 98 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a85b7bf24809fee317810bcf1e8277bbf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_ad9ff3b76f2baaa04bd71dc37508d0c12}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}}
+\index{generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Parameters\-Loading\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register , typename T $>$ bool P\-E\-Adding\-Methods\-::generate\-Parameters\-Loading\-Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-Code}$<$ Register $>$ \&}]{code, }
+\item[{T}]{get\-Functions\-Code\-Addr, }
+\item[{Q\-Map$<$ Register, Q\-String $>$}]{params, }
+\item[{T}]{thread\-Code\-Ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_ad9ff3b76f2baaa04bd71dc37508d0c12}
+
+
+Metoda generująca kod ładujący parametry dla metod. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code} & Wygenerowany kod \\
+\hline
+{\em get\-Functions\-Code\-Addr} & Adres metody uzyskującej dostęp do A\-P\-I Windows \\
+\hline
+{\em params} & Parametry metody \\
+\hline
+{\em thread\-Code\-Ptr} & Adres wklejonego kodu stworzenia wątku \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+\hypertarget{class_p_e_adding_methods_a963cfdaf85b7e1aecc20d4d17c8b2d01}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}}
+\index{generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Parameters\-Loading\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ bool P\-E\-Adding\-Methods\-::generate\-Parameters\-Loading\-Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-Code}$<$ {\bf Registers\-\_\-x86} $>$ \&}]{code, }
+\item[{uint32\-\_\-t}]{get\-Functions\-Code\-Addr, }
+\item[{Q\-Map$<$ {\bf Registers\-\_\-x86}, Q\-String $>$}]{params, }
+\item[{uint32\-\_\-t}]{thread\-Code\-Ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a963cfdaf85b7e1aecc20d4d17c8b2d01}
+
+
+Definicja w linii 614 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a963cfdaf85b7e1aecc20d4d17c8b2d01_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_afdab5f7db1574197d673f8674dd8d86e}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}}
+\index{generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Parameters\-Loading\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ bool P\-E\-Adding\-Methods\-::generate\-Parameters\-Loading\-Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-Code}$<$ {\bf Registers\-\_\-x64} $>$ \&}]{code, }
+\item[{uint64\-\_\-t}]{get\-Functions\-Code\-Addr, }
+\item[{Q\-Map$<$ {\bf Registers\-\_\-x64}, Q\-String $>$}]{params, }
+\item[{uint64\-\_\-t}]{thread\-Code\-Ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_afdab5f7db1574197d673f8674dd8d86e}
+
+
+Definicja w linii 681 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_afdab5f7db1574197d673f8674dd8d86e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_abd485937ce84b0a42427feed0517a023}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}}
+\index{generate\-Parameters\-Loading\-Code@{generate\-Parameters\-Loading\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Parameters\-Loading\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ bool P\-E\-Adding\-Methods\-::generate\-Parameters\-Loading\-Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-Code}$<$ {\bf Registers\-\_\-x86} $>$ \&}]{code, }
+\item[{uint64\-\_\-t}]{get\-Functions\-Code\-Addr, }
+\item[{Q\-Map$<$ {\bf Registers\-\_\-x86}, Q\-String $>$}]{params, }
+\item[{uint64\-\_\-t}]{thread\-Code\-Ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_abd485937ce84b0a42427feed0517a023}
+
+
+Definicja w linii 759 pliku peaddingmethods.\-cpp.
+
+\hypertarget{class_p_e_adding_methods_a5ea4a8e2b325176f2fbf6e4f90c56f9c}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Thread\-Code@{generate\-Thread\-Code}}
+\index{generate\-Thread\-Code@{generate\-Thread\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Thread\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ uint64\-\_\-t P\-E\-Adding\-Methods\-::generate\-Thread\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ {\bf Wrapper}$<$ Register $>$ $\ast$ $>$}]{wrappers, }
+\item[{uint16\-\_\-t}]{sleep\-Time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a5ea4a8e2b325176f2fbf6e4f90c56f9c}
+
+
+Metoda generująca kod wątku. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em wrappers} & Metody do uruchomienia w wątku \\
+\hline
+{\em sleep\-Time} & Czas snu wątku \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a5ea4a8e2b325176f2fbf6e4f90c56f9c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a471203b164d35d021dbfe753cc282223}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Thread\-Code@{generate\-Thread\-Code}}
+\index{generate\-Thread\-Code@{generate\-Thread\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Thread\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ uint64\-\_\-t P\-E\-Adding\-Methods\-::generate\-Thread\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ {\bf Wrapper}$<$ {\bf Registers\-\_\-x86} $>$ $\ast$ $>$}]{wrappers, }
+\item[{uint16\-\_\-t}]{sleep\-Time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a471203b164d35d021dbfe753cc282223}
+
+
+Definicja w linii 418 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a471203b164d35d021dbfe753cc282223_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_ac10d4323c2f2e61cd24db36137b5f5eb}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Thread\-Code@{generate\-Thread\-Code}}
+\index{generate\-Thread\-Code@{generate\-Thread\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Thread\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ uint64\-\_\-t P\-E\-Adding\-Methods\-::generate\-Thread\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ {\bf Wrapper}$<$ {\bf Registers\-\_\-x64} $>$ $\ast$ $>$}]{wrappers, }
+\item[{uint16\-\_\-t}]{sleep\-Time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_ac10d4323c2f2e61cd24db36137b5f5eb}
+
+
+Definicja w linii 504 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_ac10d4323c2f2e61cd24db36137b5f5eb_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a5a216258dd2373a007522b6f0b7be418}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Trampoline\-Code@{generate\-Trampoline\-Code}}
+\index{generate\-Trampoline\-Code@{generate\-Trampoline\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Trampoline\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ {\bf Binary\-Code}$<$Register$>$ P\-E\-Adding\-Methods\-::generate\-Trampoline\-Code (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{real\-Addr, }
+\item[{uint64\-\_\-t}]{wrapper\-Addr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a5a216258dd2373a007522b6f0b7be418}
+
+
+Metoda generująca kod trampoliny. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em real\-Addr} & Pierwotny adres skoku \\
+\hline
+{\em wrapper\-Addr} & Adres metody do wywołania \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Wygenerowany kod 
+\end{DoxyReturn}
+\hypertarget{class_p_e_adding_methods_a1723723cc8e2d43b53e5aae0badf093e}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Trampoline\-Code@{generate\-Trampoline\-Code}}
+\index{generate\-Trampoline\-Code@{generate\-Trampoline\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Trampoline\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf Binary\-Code}$<${\bf Registers\-\_\-x86}$>$ P\-E\-Adding\-Methods\-::generate\-Trampoline\-Code (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{real\-Addr, }
+\item[{uint64\-\_\-t}]{wrapper\-Addr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a1723723cc8e2d43b53e5aae0badf093e}
+
+
+Definicja w linii 861 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a1723723cc8e2d43b53e5aae0badf093e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a0a8d3c53ed444e2e90973758f3fc6038}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!generate\-Trampoline\-Code@{generate\-Trampoline\-Code}}
+\index{generate\-Trampoline\-Code@{generate\-Trampoline\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{generate\-Trampoline\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ {\bf Binary\-Code}$<${\bf Registers\-\_\-x64}$>$ P\-E\-Adding\-Methods\-::generate\-Trampoline\-Code (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{real\-Addr, }
+\item[{uint64\-\_\-t}]{wrapper\-Addr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a0a8d3c53ed444e2e90973758f3fc6038}
+
+
+Definicja w linii 881 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a0a8d3c53ed444e2e90973758f3fc6038_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_aa009e39ea9cdd8976930b3d9ade337e1}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!get\-File\-Offsets\-From\-Opcodes@{get\-File\-Offsets\-From\-Opcodes}}
+\index{get\-File\-Offsets\-From\-Opcodes@{get\-File\-Offsets\-From\-Opcodes}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{get\-File\-Offsets\-From\-Opcodes}]{\setlength{\rightskip}{0pt plus 5cm}void P\-E\-Adding\-Methods\-::get\-File\-Offsets\-From\-Opcodes (
+\begin{DoxyParamCaption}
+\item[{Q\-String\-List \&}]{opcodes, }
+\item[{Q\-List$<$ uint32\-\_\-t $>$ \&}]{file\-Offsets, }
+\item[{uint32\-\_\-t}]{base\-Offset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_aa009e39ea9cdd8976930b3d9ade337e1}
+
+
+Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em opcodes} & Linie zdekompilowanego kodu \\
+\hline
+{\em file\-Offsets} & Offsety \\
+\hline
+{\em base\-Offset} & Adres bazowy zdekompilownego fragmentu \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 797 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywoływań tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_aa009e39ea9cdd8976930b3d9ade337e1_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_af180fc5ca237dda8df7d4e286e164c16}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!get\-Random\-Register@{get\-Random\-Register}}
+\index{get\-Random\-Register@{get\-Random\-Register}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{get\-Random\-Register}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ uint8\-\_\-t P\-E\-Adding\-Methods\-::get\-Random\-Register (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_af180fc5ca237dda8df7d4e286e164c16}
+
+
+Metoda losująca rejestr. 
+
+\begin{DoxyReturn}{Zwraca}
+Losowy rejestr 
+\end{DoxyReturn}
+\hypertarget{class_p_e_adding_methods_adeaea127e3092b4c7269e042a664bf51}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!get\-Random\-Register@{get\-Random\-Register}}
+\index{get\-Random\-Register@{get\-Random\-Register}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{get\-Random\-Register}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ uint8\-\_\-t P\-E\-Adding\-Methods\-::get\-Random\-Register (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_adeaea127e3092b4c7269e042a664bf51}
+
+
+Definicja w linii 838 pliku peaddingmethods.\-cpp.
+
+\hypertarget{class_p_e_adding_methods_adeaea127e3092b4c7269e042a664bf51}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!get\-Random\-Register@{get\-Random\-Register}}
+\index{get\-Random\-Register@{get\-Random\-Register}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{get\-Random\-Register}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ uint8\-\_\-t P\-E\-Adding\-Methods\-::get\-Random\-Register (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_adeaea127e3092b4c7269e042a664bf51}
+
+
+Definicja w linii 849 pliku peaddingmethods.\-cpp.
+
 \hypertarget{class_p_e_adding_methods_a2b224b51233e0446621e9daf9108e78b}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Code@{inject\-Code}}
 \index{inject\-Code@{inject\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
 \subsubsection[{inject\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template bool P\-E\-Adding\-Methods\-::inject\-Code (
@@ -109,11 +617,147 @@ Definicja w linii 26 pliku peaddingmethods.\-cpp.
 
 
 
-Oto graf wywołań dla tej funkcji\-:\nopagebreak
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_p_e_adding_methods_a2b224b51233e0446621e9daf9108e78b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a03c66cfef8c9a6aefb0166b63e501898}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Ep\-Code@{inject\-Ep\-Code}}
+\index{inject\-Ep\-Code@{inject\-Ep\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{inject\-Ep\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ bool P\-E\-Adding\-Methods\-::inject\-Ep\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ uint64\-\_\-t $>$ \&}]{ep\-Methods}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a03c66cfef8c9a6aefb0166b63e501898}
+
+
+Metoda dodająca kod w Entry\-Point. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em ep\-Methods} & Wybrane metody zabezpieczania \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+\hypertarget{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Ep\-Code@{inject\-Ep\-Code}}
+\index{inject\-Ep\-Code@{inject\-Ep\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{inject\-Ep\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ bool P\-E\-Adding\-Methods\-::inject\-Ep\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ uint64\-\_\-t $>$ \&}]{ep\-Methods}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0}
+
+
+Definicja w linii 212 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Ep\-Code@{inject\-Ep\-Code}}
+\index{inject\-Ep\-Code@{inject\-Ep\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{inject\-Ep\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ bool P\-E\-Adding\-Methods\-::inject\-Ep\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ uint64\-\_\-t $>$ \&}]{ep\-Methods}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0}
+
+
+Definicja w linii 247 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a22067090f90a0b2fdbe8b127df0113e0_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a16ab45ebef33f806f962985dbb921d54}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Tls\-Code@{inject\-Tls\-Code}}
+\index{inject\-Tls\-Code@{inject\-Tls\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{inject\-Tls\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template bool P\-E\-Adding\-Methods\-::inject\-Tls\-Code$<$ {\bf Registers\-\_\-x64} $>$ (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ uint64\-\_\-t $>$ \&}]{tls\-Methods}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a16ab45ebef33f806f962985dbb921d54}
+
+
+Metoda dodająca kod do Thread Local Storage. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em tls\-Methods} & Wybrane metody zabezpieczania \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+
+
+Definicja w linii 288 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a16ab45ebef33f806f962985dbb921d54_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_a7bfc807cbd6863be7a0caaab742668bb}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Trampoline\-Code@{inject\-Trampoline\-Code}}
+\index{inject\-Trampoline\-Code@{inject\-Trampoline\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{inject\-Trampoline\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ bool P\-E\-Adding\-Methods\-::inject\-Trampoline\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ uint64\-\_\-t $>$ \&}]{tram\-Methods}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a7bfc807cbd6863be7a0caaab742668bb}
+
+
+Metoda dodająca kod jako trampolinę 
+
+
+\begin{DoxyParams}{Parametry}
+{\em tram\-Methods} & Wybrane metody zabezpieczania \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+
+
+Definicja w linii 359 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a7bfc807cbd6863be7a0caaab742668bb_cgraph}
 \end{center}
 \end{figure}
 
@@ -137,6 +781,89 @@ Ustawia nowe procentowe pokrycie kodu.
 
 
 Definicja w linii 19 pliku peaddingmethods.\-cpp.
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_p_e_adding_methods_af24025d4fc427613750acbca819978cd}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!code\-Coverage@{code\-Coverage}}
+\index{code\-Coverage@{code\-Coverage}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{code\-Coverage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t P\-E\-Adding\-Methods\-::code\-Coverage\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_af24025d4fc427613750acbca819978cd}
+
+
+Procentowe pokrycie kodu dla metod zamieniających adresy skoków. 
+
+
+
+Definicja w linii 45 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a82688d8dd0d6fac444e7b54ed6519600}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!code\-Pointers@{code\-Pointers}}
+\index{code\-Pointers@{code\-Pointers}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{code\-Pointers}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Map$<$Q\-Byte\-Array, uint64\-\_\-t$>$ P\-E\-Adding\-Methods\-::code\-Pointers\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a82688d8dd0d6fac444e7b54ed6519600}
+
+
+Mapa z adresami wklejanych danych/kawałków kodu/napisów. 
+
+
+
+Definicja w linii 25 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a43fe76ed7c6fc1345b85718c5d9a436a}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!gen@{gen}}
+\index{gen@{gen}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{gen}]{\setlength{\rightskip}{0pt plus 5cm}std\-::default\-\_\-random\-\_\-engine P\-E\-Adding\-Methods\-::gen\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a43fe76ed7c6fc1345b85718c5d9a436a}
+
+
+Generator liczb losowych. 
+
+
+
+Definicja w linii 50 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a52e354ff2cc785712a0a2fd91d1a550e}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!relocations@{relocations}}
+\index{relocations@{relocations}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{relocations}]{\setlength{\rightskip}{0pt plus 5cm}Q\-List$<$uint64\-\_\-t$>$ P\-E\-Adding\-Methods\-::relocations\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a52e354ff2cc785712a0a2fd91d1a550e}
+
+
+Tablica adresów na wartości do zrelokowania. 
+
+
+
+Definicja w linii 30 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a3aeb84d0e21d2b26056ed9b934938692}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!text\-\_\-section@{text\-\_\-section}}
+\index{text\-\_\-section@{text\-\_\-section}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{text\-\_\-section}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array P\-E\-Adding\-Methods\-::text\-\_\-section\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a3aeb84d0e21d2b26056ed9b934938692}
+
+
+Zawartość sekcji .text pliku P\-E. 
+
+
+
+Definicja w linii 35 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a21614ff68440bb473986c1be1e93513b}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!text\-\_\-section\-\_\-offset@{text\-\_\-section\-\_\-offset}}
+\index{text\-\_\-section\-\_\-offset@{text\-\_\-section\-\_\-offset}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{text\-\_\-section\-\_\-offset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t P\-E\-Adding\-Methods\-::text\-\_\-section\-\_\-offset\hspace{0.3cm}{\ttfamily [private]}}}\label{class_p_e_adding_methods_a21614ff68440bb473986c1be1e93513b}
+
+
+Offset sekcji .text pliku P\-E. 
+
+
+
+Definicja w linii 40 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a14df5f95fc35d203e3176e0381b109ef}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!windows\-Api\-Loading\-Function\-\_\-x64@{windows\-Api\-Loading\-Function\-\_\-x64}}
+\index{windows\-Api\-Loading\-Function\-\_\-x64@{windows\-Api\-Loading\-Function\-\_\-x64}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{windows\-Api\-Loading\-Function\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String P\-E\-Adding\-Methods\-::windows\-Api\-Loading\-Function\-\_\-x64 = \char`\"{}win\-\_\-x64\-\_\-helper\-\_\-load\-\_\-functions.\-json\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{class_p_e_adding_methods_a14df5f95fc35d203e3176e0381b109ef}
+
+
+Definicja w linii 20 pliku peaddingmethods.\-h.
+
+\hypertarget{class_p_e_adding_methods_a870bc9dab219ab4fa3908b798060abf3}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!windows\-Api\-Loading\-Function\-\_\-x86@{windows\-Api\-Loading\-Function\-\_\-x86}}
+\index{windows\-Api\-Loading\-Function\-\_\-x86@{windows\-Api\-Loading\-Function\-\_\-x86}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{windows\-Api\-Loading\-Function\-\_\-x86}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String P\-E\-Adding\-Methods\-::windows\-Api\-Loading\-Function\-\_\-x86 = \char`\"{}win\-\_\-x86\-\_\-helper\-\_\-load\-\_\-functions.\-json\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{class_p_e_adding_methods_a870bc9dab219ab4fa3908b798060abf3}
+
+
+Definicja w linii 19 pliku peaddingmethods.\-h.
 
 
 
