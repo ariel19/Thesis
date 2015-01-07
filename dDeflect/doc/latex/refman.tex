@@ -1,0 +1,182 @@
+\documentclass{book}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{makeidx}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage[table]{xcolor}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{ifpdf}
+\ifpdf
+\usepackage[pdftex,
+            pagebackref=true,
+            colorlinks=true,
+            linkcolor=blue,
+            unicode
+           ]{hyperref}
+\else
+\usepackage[ps2pdf,
+            pagebackref=true,
+            colorlinks=true,
+            linkcolor=blue,
+            unicode
+           ]{hyperref}
+\usepackage{pspicture}
+\fi
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathptmx}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+\usepackage{sectsty}
+\usepackage{amssymb}
+\usepackage[titles]{tocloft}
+\usepackage{doxygen}
+\lstset{language=C++,inputencoding=utf8,basicstyle=\footnotesize,breaklines=true,breakatwhitespace=true,tabsize=8,numbers=left }
+\makeindex
+\setcounter{tocdepth}{3}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\familydefault}{\sfdefault}
+\hfuzz=15pt
+\setlength{\emergencystretch}{15pt}
+\hbadness=750
+\tolerance=750
+\begin{document}
+\hypersetup{pageanchor=false,citecolor=blue}
+\begin{titlepage}
+\vspace*{7cm}
+\begin{center}
+{\Large d\-Deflect \\[1ex]\large 1.\-0 }\\
+\vspace*{1cm}
+{\large Wygenerowano przez Doxygen 1.8.1.2}\\
+\vspace*{0.5cm}
+{\small Śr, 7 sty 2015 04:01:48}\\
+\end{center}
+\end{titlepage}
+\clearemptydoublepage
+\pagenumbering{roman}
+\tableofcontents
+\clearemptydoublepage
+\pagenumbering{arabic}
+\hypersetup{pageanchor=true,citecolor=blue}
+\chapter{Indeks przestrzeni nazw}
+\input{namespaces}
+\chapter{Indeks klas}
+\input{hierarchy}
+\chapter{Indeks klas}
+\input{annotated}
+\chapter{Indeks plików}
+\input{files}
+\chapter{Dokumentacja przestrzeni nazw}
+\input{namespacegen__desc}
+\chapter{Dokumentacja klas}
+\input{struct___i_m_a_g_e___b_a_s_e___r_e_l_o_c_a_t_i_o_n}
+\input{struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y}
+\input{struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r}
+\input{struct___i_m_a_g_e___f_i_l_e___h_e_a_d_e_r}
+\input{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s}
+\input{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s64}
+\input{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r}
+\input{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r64}
+\input{struct___i_m_a_g_e___s_e_c_t_i_o_n___h_e_a_d_e_r}
+\input{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y32}
+\input{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y64}
+\input{class_application_manager}
+\input{class_asm_code_generator}
+\input{class_binary_code}
+\input{class_binary_file}
+\input{class_code_defines}
+\input{class_d_adding_methods}
+\input{class_d_json_parser}
+\input{class_d_source_code_parser}
+\input{class_e_l_f}
+\input{struct_elf32__auxv__t}
+\input{struct_elf32___dyn}
+\input{struct_elf32___ehdr}
+\input{union_elf32__gptab}
+\input{struct_elf32___lib}
+\input{struct_elf32___move}
+\input{struct_elf32___nhdr}
+\input{struct_elf32___phdr}
+\input{struct_elf32___reg_info}
+\input{struct_elf32___rel}
+\input{struct_elf32___rela}
+\input{struct_elf32___shdr}
+\input{struct_elf32___sym}
+\input{struct_elf32___syminfo}
+\input{struct_elf32___verdaux}
+\input{struct_elf32___verdef}
+\input{struct_elf32___vernaux}
+\input{struct_elf32___verneed}
+\input{struct_elf64__auxv__t}
+\input{struct_elf64___dyn}
+\input{struct_elf64___ehdr}
+\input{struct_elf64___lib}
+\input{struct_elf64___move}
+\input{struct_elf64___nhdr}
+\input{struct_elf64___phdr}
+\input{struct_elf64___rel}
+\input{struct_elf64___rela}
+\input{struct_elf64___shdr}
+\input{struct_elf64___sym}
+\input{struct_elf64___syminfo}
+\input{struct_elf64___verdaux}
+\input{struct_elf64___verdef}
+\input{struct_elf64___vernaux}
+\input{struct_elf64___verneed}
+\input{struct_elf___options}
+\input{struct_elf___options___hw}
+\input{class_e_l_f_adding_methods}
+\input{class_d_adding_methods_1_1_inject_description}
+\input{class_method}
+\input{class_method_list}
+\input{class_d_adding_methods_1_1_o_e_p_wrapper}
+\input{class_p_e_adding_methods}
+\input{class_p_e_file}
+\input{class_proc_out}
+\input{class_d_adding_methods_1_1_thread_wrapper}
+\input{class_d_adding_methods_1_1_trampoline_wrapper}
+\input{struct_p_e_file_1_1_relocation_table_1_1_type_offset}
+\input{class_d_adding_methods_1_1_wrapper}
+\chapter{Dokumentacja plików}
+\input{applicationmanager_8cpp}
+\input{applicationmanager_8h}
+\input{djsonparser_8cpp}
+\input{djsonparser_8h}
+\input{dsourcecodeparser_8cpp}
+\input{dsourcecodeparser_8h}
+\input{procout_8cpp}
+\input{procout_8h}
+\input{daddingmethods_8cpp}
+\input{daddingmethods_8h}
+\input{elfaddingmethods_8cpp}
+\input{elfaddingmethods_8h}
+\input{peaddingmethods_8cpp}
+\input{peaddingmethods_8h}
+\input{gen__desc_8py}
+\input{binaryfile_8cpp}
+\input{binaryfile_8h}
+\input{codedefines_8cpp}
+\input{codedefines_8h}
+\input{elffile_8cpp}
+\input{elffile_8h}
+\input{pefile_8cpp}
+\input{pefile_8h}
+\input{pehelpers_8cpp}
+\input{pehelpers_8h}
+\input{elf_8h}
+\input{winheader_8h}
+\input{method_8cpp}
+\input{method_8h}
+\input{methodlist_8cpp}
+\input{methodlist_8h}
+\input{main_8cpp}
+\printindex
+\end{document}

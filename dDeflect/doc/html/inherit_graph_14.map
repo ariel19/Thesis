@@ -1,0 +1,5 @@
+<map id="Graficzna hierarchia klas" name="Graficzna hierarchia klas">
+<area shape="rect" id="node1" href="$class_binary_file.html" title="BinaryFile" alt="" coords="5,32,85,61"/>
+<area shape="rect" id="node3" href="$class_e_l_f.html" title="ELF" alt="" coords="141,5,187,35"/>
+<area shape="rect" id="node5" href="$class_p_e_file.html" title="Klasa odpowiedzialna za parsowanie plików PE." alt="" coords="133,59,195,88"/>
+</map>

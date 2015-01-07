@@ -1,0 +1,168 @@
+\hypertarget{class_binary_file}{\section{Dokumentacja klasy Binary\-File}
+\label{class_binary_file}\index{Binary\-File@{Binary\-File}}
+}
+
+
+{\ttfamily \#include $<$binaryfile.\-h$>$}
+
+
+
+Diagram dziedziczenia dla Binary\-File\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{class_binary_file__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_binary_file_a1afe5dffc5edf5f25ea22deef606eb4b}{Binary\-File} (Q\-Byte\-Array \-\_\-data)
+\item 
+virtual \hyperlink{class_binary_file_a8ff1b2e140421fd040bff0854c1322ff}{$\sim$\-Binary\-File} ()
+\item 
+virtual Q\-Byte\-Array \hyperlink{class_binary_file_a5ffee8a6230cf3c82cf6ee0e9fb53048}{get\-Data} ()
+\begin{DoxyCompactList}\small\item\em Pobiera zawartość pliku binarnego. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_binary_file_a6007435bc4451bb80a3169d977f4f125}{is\-\_\-valid} () const =0
+\begin{DoxyCompactList}\small\item\em Sprawdza czy w pamięci przechowywany jest poprawny plik. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_binary_file_a36b7998c72bbee68ab492d93368c14ca}{is\-\_\-x64} () const =0
+\begin{DoxyCompactList}\small\item\em Metoda informująca czy wczytany plik jest 64-\/bitowy. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_binary_file_aa7d43cde4ab8cc9723d2b5c769719bd9}{is\-\_\-x86} () const =0
+\begin{DoxyCompactList}\small\item\em Metoda informująca czy wczytany plik jest 32-\/bitowy. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Atrybuty chronione}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_binary_file_ae16774932979ddb6d57b46b3c387a159}{parsed}
+\item 
+Q\-Byte\-Array \hyperlink{class_binary_file_acdfdb2fae63d8395dfa899be21bd8036}{b\-\_\-data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Opis szczegółowy}
+
+
+Definicja w linii 6 pliku binaryfile.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_binary_file_a1afe5dffc5edf5f25ea22deef606eb4b}{\index{Binary\-File@{Binary\-File}!Binary\-File@{Binary\-File}}
+\index{Binary\-File@{Binary\-File}!BinaryFile@{Binary\-File}}
+\subsubsection[{Binary\-File}]{\setlength{\rightskip}{0pt plus 5cm}Binary\-File\-::\-Binary\-File (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{\-\_\-data}
+\end{DoxyParamCaption}
+)}}\label{class_binary_file_a1afe5dffc5edf5f25ea22deef606eb4b}
+
+
+Definicja w linii 3 pliku binaryfile.\-cpp.
+
+\hypertarget{class_binary_file_a8ff1b2e140421fd040bff0854c1322ff}{\index{Binary\-File@{Binary\-File}!$\sim$\-Binary\-File@{$\sim$\-Binary\-File}}
+\index{$\sim$\-Binary\-File@{$\sim$\-Binary\-File}!BinaryFile@{Binary\-File}}
+\subsubsection[{$\sim$\-Binary\-File}]{\setlength{\rightskip}{0pt plus 5cm}Binary\-File\-::$\sim$\-Binary\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_binary_file_a8ff1b2e140421fd040bff0854c1322ff}
+
+
+Definicja w linii 10 pliku binaryfile.\-cpp.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_binary_file_a5ffee8a6230cf3c82cf6ee0e9fb53048}{\index{Binary\-File@{Binary\-File}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!BinaryFile@{Binary\-File}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array Binary\-File\-::get\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_binary_file_a5ffee8a6230cf3c82cf6ee0e9fb53048}
+
+
+Pobiera zawartość pliku binarnego. 
+
+\begin{DoxyReturn}{Zwraca}
+Plik. 
+\end{DoxyReturn}
+
+
+Definicja w linii 15 pliku binaryfile.\-cpp.
+
+\hypertarget{class_binary_file_a6007435bc4451bb80a3169d977f4f125}{\index{Binary\-File@{Binary\-File}!is\-\_\-valid@{is\-\_\-valid}}
+\index{is\-\_\-valid@{is\-\_\-valid}!BinaryFile@{Binary\-File}}
+\subsubsection[{is\-\_\-valid}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Binary\-File\-::is\-\_\-valid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_binary_file_a6007435bc4451bb80a3169d977f4f125}
+
+
+Sprawdza czy w pamięci przechowywany jest poprawny plik. 
+
+\begin{DoxyReturn}{Zwraca}
+True jeżeli plik jest poprawny. 
+\end{DoxyReturn}
+
+
+Implementowany w \hyperlink{class_p_e_file_a90a96d95f9d67ff48bf12ffcb0f22d41}{P\-E\-File} i \hyperlink{class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f}{E\-L\-F}.
+
+\hypertarget{class_binary_file_a36b7998c72bbee68ab492d93368c14ca}{\index{Binary\-File@{Binary\-File}!is\-\_\-x64@{is\-\_\-x64}}
+\index{is\-\_\-x64@{is\-\_\-x64}!BinaryFile@{Binary\-File}}
+\subsubsection[{is\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Binary\-File\-::is\-\_\-x64 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_binary_file_a36b7998c72bbee68ab492d93368c14ca}
+
+
+Metoda informująca czy wczytany plik jest 64-\/bitowy. 
+
+\begin{DoxyReturn}{Zwraca}
+True gdy plik x64 
+\end{DoxyReturn}
+
+
+Implementowany w \hyperlink{class_p_e_file_aa8e69bdca4d00216df406278b4e96a28}{P\-E\-File} i \hyperlink{class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e}{E\-L\-F}.
+
+\hypertarget{class_binary_file_aa7d43cde4ab8cc9723d2b5c769719bd9}{\index{Binary\-File@{Binary\-File}!is\-\_\-x86@{is\-\_\-x86}}
+\index{is\-\_\-x86@{is\-\_\-x86}!BinaryFile@{Binary\-File}}
+\subsubsection[{is\-\_\-x86}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Binary\-File\-::is\-\_\-x86 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_binary_file_aa7d43cde4ab8cc9723d2b5c769719bd9}
+
+
+Metoda informująca czy wczytany plik jest 32-\/bitowy. 
+
+\begin{DoxyReturn}{Zwraca}
+True gdy plik x86 
+\end{DoxyReturn}
+
+
+Implementowany w \hyperlink{class_p_e_file_a371cc84eed9dd5d85b7c50d60c1eb56f}{P\-E\-File} i \hyperlink{class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d}{E\-L\-F}.
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_binary_file_acdfdb2fae63d8395dfa899be21bd8036}{\index{Binary\-File@{Binary\-File}!b\-\_\-data@{b\-\_\-data}}
+\index{b\-\_\-data@{b\-\_\-data}!BinaryFile@{Binary\-File}}
+\subsubsection[{b\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array Binary\-File\-::b\-\_\-data\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_binary_file_acdfdb2fae63d8395dfa899be21bd8036}
+
+
+Definicja w linii 38 pliku binaryfile.\-h.
+
+\hypertarget{class_binary_file_ae16774932979ddb6d57b46b3c387a159}{\index{Binary\-File@{Binary\-File}!parsed@{parsed}}
+\index{parsed@{parsed}!BinaryFile@{Binary\-File}}
+\subsubsection[{parsed}]{\setlength{\rightskip}{0pt plus 5cm}bool Binary\-File\-::parsed\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_binary_file_ae16774932979ddb6d57b46b3c387a159}
+
+
+Definicja w linii 37 pliku binaryfile.\-h.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/file\-\_\-types/\hyperlink{binaryfile_8h}{binaryfile.\-h}\item 
+core/file\-\_\-types/\hyperlink{binaryfile_8cpp}{binaryfile.\-cpp}\end{DoxyCompactItemize}

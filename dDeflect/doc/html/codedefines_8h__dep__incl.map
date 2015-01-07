@@ -1,0 +1,18 @@
+<map id="core/file_types/codedefines.h" name="core/file_types/codedefines.h">
+<area shape="rect" id="node3" href="$daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="561,83,751,130"/>
+<area shape="rect" id="node39" href="$pefile_8h.html" title="core/file_types/pefile.h" alt="" coords="361,92,513,121"/>
+<area shape="rect" id="node44" href="$codedefines_8cpp.html" title="core/file_types/codedefines.cpp" alt="" coords="775,92,980,121"/>
+<area shape="rect" id="node5" href="$peaddingmethods_8h.html" title="core/adding_methods\l/wrappers/peaddingmethods.h" alt="" coords="340,179,535,226"/>
+<area shape="rect" id="node23" href="$elfaddingmethods_8h.html" title="core/adding_methods\l/wrappers/elfaddingmethods.h" alt="" coords="559,179,753,226"/>
+<area shape="rect" id="node30" href="$dsourcecodeparser_8h.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.h" alt="" coords="940,275,1209,322"/>
+<area shape="rect" id="node37" href="$daddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/daddingmethods.cpp" alt="" coords="828,179,1031,226"/>
+<area shape="rect" id="node7" href="$applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="617,371,767,418"/>
+<area shape="rect" id="node11" href="$main_8cpp.html" title="main/main.cpp" alt="" coords="523,476,629,505"/>
+<area shape="rect" id="node13" href="$djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="345,275,529,322"/>
+<area shape="rect" id="node20" href="$peaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/peaddingmethods.cpp" alt="" coords="5,275,216,322"/>
+<area shape="rect" id="node9" href="$applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="731,467,893,514"/>
+<area shape="rect" id="node17" href="$djsonparser_8cpp.html" title="ApplicationManager\l/DJsonParser/djsonparser.cpp" alt="" coords="341,371,539,418"/>
+<area shape="rect" id="node27" href="$elfaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/elfaddingmethods.cpp" alt="" coords="655,275,865,322"/>
+<area shape="rect" id="node34" href="$dsourcecodeparser_8cpp.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.cpp" alt="" coords="932,371,1217,418"/>
+<area shape="rect" id="node42" href="$pefile_8cpp.html" title="core/file_types/pefile.cpp" alt="" coords="151,188,316,217"/>
+</map>

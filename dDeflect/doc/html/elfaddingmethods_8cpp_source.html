@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>dDeflect: Plik źródłowy core/adding_methods/wrappers/elfaddingmethods.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">dDeflect
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li><a href="annotated.html"><span>Klasy</span></a></li>
+      <li class="current"><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;plików</span></a></li>
+      <li><a href="globals.html"><span>Składowe&#160;plików</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('elfaddingmethods_8cpp_source.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Definicje typów</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Wyliczenia</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Wartości wyliczeń</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Właściwości</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Przyjaciele</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Definicje</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">elfaddingmethods.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="elfaddingmethods_8cpp.html">Idź do dokumentacji tego pliku.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="elfaddingmethods_8h.html">elfaddingmethods.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="code" href="class_e_l_f_adding_methods.html#a49ddea5561dbff8a787d586e58d70d22">    3</a></span>&#160;<a class="code" href="class_e_l_f_adding_methods.html#a49ddea5561dbff8a787d586e58d70d22">ELFAddingMethods::ELFAddingMethods</a>(<a class="code" href="class_e_l_f.html">ELF</a> *f) :</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <a class="code" href="class_d_adding_methods.html">DAddingMethods</a>(f)</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    placeholder_id = {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        { PlaceholderTypes::PARAM_PRE,          QString(<span class="stringliteral">&quot;(?^_^&quot;</span>)     },</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        { PlaceholderTypes::PARAM_POST,         QString(<span class="stringliteral">&quot;^_^?)&quot;</span>)     },</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        { PlaceholderTypes::PLACEHOLDER_PRE,    QString(<span class="stringliteral">&quot;(rsj?^_^&quot;</span>)  },</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        { PlaceholderTypes::PLACEHOLDER_POST,   QString(<span class="stringliteral">&quot;^_^?rsj)&quot;</span>)  }</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    };</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    placeholder_mnm = {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        { PlaceholderMnemonics::DDETECTIONHANDLER,  <a class="code" href="daddingmethods_8h.html#ac31b8fd4c17f82867884dfb116755859">mnemonic_stringify</a>(PlaceholderMnemonics::DDETECTIONHANDLER) },</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        { PlaceholderMnemonics::DDETECTIONMETHOD,   <a class="code" href="daddingmethods_8h.html#ac31b8fd4c17f82867884dfb116755859">mnemonic_stringify</a>(PlaceholderMnemonics::DDETECTIONMETHOD)  },</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        { PlaceholderMnemonics::DDRET,              <a class="code" href="daddingmethods_8h.html#ac31b8fd4c17f82867884dfb116755859">mnemonic_stringify</a>(PlaceholderMnemonics::DDRET)             }</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    };</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="class_e_l_f_adding_methods.html#a374088ad2597fa11063b5a19bae0ffec">   20</a></span>&#160;<a class="code" href="class_e_l_f_adding_methods.html#a374088ad2597fa11063b5a19bae0ffec">ELFAddingMethods::~ELFAddingMethods</a>() {}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;uint64_t ELFAddingMethods::fill_params(QString &amp;code, <span class="keyword">const</span> QMap&lt;QString, QString&gt; &amp;params) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    uint64_t cnt = 0;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">foreach</span> (QString param, params.keys()) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        QString plc_param(QString(<span class="stringliteral">&quot;%1%2%3&quot;</span>).arg(placeholder_id[PlaceholderTypes::PARAM_PRE], param,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                placeholder_id[PlaceholderTypes::PARAM_POST]));</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">// look in string for plc_param cahnge it to value from dictionary</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        code.replace(plc_param, params[param]);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> cnt;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;uint64_t ELFAddingMethods::fill_placeholders(QString &amp;code, <span class="keyword">const</span> QString &amp;gen_code, PlaceholderMnemonics plc_mnm) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    uint64_t cnt = 0;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    code.replace(QString(<span class="stringliteral">&quot;%1%2%3&quot;</span>).arg(placeholder_id[PlaceholderTypes::PLACEHOLDER_PRE], placeholder_mnm[plc_mnm],</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                       placeholder_id[PlaceholderTypes::PLACEHOLDER_POST]), gen_code);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> cnt;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">bool</span> ELFAddingMethods::compile(<span class="keyword">const</span> QString &amp;code2compile, QByteArray &amp;compiled_code) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// TODO: change</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    QFile <a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>(<span class="stringliteral">&quot;tocompile.asm&quot;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.open(QIODevice::WriteOnly))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.write(code2compile.toStdString().c_str(), code2compile.length()) != code2compile.length())</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.close();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// TODO: change file names and etc.</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (QProcess::execute(<span class="stringliteral">&quot;nasm&quot;</span>, { <span class="stringliteral">&quot;tocompile.asm&quot;</span> }))</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.setFileName(<span class="stringliteral">&quot;tocompile&quot;</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.open(QIODevice::ReadOnly))</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    compiled_code = <a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.readAll();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="class_d_adding_methods.html#a87bdff1dd02ac26df6c10648fe406cd9">file</a>.close();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">bool</span> ELFAddingMethods::get_addresses(<span class="keyword">const</span> QByteArray &amp;addr_data, uint8_t addr_size, QList&lt;Elf64_Addr&gt; &amp;addr_list,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                   <span class="keyword">const</span> QList&lt;Elf64_Addr&gt; &amp;except_list) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">int</span> data_size = addr_data.size();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (data_size % addr_size)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    quint64 addr;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data_size; i += addr_size) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        addr = 0;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; addr_size; ++j)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            addr |= (static_cast&lt;const char&gt;((addr_data.data())[i + j]) &amp; 0xff) &lt;&lt; (j * 8);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">if</span> (!except_list.contains(addr))</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            addr_list.push_back(addr);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keywordtype">bool</span> ELFAddingMethods::set_prot_flags_gen_code_x86(<a class="code" href="elf_8h.html#a40c6d4571e6001f443cc6a6474620158">Elf32_Addr</a> vaddr, <a class="code" href="elf_8h.html#af5924ece606c732e86f8263a19408e45">Elf32_Word</a> mem_size,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                                 <a class="code" href="elf_8h.html#af5924ece606c732e86f8263a19408e45">Elf32_Word</a> flags, QString &amp;code) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="comment">// TODO: generated using JSON parser, here is stupid dummy solution</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    Wrapper&lt;Registers_x86&gt; mprotect;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">// TODO: should be changed</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    mprotect.detect_handler = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    mprotect.used_regs = { Registers_x86::EAX, Registers_x86::EBX, Registers_x86::ECX, Registers_x86::EDX };</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    mprotect.static_params = { { <span class="stringliteral">&quot;vaddr&quot;</span>, QString::number(vaddr) },</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                        { <span class="stringliteral">&quot;vsize&quot;</span>, QString::number(mem_size) },</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                        { <span class="stringliteral">&quot;flags&quot;</span>, QString::number(flags) } };</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    mprotect.ret = Registers_x86::None;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    QFile protect(<span class="stringliteral">&quot;mprotect.asm&quot;</span>);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (!protect.open(QIODevice::ReadOnly))</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    mprotect.code = protect.readAll();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    code = QString(<span class="stringliteral">&quot;%1\n&quot;</span>).arg(<a class="code" href="class_d_adding_methods.html#aa368755d8aba57f3a92877d1fbe925b3">arch_type</a>[ArchitectureType::BITS32]);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">return</span> wrapper_gen_code&lt;Registers_x86&gt;(&amp;mprotect, code);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keywordtype">bool</span> ELFAddingMethods::set_prot_flags_gen_code_x64(<a class="code" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> vaddr, <a class="code" href="elf_8h.html#a5447a48a3dae0bd24f606415268c6fe4">Elf64_Xword</a> mem_size,</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                                                 <a class="code" href="elf_8h.html#aa3aa1920ed115b7ef7e99716fece4401">Elf64_Word</a> flags, QString &amp;code) {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">// TODO: generated using JSON parser, here is stupid dummy solution</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    Wrapper&lt;Registers_x64&gt; mprotect;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">// TODO: should be changed</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    mprotect.detect_handler = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    mprotect.used_regs = { Registers_x64::RAX, Registers_x64::RDX, Registers_x64::RSI, Registers_x64::RDI };</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    mprotect.static_params = { { <span class="stringliteral">&quot;vaddr&quot;</span>, QString::number(vaddr) },</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                        { <span class="stringliteral">&quot;vsize&quot;</span>, QString::number(mem_size) },</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                        { <span class="stringliteral">&quot;flags&quot;</span>, QString::number(flags) } };</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    mprotect.ret = Registers_x64::None;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    QFile protect(<span class="stringliteral">&quot;mprotect64.asm&quot;</span>);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">if</span> (!protect.open(QIODevice::ReadOnly))</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    mprotect.code = protect.readAll();</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    code = QString(<span class="stringliteral">&quot;%1\n&quot;</span>).arg(<a class="code" href="class_d_adding_methods.html#aa368755d8aba57f3a92877d1fbe925b3">arch_type</a>[ArchitectureType::BITS64]);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">return</span> wrapper_gen_code&lt;Registers_x64&gt;(&amp;mprotect, code);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keywordtype">void</span> ELFAddingMethods::get_file_offsets_from_opcodes(QStringList &amp;opcodes, QList&lt;Elf64_Addr&gt; &amp;file_off, <a class="code" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> base_off) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">foreach</span>(QString op, opcodes)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        file_off.append(op.mid(0, 8).toUInt(NULL, 16) + base_off + 1);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_115fc0fe4f4514b6057358768a3de513.html">adding_methods</a></li><li class="navelem"><a class="el" href="dir_7c60b2f2d627f4e57214529fdf60ceae.html">wrappers</a></li><li class="navelem"><a class="el" href="elfaddingmethods_8cpp.html">elfaddingmethods.cpp</a></li>
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+  </ul>
+</div>
+</body>
+</html>

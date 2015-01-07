@@ -1,0 +1,615 @@
+\hypertarget{class_e_l_f}{\section{Dokumentacja klasy E\-L\-F}
+\label{class_e_l_f}\index{E\-L\-F@{E\-L\-F}}
+}
+
+
+{\ttfamily \#include $<$elffile.\-h$>$}
+
+
+
+Diagram dziedziczenia dla E\-L\-F\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=140pt]{class_e_l_f__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Diagram współpracy dla E\-L\-F\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=140pt]{class_e_l_f__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Komponenty}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries \-\_\-best\-\_\-segment}
+\item 
+struct {\bfseries \-\_\-section\-\_\-info}
+\end{DoxyCompactItemize}
+\subsection*{Typy publiczne}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_e_l_f_abaebdfb7048441e430684d68df8d73d1}{Section\-Type} 
+\begin{DoxyCompactList}\small\item\em Type sekcji. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992}{E\-L\-F} (Q\-Byte\-Array \-\_\-data)
+\begin{DoxyCompactList}\small\item\em Konstruktor. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_e_l_f_a8d420911533a8753e9936cb5c9238747}{$\sim$\-E\-L\-F} ()
+\begin{DoxyCompactList}\small\item\em Destruktor. \end{DoxyCompactList}\item 
+const Q\-Byte\-Array \& \hyperlink{class_e_l_f_ad2f8a0a47d56ee33a9234c9415414e00}{get\-\_\-elf\-\_\-content} () const 
+\begin{DoxyCompactList}\small\item\em Pobiera zawartość pliku. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f}{is\-\_\-valid} () const 
+\begin{DoxyCompactList}\small\item\em Sprawdza czy w pamięci przechowywany jest poprawny plik. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d}{is\-\_\-x86} () const 
+\begin{DoxyCompactList}\small\item\em Dostarcza informacje czy plik jest poprawnym plikiem \hyperlink{class_e_l_f}{E\-L\-F} 32-\/bitowym. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e}{is\-\_\-x64} () const 
+\begin{DoxyCompactList}\small\item\em Dostarcza informacje czy plik jest poprawnym plikiem \hyperlink{class_e_l_f}{E\-L\-F} 64-\/bitowym. \end{DoxyCompactList}\item 
+int \hyperlink{class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8}{get\-\_\-number\-\_\-of\-\_\-segments} () const 
+\begin{DoxyCompactList}\small\item\em Pobiera ilość segmentów w pliku. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10}{get\-\_\-ph\-\_\-seg\-\_\-offset} (uint32\-\_\-t idx=0)
+\begin{DoxyCompactList}\small\item\em Pobiera offset w pliku dla podanego segmentu. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d}{extend\-\_\-segment} (const Q\-Byte\-Array \&data, bool only\-\_\-x, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} \&va)
+\begin{DoxyCompactList}\small\item\em Rozszerza najbardziej pasujący segment L\-O\-A\-D i kopiuje do niego podany kod. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580}{write\-\_\-to\-\_\-file} (const Q\-String \&fname) const 
+\begin{DoxyCompactList}\small\item\em Zapisuje wewnętrzne dane do pliku. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a8342542081d52e5518356f0f6cde3db8}{set\-\_\-entry\-\_\-point} (const \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} \&entry\-\_\-point, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} $\ast$old\-\_\-ep=nullptr)
+\begin{DoxyCompactList}\small\item\em Ustawia punkt wejściowy dla pliku wykonywalnego. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f}{get\-\_\-entry\-\_\-point} (\hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} \&old\-\_\-ep) const 
+\begin{DoxyCompactList}\small\item\em Dostarcza informacje o punkcie wejściowym pliku. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12}{get\-\_\-section\-\_\-content} (\hyperlink{class_e_l_f_abaebdfb7048441e430684d68df8d73d1}{Section\-Type} sec\-\_\-type, Q\-Pair$<$ Q\-Byte\-Array, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} $>$ \&section\-\_\-data)
+\begin{DoxyCompactList}\small\item\em Pobiera zawartość sekcji, jeżeli podana sekcja istnieje. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_af326c6489cd6953ae4d21ba194c76d41}{get\-\_\-section\-\_\-file\-\_\-off} (\hyperlink{class_e_l_f_abaebdfb7048441e430684d68df8d73d1}{Section\-Type} sec\-\_\-type, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} \&file\-\_\-off)
+\begin{DoxyCompactList}\small\item\em Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_aede545aa3f960b681a4a7b9be8f67833}{set\-\_\-section\-\_\-content} (\hyperlink{class_e_l_f_abaebdfb7048441e430684d68df8d73d1}{Section\-Type} sec\-\_\-type, const Q\-Byte\-Array \&section\-\_\-data, const char filler= '\textbackslash{}x00')
+\begin{DoxyCompactList}\small\item\em Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a6844855ce268b49bb39b75e117bad008}{set\-\_\-relative\-\_\-address} (\hyperlink{elf_8h_a6f7837bc80df7a68291fce54ff088849}{Elf64\-\_\-\-Off} file\-\_\-off, \hyperlink{elf_8h_a40c6d4571e6001f443cc6a6474620158}{Elf32\-\_\-\-Addr} rva)
+\begin{DoxyCompactList}\small\item\em Ustawia nowy adres instrukcji dla skoku relatywnego. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_ac6ba067b4210f37293eff8483edaa883}{get\-\_\-segment\-\_\-prot\-\_\-flags} (const \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} vaddr, int \&prot\-\_\-flags) const 
+\begin{DoxyCompactList}\small\item\em Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_ad1eda85b8a7dc46325193c19074dd468}{get\-\_\-segment\-\_\-align} (const \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} vaddr, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} \&align) const 
+\begin{DoxyCompactList}\small\item\em Pobiera wartość wyrównania segmentu. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a48849fcd82256a378da6f6cfb4d7001a}{get\-\_\-load\-\_\-segment\-\_\-info} (int prot\-\_\-flags, Q\-Pair$<$ Q\-Byte\-Array, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} $>$ \&segment\-\_\-data) const 
+\begin{DoxyCompactList}\small\item\em Pobiera zawartość pierwszego segmenu L\-O\-A\-D, do którego pasują podane flagi ochrony pamięci. \end{DoxyCompactList}\item 
+bool \hyperlink{class_e_l_f_a480f02b85a48aa18c1bc1ae23dba2b2f}{get\-\_\-relative\-\_\-address} (\hyperlink{elf_8h_a6f7837bc80df7a68291fce54ff088849}{Elf64\-\_\-\-Off} file\-\_\-off, int32\-\_\-t \&rva) const 
+\begin{DoxyCompactList}\small\item\em Pobiera aktualną wartość adresu relatywnego dla skoku. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Dodatkowe Dziedziczone Składowe}
+
+
+\subsection{Opis szczegółowy}
+
+
+Definicja w linii 20 pliku elffile.\-h.
+
+
+
+\subsection{Dokumentacja składowych wyliczanych}
+\hypertarget{class_e_l_f_abaebdfb7048441e430684d68df8d73d1}{\index{E\-L\-F@{E\-L\-F}!Section\-Type@{Section\-Type}}
+\index{Section\-Type@{Section\-Type}!ELF@{E\-L\-F}}
+\subsubsection[{Section\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf E\-L\-F\-::\-Section\-Type}}}\label{class_e_l_f_abaebdfb7048441e430684d68df8d73d1}
+
+
+Type sekcji. 
+
+
+
+Definicja w linii 25 pliku elffile.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992}{\index{E\-L\-F@{E\-L\-F}!E\-L\-F@{E\-L\-F}}
+\index{E\-L\-F@{E\-L\-F}!ELF@{E\-L\-F}}
+\subsubsection[{E\-L\-F}]{\setlength{\rightskip}{0pt plus 5cm}E\-L\-F\-::\-E\-L\-F (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{\-\_\-data}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_a7bcefdc63dcaee056a3800f57cf73992}
+
+
+Konstruktor. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em \-\_\-data} & zawartość pliku. \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 940 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_a8d420911533a8753e9936cb5c9238747}{\index{E\-L\-F@{E\-L\-F}!$\sim$\-E\-L\-F@{$\sim$\-E\-L\-F}}
+\index{$\sim$\-E\-L\-F@{$\sim$\-E\-L\-F}!ELF@{E\-L\-F}}
+\subsubsection[{$\sim$\-E\-L\-F}]{\setlength{\rightskip}{0pt plus 5cm}E\-L\-F\-::$\sim$\-E\-L\-F (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_e_l_f_a8d420911533a8753e9936cb5c9238747}
+
+
+Destruktor. 
+
+
+
+Definicja w linii 946 pliku elffile.\-cpp.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d}{\index{E\-L\-F@{E\-L\-F}!extend\-\_\-segment@{extend\-\_\-segment}}
+\index{extend\-\_\-segment@{extend\-\_\-segment}!ELF@{E\-L\-F}}
+\subsubsection[{extend\-\_\-segment}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::extend\-\_\-segment (
+\begin{DoxyParamCaption}
+\item[{const Q\-Byte\-Array \&}]{data, }
+\item[{bool}]{only\-\_\-x, }
+\item[{{\bf Elf64\-\_\-\-Addr} \&}]{va}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_a11f004629212a5651dd4ca1355a7eb9d}
+
+
+Rozszerza najbardziej pasujący segment L\-O\-A\-D i kopiuje do niego podany kod. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em data} & dane, które chcemy skopiować w miejsce rozszerzonego segmentu. \\
+\hline
+{\em only\-\_\-x} & flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji. \\
+\hline
+{\em va} & nowy adres wirtualny w rozszerzonym segmencie. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli rozszerzenie się powiodło, False w pozostałych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 31 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_ad2f8a0a47d56ee33a9234c9415414e00}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-elf\-\_\-content@{get\-\_\-elf\-\_\-content}}
+\index{get\-\_\-elf\-\_\-content@{get\-\_\-elf\-\_\-content}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-elf\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-Byte\-Array\& E\-L\-F\-::get\-\_\-elf\-\_\-content (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_e_l_f_ad2f8a0a47d56ee33a9234c9415414e00}
+
+
+Pobiera zawartość pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+Zawartość aktualnie analizowalnego pliku. 
+\end{DoxyReturn}
+
+
+Definicja w linii 47 pliku elffile.\-h.
+
+\hypertarget{class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-entry\-\_\-point@{get\-\_\-entry\-\_\-point}}
+\index{get\-\_\-entry\-\_\-point@{get\-\_\-entry\-\_\-point}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-entry\-\_\-point}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-entry\-\_\-point (
+\begin{DoxyParamCaption}
+\item[{{\bf Elf64\-\_\-\-Addr} \&}]{old\-\_\-ep}
+\end{DoxyParamCaption}
+) const}}\label{class_e_l_f_adf71ac4ae5cfedb1b1415b2f5da2494f}
+
+
+Dostarcza informacje o punkcie wejściowym pliku. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em old\-\_\-ep} & referencja na wartość punktu wejściowego programu. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 181 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_a48849fcd82256a378da6f6cfb4d7001a}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-load\-\_\-segment\-\_\-info@{get\-\_\-load\-\_\-segment\-\_\-info}}
+\index{get\-\_\-load\-\_\-segment\-\_\-info@{get\-\_\-load\-\_\-segment\-\_\-info}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-load\-\_\-segment\-\_\-info}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-load\-\_\-segment\-\_\-info (
+\begin{DoxyParamCaption}
+\item[{int}]{prot\-\_\-flags, }
+\item[{Q\-Pair$<$ Q\-Byte\-Array, {\bf Elf64\-\_\-\-Addr} $>$ \&}]{segment\-\_\-data}
+\end{DoxyParamCaption}
+) const}}\label{class_e_l_f_a48849fcd82256a378da6f6cfb4d7001a}
+
+
+Pobiera zawartość pierwszego segmenu L\-O\-A\-D, do którego pasują podane flagi ochrony pamięci. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em prot\-\_\-flags} & flagi ochrony pamięci. \\
+\hline
+{\em segment\-\_\-data} & zawartość segmentu oraz adres wirtualny. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli segment istnieje, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 834 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-number\-\_\-of\-\_\-segments@{get\-\_\-number\-\_\-of\-\_\-segments}}
+\index{get\-\_\-number\-\_\-of\-\_\-segments@{get\-\_\-number\-\_\-of\-\_\-segments}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-number\-\_\-of\-\_\-segments}]{\setlength{\rightskip}{0pt plus 5cm}int E\-L\-F\-::get\-\_\-number\-\_\-of\-\_\-segments (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8}
+
+
+Pobiera ilość segmentów w pliku. 
+
+\begin{DoxyReturn}{Zwraca}
+Ilość segmentów w pliku, -\/1 w razie błędu. 
+\end{DoxyReturn}
+
+
+Definicja w linii 71 pliku elffile.\-h.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{class_e_l_f_a8b65b7ea1b57aa25d3171a25528a43f8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-ph\-\_\-seg\-\_\-offset@{get\-\_\-ph\-\_\-seg\-\_\-offset}}
+\index{get\-\_\-ph\-\_\-seg\-\_\-offset@{get\-\_\-ph\-\_\-seg\-\_\-offset}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-ph\-\_\-seg\-\_\-offset}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ E\-L\-F\-::get\-\_\-ph\-\_\-seg\-\_\-offset (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{idx = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_abdddb77f2822c068b2ae06e221ae1e10}
+
+
+Pobiera offset w pliku dla podanego segmentu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em idx} & indeks segmentu. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Offset jeżeli dane są poprawne, nullptr w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 17 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_a480f02b85a48aa18c1bc1ae23dba2b2f}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-relative\-\_\-address@{get\-\_\-relative\-\_\-address}}
+\index{get\-\_\-relative\-\_\-address@{get\-\_\-relative\-\_\-address}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-relative\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-relative\-\_\-address (
+\begin{DoxyParamCaption}
+\item[{{\bf Elf64\-\_\-\-Off}}]{file\-\_\-off, }
+\item[{int32\-\_\-t \&}]{rva}
+\end{DoxyParamCaption}
+) const}}\label{class_e_l_f_a480f02b85a48aa18c1bc1ae23dba2b2f}
+
+
+Pobiera aktualną wartość adresu relatywnego dla skoku. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em file\-\_\-off} & offset w pliku. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 850 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-section\-\_\-content@{get\-\_\-section\-\_\-content}}
+\index{get\-\_\-section\-\_\-content@{get\-\_\-section\-\_\-content}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-section\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-section\-\_\-content (
+\begin{DoxyParamCaption}
+\item[{{\bf E\-L\-F\-::\-Section\-Type}}]{sec\-\_\-type, }
+\item[{Q\-Pair$<$ Q\-Byte\-Array, {\bf Elf64\-\_\-\-Addr} $>$ \&}]{section\-\_\-data}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_aaa7edcb97e8cd8b0ca759d7df7984b12}
+
+
+Pobiera zawartość sekcji, jeżeli podana sekcja istnieje. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em sec\-\_\-type} & typ sekcji. \\
+\hline
+{\em section\-\_\-data} & zawartość sekcji oraz adres witualny. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli sekcja istnieje, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 187 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_af326c6489cd6953ae4d21ba194c76d41}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-section\-\_\-file\-\_\-off@{get\-\_\-section\-\_\-file\-\_\-off}}
+\index{get\-\_\-section\-\_\-file\-\_\-off@{get\-\_\-section\-\_\-file\-\_\-off}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-section\-\_\-file\-\_\-off}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-section\-\_\-file\-\_\-off (
+\begin{DoxyParamCaption}
+\item[{{\bf Section\-Type}}]{sec\-\_\-type, }
+\item[{{\bf Elf64\-\_\-\-Addr} \&}]{file\-\_\-off}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_af326c6489cd6953ae4d21ba194c76d41}
+
+
+Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em sec\-\_\-type} & typ sekcji. \\
+\hline
+{\em file\-\_\-off} & offset sekcji w pliku. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli sekcja istnieje, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 247 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_ad1eda85b8a7dc46325193c19074dd468}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-segment\-\_\-align@{get\-\_\-segment\-\_\-align}}
+\index{get\-\_\-segment\-\_\-align@{get\-\_\-segment\-\_\-align}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-segment\-\_\-align}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-segment\-\_\-align (
+\begin{DoxyParamCaption}
+\item[{const {\bf Elf64\-\_\-\-Addr}}]{vaddr, }
+\item[{{\bf Elf64\-\_\-\-Addr} \&}]{align}
+\end{DoxyParamCaption}
+) const}}\label{class_e_l_f_ad1eda85b8a7dc46325193c19074dd468}
+
+
+Pobiera wartość wyrównania segmentu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em vaddr} & adres wirtualny pod który ładuje segment. \\
+\hline
+{\em align} & wartość wyrównywania strony. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli segment istnieje, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 800 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_ac6ba067b4210f37293eff8483edaa883}{\index{E\-L\-F@{E\-L\-F}!get\-\_\-segment\-\_\-prot\-\_\-flags@{get\-\_\-segment\-\_\-prot\-\_\-flags}}
+\index{get\-\_\-segment\-\_\-prot\-\_\-flags@{get\-\_\-segment\-\_\-prot\-\_\-flags}!ELF@{E\-L\-F}}
+\subsubsection[{get\-\_\-segment\-\_\-prot\-\_\-flags}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::get\-\_\-segment\-\_\-prot\-\_\-flags (
+\begin{DoxyParamCaption}
+\item[{const {\bf Elf64\-\_\-\-Addr}}]{vaddr, }
+\item[{int \&}]{prot\-\_\-flags}
+\end{DoxyParamCaption}
+) const}}\label{class_e_l_f_ac6ba067b4210f37293eff8483edaa883}
+
+
+Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em vaddr} & adres wirtualny pod który ładuje segment. \\
+\hline
+{\em prot\-\_\-flags} & flagi ochrony pamięci. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli segment istnieje, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 766 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f}{\index{E\-L\-F@{E\-L\-F}!is\-\_\-valid@{is\-\_\-valid}}
+\index{is\-\_\-valid@{is\-\_\-valid}!ELF@{E\-L\-F}}
+\subsubsection[{is\-\_\-valid}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::is\-\_\-valid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_e_l_f_aaf0da9f62b61fc3674b7fd54d9885b5f}
+
+
+Sprawdza czy w pamięci przechowywany jest poprawny plik. 
+
+\begin{DoxyReturn}{Zwraca}
+True jeżeli poprawny, False w innym przypadku. 
+\end{DoxyReturn}
+
+
+Implementuje \hyperlink{class_binary_file_a6007435bc4451bb80a3169d977f4f125}{Binary\-File}.
+
+
+
+Definicja w linii 53 pliku elffile.\-h.
+
+\hypertarget{class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e}{\index{E\-L\-F@{E\-L\-F}!is\-\_\-x64@{is\-\_\-x64}}
+\index{is\-\_\-x64@{is\-\_\-x64}!ELF@{E\-L\-F}}
+\subsubsection[{is\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::is\-\_\-x64 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e}
+
+
+Dostarcza informacje czy plik jest poprawnym plikiem \hyperlink{class_e_l_f}{E\-L\-F} 64-\/bitowym. 
+
+\begin{DoxyReturn}{Zwraca}
+True jezeli spełnia warunki, False w pozostałych przypadkach. 
+\end{DoxyReturn}
+
+
+Implementuje \hyperlink{class_binary_file_a36b7998c72bbee68ab492d93368c14ca}{Binary\-File}.
+
+
+
+Definicja w linii 65 pliku elffile.\-h.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{class_e_l_f_a558b2f169db21b21b24d6ff19c38ac9e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d}{\index{E\-L\-F@{E\-L\-F}!is\-\_\-x86@{is\-\_\-x86}}
+\index{is\-\_\-x86@{is\-\_\-x86}!ELF@{E\-L\-F}}
+\subsubsection[{is\-\_\-x86}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::is\-\_\-x86 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d}
+
+
+Dostarcza informacje czy plik jest poprawnym plikiem \hyperlink{class_e_l_f}{E\-L\-F} 32-\/bitowym. 
+
+\begin{DoxyReturn}{Zwraca}
+True jezeli spełnia warunki, False w pozostałych przypadkach. 
+\end{DoxyReturn}
+
+
+Implementuje \hyperlink{class_binary_file_aa7d43cde4ab8cc9723d2b5c769719bd9}{Binary\-File}.
+
+
+
+Definicja w linii 59 pliku elffile.\-h.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{class_e_l_f_ac5c89b2b437f3e07aedc06f66cdab94d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_e_l_f_a8342542081d52e5518356f0f6cde3db8}{\index{E\-L\-F@{E\-L\-F}!set\-\_\-entry\-\_\-point@{set\-\_\-entry\-\_\-point}}
+\index{set\-\_\-entry\-\_\-point@{set\-\_\-entry\-\_\-point}!ELF@{E\-L\-F}}
+\subsubsection[{set\-\_\-entry\-\_\-point}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::set\-\_\-entry\-\_\-point (
+\begin{DoxyParamCaption}
+\item[{const {\bf Elf64\-\_\-\-Addr} \&}]{entry\-\_\-point, }
+\item[{{\bf Elf64\-\_\-\-Addr} $\ast$}]{old\-\_\-ep = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_a8342542081d52e5518356f0f6cde3db8}
+
+
+Ustawia punkt wejściowy dla pliku wykonywalnego. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em entry\-\_\-point} & wartość punktu wejściowego. \\
+\hline
+{\em old\-\_\-ep} & wartosc starego punkt wejsciowego, parametr opcjonalny. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 152 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_a6844855ce268b49bb39b75e117bad008}{\index{E\-L\-F@{E\-L\-F}!set\-\_\-relative\-\_\-address@{set\-\_\-relative\-\_\-address}}
+\index{set\-\_\-relative\-\_\-address@{set\-\_\-relative\-\_\-address}!ELF@{E\-L\-F}}
+\subsubsection[{set\-\_\-relative\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::set\-\_\-relative\-\_\-address (
+\begin{DoxyParamCaption}
+\item[{{\bf Elf64\-\_\-\-Off}}]{file\-\_\-off, }
+\item[{{\bf Elf32\-\_\-\-Addr}}]{rva}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_a6844855ce268b49bb39b75e117bad008}
+
+
+Ustawia nowy adres instrukcji dla skoku relatywnego. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em file\-\_\-off} & offset w pliku. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 322 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_aede545aa3f960b681a4a7b9be8f67833}{\index{E\-L\-F@{E\-L\-F}!set\-\_\-section\-\_\-content@{set\-\_\-section\-\_\-content}}
+\index{set\-\_\-section\-\_\-content@{set\-\_\-section\-\_\-content}!ELF@{E\-L\-F}}
+\subsubsection[{set\-\_\-section\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::set\-\_\-section\-\_\-content (
+\begin{DoxyParamCaption}
+\item[{{\bf E\-L\-F\-::\-Section\-Type}}]{sec\-\_\-type, }
+\item[{const Q\-Byte\-Array \&}]{section\-\_\-data, }
+\item[{const char}]{filler = {\ttfamily '\textbackslash{}x00'}}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_aede545aa3f960b681a4a7b9be8f67833}
+
+
+Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em sec\-\_\-type} & typ sekcji. \\
+\hline
+{\em section\-\_\-data} & zawartość sekcji. \\
+\hline
+{\em filler} & bajt, którym jest dopełniana sekcja. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True jeżeli sekcja istnieje, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 307 pliku elffile.\-cpp.
+
+\hypertarget{class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580}{\index{E\-L\-F@{E\-L\-F}!write\-\_\-to\-\_\-file@{write\-\_\-to\-\_\-file}}
+\index{write\-\_\-to\-\_\-file@{write\-\_\-to\-\_\-file}!ELF@{E\-L\-F}}
+\subsubsection[{write\-\_\-to\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-L\-F\-::write\-\_\-to\-\_\-file (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{fname}
+\end{DoxyParamCaption}
+) const}}\label{class_e_l_f_a52b09dc778fd67aa92d1a80a96e9f580}
+
+
+Zapisuje wewnętrzne dane do pliku. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em fname} & nazwa pliku. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja zapisu się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 116 pliku elffile.\-cpp.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/file\-\_\-types/\hyperlink{elffile_8h}{elffile.\-h}\item 
+core/file\-\_\-types/\hyperlink{elffile_8cpp}{elffile.\-cpp}\end{DoxyCompactItemize}

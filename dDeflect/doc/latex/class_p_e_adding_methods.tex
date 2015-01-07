@@ -1,0 +1,146 @@
+\hypertarget{class_p_e_adding_methods}{\section{Dokumentacja klasy P\-E\-Adding\-Methods}
+\label{class_p_e_adding_methods}\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}}
+}
+
+
+Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików P\-E.  
+
+
+
+
+{\ttfamily \#include $<$peaddingmethods.\-h$>$}
+
+
+
+Diagram dziedziczenia dla P\-E\-Adding\-Methods\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{class_p_e_adding_methods__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Diagram współpracy dla P\-E\-Adding\-Methods\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{class_p_e_adding_methods__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_p_e_adding_methods_a1cec9b94a430984c6d88386884ad0cdd}{P\-E\-Adding\-Methods} (\hyperlink{class_p_e_file}{P\-E\-File} $\ast$f)
+\begin{DoxyCompactList}\small\item\em Konstruktor. \end{DoxyCompactList}\item 
+\hyperlink{class_p_e_adding_methods_a6f0a7a7d04944167192c61e22b4f04ee}{$\sim$\-P\-E\-Adding\-Methods} ()
+\item 
+{\footnotesize template$<$typename Register $>$ }\\bool \hyperlink{class_p_e_adding_methods_a2b224b51233e0446621e9daf9108e78b}{inject\-Code} (Q\-List$<$ \hyperlink{class_d_adding_methods_1_1_inject_description}{Inject\-Description}$<$ Register $>$ $\ast$ $>$ descs)
+\begin{DoxyCompactList}\small\item\em Metoda zabezpieczająca plik P\-E podanymi metodami. \end{DoxyCompactList}\item 
+void \hyperlink{class_p_e_adding_methods_af7948de6504286fdee160acba2c811bf}{set\-Code\-Coverage} (uint8\-\_\-t new\-\_\-coverage)
+\begin{DoxyCompactList}\small\item\em Ustawia nowe procentowe pokrycie kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Dodatkowe Dziedziczone Składowe}
+
+
+\subsection{Opis szczegółowy}
+Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików P\-E. 
+
+Definicja w linii 15 pliku peaddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_p_e_adding_methods_a1cec9b94a430984c6d88386884ad0cdd}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}}
+\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{P\-E\-Adding\-Methods}]{\setlength{\rightskip}{0pt plus 5cm}P\-E\-Adding\-Methods\-::\-P\-E\-Adding\-Methods (
+\begin{DoxyParamCaption}
+\item[{{\bf P\-E\-File} $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_adding_methods_a1cec9b94a430984c6d88386884ad0cdd}
+
+
+Konstruktor. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em f} & Plik P\-E \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 6 pliku peaddingmethods.\-cpp.
+
+\hypertarget{class_p_e_adding_methods_a6f0a7a7d04944167192c61e22b4f04ee}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!$\sim$\-P\-E\-Adding\-Methods@{$\sim$\-P\-E\-Adding\-Methods}}
+\index{$\sim$\-P\-E\-Adding\-Methods@{$\sim$\-P\-E\-Adding\-Methods}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{$\sim$\-P\-E\-Adding\-Methods}]{\setlength{\rightskip}{0pt plus 5cm}P\-E\-Adding\-Methods\-::$\sim$\-P\-E\-Adding\-Methods (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_adding_methods_a6f0a7a7d04944167192c61e22b4f04ee}
+
+
+Definicja w linii 14 pliku peaddingmethods.\-cpp.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_p_e_adding_methods_a2b224b51233e0446621e9daf9108e78b}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!inject\-Code@{inject\-Code}}
+\index{inject\-Code@{inject\-Code}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{inject\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template bool P\-E\-Adding\-Methods\-::inject\-Code (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ {\bf Inject\-Description}$<$ Register $>$ $\ast$ $>$}]{descs}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_adding_methods_a2b224b51233e0446621e9daf9108e78b}
+
+
+Metoda zabezpieczająca plik P\-E podanymi metodami. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em descs} & Lista wybranych metod \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+
+
+Definicja w linii 26 pliku peaddingmethods.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_adding_methods_a2b224b51233e0446621e9daf9108e78b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_adding_methods_af7948de6504286fdee160acba2c811bf}{\index{P\-E\-Adding\-Methods@{P\-E\-Adding\-Methods}!set\-Code\-Coverage@{set\-Code\-Coverage}}
+\index{set\-Code\-Coverage@{set\-Code\-Coverage}!PEAddingMethods@{P\-E\-Adding\-Methods}}
+\subsubsection[{set\-Code\-Coverage}]{\setlength{\rightskip}{0pt plus 5cm}void P\-E\-Adding\-Methods\-::set\-Code\-Coverage (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{new\-\_\-coverage}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_adding_methods_af7948de6504286fdee160acba2c811bf}
+
+
+Ustawia nowe procentowe pokrycie kodu. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em new\-\_\-coverage} & Pokrycie kodu \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 19 pliku peaddingmethods.\-cpp.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{peaddingmethods_8h}{peaddingmethods.\-h}\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{peaddingmethods_8cpp}{peaddingmethods.\-cpp}\end{DoxyCompactItemize}

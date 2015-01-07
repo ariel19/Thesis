@@ -1,0 +1,743 @@
+\hypertarget{class_p_e_file}{\section{Dokumentacja klasy P\-E\-File}
+\label{class_p_e_file}\index{P\-E\-File@{P\-E\-File}}
+}
+
+
+Klasa odpowiedzialna za parsowanie plików P\-E.  
+
+
+
+
+{\ttfamily \#include $<$pefile.\-h$>$}
+
+
+
+Diagram dziedziczenia dla P\-E\-File\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=140pt]{class_p_e_file__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Diagram współpracy dla P\-E\-File\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=140pt]{class_p_e_file__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Komponenty}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries Relocation\-Table}
+\begin{DoxyCompactList}\small\item\em Struktura odpowiedzialna za przechowywanie wpisu w tablicy relokacji. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_p_e_file_ae8d99a8a0dabc4891ba5f7ef5031bcdc}{P\-E\-File} (Q\-Byte\-Array d)
+\begin{DoxyCompactList}\small\item\em Konstruktor. \end{DoxyCompactList}\item 
+\hyperlink{class_p_e_file_a0e63ccc46a77ddc9106e98c9131674db}{$\sim$\-P\-E\-File} ()
+\item 
+bool \hyperlink{class_p_e_file_a90a96d95f9d67ff48bf12ffcb0f22d41}{is\-\_\-valid} () const 
+\begin{DoxyCompactList}\small\item\em Sprawdza czy w pamięci przechowywany jest poprawny plik. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_aa8e69bdca4d00216df406278b4e96a28}{is\-\_\-x64} () const 
+\begin{DoxyCompactList}\small\item\em Metoda informująca czy wczytany plik jest 64-\/bitowy. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a371cc84eed9dd5d85b7c50d60c1eb56f}{is\-\_\-x86} () const 
+\begin{DoxyCompactList}\small\item\em Metoda informująca czy wczytany plik jest 32-\/bitowy. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a31cab72915687c9138e804e644f80ac6}{set\-New\-Entry\-Point} (unsigned int new\-E\-P)
+\begin{DoxyCompactList}\small\item\em Ustawia nowy Entry\-Point. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_p_e_file_a82c9e3280a60fbdf13e7a7b7dbbf9ddb}{get\-Entry\-Point} ()
+\begin{DoxyCompactList}\small\item\em Pobiera Entry\-Point. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_ac3bf74a6efbc10bd642fbb345e71bf2d}{get\-Image\-Base} ()
+\begin{DoxyCompactList}\small\item\em Pobiera Image\-Base. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a698dd8d1b169ac0b9d01ebfecd16bc51}{set\-Tls\-Address\-Of\-Call\-Backs} (uint64\-\_\-t addr)
+\begin{DoxyCompactList}\small\item\em Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji T\-L\-S. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_aa60f615dfd569e601e3d25eaded2d3ed}{get\-Tls\-Address\-Of\-Index} ()
+\begin{DoxyCompactList}\small\item\em Pobiera adres wirtualny pod którym znajduje się index T\-L\-S. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a2d6f55148b572f564bc30e881d97d9f8}{set\-Tls\-Address\-Of\-Index} (uint64\-\_\-t addr)
+\begin{DoxyCompactList}\small\item\em Ustawia adres wirtualny pod którym znajduje się index T\-L\-S. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{class_p_e_file_a45168c8ca08be4b58f79637a717135ac}{get\-Image\-Tls\-Directory\-Size} () const 
+\begin{DoxyCompactList}\small\item\em Pobiera rozmiar struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_ab385de72db3e791e1477cb6593266d45}{get\-Tls\-Address\-Of\-Call\-Backs} ()
+\begin{DoxyCompactList}\small\item\em Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji T\-L\-S. \end{DoxyCompactList}\item 
+Q\-Byte\-Array \hyperlink{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5}{get\-Text\-Section} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierają◘ca zawartość sekcji .text. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{class_p_e_file_afdcc62870de787ebaee455b55af8f06f}{get\-Text\-Section\-Offset} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca przesunięcie w pliku sekcji .text. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_aecfb5938f29e1cb030e968349b3112ef}{has\-Tls} ()
+\begin{DoxyCompactList}\small\item\em Metoda sprawdzająca czy w pliku istnieje tablica T\-L\-S. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a6cd64df26158260f265b26e40b3b5dea}{set\-Tls\-Directory\-Address} (uint64\-\_\-t addr)
+\begin{DoxyCompactList}\small\item\em Metoda ustawiająca adres tablicy T\-L\-S. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_a6a98e9259a0013bff708271b378648ef}{get\-Tls\-Directory\-Address} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca adres tablicy T\-L\-S. \end{DoxyCompactList}\item 
+Q\-List$<$ uint64\-\_\-t $>$ \hyperlink{class_p_e_file_af718219d753f57388e3db28a55928b3e}{get\-Tls\-Callbacks} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca adresy funkcji T\-L\-S. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b}{add\-Relocations} (Q\-List$<$ uint64\-\_\-t $>$ relocations)
+\begin{DoxyCompactList}\small\item\em Metoda dodająca wpisy do tablicy relokacji. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Register $>$ }\\uint64\-\_\-t \hyperlink{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1}{inject\-Unique\-Data} (\hyperlink{class_binary_code}{Binary\-Code}$<$ Register $>$ data, Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \&ptrs, Q\-List$<$ uint64\-\_\-t $>$ \&relocations)
+\begin{DoxyCompactList}\small\item\em Metoda dodająca dane do pliku (jeżeli nie były już wcześniej dodane). Metoda na podstawie danych przygotowuje tablicę relokacji. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_a6bea21405c1aab9b4e3d43d980a5aac5}{inject\-Unique\-Data} (Q\-Byte\-Array data, Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \&ptrs, bool $\ast$inserted=N\-U\-L\-L)
+\begin{DoxyCompactList}\small\item\em Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_a2dca67d21245ba63171ee34456456f96}{generate\-String} (Q\-String str, Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \&ptrs)
+\begin{DoxyCompactList}\small\item\em Metoda wklejająca unikalny string do pliku P\-E. \end{DoxyCompactList}\item 
+uint64\-\_\-t \hyperlink{class_p_e_file_a1cf0f58cf7e061011a1dd95b16076e07}{get\-Address\-At\-Call\-Instruction\-Offset} (uint32\-\_\-t offset)
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca adres skoku instrukcji call lub jmp znajdującej się pod konkretnym offsetem. \end{DoxyCompactList}\item 
+bool \hyperlink{class_p_e_file_a6c06d44bec906ab659326541e6244850}{set\-Address\-At\-Call\-Instruction\-Offset} (uint32\-\_\-t offset, uint64\-\_\-t address)
+\begin{DoxyCompactList}\small\item\em Metoda ustawiająca adres skoku instrukcji call lub jmp znajdującej się w konkretnym miejscu w pliku. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Dodatkowe Dziedziczone Składowe}
+
+
+\subsection{Opis szczegółowy}
+Klasa odpowiedzialna za parsowanie plików P\-E. 
+
+Definicja w linii 27 pliku pefile.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_p_e_file_ae8d99a8a0dabc4891ba5f7ef5031bcdc}{\index{P\-E\-File@{P\-E\-File}!P\-E\-File@{P\-E\-File}}
+\index{P\-E\-File@{P\-E\-File}!PEFile@{P\-E\-File}}
+\subsubsection[{P\-E\-File}]{\setlength{\rightskip}{0pt plus 5cm}P\-E\-File\-::\-P\-E\-File (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{d}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_ae8d99a8a0dabc4891ba5f7ef5031bcdc}
+
+
+Konstruktor. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em d} & Zawartość pliku P\-E \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 256 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a0e63ccc46a77ddc9106e98c9131674db}{\index{P\-E\-File@{P\-E\-File}!$\sim$\-P\-E\-File@{$\sim$\-P\-E\-File}}
+\index{$\sim$\-P\-E\-File@{$\sim$\-P\-E\-File}!PEFile@{P\-E\-File}}
+\subsubsection[{$\sim$\-P\-E\-File}]{\setlength{\rightskip}{0pt plus 5cm}P\-E\-File\-::$\sim$\-P\-E\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a0e63ccc46a77ddc9106e98c9131674db}
+
+
+Definicja w linii 266 pliku pefile.\-cpp.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b}{\index{P\-E\-File@{P\-E\-File}!add\-Relocations@{add\-Relocations}}
+\index{add\-Relocations@{add\-Relocations}!PEFile@{P\-E\-File}}
+\subsubsection[{add\-Relocations}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::add\-Relocations (
+\begin{DoxyParamCaption}
+\item[{Q\-List$<$ uint64\-\_\-t $>$}]{relocations}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b}
+
+
+Metoda dodająca wpisy do tablicy relokacji. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em relocations} & Offsety adresów do relokacji \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 361 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab6f1b8483aeba41b153aa27e9c6a0b8b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a2dca67d21245ba63171ee34456456f96}{\index{P\-E\-File@{P\-E\-File}!generate\-String@{generate\-String}}
+\index{generate\-String@{generate\-String}!PEFile@{P\-E\-File}}
+\subsubsection[{generate\-String}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::generate\-String (
+\begin{DoxyParamCaption}
+\item[{Q\-String}]{str, }
+\item[{Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \&}]{ptrs}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a2dca67d21245ba63171ee34456456f96}
+
+
+Metoda wklejająca unikalny string do pliku P\-E. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em str} & Napis do wklejenia \\
+\hline
+{\em ptrs} & Mapa zawierająca adresy wcześniej dodanych danych/kodu \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Ares wirtualny wklejonego napisu. 
+\end{DoxyReturn}
+
+
+Definicja w linii 276 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a2dca67d21245ba63171ee34456456f96_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a1cf0f58cf7e061011a1dd95b16076e07}{\index{P\-E\-File@{P\-E\-File}!get\-Address\-At\-Call\-Instruction\-Offset@{get\-Address\-At\-Call\-Instruction\-Offset}}
+\index{get\-Address\-At\-Call\-Instruction\-Offset@{get\-Address\-At\-Call\-Instruction\-Offset}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Address\-At\-Call\-Instruction\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Address\-At\-Call\-Instruction\-Offset (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{offset}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a1cf0f58cf7e061011a1dd95b16076e07}
+
+
+Metoda pobierająca adres skoku instrukcji call lub jmp znajdującej się pod konkretnym offsetem. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em offset} & Miejsce w pliku, w którym znajduje się instrukcja call lub jmp. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Adres wirtualny skoku 
+\end{DoxyReturn}
+
+
+Definicja w linii 499 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a1cf0f58cf7e061011a1dd95b16076e07_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a82c9e3280a60fbdf13e7a7b7dbbf9ddb}{\index{P\-E\-File@{P\-E\-File}!get\-Entry\-Point@{get\-Entry\-Point}}
+\index{get\-Entry\-Point@{get\-Entry\-Point}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Entry\-Point}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int P\-E\-File\-::get\-Entry\-Point (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a82c9e3280a60fbdf13e7a7b7dbbf9ddb}
+
+
+Pobiera Entry\-Point. 
+
+\begin{DoxyReturn}{Zwraca}
+E\-P 
+\end{DoxyReturn}
+
+
+Definicja w linii 1124 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_ac3bf74a6efbc10bd642fbb345e71bf2d}{\index{P\-E\-File@{P\-E\-File}!get\-Image\-Base@{get\-Image\-Base}}
+\index{get\-Image\-Base@{get\-Image\-Base}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Image\-Base}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Image\-Base (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_ac3bf74a6efbc10bd642fbb345e71bf2d}
+
+
+Pobiera Image\-Base. 
+
+\begin{DoxyReturn}{Zwraca}
+Image\-Base 
+\end{DoxyReturn}
+
+
+Definicja w linii 1132 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a45168c8ca08be4b58f79637a717135ac}{\index{P\-E\-File@{P\-E\-File}!get\-Image\-Tls\-Directory\-Size@{get\-Image\-Tls\-Directory\-Size}}
+\index{get\-Image\-Tls\-Directory\-Size@{get\-Image\-Tls\-Directory\-Size}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Image\-Tls\-Directory\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t P\-E\-File\-::get\-Image\-Tls\-Directory\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_p_e_file_a45168c8ca08be4b58f79637a717135ac}
+
+
+Pobiera rozmiar struktury I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y. 
+
+\begin{DoxyReturn}{Zwraca}
+Rozmiar 
+\end{DoxyReturn}
+
+
+Definicja w linii 180 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5}{\index{P\-E\-File@{P\-E\-File}!get\-Text\-Section@{get\-Text\-Section}}
+\index{get\-Text\-Section@{get\-Text\-Section}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Text\-Section}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Byte\-Array P\-E\-File\-::get\-Text\-Section (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5}
+
+
+Metoda pobierają◘ca zawartość sekcji .text. 
+
+\begin{DoxyReturn}{Zwraca}
+Tablica bajtów sekcji .text 
+\end{DoxyReturn}
+
+
+Definicja w linii 1200 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a842228e192f08a70f80f564fe4ee7bc5_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_afdcc62870de787ebaee455b55af8f06f}{\index{P\-E\-File@{P\-E\-File}!get\-Text\-Section\-Offset@{get\-Text\-Section\-Offset}}
+\index{get\-Text\-Section\-Offset@{get\-Text\-Section\-Offset}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Text\-Section\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t P\-E\-File\-::get\-Text\-Section\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_afdcc62870de787ebaee455b55af8f06f}
+
+
+Metoda pobierająca przesunięcie w pliku sekcji .text. 
+
+\begin{DoxyReturn}{Zwraca}
+Przesunięcie od początku pliku 
+\end{DoxyReturn}
+
+
+Definicja w linii 1212 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_afdcc62870de787ebaee455b55af8f06f_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_ab385de72db3e791e1477cb6593266d45}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Address\-Of\-Call\-Backs@{get\-Tls\-Address\-Of\-Call\-Backs}}
+\index{get\-Tls\-Address\-Of\-Call\-Backs@{get\-Tls\-Address\-Of\-Call\-Backs}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Address\-Of\-Call\-Backs}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Tls\-Address\-Of\-Call\-Backs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_ab385de72db3e791e1477cb6593266d45}
+
+
+Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji T\-L\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y.\-Address\-Of\-Call\-Backs 
+\end{DoxyReturn}
+
+
+Definicja w linii 185 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_aa60f615dfd569e601e3d25eaded2d3ed}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Address\-Of\-Index@{get\-Tls\-Address\-Of\-Index}}
+\index{get\-Tls\-Address\-Of\-Index@{get\-Tls\-Address\-Of\-Index}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Address\-Of\-Index}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Tls\-Address\-Of\-Index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_aa60f615dfd569e601e3d25eaded2d3ed}
+
+
+Pobiera adres wirtualny pod którym znajduje się index T\-L\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y.\-Address\-Of\-Index 
+\end{DoxyReturn}
+
+
+Definicja w linii 218 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_af718219d753f57388e3db28a55928b3e}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Callbacks@{get\-Tls\-Callbacks}}
+\index{get\-Tls\-Callbacks@{get\-Tls\-Callbacks}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Callbacks}]{\setlength{\rightskip}{0pt plus 5cm}Q\-List$<$ uint64\-\_\-t $>$ P\-E\-File\-::get\-Tls\-Callbacks (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_af718219d753f57388e3db28a55928b3e}
+
+
+Metoda pobierająca adresy funkcji T\-L\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+Tablica z adresami funkcji T\-L\-S 
+\end{DoxyReturn}
+
+
+Definicja w linii 466 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_af718219d753f57388e3db28a55928b3e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a6a98e9259a0013bff708271b378648ef}{\index{P\-E\-File@{P\-E\-File}!get\-Tls\-Directory\-Address@{get\-Tls\-Directory\-Address}}
+\index{get\-Tls\-Directory\-Address@{get\-Tls\-Directory\-Address}!PEFile@{P\-E\-File}}
+\subsubsection[{get\-Tls\-Directory\-Address}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::get\-Tls\-Directory\-Address (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a6a98e9259a0013bff708271b378648ef}
+
+
+Metoda pobierająca adres tablicy T\-L\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+Adres 
+\end{DoxyReturn}
+
+
+Definicja w linii 458 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_aecfb5938f29e1cb030e968349b3112ef}{\index{P\-E\-File@{P\-E\-File}!has\-Tls@{has\-Tls}}
+\index{has\-Tls@{has\-Tls}!PEFile@{P\-E\-File}}
+\subsubsection[{has\-Tls}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::has\-Tls (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_aecfb5938f29e1cb030e968349b3112ef}
+
+
+Metoda sprawdzająca czy w pliku istnieje tablica T\-L\-S. 
+
+\begin{DoxyReturn}{Zwraca}
+True gdy T\-L\-S istnieje 
+\end{DoxyReturn}
+
+
+Definicja w linii 439 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1}{\index{P\-E\-File@{P\-E\-File}!inject\-Unique\-Data@{inject\-Unique\-Data}}
+\index{inject\-Unique\-Data@{inject\-Unique\-Data}!PEFile@{P\-E\-File}}
+\subsubsection[{inject\-Unique\-Data}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ uint64\-\_\-t P\-E\-File\-::inject\-Unique\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-Code}$<$ Register $>$}]{data, }
+\item[{Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \&}]{ptrs, }
+\item[{Q\-List$<$ uint64\-\_\-t $>$ \&}]{relocations}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1}
+
+
+Metoda dodająca dane do pliku (jeżeli nie były już wcześniej dodane). Metoda na podstawie danych przygotowuje tablicę relokacji. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em data} & Dane do wklejenia \\
+\hline
+{\em ptrs} & Mapa z zapamiętanymi adresami dodanego wcześniej kodu \\
+\hline
+{\em relocations} & Lista adresów do relokacji \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Ares wirtualny wklejonego kodu. 
+\end{DoxyReturn}
+
+
+Definicja w linii 334 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_ab14d9fb29123545e0a7528795e64d3c1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a6bea21405c1aab9b4e3d43d980a5aac5}{\index{P\-E\-File@{P\-E\-File}!inject\-Unique\-Data@{inject\-Unique\-Data}}
+\index{inject\-Unique\-Data@{inject\-Unique\-Data}!PEFile@{P\-E\-File}}
+\subsubsection[{inject\-Unique\-Data}]{\setlength{\rightskip}{0pt plus 5cm}uint64\-\_\-t P\-E\-File\-::inject\-Unique\-Data (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{data, }
+\item[{Q\-Map$<$ Q\-Byte\-Array, uint64\-\_\-t $>$ \&}]{ptrs, }
+\item[{bool $\ast$}]{inserted = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a6bea21405c1aab9b4e3d43d980a5aac5}
+
+
+Metoda dodająca kod, który nie powinien/nie musi być poddawany relokacji. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em data} & Dane do dodania \\
+\hline
+{\em ptrs} & Mapa z zapamiętanymi adresami dodanego wcześniej kodu/danych \\
+\hline
+{\em inserted} & Flaga informująca czy kod został dodany czy wcześniej znajdował się na liście pointerów do dodanego kodu \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Ares wirtualny wklejonego kodu/danych. 
+\end{DoxyReturn}
+
+
+Definicja w linii 281 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6bea21405c1aab9b4e3d43d980a5aac5_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a90a96d95f9d67ff48bf12ffcb0f22d41}{\index{P\-E\-File@{P\-E\-File}!is\-\_\-valid@{is\-\_\-valid}}
+\index{is\-\_\-valid@{is\-\_\-valid}!PEFile@{P\-E\-File}}
+\subsubsection[{is\-\_\-valid}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-\_\-valid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_p_e_file_a90a96d95f9d67ff48bf12ffcb0f22d41}
+
+
+Sprawdza czy w pamięci przechowywany jest poprawny plik. 
+
+\begin{DoxyReturn}{Zwraca}
+True jeżeli plik jest poprawny. 
+\end{DoxyReturn}
+
+
+Implementuje \hyperlink{class_binary_file_a6007435bc4451bb80a3169d977f4f125}{Binary\-File}.
+
+
+
+Definicja w linii 613 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_aa8e69bdca4d00216df406278b4e96a28}{\index{P\-E\-File@{P\-E\-File}!is\-\_\-x64@{is\-\_\-x64}}
+\index{is\-\_\-x64@{is\-\_\-x64}!PEFile@{P\-E\-File}}
+\subsubsection[{is\-\_\-x64}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-\_\-x64 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_p_e_file_aa8e69bdca4d00216df406278b4e96a28}
+
+
+Metoda informująca czy wczytany plik jest 64-\/bitowy. 
+
+\begin{DoxyReturn}{Zwraca}
+True gdy plik x64 
+\end{DoxyReturn}
+
+
+Implementuje \hyperlink{class_binary_file_a36b7998c72bbee68ab492d93368c14ca}{Binary\-File}.
+
+
+
+Definicja w linii 489 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a371cc84eed9dd5d85b7c50d60c1eb56f}{\index{P\-E\-File@{P\-E\-File}!is\-\_\-x86@{is\-\_\-x86}}
+\index{is\-\_\-x86@{is\-\_\-x86}!PEFile@{P\-E\-File}}
+\subsubsection[{is\-\_\-x86}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::is\-\_\-x86 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_p_e_file_a371cc84eed9dd5d85b7c50d60c1eb56f}
+
+
+Metoda informująca czy wczytany plik jest 32-\/bitowy. 
+
+\begin{DoxyReturn}{Zwraca}
+True gdy plik x86 
+\end{DoxyReturn}
+
+
+Implementuje \hyperlink{class_binary_file_aa7d43cde4ab8cc9723d2b5c769719bd9}{Binary\-File}.
+
+
+
+Definicja w linii 494 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a6c06d44bec906ab659326541e6244850}{\index{P\-E\-File@{P\-E\-File}!set\-Address\-At\-Call\-Instruction\-Offset@{set\-Address\-At\-Call\-Instruction\-Offset}}
+\index{set\-Address\-At\-Call\-Instruction\-Offset@{set\-Address\-At\-Call\-Instruction\-Offset}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Address\-At\-Call\-Instruction\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Address\-At\-Call\-Instruction\-Offset (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{offset, }
+\item[{uint64\-\_\-t}]{address}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a6c06d44bec906ab659326541e6244850}
+
+
+Metoda ustawiająca adres skoku instrukcji call lub jmp znajdującej się w konkretnym miejscu w pliku. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em offset} & Offset w pliku instrukcji call lub jmp \\
+\hline
+{\em address} & Adres skoku do ustawienia \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku sukcesu 
+\end{DoxyReturn}
+
+
+Definicja w linii 510 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6c06d44bec906ab659326541e6244850_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_p_e_file_a31cab72915687c9138e804e644f80ac6}{\index{P\-E\-File@{P\-E\-File}!set\-New\-Entry\-Point@{set\-New\-Entry\-Point}}
+\index{set\-New\-Entry\-Point@{set\-New\-Entry\-Point}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-New\-Entry\-Point}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-New\-Entry\-Point (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{new\-E\-P}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a31cab72915687c9138e804e644f80ac6}
+
+
+Ustawia nowy Entry\-Point. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em new\-E\-P} & nowy E\-P; \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+true w przypadku sukcesu. 
+\end{DoxyReturn}
+
+
+Definicja w linii 1110 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a698dd8d1b169ac0b9d01ebfecd16bc51}{\index{P\-E\-File@{P\-E\-File}!set\-Tls\-Address\-Of\-Call\-Backs@{set\-Tls\-Address\-Of\-Call\-Backs}}
+\index{set\-Tls\-Address\-Of\-Call\-Backs@{set\-Tls\-Address\-Of\-Call\-Backs}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Tls\-Address\-Of\-Call\-Backs}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Tls\-Address\-Of\-Call\-Backs (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{addr}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a698dd8d1b169ac0b9d01ebfecd16bc51}
+
+
+Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji T\-L\-S. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em addr} & Nowy adres \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 195 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a2d6f55148b572f564bc30e881d97d9f8}{\index{P\-E\-File@{P\-E\-File}!set\-Tls\-Address\-Of\-Index@{set\-Tls\-Address\-Of\-Index}}
+\index{set\-Tls\-Address\-Of\-Index@{set\-Tls\-Address\-Of\-Index}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Tls\-Address\-Of\-Index}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Tls\-Address\-Of\-Index (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{addr}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a2d6f55148b572f564bc30e881d97d9f8}
+
+
+Ustawia adres wirtualny pod którym znajduje się index T\-L\-S. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em addr} & Nowy adres \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 228 pliku pefile.\-cpp.
+
+\hypertarget{class_p_e_file_a6cd64df26158260f265b26e40b3b5dea}{\index{P\-E\-File@{P\-E\-File}!set\-Tls\-Directory\-Address@{set\-Tls\-Directory\-Address}}
+\index{set\-Tls\-Directory\-Address@{set\-Tls\-Directory\-Address}!PEFile@{P\-E\-File}}
+\subsubsection[{set\-Tls\-Directory\-Address}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-E\-File\-::set\-Tls\-Directory\-Address (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{addr}
+\end{DoxyParamCaption}
+)}}\label{class_p_e_file_a6cd64df26158260f265b26e40b3b5dea}
+
+
+Metoda ustawiająca adres tablicy T\-L\-S. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em addr} & Adres T\-L\-S \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True w przypadku powodzenia 
+\end{DoxyReturn}
+
+
+Definicja w linii 447 pliku pefile.\-cpp.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_p_e_file_a6cd64df26158260f265b26e40b3b5dea_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/file\-\_\-types/\hyperlink{pefile_8h}{pefile.\-h}\item 
+core/file\-\_\-types/\hyperlink{pefile_8cpp}{pefile.\-cpp}\end{DoxyCompactItemize}

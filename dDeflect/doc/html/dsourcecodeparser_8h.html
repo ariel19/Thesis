@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>dDeflect: Dokumentacja pliku ApplicationManager/DSourceCodeParser/dsourcecodeparser.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">dDeflect
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li><a href="annotated.html"><span>Klasy</span></a></li>
+      <li class="current"><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;plików</span></a></li>
+      <li><a href="globals.html"><span>Składowe&#160;plików</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('dsourcecodeparser_8h.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Definicje typów</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Wyliczenia</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Wartości wyliczeń</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Właściwości</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Przyjaciele</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Definicje</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Komponenty</a>  </div>
+  <div class="headertitle">
+<div class="title">Dokumentacja pliku dsourcecodeparser.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br/>
+<code>#include &lt;string&gt;</code><br/>
+<code>#include &lt;QStringList&gt;</code><br/>
+<code>#include &lt;QProcess&gt;</code><br/>
+<code>#include &lt;QFile&gt;</code><br/>
+<code>#include &lt;QDebug&gt;</code><br/>
+<code>#include &lt;QTextStream&gt;</code><br/>
+<code>#include &lt;fstream&gt;</code><br/>
+<code>#include &lt;<a class="el" href="daddingmethods_8h_source.html">core/adding_methods/wrappers/daddingmethods.h</a>&gt;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+Wykres zależności załączania dla dsourcecodeparser.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="dsourcecodeparser_8h__incl.png" border="0" usemap="#_application_manager_2_d_source_code_parser_2dsourcecodeparser_8h" alt=""/></div>
+<map name="_application_manager_2_d_source_code_parser_2dsourcecodeparser_8h" id="_application_manager_2_d_source_code_parser_2dsourcecodeparser_8h">
+<area shape="rect" id="node19" href="daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="561,102,751,149"/><area shape="rect" id="node33" href="elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="523,197,675,227"/><area shape="rect" id="node49" href="codedefines_8h.html" title="core/file_types/codedefines.h" alt="" coords="1088,197,1280,227"/><area shape="rect" id="node35" href="elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="316,275,471,304"/><area shape="rect" id="node45" href="binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="495,275,668,304"/></map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+Ten wykres pokazuje, które pliki bezpośrednio lub pośrednio załączają ten plik:</div>
+<div class="dyncontent">
+<div class="center"><img src="dsourcecodeparser_8h__dep__incl.png" border="0" usemap="#_application_manager_2_d_source_code_parser_2dsourcecodeparser_8hdep" alt=""/></div>
+<map name="_application_manager_2_d_source_code_parser_2dsourcecodeparser_8hdep" id="_application_manager_2_d_source_code_parser_2dsourcecodeparser_8hdep">
+<area shape="rect" id="node3" href="applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="108,102,257,149"/><area shape="rect" id="node5" href="applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="5,198,168,245"/><area shape="rect" id="node7" href="main_8cpp.html" title="main/main.cpp" alt="" coords="224,207,331,236"/><area shape="rect" id="node10" href="dsourcecodeparser_8cpp.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.cpp" alt="" coords="332,102,617,149"/></map>
+</div>
+</div>
+<p><a href="dsourcecodeparser_8h_source.html">Idź do kodu źródłowego tego pliku.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
+Komponenty</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_source_code_parser.html">DSourceCodeParser</a></td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_97a07efbf3efccc61748cfeb1c0a63d9.html">ApplicationManager</a></li><li class="navelem"><a class="el" href="dir_ed3ba5bb5fa472116e507d031f576e8e.html">DSourceCodeParser</a></li><li class="navelem"><a class="el" href="dsourcecodeparser_8h.html">dsourcecodeparser.h</a></li>
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+  </ul>
+</div>
+</body>
+</html>

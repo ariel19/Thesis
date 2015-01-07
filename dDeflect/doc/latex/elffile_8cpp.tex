@@ -1,0 +1,38 @@
+\hypertarget{elffile_8cpp}{\section{Dokumentacja pliku core/file\-\_\-types/elffile.cpp}
+\label{elffile_8cpp}\index{core/file\-\_\-types/elffile.\-cpp@{core/file\-\_\-types/elffile.\-cpp}}
+}
+{\ttfamily \#include $<$core/file\-\_\-types/elffile.\-h$>$}\\*
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$cstring$>$}\\*
+Wykres zależności załączania dla elffile.\-cpp\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{elffile_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Definicje}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{elffile_8cpp_a554451514a55fccb0c286a1368a80a30}{section\-\_\-type\-\_\-stringify}(sec\-\_\-type)
+\end{DoxyCompactItemize}
+
+
+\subsection{Dokumentacja definicji}
+\hypertarget{elffile_8cpp_a554451514a55fccb0c286a1368a80a30}{\index{elffile.\-cpp@{elffile.\-cpp}!section\-\_\-type\-\_\-stringify@{section\-\_\-type\-\_\-stringify}}
+\index{section\-\_\-type\-\_\-stringify@{section\-\_\-type\-\_\-stringify}!elffile.cpp@{elffile.\-cpp}}
+\subsubsection[{section\-\_\-type\-\_\-stringify}]{\setlength{\rightskip}{0pt plus 5cm}\#define section\-\_\-type\-\_\-stringify(
+\begin{DoxyParamCaption}
+\item[{}]{sec\-\_\-type}
+\end{DoxyParamCaption}
+)}}\label{elffile_8cpp_a554451514a55fccb0c286a1368a80a30}
+{\bfseries Wartość\-:}
+\begin{DoxyCode}
+QString(\textcolor{stringliteral}{".%1"}).arg(QString((std::string(#sec\_type).substr(std::string(#sec\_type
+      ).find\_last\_of(\textcolor{charliteral}{':'}) != std::string::npos ? \(\backslash\)
+    std::string(#sec\_type).find\_last\_of(\textcolor{charliteral}{':'}) + 1 : 0)).c\_str()).toLower())
+\end{DoxyCode}
+
+
+Definicja w linii 5 pliku elffile.\-cpp.
+

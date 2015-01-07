@@ -1,0 +1,11 @@
+<map id="ELFAddingMethods::secure_elf" name="ELFAddingMethods::secure_elf">
+<area shape="rect" id="node3" href="$class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik." alt="" coords="477,15,576,44"/>
+<area shape="rect" id="node5" href="$class_e_l_f.html#ac5c89b2b437f3e07aedc06f66cdab94d" title="Dostarcza informacje czy plik jest poprawnym plikiem ELF 32&#45;bitowym." alt="" coords="299,40,389,69"/>
+<area shape="rect" id="node8" href="$class_e_l_f.html#adf71ac4ae5cfedb1b1415b2f5da2494f" title="Dostarcza informacje o punkcie wejściowym pliku." alt="" coords="273,93,415,123"/>
+<area shape="rect" id="node10" href="$class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod." alt="" coords="269,147,419,176"/>
+<area shape="rect" id="node12" href="$class_e_l_f.html#a8342542081d52e5518356f0f6cde3db8" title="Ustawia punkt wejściowy dla pliku wykonywalnego." alt="" coords="273,200,415,229"/>
+<area shape="rect" id="node14" href="$class_e_l_f.html#aaa7edcb97e8cd8b0ca759d7df7984b12" title="Pobiera zawartość sekcji, jeżeli podana sekcja istnieje." alt="" coords="259,253,429,283"/>
+<area shape="rect" id="node16" href="$class_e_l_f.html#aede545aa3f960b681a4a7b9be8f67833" title="Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje." alt="" coords="259,307,429,336"/>
+<area shape="rect" id="node18" href="$class_e_l_f.html#ac6ba067b4210f37293eff8483edaa883" title="Pobiera flagi ochrony pamięci dla segmentu, który ładuje się pod podanym adresem wirtualnym." alt="" coords="265,359,423,406"/>
+<area shape="rect" id="node20" href="$class_e_l_f.html#ad1eda85b8a7dc46325193c19074dd468" title="Pobiera wartość wyrównania segmentu." alt="" coords="263,429,425,459"/>
+</map>

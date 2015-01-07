@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>dDeflect: Dokumentacja pliku core/file_types/binaryfile.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">dDeflect
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li><a href="annotated.html"><span>Klasy</span></a></li>
+      <li class="current"><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;plików</span></a></li>
+      <li><a href="globals.html"><span>Składowe&#160;plików</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('binaryfile_8h.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Definicje typów</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Wyliczenia</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Wartości wyliczeń</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Właściwości</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Przyjaciele</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Definicje</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Komponenty</a>  </div>
+  <div class="headertitle">
+<div class="title">Dokumentacja pliku binaryfile.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;QByteArray&gt;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+Wykres zależności załączania dla binaryfile.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="binaryfile_8h__incl.png" border="0" usemap="#core_2file__types_2binaryfile_8h" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+Ten wykres pokazuje, które pliki bezpośrednio lub pośrednio załączają ten plik:</div>
+<div class="dyncontent">
+<div class="center"><img src="binaryfile_8h__dep__incl.png" border="0" usemap="#core_2file__types_2binaryfile_8hdep" alt=""/></div>
+<map name="core_2file__types_2binaryfile_8hdep" id="core_2file__types_2binaryfile_8hdep">
+<area shape="rect" id="node3" href="elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="483,83,635,112"/><area shape="rect" id="node43" href="pefile_8h.html" title="core/file_types/pefile.h" alt="" coords="680,83,832,112"/><area shape="rect" id="node48" href="binaryfile_8cpp.html" title="core/file_types/binaryfile.cpp" alt="" coords="856,83,1043,112"/><area shape="rect" id="node5" href="daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="464,161,653,207"/><area shape="rect" id="node41" href="elffile_8cpp.html" title="core/file_types/elffile.cpp" alt="" coords="275,169,440,199"/><area shape="rect" id="node7" href="peaddingmethods_8h.html" title="core/adding_methods\l/wrappers/peaddingmethods.h" alt="" coords="680,257,875,303"/><area shape="rect" id="node25" href="elfaddingmethods_8h.html" title="core/adding_methods\l/wrappers/elfaddingmethods.h" alt="" coords="461,257,656,303"/><area shape="rect" id="node32" href="dsourcecodeparser_8h.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.h" alt="" coords="5,353,275,399"/><area shape="rect" id="node39" href="daddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/daddingmethods.cpp" alt="" coords="184,257,387,303"/><area shape="rect" id="node9" href="applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="461,449,611,495"/><area shape="rect" id="node13" href="main_8cpp.html" title="main/main.cpp" alt="" coords="595,553,701,583"/><area shape="rect" id="node15" href="djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="685,353,869,399"/><area shape="rect" id="node22" href="peaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/peaddingmethods.cpp" alt="" coords="893,353,1104,399"/><area shape="rect" id="node11" href="applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="196,545,359,591"/><area shape="rect" id="node19" href="djsonparser_8cpp.html" title="ApplicationManager\l/DJsonParser/djsonparser.cpp" alt="" coords="736,449,933,495"/><area shape="rect" id="node29" href="elfaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/elfaddingmethods.cpp" alt="" coords="299,353,509,399"/><area shape="rect" id="node36" href="dsourcecodeparser_8cpp.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.cpp" alt="" coords="101,449,387,495"/><area shape="rect" id="node46" href="pefile_8cpp.html" title="core/file_types/pefile.cpp" alt="" coords="793,169,959,199"/></map>
+</div>
+</div>
+<p><a href="binaryfile_8h_source.html">Idź do kodu źródłowego tego pliku.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
+Komponenty</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_file.html">BinaryFile</a></td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_c1ba1c2b8a0e94bf76babf8745cc7d39.html">file_types</a></li><li class="navelem"><a class="el" href="binaryfile_8h.html">binaryfile.h</a></li>
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+  </ul>
+</div>
+</body>
+</html>

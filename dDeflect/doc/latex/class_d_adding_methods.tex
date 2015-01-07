@@ -1,0 +1,139 @@
+\hypertarget{class_d_adding_methods}{\section{Dokumentacja klasy D\-Adding\-Methods}
+\label{class_d_adding_methods}\index{D\-Adding\-Methods@{D\-Adding\-Methods}}
+}
+
+
+{\ttfamily \#include $<$daddingmethods.\-h$>$}
+
+
+
+Diagram dziedziczenia dla D\-Adding\-Methods\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{class_d_adding_methods__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Diagram współpracy dla D\-Adding\-Methods\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{class_d_adding_methods__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Komponenty}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_d_adding_methods_1_1_inject_description}{Inject\-Description}
+\begin{DoxyCompactList}\small\item\em Klasa opisująca metodę wstrzykiwania kodu. \end{DoxyCompactList}\item 
+class \hyperlink{class_d_adding_methods_1_1_o_e_p_wrapper}{O\-E\-P\-Wrapper}
+\begin{DoxyCompactList}\small\item\em Klasa reprezentująca opakowanie dla tworzenia nowego punktu wejściowego. \end{DoxyCompactList}\item 
+class \hyperlink{class_d_adding_methods_1_1_thread_wrapper}{Thread\-Wrapper}
+\begin{DoxyCompactList}\small\item\em Klasa reprezentująca opakowanie dla tworzenia nowego wątku. \end{DoxyCompactList}\item 
+class \hyperlink{class_d_adding_methods_1_1_trampoline_wrapper}{Trampoline\-Wrapper}
+\begin{DoxyCompactList}\small\item\em Klasa reprezentująca opakowanie dla tworzenia tramplin w funkcjach bibliotecznych. \end{DoxyCompactList}\item 
+class \hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}
+\begin{DoxyCompactList}\small\item\em Klasa bazowa reprezentująca opakowanie dla kawałków kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typy publiczne}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{Architecture\-Type} 
+\begin{DoxyCompactList}\small\item\em Typ kompilowanego pliku assembly. \end{DoxyCompactList}\item 
+enum \hyperlink{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}{System\-Type} 
+\item 
+enum \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{Calling\-Method} 
+\begin{DoxyCompactList}\small\item\em Typy możliwości wstrzyknięcia kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_d_adding_methods_aa00f1f94760a223807193314537b6651}{D\-Adding\-Methods} (\hyperlink{class_binary_file}{Binary\-File} $\ast$f)
+\begin{DoxyCompactList}\small\item\em Konstruktor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Atrybuty chronione}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_binary_file}{Binary\-File} $\ast$ \hyperlink{class_d_adding_methods_a87bdff1dd02ac26df6c10648fe406cd9}{file}
+\item 
+Q\-Map$<$ \hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{Architecture\-Type}, Q\-String $>$ \hyperlink{class_d_adding_methods_aa368755d8aba57f3a92877d1fbe925b3}{arch\-\_\-type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Opis szczegółowy}
+
+
+Definicja w linii 27 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja składowych wyliczanych}
+\hypertarget{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Architecture\-Type@{Architecture\-Type}}
+\index{Architecture\-Type@{Architecture\-Type}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{Architecture\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-Architecture\-Type}}}\label{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}
+
+
+Typ kompilowanego pliku assembly. 
+
+
+
+Definicja w linii 33 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!Calling\-Method@{Calling\-Method}}
+\index{Calling\-Method@{Calling\-Method}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{Calling\-Method}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-Calling\-Method}}}\label{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}
+
+
+Typy możliwości wstrzyknięcia kodu. 
+
+
+
+Definicja w linii 46 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!System\-Type@{System\-Type}}
+\index{System\-Type@{System\-Type}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{System\-Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf D\-Adding\-Methods\-::\-System\-Type}}}\label{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}
+
+
+Definicja w linii 38 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_d_adding_methods_aa00f1f94760a223807193314537b6651}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!D\-Adding\-Methods@{D\-Adding\-Methods}}
+\index{D\-Adding\-Methods@{D\-Adding\-Methods}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{D\-Adding\-Methods}]{\setlength{\rightskip}{0pt plus 5cm}D\-Adding\-Methods\-::\-D\-Adding\-Methods (
+\begin{DoxyParamCaption}
+\item[{{\bf Binary\-File} $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{class_d_adding_methods_aa00f1f94760a223807193314537b6651}
+
+
+Konstruktor. 
+
+
+
+Definicja w linii 46 pliku daddingmethods.\-cpp.
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_d_adding_methods_aa368755d8aba57f3a92877d1fbe925b3}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!arch\-\_\-type@{arch\-\_\-type}}
+\index{arch\-\_\-type@{arch\-\_\-type}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{arch\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Map$<${\bf Architecture\-Type}, Q\-String$>$ D\-Adding\-Methods\-::arch\-\_\-type\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_d_adding_methods_aa368755d8aba57f3a92877d1fbe925b3}
+
+
+Definicja w linii 270 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_a87bdff1dd02ac26df6c10648fe406cd9}{\index{D\-Adding\-Methods@{D\-Adding\-Methods}!file@{file}}
+\index{file@{file}!DAddingMethods@{D\-Adding\-Methods}}
+\subsubsection[{file}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Binary\-File}$\ast$ D\-Adding\-Methods\-::file\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_d_adding_methods_a87bdff1dd02ac26df6c10648fe406cd9}
+
+
+Definicja w linii 269 pliku daddingmethods.\-h.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{daddingmethods_8h}{daddingmethods.\-h}\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{daddingmethods_8cpp}{daddingmethods.\-cpp}\end{DoxyCompactItemize}

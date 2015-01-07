@@ -1,0 +1,218 @@
+\hypertarget{class_d_adding_methods_1_1_wrapper}{\section{Dokumentacja szablonu klasy D\-Adding\-Methods\-:\-:Wrapper$<$ Registers\-Type $>$}
+\label{class_d_adding_methods_1_1_wrapper}\index{D\-Adding\-Methods\-::\-Wrapper$<$ Registers\-Type $>$@{D\-Adding\-Methods\-::\-Wrapper$<$ Registers\-Type $>$}}
+}
+
+
+Klasa bazowa reprezentująca opakowanie dla kawałków kodu.  
+
+
+
+
+{\ttfamily \#include $<$daddingmethods.\-h$>$}
+
+
+
+Diagram dziedziczenia dla D\-Adding\-Methods\-:\-:Wrapper$<$ Registers\-Type $>$\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_d_adding_methods_1_1_wrapper__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Diagram współpracy dla D\-Adding\-Methods\-:\-:Wrapper$<$ Registers\-Type $>$\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{class_d_adding_methods_1_1_wrapper__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Typy publiczne}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_d_adding_methods_1_1_wrapper_acb6db05ae66304ccd8b53c49221e0b09}{Wrapper\-Type} 
+\end{DoxyCompactItemize}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{class_d_adding_methods_1_1_wrapper_aa4f7725137a5389ee76db0bd8590243e}{$\sim$\-Wrapper} ()
+\item 
+bool \hyperlink{class_d_adding_methods_1_1_wrapper_ad8951e3aea612be776608e90eebca99b}{read} (const Q\-Json\-Object \&json)
+\begin{DoxyCompactList}\small\item\em read this zostaje wczytany z pliku json \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Atrybuty publiczne}
+\begin{DoxyCompactItemize}
+\item 
+Q\-String \hyperlink{class_d_adding_methods_1_1_wrapper_a41c5e8fdd7bde2f8610d2d499ae8f4b3}{name}
+\item 
+Q\-String \hyperlink{class_d_adding_methods_1_1_wrapper_a1f27a97876d639a2e39482c4a3a6d274}{description}
+\item 
+\hyperlink{class_d_adding_methods_a7d062c443c04f37689dbececc36cf4a3}{Architecture\-Type} \hyperlink{class_d_adding_methods_1_1_wrapper_aa4f2505d3abca144ceaae01692ab2982}{arch\-\_\-type}
+\item 
+\hyperlink{class_d_adding_methods_a14e87405d457c7c3671eca0e74b3f327}{System\-Type} \hyperlink{class_d_adding_methods_1_1_wrapper_ae298975da4ef638bef00c8277501eddc}{system\-\_\-type}
+\item 
+\hyperlink{class_d_adding_methods_1_1_wrapper_acb6db05ae66304ccd8b53c49221e0b09}{Wrapper\-Type} \hyperlink{class_d_adding_methods_1_1_wrapper_aaa1e1c8e0902c6241c714498dc9e5316}{wrapper\-\_\-type}
+\item 
+Q\-List$<$ \hyperlink{class_d_adding_methods_a8b52c07f1794d8c6cdd6f9b98be2bbf0}{Calling\-Method} $>$ \hyperlink{class_d_adding_methods_1_1_wrapper_a7365bd260c137feafcdc7abde67ffedc}{allowed\-\_\-methods}
+\item 
+Q\-List$<$ Registers\-Type $>$ \hyperlink{class_d_adding_methods_1_1_wrapper_aba0dc1a5f9addd4317b87e92fb2eb0db}{used\-\_\-regs}
+\item 
+Q\-Map$<$ Registers\-Type, Q\-String $>$ \hyperlink{class_d_adding_methods_1_1_wrapper_ac11ddb3500c96e6175c4b939cc726d4d}{dynamic\-\_\-params}
+\item 
+Q\-Map$<$ Q\-String, Q\-String $>$ \hyperlink{class_d_adding_methods_1_1_wrapper_a915ee3066596bebdc8f2c21c6cf5b9bc}{static\-\_\-params}
+\item 
+Registers\-Type \hyperlink{class_d_adding_methods_1_1_wrapper_ae7d3f4a32619b51a7f0f0e53fbc87d38}{ret}
+\item 
+Q\-Byte\-Array \hyperlink{class_d_adding_methods_1_1_wrapper_a1280984042d8167b8207d33488189415}{code}
+\item 
+\hyperlink{class_d_adding_methods_1_1_wrapper}{Wrapper}$<$ Registers\-Type $>$ $\ast$ \hyperlink{class_d_adding_methods_1_1_wrapper_aaa3fdb9659e74c099359cc0af48e4233}{detect\-\_\-handler}
+\end{DoxyCompactItemize}
+
+
+\subsection{Opis szczegółowy}
+\subsubsection*{template$<$typename Registers\-Type$>$class D\-Adding\-Methods\-::\-Wrapper$<$ Registers\-Type $>$}
+
+Klasa bazowa reprezentująca opakowanie dla kawałków kodu. 
+
+Definicja w linii 61 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja składowych wyliczanych}
+\hypertarget{class_d_adding_methods_1_1_wrapper_acb6db05ae66304ccd8b53c49221e0b09}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!Wrapper\-Type@{Wrapper\-Type}}
+\index{Wrapper\-Type@{Wrapper\-Type}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{Wrapper\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ enum {\bf D\-Adding\-Methods\-::\-Wrapper\-::\-Wrapper\-Type}}}\label{class_d_adding_methods_1_1_wrapper_acb6db05ae66304ccd8b53c49221e0b09}
+
+
+Definicja w linii 63 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_d_adding_methods_1_1_wrapper_aa4f7725137a5389ee76db0bd8590243e}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!$\sim$\-Wrapper@{$\sim$\-Wrapper}}
+\index{$\sim$\-Wrapper@{$\sim$\-Wrapper}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{$\sim$\-Wrapper}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ virtual {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::$\sim${\bf Wrapper} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_d_adding_methods_1_1_wrapper_aa4f7725137a5389ee76db0bd8590243e}
+
+
+Definicja w linii 84 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_d_adding_methods_1_1_wrapper_ad8951e3aea612be776608e90eebca99b}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!read@{read}}
+\index{read@{read}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ bool {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::read (
+\begin{DoxyParamCaption}
+\item[{const Q\-Json\-Object \&}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_d_adding_methods_1_1_wrapper_ad8951e3aea612be776608e90eebca99b}
+
+
+read this zostaje wczytany z pliku json 
+
+
+\begin{DoxyParams}{Parametry}
+{\em json} & objekt json'a z którego czytamy \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 90 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja atrybutów składowych}
+\hypertarget{class_d_adding_methods_1_1_wrapper_a7365bd260c137feafcdc7abde67ffedc}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!allowed\-\_\-methods@{allowed\-\_\-methods}}
+\index{allowed\-\_\-methods@{allowed\-\_\-methods}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{allowed\-\_\-methods}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-List$<${\bf Calling\-Method}$>$ {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::allowed\-\_\-methods}}\label{class_d_adding_methods_1_1_wrapper_a7365bd260c137feafcdc7abde67ffedc}
+
+
+Definicja w linii 75 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_aa4f2505d3abca144ceaae01692ab2982}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!arch\-\_\-type@{arch\-\_\-type}}
+\index{arch\-\_\-type@{arch\-\_\-type}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{arch\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ {\bf Architecture\-Type} {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::arch\-\_\-type}}\label{class_d_adding_methods_1_1_wrapper_aa4f2505d3abca144ceaae01692ab2982}
+
+
+Definicja w linii 72 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_a1280984042d8167b8207d33488189415}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!code@{code}}
+\index{code@{code}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-Byte\-Array {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::code}}\label{class_d_adding_methods_1_1_wrapper_a1280984042d8167b8207d33488189415}
+
+
+Definicja w linii 81 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_a1f27a97876d639a2e39482c4a3a6d274}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!description@{description}}
+\index{description@{description}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{description}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-String {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::description}}\label{class_d_adding_methods_1_1_wrapper_a1f27a97876d639a2e39482c4a3a6d274}
+
+
+Definicja w linii 71 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_aaa3fdb9659e74c099359cc0af48e4233}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!detect\-\_\-handler@{detect\-\_\-handler}}
+\index{detect\-\_\-handler@{detect\-\_\-handler}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{detect\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ {\bf Wrapper}$<$Registers\-Type$>$$\ast$ {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::detect\-\_\-handler}}\label{class_d_adding_methods_1_1_wrapper_aaa3fdb9659e74c099359cc0af48e4233}
+
+
+Definicja w linii 82 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_ac11ddb3500c96e6175c4b939cc726d4d}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!dynamic\-\_\-params@{dynamic\-\_\-params}}
+\index{dynamic\-\_\-params@{dynamic\-\_\-params}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{dynamic\-\_\-params}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-Map$<$Registers\-Type, Q\-String$>$ {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::dynamic\-\_\-params}}\label{class_d_adding_methods_1_1_wrapper_ac11ddb3500c96e6175c4b939cc726d4d}
+
+
+Definicja w linii 78 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_a41c5e8fdd7bde2f8610d2d499ae8f4b3}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!name@{name}}
+\index{name@{name}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-String {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::name}}\label{class_d_adding_methods_1_1_wrapper_a41c5e8fdd7bde2f8610d2d499ae8f4b3}
+
+
+Definicja w linii 70 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_ae7d3f4a32619b51a7f0f0e53fbc87d38}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!ret@{ret}}
+\index{ret@{ret}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{ret}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Registers\-Type {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::ret}}\label{class_d_adding_methods_1_1_wrapper_ae7d3f4a32619b51a7f0f0e53fbc87d38}
+
+
+Definicja w linii 80 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_a915ee3066596bebdc8f2c21c6cf5b9bc}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!static\-\_\-params@{static\-\_\-params}}
+\index{static\-\_\-params@{static\-\_\-params}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{static\-\_\-params}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-Map$<$Q\-String, Q\-String$>$ {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::static\-\_\-params}}\label{class_d_adding_methods_1_1_wrapper_a915ee3066596bebdc8f2c21c6cf5b9bc}
+
+
+Definicja w linii 79 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_ae298975da4ef638bef00c8277501eddc}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!system\-\_\-type@{system\-\_\-type}}
+\index{system\-\_\-type@{system\-\_\-type}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{system\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ {\bf System\-Type} {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::system\-\_\-type}}\label{class_d_adding_methods_1_1_wrapper_ae298975da4ef638bef00c8277501eddc}
+
+
+Definicja w linii 73 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_aba0dc1a5f9addd4317b87e92fb2eb0db}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!used\-\_\-regs@{used\-\_\-regs}}
+\index{used\-\_\-regs@{used\-\_\-regs}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{used\-\_\-regs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ Q\-List$<$Registers\-Type$>$ {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::used\-\_\-regs}}\label{class_d_adding_methods_1_1_wrapper_aba0dc1a5f9addd4317b87e92fb2eb0db}
+
+
+Definicja w linii 77 pliku daddingmethods.\-h.
+
+\hypertarget{class_d_adding_methods_1_1_wrapper_aaa1e1c8e0902c6241c714498dc9e5316}{\index{D\-Adding\-Methods\-::\-Wrapper@{D\-Adding\-Methods\-::\-Wrapper}!wrapper\-\_\-type@{wrapper\-\_\-type}}
+\index{wrapper\-\_\-type@{wrapper\-\_\-type}!DAddingMethods::Wrapper@{D\-Adding\-Methods\-::\-Wrapper}}
+\subsubsection[{wrapper\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type$>$ {\bf Wrapper\-Type} {\bf D\-Adding\-Methods\-::\-Wrapper}$<$ Registers\-Type $>$\-::wrapper\-\_\-type}}\label{class_d_adding_methods_1_1_wrapper_aaa1e1c8e0902c6241c714498dc9e5316}
+
+
+Definicja w linii 74 pliku daddingmethods.\-h.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{daddingmethods_8h}{daddingmethods.\-h}\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{daddingmethods_8cpp}{daddingmethods.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>dDeflect: Dokumentacja pliku core/file_types/elffile.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">dDeflect
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li><a href="annotated.html"><span>Klasy</span></a></li>
+      <li class="current"><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;plików</span></a></li>
+      <li><a href="globals.html"><span>Składowe&#160;plików</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('elffile_8h.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Definicje typów</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Wyliczenia</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Wartości wyliczeń</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Właściwości</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Przyjaciele</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Definicje</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Komponenty</a> &#124;
+<a href="#typedef-members">Definicje typów</a>  </div>
+  <div class="headertitle">
+<div class="title">Dokumentacja pliku elffile.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;<a class="el" href="elf_8h_source.html">core/sys_headers/elf.h</a>&gt;</code><br/>
+<code>#include &lt;QFile&gt;</code><br/>
+<code>#include &lt;QString&gt;</code><br/>
+<code>#include &lt;QList&gt;</code><br/>
+<code>#include &lt;QMap&gt;</code><br/>
+<code>#include &lt;map&gt;</code><br/>
+<code>#include &lt;<a class="el" href="binaryfile_8h_source.html">core/file_types/binaryfile.h</a>&gt;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+Wykres zależności załączania dla elffile.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="elffile_8h__incl.png" border="0" usemap="#core_2file__types_2elffile_8h" alt=""/></div>
+<map name="core_2file__types_2elffile_8h" id="core_2file__types_2elffile_8h">
+<area shape="rect" id="node3" href="elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="5,83,160,112"/><area shape="rect" id="node17" href="binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="579,83,752,112"/></map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+Ten wykres pokazuje, które pliki bezpośrednio lub pośrednio załączają ten plik:</div>
+<div class="dyncontent">
+<div class="center"><img src="elffile_8h__dep__incl.png" border="0" usemap="#core_2file__types_2elffile_8hdep" alt=""/></div>
+<map name="core_2file__types_2elffile_8hdep" id="core_2file__types_2elffile_8hdep">
+<area shape="rect" id="node3" href="daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="683,83,872,130"/><area shape="rect" id="node39" href="elffile_8cpp.html" title="core/file_types/elffile.cpp" alt="" coords="896,92,1061,121"/><area shape="rect" id="node5" href="peaddingmethods_8h.html" title="core/adding_methods\l/wrappers/peaddingmethods.h" alt="" coords="343,179,537,226"/><area shape="rect" id="node23" href="elfaddingmethods_8h.html" title="core/adding_methods\l/wrappers/elfaddingmethods.h" alt="" coords="613,179,808,226"/><area shape="rect" id="node30" href="dsourcecodeparser_8h.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.h" alt="" coords="943,275,1212,322"/><area shape="rect" id="node37" href="daddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/daddingmethods.cpp" alt="" coords="883,179,1085,226"/><area shape="rect" id="node7" href="applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="613,371,763,418"/><area shape="rect" id="node11" href="main_8cpp.html" title="main/main.cpp" alt="" coords="523,476,629,505"/><area shape="rect" id="node13" href="djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="348,275,532,322"/><area shape="rect" id="node20" href="peaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/peaddingmethods.cpp" alt="" coords="5,275,216,322"/><area shape="rect" id="node9" href="applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="865,467,1028,514"/><area shape="rect" id="node17" href="djsonparser_8cpp.html" title="ApplicationManager\l/DJsonParser/djsonparser.cpp" alt="" coords="341,371,539,418"/><area shape="rect" id="node27" href="elfaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/elfaddingmethods.cpp" alt="" coords="657,275,868,322"/><area shape="rect" id="node34" href="dsourcecodeparser_8cpp.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.cpp" alt="" coords="837,371,1123,418"/></map>
+</div>
+</div>
+<p><a href="elffile_8h_source.html">Idź do kodu źródłowego tego pliku.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
+Komponenty</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_l_f.html">ELF</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><b>ELF::_section_info</b></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><b>ELF::_best_segment</b></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="typedef-members"></a>
+Definicje typów</h2></td></tr>
+<tr class="memitem:a5883b60eda35e8f8d370ececc9f820ef"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elffile_8h.html#a5883b60eda35e8f8d370ececc9f820ef">offset_t</a></td></tr>
+<tr class="memitem:a893a6f75ff12b6fb48772f3afb8f1d7d"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="elf_8h.html#adb6a5584018b431da3472e7c6a7fd731">Elf64_Half</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a></td></tr>
+<tr class="memitem:aa2125ab7570efd47d79e62488cfe0207"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="elf_8h.html#a6f7837bc80df7a68291fce54ff088849">Elf64_Off</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a></td></tr>
+</table>
+<h2>Dokumentacja definicji typów</h2>
+<a class="anchor" id="a893a6f75ff12b6fb48772f3afb8f1d7d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="elf_8h.html#adb6a5584018b431da3472e7c6a7fd731">Elf64_Half</a> <a class="el" href="elffile_8h.html#a893a6f75ff12b6fb48772f3afb8f1d7d">esize_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00017">17</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa2125ab7570efd47d79e62488cfe0207"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="elf_8h.html#a6f7837bc80df7a68291fce54ff088849">Elf64_Off</a> <a class="el" href="elffile_8h.html#aa2125ab7570efd47d79e62488cfe0207">ex_offset_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00018">18</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5883b60eda35e8f8d370ececc9f820ef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint32_t <a class="el" href="elffile_8h.html#a5883b60eda35e8f8d370ececc9f820ef">offset_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elffile_8h_source.html#l00016">16</a> pliku <a class="el" href="elffile_8h_source.html">elffile.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_c1ba1c2b8a0e94bf76babf8745cc7d39.html">file_types</a></li><li class="navelem"><a class="el" href="elffile_8h.html">elffile.h</a></li>
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:47 dla dDeflect programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>dDeflect: Dokumentacja struktury _IMAGE_DOS_HEADER</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">dDeflect
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Klasy</span></a></li>
+      <li><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Lista&#160;klas</span></a></li>
+      <li><a href="classes.html"><span>Indeks&#160;klas</span></a></li>
+      <li><a href="inherits.html"><span>Hierarchia&#160;klas</span></a></li>
+      <li><a href="functions.html"><span>Składowe&#160;klas</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Definicje typów</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Wyliczenia</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Wartości wyliczeń</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Właściwości</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Przyjaciele</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Definicje</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Atrybuty publiczne</a> &#124;
+<a href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r-members.html">Lista wszystkich składowych</a>  </div>
+  <div class="headertitle">
+<div class="title">Dokumentacja struktury _IMAGE_DOS_HEADER</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="winheader_8h_source.html">winheader.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="pub-attribs"></a>
+Atrybuty publiczne</h2></td></tr>
+<tr class="memitem:a2395379130b4cc7d2d3e6982e6e3fc4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a2395379130b4cc7d2d3e6982e6e3fc4c">e_magic</a></td></tr>
+<tr class="memitem:a1bd42856267579ce345e062eca7545c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a1bd42856267579ce345e062eca7545c5">e_cblp</a></td></tr>
+<tr class="memitem:aaaa4b40f12deb3c4d6b23d106c3bfbce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#aaaa4b40f12deb3c4d6b23d106c3bfbce">e_cp</a></td></tr>
+<tr class="memitem:a9c7b1e78d0a6491d4fa41363b5aefecc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a9c7b1e78d0a6491d4fa41363b5aefecc">e_crlc</a></td></tr>
+<tr class="memitem:a880d14ac887440a6859c45a5b6c7db0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a880d14ac887440a6859c45a5b6c7db0c">e_cparhdr</a></td></tr>
+<tr class="memitem:a5a82bb159167fe8e23fbbc06ffb85b2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a5a82bb159167fe8e23fbbc06ffb85b2c">e_minalloc</a></td></tr>
+<tr class="memitem:a65684758e3524a791a7a818322b57eea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a65684758e3524a791a7a818322b57eea">e_maxalloc</a></td></tr>
+<tr class="memitem:ae8cba7f40bb926f2218808e7bc2a5965"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#ae8cba7f40bb926f2218808e7bc2a5965">e_ss</a></td></tr>
+<tr class="memitem:abdf58356f1ed49b4e06935a51b8b6063"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#abdf58356f1ed49b4e06935a51b8b6063">e_sp</a></td></tr>
+<tr class="memitem:a43bd3860e13131189379e878d5ca7052"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a43bd3860e13131189379e878d5ca7052">e_csum</a></td></tr>
+<tr class="memitem:acd7c90273207e7c4067989e7cf3569f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#acd7c90273207e7c4067989e7cf3569f8">e_ip</a></td></tr>
+<tr class="memitem:a7a8521e4ed5d09008750824d2cf1b4cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a7a8521e4ed5d09008750824d2cf1b4cd">e_cs</a></td></tr>
+<tr class="memitem:a5fbd4e1819caa5f1032568eb2def6cb0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a5fbd4e1819caa5f1032568eb2def6cb0">e_lfarlc</a></td></tr>
+<tr class="memitem:a8aeaa7307372906be09e32dc2b1901d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a8aeaa7307372906be09e32dc2b1901d0">e_ovno</a></td></tr>
+<tr class="memitem:a73c26e0cd458c8b94dcb05c8e8597fd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a73c26e0cd458c8b94dcb05c8e8597fd9">e_res</a> [4]</td></tr>
+<tr class="memitem:ab81146b886293ed9937ff88189e87f7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#ab81146b886293ed9937ff88189e87f7e">e_oemid</a></td></tr>
+<tr class="memitem:a07dfa12b29293ba9cc6b885bce094099"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#a07dfa12b29293ba9cc6b885bce094099">e_oeminfo</a></td></tr>
+<tr class="memitem:af865555510423e60e04abfd1626d8474"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#af865555510423e60e04abfd1626d8474">e_res2</a> [10]</td></tr>
+<tr class="memitem:adf342409a54c9b3acdfc2aaeb1f10ba8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="winheader_8h.html#a27ec6163192f1e1e72d87421379ea3d4">LONG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html#adf342409a54c9b3acdfc2aaeb1f10ba8">e_lfanew</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2>Opis szczegółowy</h2>
+<div class="textblock">
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00098">98</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+</div><h2>Dokumentacja atrybutów składowych</h2>
+<a class="anchor" id="a1bd42856267579ce345e062eca7545c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_cblp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00100">100</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaaa4b40f12deb3c4d6b23d106c3bfbce"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_cp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00101">101</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a880d14ac887440a6859c45a5b6c7db0c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_cparhdr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00103">103</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c7b1e78d0a6491d4fa41363b5aefecc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_crlc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00102">102</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a8521e4ed5d09008750824d2cf1b4cd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_cs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00110">110</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a43bd3860e13131189379e878d5ca7052"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_csum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00108">108</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acd7c90273207e7c4067989e7cf3569f8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_ip</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00109">109</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adf342409a54c9b3acdfc2aaeb1f10ba8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#a27ec6163192f1e1e72d87421379ea3d4">LONG</a> _IMAGE_DOS_HEADER::e_lfanew</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00117">117</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5fbd4e1819caa5f1032568eb2def6cb0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_lfarlc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00111">111</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2395379130b4cc7d2d3e6982e6e3fc4c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_magic</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00099">99</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a65684758e3524a791a7a818322b57eea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_maxalloc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00105">105</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5a82bb159167fe8e23fbbc06ffb85b2c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_minalloc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00104">104</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab81146b886293ed9937ff88189e87f7e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_oemid</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00114">114</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07dfa12b29293ba9cc6b885bce094099"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_oeminfo</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00115">115</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8aeaa7307372906be09e32dc2b1901d0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_ovno</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00112">112</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a73c26e0cd458c8b94dcb05c8e8597fd9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_res[4]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00113">113</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af865555510423e60e04abfd1626d8474"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_res2[10]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00116">116</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abdf58356f1ed49b4e06935a51b8b6063"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_sp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00107">107</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae8cba7f40bb926f2218808e7bc2a5965"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="winheader_8h.html#ab24077addd3b7b13e086987ff296552c">WORD</a> _IMAGE_DOS_HEADER::e_ss</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="winheader_8h_source.html#l00106">106</a> pliku <a class="el" href="winheader_8h_source.html">winheader.h</a>.</p>
+
+</div>
+</div>
+<hr/>Dokumentacja dla tej struktury została wygenerowana z pliku:<ul>
+<li>core/sys_headers/<a class="el" href="winheader_8h_source.html">winheader.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r.html">_IMAGE_DOS_HEADER</a></li>
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:48 dla dDeflect programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+  </ul>
+</div>
+</body>
+</html>

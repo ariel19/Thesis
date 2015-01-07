@@ -1,0 +1,12 @@
+<map id="ApplicationManager/applicationmanager.h" name="ApplicationManager/applicationmanager.h">
+<area shape="rect" id="node9" href="$peaddingmethods_8h.html" title="core/adding_methods\l/wrappers/peaddingmethods.h" alt="" coords="1096,102,1291,149"/>
+<area shape="rect" id="node81" href="$djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="947,198,1131,245"/>
+<area shape="rect" id="node86" href="$elfaddingmethods_8h.html" title="core/adding_methods\l/wrappers/elfaddingmethods.h" alt="" coords="701,294,896,341"/>
+<area shape="rect" id="node94" href="$dsourcecodeparser_8h.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.h" alt="" coords="1801,294,2071,341"/>
+<area shape="rect" id="node17" href="$daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="1187,390,1376,437"/>
+<area shape="rect" id="node61" href="$pefile_8h.html" title="core/file_types/pefile.h" alt="" coords="729,399,881,428"/>
+<area shape="rect" id="node32" href="$elffile_8h.html" title="core/file_types/elffile.h" alt="" coords="1227,485,1379,515"/>
+<area shape="rect" id="node48" href="$codedefines_8h.html" title="core/file_types/codedefines.h" alt="" coords="643,485,835,515"/>
+<area shape="rect" id="node34" href="$elf_8h.html" title="core/sys_headers/elf.h" alt="" coords="1240,563,1395,592"/>
+<area shape="rect" id="node44" href="$binaryfile_8h.html" title="core/file_types/binaryfile.h" alt="" coords="741,563,915,592"/>
+</map>

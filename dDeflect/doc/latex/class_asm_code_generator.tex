@@ -1,0 +1,163 @@
+\hypertarget{class_asm_code_generator}{\section{Dokumentacja klasy Asm\-Code\-Generator}
+\label{class_asm_code_generator}\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}}
+}
+
+
+{\ttfamily \#include $<$daddingmethods.\-h$>$}
+
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_asm_code_generator_ae10580c9dd3ea1e0de47a50ad92143ea}{Asm\-Code\-Generator} ()
+\end{DoxyCompactItemize}
+\subsection*{Statyczne metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_a76f8c73f9210eb61a8001c017c0cd4f1}{push\-\_\-regs} (const Registers\-Type reg)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_a25ee0b50bb215502d9b61a753086f184}{push\-\_\-regs} (const Q\-List$<$ Registers\-Type $>$ \&regs)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_a75bbaa5a9453e6997afdfa14e9471362}{pop\-\_\-regs} (const Registers\-Type reg)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_aaed0677c22b8a46586286483ed11f205}{pop\-\_\-regs} (const Q\-List$<$ Registers\-Type $>$ \&regs)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_a955d06de335abb5491727e690bb4cc85}{mov\-\_\-reg\-\_\-const} (const Registers\-Type reg, \hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} value)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_ac196b01980e9de00bf6854baed99a1a2}{jmp\-\_\-reg} (const Registers\-Type reg)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_ab578154f2a3d0ef023c8f6a302a3f565}{get\-\_\-reg} (const Registers\-Type reg)
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\static Q\-String \hyperlink{class_asm_code_generator_a3bf9daed908df41eeec6031db9de2aae}{call\-\_\-reg} (const Registers\-Type)
+\item 
+static Q\-String \hyperlink{class_asm_code_generator_aa4989922344c4dc9ccfa937508915c3d}{call\-\_\-const} (\hyperlink{elf_8h_aeed51d08e3a950d637f8ec1f0cd4ef65}{Elf64\-\_\-\-Addr} value)
+\end{DoxyCompactItemize}
+
+
+\subsection{Opis szczegółowy}
+
+
+Definicja w linii 276 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_asm_code_generator_ae10580c9dd3ea1e0de47a50ad92143ea}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!Asm\-Code\-Generator@{Asm\-Code\-Generator}}
+\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{Asm\-Code\-Generator}]{\setlength{\rightskip}{0pt plus 5cm}Asm\-Code\-Generator\-::\-Asm\-Code\-Generator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_asm_code_generator_ae10580c9dd3ea1e0de47a50ad92143ea}
+
+
+Definicja w linii 291 pliku daddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_asm_code_generator_aa4989922344c4dc9ccfa937508915c3d}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!call\-\_\-const@{call\-\_\-const}}
+\index{call\-\_\-const@{call\-\_\-const}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{call\-\_\-const}]{\setlength{\rightskip}{0pt plus 5cm}static Q\-String Asm\-Code\-Generator\-::call\-\_\-const (
+\begin{DoxyParamCaption}
+\item[{{\bf Elf64\-\_\-\-Addr}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_asm_code_generator_aa4989922344c4dc9ccfa937508915c3d}
+
+
+Definicja w linii 317 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_a3bf9daed908df41eeec6031db9de2aae}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!call\-\_\-reg@{call\-\_\-reg}}
+\index{call\-\_\-reg@{call\-\_\-reg}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{call\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::call\-\_\-reg (
+\begin{DoxyParamCaption}
+\item[{const Registers\-Type}]{reg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_a3bf9daed908df41eeec6031db9de2aae}
+
+
+Definicja w linii 395 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_ab578154f2a3d0ef023c8f6a302a3f565}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!get\-\_\-reg@{get\-\_\-reg}}
+\index{get\-\_\-reg@{get\-\_\-reg}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{get\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::get\-\_\-reg (
+\begin{DoxyParamCaption}
+\item[{const Registers\-Type}]{reg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_ab578154f2a3d0ef023c8f6a302a3f565}
+
+
+Definicja w linii 387 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_ac196b01980e9de00bf6854baed99a1a2}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!jmp\-\_\-reg@{jmp\-\_\-reg}}
+\index{jmp\-\_\-reg@{jmp\-\_\-reg}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{jmp\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::jmp\-\_\-reg (
+\begin{DoxyParamCaption}
+\item[{const Registers\-Type}]{reg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_ac196b01980e9de00bf6854baed99a1a2}
+
+
+Definicja w linii 378 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_a955d06de335abb5491727e690bb4cc85}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!mov\-\_\-reg\-\_\-const@{mov\-\_\-reg\-\_\-const}}
+\index{mov\-\_\-reg\-\_\-const@{mov\-\_\-reg\-\_\-const}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{mov\-\_\-reg\-\_\-const}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::mov\-\_\-reg\-\_\-const (
+\begin{DoxyParamCaption}
+\item[{const Registers\-Type}]{reg, }
+\item[{{\bf Elf64\-\_\-\-Addr}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_a955d06de335abb5491727e690bb4cc85}
+
+
+Definicja w linii 369 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_a75bbaa5a9453e6997afdfa14e9471362}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!pop\-\_\-regs@{pop\-\_\-regs}}
+\index{pop\-\_\-regs@{pop\-\_\-regs}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{pop\-\_\-regs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::pop\-\_\-regs (
+\begin{DoxyParamCaption}
+\item[{const Registers\-Type}]{reg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_a75bbaa5a9453e6997afdfa14e9471362}
+
+
+Definicja w linii 346 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_aaed0677c22b8a46586286483ed11f205}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!pop\-\_\-regs@{pop\-\_\-regs}}
+\index{pop\-\_\-regs@{pop\-\_\-regs}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{pop\-\_\-regs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::pop\-\_\-regs (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ Registers\-Type $>$ \&}]{regs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_aaed0677c22b8a46586286483ed11f205}
+
+
+Definicja w linii 355 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_a76f8c73f9210eb61a8001c017c0cd4f1}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!push\-\_\-regs@{push\-\_\-regs}}
+\index{push\-\_\-regs@{push\-\_\-regs}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{push\-\_\-regs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::push\-\_\-regs (
+\begin{DoxyParamCaption}
+\item[{const Registers\-Type}]{reg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_a76f8c73f9210eb61a8001c017c0cd4f1}
+
+
+Definicja w linii 323 pliku daddingmethods.\-h.
+
+\hypertarget{class_asm_code_generator_a25ee0b50bb215502d9b61a753086f184}{\index{Asm\-Code\-Generator@{Asm\-Code\-Generator}!push\-\_\-regs@{push\-\_\-regs}}
+\index{push\-\_\-regs@{push\-\_\-regs}!AsmCodeGenerator@{Asm\-Code\-Generator}}
+\subsubsection[{push\-\_\-regs}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ Q\-String Asm\-Code\-Generator\-::push\-\_\-regs (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ Registers\-Type $>$ \&}]{regs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_asm_code_generator_a25ee0b50bb215502d9b61a753086f184}
+
+
+Definicja w linii 332 pliku daddingmethods.\-h.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{daddingmethods_8h}{daddingmethods.\-h}\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{daddingmethods_8cpp}{daddingmethods.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,884 @@
+\hypertarget{winheader_8h}{\section{Dokumentacja pliku core/sys\-\_\-headers/winheader.h}
+\label{winheader_8h}\index{core/sys\-\_\-headers/winheader.\-h@{core/sys\-\_\-headers/winheader.\-h}}
+}
+{\ttfamily \#include $<$stdint.\-h$>$}\\*
+Wykres zależności załączania dla winheader.\-h\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{winheader_8h__incl}
+\end{center}
+\end{figure}
+\subsection*{Komponenty}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___f_i_l_e___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___s_e_c_t_i_o_n___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y32}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}
+\item 
+struct \hyperlink{struct___i_m_a_g_e___b_a_s_e___r_e_l_o_c_a_t_i_o_n}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}
+\end{DoxyCompactItemize}
+\subsection*{Definicje}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{winheader_8h_a75892b738729f0de64146086f462defe}{I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S}~16
+\item 
+\#define \hyperlink{winheader_8h_a98e3229bbf99bf35eaebf248b173d235}{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E}~8
+\item 
+\#define \hyperlink{winheader_8h_acde26d24b0ff46215cbd029d8ae87e4d}{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}~0x5\-A4\-D
+\item 
+\#define \hyperlink{winheader_8h_a83570e3e2fba8cb7c2abc8b3eee47d48}{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}~0x00004550
+\item 
+\#define \hyperlink{winheader_8h_a3499045111a3d860aa8137fc56fe4a9f}{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C}~0x10b
+\item 
+\#define \hyperlink{winheader_8h_a47b43b60cdfbc674cb8d9ac9d43f7615}{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C}~0x20b
+\item 
+\#define \hyperlink{winheader_8h_a20dfd221df247cc9eb08e29f5c534aba}{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386}~0x014c
+\item 
+\#define \hyperlink{winheader_8h_a36ea3bbb6535692d564cd1065a773248}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D}~0x00000008
+\item 
+\#define \hyperlink{winheader_8h_a705da0cf40a97198bcf9e2e2dcaa586b}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E}~0x00000020
+\item 
+\#define \hyperlink{winheader_8h_a459812511eb7707011354e4a76ed71f6}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}~0x00000040
+\item 
+\#define \hyperlink{winheader_8h_ab65bf521b42f95dd11c52bfaf7a306b1}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}~0x00000080
+\item 
+\#define \hyperlink{winheader_8h_a8d7375c6ae0344cb26cf996e765512fc}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R}~0x00000100
+\item 
+\#define \hyperlink{winheader_8h_a29bce42b10be109bbd8cfb37d4642dbc}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O}~0x00000200
+\item 
+\#define \hyperlink{winheader_8h_a9e37ac6d5a8aefedb4cc36ec209c6f57}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E}~0x00000800
+\item 
+\#define \hyperlink{winheader_8h_a3aa51aae68247ad176a0fba450b76cc2}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T}~0x00001000
+\item 
+\#define \hyperlink{winheader_8h_a1805f6ebdef71e7aab57c175fb6ca114}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C}~0x00004000
+\item 
+\#define \hyperlink{winheader_8h_a77162b56b3c536391588d821421c65a2}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L}~0x00008000
+\item 
+\#define \hyperlink{winheader_8h_a502f10f48078a4f0f6707ad247fb8318}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A}~0x00008000
+\item 
+\#define \hyperlink{winheader_8h_a21fb3a27f91dd892fb7e77e47404a061}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E}~0x00020000
+\item 
+\#define \hyperlink{winheader_8h_af02fb6cb4a36e254b2012ee86785dc54}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T}~0x00020000
+\item 
+\#define \hyperlink{winheader_8h_a14bb4abe969b04d559861e8a3d21c208}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D}~0x00040000
+\item 
+\#define \hyperlink{winheader_8h_a3fde01efa3c1f05f1d27d4d041e312e4}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D}~0x00080000
+\item 
+\#define \hyperlink{winheader_8h_ab3ffd3e96e390562986f1c3f0f10c978}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S}~0x00100000
+\item 
+\#define \hyperlink{winheader_8h_ab8b77590cabacc0afb6602da2bc3226d}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S}~0x00200000
+\item 
+\#define \hyperlink{winheader_8h_aa5f6f34a3f4da16a78e6dd69ef7cf027}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S}~0x00300000
+\item 
+\#define \hyperlink{winheader_8h_ad8a0484fb5cc092724de763f50efe882}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S}~0x00400000
+\item 
+\#define \hyperlink{winheader_8h_a8d98008f0607ec4bc94134ca45ecab3e}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S}~0x00500000
+\item 
+\#define \hyperlink{winheader_8h_a20b2c12b9ea33537efafed20415940e4}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S}~0x00600000
+\item 
+\#define \hyperlink{winheader_8h_aee916237573f3e25104f714722a01ae9}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S}~0x00700000
+\item 
+\#define \hyperlink{winheader_8h_a69cf6b56e214f728876a9113fff397cd}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S}~0x00800000
+\item 
+\#define \hyperlink{winheader_8h_a0a4d76cccca150cb292140914db82a2a}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S}~0x00900000
+\item 
+\#define \hyperlink{winheader_8h_a4fac86e80f70a07b60aae4cd91b025ce}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S}~0x00\-A00000
+\item 
+\#define \hyperlink{winheader_8h_a999fd0721004e7e7a1546ca3b56dfff3}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S}~0x00\-B00000
+\item 
+\#define \hyperlink{winheader_8h_a11bd8f3bd9efb680de2d816511892360}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S}~0x00\-C00000
+\item 
+\#define \hyperlink{winheader_8h_aad1b0021824160ef2b1098e9f567ec38}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S}~0x00\-D00000
+\item 
+\#define \hyperlink{winheader_8h_a6753339620f52fa7fdede99d2808d124}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S}~0x00\-E00000
+\item 
+\#define \hyperlink{winheader_8h_a3600b58f474cbac6b08b152030cfed98}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K}~0x00\-F00000
+\item 
+\#define \hyperlink{winheader_8h_ad14c1217ec367c17c99a1dac1f97e61c}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L}~0x01000000
+\item 
+\#define \hyperlink{winheader_8h_a7cce2f59a7ebb19df6e2e17a0ddc8e02}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E}~0x02000000
+\item 
+\#define \hyperlink{winheader_8h_a0dedbe293fd45c823c896563fbdbaa33}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D}~0x04000000
+\item 
+\#define \hyperlink{winheader_8h_a2624849cd5ad52cddc87abe84f8f0d0d}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D}~0x08000000
+\item 
+\#define \hyperlink{winheader_8h_afaa17e31e33dbc2b603bfa021037e315}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D}~0x10000000
+\item 
+\#define \hyperlink{winheader_8h_a73f2d31800976c048f4b84c904936174}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E}~0x20000000
+\item 
+\#define \hyperlink{winheader_8h_aaa56eb4ef08717bfb86ae415d1a5d5be}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D}~0x40000000
+\item 
+\#define \hyperlink{winheader_8h_a11a80d5863fc4315b7bb597745429d41}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E}~0x80000000
+\item 
+\#define \hyperlink{winheader_8h_a20447cf2ec75285a859a7834def4f504}{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X}~0x00000001
+\item 
+\#define \hyperlink{winheader_8h_a97bfb320bf0679e39045f7b8baff8fbc}{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}~8
+\item 
+\#define \hyperlink{winheader_8h_ab23caa74062a13a4b37cb2b851d59f98}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E}~0
+\item 
+\#define \hyperlink{winheader_8h_a68d8b5b7fdff6d8e85282f8b5e213d79}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H}~1
+\item 
+\#define \hyperlink{winheader_8h_aebe17ddceba3711517bf37908629a1d3}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W}~2
+\item 
+\#define \hyperlink{winheader_8h_a145be65c8c68ac557f2720e35af44c25}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W}~3
+\item 
+\#define \hyperlink{winheader_8h_a9d7c9853fa5f69fa21cbf17e10c03f02}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J}~4
+\item 
+\#define \hyperlink{winheader_8h_a719019e6e078f572502a88c8b216968f}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R}~5
+\item 
+\#define \hyperlink{winheader_8h_a22c6417e74e732a607a0c18bf77d01f2}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32}~5
+\item 
+\#define \hyperlink{winheader_8h_af11a80962e43065296626390dee229a9}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32}~7
+\item 
+\#define \hyperlink{winheader_8h_ad938224818a878e745b45d0d76969603}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16}~9
+\item 
+\#define \hyperlink{winheader_8h_a86ee98e0307a52836b6aad5b8e2bfbe4}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64}~9
+\item 
+\#define \hyperlink{winheader_8h_a463be8428fa5521cfc76e8bbb0eda877}{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64}~10
+\item 
+\#define \hyperlink{winheader_8h_a0b17a5e6156e8ac96c3d3d5c0ed09bcf}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T}~0
+\item 
+\#define \hyperlink{winheader_8h_a1f7696d87d4aa43f3464998709d203db}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T}~1
+\item 
+\#define \hyperlink{winheader_8h_afd06967b9a647a5ea49715e1c6eabd17}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E}~2
+\item 
+\#define \hyperlink{winheader_8h_a3c83d126611127f6ec4101d401da1665}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N}~3
+\item 
+\#define \hyperlink{winheader_8h_a9363039fffe47d0f14826b88733cc4ae}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y}~4
+\item 
+\#define \hyperlink{winheader_8h_a7fc0447c3429661758a677409821f2ee}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C}~5
+\item 
+\#define \hyperlink{winheader_8h_a4ca225b72e58095c6cedd141e7c6f792}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G}~6
+\item 
+\#define \hyperlink{winheader_8h_a359633b6295214c9bdf83e28f565cd5c}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E}~7
+\item 
+\#define \hyperlink{winheader_8h_aee60afa5dd261371bc0a0aa5d0cd4458}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R}~8
+\item 
+\#define \hyperlink{winheader_8h_aa87af686d8dc7a32af5c2634e450b7e6}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S}~9
+\item 
+\#define \hyperlink{winheader_8h_aa6d2ef21f2f1fdc1929c0063153cc460}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G}~10
+\item 
+\#define \hyperlink{winheader_8h_a688c892a1d52c71bfd763ae89104571e}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T}~11
+\item 
+\#define \hyperlink{winheader_8h_a2da1f23e28aee59af8c25affab204ae9}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T}~12
+\item 
+\#define \hyperlink{winheader_8h_ab0a88ef1557635f8a2613055ecd3e9c1}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T}~13
+\item 
+\#define \hyperlink{winheader_8h_a97ba0c676eae17c052d884ae09318a48}{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R}~14
+\end{DoxyCompactItemize}
+\subsection*{Definicje typów}
+\begin{DoxyCompactItemize}
+\item 
+typedef uint16\-\_\-t \hyperlink{winheader_8h_ab24077addd3b7b13e086987ff296552c}{W\-O\-R\-D}
+\item 
+typedef int32\-\_\-t \hyperlink{winheader_8h_a27ec6163192f1e1e72d87421379ea3d4}{L\-O\-N\-G}
+\item 
+typedef uint32\-\_\-t \hyperlink{winheader_8h_af483253b2143078cede883fc3c111ad2}{D\-W\-O\-R\-D}
+\item 
+typedef uint8\-\_\-t \hyperlink{winheader_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\-Y\-T\-E}
+\item 
+typedef uint64\-\_\-t \hyperlink{winheader_8h_ae854efed5cfd3aad7d516ab4e2ce5748}{U\-L\-O\-N\-G\-L\-O\-N\-G}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{winheader_8h_aac150fa5acd6e0ff2804289b01fbd4e1}{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___d_o_s___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R} $\ast$ \hyperlink{winheader_8h_aaed631503b058e37835ef1446a928d5f}{P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___f_i_l_e___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{winheader_8h_ab18994ab54fdb55d1542f30b3895ab10}{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___f_i_l_e___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R} $\ast$ \hyperlink{winheader_8h_ad59939d555bb89d353f970635be236ea}{P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y} \hyperlink{winheader_8h_a0b3ef87140356b8cb58f4af9eed4d607}{I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___d_a_t_a___d_i_r_e_c_t_o_r_y}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y} $\ast$ \hyperlink{winheader_8h_aa9458b3977365bbd4f380d0ab283084a}{P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{winheader_8h_a3a446b0141b509f024b0238113b7f410}{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R} $\ast$ \hyperlink{winheader_8h_a3c22e256ff6db46507cdd956477cc106}{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64} \hyperlink{winheader_8h_a955345df2edf902d02dabe2aa7a82495}{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___o_p_t_i_o_n_a_l___h_e_a_d_e_r64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64} $\ast$ \hyperlink{winheader_8h_a139717379813761e8b84795ce6e85b69}{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64} \hyperlink{winheader_8h_ab47b1aa15f106b0e008bc9fa648fcee5}{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64} $\ast$ \hyperlink{winheader_8h_a9f6c372da5d74274df064a820641b9af}{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S} \hyperlink{winheader_8h_a14ffcda0ea928878f21165e132cd1457}{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}
+\item 
+typedef struct \hyperlink{struct___i_m_a_g_e___n_t___h_e_a_d_e_r_s}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S} $\ast$ \hyperlink{winheader_8h_af5abf38c0a38de08149b1c0f7ec4a77f}{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___s_e_c_t_i_o_n___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R} \hyperlink{winheader_8h_acdd9d574d778040740cda56d815b8d58}{I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___s_e_c_t_i_o_n___h_e_a_d_e_r}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R} $\ast$ \hyperlink{winheader_8h_a47626b2fa073ef74937a4c5bf44104e2}{P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y64}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64} \hyperlink{winheader_8h_ab8222c2c8f41b998f92aa4de6a6bde10}{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}
+\item 
+typedef \hyperlink{winheader_8h_ab8222c2c8f41b998f92aa4de6a6bde10}{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64} $\ast$ \hyperlink{winheader_8h_a18d0683249747b9c8290194976089ffb}{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___t_l_s___d_i_r_e_c_t_o_r_y32}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32} \hyperlink{winheader_8h_a18eaa8c3ed55be7347f14e27f3c06113}{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}
+\item 
+typedef \hyperlink{winheader_8h_a18eaa8c3ed55be7347f14e27f3c06113}{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32} $\ast$ \hyperlink{winheader_8h_a0fdb1e3e0c8bfc33cad7c169148b5906}{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}
+\item 
+typedef struct \\*
+\hyperlink{struct___i_m_a_g_e___b_a_s_e___r_e_l_o_c_a_t_i_o_n}{\-\_\-\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N} \hyperlink{winheader_8h_a930add2612386b356e594b10f601fa6a}{I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}
+\item 
+typedef \hyperlink{winheader_8h_a930add2612386b356e594b10f601fa6a}{I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N} $\ast$ \hyperlink{winheader_8h_a7f5b021317c762693b1e74ed5c6ec84a}{P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}
+\end{DoxyCompactItemize}
+
+
+\subsection{Dokumentacja definicji}
+\hypertarget{winheader_8h_a359633b6295214c9bdf83e28f565cd5c}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-A\-R\-C\-H\-I\-T\-E\-C\-T\-U\-R\-E~7}}\label{winheader_8h_a359633b6295214c9bdf83e28f565cd5c}
+
+
+Definicja w linii 83 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a7fc0447c3429661758a677409821f2ee}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-A\-S\-E\-R\-E\-L\-O\-C~5}}\label{winheader_8h_a7fc0447c3429661758a677409821f2ee}
+
+
+Definicja w linii 81 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a688c892a1d52c71bfd763ae89104571e}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-B\-O\-U\-N\-D\-\_\-\-I\-M\-P\-O\-R\-T~11}}\label{winheader_8h_a688c892a1d52c71bfd763ae89104571e}
+
+
+Definicja w linii 87 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a97ba0c676eae17c052d884ae09318a48}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-C\-O\-M\-\_\-\-D\-E\-S\-C\-R\-I\-P\-T\-O\-R~14}}\label{winheader_8h_a97ba0c676eae17c052d884ae09318a48}
+
+
+Definicja w linii 90 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a4ca225b72e58095c6cedd141e7c6f792}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-B\-U\-G~6}}\label{winheader_8h_a4ca225b72e58095c6cedd141e7c6f792}
+
+
+Definicja w linii 82 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ab0a88ef1557635f8a2613055ecd3e9c1}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-D\-E\-L\-A\-Y\-\_\-\-I\-M\-P\-O\-R\-T~13}}\label{winheader_8h_ab0a88ef1557635f8a2613055ecd3e9c1}
+
+
+Definicja w linii 89 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a3c83d126611127f6ec4101d401da1665}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-C\-E\-P\-T\-I\-O\-N~3}}\label{winheader_8h_a3c83d126611127f6ec4101d401da1665}
+
+
+Definicja w linii 79 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a0b17a5e6156e8ac96c3d3d5c0ed09bcf}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-E\-X\-P\-O\-R\-T~0}}\label{winheader_8h_a0b17a5e6156e8ac96c3d3d5c0ed09bcf}
+
+
+Definicja w linii 76 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aee60afa5dd261371bc0a0aa5d0cd4458}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-G\-L\-O\-B\-A\-L\-P\-T\-R~8}}\label{winheader_8h_aee60afa5dd261371bc0a0aa5d0cd4458}
+
+
+Definicja w linii 84 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a2da1f23e28aee59af8c25affab204ae9}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-A\-T~12}}\label{winheader_8h_a2da1f23e28aee59af8c25affab204ae9}
+
+
+Definicja w linii 88 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a1f7696d87d4aa43f3464998709d203db}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-I\-M\-P\-O\-R\-T~1}}\label{winheader_8h_a1f7696d87d4aa43f3464998709d203db}
+
+
+Definicja w linii 77 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aa6d2ef21f2f1fdc1929c0063153cc460}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-L\-O\-A\-D\-\_\-\-C\-O\-N\-F\-I\-G~10}}\label{winheader_8h_aa6d2ef21f2f1fdc1929c0063153cc460}
+
+
+Definicja w linii 86 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_afd06967b9a647a5ea49715e1c6eabd17}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-R\-E\-S\-O\-U\-R\-C\-E~2}}\label{winheader_8h_afd06967b9a647a5ea49715e1c6eabd17}
+
+
+Definicja w linii 78 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a9363039fffe47d0f14826b88733cc4ae}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-S\-E\-C\-U\-R\-I\-T\-Y~4}}\label{winheader_8h_a9363039fffe47d0f14826b88733cc4ae}
+
+
+Definicja w linii 80 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aa87af686d8dc7a32af5c2634e450b7e6}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S@{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-Y\-\_\-\-T\-L\-S~9}}\label{winheader_8h_aa87af686d8dc7a32af5c2634e450b7e6}
+
+
+Definicja w linii 85 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_acde26d24b0ff46215cbd029d8ae87e4d}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E@{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E@{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E~0x5\-A4\-D}}\label{winheader_8h_acde26d24b0ff46215cbd029d8ae87e4d}
+
+
+Definicja w linii 9 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a20dfd221df247cc9eb08e29f5c534aba}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386@{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386}}
+\index{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386@{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-M\-A\-C\-H\-I\-N\-E\-\_\-\-I386~0x014c}}\label{winheader_8h_a20dfd221df247cc9eb08e29f5c534aba}
+
+
+Definicja w linii 15 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a3499045111a3d860aa8137fc56fe4a9f}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C}}
+\index{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R32\-\_\-\-M\-A\-G\-I\-C~0x10b}}\label{winheader_8h_a3499045111a3d860aa8137fc56fe4a9f}
+
+
+Definicja w linii 12 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a47b43b60cdfbc674cb8d9ac9d43f7615}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C}}
+\index{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-D\-R64\-\_\-\-M\-A\-G\-I\-C~0x20b}}\label{winheader_8h_a47b43b60cdfbc674cb8d9ac9d43f7615}
+
+
+Definicja w linii 13 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a83570e3e2fba8cb7c2abc8b3eee47d48}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-S\-I\-G\-N\-A\-T\-U\-R\-E~0x00004550}}\label{winheader_8h_a83570e3e2fba8cb7c2abc8b3eee47d48}
+
+
+Definicja w linii 10 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a75892b738729f0de64146086f462defe}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S@{I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S@{I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-N\-U\-M\-B\-E\-R\-O\-F\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y\-\_\-\-E\-N\-T\-R\-I\-E\-S~16}}\label{winheader_8h_a75892b738729f0de64146086f462defe}
+
+
+Definicja w linii 6 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ab23caa74062a13a4b37cb2b851d59f98}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-B\-S\-O\-L\-U\-T\-E~0}}\label{winheader_8h_ab23caa74062a13a4b37cb2b851d59f98}
+
+
+Definicja w linii 64 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a22c6417e74e732a607a0c18bf77d01f2}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-A\-R\-M\-\_\-\-M\-O\-V32~5}}\label{winheader_8h_a22c6417e74e732a607a0c18bf77d01f2}
+
+
+Definicja w linii 70 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a463be8428fa5521cfc76e8bbb0eda877}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-D\-I\-R64~10}}\label{winheader_8h_a463be8428fa5521cfc76e8bbb0eda877}
+
+
+Definicja w linii 74 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a68d8b5b7fdff6d8e85282f8b5e213d79}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H~1}}\label{winheader_8h_a68d8b5b7fdff6d8e85282f8b5e213d79}
+
+
+Definicja w linii 65 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a9d7c9853fa5f69fa21cbf17e10c03f02}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-A\-D\-J~4}}\label{winheader_8h_a9d7c9853fa5f69fa21cbf17e10c03f02}
+
+
+Definicja w linii 68 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a145be65c8c68ac557f2720e35af44c25}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-H\-I\-G\-H\-L\-O\-W~3}}\label{winheader_8h_a145be65c8c68ac557f2720e35af44c25}
+
+
+Definicja w linii 67 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a86ee98e0307a52836b6aad5b8e2bfbe4}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-I\-A64\-\_\-\-I\-M\-M64~9}}\label{winheader_8h_a86ee98e0307a52836b6aad5b8e2bfbe4}
+
+
+Definicja w linii 73 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aebe17ddceba3711517bf37908629a1d3}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-L\-O\-W~2}}\label{winheader_8h_aebe17ddceba3711517bf37908629a1d3}
+
+
+Definicja w linii 66 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a719019e6e078f572502a88c8b216968f}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R~5}}\label{winheader_8h_a719019e6e078f572502a88c8b216968f}
+
+
+Definicja w linii 69 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ad938224818a878e745b45d0d76969603}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-M\-I\-P\-S\-\_\-\-J\-M\-P\-A\-D\-D\-R16~9}}\label{winheader_8h_ad938224818a878e745b45d0d76969603}
+
+
+Definicja w linii 72 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_af11a80962e43065296626390dee229a9}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32}}
+\index{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32@{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-R\-E\-L\-\_\-\-B\-A\-S\-E\-D\-\_\-\-T\-H\-U\-M\-B\-\_\-\-M\-O\-V32~7}}\label{winheader_8h_af11a80962e43065296626390dee229a9}
+
+
+Definicja w linii 71 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a999fd0721004e7e7a1546ca3b56dfff3}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1024\-B\-Y\-T\-E\-S~0x00\-B00000}}\label{winheader_8h_a999fd0721004e7e7a1546ca3b56dfff3}
+
+
+Definicja w linii 44 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a69cf6b56e214f728876a9113fff397cd}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-128\-B\-Y\-T\-E\-S~0x00800000}}\label{winheader_8h_a69cf6b56e214f728876a9113fff397cd}
+
+
+Definicja w linii 41 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a8d98008f0607ec4bc94134ca45ecab3e}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-16\-B\-Y\-T\-E\-S~0x00500000}}\label{winheader_8h_a8d98008f0607ec4bc94134ca45ecab3e}
+
+
+Definicja w linii 38 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ab3ffd3e96e390562986f1c3f0f10c978}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-1\-B\-Y\-T\-E\-S~0x00100000}}\label{winheader_8h_ab3ffd3e96e390562986f1c3f0f10c978}
+
+
+Definicja w linii 34 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a11bd8f3bd9efb680de2d816511892360}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2048\-B\-Y\-T\-E\-S~0x00\-C00000}}\label{winheader_8h_a11bd8f3bd9efb680de2d816511892360}
+
+
+Definicja w linii 45 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a0a4d76cccca150cb292140914db82a2a}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-256\-B\-Y\-T\-E\-S~0x00900000}}\label{winheader_8h_a0a4d76cccca150cb292140914db82a2a}
+
+
+Definicja w linii 42 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ab8b77590cabacc0afb6602da2bc3226d}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-2\-B\-Y\-T\-E\-S~0x00200000}}\label{winheader_8h_ab8b77590cabacc0afb6602da2bc3226d}
+
+
+Definicja w linii 35 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a20b2c12b9ea33537efafed20415940e4}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-32\-B\-Y\-T\-E\-S~0x00600000}}\label{winheader_8h_a20b2c12b9ea33537efafed20415940e4}
+
+
+Definicja w linii 39 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aad1b0021824160ef2b1098e9f567ec38}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4096\-B\-Y\-T\-E\-S~0x00\-D00000}}\label{winheader_8h_aad1b0021824160ef2b1098e9f567ec38}
+
+
+Definicja w linii 46 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aa5f6f34a3f4da16a78e6dd69ef7cf027}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-4\-B\-Y\-T\-E\-S~0x00300000}}\label{winheader_8h_aa5f6f34a3f4da16a78e6dd69ef7cf027}
+
+
+Definicja w linii 36 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a4fac86e80f70a07b60aae4cd91b025ce}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-512\-B\-Y\-T\-E\-S~0x00\-A00000}}\label{winheader_8h_a4fac86e80f70a07b60aae4cd91b025ce}
+
+
+Definicja w linii 43 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aee916237573f3e25104f714722a01ae9}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-64\-B\-Y\-T\-E\-S~0x00700000}}\label{winheader_8h_aee916237573f3e25104f714722a01ae9}
+
+
+Definicja w linii 40 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a6753339620f52fa7fdede99d2808d124}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8192\-B\-Y\-T\-E\-S~0x00\-E00000}}\label{winheader_8h_a6753339620f52fa7fdede99d2808d124}
+
+
+Definicja w linii 47 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ad8a0484fb5cc092724de763f50efe882}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-8\-B\-Y\-T\-E\-S~0x00400000}}\label{winheader_8h_ad8a0484fb5cc092724de763f50efe882}
+
+
+Definicja w linii 37 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a3600b58f474cbac6b08b152030cfed98}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-A\-L\-I\-G\-N\-\_\-\-M\-A\-S\-K~0x00\-F00000}}\label{winheader_8h_a3600b58f474cbac6b08b152030cfed98}
+
+
+Definicja w linii 49 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a705da0cf40a97198bcf9e2e2dcaa586b}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-C\-O\-D\-E~0x00000020}}\label{winheader_8h_a705da0cf40a97198bcf9e2e2dcaa586b}
+
+
+Definicja w linii 19 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a459812511eb7707011354e4a76ed71f6}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A~0x00000040}}\label{winheader_8h_a459812511eb7707011354e4a76ed71f6}
+
+
+Definicja w linii 20 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ab65bf521b42f95dd11c52bfaf7a306b1}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-C\-N\-T\-\_\-\-U\-N\-I\-N\-I\-T\-I\-A\-L\-I\-Z\-E\-D\-\_\-\-D\-A\-T\-A~0x00000080}}\label{winheader_8h_ab65bf521b42f95dd11c52bfaf7a306b1}
+
+
+Definicja w linii 21 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a77162b56b3c536391588d821421c65a2}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-G\-P\-R\-E\-L~0x00008000}}\label{winheader_8h_a77162b56b3c536391588d821421c65a2}
+
+
+Definicja w linii 27 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a3aa51aae68247ad176a0fba450b76cc2}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-C\-O\-M\-D\-A\-T~0x00001000}}\label{winheader_8h_a3aa51aae68247ad176a0fba450b76cc2}
+
+
+Definicja w linii 25 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a29bce42b10be109bbd8cfb37d4642dbc}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-I\-N\-F\-O~0x00000200}}\label{winheader_8h_a29bce42b10be109bbd8cfb37d4642dbc}
+
+
+Definicja w linii 23 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ad14c1217ec367c17c99a1dac1f97e61c}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-N\-R\-E\-L\-O\-C\-\_\-\-O\-V\-F\-L~0x01000000}}\label{winheader_8h_ad14c1217ec367c17c99a1dac1f97e61c}
+
+
+Definicja w linii 51 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a8d7375c6ae0344cb26cf996e765512fc}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-O\-T\-H\-E\-R~0x00000100}}\label{winheader_8h_a8d7375c6ae0344cb26cf996e765512fc}
+
+
+Definicja w linii 22 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a9e37ac6d5a8aefedb4cc36ec209c6f57}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-L\-N\-K\-\_\-\-R\-E\-M\-O\-V\-E~0x00000800}}\label{winheader_8h_a9e37ac6d5a8aefedb4cc36ec209c6f57}
+
+
+Definicja w linii 24 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_af02fb6cb4a36e254b2012ee86785dc54}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-16\-B\-I\-T~0x00020000}}\label{winheader_8h_af02fb6cb4a36e254b2012ee86785dc54}
+
+
+Definicja w linii 30 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a7cce2f59a7ebb19df6e2e17a0ddc8e02}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-D\-I\-S\-C\-A\-R\-D\-A\-B\-L\-E~0x02000000}}\label{winheader_8h_a7cce2f59a7ebb19df6e2e17a0ddc8e02}
+
+
+Definicja w linii 52 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a73f2d31800976c048f4b84c904936174}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-E\-X\-E\-C\-U\-T\-E~0x20000000}}\label{winheader_8h_a73f2d31800976c048f4b84c904936174}
+
+
+Definicja w linii 56 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a502f10f48078a4f0f6707ad247fb8318}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-F\-A\-R\-D\-A\-T\-A~0x00008000}}\label{winheader_8h_a502f10f48078a4f0f6707ad247fb8318}
+
+
+Definicja w linii 28 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a14bb4abe969b04d559861e8a3d21c208}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-L\-O\-C\-K\-E\-D~0x00040000}}\label{winheader_8h_a14bb4abe969b04d559861e8a3d21c208}
+
+
+Definicja w linii 31 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a0dedbe293fd45c823c896563fbdbaa33}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-C\-A\-C\-H\-E\-D~0x04000000}}\label{winheader_8h_a0dedbe293fd45c823c896563fbdbaa33}
+
+
+Definicja w linii 53 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a2624849cd5ad52cddc87abe84f8f0d0d}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-N\-O\-T\-\_\-\-P\-A\-G\-E\-D~0x08000000}}\label{winheader_8h_a2624849cd5ad52cddc87abe84f8f0d0d}
+
+
+Definicja w linii 54 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a3fde01efa3c1f05f1d27d4d041e312e4}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-R\-E\-L\-O\-A\-D~0x00080000}}\label{winheader_8h_a3fde01efa3c1f05f1d27d4d041e312e4}
+
+
+Definicja w linii 32 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a21fb3a27f91dd892fb7e77e47404a061}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-P\-U\-R\-G\-E\-A\-B\-L\-E~0x00020000}}\label{winheader_8h_a21fb3a27f91dd892fb7e77e47404a061}
+
+
+Definicja w linii 29 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aaa56eb4ef08717bfb86ae415d1a5d5be}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-R\-E\-A\-D~0x40000000}}\label{winheader_8h_aaa56eb4ef08717bfb86ae415d1a5d5be}
+
+
+Definicja w linii 57 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_afaa17e31e33dbc2b603bfa021037e315}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-S\-H\-A\-R\-E\-D~0x10000000}}\label{winheader_8h_afaa17e31e33dbc2b603bfa021037e315}
+
+
+Definicja w linii 55 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a11a80d5863fc4315b7bb597745429d41}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-M\-E\-M\-\_\-\-W\-R\-I\-T\-E~0x80000000}}\label{winheader_8h_a11a80d5863fc4315b7bb597745429d41}
+
+
+Definicja w linii 58 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a1805f6ebdef71e7aab57c175fb6ca114}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-N\-O\-\_\-\-D\-E\-F\-E\-R\-\_\-\-S\-P\-E\-C\-\_\-\-E\-X\-C~0x00004000}}\label{winheader_8h_a1805f6ebdef71e7aab57c175fb6ca114}
+
+
+Definicja w linii 26 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a20447cf2ec75285a859a7834def4f504}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-S\-C\-A\-L\-E\-\_\-\-I\-N\-D\-E\-X~0x00000001}}\label{winheader_8h_a20447cf2ec75285a859a7834def4f504}
+
+
+Definicja w linii 60 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a36ea3bbb6535692d564cd1065a773248}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D@{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-C\-N\-\_\-\-T\-Y\-P\-E\-\_\-\-N\-O\-\_\-\-P\-A\-D~0x00000008}}\label{winheader_8h_a36ea3bbb6535692d564cd1065a773248}
+
+
+Definicja w linii 17 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a97bfb320bf0679e39045f7b8baff8fbc}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N@{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N@{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N~8}}\label{winheader_8h_a97bfb320bf0679e39045f7b8baff8fbc}
+
+
+Definicja w linii 62 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a98e3229bbf99bf35eaebf248b173d235}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E@{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E@{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-M\-A\-G\-E\-\_\-\-S\-I\-Z\-E\-O\-F\-\_\-\-S\-H\-O\-R\-T\-\_\-\-N\-A\-M\-E~8}}\label{winheader_8h_a98e3229bbf99bf35eaebf248b173d235}
+
+
+Definicja w linii 7 pliku winheader.\-h.
+
+
+
+\subsection{Dokumentacja definicji typów}
+\hypertarget{winheader_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{\index{winheader.\-h@{winheader.\-h}!B\-Y\-T\-E@{B\-Y\-T\-E}}
+\index{B\-Y\-T\-E@{B\-Y\-T\-E}!winheader.h@{winheader.\-h}}
+\subsubsection[{B\-Y\-T\-E}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint8\-\_\-t {\bf B\-Y\-T\-E}}}\label{winheader_8h_aae9749d96e15ccb4f482dd5f55d98f9b}
+
+
+Definicja w linii 95 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_af483253b2143078cede883fc3c111ad2}{\index{winheader.\-h@{winheader.\-h}!D\-W\-O\-R\-D@{D\-W\-O\-R\-D}}
+\index{D\-W\-O\-R\-D@{D\-W\-O\-R\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{D\-W\-O\-R\-D}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint32\-\_\-t {\bf D\-W\-O\-R\-D}}}\label{winheader_8h_af483253b2143078cede883fc3c111ad2}
+
+
+Definicja w linii 94 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a930add2612386b356e594b10f601fa6a}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N@{I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}}
+\index{I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N@{I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}  {\bf I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}}}\label{winheader_8h_a930add2612386b356e594b10f601fa6a}
+\hypertarget{winheader_8h_a0b3ef87140356b8cb58f4af9eed4d607}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y@{I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y@{I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}  {\bf I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}}}\label{winheader_8h_a0b3ef87140356b8cb58f4af9eed4d607}
+\hypertarget{winheader_8h_aac150fa5acd6e0ff2804289b01fbd4e1}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R@{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R@{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}  {\bf I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}}}\label{winheader_8h_aac150fa5acd6e0ff2804289b01fbd4e1}
+\hypertarget{winheader_8h_ab18994ab54fdb55d1542f30b3895ab10}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R@{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R@{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}  {\bf I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}}}\label{winheader_8h_ab18994ab54fdb55d1542f30b3895ab10}
+\hypertarget{winheader_8h_a14ffcda0ea928878f21165e132cd1457}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}}
+\index{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S}  {\bf I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}}}\label{winheader_8h_a14ffcda0ea928878f21165e132cd1457}
+\hypertarget{winheader_8h_ab47b1aa15f106b0e008bc9fa648fcee5}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}}
+\index{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64@{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}  {\bf I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}}}\label{winheader_8h_ab47b1aa15f106b0e008bc9fa648fcee5}
+\hypertarget{winheader_8h_a3a446b0141b509f024b0238113b7f410}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32@{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}}
+\index{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32@{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R}  {\bf I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}}}\label{winheader_8h_a3a446b0141b509f024b0238113b7f410}
+\hypertarget{winheader_8h_a955345df2edf902d02dabe2aa7a82495}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64@{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}}
+\index{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64@{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}  {\bf I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}}}\label{winheader_8h_a955345df2edf902d02dabe2aa7a82495}
+\hypertarget{winheader_8h_acdd9d574d778040740cda56d815b8d58}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R@{I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}}
+\index{I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R@{I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}  {\bf I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}}}\label{winheader_8h_acdd9d574d778040740cda56d815b8d58}
+\hypertarget{winheader_8h_a18eaa8c3ed55be7347f14e27f3c06113}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32@{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}}
+\index{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32@{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}  {\bf I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}}}\label{winheader_8h_a18eaa8c3ed55be7347f14e27f3c06113}
+\hypertarget{winheader_8h_ab8222c2c8f41b998f92aa4de6a6bde10}{\index{winheader.\-h@{winheader.\-h}!I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64@{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}}
+\index{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64@{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}!winheader.h@{winheader.\-h}}
+\subsubsection[{I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}  {\bf I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}}}\label{winheader_8h_ab8222c2c8f41b998f92aa4de6a6bde10}
+\hypertarget{winheader_8h_a27ec6163192f1e1e72d87421379ea3d4}{\index{winheader.\-h@{winheader.\-h}!L\-O\-N\-G@{L\-O\-N\-G}}
+\index{L\-O\-N\-G@{L\-O\-N\-G}!winheader.h@{winheader.\-h}}
+\subsubsection[{L\-O\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}typedef int32\-\_\-t {\bf L\-O\-N\-G}}}\label{winheader_8h_a27ec6163192f1e1e72d87421379ea3d4}
+
+
+Definicja w linii 93 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a7f5b021317c762693b1e74ed5c6ec84a}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N@{P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N@{P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-B\-A\-S\-E\-\_\-\-R\-E\-L\-O\-C\-A\-T\-I\-O\-N}}}\label{winheader_8h_a7f5b021317c762693b1e74ed5c6ec84a}
+
+
+Definicja w linii 255 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_aa9458b3977365bbd4f380d0ab283084a}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y@{P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y@{P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y}}}\label{winheader_8h_aa9458b3977365bbd4f380d0ab283084a}
+\hypertarget{winheader_8h_aaed631503b058e37835ef1446a928d5f}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R@{P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R@{P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-D\-O\-S\-\_\-\-H\-E\-A\-D\-E\-R}}}\label{winheader_8h_aaed631503b058e37835ef1446a928d5f}
+\hypertarget{winheader_8h_ad59939d555bb89d353f970635be236ea}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R@{P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R@{P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-F\-I\-L\-E\-\_\-\-H\-E\-A\-D\-E\-R}}}\label{winheader_8h_ad59939d555bb89d353f970635be236ea}
+\hypertarget{winheader_8h_af5abf38c0a38de08149b1c0f7ec4a77f}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32@{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32@{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S32}}}\label{winheader_8h_af5abf38c0a38de08149b1c0f7ec4a77f}
+\hypertarget{winheader_8h_a9f6c372da5d74274df064a820641b9af}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64@{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64@{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-N\-T\-\_\-\-H\-E\-A\-D\-E\-R\-S64}}}\label{winheader_8h_a9f6c372da5d74274df064a820641b9af}
+\hypertarget{winheader_8h_a3c22e256ff6db46507cdd956477cc106}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32@{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32@{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R32}}}\label{winheader_8h_a3c22e256ff6db46507cdd956477cc106}
+\hypertarget{winheader_8h_a139717379813761e8b84795ce6e85b69}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64@{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64@{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-O\-P\-T\-I\-O\-N\-A\-L\-\_\-\-H\-E\-A\-D\-E\-R64}}}\label{winheader_8h_a139717379813761e8b84795ce6e85b69}
+\hypertarget{winheader_8h_a47626b2fa073ef74937a4c5bf44104e2}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R@{P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R@{P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-S\-E\-C\-T\-I\-O\-N\-\_\-\-H\-E\-A\-D\-E\-R}}}\label{winheader_8h_a47626b2fa073ef74937a4c5bf44104e2}
+\hypertarget{winheader_8h_a0fdb1e3e0c8bfc33cad7c169148b5906}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32@{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32@{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y32}}}\label{winheader_8h_a0fdb1e3e0c8bfc33cad7c169148b5906}
+
+
+Definicja w linii 249 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_a18d0683249747b9c8290194976089ffb}{\index{winheader.\-h@{winheader.\-h}!P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64@{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}}
+\index{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64@{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}!winheader.h@{winheader.\-h}}
+\subsubsection[{P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}$\ast$ {\bf P\-I\-M\-A\-G\-E\-\_\-\-T\-L\-S\-\_\-\-D\-I\-R\-E\-C\-T\-O\-R\-Y64}}}\label{winheader_8h_a18d0683249747b9c8290194976089ffb}
+
+
+Definicja w linii 239 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ae854efed5cfd3aad7d516ab4e2ce5748}{\index{winheader.\-h@{winheader.\-h}!U\-L\-O\-N\-G\-L\-O\-N\-G@{U\-L\-O\-N\-G\-L\-O\-N\-G}}
+\index{U\-L\-O\-N\-G\-L\-O\-N\-G@{U\-L\-O\-N\-G\-L\-O\-N\-G}!winheader.h@{winheader.\-h}}
+\subsubsection[{U\-L\-O\-N\-G\-L\-O\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint64\-\_\-t {\bf U\-L\-O\-N\-G\-L\-O\-N\-G}}}\label{winheader_8h_ae854efed5cfd3aad7d516ab4e2ce5748}
+
+
+Definicja w linii 96 pliku winheader.\-h.
+
+\hypertarget{winheader_8h_ab24077addd3b7b13e086987ff296552c}{\index{winheader.\-h@{winheader.\-h}!W\-O\-R\-D@{W\-O\-R\-D}}
+\index{W\-O\-R\-D@{W\-O\-R\-D}!winheader.h@{winheader.\-h}}
+\subsubsection[{W\-O\-R\-D}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint16\-\_\-t {\bf W\-O\-R\-D}}}\label{winheader_8h_ab24077addd3b7b13e086987ff296552c}
+
+
+Definicja w linii 92 pliku winheader.\-h.
+

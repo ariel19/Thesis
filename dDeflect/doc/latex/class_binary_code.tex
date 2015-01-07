@@ -1,0 +1,143 @@
+\hypertarget{class_binary_code}{\section{Dokumentacja szablonu klasy Binary\-Code$<$ Register $>$}
+\label{class_binary_code}\index{Binary\-Code$<$ Register $>$@{Binary\-Code$<$ Register $>$}}
+}
+
+
+Klasa przechowująca kod binarny i offsety relokacji adresów.  
+
+
+
+
+{\ttfamily \#include $<$codedefines.\-h$>$}
+
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_binary_code_aa21721fc16b2e943be048fa3ceea300d}{Binary\-Code} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_binary_code}{Binary\-Code} -\/ Konstruktor. \end{DoxyCompactList}\item 
+void \hyperlink{class_binary_code_a5f06f08736f891d6bc6d2d4fc93dca21}{append} (Q\-Byte\-Array \-\_\-code, bool relocation=false)
+\begin{DoxyCompactList}\small\item\em Dodaje kod do tablicy. \end{DoxyCompactList}\item 
+Q\-Byte\-Array \hyperlink{class_binary_code_a0b9f52a511f1ba6989412d4424885f8f}{get\-Bytes} ()
+\begin{DoxyCompactList}\small\item\em Pobiera kod. \end{DoxyCompactList}\item 
+Q\-List$<$ uint64\-\_\-t $>$ \hyperlink{class_binary_code_a16f19ea25857126aeaeb7993890a5ad3}{get\-Relocations} (uint64\-\_\-t code\-Base)
+\begin{DoxyCompactList}\small\item\em Pobiera tablicę relokacji jako wartości absolutne. \end{DoxyCompactList}\item 
+int \hyperlink{class_binary_code_a08ecf07ca01749c097929dc394871e6e}{length} ()
+\begin{DoxyCompactList}\small\item\em Metoda pobierająca wielkość kodu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Opis szczegółowy}
+\subsubsection*{template$<$typename Register$>$class Binary\-Code$<$ Register $>$}
+
+Klasa przechowująca kod binarny i offsety relokacji adresów. 
+
+Definicja w linii 55 pliku codedefines.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_binary_code_aa21721fc16b2e943be048fa3ceea300d}{\index{Binary\-Code@{Binary\-Code}!Binary\-Code@{Binary\-Code}}
+\index{Binary\-Code@{Binary\-Code}!BinaryCode@{Binary\-Code}}
+\subsubsection[{Binary\-Code}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register$>$ {\bf Binary\-Code}$<$ Register $>$\-::{\bf Binary\-Code} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_binary_code_aa21721fc16b2e943be048fa3ceea300d}
+
+
+\hyperlink{class_binary_code}{Binary\-Code} -\/ Konstruktor. 
+
+
+
+Definicja w linii 77 pliku codedefines.\-h.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_binary_code_a5f06f08736f891d6bc6d2d4fc93dca21}{\index{Binary\-Code@{Binary\-Code}!append@{append}}
+\index{append@{append}!BinaryCode@{Binary\-Code}}
+\subsubsection[{append}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template void {\bf Binary\-Code}$<$ Register $>$\-::append (
+\begin{DoxyParamCaption}
+\item[{Q\-Byte\-Array}]{\-\_\-code, }
+\item[{bool}]{relocation = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_binary_code_a5f06f08736f891d6bc6d2d4fc93dca21}
+
+
+Dodaje kod do tablicy. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em \-\_\-code} & Kod binarny \\
+\hline
+{\em relocation} & Flaga odpowiadająca za dodanie informacji o relokacji w miejscu dodanego kodu. \\
+\hline
+\end{DoxyParams}
+
+
+Definicja w linii 721 pliku codedefines.\-cpp.
+
+\hypertarget{class_binary_code_a0b9f52a511f1ba6989412d4424885f8f}{\index{Binary\-Code@{Binary\-Code}!get\-Bytes@{get\-Bytes}}
+\index{get\-Bytes@{get\-Bytes}!BinaryCode@{Binary\-Code}}
+\subsubsection[{get\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template Q\-Byte\-Array {\bf Binary\-Code}$<$ Register $>$\-::get\-Bytes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_binary_code_a0b9f52a511f1ba6989412d4424885f8f}
+
+
+Pobiera kod. 
+
+\begin{DoxyReturn}{Zwraca}
+Kod binarny 
+\end{DoxyReturn}
+
+
+Definicja w linii 712 pliku codedefines.\-cpp.
+
+\hypertarget{class_binary_code_a16f19ea25857126aeaeb7993890a5ad3}{\index{Binary\-Code@{Binary\-Code}!get\-Relocations@{get\-Relocations}}
+\index{get\-Relocations@{get\-Relocations}!BinaryCode@{Binary\-Code}}
+\subsubsection[{get\-Relocations}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template Q\-List$<$ uint64\-\_\-t $>$ {\bf Binary\-Code}$<$ Register $>$\-::get\-Relocations (
+\begin{DoxyParamCaption}
+\item[{uint64\-\_\-t}]{code\-Base}
+\end{DoxyParamCaption}
+)}}\label{class_binary_code_a16f19ea25857126aeaeb7993890a5ad3}
+
+
+Pobiera tablicę relokacji jako wartości absolutne. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em code\-Base} & Adres bazowy relokowanego kodu \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+Lista relokacji 
+\end{DoxyReturn}
+
+
+Definicja w linii 733 pliku codedefines.\-cpp.
+
+\hypertarget{class_binary_code_a08ecf07ca01749c097929dc394871e6e}{\index{Binary\-Code@{Binary\-Code}!length@{length}}
+\index{length@{length}!BinaryCode@{Binary\-Code}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Register $>$ template int {\bf Binary\-Code}$<$ Register $>$\-::length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_binary_code_a08ecf07ca01749c097929dc394871e6e}
+
+
+Metoda pobierająca wielkość kodu. 
+
+\begin{DoxyReturn}{Zwraca}
+Rozmiar kodu 
+\end{DoxyReturn}
+
+
+Definicja w linii 747 pliku codedefines.\-cpp.
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/file\-\_\-types/\hyperlink{codedefines_8h}{codedefines.\-h}\item 
+core/file\-\_\-types/\hyperlink{codedefines_8cpp}{codedefines.\-cpp}\end{DoxyCompactItemize}

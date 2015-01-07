@@ -1,0 +1,28 @@
+var class_p_e_file =
+[
+    [ "PEFile", "class_p_e_file.html#ae8d99a8a0dabc4891ba5f7ef5031bcdc", null ],
+    [ "~PEFile", "class_p_e_file.html#a0e63ccc46a77ddc9106e98c9131674db", null ],
+    [ "addRelocations", "class_p_e_file.html#ab6f1b8483aeba41b153aa27e9c6a0b8b", null ],
+    [ "generateString", "class_p_e_file.html#a2dca67d21245ba63171ee34456456f96", null ],
+    [ "getAddressAtCallInstructionOffset", "class_p_e_file.html#a1cf0f58cf7e061011a1dd95b16076e07", null ],
+    [ "getEntryPoint", "class_p_e_file.html#a82c9e3280a60fbdf13e7a7b7dbbf9ddb", null ],
+    [ "getImageBase", "class_p_e_file.html#ac3bf74a6efbc10bd642fbb345e71bf2d", null ],
+    [ "getImageTlsDirectorySize", "class_p_e_file.html#a45168c8ca08be4b58f79637a717135ac", null ],
+    [ "getTextSection", "class_p_e_file.html#a842228e192f08a70f80f564fe4ee7bc5", null ],
+    [ "getTextSectionOffset", "class_p_e_file.html#afdcc62870de787ebaee455b55af8f06f", null ],
+    [ "getTlsAddressOfCallBacks", "class_p_e_file.html#ab385de72db3e791e1477cb6593266d45", null ],
+    [ "getTlsAddressOfIndex", "class_p_e_file.html#aa60f615dfd569e601e3d25eaded2d3ed", null ],
+    [ "getTlsCallbacks", "class_p_e_file.html#af718219d753f57388e3db28a55928b3e", null ],
+    [ "getTlsDirectoryAddress", "class_p_e_file.html#a6a98e9259a0013bff708271b378648ef", null ],
+    [ "hasTls", "class_p_e_file.html#aecfb5938f29e1cb030e968349b3112ef", null ],
+    [ "injectUniqueData", "class_p_e_file.html#ab14d9fb29123545e0a7528795e64d3c1", null ],
+    [ "injectUniqueData", "class_p_e_file.html#a6bea21405c1aab9b4e3d43d980a5aac5", null ],
+    [ "is_valid", "class_p_e_file.html#a90a96d95f9d67ff48bf12ffcb0f22d41", null ],
+    [ "is_x64", "class_p_e_file.html#aa8e69bdca4d00216df406278b4e96a28", null ],
+    [ "is_x86", "class_p_e_file.html#a371cc84eed9dd5d85b7c50d60c1eb56f", null ],
+    [ "setAddressAtCallInstructionOffset", "class_p_e_file.html#a6c06d44bec906ab659326541e6244850", null ],
+    [ "setNewEntryPoint", "class_p_e_file.html#a31cab72915687c9138e804e644f80ac6", null ],
+    [ "setTlsAddressOfCallBacks", "class_p_e_file.html#a698dd8d1b169ac0b9d01ebfecd16bc51", null ],
+    [ "setTlsAddressOfIndex", "class_p_e_file.html#a2d6f55148b572f564bc30e881d97d9f8", null ],
+    [ "setTlsDirectoryAddress", "class_p_e_file.html#a6cd64df26158260f265b26e40b3b5dea", null ]
+];

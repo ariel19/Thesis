@@ -1,0 +1,113 @@
+\hypertarget{class_e_l_f_adding_methods}{\section{Dokumentacja klasy E\-L\-F\-Adding\-Methods}
+\label{class_e_l_f_adding_methods}\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}
+}
+
+
+{\ttfamily \#include $<$elfaddingmethods.\-h$>$}
+
+
+
+Diagram dziedziczenia dla E\-L\-F\-Adding\-Methods\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{class_e_l_f_adding_methods__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Diagram współpracy dla E\-L\-F\-Adding\-Methods\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{class_e_l_f_adding_methods__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_e_l_f_adding_methods_a49ddea5561dbff8a787d586e58d70d22}{E\-L\-F\-Adding\-Methods} (\hyperlink{class_e_l_f}{E\-L\-F} $\ast$f)
+\item 
+\hyperlink{class_e_l_f_adding_methods_a374088ad2597fa11063b5a19bae0ffec}{$\sim$\-E\-L\-F\-Adding\-Methods} ()
+\item 
+{\footnotesize template$<$typename Registers\-Type $>$ }\\bool \hyperlink{class_e_l_f_adding_methods_acaa41aa5ab101bb4fa0e23a3029020ad}{secure\-\_\-elf} (\hyperlink{class_e_l_f}{E\-L\-F} \&elf, const \hyperlink{class_d_adding_methods_1_1_inject_description}{Inject\-Description}$<$ Registers\-Type $>$ \&inject\-\_\-desc)
+\begin{DoxyCompactList}\small\item\em Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Dodatkowe Dziedziczone Składowe}
+
+
+\subsection{Opis szczegółowy}
+
+
+Definicja w linii 9 pliku elfaddingmethods.\-h.
+
+
+
+\subsection{Dokumentacja konstruktora i destruktora}
+\hypertarget{class_e_l_f_adding_methods_a49ddea5561dbff8a787d586e58d70d22}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}}
+\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{E\-L\-F\-Adding\-Methods}]{\setlength{\rightskip}{0pt plus 5cm}E\-L\-F\-Adding\-Methods\-::\-E\-L\-F\-Adding\-Methods (
+\begin{DoxyParamCaption}
+\item[{{\bf E\-L\-F} $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_adding_methods_a49ddea5561dbff8a787d586e58d70d22}
+
+
+Definicja w linii 3 pliku elfaddingmethods.\-cpp.
+
+\hypertarget{class_e_l_f_adding_methods_a374088ad2597fa11063b5a19bae0ffec}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!$\sim$\-E\-L\-F\-Adding\-Methods@{$\sim$\-E\-L\-F\-Adding\-Methods}}
+\index{$\sim$\-E\-L\-F\-Adding\-Methods@{$\sim$\-E\-L\-F\-Adding\-Methods}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{$\sim$\-E\-L\-F\-Adding\-Methods}]{\setlength{\rightskip}{0pt plus 5cm}E\-L\-F\-Adding\-Methods\-::$\sim$\-E\-L\-F\-Adding\-Methods (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_adding_methods_a374088ad2597fa11063b5a19bae0ffec}
+
+
+Definicja w linii 20 pliku elfaddingmethods.\-cpp.
+
+
+
+\subsection{Dokumentacja funkcji składowych}
+\hypertarget{class_e_l_f_adding_methods_acaa41aa5ab101bb4fa0e23a3029020ad}{\index{E\-L\-F\-Adding\-Methods@{E\-L\-F\-Adding\-Methods}!secure\-\_\-elf@{secure\-\_\-elf}}
+\index{secure\-\_\-elf@{secure\-\_\-elf}!ELFAddingMethods@{E\-L\-F\-Adding\-Methods}}
+\subsubsection[{secure\-\_\-elf}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Registers\-Type $>$ bool E\-L\-F\-Adding\-Methods\-::secure\-\_\-elf (
+\begin{DoxyParamCaption}
+\item[{{\bf E\-L\-F} \&}]{elf, }
+\item[{const {\bf Inject\-Description}$<$ Registers\-Type $>$ \&}]{inject\-\_\-desc}
+\end{DoxyParamCaption}
+)}}\label{class_e_l_f_adding_methods_acaa41aa5ab101bb4fa0e23a3029020ad}
+
+
+Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. 
+
+
+\begin{DoxyParams}{Parametry}
+{\em elf} & plik do zabezpieczania. \\
+\hline
+{\em inject\-\_\-desc} & opis metody wstrzykiwania kodu. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+True, jeżeli operacja się powiodła, False w innych przypadkach. 
+\end{DoxyReturn}
+
+
+Definicja w linii 148 pliku elfaddingmethods.\-h.
+
+
+
+Oto graf wywołań dla tej funkcji\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_e_l_f_adding_methods_acaa41aa5ab101bb4fa0e23a3029020ad_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\-:\begin{DoxyCompactItemize}
+\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{elfaddingmethods_8h}{elfaddingmethods.\-h}\item 
+core/adding\-\_\-methods/wrappers/\hyperlink{elfaddingmethods_8cpp}{elfaddingmethods.\-cpp}\end{DoxyCompactItemize}

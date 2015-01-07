@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>dDeflect: Dokumentacja struktury Elf64_Dyn</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">dDeflect
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.1.2 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="namespaces.html"><span>Przestrzenie&#160;nazw</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Klasy</span></a></li>
+      <li><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Lista&#160;klas</span></a></li>
+      <li><a href="classes.html"><span>Indeks&#160;klas</span></a></li>
+      <li><a href="inherits.html"><span>Hierarchia&#160;klas</span></a></li>
+      <li><a href="functions.html"><span>Składowe&#160;klas</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('struct_elf64___dyn.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Przestrzenie nazw</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pliki</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Zmienne</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Definicje typów</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Wyliczenia</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Wartości wyliczeń</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Właściwości</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Przyjaciele</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Definicje</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Atrybuty publiczne</a> &#124;
+<a href="struct_elf64___dyn-members.html">Lista wszystkich składowych</a>  </div>
+  <div class="headertitle">
+<div class="title">Dokumentacja struktury Elf64_Dyn</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="elf_8h_source.html">elf.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="pub-attribs"></a>
+Atrybuty publiczne</h2></td></tr>
+<tr class="memitem:a74a63e5acb7d8ddc946a5b0c5eb3c26a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="elf_8h.html#a5b450442210b3d21567662fb96ac9a02">Elf64_Sxword</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_elf64___dyn.html#a74a63e5acb7d8ddc946a5b0c5eb3c26a">d_tag</a></td></tr>
+<tr class="memitem:acc39d52f3a8efd552afa2e3369c03215"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:acaa9fa0e111c9b8b4c6653515f75d5a5"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="elf_8h.html#a5447a48a3dae0bd24f606415268c6fe4">Elf64_Xword</a>&#160;&#160;&#160;<a class="el" href="struct_elf64___dyn.html#ab1741378fc34cbcc8caf3f7bb5e6de18">d_val</a></td></tr>
+<tr class="memitem:a519341fb53e7989a5f70195c7c23cfa4"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a>&#160;&#160;&#160;<a class="el" href="struct_elf64___dyn.html#a4820e579b624438f02827e7b44fbd0f7">d_ptr</a></td></tr>
+<tr class="memitem:acc39d52f3a8efd552afa2e3369c03215"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_elf64___dyn.html#acc39d52f3a8efd552afa2e3369c03215">d_un</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2>Opis szczegółowy</h2>
+<div class="textblock">
+<p>Definicja w linii <a class="el" href="elf_8h_source.html#l00618">618</a> pliku <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+</div><h2>Dokumentacja atrybutów składowych</h2>
+<a class="anchor" id="a4820e579b624438f02827e7b44fbd0f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elf_8h.html#aeed51d08e3a950d637f8ec1f0cd4ef65">Elf64_Addr</a> Elf64_Dyn::d_ptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elf_8h_source.html#l00624">624</a> pliku <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a74a63e5acb7d8ddc946a5b0c5eb3c26a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elf_8h.html#a5b450442210b3d21567662fb96ac9a02">Elf64_Sxword</a> Elf64_Dyn::d_tag</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elf_8h_source.html#l00620">620</a> pliku <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acc39d52f3a8efd552afa2e3369c03215"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union { ... }   Elf64_Dyn::d_un</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab1741378fc34cbcc8caf3f7bb5e6de18"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="elf_8h.html#a5447a48a3dae0bd24f606415268c6fe4">Elf64_Xword</a> Elf64_Dyn::d_val</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definicja w linii <a class="el" href="elf_8h_source.html#l00623">623</a> pliku <a class="el" href="elf_8h_source.html">elf.h</a>.</p>
+
+</div>
+</div>
+<hr/>Dokumentacja dla tej struktury została wygenerowana z pliku:<ul>
+<li>core/sys_headers/<a class="el" href="elf_8h_source.html">elf.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="struct_elf64___dyn.html">Elf64_Dyn</a></li>
+    <li class="footer">Wygenerowano Śr, 7 sty 2015 04:01:48 dla dDeflect programem
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
+  </ul>
+</div>
+</body>
+</html>

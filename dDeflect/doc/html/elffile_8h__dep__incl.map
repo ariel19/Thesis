@@ -1,0 +1,16 @@
+<map id="core/file_types/elffile.h" name="core/file_types/elffile.h">
+<area shape="rect" id="node3" href="$daddingmethods_8h.html" title="core/adding_methods\l/wrappers/daddingmethods.h" alt="" coords="683,83,872,130"/>
+<area shape="rect" id="node39" href="$elffile_8cpp.html" title="core/file_types/elffile.cpp" alt="" coords="896,92,1061,121"/>
+<area shape="rect" id="node5" href="$peaddingmethods_8h.html" title="core/adding_methods\l/wrappers/peaddingmethods.h" alt="" coords="343,179,537,226"/>
+<area shape="rect" id="node23" href="$elfaddingmethods_8h.html" title="core/adding_methods\l/wrappers/elfaddingmethods.h" alt="" coords="613,179,808,226"/>
+<area shape="rect" id="node30" href="$dsourcecodeparser_8h.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.h" alt="" coords="943,275,1212,322"/>
+<area shape="rect" id="node37" href="$daddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/daddingmethods.cpp" alt="" coords="883,179,1085,226"/>
+<area shape="rect" id="node7" href="$applicationmanager_8h.html" title="ApplicationManager\l/applicationmanager.h" alt="" coords="613,371,763,418"/>
+<area shape="rect" id="node11" href="$main_8cpp.html" title="main/main.cpp" alt="" coords="523,476,629,505"/>
+<area shape="rect" id="node13" href="$djsonparser_8h.html" title="ApplicationManager\l/DJsonParser/djsonparser.h" alt="" coords="348,275,532,322"/>
+<area shape="rect" id="node20" href="$peaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/peaddingmethods.cpp" alt="" coords="5,275,216,322"/>
+<area shape="rect" id="node9" href="$applicationmanager_8cpp.html" title="ApplicationManager\l/applicationmanager.cpp" alt="" coords="865,467,1028,514"/>
+<area shape="rect" id="node17" href="$djsonparser_8cpp.html" title="ApplicationManager\l/DJsonParser/djsonparser.cpp" alt="" coords="341,371,539,418"/>
+<area shape="rect" id="node27" href="$elfaddingmethods_8cpp.html" title="core/adding_methods\l/wrappers/elfaddingmethods.cpp" alt="" coords="657,275,868,322"/>
+<area shape="rect" id="node34" href="$dsourcecodeparser_8cpp.html" title="ApplicationManager\l/DSourceCodeParser/dsourcecodeparser.cpp" alt="" coords="837,371,1123,418"/>
+</map>
