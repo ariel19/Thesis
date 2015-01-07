@@ -23,7 +23,7 @@ void PEAddingMethods::setCodeCoverage(uint8_t new_coverage)
 
 
 template <typename Register>
-bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs)
+bool PEAddingMethods::secure(QList<InjectDescription<Register> *> descs)
 {
     QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
@@ -90,8 +90,8 @@ bool PEAddingMethods::injectCode(QList<InjectDescription<Register> *> descs)
 
     return pe->addRelocations(relocations);
 }
-template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x86> *> descs);
-template bool PEAddingMethods::injectCode(QList<InjectDescription<Registers_x64> *> descs);
+template bool PEAddingMethods::secure(QList<InjectDescription<Registers_x86> *> descs);
+template bool PEAddingMethods::secure(QList<InjectDescription<Registers_x64> *> descs);
 
 
 template <typename Register>

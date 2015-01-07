@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 
     PEAddingMethods adder(&pe);
     adder.setCodeCoverage(10);
-    if(adder.injectCode(ids))
+    if(adder.secure(ids))
         puts("Success!");
     else
         puts("Failed!");
