@@ -19,7 +19,7 @@ public:
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
     template <typename RegistersType>
-    bool secure_elf(const InjectDescription<RegistersType> &inject_desc);
+    bool secure(const QList<InjectDescription<RegistersType>*> &inject_desc);
 
 private:
     enum class PlaceholderMnemonics {
@@ -145,7 +145,7 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
 // TODO: add detect method return value to wrapper used_regs, and push it on stack
 // ===============================================================================
 template <typename RegistersType>
-bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject_desc) {
+bool ELFAddingMethods::secure(const QList<InjectDescription<RegistersType> *> &inject_desc) {
     QString code2compile,
             code_ddetect_handler,
             code_ddetect;
@@ -165,37 +165,42 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
         code2compile.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS64]));
     else return false;
 
+    if(inject_desc.empty())
+        return false;
+
+    InjectDescription<RegistersType> *i_desc = inject_desc[0];
+
     // add to params
-    if (!inject_desc.adding_method || !inject_desc.adding_method->detect_handler)
+    if (!i_desc->adding_method || !i_desc->adding_method->detect_handler)
         return false;
 
     // adding a param value for (?^_^ddret^_^?)
-    inject_desc.adding_method->static_params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf->is_x86() ?
-                AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(inject_desc.adding_method->ret)) :
-                AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(inject_desc.adding_method->ret));
+    i_desc->adding_method->static_params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf->is_x86() ?
+                AsmCodeGenerator::get_reg<Registers_x86>(static_cast<Registers_x86>(i_desc->adding_method->ret)) :
+                AsmCodeGenerator::get_reg<Registers_x64>(static_cast<Registers_x64>(i_desc->adding_method->ret));
 
     // make a wrapper save register that is used for debugger detection function to return value
-    if (!inject_desc.adding_method->used_regs.contains(inject_desc.adding_method->ret))
-        inject_desc.adding_method->used_regs.push_back(inject_desc.adding_method->ret);
+    if (!i_desc->adding_method->used_regs.contains(i_desc->adding_method->ret))
+        i_desc->adding_method->used_regs.push_back(i_desc->adding_method->ret);
 
     if (elf->is_x86())
-        inject_desc.adding_method->ret = static_cast<RegistersType>(Registers_x86::None);
+        i_desc->adding_method->ret = static_cast<RegistersType>(Registers_x86::None);
     else
-        inject_desc.adding_method->ret = static_cast<RegistersType>(Registers_x64::None);
+        i_desc->adding_method->ret = static_cast<RegistersType>(Registers_x64::None);
 
     // 0. take code from input
-    if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method, code2compile))
+    if (!wrapper_gen_code<RegistersType>(i_desc->adding_method, code2compile))
         return false;
 
     // 1. generate code for handler
-    if (!wrapper_gen_code<RegistersType>(inject_desc.adding_method->detect_handler, code_ddetect_handler))
+    if (!wrapper_gen_code<RegistersType>(i_desc->adding_method->detect_handler, code_ddetect_handler))
         return false;
 
     // 2. generate code for debugger detection method
-    switch (inject_desc.cm) {
+    switch (i_desc->cm) {
     case CallingMethod::OEP: {
         OEPWrapper<RegistersType> *oepwrapper =
-                dynamic_cast<OEPWrapper<RegistersType>*>(inject_desc.adding_method);
+                dynamic_cast<OEPWrapper<RegistersType>*>(i_desc->adding_method);
         if (!oepwrapper)
             return false;
         if (!wrapper_gen_code<RegistersType>(oepwrapper->oep_action, code_ddetect))
@@ -204,7 +209,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
     }
     case CallingMethod::Thread: {
         ThreadWrapper<RegistersType> *twrapper =
-                dynamic_cast<ThreadWrapper<RegistersType>*>(inject_desc.adding_method);
+                dynamic_cast<ThreadWrapper<RegistersType>*>(i_desc->adding_method);
         if (!twrapper)
             return false;
         if (!wrapper_gen_code<RegistersType>(twrapper->thread_actions[0], code_ddetect))
@@ -216,7 +221,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
     case CallingMethod::CTORS :
     case CallingMethod::INIT: {
         TrampolineWrapper<RegistersType> *trmwrapper =
-                dynamic_cast<TrampolineWrapper<RegistersType>*>(inject_desc.adding_method);
+                dynamic_cast<TrampolineWrapper<RegistersType>*>(i_desc->adding_method);
         if (!trmwrapper)
             return false;
         if (!wrapper_gen_code<RegistersType>(trmwrapper->tramp_action, code_ddetect))
@@ -240,7 +245,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
         return false;
 
     // add jump to old original entry point
-    switch(inject_desc.cm) {
+    switch(i_desc->cm) {
     case CallingMethod::Thread:
     case CallingMethod::OEP:
         if (elf->is_x86()) {
@@ -272,10 +277,10 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
 
     Elf64_Addr nva;
 
-    switch(inject_desc.cm) {
+    switch(i_desc->cm) {
     case CallingMethod::Thread:
     case CallingMethod::OEP: {
-        if (!elf->extend_segment(compiled_code, inject_desc.change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
             return false;
 
         if (!elf->set_entry_point(nva))
@@ -312,7 +317,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        if (!elf->extend_segment(compiled_code, inject_desc.change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
             return false;
 
         // set section content, set filler for elf function
@@ -411,7 +416,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        if (!elf->extend_segment(compiled_code, inject_desc.change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
             return false;
 
         // change section content
@@ -466,7 +471,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        if (!elf->extend_segment(compiled_code, inject_desc.change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
             return false;
 
         // set section content, set filler for elf function
@@ -569,7 +574,7 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
         }
 
         Elf64_Addr nva;
-        if (!elf->extend_segment(full_compiled_code, inject_desc.change_x_only, nva))
+        if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva))
             return false;
 
         // TODO: check if divisible without extras
@@ -591,8 +596,8 @@ bool ELFAddingMethods::secure_elf(const InjectDescription<RegistersType> &inject
         return false;
     }
 
-    qDebug() << "saving to file: " << inject_desc.saved_fname;
-    elf->write_to_file(inject_desc.saved_fname);
+    qDebug() << "saving to file: " << i_desc->saved_fname;
+    elf->write_to_file(i_desc->saved_fname);
 
     return true;
 }

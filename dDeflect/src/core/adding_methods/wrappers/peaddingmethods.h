@@ -161,7 +161,7 @@ public:
      * @return True w przypadku sukcesu
      */
     template <typename Register>
-    bool secure(QList<InjectDescription<Register>*> descs);
+    bool secure(const QList<InjectDescription<Register>*> &descs);
 
     /**
      * @brief Ustawia nowe procentowe pokrycie kodu

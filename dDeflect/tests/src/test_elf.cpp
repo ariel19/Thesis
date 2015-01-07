@@ -71,7 +71,7 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_tram_sig");
 
-        if (!dam.secure_elf<Registers_x86>(inject_desc))
+        if (!dam.secure<Registers_x86>({&inject_desc}))
             return false;
     }
     else {
@@ -127,7 +127,7 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_tram_sig");
 
-        if (!dam.secure_elf<Registers_x64>(inject_desc))
+        if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
     // rename file on hard drive
@@ -200,7 +200,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_sig_cc");
 
-        if (!dam.secure_elf<Registers_x86>(inject_desc))
+        if (!dam.secure<Registers_x86>({&inject_desc}))
             return false;
     }
     else {
@@ -257,7 +257,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_sig_cc");
 
-        if (!dam.secure_elf<Registers_x64>(inject_desc))
+        if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
     // rename file on hard drive
@@ -324,7 +324,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &twrapper;
         inject_desc.saved_fname = elf_fname + QString("_thread_sig");
 
-        if (!dam.secure_elf<Registers_x86>(inject_desc))
+        if (!dam.secure<Registers_x86>({&inject_desc}))
             return false;
     }
     else {
@@ -373,7 +373,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &twrapper;
         inject_desc.saved_fname = elf_fname + QString("_thread_sig");
 
-        if (!dam.secure_elf<Registers_x64>(inject_desc))
+        if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
     return true;
@@ -442,7 +442,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.adding_method = &trmwrapper;
         inject_desc.saved_fname = elf_fname + QString("_init_ptrace");
 
-        if (!dam.secure_elf<Registers_x86>(inject_desc))
+        if (!dam.secure<Registers_x86>({&inject_desc}))
             return false;
     }
     else {
@@ -496,7 +496,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         inject_desc.saved_fname = elf_fname + QString("_init_ptrace");
 
 
-        if (!dam.secure_elf<Registers_x64>(inject_desc))
+        if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
     return true;
@@ -565,7 +565,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<Registers_x86>(inject_desc))
+        if (!dam.secure<Registers_x86>({&inject_desc}))
             return false;
     }
     else {
@@ -617,7 +617,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<Registers_x64>(inject_desc))
+        if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
     // rename file on hard drive
@@ -682,7 +682,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<Registers_x86>(inject_desc))
+        if (!dam.secure<Registers_x86>({&inject_desc}))
             return false;
     }
     else {
@@ -725,7 +725,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         code.close();
         inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
-        if (!dam.secure_elf<Registers_x64>(inject_desc))
+        if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
     // rename file on hard drive
@@ -1251,7 +1251,7 @@ void test_thread_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, c
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("thread_%1_%2_%3").arg(b, m, h);
 
-                if (!dam.secure_elf<Registers_x86>(inject_desc))
+                if (!dam.secure<Registers_x86>({&inject_desc}))
                     return;
 
                 system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
@@ -1356,7 +1356,7 @@ void test_thread_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, c
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("thread_%1_%2_%3").arg(b, m, h);
 
-                if (!dam.secure_elf<Registers_x64>(inject_desc))
+                if (!dam.secure<Registers_x64>({&inject_desc}))
                     return;
 
                 system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
@@ -1500,7 +1500,7 @@ void test_init_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, con
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("init_%1_%2_%3").arg(b, m, h);
 
-                if (!dam.secure_elf<Registers_x86>(inject_desc))
+                if (!dam.secure<Registers_x86>({&inject_desc}))
                     return;
 
                 system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
@@ -1603,7 +1603,7 @@ void test_init_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, con
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("init_%1_%2_%3").arg(b, m, h);
 
-                if (!dam.secure_elf<Registers_x64>(inject_desc))
+                if (!dam.secure<Registers_x64>({&inject_desc}))
                     return;
 
                 system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
@@ -1846,7 +1846,7 @@ void test_trampoline_wrapper_x86(const QString &bin_fld, const QString &dmeth_fl
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("trampoline_%1_%2_%3").arg(b, m, h);
 
-                if (!dam.secure_elf<Registers_x86>(inject_desc))
+                if (!dam.secure<Registers_x86>({&inject_desc}))
                     return;
 
                 system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
@@ -1948,7 +1948,7 @@ void test_trampoline_wrapper_x64(const QString &bin_fld, const QString &dmeth_fl
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("trampoline_%1_%2_%3").arg(b, m, h);
 
-                if (!dam.secure_elf<Registers_x64>(inject_desc))
+                if (!dam.secure<Registers_x64>({&inject_desc}))
                     return;
 
                 system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
