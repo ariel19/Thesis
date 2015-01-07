@@ -21,19 +21,21 @@ template <typename Register>
 DAddingMethods::Wrapper<Register> *DJsonParser::loadInjectDescription(QString name)
 {
     // TODO: tworzenie Wrapper/OEPWrapper/ThreadWrapper itp
-    QFile loadFile(m_path+name);
-    DAddingMethods::Wrapper<Register> * p =
-            new DAddingMethods::Wrapper<Register>();
+    QFile loadFile(m_path + name);
+
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open save file.");
-        return NULL;
+        return nullptr;
     }
 
     QByteArray saveData = loadFile.readAll();
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject obj = loadDoc.object();
 
-    p->read(loadDoc.object());
+    DAddingMethods::Wrapper<Register> *p = obj["type"].toString() == "Thread" ?
+                new DAddingMethods::ThreadWrapper<Register>() : new DAddingMethods::Wrapper<Register>();
+    p->read(obj);
 
     return p;
 }

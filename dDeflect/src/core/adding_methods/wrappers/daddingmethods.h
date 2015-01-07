@@ -87,7 +87,7 @@ public:
          * @brief read this zostaje wczytany z pliku json
          * @param json objekt json'a z którego czytamy
          */
-        bool read(const QJsonObject & json){
+        virtual bool read(const QJsonObject & json){
 
             // name
             name = json["name"].toString();
@@ -228,6 +228,11 @@ public:
     public:
         QList<Wrapper<RegistersType>*> thread_actions;
         uint16_t sleep_time;
+
+        virtual bool read(const QJsonObject & json) override {
+            sleep_time = 5;
+            return Wrapper<RegistersType>::read(json);
+        }
     };
 
     /**
