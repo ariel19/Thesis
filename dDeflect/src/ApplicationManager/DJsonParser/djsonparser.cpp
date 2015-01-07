@@ -34,8 +34,17 @@ DAddingMethods::Wrapper<Register> *DJsonParser::loadInjectDescription(QString na
     QJsonObject obj = loadDoc.object();
 
     DAddingMethods::Wrapper<Register> *p = obj["type"].toString() == "Thread" ?
-                new DAddingMethods::ThreadWrapper<Register>() : new DAddingMethods::Wrapper<Register>();
-    p->read(obj);
+                new (std::nothrow) DAddingMethods::ThreadWrapper<Register>() :
+                new (std::nothrow) DAddingMethods::Wrapper<Register>();
+
+    if(!p)
+        return nullptr;
+
+    if(!p->read(obj))
+    {
+        delete p;
+        p = nullptr;
+    }
 
     return p;
 }
