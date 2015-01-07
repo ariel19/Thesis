@@ -133,10 +133,13 @@ public:
             // static_params
             if(system_type == SystemType::Linux)
             {
-                QMap<QString, QVariant> tempMap = json["parameters"].toObject().toVariantMap();
+                QJsonArray temp = json["parameters"].toArray();
 
-                foreach(QString key, tempMap.keys()) {
-                    static_params.insert(key, tempMap.value(key).toString());
+                foreach(auto key, temp) {
+                    if(key.toObject().keys().length() != 1)
+                        return false;
+                    QString k = key.toObject().keys()[0];
+                    static_params.insert(k, key.toObject()[k].toString());
                 }
             }
 
