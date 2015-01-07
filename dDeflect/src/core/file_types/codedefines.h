@@ -21,7 +21,8 @@ enum class Registers_x86 {
     EDI,
     EBP,
     ESP,
-    None
+    None,
+    All
 };
 
 /**
@@ -44,7 +45,8 @@ enum class Registers_x64 {
     R13,
     R14,
     R15,
-    None
+    None,
+    All
 };
 
 

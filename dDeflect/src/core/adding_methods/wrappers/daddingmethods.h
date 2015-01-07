@@ -308,6 +308,12 @@ public:
     static QString pop_regs(const QList<RegistersType> &regs);
 
     template <typename RegistersType>
+    static QString save_flags();
+
+    template <typename RegistersType>
+    static QString restore_flags();
+
+    template <typename RegistersType>
     static QString mov_reg_const(const RegistersType reg, Elf64_Addr value);
 
     template <typename RegistersType>
@@ -326,48 +332,99 @@ public:
 
 template <typename RegistersType>
 QString AsmCodeGenerator::push_regs(const RegistersType reg) {
-    return std::is_same<RegistersType, Registers_x86>::value ?
-                QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x86[reg]) :
-        std::is_same<RegistersType, Registers_x64>::value ?
-                    QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x64[reg]) :
-            QString();
+    if (std::is_same<RegistersType, Registers_x86>::value) {
+        if (static_cast<Registers_x86>(reg) == Registers_x86::None)
+            return QString();
+        if (static_cast<Registers_x86>(reg) == Registers_x86::All)
+            return QString("pushad\n");
+        return QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x86[static_cast<Registers_x86>(reg)]);
     }
+    else if (std::is_same<RegistersType, Registers_x64>::value) {
+        if (static_cast<Registers_x64>(reg) == Registers_x64::None)
+            return QString();
+        if (static_cast<Registers_x64>(reg) == Registers_x64::All) {
+            QString gen_code;
+            QList<Registers_x64> regs;
+            foreach (Registers_x64 r, regs)
+                regs.append(r);
 
-    template <typename RegistersType>
-    QString AsmCodeGenerator::push_regs(const QList<RegistersType> &regs) {
+            regs.removeAll(Registers_x64::None);
+            regs.removeAll(Registers_x64::All);
+
+            foreach (Registers_x64 r, regs)
+                gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x64[r]));
+
+            return gen_code;
+        }
+
+        return QString("%1 %2\n").arg(instructions[Instructions::PUSH], regs_x64[static_cast<Registers_x64>(reg)]);
+    }
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::push_regs(const QList<RegistersType> &regs) {
     QString gen_code;
-    if (std::is_same<RegistersType, Registers_x86>::value)
-        foreach (RegistersType reg, regs)
-            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
-                            regs_x86[static_cast<Registers_x86>(reg)]));
-    else if (std::is_same<RegistersType, Registers_x64>::value)
-        foreach (RegistersType reg, regs)
-            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::PUSH],
-                            regs_x64[static_cast<Registers_x64>(reg)]));
+    foreach (RegistersType r, regs)
+        gen_code.append(AsmCodeGenerator::push_regs<RegistersType>(r));
+
     return gen_code;
 }
 
 template <typename RegistersType>
 QString AsmCodeGenerator::pop_regs(const RegistersType reg) {
-    return std::is_same<RegistersType, Registers_x86>::value ?
-                QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x86[reg]) :
-        std::is_same<RegistersType, Registers_x64>::value ?
-                    QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x64[reg]) :
-            QString();
-    }
 
-    template <typename RegistersType>
-    QString AsmCodeGenerator::pop_regs(const QList<RegistersType> &regs) {
+    if (std::is_same<RegistersType, Registers_x86>::value) {
+        if (static_cast<Registers_x86>(reg) == Registers_x86::None)
+            return QString();
+        if (static_cast<Registers_x86>(reg) == Registers_x86::All)
+            return QString("popad\n");
+        return QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x86[static_cast<Registers_x86>(reg)]);
+    }
+    else if (std::is_same<RegistersType, Registers_x64>::value) {
+        if (static_cast<Registers_x64>(reg) == Registers_x64::None)
+            return QString();
+        if (static_cast<Registers_x64>(reg) == Registers_x64::All) {
+            QString gen_code;
+            QList<Registers_x64> regs;
+            foreach (Registers_x64 r, regs)
+                regs.append(r);
+
+            regs.removeAll(Registers_x64::None);
+            regs.removeAll(Registers_x64::All);
+
+            foreach (Registers_x64 r, regs)
+                gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x64[r]));
+
+            return gen_code;
+        }
+
+        return QString("%1 %2\n").arg(instructions[Instructions::POP], regs_x64[static_cast<Registers_x64>(reg)]);
+    }
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::pop_regs(const QList<RegistersType> &regs) {
     QString gen_code;
-    if (std::is_same<RegistersType, Registers_x86>::value)
-        foreach (RegistersType reg, regs)
-            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
-                            regs_x86[static_cast<Registers_x86>(reg)]));
-    else if (std::is_same<RegistersType, Registers_x64>::value)
-        foreach (RegistersType reg, regs)
-            gen_code.append(QString("%1 %2\n").arg(instructions[Instructions::POP],
-                            regs_x64[static_cast<Registers_x64>(reg)]));
+    foreach (RegistersType r, regs)
+        gen_code.append(AsmCodeGenerator::pop_regs<RegistersType>(r));
+
     return gen_code;
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::save_flags() {
+    return std::is_same<RegistersType, Registers_x86>::value ?
+                QString("pushf\n") :
+                std::is_same<RegistersType, Registers_x64>::value ?
+                QString("pushfq\n") : QString();
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::restore_flags() {
+    return std::is_same<RegistersType, Registers_x86>::value ?
+                QString("popf\n") :
+                std::is_same<RegistersType, Registers_x64>::value ?
+                QString("popfq\n") : QString();
 }
 
 template <typename RegistersType>

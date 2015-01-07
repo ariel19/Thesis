@@ -6,8 +6,7 @@
 
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
-class ELFAddingMethods : public DAddingMethods
-{
+class ELFAddingMethods : public DAddingMethods {
 public:
     ELFAddingMethods(ELF *f);
     ~ELFAddingMethods();
@@ -120,9 +119,17 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
     if (!wrap)
         return false;
 
+    // add internal registers to one's we have to save
+    foreach (RegistersType reg, CodeDefines<RegistersType>::internalRegs)
+        if (!wrap->used_regs.contains(reg))
+            wrap->used_regs.push_back(reg);
+
     // check if ret is in used registers (if it is remove)
     if (wrap->used_regs.indexOf(wrap->ret) != -1)
         wrap->used_regs.removeAll(wrap->ret);
+
+    // save flag register
+    code.append(AsmCodeGenerator::save_flags<RegistersType>());
 
     // generate push registers
     code.append(AsmCodeGenerator::push_regs<RegistersType>(wrap->used_regs));
@@ -136,7 +143,11 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
     rused_args.reserve(wrap->used_regs.size());
     std::reverse_copy(wrap->used_regs.begin(), wrap->used_regs.end(), std::back_inserter(rused_args));
 
+    // restore registers
     code.append(AsmCodeGenerator::pop_regs<RegistersType>(rused_args));
+
+    // restore flag register
+    code.append(AsmCodeGenerator::restore_flags<RegistersType>());
 
     return true;
 }
