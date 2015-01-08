@@ -11,6 +11,7 @@
 
 #include <core/file_types/elffile.h>
 #include <core/file_types/codedefines.h>
+#include <ApplicationManager/dsettings.h>
 
 #define mnemonic_stringify(mnemonic) \
     QString((std::string(#mnemonic).substr(std::string(#mnemonic).find_last_of(':') != std::string::npos ? \
