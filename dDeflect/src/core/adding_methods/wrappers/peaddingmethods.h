@@ -12,12 +12,12 @@
 /**
  * @brief Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików PE
  */
+template <typename Register>
 class PEAddingMethods : public DAddingMethods
 {
 private:
 
-    static const QString windowsApiLoadingFunction_x86;
-    static const QString windowsApiLoadingFunction_x64;
+    static const QString windowsApiLoadingFunction;
 
     /**
      * @brief Mapa z adresami wklejanych danych/kawałków kodu/napisów.
@@ -58,7 +58,7 @@ private:
      * @param threadCodePtr Adres wklejonego kodu stworzenia wątku
      * @return True w przypadku sukcesu
      */
-    template <typename Register, typename T>
+    template <typename T>
     bool generateParametersLoadingCode(BinaryCode<Register> &code, T getFunctionsCodeAddr,
                                        QMap<Register, QString> params, T threadCodePtr);
 
@@ -70,7 +70,6 @@ private:
      * @param act Rejestr w którym znajdować będzie się adres akcji
      * @return True w przypadku powodzenia
      */
-    template <typename Register>
     bool generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
 
     /**
@@ -78,7 +77,6 @@ private:
      * @param epMethods Wybrane metody zabezpieczania
      * @return True w przypadku sukcesu
      */
-    template <typename Register>
     bool injectEpCode(QList<uint64_t> &epMethods);
 
     /**
@@ -86,7 +84,6 @@ private:
      * @param tlsMethods Wybrane metody zabezpieczania
      * @return True w przypadku sukcesu
      */
-    template <typename Register>
     bool injectTlsCode(QList<uint64_t> &tlsMethods);
 
     /**
@@ -94,7 +91,6 @@ private:
      * @param tramMethods Wybrane metody zabezpieczania
      * @return True w przypadku sukcesu
      */
-    template <typename Register>
     bool injectTrampolineCode(QList<uint64_t> &tramMethods);
 
     /**
@@ -103,7 +99,6 @@ private:
      * @param sleepTime Czas snu wątku
      * @return True w przypadku sukcesu
      */
-    template <typename Register>
     uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, uint16_t sleepTime);
 
     /**
@@ -112,7 +107,6 @@ private:
      * @param isTlsCallback Informacja czy metoda jest callbackiem TLS
      * @return True w przypadku sukcesu
      */
-    template <typename Register>
     uint64_t generateCode(Wrapper<Register> *w, bool isTlsCallback = false);
 
     /**
@@ -129,15 +123,13 @@ private:
      * @param wrapperAddr Adres metody do wywołania
      * @return Wygenerowany kod
      */
-    template <typename Register>
     BinaryCode<Register> generateTrampolineCode(uint64_t realAddr, uint64_t wrapperAddr);
 
     /**
      * @brief Metoda losująca rejestr
      * @return Losowy rejestr
      */
-    template <typename Register>
-    uint8_t getRandomRegister();
+    Register getRandomRegister();
 
     /**
      * @brief Kompiluje kod assemblerowy
@@ -160,7 +152,6 @@ public:
      * @param descs Lista wybranych metod
      * @return True w przypadku sukcesu
      */
-    template <typename Register>
     bool secure(const QList<InjectDescription<Register>*> &descs);
 
     /**

@@ -19,7 +19,7 @@
     "EntryPoint"
   ],
   "architecture": "win_x86",
-  "type": "Thread",
+  "type": "ThreadWrapper",
   "path": "helper_func/win/x86/create_thread.asm",
   "description": "TODO"
 }

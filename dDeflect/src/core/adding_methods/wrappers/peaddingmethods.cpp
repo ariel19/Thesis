@@ -1,29 +1,40 @@
 #include "peaddingmethods.h"
 
-const QString PEAddingMethods::windowsApiLoadingFunction_x86 = "win_x86_helper_load_functions.json";
-const QString PEAddingMethods::windowsApiLoadingFunction_x64 = "win_x64_helper_load_functions.json";
+template <>
+const QString PEAddingMethods<Registers_x86>::windowsApiLoadingFunction = "win_x86_helper_load_functions.json";
 
-PEAddingMethods::PEAddingMethods(PEFile *f) :
+template <>
+const QString PEAddingMethods<Registers_x64>::windowsApiLoadingFunction = "win_x64_helper_load_functions.json";
+
+template <typename Register>
+PEAddingMethods<Register>::PEAddingMethods(PEFile *f) :
     DAddingMethods(f),
     codeCoverage(5),
     gen(std::chrono::system_clock::now().time_since_epoch().count())
 {
 
 }
+template PEAddingMethods<Registers_x86>::PEAddingMethods(PEFile *f);
+template PEAddingMethods<Registers_x64>::PEAddingMethods(PEFile *f);
 
-PEAddingMethods::~PEAddingMethods()
+template <typename Register>
+PEAddingMethods<Register>::~PEAddingMethods()
 {
 
 }
+template PEAddingMethods<Registers_x86>::~PEAddingMethods();
+template PEAddingMethods<Registers_x64>::~PEAddingMethods();
 
-void PEAddingMethods::setCodeCoverage(uint8_t new_coverage)
+template <typename Register>
+void PEAddingMethods<Register>::setCodeCoverage(uint8_t new_coverage)
 {
     codeCoverage = new_coverage > 100 ? 100 : new_coverage;
 }
-
+template void PEAddingMethods<Registers_x86>::setCodeCoverage(uint8_t new_coverage);
+template void PEAddingMethods<Registers_x64>::setCodeCoverage(uint8_t new_coverage);
 
 template <typename Register>
-bool PEAddingMethods::secure(const QList<InjectDescription<Register> *> &descs)
+bool PEAddingMethods<Register>::secure(const QList<InjectDescription<Register> *> &descs)
 {
     QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
@@ -48,19 +59,19 @@ bool PEAddingMethods::secure(const QList<InjectDescription<Register> *> &descs)
         switch(desc->cm)
         {
         case CallingMethod::OEP:
-            epMethods.append(generateCode<Register>(desc->adding_method));
+            epMethods.append(generateCode(desc->adding_method));
             if(epMethods.last() == 0)
                 return false;
             break;
 
         case CallingMethod::TLS:
-            tlsMethods.append(generateCode<Register>(desc->adding_method, true));
+            tlsMethods.append(generateCode(desc->adding_method, true));
             if(tlsMethods.last() == 0)
                 return false;
             break;
 
         case CallingMethod::Trampoline:
-            tramMethods.append(generateCode<Register>(desc->adding_method));
+            tramMethods.append(generateCode(desc->adding_method));
             if(tramMethods.last() == 0)
                 return false;
             break;
@@ -72,30 +83,30 @@ bool PEAddingMethods::secure(const QList<InjectDescription<Register> *> &descs)
 
     if(!tramMethods.empty())
     {
-        if(!injectTrampolineCode<Register>(tramMethods))
+        if(!injectTrampolineCode(tramMethods))
             return false;
     }
 
     if(!epMethods.empty())
     {
-        if(!injectEpCode<Register>(epMethods))
+        if(!injectEpCode(epMethods))
             return false;
     }
 
     if(!tlsMethods.empty())
     {
-        if(!injectTlsCode<Register>(tlsMethods))
+        if(!injectTlsCode(tlsMethods))
             return false;
     }
 
     return pe->addRelocations(relocations);
 }
-template bool PEAddingMethods::secure(const QList<InjectDescription<Registers_x86> *> &descs);
-template bool PEAddingMethods::secure(const QList<InjectDescription<Registers_x64> *> &descs);
+template bool PEAddingMethods<Registers_x86>::secure(const QList<InjectDescription<Registers_x86> *> &descs);
+template bool PEAddingMethods<Registers_x64>::secure(const QList<InjectDescription<Registers_x64> *> &descs);
 
 
 template <typename Register>
-uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
+uint64_t PEAddingMethods<Register>::generateCode(Wrapper<Register> *w, bool isTlsCallback)
 {
     PEFile *pe = dynamic_cast<PEFile*>(file);
     if(!pe)
@@ -154,8 +165,7 @@ uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
     {
         // TODO
         DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
-        QString apiLoaderName = pe->is_x64() ? windowsApiLoadingFunction_x64 : windowsApiLoadingFunction_x86;
-        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(apiLoaderName);
+        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
             return 0;
 
@@ -165,7 +175,7 @@ uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
         if(!get_functions)
             return 0;
 
-        if(!generateParametersLoadingCode<Register>(code, get_functions, w->dynamic_params, thread))
+        if(!generateParametersLoadingCode(code, get_functions, w->dynamic_params, thread))
             return 0;
     }
 
@@ -184,7 +194,7 @@ uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
         Register act = act_idx == -1 ? CodeDefines<Register>::internalRegs[0] :
                 CodeDefines<Register>::internalRegs[(act_idx + 1) % CodeDefines<Register>::internalRegs.length()];
 
-        generateActionConditionCode<Register>(code, action, cond, act);
+        generateActionConditionCode(code, action, cond, act);
     }
 
     // Wyrównanie do 16 w przypadku x64
@@ -209,7 +219,7 @@ uint64_t PEAddingMethods::generateCode(Wrapper<Register> *w, bool isTlsCallback)
 }
 
 template <>
-bool PEAddingMethods::injectEpCode<Registers_x86>(QList<uint64_t> &epMethods)
+bool PEAddingMethods<Registers_x86>::injectEpCode(QList<uint64_t> &epMethods)
 {
     typedef Registers_x86 Register;
 
@@ -244,7 +254,7 @@ bool PEAddingMethods::injectEpCode<Registers_x86>(QList<uint64_t> &epMethods)
 }
 
 template <>
-bool PEAddingMethods::injectEpCode<Registers_x64>(QList<uint64_t> &epMethods)
+bool PEAddingMethods<Registers_x64>::injectEpCode(QList<uint64_t> &epMethods)
 {
     typedef Registers_x64 Register;
 
@@ -285,7 +295,7 @@ bool PEAddingMethods::injectEpCode<Registers_x64>(QList<uint64_t> &epMethods)
 }
 
 template <typename Register>
-bool PEAddingMethods::injectTlsCode(QList<uint64_t> &tlsMethods)
+bool PEAddingMethods<Register>::injectTlsCode(QList<uint64_t> &tlsMethods)
 {
     PEFile *pe = dynamic_cast<PEFile*>(file);
     if(!pe)
@@ -351,12 +361,12 @@ bool PEAddingMethods::injectTlsCode(QList<uint64_t> &tlsMethods)
 
     return true;
 }
-template bool PEAddingMethods::injectTlsCode<Registers_x86>(QList<uint64_t> &tlsMethods);
-template bool PEAddingMethods::injectTlsCode<Registers_x64>(QList<uint64_t> &tlsMethods);
+template bool PEAddingMethods<Registers_x86>::injectTlsCode(QList<uint64_t> &tlsMethods);
+template bool PEAddingMethods<Registers_x64>::injectTlsCode(QList<uint64_t> &tlsMethods);
 
 
 template <typename Register>
-bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods)
+bool PEAddingMethods<Register>::injectTrampolineCode(QList<uint64_t> &tramMethods)
 {
     PEFile *pe = dynamic_cast<PEFile*>(file);
     if(!pe)
@@ -400,7 +410,7 @@ bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods)
         if(prob(gen) >= codeCoverage)
             continue;
 
-        BinaryCode<Register> code = generateTrampolineCode<Register>(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
+        BinaryCode<Register> code = generateTrampolineCode(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
 
         uint64_t addr = pe->injectUniqueData(code, codePointers, relocations);
         if(addr == 0)
@@ -415,7 +425,7 @@ bool PEAddingMethods::injectTrampolineCode(QList<uint64_t> &tramMethods)
 }
 
 template <>
-uint64_t PEAddingMethods::generateThreadCode<Registers_x86>(QList<Wrapper<Registers_x86>*> wrappers, uint16_t sleepTime)
+uint64_t PEAddingMethods<Registers_x86>::generateThreadCode(QList<Wrapper<Registers_x86>*> wrappers, uint16_t sleepTime)
 {
     typedef Registers_x86 Register;
 
@@ -432,8 +442,7 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x86>(QList<Wrapper<Regist
     {
         // TODO: ścieżka z config!
         DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
-        QString apiLoaderName = pe->is_x64() ? windowsApiLoadingFunction_x64 : windowsApiLoadingFunction_x86;
-        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(apiLoaderName);
+        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
             return 0;
 
@@ -501,7 +510,7 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x86>(QList<Wrapper<Regist
 }
 
 template <>
-uint64_t PEAddingMethods::generateThreadCode<Registers_x64>(QList<Wrapper<Registers_x64>*> wrappers, uint16_t sleepTime)
+uint64_t PEAddingMethods<Registers_x64>::generateThreadCode(QList<Wrapper<Registers_x64>*> wrappers, uint16_t sleepTime)
 {
     typedef Registers_x64 Register;
 
@@ -519,8 +528,7 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>(QList<Wrapper<Regist
     {
         // TODO
         DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
-        QString apiLoaderName = pe->is_x64() ? windowsApiLoadingFunction_x64 : windowsApiLoadingFunction_x86;
-        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(apiLoaderName);
+        Wrapper<Register> *func_wrap = parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
             return 0;
 
@@ -610,7 +618,8 @@ uint64_t PEAddingMethods::generateThreadCode<Registers_x64>(QList<Wrapper<Regist
 }
 
 template <>
-bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint32_t>
+template <>
+bool PEAddingMethods<Registers_x86>::generateParametersLoadingCode<uint32_t>
 (BinaryCode<Registers_x86> &code, uint32_t getFunctionsCodeAddr, QMap<Registers_x86, QString> params, uint32_t threadCodePtr)
 {
     typedef Registers_x86 Reg;
@@ -677,7 +686,8 @@ bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint32_t>
 }
 
 template <>
-bool PEAddingMethods::generateParametersLoadingCode<Registers_x64, uint64_t>
+template <>
+bool PEAddingMethods<Registers_x64>::generateParametersLoadingCode<uint64_t>
 (BinaryCode<Registers_x64> &code, uint64_t getFunctionsCodeAddr, QMap<Registers_x64, QString> params, uint64_t threadCodePtr)
 {
     typedef Registers_x64 Reg;
@@ -755,15 +765,17 @@ bool PEAddingMethods::generateParametersLoadingCode<Registers_x64, uint64_t>
 }
 
 template <>
-bool PEAddingMethods::generateParametersLoadingCode<Registers_x86, uint64_t>
+template <>
+bool PEAddingMethods<Registers_x86>::generateParametersLoadingCode<uint64_t>
 (BinaryCode<Registers_x86> &code, uint64_t getFunctionsCodeAddr, QMap<Registers_x86, QString> params, uint64_t threadCodePtr)
 {
-    return generateParametersLoadingCode<Registers_x86, uint32_t>
+    return generateParametersLoadingCode<uint32_t>
             (code, static_cast<uint32_t>(getFunctionsCodeAddr), params, static_cast<uint32_t>(threadCodePtr));
 }
 
 template <typename Register>
-bool PEAddingMethods::generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act)
+bool PEAddingMethods<Register>::generateActionConditionCode
+(BinaryCode<Register> &code, uint64_t action, Register cond, Register act)
 {
     PEFile *pe = dynamic_cast<PEFile*>(file);
     if(!pe)
@@ -791,16 +803,18 @@ bool PEAddingMethods::generateActionConditionCode(BinaryCode<Register> &code, ui
 
     return true;
 }
-template bool PEAddingMethods::generateActionConditionCode(BinaryCode<Registers_x86> &code, uint64_t action, Registers_x86 cond, Registers_x86 act);
-template bool PEAddingMethods::generateActionConditionCode(BinaryCode<Registers_x64> &code, uint64_t action, Registers_x64 cond, Registers_x64 act);
+template bool PEAddingMethods<Registers_x86>::generateActionConditionCode(BinaryCode<Registers_x86> &code, uint64_t action, Registers_x86 cond, Registers_x86 act);
+template bool PEAddingMethods<Registers_x64>::generateActionConditionCode(BinaryCode<Registers_x64> &code, uint64_t action, Registers_x64 cond, Registers_x64 act);
 
-void PEAddingMethods::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset)
+template <typename Register>
+void PEAddingMethods<Register>::getFileOffsetsFromOpcodes(QStringList &opcodes, QList<uint32_t> &fileOffsets, uint32_t baseOffset)
 {
     foreach(QString op, opcodes)
         fileOffsets.append(op.mid(0, 8).toUInt(NULL, 16) + baseOffset + 1);
 }
 
-QByteArray PEAddingMethods::compileCode(QByteArray code)
+template <typename Register>
+QByteArray PEAddingMethods<Register>::compileCode(QByteArray code)
 {
     QByteArray bin;
 
@@ -835,18 +849,18 @@ QByteArray PEAddingMethods::compileCode(QByteArray code)
 }
 
 template <>
-uint8_t PEAddingMethods::getRandomRegister<Registers_x86>()
+Registers_x86 PEAddingMethods<Registers_x86>::getRandomRegister()
 {
     typedef Registers_x86 Reg;
     QList<Reg> r = {Reg::EAX, Reg::ECX, Reg::EDX, Reg::EBX, Reg::ESI, Reg::EDI};
 
     std::uniform_int_distribution<int> idx(0, r.length() - 1);
 
-    return static_cast<uint8_t>(r[idx(gen)]);
+    return r[idx(gen)];
 }
 
 template <>
-uint8_t PEAddingMethods::getRandomRegister<Registers_x64>()
+Registers_x64 PEAddingMethods<Registers_x64>::getRandomRegister()
 {
     typedef Registers_x64 Reg;
     QList<Reg> r = {Reg::RAX, Reg::RDX, Reg::RCX, Reg::RBX, Reg::RSI, Reg::RDI,
@@ -854,11 +868,11 @@ uint8_t PEAddingMethods::getRandomRegister<Registers_x64>()
 
     std::uniform_int_distribution<int> idx(0, r.length() - 1);
 
-    return static_cast<uint8_t>(r[idx(gen)]);
+    return r[idx(gen)];
 }
 
 template <>
-BinaryCode<Registers_x86> PEAddingMethods::generateTrampolineCode<Registers_x86>(uint64_t realAddr, uint64_t wrapperAddr)
+BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateTrampolineCode(uint64_t realAddr, uint64_t wrapperAddr)
 {
     typedef Registers_x86 Register;
 
@@ -867,7 +881,7 @@ BinaryCode<Registers_x86> PEAddingMethods::generateTrampolineCode<Registers_x86>
     code.append(CodeDefines<Register>::storeValue(static_cast<uint32_t>(realAddr)), true);
 
     code.append(CodeDefines<Register>::saveAll());
-    Register r = static_cast<Register>(getRandomRegister<Register>());
+    Register r = getRandomRegister();
     code.append(CodeDefines<Register>::movValueToReg(wrapperAddr, r), true);
     code.append(CodeDefines<Register>::callReg(r));
     code.append(CodeDefines<Register>::restoreAll());
@@ -878,13 +892,13 @@ BinaryCode<Registers_x86> PEAddingMethods::generateTrampolineCode<Registers_x86>
 }
 
 template <>
-BinaryCode<Registers_x64> PEAddingMethods::generateTrampolineCode<Registers_x64>(uint64_t realAddr, uint64_t wrapperAddr)
+BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateTrampolineCode(uint64_t realAddr, uint64_t wrapperAddr)
 {
     typedef Registers_x64 Register;
 
     BinaryCode<Register> code;
 
-    Register r = static_cast<Register>(getRandomRegister<Register>());
+    Register r = getRandomRegister();
     code.append(CodeDefines<Register>::reserveStackSpace(CodeDefines<Register>::align16Size));
     code.append(CodeDefines<Register>::saveRegister(r));
     code.append(CodeDefines<Register>::movValueToReg(realAddr, r), true);
@@ -893,7 +907,7 @@ BinaryCode<Registers_x64> PEAddingMethods::generateTrampolineCode<Registers_x64>
 
     code.append(CodeDefines<Register>::saveAll());
     code.append(CodeDefines<Register>::reserveStackSpace(CodeDefines<Register>::shadowSize));
-    r = static_cast<Register>(getRandomRegister<Register>());
+    r = getRandomRegister();
     code.append(CodeDefines<Register>::movValueToReg(wrapperAddr, r), true);
     code.append(CodeDefines<Register>::callReg(r));
     code.append(CodeDefines<Register>::clearStackSpace(CodeDefines<Register>::shadowSize));
