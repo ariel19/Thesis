@@ -10,6 +10,7 @@
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
+#include <ApplicationManager/dsettings.h>
 
 #include "test_elf.h"
 
@@ -38,7 +39,7 @@ int main(int argc, char **argv)
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*> ids;
 
-    DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+    DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
     DAddingMethods<Registers_x86>::Wrapper *wrapper = parser.loadInjectDescription<Registers_x86>("win_x86_is_debugger_present.json");
     wrapper->detect_handler = parser.loadInjectDescription<Registers_x86>("win_x86_handler_message_box.json");
     DAddingMethods<Registers_x86>::InjectDescription method1;
