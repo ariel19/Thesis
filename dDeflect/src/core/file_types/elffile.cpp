@@ -28,7 +28,7 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
     }
 }
 
-bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va) {
+bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va, Elf64_Off &file_off) {
     if (!parsed)
         return false;
 
@@ -84,7 +84,7 @@ bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va) {
         return false;
 
     // construct a new QByteArray
-    std::pair<QByteArray, Elf64_Addr> d = __construct_data(data, bs);
+    std::pair<QByteArray, Elf64_Addr> d = __construct_data(data, bs, file_off);
     va = d.second;
 
     QByteArray old_b_data = b_data;
@@ -478,7 +478,7 @@ bool ELF::__is_supported(const Elf32_Ehdr *elf_hdr) {
             return false;
 
         // file is non-executable
-        if (elf_hdr->e_type != ET_EXEC)
+        if (elf_hdr->e_type != ET_EXEC && elf_hdr->e_type != ET_DYN)
             return false;
     }
     catch(const std::exception &) {
@@ -649,7 +649,7 @@ std::pair<ex_offset_t, ex_offset_t> ELF::__get_new_data_va_fo(ELF::best_segment 
     return std::make_pair(ph->p_offset + ph->p_filesz, ph->p_vaddr + ph->p_filesz + bs.pre_pad);
 }
 
-std::pair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, ELF::best_segment &bs) {
+std::pair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, ELF::best_segment &bs, Elf64_Off &fo) {
     static std::pair<QByteArray, Elf64_Addr> failed(QByteArray(),  0);
     if (!parsed)
         return failed;
@@ -682,6 +682,8 @@ std::pair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, 
     for (uint32_t i = 0; i < bs.post_pad; ++i)
         new_b_data.append('\0');
     new_b_data.append(b_data.data() + file_off, b_data.size() - file_off);
+
+    fo = file_off + bs.pre_pad;
 
     // fixing...
     Elf64_Addr vaddr;

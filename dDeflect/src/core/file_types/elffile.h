@@ -82,9 +82,10 @@ public:
      * @param data dane, które chcemy skopiować w miejsce rozszerzonego segmentu.
      * @param only_x flaga, która odpowiada za rozszerzanie tylko wykonywalnych sekcji.
      * @param va nowy adres wirtualny w rozszerzonym segmencie.
+     * @param file_off offset w pliku, na którym zostanie napisany pierwszy bajt danych.
      * @return True jeżeli rozszerzenie się powiodło, False w pozostałych przypadkach.
      */
-    bool extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va);
+    bool extend_segment(const QByteArray &data, bool only_x, Elf64_Addr &va, Elf64_Off &file_off);
 
     /**
      * @brief Zapisuje wewnętrzne dane do pliku.
@@ -338,9 +339,10 @@ private:
      * @brief Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.
      * @param data nowy kod.
      * @param bs struktura przechowujące informacje o wyrównaniach oraz adresach.
+     * @param fo offset w pliku na którym wyląduje pierwszy bajt dodawanych danych.
      * @return Nowa zawartość pliku (oraz adres wirtualny nowych danych) lub pustą tablice, jeżeli operacja nie powiadła się.
      */
-    std::pair<QByteArray, Elf64_Addr> __construct_data(const QByteArray &data, best_segment &bs);
+    std::pair<QByteArray, Elf64_Addr> __construct_data(const QByteArray &data, best_segment &bs, Elf64_Off &fo);
 
     /**
      * @brief Naprawia nagłówek pliku ELF.

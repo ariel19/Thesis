@@ -1,0 +1,31 @@
+{
+  "name": "ParentProcess",
+  "used_registers": [
+    "EAX",
+    "ECX",
+    "EDX",
+    "EBX",
+    "EDI"
+  ],
+  "parameters": [
+    {
+      "EAX": "user32!GetShellWindow"
+    },
+    {
+      "EBX": "user32!GetWindowThreadProcessId"
+    },
+    {
+      "EDI": "ntdll!NtQueryInformationProcess"
+    }
+  ],
+  "returns": "EAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x86",
+  "path": "data/detection/win/x86/parent_process.asm",
+  "description": "TODO"
+}

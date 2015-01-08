@@ -1,0 +1,22 @@
+{
+  "name": "ExitThread",
+  "used_registers": [
+    "RAX",
+    "RDI"
+  ],
+  "parameters": [
+    "ret" : 187
+  ],
+  "returns": "RAX",
+  "methods": [
+    "EntryPoint",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "type" : "Handler",
+  "path": "data/handlers/linux/x64/exit.asm",
+  "description": "TODO"
+}

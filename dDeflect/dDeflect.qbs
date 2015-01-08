@@ -29,18 +29,29 @@ Project {
             qbs.installDir: "bin"
         }
 
+        Group {
+            qbs.install: true
+            qbs.installDir: "bin"
+            files: [
+                "src/core/descriptions/",
+            ]
+        }
+
+        Group {
+            qbs.install: true
+            qbs.installDir: "bin/data"
+            files: [
+                "src/core/detection/",
+                "src/core/handlers/",
+                "src/core/helper_func/"
+            ]
+        }
+
         Depends { name: "Qt"; submodules: ["core", "widgets", "quick"] }
         cpp.warningLevel: "all"
         cpp.includePaths: ["src"]
         cpp.cxxFlags: ["-std=c++11","-Wno-unknown-pragmas","-Wno-reorder","-Wno-unused-local-typedefs"]
         cpp.defines: ["PROJECT_VERSION=\"" + version + "\""]
-
-        Group {
-            files: [
-            ]
-            condition: qbs.targetOS == "windows"
-            cpp.dynamicLibraries: []
-        }
 
         Group {
             files: [
@@ -73,6 +84,8 @@ Project {
             "src/ApplicationManager/applicationmanager.h",
             "src/ApplicationManager/DJsonParser/djsonparser.cpp",
             "src/ApplicationManager/DJsonParser/djsonparser.h",
+            "src/ApplicationManager/dsettings.h",
+            "src/ApplicationManager/dsettings.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.h",
             "tests/src/*.cpp",

@@ -1,0 +1,22 @@
+{
+  "name": "TLS EntryPoint Breakpoint",
+  "used_registers": [
+    "RAX",
+    "RDX",
+    "RCX",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+    "RSI"
+  ],
+  "parameters": [
+  ],
+  "returns": "RAX",
+  "methods": [
+    "TLS"
+  ],
+  "architecture": "win_x64",
+  "path": "data/detection/win/x64/tls_ep_breakpoint.asm",
+  "description": "TODO"
+}

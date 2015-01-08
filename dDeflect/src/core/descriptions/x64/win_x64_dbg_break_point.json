@@ -1,0 +1,32 @@
+{
+  "name": "DbgBreakPoint",
+  "used_registers": [
+    "RAX",
+    "RDX",
+    "RCX",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+	"R12",
+    "RDI",
+    "RBX"
+  ],
+  "parameters": [
+    {
+      "RBX": "user32!FindWindowA"
+    },
+	{
+	  "R12": "kernel32!VirtualProtect"
+	}
+  ],
+  "returns": "RAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline"
+  ],
+  "architecture": "win_x64",
+  "path": "data/detection/win/x64/dbg_break_point.asm",
+  "description": "TODO"
+}

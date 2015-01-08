@@ -1,0 +1,27 @@
+{
+  "name": "ProcessDebugFlags",
+  "used_registers": [
+    "RAX",
+    "RDX",
+    "RCX",
+    "R8",
+    "R9",
+    "R10",
+    "R11"
+  ],
+  "parameters": [
+    {
+      "RAX": "ntdll!NtQueryInformationProcess"
+    }
+  ],
+  "returns": "RAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x64",
+  "path": "data/detection/win/x64/process_debug_flags.asm",
+  "description": "TODO"
+}

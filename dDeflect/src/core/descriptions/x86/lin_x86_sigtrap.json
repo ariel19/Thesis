@@ -1,0 +1,23 @@
+{
+  "name": "SIGTRAP signal",
+  "used_registers": [
+    "EAX",
+    "EBX",
+    "ECX",
+    "ESI"
+  ],
+  "parameters": [],
+  "returns": "EAX",
+  "methods": [
+    "EntryPoint",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x86",
+  "type" : "Method",
+  "path": "data/detection/linux/x86/sigtrap.asm",
+  "description": "TODO"
+}

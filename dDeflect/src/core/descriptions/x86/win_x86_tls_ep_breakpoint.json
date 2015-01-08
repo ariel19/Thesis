@@ -1,0 +1,16 @@
+{
+  "name": "TLS EntryPoint Breakpoint",
+  "used_registers": [
+    "EAX",
+    "EDX"
+  ],
+  "parameters": [
+  ],
+  "returns": "EAX",
+  "methods": [
+    "TLS"
+  ],
+  "architecture": "win_x86",
+  "path": "data/detection/win/x86/tls_ep_breakpoint.asm",
+  "description": "TODO"
+}

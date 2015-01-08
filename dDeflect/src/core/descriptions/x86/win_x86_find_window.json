@@ -1,0 +1,25 @@
+{
+  "name": "FindWindow",
+  "used_registers": [
+    "EAX",
+    "ECX",
+    "EDX",
+    "EBX",
+    "EDI"
+  ],
+  "parameters": [
+    {
+      "EBX": "user32!FindWindowA"
+    }
+  ],
+  "returns": "EAX",
+  "methods": [
+    "TLS",
+    "EntryPoint",
+    "Trampoline",
+    "Thread"
+  ],
+  "architecture": "win_x86",
+  "path": "data/detection/win/x86/find_window.asm",
+  "description": "TODO"
+}
