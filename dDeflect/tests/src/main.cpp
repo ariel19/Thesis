@@ -11,6 +11,7 @@
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
 #include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
 
 #include "test_elf.h"
 
@@ -36,6 +37,11 @@ int main(int argc, char **argv)
         puts("Bad format!");
         return 1;
     }
+
+    DLogger::registerCallback({DLogger::Type::Error, DLogger::Type::Warning, DLogger::Type::Message},
+                              [](QString msg)-> void { printf("%s\n", msg.toStdString().c_str()); });
+
+    DLogger::write(DLogger::Type::Message, "Start");
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*> ids;
 

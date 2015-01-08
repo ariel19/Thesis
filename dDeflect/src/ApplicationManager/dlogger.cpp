@@ -12,7 +12,7 @@ DLogger &DLogger::getLogger()
 
 void DLogger::write(DLogger::Type type, QString msg)
 {
-    DLogger log = getLogger();
+    DLogger &log = getLogger();
 
     if(log.callbacks.contains(type))
     {
@@ -23,7 +23,7 @@ void DLogger::write(DLogger::Type type, QString msg)
 
 void DLogger::registerCallback(QList<DLogger::Type> types, std::function<void (QString)> f)
 {
-    DLogger log = getLogger();
+    DLogger &log = getLogger();
 
     foreach(auto t, types)
         log.callbacks[t].append(f);
