@@ -164,8 +164,7 @@ public:
             ret = registerTypes[json["ret"].toString()];
 
             // code
-            // TODO: sciezka
-            QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
+            QFile codeFile(json["path"].toString());
             if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 
