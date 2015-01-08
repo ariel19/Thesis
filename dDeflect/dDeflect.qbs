@@ -29,6 +29,13 @@ Project {
             qbs.installDir: "bin"
             files: [
                 "src/core/descriptions/",
+            ]
+        }
+
+        Group {
+            qbs.install: true
+            qbs.installDir: "bin/data"
+            files: [
                 "src/core/detection/",
                 "src/core/handlers/",
                 "src/core/helper_func/"
