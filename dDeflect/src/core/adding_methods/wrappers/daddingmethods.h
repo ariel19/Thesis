@@ -242,6 +242,11 @@ public:
     class OEPWrapper : public Wrapper {
     public:
         Wrapper *oep_action;
+
+        virtual bool read(const QJsonObject & json) override {
+            oep_action = nullptr;
+            return Wrapper::read(json);
+        }
     };
 
     /**
@@ -250,6 +255,11 @@ public:
     class TrampolineWrapper : public Wrapper {
     public:
         Wrapper *tramp_action;
+
+        virtual bool read(const QJsonObject & json) override {
+            tramp_action = nullptr;
+            return Wrapper::read(json);
+        }
     };
 
     /**
