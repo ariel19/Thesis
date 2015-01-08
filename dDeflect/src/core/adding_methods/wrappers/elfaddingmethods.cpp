@@ -613,7 +613,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
 
         QList<Elf64_Addr> file_off;
-        QList<Elf64_Addr> tramp_file_off;
+        QList<QPair<Elf64_Addr, Elf64_Addr> > tramp_file_off;
 
         Elf64_Addr base_off;
 
@@ -627,24 +627,14 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // TODO: choose randomy few addresses
         int32_t rva;
         Elf64_Addr inst_addr;
-        Elf64_Off fo;
+        Elf64_Off __file_off;
 
         // TODO: should be changed
         std::uniform_int_distribution<int> prob(0, 99);
         std::default_random_engine gen;
         uint8_t code_cover = 5;
 
-        // FIXME: delete test purposes
-        /*
-        QList<Elf64_Addr> fo = { file_off.at(file_off.size() - 5), file_off.at(file_off.size() - 6) };
-        file_off = fo;
-        */
         foreach (Elf64_Addr off, file_off) {
-            // FIXME: test purposes
-            /*
-            if(prob(gen) >= code_cover)
-                continue;
-            */
             if(prob(gen) >= code_cover)
                 continue;
 
@@ -652,8 +642,9 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 return false;
 
             inst_addr = text_data.second + off - base_off;
-            tramp_file_off.push_back(off);
+            tramp_file_off.push_back(QPair<Elf64_Addr, Elf64_Addr>(off, inst_addr + rva + 4));
             full_compiled_code.append(compiled_code);
+            /*
             // calculate address
             if (elf->is_x86())
                 // 5 - size of call instruction (minus 1 byte for call byte)
@@ -662,22 +653,31 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 // 5 - size of call instruction (minus 1 byte for call byte)
                 full_compiled_code.append(CodeDefines<Registers_x64>::storeValue(inst_addr + rva + 4));
             full_compiled_code.append(CodeDefines<RegistersType>::ret);
+            */
+
+            full_compiled_code.append(fake_jmp);
         }
 
         Elf64_Addr nva;
-        if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva, fo))
+        if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva, __file_off))
             return false;
 
         // TODO: check if divisible without extras
         Elf32_Addr tramp_size = full_compiled_code.size() / tramp_file_off.size();
         int i = 0;
 
-        foreach (Elf64_Addr fo, tramp_file_off) {
+        foreach (auto fo_addr, tramp_file_off) {
             // 5 - size of call instruction (minus 1 byte for call byte)
-            if (!elf->set_relative_address(fo, nva + (tramp_size * i) - (text_data.second + fo - base_off) - 4))
+            if (!elf->set_relative_address(fo_addr.first, nva + (tramp_size * i) - (text_data.second + fo_addr.first - base_off) - 4))
                 return false;
-            qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo - base_off - 1, 0, 16)
+            qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo_addr.first - base_off - 1, 0, 16)
                      << "to: " << QString("0x%1 ").arg(nva + (tramp_size * i), 0, 16);
+
+            // set new relative address for jmp
+            if (!elf->set_relative_address(__file_off + (tramp_size * (i + 1)) - 4,
+                                           fo_addr.second - (nva + ((tramp_size * (i + 1)) - fake_jmp.size())) - 5))
+                return false;
+
             ++i;
         }
 
