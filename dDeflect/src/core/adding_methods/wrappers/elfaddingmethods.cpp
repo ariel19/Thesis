@@ -211,7 +211,7 @@ void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList 
 template <typename RegistersType>
 bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) {
     foreach(typename DAddingMethods<RegistersType>::InjectDescription* id, inject_desc) {
-        if(secure_one(id))
+        if(!secure_one(id))
             return false;
     }
     return true;
@@ -318,6 +318,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     switch(i_desc->cm) {
     case DAddingMethods<RegistersType>::CallingMethod::Thread:
     case DAddingMethods<RegistersType>::CallingMethod::OEP:
+        /*
         if (elf->is_x86()) {
             code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, oldep));
             code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
@@ -326,6 +327,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, oldep));
             code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
+        */
         break;
     case DAddingMethods<RegistersType>::CallingMethod::CTORS:
         break;
@@ -346,14 +348,25 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     // 5. secure elf file
 
     Elf64_Addr nva;
+    Elf64_Off file_off;
 
     switch(i_desc->cm) {
     case DAddingMethods<RegistersType>::CallingMethod::Thread:
     case DAddingMethods<RegistersType>::CallingMethod::OEP: {
-        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
+        Elf64_Addr oep;
+        // add fake relative jump to the code and repair it after
+        // TODO: change
+        static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
+        compiled_code.append(fake_jmp);
+
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
             return false;
 
-        if (!elf->set_entry_point(nva))
+        if (!elf->set_entry_point(nva, &oep))
+            return false;
+
+        // set new relative address for jmp
+        if (!elf->set_relative_address(file_off + compiled_code.size() - 4, oep - (nva + (compiled_code.size() - fake_jmp.size())) - 5))
             return false;
 
         qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
@@ -387,7 +400,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
             return false;
 
         // set section content, set filler for elf function
@@ -481,7 +494,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
             return false;
 
         // change section content
@@ -538,7 +551,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
 
-        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
+        if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
             return false;
 
         // set section content, set filler for elf function
@@ -604,6 +617,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // TODO: choose randomy few addresses
         int32_t rva;
         Elf64_Addr inst_addr;
+        Elf64_Off fo;
 
         // TODO: should be changed
         std::uniform_int_distribution<int> prob(0, 99);
@@ -641,7 +655,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         }
 
         Elf64_Addr nva;
-        if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva))
+        if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva, fo))
             return false;
 
         // TODO: check if divisible without extras

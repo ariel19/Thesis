@@ -320,6 +320,9 @@ public:
     static QString jmp_reg(const RegistersType reg);
 
     template <typename RegistersType>
+    static QString jmp_rel(int32_t addr);
+
+    template <typename RegistersType>
     static QString get_reg(const RegistersType reg);
 
     template <typename RegistersType>
@@ -446,6 +449,11 @@ QString AsmCodeGenerator::jmp_reg(const RegistersType reg) {
 }
 
 template <typename RegistersType>
+QString AsmCodeGenerator::jmp_rel(int32_t rel_addr) {
+    return QString("%1 %2").arg(instructions[Instructions::JMP], QString::number(rel_addr));
+}
+
+template <typename RegistersType>
 QString AsmCodeGenerator::get_reg(const RegistersType reg) {
     return std::is_same<RegistersType, Registers_x86>::value ?
                 regs_x86[static_cast<Registers_x86>(reg)] :
@@ -453,7 +461,7 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
                     regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     }
 
-    template <typename RegistersType>
+template <typename RegistersType>
     QString AsmCodeGenerator::call_reg(const RegistersType reg) {
     QString qreg = std::is_same<RegistersType, Registers_x86>::value ?
     regs_x86[static_cast<Registers_x86>(reg)] :
