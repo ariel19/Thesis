@@ -19,6 +19,6 @@
     "Thread"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/check_remote_debugger_present.asm",
+  "path": "data/detection/win/x86/check_remote_debugger_present.asm",
   "description": "TODO"
 }

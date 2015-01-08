@@ -13,6 +13,6 @@
     "Thread"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/fld.asm",
+  "path": "data/detection/win/x86/fld.asm",
   "description": "TODO"
 }

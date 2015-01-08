@@ -25,6 +25,6 @@
     "Trampoline"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/create_file.asm",
+  "path": "data/detection/win/x86/create_file.asm",
   "description": "TODO"
 }

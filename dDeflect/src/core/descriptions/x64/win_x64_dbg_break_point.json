@@ -27,6 +27,6 @@
     "Trampoline"
   ],
   "architecture": "win_x64",
-  "path": "detection/os/win/x64/src/dbg_break_point.asm",
+  "path": "data/detection/win/x64/dbg_break_point.asm",
   "description": "TODO"
 }

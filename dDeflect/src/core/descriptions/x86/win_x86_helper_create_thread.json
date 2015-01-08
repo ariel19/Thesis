@@ -20,6 +20,6 @@
   ],
   "architecture": "win_x86",
   "type": "ThreadWrapper",
-  "path": "helper_func/win/x86/create_thread.asm",
+  "path": "data/helper_func/win/x86/create_thread.asm",
   "description": "TODO"
 }

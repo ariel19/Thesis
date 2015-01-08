@@ -22,6 +22,6 @@
     "Thread"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/open_process.asm",
+  "path": "data/detection/win/x86/open_process.asm",
   "description": "TODO"
 }
