@@ -63,8 +63,10 @@ public:
         enum class WrapperType {
             Handler,
             Method,
-            Thread,
-            Helper
+            Helper,
+            ThreadWrapper,
+            OepWrapper,
+            TrampolineWrapper
         };
 
         QString name;

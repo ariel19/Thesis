@@ -119,11 +119,17 @@ bool ELFAddingMethods::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &c
     if (!wrap)
         return false;
 
+    // TODO: add check if contains all registers
+    /*
+    if ((std::is_same<RegistersType, Registers_x86>::value && !wrap->used_regs.contains(Registers_x86::All)) ||
+        (std::is_same<RegistersType, Registers_x64>::value && !wrap->used_regs.contains(Registers_x64::All)))
+    */
     // add internal registers to one's we have to save
     foreach (RegistersType reg, CodeDefines<RegistersType>::internalRegs)
         if (!wrap->used_regs.contains(reg))
             wrap->used_regs.push_back(reg);
 
+    // TODO: add check if emthod use all registers not to save ret one
     // check if ret is in used registers (if it is remove)
     if (wrap->used_regs.indexOf(wrap->ret) != -1)
         wrap->used_regs.removeAll(wrap->ret);

@@ -57,8 +57,10 @@ const QMap<QString, typename DAddingMethods::Wrapper<Reg>::WrapperType> DAddingM
 {
     { "Handler", DAddingMethods::Wrapper<Reg>::WrapperType::Handler },
     { "Method", DAddingMethods::Wrapper<Reg>::WrapperType::Method },
-    { "Thread", DAddingMethods::Wrapper<Reg>::WrapperType::Thread },
-    { "Helper", DAddingMethods::Wrapper<Reg>::WrapperType::Helper }
+    { "Helper", DAddingMethods::Wrapper<Reg>::WrapperType::Helper },
+    { "ThreadWrapper", DAddingMethods::Wrapper<Reg>::WrapperType::ThreadWrapper },
+    { "OEPWrapper", DAddingMethods::Wrapper<Reg>::WrapperType::OepWrapper },
+    { "TrampolineWrapper", DAddingMethods::Wrapper<Reg>::WrapperType::TrampolineWrapper }
 };
 template const QMap<QString, DAddingMethods::Wrapper<Registers_x86>::WrapperType> DAddingMethods::Wrapper<Registers_x86>::wrapperTypes;
 template const QMap<QString, DAddingMethods::Wrapper<Registers_x64>::WrapperType> DAddingMethods::Wrapper<Registers_x64>::wrapperTypes;
