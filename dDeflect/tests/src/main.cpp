@@ -36,13 +36,13 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    QList<DAddingMethods::InjectDescription<Registers_x86>*> ids;
+    QList<DAddingMethods<Registers_x86>::InjectDescription*> ids;
 
     DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
-    DAddingMethods::Wrapper<Registers_x86> *wrapper = parser.loadInjectDescription<Registers_x86>("win_x86_is_debugger_present.json");
+    DAddingMethods<Registers_x86>::Wrapper *wrapper = parser.loadInjectDescription<Registers_x86>("win_x86_is_debugger_present.json");
     wrapper->detect_handler = parser.loadInjectDescription<Registers_x86>("win_x86_handler_message_box.json");
-    DAddingMethods::InjectDescription<Registers_x86> method1;
-    method1.cm = DAddingMethods::CallingMethod::OEP;
+    DAddingMethods<Registers_x86>::InjectDescription method1;
+    method1.cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
     method1.adding_method = wrapper;
     ids.append(&method1);
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));

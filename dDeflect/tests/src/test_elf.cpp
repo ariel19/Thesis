@@ -23,10 +23,10 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     if (elf.is_x86()) {
         ELFAddingMethods<Registers_x86> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x86> oepwrapper;
-        DAddingMethods::Wrapper<Registers_x86> handler;
-        DAddingMethods::Wrapper<Registers_x86> oepaction;
+        DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x86>::TrampolineWrapper oepwrapper;
+        DAddingMethods<Registers_x86>::Wrapper handler;
+        DAddingMethods<Registers_x86>::Wrapper oepaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -67,7 +67,7 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
+        inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::Trampoline;
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_tram_sig");
 
@@ -76,11 +76,11 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
     }
     else {
         ELFAddingMethods<Registers_x64> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::TrampolineWrapper<Registers_x64> oepwrapper;
-        DAddingMethods::Wrapper<Registers_x64> handler;
-        DAddingMethods::Wrapper<Registers_x64> oepaction;
+        DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
+        DAddingMethods<Registers_x64>::TrampolineWrapper oepwrapper;
+        DAddingMethods<Registers_x64>::Wrapper handler;
+        DAddingMethods<Registers_x64>::Wrapper oepaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -124,7 +124,7 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::Trampoline;
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_tram_sig");
 
@@ -152,10 +152,10 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     if (elf.is_x86()) {
         ELFAddingMethods<Registers_x86> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-        DAddingMethods::OEPWrapper<Registers_x86> oepwrapper;
-        DAddingMethods::Wrapper<Registers_x86> handler;
-        DAddingMethods::Wrapper<Registers_x86> oepaction;
+        DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x86>::OEPWrapper oepwrapper;
+        DAddingMethods<Registers_x86>::Wrapper handler;
+        DAddingMethods<Registers_x86>::Wrapper oepaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -196,7 +196,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
         //inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_sig_cc");
@@ -206,11 +206,11 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     }
     else {
         ELFAddingMethods<Registers_x64> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::OEPWrapper<Registers_x64> oepwrapper;
-        DAddingMethods::Wrapper<Registers_x64> handler;
-        DAddingMethods::Wrapper<Registers_x64> oepaction;
+        DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
+        DAddingMethods<Registers_x64>::OEPWrapper oepwrapper;
+        DAddingMethods<Registers_x64>::Wrapper handler;
+        DAddingMethods<Registers_x64>::Wrapper oepaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -254,7 +254,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
         // inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
         inject_desc.adding_method = &oepwrapper;
         inject_desc.saved_fname = elf_fname + QString("_sig_cc");
@@ -282,10 +282,10 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     if (elf.is_x86()) {
         ELFAddingMethods<Registers_x86> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-        DAddingMethods::ThreadWrapper<Registers_x86> twrapper;
-        DAddingMethods::Wrapper<Registers_x86> handler;
-        DAddingMethods::Wrapper<Registers_x86> taction;
+        DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x86>::ThreadWrapper twrapper;
+        DAddingMethods<Registers_x86>::Wrapper handler;
+        DAddingMethods<Registers_x86>::Wrapper taction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -320,7 +320,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         twrapper.ret = taction.ret;
         // qDebug() << twrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::Thread;
+        inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::Thread;
         inject_desc.adding_method = &twrapper;
         inject_desc.saved_fname = elf_fname + QString("_thread_sig");
 
@@ -329,11 +329,11 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
     }
     else {
         ELFAddingMethods<Registers_x64> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-        inject_desc.cm = DAddingMethods::CallingMethod::OEP;
-        DAddingMethods::ThreadWrapper<Registers_x64> twrapper;
-        DAddingMethods::Wrapper<Registers_x64> handler;
-        DAddingMethods::Wrapper<Registers_x64> taction;
+        DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
+        DAddingMethods<Registers_x64>::ThreadWrapper twrapper;
+        DAddingMethods<Registers_x64>::Wrapper handler;
+        DAddingMethods<Registers_x64>::Wrapper taction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -368,7 +368,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         twrapper.ret = taction.ret;
         // qDebug() << twrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::Thread;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::Thread;
         inject_desc.adding_method = &twrapper;
         inject_desc.saved_fname = elf_fname + QString("_thread_sig");
 
@@ -393,10 +393,10 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     if (elf.is_x86()) {
         ELFAddingMethods<Registers_x86> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
-        DAddingMethods::Wrapper<Registers_x86> handler;
-        DAddingMethods::Wrapper<Registers_x86> trmaction;
+        DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x86>::TrampolineWrapper trmwrapper;
+        DAddingMethods<Registers_x86>::Wrapper handler;
+        DAddingMethods<Registers_x86>::Wrapper trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -434,7 +434,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::INIT;
+        inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::INIT;
         inject_desc.adding_method = &trmwrapper;
         inject_desc.saved_fname = elf_fname + QString("_init_ptrace");
 
@@ -443,10 +443,10 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     }
     else {
         ELFAddingMethods<Registers_x64> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x64> trmwrapper;
-        DAddingMethods::Wrapper<Registers_x64> handler;
-        DAddingMethods::Wrapper<Registers_x64> trmaction;
+        DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x64>::TrampolineWrapper trmwrapper;
+        DAddingMethods<Registers_x64>::Wrapper handler;
+        DAddingMethods<Registers_x64>::Wrapper trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -483,7 +483,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::INIT;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::INIT;
         inject_desc.adding_method = &trmwrapper;
         inject_desc.saved_fname = elf_fname + QString("_init_ptrace");
 
@@ -509,10 +509,10 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
     QFile code;
     if (elf.is_x86()) {
         ELFAddingMethods<Registers_x86> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
-        DAddingMethods::Wrapper<Registers_x86> handler;
-        DAddingMethods::Wrapper<Registers_x86> trmaction;
+        DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x86>::TrampolineWrapper trmwrapper;
+        DAddingMethods<Registers_x86>::Wrapper handler;
+        DAddingMethods<Registers_x86>::Wrapper trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -555,17 +555,17 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         inject_desc.saved_fname = elf_fname + QString("_initarray_ptrace");
 
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
+        inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
         if (!dam.secure({&inject_desc}))
             return false;
     }
     else {
         ELFAddingMethods<Registers_x64> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x64> trmwrapper;
-        DAddingMethods::Wrapper<Registers_x64> handler;
-        DAddingMethods::Wrapper<Registers_x64> trmaction;
+        DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x64>::TrampolineWrapper trmwrapper;
+        DAddingMethods<Registers_x64>::Wrapper handler;
+        DAddingMethods<Registers_x64>::Wrapper trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -606,7 +606,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
 
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::INIT_ARRAY;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::INIT_ARRAY;
         inject_desc.adding_method = &trmwrapper;
         if (!dam.secure({&inject_desc}))
             return false;
@@ -630,10 +630,10 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
     QFile code;
     if (elf.is_x86()) {
         ELFAddingMethods<Registers_x86> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x86> trmwrapper;
-        DAddingMethods::Wrapper<Registers_x86> handler;
-        DAddingMethods::Wrapper<Registers_x86> trmaction;
+        DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x86>::TrampolineWrapper trmwrapper;
+        DAddingMethods<Registers_x86>::Wrapper handler;
+        DAddingMethods<Registers_x86>::Wrapper trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -668,17 +668,17 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         // qDebug() << oepwrapper.code;
 
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
+        inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
         if (!dam.secure({&inject_desc}))
             return false;
     }
     else {
         ELFAddingMethods<Registers_x64> dam(&elf);
-        DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-        DAddingMethods::TrampolineWrapper<Registers_x64> trmwrapper;
-        DAddingMethods::Wrapper<Registers_x64> handler;
-        DAddingMethods::Wrapper<Registers_x64> trmaction;
+        DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+        DAddingMethods<Registers_x64>::TrampolineWrapper trmwrapper;
+        DAddingMethods<Registers_x64>::Wrapper handler;
+        DAddingMethods<Registers_x64>::Wrapper trmaction;
         // debugger detection handler
         code.setFileName(handl);
         if (!code.open(QIODevice::ReadOnly))
@@ -712,7 +712,7 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.ret = trmaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
-        inject_desc.cm = DAddingMethods::CallingMethod::CTORS;
+        inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::CTORS;
         inject_desc.adding_method = &trmwrapper;
         if (!dam.secure({&inject_desc}))
             return false;
@@ -1170,10 +1170,10 @@ void test_thread_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, c
     // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
     // ============================================================
     // ============================================================
-    DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-    DAddingMethods::TrampolineWrapper<Registers_x86> oepwrapper;
-    DAddingMethods::Wrapper<Registers_x86> handler;
-    DAddingMethods::Wrapper<Registers_x86> oepaction;
+    DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+    DAddingMethods<Registers_x86>::TrampolineWrapper oepwrapper;
+    DAddingMethods<Registers_x86>::Wrapper handler;
+    DAddingMethods<Registers_x86>::Wrapper oepaction;
 
     handler.static_params = { { "ret", "127" } };
     handler.detect_handler = nullptr;
@@ -1258,7 +1258,7 @@ void test_thread_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, c
 
                 code.close();
 
-                inject_desc.cm = DAddingMethods::CallingMethod::Thread;
+                inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::Thread;
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("thread_%1_%2_%3").arg(b, m, h);
 
@@ -1277,10 +1277,10 @@ void test_thread_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, c
     // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
     // ============================================================
     // ============================================================
-    DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-    DAddingMethods::TrampolineWrapper<Registers_x64> oepwrapper;
-    DAddingMethods::Wrapper<Registers_x64> handler;
-    DAddingMethods::Wrapper<Registers_x64> oepaction;
+    DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+    DAddingMethods<Registers_x64>::TrampolineWrapper oepwrapper;
+    DAddingMethods<Registers_x64>::Wrapper handler;
+    DAddingMethods<Registers_x64>::Wrapper oepaction;
 
     handler.static_params = { { "ret", "188" } };
     handler.detect_handler = nullptr;
@@ -1363,7 +1363,7 @@ void test_thread_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, c
 
                 code.close();
 
-                inject_desc.cm = DAddingMethods::CallingMethod::Thread;
+                inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::Thread;
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("thread_%1_%2_%3").arg(b, m, h);
 
@@ -1421,10 +1421,10 @@ void test_init_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, con
     // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
     // ============================================================
     // ============================================================
-    DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-    DAddingMethods::TrampolineWrapper<Registers_x86> oepwrapper;
-    DAddingMethods::Wrapper<Registers_x86> handler;
-    DAddingMethods::Wrapper<Registers_x86> oepaction;
+    DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+    DAddingMethods<Registers_x86>::TrampolineWrapper oepwrapper;
+    DAddingMethods<Registers_x86>::Wrapper handler;
+    DAddingMethods<Registers_x86>::Wrapper oepaction;
 
     handler.static_params = { { "ret", "127" } };
     handler.detect_handler = nullptr;
@@ -1507,7 +1507,7 @@ void test_init_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, con
 
                 code.close();
 
-                inject_desc.cm = DAddingMethods::CallingMethod::INIT;
+                inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::INIT;
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("init_%1_%2_%3").arg(b, m, h);
 
@@ -1526,10 +1526,10 @@ void test_init_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, con
     // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
     // ============================================================
     // ============================================================
-    DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-    DAddingMethods::TrampolineWrapper<Registers_x64> oepwrapper;
-    DAddingMethods::Wrapper<Registers_x64> handler;
-    DAddingMethods::Wrapper<Registers_x64> oepaction;
+    DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+    DAddingMethods<Registers_x64>::TrampolineWrapper oepwrapper;
+    DAddingMethods<Registers_x64>::Wrapper handler;
+    DAddingMethods<Registers_x64>::Wrapper oepaction;
 
     handler.static_params = { { "ret", "188" } };
     handler.detect_handler = nullptr;
@@ -1610,7 +1610,7 @@ void test_init_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, con
 
                 code.close();
 
-                inject_desc.cm = DAddingMethods::CallingMethod::INIT;
+                inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::INIT;
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("init_%1_%2_%3").arg(b, m, h);
 
@@ -1771,10 +1771,10 @@ void test_trampoline_wrapper_x86(const QString &bin_fld, const QString &dmeth_fl
     // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
     // ============================================================
     // ============================================================
-    DAddingMethods::InjectDescription<Registers_x86> inject_desc;
-    DAddingMethods::TrampolineWrapper<Registers_x86> oepwrapper;
-    DAddingMethods::Wrapper<Registers_x86> handler;
-    DAddingMethods::Wrapper<Registers_x86> oepaction;
+    DAddingMethods<Registers_x86>::InjectDescription inject_desc;
+    DAddingMethods<Registers_x86>::TrampolineWrapper oepwrapper;
+    DAddingMethods<Registers_x86>::Wrapper handler;
+    DAddingMethods<Registers_x86>::Wrapper oepaction;
 
     handler.static_params = { { "ret", "127" } };
     handler.detect_handler = nullptr;
@@ -1853,7 +1853,7 @@ void test_trampoline_wrapper_x86(const QString &bin_fld, const QString &dmeth_fl
 
                 code.close();
 
-                inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
+                inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::Trampoline;
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("trampoline_%1_%2_%3").arg(b, m, h);
 
@@ -1872,10 +1872,10 @@ void test_trampoline_wrapper_x64(const QString &bin_fld, const QString &dmeth_fl
     // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
     // ============================================================
     // ============================================================
-    DAddingMethods::InjectDescription<Registers_x64> inject_desc;
-    DAddingMethods::TrampolineWrapper<Registers_x64> oepwrapper;
-    DAddingMethods::Wrapper<Registers_x64> handler;
-    DAddingMethods::Wrapper<Registers_x64> oepaction;
+    DAddingMethods<Registers_x64>::InjectDescription inject_desc;
+    DAddingMethods<Registers_x64>::TrampolineWrapper oepwrapper;
+    DAddingMethods<Registers_x64>::Wrapper handler;
+    DAddingMethods<Registers_x64>::Wrapper oepaction;
 
     handler.static_params = { { "ret", "188" } };
     handler.detect_handler = nullptr;
@@ -1955,7 +1955,7 @@ void test_trampoline_wrapper_x64(const QString &bin_fld, const QString &dmeth_fl
 
                 code.close();
 
-                inject_desc.cm = DAddingMethods::CallingMethod::Trampoline;
+                inject_desc.cm = DAddingMethods<Registers_x64>::CallingMethod::Trampoline;
                 inject_desc.adding_method = &oepwrapper;
                 inject_desc.saved_fname = QString("trampoline_%1_%2_%3").arg(b, m, h);
 

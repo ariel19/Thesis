@@ -24,6 +24,7 @@
     QString((std::string(#instruction).substr(std::string(#instruction).find_last_of(':') != std::string::npos ? \
     std::string(#instruction).find_last_of(':') + 1 : 0)).c_str()).toLower()
 
+template <typename RegistersType>
 class DAddingMethods {
 public:
 
@@ -57,7 +58,6 @@ public:
     /**
      * @brief Klasa bazowa reprezentująca opakowanie dla kawałków kodu.
      */
-    template <typename RegistersType>
     class Wrapper {
     public:
         enum class WrapperType {
@@ -81,7 +81,7 @@ public:
         QMap<QString, QString> static_params;
         RegistersType ret;
         QByteArray code;
-        Wrapper<RegistersType> *detect_handler;
+        Wrapper *detect_handler;
 
         virtual ~Wrapper() {}
 
@@ -177,7 +177,7 @@ public:
         }
 
     private:
-        static const QMap<QString, DAddingMethods::Wrapper<RegistersType>::WrapperType> wrapperTypes;
+        static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
         static const QMap<QString, RegistersType> registerTypes;
 
         /**
@@ -225,44 +225,40 @@ public:
     /**
      * @brief Klasa reprezentująca opakowanie dla tworzenia nowego wątku.
      */
-    template <typename RegistersType>
-    class ThreadWrapper : public Wrapper<RegistersType> {
+    class ThreadWrapper : public Wrapper {
     public:
-        QList<Wrapper<RegistersType>*> thread_actions;
+        QList<Wrapper*> thread_actions;
         uint16_t sleep_time;
 
         virtual bool read(const QJsonObject & json) override {
             sleep_time = 5;
-            return Wrapper<RegistersType>::read(json);
+            return Wrapper::read(json);
         }
     };
 
     /**
      * @brief Klasa reprezentująca opakowanie dla tworzenia nowego punktu wejściowego.
      */
-    template <typename RegistersType>
-    class OEPWrapper : public Wrapper<RegistersType> {
+    class OEPWrapper : public Wrapper {
     public:
-        Wrapper<RegistersType> *oep_action;
+        Wrapper *oep_action;
     };
 
     /**
      * @brief Klasa reprezentująca opakowanie dla tworzenia tramplin w funkcjach bibliotecznych.
      */
-    template <typename RegistersType>
-    class TrampolineWrapper : public Wrapper<RegistersType> {
+    class TrampolineWrapper : public Wrapper {
     public:
-        Wrapper<RegistersType> *tramp_action;
+        Wrapper *tramp_action;
     };
 
     /**
      * @brief Klasa opisująca metodę wstrzykiwania kodu.
      */
-    template <typename RegistersType>
     class InjectDescription {
     public:
         CallingMethod cm;
-        Wrapper<RegistersType> *adding_method;
+        Wrapper *adding_method;
         QString saved_fname;
         bool change_x_only;
     };
@@ -271,6 +267,8 @@ public:
      * @brief Konstruktor.
      */
     DAddingMethods(BinaryFile *f);
+
+    virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &descs) = 0;
 
 protected:
     BinaryFile *file;

@@ -18,7 +18,7 @@ class DSourceCodeParser
 {
 public:
     template <typename Reg>
-    using IDList = QList<DAddingMethods::Wrapper<Reg>*>;
+    using IDList = QList<typename DAddingMethods<Reg>::Wrapper*>;
     template <typename Reg>
     using FIDMapping = QHash<QString, IDList<Reg>>;
 
