@@ -1,23 +1,22 @@
 {
-  "name": "SIGTRAP signal",
+  "name": "ExitThread",
   "used_registers": [
     "EAX",
-    "EBX",
-    "ECX",
-    "ESI"
+    "EBX"
   ],
-  "parameters": [],
+  "parameters": [
+    "ret" : 187
+  ],
   "returns": "EAX",
   "methods": [
     "EntryPoint",
-    "Thread",
     "Trampoline",
     "INIT",
     "INIT_ARRAY",
     "CTORS"
   ],
   "architecture": "lin_x86",
-  "type" : "Method",
-  "path": "detection/os/linux/x86/sigtrap.asm",
+  "type" : "Handler",
+  "path": "handlers/linux/x86/exit.asm",
   "description": "TODO"
 }

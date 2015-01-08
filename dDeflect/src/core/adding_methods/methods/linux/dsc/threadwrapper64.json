@@ -1,22 +1,14 @@
 {
 	"name": "Thread check",
-	"used_registers": [
-		"RAX",
-		"RDX",
-		"RDI",
-		"RSI",
-		"R8",
-		"R10"
-	],
+	"used_registers": [ "All" ],
 	"parameters": [
 		"sleep1" : 0,
 		"sleep2" : 5
 	],
 	"returns": "RAX",
-	"methods": [
-		"Thread"
-	],
+	"methods": [],
 	"architecture": "lin_x86",
+	"type" : "ThreadWrapper",
 	"path": "adding_methods/methods/linux/content/x64/thread.asm",
 	"description": "TODO"
 }

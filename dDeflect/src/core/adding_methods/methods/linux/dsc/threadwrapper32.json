@@ -1,22 +1,14 @@
 {
-	"name": "Thread check",
-	"used_registers": [
-		"EAX",
-		"EBX",
-		"ECX",
-		"EDX",
-		"ESI",
-		"EDI"
-	],
+	"name": "Thread check wrapper",
+	"used_registers": [ "All" ],
 	"parameters": [
 		"sleep1" : 0,
 		"sleep2" : 5
 	],
 	"returns": "EAX",
-	"methods": [
-		"Thread"
-	],
+	"methods": [],
 	"architecture": "lin_x86",
+	"type" : "ThreadWrapper",
 	"path": "adding_methods/methods/linux/content/x86/thread.asm",
 	"description": "TODO"
 }

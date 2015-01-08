@@ -1,16 +1,11 @@
 {
-	"name": "Single check",
-	"used_registers": [],
+	"name": "Single check wrapper",
+	"used_registers": [ "All" ],
 	"parameters": [],
 	"returns": "RAX",
-	"methods": [
-		"OEP",
-		"INIT",
-		"INIT_ARRAY",
-		"CTORS",
-		"Trampoline"
-	],
+	"methods": [],
 	"architecture": "lin_x64",
+	"type" : "OEPWrapper",
 	"path": "adding_methods/methods/linux/content/x64/single.asm",
 	"description": "TODO"
 }

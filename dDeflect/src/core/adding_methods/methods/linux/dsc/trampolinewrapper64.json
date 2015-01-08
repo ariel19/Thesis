@@ -1,0 +1,11 @@
+{
+	"name": "Single check wrapper",
+	"used_registers": [ "All" ],
+	"parameters": [],
+	"returns": "RAX",
+	"methods": [],
+	"architecture": "lin_x64",
+	"type" : "TrampolineWrapper",
+	"path": "adding_methods/methods/linux/content/x64/single.asm",
+	"description": "TODO"
+}

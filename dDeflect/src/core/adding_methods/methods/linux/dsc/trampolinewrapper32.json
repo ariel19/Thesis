@@ -1,0 +1,11 @@
+{
+	"name": "Single check wrapper",
+	"used_registers": [ "All" ],
+	"parameters": [],
+	"returns": "EAX",
+	"methods": [],
+	"architecture": "lin_x86",
+	"type" : "TrampolineWrapper",
+	"path": "adding_methods/methods/linux/content/x86/single.asm",
+	"description": "TODO"
+}

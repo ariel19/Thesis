@@ -1,23 +1,22 @@
 {
-  "name": "Ptrace",
+  "name": "ExitThread",
   "used_registers": [
     "RAX",
-    "RDX",
-    "RDI",
-    "RSI",
-    "R10"
+    "RDI"
   ],
-  "parameters": [],
+  "parameters": [
+    "ret" : 187
+  ],
   "returns": "RAX",
   "methods": [
     "EntryPoint",
-    "Thread",
+    "Trampoline",
     "INIT",
     "INIT_ARRAY",
     "CTORS"
   ],
   "architecture": "lin_x64",
-  "type" : "Method",
-  "path": "detection/os/linux/x64/ptrace.asm",
+  "type" : "Handler",
+  "path": "handlers/linux/x64/exit.asm",
   "description": "TODO"
 }
