@@ -40,6 +40,8 @@ private:
     QMap<PlaceholderTypes, QString> placeholder_id;
     QMap<PlaceholderMnemonics, QString> placeholder_mnm;
 
+    bool secure_one(typename DAddingMethods<RegistersType>::InjectDescription* inject_desc);
+
     /**
      * @brief Metoda odpowiada za generowanie kodu dla dowolnego opakowania.
      * @param wrap klasa opisująca kawałek kodu do wygenerowania.

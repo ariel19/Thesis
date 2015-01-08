@@ -210,6 +210,15 @@ void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList 
 // ===============================================================================
 template <typename RegistersType>
 bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) {
+    foreach(typename DAddingMethods<RegistersType>::InjectDescription* id, inject_desc) {
+        if(secure_one(id))
+            return false;
+    }
+    return true;
+}
+
+template <typename RegistersType>
+bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersType>::InjectDescription* i_desc) {
     QString code2compile,
             code_ddetect_handler,
             code_ddetect;
@@ -230,11 +239,6 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods
         code2compile.append(QString("%1\n").arg(
                                 DAddingMethods<RegistersType>::arch_type[DAddingMethods<RegistersType>::ArchitectureType::BITS64]));
     else return false;
-
-    if(inject_desc.empty())
-        return false;
-
-    typename DAddingMethods<RegistersType>::InjectDescription *i_desc = inject_desc[0];
 
     // add to params
     if (!i_desc->adding_method || !i_desc->adding_method->detect_handler)
