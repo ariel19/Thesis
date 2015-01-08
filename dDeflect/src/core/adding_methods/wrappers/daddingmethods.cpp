@@ -58,8 +58,8 @@ template DAddingMethods<Registers_x64>::DAddingMethods(BinaryFile *f);
 template <typename Reg>
 const QMap<QString, typename DAddingMethods<Reg>::Wrapper::WrapperType> DAddingMethods<Reg>::Wrapper::wrapperTypes =
 {
-    { "Handler", DAddingMethods<Reg>::Wrapper::WrapperType::Handler },
     { "Method", DAddingMethods<Reg>::Wrapper::WrapperType::Method },
+    { "Handler", DAddingMethods<Reg>::Wrapper::WrapperType::Handler },
     { "Helper", DAddingMethods<Reg>::Wrapper::WrapperType::Helper },
     { "ThreadWrapper", DAddingMethods<Reg>::Wrapper::WrapperType::ThreadWrapper },
     { "OEPWrapper", DAddingMethods<Reg>::Wrapper::WrapperType::OepWrapper },

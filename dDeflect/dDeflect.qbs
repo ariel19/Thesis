@@ -32,13 +32,6 @@ Project {
 
         Group {
             files: [
-            ]
-            condition: qbs.targetOS == "windows"
-            cpp.dynamicLibraries: []
-        }
-
-        Group {
-            files: [
                 "src/core/adding_methods/wrappers/elfaddingmethods.cpp",
                 "src/core/adding_methods/wrappers/elfaddingmethods.h",
                 "src/core/file_types/codedefines.cpp",
@@ -66,6 +59,8 @@ Project {
             "src/ApplicationManager/applicationmanager.h",
             "src/ApplicationManager/DJsonParser/djsonparser.cpp",
             "src/ApplicationManager/DJsonParser/djsonparser.h",
+            "src/ApplicationManager/dsettings.h",
+            "src/ApplicationManager/dsettings.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.h",
             "tests/src/*.cpp",
