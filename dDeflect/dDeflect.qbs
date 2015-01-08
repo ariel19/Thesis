@@ -59,6 +59,8 @@ Project {
             "src/ApplicationManager/applicationmanager.h",
             "src/ApplicationManager/DJsonParser/djsonparser.cpp",
             "src/ApplicationManager/DJsonParser/djsonparser.h",
+            "src/ApplicationManager/dsettings.h",
+            "src/ApplicationManager/dsettings.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.h",
             "tests/src/*.cpp",
