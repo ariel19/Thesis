@@ -24,6 +24,17 @@ Project {
             qbs.installDir: "bin"
         }
 
+        Group {
+            qbs.install: true
+            qbs.installDir: "bin"
+            files: [
+                "src/core/descriptions/",
+                "src/core/detection/",
+                "src/core/handlers/",
+                "src/core/helper_func/"
+            ]
+        }
+
         Depends { name: "Qt"; submodules: ["core", "widgets", "quick"] }
         cpp.warningLevel: "all"
         cpp.includePaths: ["src"]
