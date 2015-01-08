@@ -11,7 +11,7 @@ class DSettings
 {
 private:
     DSettings();
-    DSettings(const DSettings &);
+    DSettings(const DSettings &) = delete;
 
     const static QString file_name;
 
