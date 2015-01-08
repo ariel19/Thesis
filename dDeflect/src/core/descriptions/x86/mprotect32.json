@@ -1,11 +1,15 @@
 {
-  "name": "Exit",
+  "name": "MemoryProtect",
   "used_registers": [
     "EAX",
-    "EBX"
+    "EBX",
+    "ECX",
+    "EDX"
   ],
   "parameters": [
-    "ret" : 188
+    "vaddr" : "##tofill##",
+    "vsize" : "##tofill##",
+    "flags" : "##tofill##"
   ],
   "returns": "EAX",
   "methods": [
@@ -17,7 +21,7 @@
     "CTORS"
   ],
   "architecture": "lin_x86",
-  "type" : "Handler",
-  "path": "handlers/linux/x86/exit_group.asm",
+  "type" : "Helper",
+  "path": "data/helper_func/linux/x86/mprotect.asm",
   "description": "TODO"
 }

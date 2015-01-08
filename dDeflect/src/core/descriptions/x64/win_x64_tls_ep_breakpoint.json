@@ -17,6 +17,6 @@
     "TLS"
   ],
   "architecture": "win_x64",
-  "path": "detection/os/win/x64/src/tls_ep_breakpoint.asm",
+  "path": "data/detection/win/x64/tls_ep_breakpoint.asm",
   "description": "TODO"
 }

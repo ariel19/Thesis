@@ -1,14 +1,15 @@
 {
-  "name": "ExitThread",
+  "name": "Exit",
   "used_registers": [
     "EAX",
     "EBX"
   ],
   "parameters": [
-    "ret" : 187
+    "ret" : 188
   ],
   "returns": "EAX",
   "methods": [
+    "Thread",
     "EntryPoint",
     "Trampoline",
     "INIT",
@@ -17,6 +18,6 @@
   ],
   "architecture": "lin_x86",
   "type" : "Handler",
-  "path": "handlers/linux/x86/exit.asm",
+  "path": "data/handlers/linux/x86/exit_group.asm",
   "description": "TODO"
 }

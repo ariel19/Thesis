@@ -14,6 +14,6 @@
     "Thread"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/being_debugged.asm",
+  "path": "data/detection/win/x86/being_debugged.asm",
   "description": "TODO"
 }

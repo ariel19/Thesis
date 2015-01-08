@@ -164,8 +164,7 @@ public:
             ret = registerTypes[json["ret"].toString()];
 
             // code
-            // TODO: sciezka
-            QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
+            QFile codeFile(json["path"].toString());
             if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 
@@ -243,6 +242,11 @@ public:
     class OEPWrapper : public Wrapper {
     public:
         Wrapper *oep_action;
+
+        virtual bool read(const QJsonObject & json) override {
+            oep_action = nullptr;
+            return Wrapper::read(json);
+        }
     };
 
     /**
@@ -251,6 +255,11 @@ public:
     class TrampolineWrapper : public Wrapper {
     public:
         Wrapper *tramp_action;
+
+        virtual bool read(const QJsonObject & json) override {
+            tramp_action = nullptr;
+            return Wrapper::read(json);
+        }
     };
 
     /**

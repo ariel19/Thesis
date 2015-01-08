@@ -1,23 +1,26 @@
 {
-  "name": "Ptrace",
+  "name": "0xcc Byte Search",
   "used_registers": [
     "EAX",
     "EBX",
     "ECX",
-    "EDX",
-    "ESI"
+    "EDI"
   ],
-  "parameters": [],
+  "parameters": [
+    "vsize" : "##tofill##",
+    "vaddr" : "##tofill##"
+  ],
   "returns": "EAX",
   "methods": [
     "EntryPoint",
     "Thread",
+    "Trampoline",
     "INIT",
     "INIT_ARRAY",
     "CTORS"
   ],
   "architecture": "lin_x86",
   "type" : "Method",
-  "path": "detection/os/linux/x86/ptrace.asm",
+  "path": "data/detection/linux/x86/cc.asm",
   "description": "TODO"
 }

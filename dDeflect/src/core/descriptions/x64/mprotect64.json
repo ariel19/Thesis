@@ -1,26 +1,27 @@
 {
-  "name": "0xcc Byte Search",
+  "name": "MemoryProtect",
   "used_registers": [
     "RAX",
-    "RBX",
-    "RCX",
+    "RDX",
+    "RSI",
     "RDI"
   ],
   "parameters": [
+    "vaddr" : "##tofill##",
     "vsize" : "##tofill##",
-    "vaddr" : "##tofill##"
+    "flags" : "##tofill##"
   ],
   "returns": "RAX",
   "methods": [
-    "EntryPoint",
     "Thread",
+    "EntryPoint",
     "Trampoline",
     "INIT",
     "INIT_ARRAY",
     "CTORS"
   ],
   "architecture": "lin_x64",
-  "type" : "Method",
-  "path": "detection/os/linux/x64/cc.asm",
+  "type" : "Helper",
+  "path": "data/helper_func/linux/x64/mprotect.asm",
   "description": "TODO"
 }

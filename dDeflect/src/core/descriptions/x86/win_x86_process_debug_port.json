@@ -18,6 +18,6 @@
     "Thread"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/process_debug_port.asm",
+  "path": "data/detection/win/x86/process_debug_port.asm",
   "description": "TODO"
 }

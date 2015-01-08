@@ -23,6 +23,6 @@
   ],
   "architecture": "win_x86",
   "type": "Handler",
-  "path": "handlers/win/x86/message_box.asm",
+  "path": "data/handlers/win/x86/message_box.asm",
   "description": "TODO"
 }

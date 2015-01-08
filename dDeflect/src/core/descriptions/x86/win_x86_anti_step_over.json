@@ -17,6 +17,6 @@
     "Thread"
   ],
   "architecture": "win_x86",
-  "path": "detection/os/win/x86/src/anti_step_over.asm",
+  "path": "data/detection/win/x86/anti_step_over.asm",
   "description": "TODO"
 }

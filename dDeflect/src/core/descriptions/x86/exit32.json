@@ -1,19 +1,14 @@
 {
-  "name": "MemoryProtect",
+  "name": "ExitThread",
   "used_registers": [
     "EAX",
-    "EBX",
-    "ECX",
-    "EDX"
+    "EBX"
   ],
   "parameters": [
-    "vaddr" : "##tofill##",
-    "vsize" : "##tofill##",
-    "flags" : "##tofill##"
+    "ret" : 187
   ],
   "returns": "EAX",
   "methods": [
-    "Thread",
     "EntryPoint",
     "Trampoline",
     "INIT",
@@ -21,7 +16,7 @@
     "CTORS"
   ],
   "architecture": "lin_x86",
-  "type" : "Helper",
-  "path": "helper_func/linux/content/x86/mprotect.asm",
+  "type" : "Handler",
+  "path": "data/handlers/linux/x86/exit.asm",
   "description": "TODO"
 }
