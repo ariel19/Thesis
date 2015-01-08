@@ -4,7 +4,7 @@
  * @brief DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody
  * @return wskaźnik do wczytanej metody
  */
-DAddingMethods::Wrapper<Registers_x86> *DJsonParser::getInjectionRead() const
+DAddingMethods<Registers_x86>::Wrapper *DJsonParser::getInjectionRead() const
 {
     return injectionRead;
 }
@@ -18,7 +18,7 @@ DJsonParser::DJsonParser(QString path) : m_path(path)
  * @return zwraca true w razie powodzenia false w przeciwnym wypadku
  */
 template <typename Register>
-DAddingMethods::Wrapper<Register> *DJsonParser::loadInjectDescription(QString name)
+typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(QString name)
 {
     // TODO: tworzenie Wrapper/OEPWrapper/ThreadWrapper itp
     QFile loadFile(m_path + name);
@@ -33,9 +33,9 @@ DAddingMethods::Wrapper<Register> *DJsonParser::loadInjectDescription(QString na
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
     QJsonObject obj = loadDoc.object();
 
-    DAddingMethods::Wrapper<Register> *p = obj["type"].toString() == "Thread" ?
-                new (std::nothrow) DAddingMethods::ThreadWrapper<Register>() :
-                new (std::nothrow) DAddingMethods::Wrapper<Register>();
+    typename DAddingMethods<Register>::Wrapper *p = obj["type"].toString() == "Thread" ?
+                new (std::nothrow) typename DAddingMethods<Register>::ThreadWrapper() :
+                new (std::nothrow) typename DAddingMethods<Register>::Wrapper();
 
     if(!p)
         return nullptr;
@@ -48,8 +48,8 @@ DAddingMethods::Wrapper<Register> *DJsonParser::loadInjectDescription(QString na
 
     return p;
 }
-template DAddingMethods::Wrapper<Registers_x86> *DJsonParser::loadInjectDescription(QString name);
-template DAddingMethods::Wrapper<Registers_x64> *DJsonParser::loadInjectDescription(QString name);
+//template DAddingMethods<Registers_x86>::Wrapper *DJsonParser::loadInjectDescription(QString name);
+//template DAddingMethods<Registers_x64>::Wrapper *DJsonParser::loadInjectDescription(QString name);
 
 /**
  * @brief DJsonParser::saveIncjectionDescription zapisuje referencje obiekt wskazywany przez injection do pliku w formacie .json
@@ -57,7 +57,7 @@ template DAddingMethods::Wrapper<Registers_x64> *DJsonParser::loadInjectDescript
  * @param name nazwa metody
  * @return true w przypadku powodzenia false w p.p.
  */
-bool DJsonParser::saveIncjectDescription(QString name, DAddingMethods::Wrapper<Registers_x86> &injection)
+bool DJsonParser::saveIncjectDescription(QString name, DAddingMethods<Registers_x86>::Wrapper &injection)
 {
 //    QFile saveFile(m_path+name+".json");
 

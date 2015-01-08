@@ -13,7 +13,7 @@
  * @brief Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików PE
  */
 template <typename Register>
-class PEAddingMethods : public DAddingMethods
+class PEAddingMethods : public DAddingMethods<Register>
 {
 private:
 
@@ -99,7 +99,7 @@ private:
      * @param sleepTime Czas snu wątku
      * @return True w przypadku sukcesu
      */
-    uint64_t generateThreadCode(QList<Wrapper<Register>*> wrappers, uint16_t sleepTime);
+    uint64_t generateThreadCode(QList<typename DAddingMethods<Register>::Wrapper*> wrappers, uint16_t sleepTime);
 
     /**
      * @brief Generowanie kodu metody
@@ -107,7 +107,7 @@ private:
      * @param isTlsCallback Informacja czy metoda jest callbackiem TLS
      * @return True w przypadku sukcesu
      */
-    uint64_t generateCode(Wrapper<Register> *w, bool isTlsCallback = false);
+    uint64_t generateCode(typename DAddingMethods<Register>::Wrapper *w, bool isTlsCallback = false);
 
     /**
      * @brief Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu
@@ -152,7 +152,7 @@ public:
      * @param descs Lista wybranych metod
      * @return True w przypadku sukcesu
      */
-    bool secure(const QList<InjectDescription<Register>*> &descs);
+    bool secure(const QList<typename DAddingMethods<Register>::InjectDescription*> &descs);
 
     /**
      * @brief Ustawia nowe procentowe pokrycie kodu

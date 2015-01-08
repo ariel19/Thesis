@@ -7,7 +7,7 @@
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
 template <typename RegistersType>
-class ELFAddingMethods : public DAddingMethods {
+class ELFAddingMethods : public DAddingMethods<RegistersType> {
 public:
     ELFAddingMethods(ELF *f);
     ~ELFAddingMethods();
@@ -18,7 +18,7 @@ public:
      * @param inject_desc opis metody wstrzykiwania kodu.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool secure(const QList<InjectDescription<RegistersType>*> &inject_desc);
+    bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc);
 
 private:
     enum class PlaceholderMnemonics {
@@ -46,7 +46,7 @@ private:
      * @param code wygenerowany kod.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code);
+    bool wrapper_gen_code(typename DAddingMethods<RegistersType>::Wrapper *wrap, QString &code);
 
     /**
      * @brief Metoda odpowiada za wypełnianie parametrów w podanym kodzie.

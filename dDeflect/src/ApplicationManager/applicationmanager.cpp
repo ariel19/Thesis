@@ -41,7 +41,7 @@ ApplicationManager::State ApplicationManager::state() const
 QVariantList ApplicationManager::x86MethodsNames()
 {
     if(m_x86MethodsNames.empty()){
-        foreach(DAddingMethods::Wrapper<Registers_x86>* id, m_x86methodsList){
+        foreach(DAddingMethods<Registers_x86>::Wrapper* id, m_x86methodsList){
             QVariant* p = new QVariant(QString::fromStdString(id->name.toStdString()));
             m_x86MethodsNames.append(*p);
         }

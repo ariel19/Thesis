@@ -2,7 +2,7 @@
 
 template <typename RegistersType>
 ELFAddingMethods<RegistersType>::ELFAddingMethods(ELF *f) :
-    DAddingMethods(f)
+    DAddingMethods<RegistersType>(f)
 {
     placeholder_id = {
         { PlaceholderTypes::PARAM_PRE,          QString("(?^_^")     },
@@ -96,7 +96,7 @@ bool ELFAddingMethods<RegistersType>::get_addresses(const QByteArray &addr_data,
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code) {
+bool ELFAddingMethods<RegistersType>::wrapper_gen_code(typename DAddingMethods<RegistersType>::Wrapper *wrap, QString &code) {
     if (!wrap)
         return false;
 
@@ -138,15 +138,15 @@ bool ELFAddingMethods<RegistersType>::wrapper_gen_code(Wrapper<RegistersType> *w
 
     return true;
 }
-template bool ELFAddingMethods<Registers_x86>::wrapper_gen_code(Wrapper<Registers_x86> *wrap, QString &code);
-template bool ELFAddingMethods<Registers_x64>::wrapper_gen_code(Wrapper<Registers_x64> *wrap, QString &code);
+template bool ELFAddingMethods<Registers_x86>::wrapper_gen_code(DAddingMethods<Registers_x86>::Wrapper *wrap, QString &code);
+template bool ELFAddingMethods<Registers_x64>::wrapper_gen_code(DAddingMethods<Registers_x64>::Wrapper *wrap, QString &code);
 
 template <>
 template <>
 bool ELFAddingMethods<Registers_x86>::set_prot_flags_gen_code(Elf32_Addr vaddr, Elf32_Word mem_size,
                                                               Elf32_Word flags, QString &code) {
     // TODO: generated using JSON parser, here is stupid dummy solution
-    Wrapper<Registers_x86> mprotect;
+    DAddingMethods<Registers_x86>::Wrapper mprotect;
 
     // TODO: should be changed
     mprotect.detect_handler = nullptr;
@@ -171,7 +171,7 @@ template <>
 bool ELFAddingMethods<Registers_x64>::set_prot_flags_gen_code(Elf64_Addr vaddr, Elf64_Xword mem_size,
                                                               Elf64_Word flags, QString &code) {
     // TODO: generated using JSON parser, here is stupid dummy solution
-    Wrapper<Registers_x64> mprotect;
+    DAddingMethods<Registers_x64>::Wrapper mprotect;
 
     // TODO: should be changed
     mprotect.detect_handler = nullptr;
@@ -209,13 +209,13 @@ void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList 
 // TODO: add detect method return value to wrapper used_regs, and push it on stack
 // ===============================================================================
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<RegistersType> *> &inject_desc) {
+bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) {
     QString code2compile,
             code_ddetect_handler,
             code_ddetect;
     QByteArray compiled_code;
 
-    ELF *elf = dynamic_cast<ELF*>(file);
+    ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
     if(!elf)
         return false;
 
@@ -224,15 +224,17 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
     // check platform version
     if (std::is_same<RegistersType, Registers_x86>::value)
-        code2compile.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS32]));
+        code2compile.append(QString("%1\n").arg(
+                                DAddingMethods<RegistersType>::arch_type[DAddingMethods<RegistersType>::ArchitectureType::BITS32]));
     else if(std::is_same<RegistersType, Registers_x64>::value)
-        code2compile.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS64]));
+        code2compile.append(QString("%1\n").arg(
+                                DAddingMethods<RegistersType>::arch_type[DAddingMethods<RegistersType>::ArchitectureType::BITS64]));
     else return false;
 
     if(inject_desc.empty())
         return false;
 
-    InjectDescription<RegistersType> *i_desc = inject_desc[0];
+    typename DAddingMethods<RegistersType>::InjectDescription *i_desc = inject_desc[0];
 
     // add to params
     if (!i_desc->adding_method || !i_desc->adding_method->detect_handler)
@@ -262,30 +264,30 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
     // 2. generate code for debugger detection method
     switch (i_desc->cm) {
-    case CallingMethod::OEP: {
-        OEPWrapper<RegistersType> *oepwrapper =
-                dynamic_cast<OEPWrapper<RegistersType>*>(i_desc->adding_method);
+    case DAddingMethods<RegistersType>::CallingMethod::OEP: {
+        typename DAddingMethods<RegistersType>::OEPWrapper *oepwrapper =
+                dynamic_cast<typename DAddingMethods<RegistersType>::OEPWrapper*>(i_desc->adding_method);
         if (!oepwrapper)
             return false;
         if (!wrapper_gen_code(oepwrapper->oep_action, code_ddetect))
             return false;
         break;
     }
-    case CallingMethod::Thread: {
-        ThreadWrapper<RegistersType> *twrapper =
-                dynamic_cast<ThreadWrapper<RegistersType>*>(i_desc->adding_method);
+    case DAddingMethods<RegistersType>::CallingMethod::Thread: {
+        typename DAddingMethods<RegistersType>::ThreadWrapper *twrapper =
+                dynamic_cast<typename DAddingMethods<RegistersType>::ThreadWrapper*>(i_desc->adding_method);
         if (!twrapper)
             return false;
         if (!wrapper_gen_code(twrapper->thread_actions[0], code_ddetect))
             return false;
         break;
     }
-    case CallingMethod::Trampoline:
-    case CallingMethod::INIT_ARRAY:
-    case CallingMethod::CTORS :
-    case CallingMethod::INIT: {
-        TrampolineWrapper<RegistersType> *trmwrapper =
-                dynamic_cast<TrampolineWrapper<RegistersType>*>(i_desc->adding_method);
+    case DAddingMethods<RegistersType>::CallingMethod::Trampoline:
+    case DAddingMethods<RegistersType>::CallingMethod::INIT_ARRAY:
+    case DAddingMethods<RegistersType>::CallingMethod::CTORS :
+    case DAddingMethods<RegistersType>::CallingMethod::INIT: {
+        typename DAddingMethods<RegistersType>::TrampolineWrapper *trmwrapper =
+                dynamic_cast<typename DAddingMethods<RegistersType>::TrampolineWrapper*>(i_desc->adding_method);
         if (!trmwrapper)
             return false;
         if (!wrapper_gen_code(trmwrapper->tramp_action, code_ddetect))
@@ -310,8 +312,8 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
     // add jump to old original entry point
     switch(i_desc->cm) {
-    case CallingMethod::Thread:
-    case CallingMethod::OEP:
+    case DAddingMethods<RegistersType>::CallingMethod::Thread:
+    case DAddingMethods<RegistersType>::CallingMethod::OEP:
         if (elf->is_x86()) {
             code2compile.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, oldep));
             code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
@@ -321,13 +323,13 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
             code2compile.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
         break;
-    case CallingMethod::CTORS:
+    case DAddingMethods<RegistersType>::CallingMethod::CTORS:
         break;
-    case CallingMethod::INIT:
+    case DAddingMethods<RegistersType>::CallingMethod::INIT:
         break;
-    case CallingMethod::INIT_ARRAY:
+    case DAddingMethods<RegistersType>::CallingMethod::INIT_ARRAY:
         break;
-    case CallingMethod::Trampoline:
+    case DAddingMethods<RegistersType>::CallingMethod::Trampoline:
         break;
     default:
         return false;
@@ -342,8 +344,8 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
     Elf64_Addr nva;
 
     switch(i_desc->cm) {
-    case CallingMethod::Thread:
-    case CallingMethod::OEP: {
+    case DAddingMethods<RegistersType>::CallingMethod::Thread:
+    case DAddingMethods<RegistersType>::CallingMethod::OEP: {
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva))
             return false;
 
@@ -353,7 +355,7 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
         qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
         break;
     }
-    case CallingMethod::CTORS: {
+    case DAddingMethods<RegistersType>::CallingMethod::CTORS: {
         QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf->get_section_content(ELF::SectionType::CTORS, section_data))
             return false;
@@ -394,7 +396,7 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
         break;
     }
-    case CallingMethod::INIT: {
+    case DAddingMethods<RegistersType>::CallingMethod::INIT: {
         QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf->get_section_content(ELF::SectionType::INIT, section_data))
             return false;
@@ -481,12 +483,14 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
         // change section content
         QByteArray init_section_code;
         if (elf->is_x86()) {
-            init_section_code.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS32]));
+            init_section_code.append(QString("%1\n").arg(
+                                         DAddingMethods<RegistersType>::arch_type[DAddingMethods<RegistersType>::ArchitectureType::BITS32]));
             init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x86>(Registers_x86::EAX, nva));
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x86>(Registers_x86::EAX));
         }
         else {
-            init_section_code.append(QString("%1\n").arg(arch_type[ArchitectureType::BITS64]));
+            init_section_code.append(QString("%1\n").arg(
+                                         DAddingMethods<RegistersType>::arch_type[DAddingMethods<RegistersType>::ArchitectureType::BITS64]));
             init_section_code.append(AsmCodeGenerator::mov_reg_const<Registers_x64>(Registers_x64::RAX, nva));
             init_section_code.append(AsmCodeGenerator::jmp_reg<Registers_x64>(Registers_x64::RAX));
         }
@@ -502,7 +506,7 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
         break;
     }
-    case CallingMethod::INIT_ARRAY: {
+    case DAddingMethods<RegistersType>::CallingMethod::INIT_ARRAY: {
         QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf->get_section_content(ELF::SectionType::INIT_ARRAY, section_data))
             return false;
@@ -543,7 +547,7 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
         break;
     }
-    case CallingMethod::Trampoline: {
+    case DAddingMethods<RegistersType>::CallingMethod::Trampoline: {
         // look for jmp's and call's in code
         // get virtual address in code of such instruction and calculate address
         // case 'call': add code that performs debug check + call to previous code using push : ret
@@ -660,5 +664,5 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<InjectDescription<Regis
 
     return true;
 }
-template bool ELFAddingMethods<Registers_x86>::secure(const QList<InjectDescription<Registers_x86> *> &inject_desc);
-template bool ELFAddingMethods<Registers_x64>::secure(const QList<InjectDescription<Registers_x64> *> &inject_desc);
+template bool ELFAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &inject_desc);
+template bool ELFAddingMethods<Registers_x64>::secure(const QList<DAddingMethods<Registers_x64>::InjectDescription *> &inject_desc);
