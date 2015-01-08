@@ -87,7 +87,8 @@ const QMap<QString, Registers_x86> DAddingMethods::Wrapper<Registers_x86>::regis
     { "EDI", Registers_x86::EDI },
     { "ESP", Registers_x86::ESP },
     { "EBP", Registers_x86::EBP },
-    { "None", Registers_x86::None }
+    { "None", Registers_x86::None },
+    { "All", Registers_x86::All }
 };
 
 template <>
@@ -109,5 +110,6 @@ const QMap<QString, Registers_x64> DAddingMethods::Wrapper<Registers_x64>::regis
     { "R13", Registers_x64::RAX },
     { "R14", Registers_x64::RAX },
     { "R15", Registers_x64::RAX },
-    { "None", Registers_x64::None }
+    { "None", Registers_x64::None },
+    { "All", Registers_x64::All }
 };
