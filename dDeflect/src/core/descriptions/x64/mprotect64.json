@@ -22,6 +22,6 @@
   ],
   "architecture": "lin_x64",
   "type" : "Helper",
-  "path": "helper_func/linux/content/x64/mprotect.asm",
+  "path": "data/helper_func/linux/x64/mprotect.asm",
   "description": "TODO"
 }

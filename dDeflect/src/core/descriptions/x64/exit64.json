@@ -17,6 +17,6 @@
   ],
   "architecture": "lin_x64",
   "type" : "Handler",
-  "path": "handlers/linux/x64/exit.asm",
+  "path": "data/handlers/linux/x64/exit.asm",
   "description": "TODO"
 }

@@ -18,6 +18,6 @@
   ],
   "architecture": "lin_x86",
   "type" : "Method",
-  "path": "detection/os/linux/x86/ptrace.asm",
+  "path": "data/detection/linux/x86/ptrace.asm",
   "description": "TODO"
 }
