@@ -763,7 +763,7 @@ Elf64_Addr ELF::__fix_segment_table(QByteArray &data, const ex_offset_t file_off
     return va;
 }
 
-bool ELF::get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const {
+bool ELF::get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const {
     if (!parsed)
         return false;
 
@@ -780,7 +780,7 @@ bool ELF::get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const 
 }
 
 template <typename ElfProgramHeaderType>
-bool ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const {
+bool ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const {
 
     const ElfProgramHeaderType *ph = nullptr;
     foreach (ex_offset_t fo, ph_idx) {

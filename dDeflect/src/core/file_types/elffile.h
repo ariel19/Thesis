@@ -146,7 +146,7 @@ public:
      * @param prot_flags flagi ochrony pamięci.
      * @return True jeżeli segment istnieje, False w innych przypadkach.
      */
-    bool get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const;
+    bool get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const;
 
     /**
      * @brief Pobiera wartość wyrównania segmentu.
@@ -433,7 +433,7 @@ private:
      * @return True jeżeli segment istnieje, False w innych przypadkach.
      */
     template <typename ElfProgramHeaderType>
-    bool __get_segment_prot_flags(const Elf64_Addr vaddr, int &prot_flags) const;
+    bool __get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const;
 
     /**
      * @brief Pobiera wartość wyrównania segmentu.
