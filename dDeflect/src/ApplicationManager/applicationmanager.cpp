@@ -68,7 +68,7 @@ void ApplicationManager::fileOpened(QString path)
 
 void ApplicationManager::applyClicked(QVariantList methodsChosen)
 {
-    m_targetPath ="";
+
     if(methodsChosen.isEmpty()){
         qDebug()<<"Methods List is empty, verify in qml";
         return;
@@ -84,6 +84,7 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
     map["main"] = methodsToInsert;
     qDebug()<<map;
     insertMethods(map);
+    m_targetPath ="";
 }
 
 void ApplicationManager::insertMethods(FIDMapping<DAddingMethods::Registers_x86> Map)

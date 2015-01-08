@@ -38,7 +38,7 @@ ApplicationWindow {
     AboutDialog { id: aboutDialog }
     FileDialog {
         id: fileDialog
-        nameFilters: [ "C++ files (*.cc *.cpp *.CPP *.c++ *.cp *.cxx)", "Executive files (*.exe)" ]
+        nameFilters: [ "C++ files (*.cc *.cpp *.CPP *.c++ *.cp *.cxx)", "Executive files (*.exe)", "All files (*)" ]
         onFileUrlChanged:{
             fileUrlText.text = fileUrl;
             applicationManager.fileOpened(fileDialog.fileUrl);
@@ -148,30 +148,52 @@ ApplicationWindow {
     Connections{
      target: applicationManager
      onStateChanged: {
+
+         // FIXME: przy zmianie stanów EXEC==>SOURCE się wychrzania
          console.log("state changed: "+ applicationManager.state);
+         if(appState !== Manager.IDLE && applicationManager.state!== Manager.IDLE){
+             for(var i=0; i<3; ++i){
+                  execTab.visible = false;
+                  obfuscationTab.visible = false;
+                  packingTab.visible = false
+             }
+             for(var j=0; j<3; ++j){
+                 frame.removeTab(0);
+             }
+         }
          if(applicationManager.state === 2){
              if(appState !== 2){
                 console.log("SOURCE STATE")
                 frame.addTab("SOURCE",sourceTab)
                 frame.addTab("PACKING",packingTab)
                 frame.addTab("OBFUSCATION",obfuscationTab)
-                appState = applicationManager.state;
+                for(var k=0; k<3; ++k){
+                     frame.getTab(k).visible = true;
+                }
              }
          } else if(applicationManager.state === 1){
             if(appState !== 1){
-             frame.addTab("EXECUTABLE",execTab)
-             frame.addTab("PACKING",packingTab)
-             frame.addTab("OBFUSCATION",obfuscationTab)
+                frame.addTab("EXECUTABLE",execTab)
+                frame.addTab("PACKING",packingTab)
+                frame.addTab("OBFUSCATION",obfuscationTab)
+                for(var p=0; p<3; ++p){
+                     frame.getTab(p).visible = true;
+                }
             }
          } else {
              if(appState!== Manager.IDLE){
+                 for(var z=0; z<3; ++z){
+                      frame.getTab(z).visible = false;
+                 }
                  frame.removeTab(0);
                  frame.removeTab(0);
                  frame.removeTab(0);
              }
          }
+         appState = applicationManager.state;
      }
     }
+
     Component{
         id: execTab
 

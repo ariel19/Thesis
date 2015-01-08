@@ -52,6 +52,8 @@ void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<DAddingMet
         return;
     }
 
+    QString correctPath = path;
+    correctPath = correctPath.remove("file://");
     QStringList arguments;
 
     // TODO: przygotuj kod do wstawienia tak aby działał
@@ -61,7 +63,7 @@ void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<DAddingMet
         codeToInsert.append(id->adding_method->code);
         codeToInsert.append(");\n");
     }
-    arguments << path << "--" << "main" << codeToInsert;
+    arguments << correctPath << "--" << "main" << codeToInsert;
 
     QProcess * myProcess = new QProcess();
     myProcess->start(program, arguments);
