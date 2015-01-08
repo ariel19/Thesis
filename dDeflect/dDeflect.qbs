@@ -32,13 +32,6 @@ Project {
 
         Group {
             files: [
-            ]
-            condition: qbs.targetOS == "windows"
-            cpp.dynamicLibraries: []
-        }
-
-        Group {
-            files: [
                 "src/core/adding_methods/wrappers/elfaddingmethods.cpp",
                 "src/core/adding_methods/wrappers/elfaddingmethods.h",
                 "src/core/file_types/codedefines.cpp",
