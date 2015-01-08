@@ -163,8 +163,7 @@ uint64_t PEAddingMethods<Register>::generateCode(typename DAddingMethods<Registe
     // Ładowanie parametrów
     if(!w->dynamic_params.empty())
     {
-        // TODO
-        DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+        DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Register>());
         typename DAddingMethods<Register>::Wrapper *func_wrap =
                 parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
@@ -383,8 +382,8 @@ bool PEAddingMethods<Register>::injectTrampolineCode(QList<uint64_t> &tramMethod
     QProcess ndisasm;
 
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
-    // TODO
-    ndisasm.start("C:\\jablonskim\\Programy\\Nasm\\ndisasm.exe", {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+    QString ndisasm_path = DSettings::getSettings().getNdisasmPath();
+    ndisasm.start(ndisasm_path, {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
 
     if(!ndisasm.waitForStarted())
         return false;
@@ -441,8 +440,7 @@ uint64_t PEAddingMethods<Registers_x86>::generateThreadCode(QList<DAddingMethods
 
     if(sleepTime)
     {
-        // TODO: ścieżka z config!
-        DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+        DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Register>());
         typename DAddingMethods<Register>::Wrapper *func_wrap =
                 parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
@@ -528,8 +526,7 @@ uint64_t PEAddingMethods<Registers_x64>::generateThreadCode(QList<DAddingMethods
 
     if(sleepTime)
     {
-        // TODO
-        DJsonParser parser("..\\..\\..\\..\\dDeflect\\src\\core\\detection\\dsc\\");
+        DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Register>());
         typename DAddingMethods<Register>::Wrapper *func_wrap =
                 parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
@@ -828,18 +825,24 @@ QByteArray PEAddingMethods<Register>::compileCode(QByteArray code)
     temp_file.write(code);
     temp_file.flush();
 
+    QTemporaryDir compile_dir;
+    if(!compile_dir.isValid())
+        return bin;
+
+    QString data_file = QFileInfo(compile_dir.path(), "data.bin").absoluteFilePath();
+
     QProcess nasm;
 
     nasm.setProcessChannelMode(QProcess::MergedChannels);
-    // TODO
-    nasm.start("C:\\jablonskim\\Programy\\Nasm\\nasm.exe", {"-f", "bin", "-o", "~tmpfile.bin", QFileInfo(temp_file).absoluteFilePath()});
+    QString nasmPath = DSettings::getSettings().getNasmPath();
+    nasm.start(nasmPath, {"-f", "bin", "-o", data_file, QFileInfo(temp_file).absoluteFilePath()});
 
     if(!nasm.waitForFinished())
         return bin;
 
     temp_file.close();
 
-    QFile f("~tmpfile.bin");
+    QFile f(data_file);
 
     if(!f.open(QFile::ReadOnly))
         return bin;

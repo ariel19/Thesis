@@ -14,14 +14,21 @@ bool DSettings::load()
     if(!f.open(QFile::ReadOnly))
         return false;
 
-    QJsonObject settings =  QJsonDocument::fromBinaryData(f.readAll()).object();
+    QByteArray data = f.readAll();
+    f.close();
+
+    QJsonParseError e;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &e);
+    if(e.error != QJsonParseError::NoError)
+        return false;
+
+    QJsonObject settings = doc.object();
 
     nasmPath = settings["nasm_path"].toString();
     ndisasmPath = settings["ndisasm_path"].toString();
     descriptionsPath_x86 = settings["desc_x86_path"].toString();
     descriptionsPath_x64 = settings["desc_x64_path"].toString();
 
-    f.close();
     return true;
 }
 
@@ -72,10 +79,16 @@ void DSettings::setNdisasmPath(QString ndisasm_path)
     ndisasmPath = ndisasm_path;
 }
 
-template <typename Register>
-const QString DSettings::getDescriptionsPath() const
+template <>
+const QString DSettings::getDescriptionsPath<Registers_x86>() const
 {
-    return std::is_same<Register, Registers_x64>::value ? descriptionsPath_x64 : descriptionsPath_x86;
+    return descriptionsPath_x86;
+}
+
+template <>
+const QString DSettings::getDescriptionsPath<Registers_x64>() const
+{
+    return descriptionsPath_x64;
 }
 
 template <>

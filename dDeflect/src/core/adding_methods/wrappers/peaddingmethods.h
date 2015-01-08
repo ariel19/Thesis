@@ -4,6 +4,7 @@
 #include <QProcess>
 #include <QFile>
 #include <QFileInfo>
+#include <QTemporaryDir>
 
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/file_types/pefile.h>
