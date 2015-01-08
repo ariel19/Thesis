@@ -48,8 +48,8 @@ typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(Q
 
     return p;
 }
-//template DAddingMethods<Registers_x86>::Wrapper *DJsonParser::loadInjectDescription(QString name);
-//template DAddingMethods<Registers_x64>::Wrapper *DJsonParser::loadInjectDescription(QString name);
+template DAddingMethods<Registers_x86>::Wrapper *DJsonParser::loadInjectDescription<Registers_x86>(QString name);
+template DAddingMethods<Registers_x64>::Wrapper *DJsonParser::loadInjectDescription<Registers_x64>(QString name);
 
 /**
  * @brief DJsonParser::saveIncjectionDescription zapisuje referencje obiekt wskazywany przez injection do pliku w formacie .json

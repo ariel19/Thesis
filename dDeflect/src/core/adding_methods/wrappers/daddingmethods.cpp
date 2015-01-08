@@ -52,6 +52,8 @@ DAddingMethods<Reg>::DAddingMethods(BinaryFile *f) :
         { ArchitectureType::BITS64, "[bits 64]" }
     };
 }
+template DAddingMethods<Registers_x86>::DAddingMethods(BinaryFile *f);
+template DAddingMethods<Registers_x64>::DAddingMethods(BinaryFile *f);
 
 template <typename Reg>
 const QMap<QString, typename DAddingMethods<Reg>::Wrapper::WrapperType> DAddingMethods<Reg>::Wrapper::wrapperTypes =
