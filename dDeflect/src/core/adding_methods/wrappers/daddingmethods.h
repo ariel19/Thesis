@@ -268,6 +268,8 @@ public:
      */
     DAddingMethods(BinaryFile *f);
 
+    virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &descs) = 0;
+
 protected:
     BinaryFile *file;
     QMap<ArchitectureType, QString> arch_type;

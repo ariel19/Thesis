@@ -18,7 +18,7 @@ public:
      * @param inject_desc opis metody wstrzykiwania kodu.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc);
+    virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) override;
 
 private:
     enum class PlaceholderMnemonics {

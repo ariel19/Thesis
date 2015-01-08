@@ -152,7 +152,7 @@ public:
      * @param descs Lista wybranych metod
      * @return True w przypadku sukcesu
      */
-    bool secure(const QList<typename DAddingMethods<Register>::InjectDescription*> &descs);
+    virtual bool secure(const QList<typename DAddingMethods<Register>::InjectDescription*> &descs) override;
 
     /**
      * @brief Ustawia nowe procentowe pokrycie kodu
