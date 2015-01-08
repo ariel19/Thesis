@@ -63,7 +63,7 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.detect_handler = &handler;
         oepwrapper.tramp_action = &oepaction;
         oepwrapper.code = code.readAll();
-        oepwrapper.used_regs = { Registers_x86::EDI };
+        oepwrapper.used_regs = { Registers_x86::All };
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
@@ -119,7 +119,7 @@ bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.detect_handler = &handler;
         oepwrapper.tramp_action = &oepaction;
         oepwrapper.code = code.readAll();
-        oepwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
+        oepwrapper.used_regs = { Registers_x64::All };
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
@@ -180,7 +180,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepaction.detect_handler = nullptr;
         oepaction.ret = Registers_x86::EAX;
         oepaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
-                                Registers_x86::EBX, Registers_x86::EDX,
+                                Registers_x86::EBX, /*Registers_x86::EDX,*/
                                 Registers_x86::ESI };
         // qDebug() << oepaction.code;
         code.close();
@@ -191,7 +191,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.detect_handler = &handler;
         oepwrapper.oep_action = &oepaction;
         oepwrapper.code = code.readAll();
-        oepwrapper.used_regs = { Registers_x86::EDI };
+        oepwrapper.used_regs = { Registers_x86::All };
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
@@ -235,7 +235,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
         oepaction.detect_handler = nullptr;
         oepaction.ret = Registers_x64::RAX;
-        oepaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI, Registers_x64::RCX,
+        oepaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI, /*Registers_x64::RCX,*/
                                 Registers_x64::RSI, Registers_x64::RDX, Registers_x64::RBX,
                                 Registers_x64::RBP, Registers_x64::R10,
                                 Registers_x64::R15, Registers_x64::R14 };
@@ -248,7 +248,7 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         oepwrapper.detect_handler = &handler;
         oepwrapper.oep_action = &oepaction;
         oepwrapper.code = code.readAll();
-        oepwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
+        oepwrapper.used_regs = { Registers_x64::All };
         oepwrapper.ret = oepaction.ret;
         // qDebug() << oepwrapper.code;
         code.close();
@@ -312,9 +312,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         twrapper.detect_handler = &handler;
         twrapper.thread_actions = { &taction };
         twrapper.code = code.readAll();
-        twrapper.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
-                               Registers_x86::EBX, Registers_x86::EDX,
-                               Registers_x86::ESI, Registers_x86::EDI };
+        twrapper.used_regs = { Registers_x86::All };
         twrapper.static_params = { { "sleep1", "0" },
                                    { "sleep2", "5" } };
         twrapper.ret = taction.ret;
@@ -361,9 +359,7 @@ bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
         twrapper.detect_handler = &handler;
         twrapper.thread_actions = { &taction };
         twrapper.code = code.readAll();
-        twrapper.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
-                               Registers_x64::RSI, Registers_x64::RDX,
-                               Registers_x64::R10, Registers_x64::R8 };
+        twrapper.used_regs = { Registers_x64::All };
         twrapper.static_params = { { "sleep1", "0" },
                             { "sleep2", "5" } };
         twrapper.ret = taction.ret;
@@ -426,12 +422,9 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { Registers_x86::EDI };
 
         // FIXME: only fo threads
-        trmwrapper.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
-                               Registers_x86::EBX, Registers_x86::EDX,
-                               Registers_x86::ESI, Registers_x86::EDI };
+        trmwrapper.used_regs = { Registers_x86::All };
         trmwrapper.static_params = { { "sleep1", "0" },
                               { "sleep2", "5" } };
         trmwrapper.ret = trmaction.ret;
@@ -478,12 +471,7 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
-
-        // FIXME: only fo threads
-        trmwrapper.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
-                               Registers_x64::RSI, Registers_x64::RDX,
-                               Registers_x64::R10, Registers_x64::R8 };
+        trmwrapper.used_regs = { Registers_x64::All };
 
         trmwrapper.static_params = { { "sleep1", "0" },
                               { "sleep2", "5" } };
@@ -549,7 +537,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.detect_handler = &handler;
         trmwrapper.tramp_action = &trmaction;
         trmwrapper.code = code.readAll();
-        trmwrapper.used_regs = { Registers_x86::EDI };
+        trmwrapper.used_regs = { Registers_x86::All };
         // qDebug() << oepwrapper.code;
 
         // FIXME: only fo threads
@@ -604,9 +592,7 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         trmwrapper.used_regs = { Registers_x64::R11, Registers_x64::R12 };
 
         // FIXME: only fo threads
-        trmwrapper.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
-                               Registers_x64::RSI, Registers_x64::RDX,
-                               Registers_x64::R10, Registers_x64::R8 };
+        trmwrapper.used_regs = { Registers_x64::All };
         trmwrapper.static_params = { { "sleep1", "0" },
                             { "sleep2", "5" } };
 
@@ -620,9 +606,6 @@ bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrappe
         if (!dam.secure<Registers_x64>({&inject_desc}))
             return false;
     }
-    // rename file on hard drive
-    QFile::rename("template", QString("_%1oinita").arg(elf_fname));
-    qDebug() << "saving to file: " << QString("_%1oinita").arg(elf_fname);
     return true;
 }
 
@@ -816,23 +799,45 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
     */
 
+    if (!test_initarray_oep_wrappers("bin/telnet", "single64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
+        qDebug() << "something went wrong :(";
+    }
 
+
+    /*
+    if (!test_thread_wrappers("bin/edb", "thread64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    */
+
+    /*
+    // test oep + ptrace
+    if (!test_trampoline_wrappers("bin/dDeflect", "single64.asm", "methods/ptrace64.asm", "handlers/exit64.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    */
+
+    /*
+    // test oep + ptrace
+    if (!test_oep_wrappers("bin/my32", "single.asm", "methods/sigtrap.asm", "handlers/exit.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    */
+
+    /*
     // test oep + ptrace
     if (!test_thread_wrappers("bin/derby32", "thread.asm", "methods/sigtrap.asm", "handlers/exit_group.asm")) {
         qDebug() << "something went wrong :(";
     }
-
-    // test oep + ptrace
-    if (!test_thread_wrappers("bin/my32", "thread.asm", "methods/sigtrap.asm", "handlers/exit_group.asm")) {
-        qDebug() << "something went wrong :(";
-    }
+    */
 
     /*
     // test oep + ptrace
-    if (!test_thread_wrappers("bin/my64", "thread64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
+    if (!test_thread_wrappers("bin/telnet", "thread64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
         qDebug() << "something went wrong :(";
     }
-
+    */
+/*
     // test oep + ptrace
     if (!test_thread_wrappers("bin/derby64", "thread64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
         qDebug() << "something went wrong :(";
