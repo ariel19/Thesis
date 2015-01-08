@@ -84,6 +84,7 @@ public:
         Wrapper *detect_handler;
 
         virtual ~Wrapper() {}
+        static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
 
         /**
          * @brief read this zostaje wczytany z pliku json
@@ -177,7 +178,6 @@ public:
         }
 
     private:
-        static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
         static const QMap<QString, RegistersType> registerTypes;
 
         /**

@@ -33,9 +33,25 @@ typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(Q
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
     QJsonObject obj = loadDoc.object();
 
-    typename DAddingMethods<Register>::Wrapper *p = obj["type"].toString() == "Thread" ?
-                new (std::nothrow) typename DAddingMethods<Register>::ThreadWrapper() :
-                new (std::nothrow) typename DAddingMethods<Register>::Wrapper();
+    typename DAddingMethods<Register>::Wrapper *p = nullptr;
+    QString typeStr = obj["type"].toString();
+    typename DAddingMethods<Register>::Wrapper::WrapperType type = DAddingMethods<Register>::Wrapper::wrapperTypes[typeStr];
+
+    switch(type)
+    {
+    case DAddingMethods<Register>::Wrapper::WrapperType::OepWrapper:
+        p = new (std::nothrow) typename DAddingMethods<Register>::OEPWrapper;
+        break;
+    case DAddingMethods<Register>::Wrapper::WrapperType::TrampolineWrapper:
+        p = new (std::nothrow) typename DAddingMethods<Register>::TrampolineWrapper;
+        break;
+    case DAddingMethods<Register>::Wrapper::WrapperType::ThreadWrapper:
+        p = new (std::nothrow) typename DAddingMethods<Register>::ThreadWrapper;
+        break;
+    default:
+        p = new (std::nothrow) typename DAddingMethods<Register>::Wrapper;
+        break;
+    }
 
     if(!p)
         return nullptr;
@@ -59,17 +75,17 @@ template DAddingMethods<Registers_x64>::Wrapper *DJsonParser::loadInjectDescript
  */
 bool DJsonParser::saveIncjectDescription(QString name, DAddingMethods<Registers_x86>::Wrapper &injection)
 {
-//    QFile saveFile(m_path+name+".json");
+    //    QFile saveFile(m_path+name+".json");
 
-//    if (!saveFile.open(QIODevice::WriteOnly)) {
-//        qWarning("Couldn't open save file.");
-//        return false;
-//    }
+    //    if (!saveFile.open(QIODevice::WriteOnly)) {
+    //        qWarning("Couldn't open save file.");
+    //        return false;
+    //    }
 
-//    QJsonObject iDescriptionObject;
-//    injection.write(iDescriptionObject);
-//    QJsonDocument saveDoc(iDescriptionObject);
-//    saveFile.write(saveDoc.toJson());
+    //    QJsonObject iDescriptionObject;
+    //    injection.write(iDescriptionObject);
+    //    QJsonDocument saveDoc(iDescriptionObject);
+    //    saveFile.write(saveDoc.toJson());
     // TODO
 
     return true;
