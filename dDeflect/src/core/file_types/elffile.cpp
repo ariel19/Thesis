@@ -478,7 +478,7 @@ bool ELF::__is_supported(const Elf32_Ehdr *elf_hdr) {
             return false;
 
         // file is non-executable
-        if (elf_hdr->e_type != ET_EXEC)
+        if (elf_hdr->e_type != ET_EXEC && elf_hdr->e_type != ET_DYN)
             return false;
     }
     catch(const std::exception &) {

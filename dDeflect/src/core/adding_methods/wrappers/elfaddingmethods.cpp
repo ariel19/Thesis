@@ -349,14 +349,14 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
     Elf64_Addr nva;
     Elf64_Off file_off;
+    // TODO: change
+    static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
 
     switch(i_desc->cm) {
     case DAddingMethods<RegistersType>::CallingMethod::Thread:
     case DAddingMethods<RegistersType>::CallingMethod::OEP: {
         Elf64_Addr oep;
         // add fake relative jump to the code and repair it after
-        // TODO: change
-        static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
         compiled_code.append(fake_jmp);
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
@@ -379,7 +379,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf->is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data.first, addr_size, addresses, { 0, 0xffffffff, 0xffffffffffffffff }))
+        if (!get_addresses(section_data.first, addr_size, addresses, { 0 }))
             return false;
 
         // no place to store our pointer
@@ -389,8 +389,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // TODO: address should be randomized, not always 0
         int idx = 0;
 
-        // compiled_code += jmp to old address
-
+        compiled_code.append(fake_jmp);
+        /*
         if (elf->is_x86()) {
             compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
             compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
@@ -399,8 +399,13 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
+        */
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
+            return false;
+
+        // set new relative address for jmp
+        if (!elf->set_relative_address(file_off + compiled_code.size() - 4, addresses[idx] - (nva + (compiled_code.size() - fake_jmp.size())) - 5))
             return false;
 
         // set section content, set filler for elf function
@@ -540,8 +545,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // TODO: address should be randomized, not always 0
         int idx = 0;
 
-        // compiled_code += jmp to old address
-
+        compiled_code.append(fake_jmp);
+        /*
         if (elf->is_x86()) {
             compiled_code.append(CodeDefines<Registers_x86>::movValueToReg<Elf32_Addr>(addresses.at(idx), Registers_x86::EAX));
             compiled_code.append(CodeDefines<Registers_x86>::jmpReg(Registers_x86::EAX));
@@ -550,8 +555,13 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             compiled_code.append(CodeDefines<Registers_x64>::movValueToReg<Elf64_Addr>(addresses.at(idx), Registers_x64::RAX));
             compiled_code.append(CodeDefines<Registers_x64>::jmpReg(Registers_x64::RAX));
         }
+        */
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
+            return false;
+
+        // set new relative address for jmp
+        if (!elf->set_relative_address(file_off + compiled_code.size() - 4, addresses[idx] - (nva + (compiled_code.size() - fake_jmp.size())) - 5))
             return false;
 
         // set section content, set filler for elf function
