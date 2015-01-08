@@ -163,7 +163,10 @@ public:
 
             // code
             // TODO: sciezka
-            QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
+            // windows:
+            // QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
+            // Linux:
+            QFile codeFile("../../../../dDeflect/src/core/" + json["path"].toString());
             if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 
