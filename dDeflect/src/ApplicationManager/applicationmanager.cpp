@@ -2,19 +2,19 @@
 #include "DSourceCodeParser/dsourcecodeparser.h"
 
 ApplicationManager::ApplicationManager(QObject *parent) :
-    QObject(parent), jsonParser("./injectDescriptions/"), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
+    QObject(parent), jsonParser("/home/jsk/code/Thesis/dDeflect/src/core/detection/dsc/"), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
 {
     // TODO: dodać obsługę listy metod 64 bitowych
-    QDir descriptionsLocation("./injectDescriptions/");
-    Q_ASSERT(descriptionsLocation.exists());
-    QDirIterator it("./injectDescriptions/", QStringList() << "*.json", QDir::Files);
+    QDir wrappers("/home/jsk/code/Thesis/dDeflect/src/core/detection/dsc/");
+    Q_ASSERT(wrappers.exists());
+    QDirIterator it("/home/jsk/code/Thesis/dDeflect/src/core/detection/dsc/", QStringList() << "*.json", QDir::Files);
 
-    QFileInfoList files = descriptionsLocation.entryInfoList();
+    QFileInfoList files = wrappers.entryInfoList();
     foreach(const QFileInfo &fi, files) {
         QString Path = fi.absoluteFilePath();
         if(fi.completeSuffix()=="json"){
             // TODO
-          //m_x86methodsList.append(jsonParser.loadInjectDescription(fi.fileName()));
+          m_x86methodsList.append(jsonParser.loadInjectDescription<Registers_x86>(fi.fileName()));
         }
     }
 
@@ -40,10 +40,15 @@ ApplicationManager::State ApplicationManager::state() const
 
 QVariantList ApplicationManager::x86MethodsNames()
 {
+
     if(m_x86MethodsNames.empty()){
         foreach(DAddingMethods<Registers_x86>::Wrapper* id, m_x86methodsList){
-            QVariant* p = new QVariant(QString::fromStdString(id->name.toStdString()));
-            m_x86MethodsNames.append(*p);
+            if(id==NULL)
+                qDebug()<<"Wczytany wrapper == NULL";
+            else{
+                QVariant* p = new QVariant(QString::fromStdString(id->name.toStdString()));
+                m_x86MethodsNames.append(*p);
+            }
         }
     }
     return m_x86MethodsNames;
@@ -91,5 +96,7 @@ void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
 {
     sourceParser->insertMethods(m_targetPath,Map);
 }
+
+
 
 

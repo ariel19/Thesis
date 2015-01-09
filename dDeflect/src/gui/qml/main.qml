@@ -38,7 +38,7 @@ ApplicationWindow {
     AboutDialog { id: aboutDialog }
     FileDialog {
         id: fileDialog
-        nameFilters: [ "C++ files (*.cc *.cpp *.CPP *.c++ *.cp *.cxx)", "Executive files (*.exe)" ]
+        nameFilters: [ "C++ files (*.cc *.cpp *.CPP *.c++ *.cp *.cxx)", "Executive files (*.exe)","All files (*)"]
         onFileUrlChanged:{
             fileUrlText.text = fileUrl;
             applicationManager.fileOpened(fileDialog.fileUrl);
@@ -110,7 +110,7 @@ ApplicationWindow {
             //anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            text: appState===Manager.IDLE ? fileUrlText.text :""
+            text: applicationManager.state===Manager.IDLE ? fileUrlText.text :""
 
         }
 
@@ -149,8 +149,14 @@ ApplicationWindow {
      target: applicationManager
      onStateChanged: {
          console.log("state changed: "+ applicationManager.state);
+
          if(applicationManager.state === 2){
              if(appState !== 2){
+                 if(appState===2 || appState=== 1){
+                     frame.removeTab(0);
+                     frame.removeTab(0);
+                     frame.removeTab(0);
+                 }
                 console.log("SOURCE STATE")
                 frame.addTab("SOURCE",sourceTab)
                 frame.addTab("PACKING",packingTab)
@@ -159,210 +165,40 @@ ApplicationWindow {
              }
          } else if(applicationManager.state === 1){
             if(appState !== 1){
-             frame.addTab("EXECUTABLE",execTab)
-             frame.addTab("PACKING",packingTab)
-             frame.addTab("OBFUSCATION",obfuscationTab)
+                if(appState===2 || appState=== 1){
+                    frame.removeTab(0);
+                    frame.removeTab(0);
+                    frame.removeTab(0);
+                }
+                frame.addTab("EXECUTABLE",execTab)
+                frame.addTab("PACKING",packingTab)
+                frame.addTab("OBFUSCATION",obfuscationTab)
+                appState = applicationManager.state
             }
          } else {
              if(appState!== Manager.IDLE){
                  frame.removeTab(0);
                  frame.removeTab(0);
                  frame.removeTab(0);
+                 appState = applicationManager.state;
              }
          }
      }
     }
-    Component{
+    ExecutableTab{
         id: execTab
-
-        Tab {
-            title: "Executable
-"
-            visible:true
-            RowLayout{
-                anchors.fill: parent
-                anchors.margins: 12
-
-                TableView {
-                    id: methodsChoice
-                    anchors.fill: parent
-                    anchors.rightMargin: frame.width/2
-                    model: sourceCodeMethods.names
-
-                    TableViewColumn {
-                        role: "title"
-                        title: "Method's Name"
-                        //width: 120
-                    }
-
-
-                }
-                ColumnLayout{
-                    anchors.fill: parent
-                    anchors.leftMargin: frame.width/2
-                    TextArea{
-                        id: methodsDescription
-                        anchors.fill: parent
-                        anchors.bottomMargin: 40
-                        readOnly: true
-                        text:{ return methodsChoice===-1?"":sourceCodeMethods.methods[methodsChoice.currentRow].description }
-                    }
-                    Button{
-                        height:50
-                        text: "Apply Method"
-                        anchors.bottom: parent.bottom
-
-                    }
-                }
-
-            }
-        }
     }
-    Component{
+    SourceCodeTab{
+        id: sourceTab
+    }
+
+    ObfuscationTab{
         id: obfuscationTab
-        Tab {
-            title: "Obfuscation"
-            visible: true
-            RowLayout{
-                anchors.fill: parent
-                anchors.margins: 12
-
-                TableView {
-                    anchors.fill: parent
-                    anchors.rightMargin: frame.width/2
-                    model: ["method1", "method2"]
-                    TableViewColumn {
-                        role: "title"
-                        title: "Method's Name"
-                        //width: 120
-                    }
-
-                }
-                ColumnLayout{
-                    anchors.fill: parent
-                    anchors.leftMargin: frame.width/2
-                    TextArea{
-
-                        anchors.fill: parent
-                        anchors.bottomMargin: 40
-                        text: "The only method:"
-                    }
-                    Button{
-                        height:50
-                        text: "Apply Method"
-                        anchors.bottom: parent.bottom
-                    }
-                }
-            }
-        }
     }
-    Component{
-        id:packingTab
-        Tab {
-            title: "Packing"
-            visible:true
-            RowLayout{
-                anchors.fill: parent
-                anchors.margins: 12
-
-                TableView {
-                    anchors.fill: parent
-                    anchors.rightMargin: frame.width/2
-                    model: ["method1", "method2"]
-                    TableViewColumn {
-                        role: "title"
-                        title: "Method's Name"
-                        //width: 120
-                    }
-
-                }
-                ColumnLayout{
-                    anchors.fill: parent
-                    anchors.leftMargin: frame.width/2
-                    TextArea{
-
-                        anchors.fill: parent
-                        anchors.bottomMargin: 40
-                        text: "The only method:"
-                    }
-                    Button{
-                        height:50
-                        text: "Apply Method"
-                        anchors.bottom: parent.bottom
-
-                    }
-                }
-
-            }
-        }
+    PackingTab{
+       id:packingTab
     }
-    Component {
-        id:sourceTab
 
-        Tab{
-            title: "Source"
-            visible:true
-            RowLayout{
-                anchors.fill: parent
-                anchors.margins: 12
 
-                Component {
-                    id: contactDelegate
-                    Item {
-                        width: 180; height: 20
-                        Row {
-                            anchors.centerIn: parent.Center
-                            CheckBox{
-                                onCheckedChanged: {
-                                    if(checked===true){
-                                        if(t.indexOf(index)===-1){
-                                            t.push(index);
-                                            console.log(t);
-                                        }
-                                    }else{
-                                        if(t.indexOf(index)!==-1){
-                                            var i = t.indexOf(index);
-                                            t.splice(i,1);
-                                            console.log(t);
-                                        }
-                                    }
-                                }
-                            }
-                            Text{text: '<b>Name:</b> ' + modelData }
-                        }
-                    }
-                }
-                ListView {
-                    id: lv
-                    anchors.fill: parent
-                    anchors.rightMargin: frame.width/2
-                    model: applicationManager.x86MethodsNames
-                    delegate: contactDelegate
-
-                }
-                ColumnLayout{
-                    anchors.fill: parent
-                    anchors.leftMargin: frame.width/2
-                    TextArea{
-
-                        anchors.fill: parent
-                        anchors.bottomMargin: 40
-                        text: "The only method:"
-                    }
-                    Button{
-                        height:50
-                        text: "Apply Method"
-                        anchors.bottom: parent.bottom
-                        onClicked: {
-                            applicationManager.applyClicked(t)
-                            applicationManager.state = Manager.IDLE
-                            appState = Manager.IDLE
-                            fileUrlText.text = "Choose a C++ source file or an executive file."
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
