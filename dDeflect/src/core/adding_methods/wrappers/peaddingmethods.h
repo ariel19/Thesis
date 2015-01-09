@@ -20,8 +20,25 @@ private:
 
     enum class ErrorCode
     {
-        Success
+        Success,
+        BinaryFileNoPe,
+        InvalidPeFile,
+        NullInjectDescription,
+        InvalidInjectDescription,
+        NullWrapper,
+        PeOperationFailed,
+        NoThreadAction,
+        ErrorLoadingFunctions,
+        ToManyBytesForRelativeJump,
+        InvalidParametersFormat,
+        CannotCreateTempFile,
+        CannotCreateTempDir,
+        NasmFailed,
+        NdisasmFailed,
+        CannotOpenCompiledFile
     };
+
+    static const QMap<ErrorCode, QString> errorDescriptions;
 
     /**
      * @brief Nazwa pliku opisującego funkcję pomocniczą ładującą dostęp do Windows API.
@@ -65,10 +82,10 @@ private:
      * @param getFunctionsCodeAddr Adres metody uzyskującej dostęp do API Windows
      * @param params Parametry metody
      * @param threadCodePtr Adres wklejonego kodu stworzenia wątku
-     * @return True w przypadku sukcesu
+     * @return Kod błędu
      */
     template <typename T>
-    bool generateParametersLoadingCode(BinaryCode<Register> &code, T getFunctionsCodeAddr,
+    ErrorCode generateParametersLoadingCode(BinaryCode<Register> &code, T getFunctionsCodeAddr,
                                        QMap<Register, QString> params, T threadCodePtr);
 
     /**
@@ -77,46 +94,48 @@ private:
      * @param action Adres metody, która ma być wywołana jako akcja
      * @param cond Rejestr, w którym jest zwracana z metody flaga warunku
      * @param act Rejestr w którym znajdować będzie się adres akcji
-     * @return True w przypadku powodzenia
+     * @return Kod błędu
      */
-    bool generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
+    ErrorCode generateActionConditionCode(BinaryCode<Register> &code, uint64_t action, Register cond, Register act);
 
     /**
      * @brief Metoda dodająca kod w EntryPoint
      * @param epMethods Wybrane metody zabezpieczania
-     * @return True w przypadku sukcesu
+     * @return Kod błędu
      */
-    bool injectEpCode(QList<uint64_t> &epMethods);
+    ErrorCode injectEpCode(QList<uint64_t> &epMethods);
 
     /**
      * @brief Metoda dodająca kod do Thread Local Storage
      * @param tlsMethods Wybrane metody zabezpieczania
-     * @return True w przypadku sukcesu
+     * @return Kod błędu
      */
-    bool injectTlsCode(QList<uint64_t> &tlsMethods);
+    ErrorCode injectTlsCode(QList<uint64_t> &tlsMethods);
 
     /**
      * @brief Metoda dodająca kod jako trampolinę
      * @param tramMethods Wybrane metody zabezpieczania
-     * @return True w przypadku sukcesu
+     * @return Kod błędu
      */
-    bool injectTrampolineCode(QList<uint64_t> &tramMethods);
+    ErrorCode injectTrampolineCode(QList<uint64_t> &tramMethods);
 
     /**
      * @brief Metoda generująca kod wątku
      * @param wrappers Metody do uruchomienia w wątku
+     * @param codePtr Adres wygenerowanego kodu
      * @param sleepTime Czas snu wątku
-     * @return True w przypadku sukcesu
+     * @return Kod błędu
      */
-    uint64_t generateThreadCode(QList<typename DAddingMethods<Register>::Wrapper*> wrappers, uint16_t sleepTime);
+    ErrorCode generateThreadCode(QList<typename DAddingMethods<Register>::Wrapper*> wrappers, uint64_t &codePtr, uint16_t sleepTime);
 
     /**
      * @brief Generowanie kodu metody
      * @param w Opis metody
+     * @param codePtr Adres wygenerowanego kodu
      * @param isTlsCallback Informacja czy metoda jest callbackiem TLS
-     * @return True w przypadku sukcesu
+     * @return Kod błędu
      */
-    uint64_t generateCode(typename DAddingMethods<Register>::Wrapper *w, bool isTlsCallback = false);
+    ErrorCode generateCode(typename DAddingMethods<Register>::Wrapper *w, uint64_t &codePtr, bool isTlsCallback = false);
 
     /**
      * @brief Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu
@@ -143,9 +162,10 @@ private:
     /**
      * @brief Kompiluje kod assemblerowy
      * @param code Kod
-     * @return Kod binarny
+     * @param compiled Skompilowany kod binarny
+     * @return Kod błędu
      */
-    QByteArray compileCode(QByteArray code);
+    ErrorCode compileCode(QByteArray code, QByteArray &compiled);
 
     /**
      * @brief Zabezpiecza plik podanymi metodami. Przekazuje błądy do funkcji nadrzędnej.
