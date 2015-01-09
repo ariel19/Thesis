@@ -495,7 +495,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(elf->is_x86() ? QByteArray("\xF7\xD0", 2) : QByteArray("\x48\xF7\xD0", 3)); // not (e|r)ax
 
         compiled_code.append("\xe8\x00\x00\x00\x00", 5); // call $+5
-        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI)); // pop (e|r)cx <--- address of current instruction
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI)); // pop (e|r)di <--- address of current instruction
 
         Elf64_Off offset_to_get_init_section_code_addr_mprotect = compiled_code.size();
 
@@ -511,7 +511,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(elf->is_x86() ? QByteArray("\x29\xFB", 2) :
                                              QByteArray("\x48\x29\xFB", 3)); // sub bx, di <----- bx size of page
 
-        compiled_code.append(QByteArray("\x81\xc3", 2) + QByteArray(reinterpret_cast<const char*>(&init_size), sizeof(int)));
+        compiled_code.append(QByteArray("\x81\xc3", 2) +
+                             QByteArray(reinterpret_cast<const char*>(&init_size), sizeof(int))); // mov ebx, init_size
 
         // dx <--- flags
         // bx <--- memory size
@@ -538,7 +539,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // mov ecx, init_section_len , don't use rcx cause
         // TODO: probably should xor rax, rax
         compiled_code.append("\x31\xc9"); // xor eax, eax
-        compiled_code.append(QByteArray(1, '\xb9') + QByteArray(reinterpret_cast<const char*>(&init_size), sizeof(int)));
+        compiled_code.append(QByteArray(1, '\xb9') +
+                             QByteArray(reinterpret_cast<const char*>(&init_size), sizeof(int)));
 
         // make a copy to init section
         // rep movsb
