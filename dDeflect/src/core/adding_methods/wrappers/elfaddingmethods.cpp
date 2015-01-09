@@ -443,8 +443,29 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // jmp to init code
 
         // compiled_code = debugger detection + jmp to copy routine
-        // TODO: save flags here
-        compiled_code.append(CodeDefines<RegistersType>::saveAll());
+        // TODO: save flags here, shitiest solution ever
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EAX));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EBX));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EDX));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EDI));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ESI));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::EBP));
+        compiled_code.append(CodeDefines<Registers_x86>::saveRegister(Registers_x86::ESP));
+
+        if (elf->is_x64()) {
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R8));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R9));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R10));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R11));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R12));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R13));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R14));
+            compiled_code.append(CodeDefines<Registers_x64>::saveRegister(Registers_x64::R15));
+        }
+
+        // TODO: should be redone
+        // compiled_code.append(CodeDefines<RegistersType>::saveAll());
 
 
         // store init data address on stack
@@ -552,7 +573,31 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // ===========================================
 
         // restore regs
-        compiled_code.append(CodeDefines<RegistersType>::restoreAll());
+        // compiled_code.append(CodeDefines<RegistersType>::restoreAll());
+
+        // TODO: save flags here, shitiest solution ever
+        if (elf->is_x64()) {
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R15));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R14));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R13));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R12));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R11));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R10));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R9));
+            compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R8));
+        }
+
+
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESP));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EBP));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDX));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ECX));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EBX));
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EAX));
+
+
 
         // jmp to init
         static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
