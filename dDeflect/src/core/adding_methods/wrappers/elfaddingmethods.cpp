@@ -453,16 +453,17 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // compiled_code = debugger detection + jmp to copy routine + previous init
         compiled_code.append(section_data.first);
 
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
         // TODO: change
         compiled_code.append("\xe8\x00\x00\x00\x00", 5); // call $+5
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI)); // pop (e|r)di
 
         Elf64_Off offset_to_get_init_section_code_addr_copy = compiled_code.size();
 
-        static QByteArray fake_sub_edi("\x81\xef\x00\x00\x00\x00", 6);
-        static QByteArray fake_sub_rdi("\x48\x81\xef\x00\x00\x00\x00", 7);
+        static QByteArray fake_add_edi("\x81\xc7\x00\x00\x00\x00", 6);
+        static QByteArray fake_add_rdi("\x48\x81\xc7\x00\x00\x00\x00", 7);
 
-        compiled_code.append(elf->is_x86() ? fake_sub_edi : fake_sub_rdi); // sub (e|r)di, 0
+        compiled_code.append(elf->is_x86() ? fake_add_edi : fake_add_rdi); // sub (e|r)di, 0
 
         compiled_code.append(CodeDefines<RegistersType>::saveAll());
 
@@ -484,26 +485,31 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             not eax
         */
         if (elf->is_x86())
-            compiled_code.append(QByteArray(1, '\xb8') + QByteArray(reinterpret_cast<const char*>(&init_size),
+            compiled_code.append(QByteArray(1, '\xb8') + QByteArray(reinterpret_cast<const char*>(&align),
                                                                     sizeof(uint32_t))); // mov eax, page_align
         else
-            compiled_code.append(QByteArray("\x48\xb8", 2) + QByteArray(reinterpret_cast<const char*>(&init_size),
+            compiled_code.append(QByteArray("\x48\xb8", 2) + QByteArray(reinterpret_cast<const char*>(&align),
                                                                         sizeof(uint64_t))); // mov rax, page_align
 
         compiled_code.append(elf->is_x86() ? QByteArray("\xff\xc8", 2) : QByteArray("\x48\xff\xc8", 3)); // dec (e|r)ax
         compiled_code.append(elf->is_x86() ? QByteArray("\xF7\xD0", 2) : QByteArray("\x48\xF7\xD0", 3)); // not (e|r)ax
 
         compiled_code.append("\xe8\x00\x00\x00\x00", 5); // call $+5
-        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ECX)); // pop (e|r)cx <--- address of current instruction
+        compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EDI)); // pop (e|r)cx <--- address of current instruction
 
         Elf64_Off offset_to_get_init_section_code_addr_mprotect = compiled_code.size();
 
-        compiled_code.append(elf->is_x86() ? fake_sub_edi : fake_sub_rdi); // sub (e|r)di, 0
+        compiled_code.append(elf->is_x86() ? fake_add_edi : fake_add_rdi); // sub (e|r)di, 0
 
         // round page
-        compiled_code.append(elf->is_x86() ? QByteArray("\x89\xFB", 2) : QByteArray("\x48\x89\xFB", 3)); // mov (e|r)bx, (e|r)di
-        compiled_code.append(elf->is_x86() ? QByteArray("\x21\xc7", 2) : QByteArray("\x48\x21\xc7", 3)); // and (e|r)di, (r|e)ax
-        compiled_code.append(elf->is_x86() ? QByteArray("\x29\xFB", 2) : QByteArray("\x48\x29\xFB", 3)); // sub bx, di <----- bx size of page
+        compiled_code.append(elf->is_x86() ? QByteArray("\x89\xFB", 2) :
+                                             QByteArray("\x48\x89\xFB", 3)); // mov (e|r)bx, (e|r)di
+
+        compiled_code.append(elf->is_x86() ? QByteArray("\x21\xc7", 2) :
+                                             QByteArray("\x48\x21\xc7", 3)); // and (e|r)di, (r|e)ax
+
+        compiled_code.append(elf->is_x86() ? QByteArray("\x29\xFB", 2) :
+                                             QByteArray("\x48\x29\xFB", 3)); // sub bx, di <----- bx size of page
 
         compiled_code.append(QByteArray("\x81\xc3", 2) + QByteArray(reinterpret_cast<const char*>(&init_size), sizeof(int)));
 
@@ -562,12 +568,12 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
         // 4 string copy destinationaddress
         if (!elf->set_relative_address(file_off + offset_to_get_init_section_code_addr_copy + (elf->is_x86() ? 2 : 3),
-                                       section_data.second - (nva + offset_to_get_init_section_code_addr_copy)))
+                                       section_data.second - (nva + offset_to_get_init_section_code_addr_copy - 1)))
             return false;
 
         // 4 mprotect page vaddr
         if (!elf->set_relative_address(file_off + offset_to_get_init_section_code_addr_mprotect + (elf->is_x86() ? 2 : 3),
-                                       section_data.second - (nva + offset_to_get_init_section_code_addr_mprotect)))
+                                       section_data.second - (nva + offset_to_get_init_section_code_addr_mprotect - 1)))
             return false;
 
 
