@@ -38,6 +38,8 @@ private:
         CannotOpenCompiledFile
     };
 
+    static const QMap<ErrorCode, QString> errorDescriptions;
+
     /**
      * @brief Nazwa pliku opisującego funkcję pomocniczą ładującą dostęp do Windows API.
      */

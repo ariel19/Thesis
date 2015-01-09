@@ -7,6 +7,25 @@ template <>
 const QString PEAddingMethods<Registers_x64>::windowsApiLoadingFunction = "win_x64_helper_load_functions.json";
 
 template <typename Register>
+const QMap<typename PEAddingMethods<Register>::ErrorCode, QString> PEAddingMethods<Register>::errorDescriptions =
+{
+    { PEAddingMethods<Register>::ErrorCode::BinaryFileNoPe, "Podany plik nie jest plikiem PE!" },
+    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempDir, "Nie można utworzyć tymczasoweg katalogu." },
+    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempFile, "Nie można utworzyć tymczasowego pliku." },
+    { PEAddingMethods<Register>::ErrorCode::CannotOpenCompiledFile, "Błąd podczas otwoerania skompilowanego pliku." },
+    { PEAddingMethods<Register>::ErrorCode::ErrorLoadingFunctions, "Nie można załadować pomocniczego kodu ładującego funkcji z pliku .json." },
+    { PEAddingMethods<Register>::ErrorCode::InvalidInjectDescription, "Opis metody jest niepoprawny." },
+    { PEAddingMethods<Register>::ErrorCode::InvalidPeFile, "Plik PE nie jest poprawny!" },
+    { PEAddingMethods<Register>::ErrorCode::NasmFailed, "Wywołanie programu nasm nie powiodło się." },
+    { PEAddingMethods<Register>::ErrorCode::NdisasmFailed, "Wywołanie programu ndisasm nie powiodło się." },
+    { PEAddingMethods<Register>::ErrorCode::NoThreadAction, "Brak zdefiniowenych metod dla wywołania wątku." },
+    { PEAddingMethods<Register>::ErrorCode::NullInjectDescription, "Opis metody nie został poprawnie utworzony" },
+    { PEAddingMethods<Register>::ErrorCode::NullWrapper, "Metoda nie została poprawnie wczytana." },
+    { PEAddingMethods<Register>::ErrorCode::PeOperationFailed, "Operacja na pliku PE nie powiodła się." },
+    { PEAddingMethods<Register>::ErrorCode::ToManyBytesForRelativeJump, "Wybran zbyt dużą liczbę metod w wątku." }
+};
+
+template <typename Register>
 PEAddingMethods<Register>::PEAddingMethods(PEFile *f) :
     DAddingMethods<Register>(f),
     codeCoverage(5),
@@ -123,7 +142,8 @@ bool PEAddingMethods<Register>::secure(const QList<typename DAddingMethods<Regis
 {
     ErrorCode err = safe_secure(descs);
 
-    // TODO: logowanie błędów
+    if(err != ErrorCode::Success)
+        LOG_ERROR(errorDescriptions[err]);
 
     return err == ErrorCode::Success;
 }
