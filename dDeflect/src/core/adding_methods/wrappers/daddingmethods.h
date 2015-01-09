@@ -87,6 +87,8 @@ public:
 
         virtual ~Wrapper() {}
 
+        static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
+
         /**
          * @brief read this zostaje wczytany z pliku json
          * @param json objekt json'a z którego czytamy
@@ -164,8 +166,7 @@ public:
             ret = registerTypes[json["ret"].toString()];
 
             // code
-            // TODO: sciezka
-            QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
+            QFile codeFile(json["path"].toString());
             if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 
@@ -179,7 +180,6 @@ public:
         }
 
     private:
-        static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
         static const QMap<QString, RegistersType> registerTypes;
 
         /**
@@ -188,37 +188,37 @@ public:
          */
         bool write(QJsonObject &json) const{
 
-//            // used_regs
-//            QJsonArray array;
+            //            // used_regs
+            //            QJsonArray array;
 
-//            const char** tab = ( std::is_same<RegistersType, Registers_x64>::value ) ? Registers_x64_names : Registers_x86_names;
+            //            const char** tab = ( std::is_same<RegistersType, Registers_x64>::value ) ? Registers_x64_names : Registers_x86_names;
 
-//            for(int i = 0; i< used_regs.size(); ++i){
-//                array.append(QJsonValue(QString( tab[static_cast<int>(used_regs[i])])));
-//            }
-//            json["used_regs"]=array;
+            //            for(int i = 0; i< used_regs.size(); ++i){
+            //                array.append(QJsonValue(QString( tab[static_cast<int>(used_regs[i])])));
+            //            }
+            //            json["used_regs"]=array;
 
-//            // params
-//            QJsonObject par;
-//            foreach(QString key, params.keys()){
-//                par.insert(key, QJsonValue(params.value(key)));
-//            }
-//            json["params"] = par;
+            //            // params
+            //            QJsonObject par;
+            //            foreach(QString key, params.keys()){
+            //                par.insert(key, QJsonValue(params.value(key)));
+            //            }
+            //            json["params"] = par;
 
-//            // ret
+            //            // ret
 
-//            json["ret"] = QString(tab[static_cast<int>(ret)]);
+            //            json["ret"] = QString(tab[static_cast<int>(ret)]);
 
-//            // code
+            //            // code
 
-//            QString codePath("./codeFile.cpp");
-//            QFile codeFile(codePath);
-//            QFileInfo fi(codeFile);
-//            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
-//            QTextStream in(&codeFile);
-//            in<<code;
+            //            QString codePath("./codeFile.cpp");
+            //            QFile codeFile(codePath);
+            //            QFileInfo fi(codeFile);
+            //            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
+            //            QTextStream in(&codeFile);
+            //            in<<code;
 
-//            json["path_to_method"] = fi.absoluteFilePath();
+            //            json["path_to_method"] = fi.absoluteFilePath();
 
             return false;
         }
@@ -244,6 +244,11 @@ public:
     class OEPWrapper : public Wrapper {
     public:
         Wrapper *oep_action;
+
+        virtual bool read(const QJsonObject & json) override {
+            oep_action = nullptr;
+            return Wrapper::read(json);
+        }
     };
 
     /**
@@ -252,6 +257,10 @@ public:
     class TrampolineWrapper : public Wrapper {
     public:
         Wrapper *tramp_action;
+        virtual bool read(const QJsonObject & json) override {
+            tramp_action = nullptr;
+            return Wrapper::read(json);
+        }
     };
 
     /**
@@ -320,6 +329,9 @@ public:
 
     template <typename RegistersType>
     static QString jmp_reg(const RegistersType reg);
+
+    template <typename RegistersType>
+    static QString jmp_rel(int32_t addr);
 
     template <typename RegistersType>
     static QString get_reg(const RegistersType reg);
@@ -445,6 +457,11 @@ QString AsmCodeGenerator::jmp_reg(const RegistersType reg) {
         std::is_same<RegistersType, Registers_x64>::value ?
         regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     return QString("%1 %2\n").arg(instructions[Instructions::JMP], qreg);
+}
+
+template <typename RegistersType>
+QString AsmCodeGenerator::jmp_rel(int32_t rel_addr) {
+    return QString("%1 %2").arg(instructions[Instructions::JMP], QString::number(rel_addr));
 }
 
 template <typename RegistersType>
