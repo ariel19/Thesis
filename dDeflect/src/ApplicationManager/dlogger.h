@@ -27,4 +27,9 @@ private:
     QMap<Type, QList<std::function<void(QString)>>> callbacks;
 };
 
+#define LOG_ERROR(msg) DLogger::write(DLogger::Type::Error, msg)
+#define LOG_WARN(msg) DLogger::write(DLogger::Type::Warning, msg)
+#define LOG_MSG(msg) DLogger::write(DLogger::Type::Message, msg)
+#define LOG_DBG(msg) DLogger::write(DLogger::Type::Debug, msg)
+
 #endif // DLOGGER_H

@@ -122,7 +122,8 @@ uint64_t PEAddingMethods<Register>::generateCode(typename DAddingMethods<Registe
     if(w->detect_handler)
     {
         action = generateCode(w->detect_handler);
-        if(!action) return 0;
+        if(!action)
+            return 0;
     }
 
     // Generowanie kodu dla funkcji wątku.
