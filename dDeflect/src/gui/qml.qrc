@@ -5,5 +5,9 @@
         <file>images/tabs_standard.png</file>
         <file>qml/AboutDialog.qml</file>
         <file>qml/main.qml</file>
+        <file>qml/ExecutableTab.qml</file>
+        <file>qml/SourceCodeTab.qml</file>
+        <file>qml/ObfuscationTab.qml</file>
+        <file>qml/PackingTab.qml</file>
     </qresource>
 </RCC>

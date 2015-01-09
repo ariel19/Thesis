@@ -6,12 +6,13 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <core/file_types/codedefines.h>
+#include <ApplicationManager/dlogger.h>
 
 class DSettings
 {
 private:
     DSettings();
-    DSettings(const DSettings &);
+    DSettings(const DSettings &) = delete;
 
     const static QString file_name;
 

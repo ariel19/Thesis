@@ -18,6 +18,14 @@ class PEAddingMethods : public DAddingMethods<Register>
 {
 private:
 
+    enum class ErrorCode
+    {
+        Success
+    };
+
+    /**
+     * @brief Nazwa pliku opisującego funkcję pomocniczą ładującą dostęp do Windows API.
+     */
     static const QString windowsApiLoadingFunction;
 
     /**
@@ -138,6 +146,13 @@ private:
      * @return Kod binarny
      */
     QByteArray compileCode(QByteArray code);
+
+    /**
+     * @brief Zabezpiecza plik podanymi metodami. Przekazuje błądy do funkcji nadrzędnej.
+     * @param descs Lista wybranych metod
+     * @return Kod błędu
+     */
+    ErrorCode safe_secure(const QList<typename DAddingMethods<Register>::InjectDescription*> &descs);
 
 public:
     /**

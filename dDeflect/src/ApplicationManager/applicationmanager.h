@@ -35,6 +35,7 @@ public:
     //QString path() const;
 
     QVariantList x86MethodsNames();
+
 signals:
     void stateChanged(State);
     void x86MethodsNamesChanged();

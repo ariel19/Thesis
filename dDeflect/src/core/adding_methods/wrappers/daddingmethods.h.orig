@@ -12,7 +12,6 @@
 #include <core/file_types/elffile.h>
 #include <core/file_types/codedefines.h>
 #include <ApplicationManager/dsettings.h>
-#include <ApplicationManager/dlogger.h>
 
 #define mnemonic_stringify(mnemonic) \
     QString((std::string(#mnemonic).substr(std::string(#mnemonic).find_last_of(':') != std::string::npos ? \
@@ -86,7 +85,6 @@ public:
         Wrapper *detect_handler;
 
         virtual ~Wrapper() {}
-
         static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
 
         /**
@@ -166,7 +164,15 @@ public:
             ret = registerTypes[json["ret"].toString()];
 
             // code
+<<<<<<< HEAD
+            // TODO: sciezka
+            // windows:
+            // QFile codeFile("..\\..\\..\\..\\dDeflect\\src\\core\\" + json["path"].toString());
+            // Linux:
+            QFile codeFile("../../../../dDeflect/src/core/" + json["path"].toString());
+=======
             QFile codeFile(json["path"].toString());
+>>>>>>> c74ee8dccd528fb799c2c073515d91469e79b359
             if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 
@@ -188,37 +194,37 @@ public:
          */
         bool write(QJsonObject &json) const{
 
-            //            // used_regs
-            //            QJsonArray array;
+//            // used_regs
+//            QJsonArray array;
 
-            //            const char** tab = ( std::is_same<RegistersType, Registers_x64>::value ) ? Registers_x64_names : Registers_x86_names;
+//            const char** tab = ( std::is_same<RegistersType, Registers_x64>::value ) ? Registers_x64_names : Registers_x86_names;
 
-            //            for(int i = 0; i< used_regs.size(); ++i){
-            //                array.append(QJsonValue(QString( tab[static_cast<int>(used_regs[i])])));
-            //            }
-            //            json["used_regs"]=array;
+//            for(int i = 0; i< used_regs.size(); ++i){
+//                array.append(QJsonValue(QString( tab[static_cast<int>(used_regs[i])])));
+//            }
+//            json["used_regs"]=array;
 
-            //            // params
-            //            QJsonObject par;
-            //            foreach(QString key, params.keys()){
-            //                par.insert(key, QJsonValue(params.value(key)));
-            //            }
-            //            json["params"] = par;
+//            // params
+//            QJsonObject par;
+//            foreach(QString key, params.keys()){
+//                par.insert(key, QJsonValue(params.value(key)));
+//            }
+//            json["params"] = par;
 
-            //            // ret
+//            // ret
 
-            //            json["ret"] = QString(tab[static_cast<int>(ret)]);
+//            json["ret"] = QString(tab[static_cast<int>(ret)]);
 
-            //            // code
+//            // code
 
-            //            QString codePath("./codeFile.cpp");
-            //            QFile codeFile(codePath);
-            //            QFileInfo fi(codeFile);
-            //            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
-            //            QTextStream in(&codeFile);
-            //            in<<code;
+//            QString codePath("./codeFile.cpp");
+//            QFile codeFile(codePath);
+//            QFileInfo fi(codeFile);
+//            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
+//            QTextStream in(&codeFile);
+//            in<<code;
 
-            //            json["path_to_method"] = fi.absoluteFilePath();
+//            json["path_to_method"] = fi.absoluteFilePath();
 
             return false;
         }
@@ -257,6 +263,7 @@ public:
     class TrampolineWrapper : public Wrapper {
     public:
         Wrapper *tramp_action;
+
         virtual bool read(const QJsonObject & json) override {
             tramp_action = nullptr;
             return Wrapper::read(json);
@@ -472,7 +479,7 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
                     regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     }
 
-    template <typename RegistersType>
+template <typename RegistersType>
     QString AsmCodeGenerator::call_reg(const RegistersType reg) {
     QString qreg = std::is_same<RegistersType, Registers_x86>::value ?
     regs_x86[static_cast<Registers_x86>(reg)] :

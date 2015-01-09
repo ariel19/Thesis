@@ -11,6 +11,7 @@
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
 #include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
 
 #include "test_elf.h"
 
@@ -37,6 +38,11 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    DLogger::registerCallback({DLogger::Type::Error, DLogger::Type::Warning, DLogger::Type::Message},
+                              [](QString msg)-> void { printf("%s\n", msg.toStdString().c_str()); });
+
+    LOG_MSG("Start!");
+
     QList<DAddingMethods<Registers_x86>::InjectDescription*> ids;
 
     DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
@@ -58,9 +64,9 @@ int main(int argc, char **argv)
     PEAddingMethods<Registers_x86> adder(&pe);
     adder.setCodeCoverage(10);
     if(adder.secure(ids))
-        puts("Success!");
+        LOG_MSG("Success!");
     else
-        puts("Failed!");
+        LOG_ERROR("Failed!");
 
 
     QFile nf("new_example.exe");
@@ -69,7 +75,7 @@ int main(int argc, char **argv)
     nf.write(pe.getData());
     nf.close();
 
-    puts("OK!");
+    LOG_MSG("File saved.");
 
     return 0;
 }

@@ -8,14 +8,19 @@ Project {
         consoleApplication: true
         files: [
             "src/*/*.cpp",
-           "src/*/*.h",
-           "src/*/*/*.cpp",
-           "src/*/*/*.h",
-           "src/*/*/*/*.cpp",
-           "src/*/*/*/*.h",
-           "src/*/*/*/*/*.cpp",
-           "src/*/*/*/*/*.h",
-           "src/*/*.qrc"
+            "src/*/*.h",
+            "src/*/*/*.cpp",
+            "src/*/*/*.h",
+            "src/*/*/*/*.cpp",
+            "src/*/*/*/*.h",
+            "src/*/*/*/*/*.cpp",
+            "src/*/*/*/*/*.h",
+            "src/*/*.qrc",
+            "src/gui/qml/ExecutableTab.qml",
+            "src/gui/qml/ObfuscationTab.qml",
+            "src/gui/qml/PackingTab.qml",
+            "src/gui/qml/SourceCodeTab.qml",
+            "src/gui/qml/main.qml",
         ]
 
         Group {     // Properties for the produced executable
@@ -56,6 +61,8 @@ Project {
                 "src/core/file_types/codedefines.h",
                 "src/core/file_types/pehelpers.cpp",
                 "src/core/file_types/pehelpers.h",
+                "src/gui/qml/ObfuscationTab.qml",
+                "src/gui/qml/PackingTab.qml",
             ]
             condition: qbs.targetOS == "linux"
             cpp.dynamicLibraries: ["boost_system"]
@@ -79,6 +86,8 @@ Project {
             "src/ApplicationManager/DJsonParser/djsonparser.h",
             "src/ApplicationManager/dsettings.h",
             "src/ApplicationManager/dsettings.cpp",
+            "src/ApplicationManager/dlogger.h",
+            "src/ApplicationManager/dlogger.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.h",
             "tests/src/*.cpp",

@@ -34,9 +34,10 @@ template void PEAddingMethods<Registers_x86>::setCodeCoverage(uint8_t new_covera
 template void PEAddingMethods<Registers_x64>::setCodeCoverage(uint8_t new_coverage);
 
 template <typename Register>
-bool PEAddingMethods<Register>::secure(const QList<typename DAddingMethods<Register>::InjectDescription *> &descs)
+typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_secure(
+        const QList<typename DAddingMethods<Register>::InjectDescription*> &descs)
 {
-    QList<uint64_t> epMethods, tlsMethods, tramMethods;
+    /*QList<uint64_t> epMethods, tlsMethods, tramMethods;
 
     codePointers.clear();
     relocations.clear();
@@ -99,11 +100,25 @@ bool PEAddingMethods<Register>::secure(const QList<typename DAddingMethods<Regis
             return false;
     }
 
-    return pe->addRelocations(relocations);
+    return pe->addRelocations(relocations);*/
+    return ErrorCode::Success;
+    // TODO
+}
+template PEAddingMethods<Registers_x86>::ErrorCode PEAddingMethods<Registers_x86>::safe_secure(const QList<typename DAddingMethods<Registers_x86>::InjectDescription*> &descs);
+template PEAddingMethods<Registers_x64>::ErrorCode PEAddingMethods<Registers_x64>::safe_secure(const QList<typename DAddingMethods<Registers_x64>::InjectDescription*> &descs);
+
+
+template <typename Register>
+bool PEAddingMethods<Register>::secure(const QList<typename DAddingMethods<Register>::InjectDescription *> &descs)
+{
+    ErrorCode err = safe_secure(descs);
+
+    // TODO: logowanie błędów
+
+    return err == ErrorCode::Success;
 }
 template bool PEAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &descs);
 template bool PEAddingMethods<Registers_x64>::secure(const QList<DAddingMethods<Registers_x64>::InjectDescription *> &descs);
-
 
 template <typename Register>
 uint64_t PEAddingMethods<Register>::generateCode(typename DAddingMethods<Register>::Wrapper *w, bool isTlsCallback)
@@ -122,7 +137,8 @@ uint64_t PEAddingMethods<Register>::generateCode(typename DAddingMethods<Registe
     if(w->detect_handler)
     {
         action = generateCode(w->detect_handler);
-        if(!action) return 0;
+        if(!action)
+            return 0;
     }
 
     // Generowanie kodu dla funkcji wątku.
