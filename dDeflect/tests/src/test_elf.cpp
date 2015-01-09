@@ -805,10 +805,15 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
     */
 
-    if (!test_initarray_oep_wrappers("bin/telnet", "single64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
+    if (!test_init_oep_wrappers("bin/my64", "single64.asm", "methods/ptrace64.asm", "handlers/exit64.asm")) {
         qDebug() << "something went wrong :(";
     }
 
+    /*
+    if (!test_initarray_oep_wrappers("bin/telnet", "single64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
+        qDebug() << "something went wrong :(";
+    }
+    */
 
     /*
     if (!test_thread_wrappers("bin/edb", "thread64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
