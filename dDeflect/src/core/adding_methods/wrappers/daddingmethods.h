@@ -1,18 +1,15 @@
 #ifndef DADDINGMETHODS_H
 #define DADDINGMETHODS_H
 
-#include <QList>
-#include <QMap>
 #include <QString>
-#include <QDebug>
-#include <QProcess>
+#include <QMap>
 #include <QJsonObject>
 #include <QJsonArray>
-
-#include <core/file_types/elffile.h>
+#include <QStringList>
+#include <QFile>
 #include <core/file_types/codedefines.h>
-#include <ApplicationManager/dsettings.h>
-#include <ApplicationManager/dlogger.h>
+#include <core/file_types/binaryfile.h>
+#include <core/file_types/elffile.h>
 
 #define mnemonic_stringify(mnemonic) \
     QString((std::string(#mnemonic).substr(std::string(#mnemonic).find_last_of(':') != std::string::npos ? \

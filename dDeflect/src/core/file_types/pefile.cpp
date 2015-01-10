@@ -1,5 +1,8 @@
 #include <core/file_types/pefile.h>
 
+#include <QCryptographicHash>
+#include <ApplicationManager/dlogger.h>
+
 unsigned int PEFile::getOptHdrFileAlignment()
 {
     return _is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;

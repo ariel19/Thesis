@@ -1,5 +1,10 @@
 #include "elfaddingmethods.h"
 
+#include <QProcess>
+#include <QFileInfo>
+#include <QTemporaryFile>
+#include <QDebug>
+
 template <typename RegistersType>
 ELFAddingMethods<RegistersType>::ELFAddingMethods(ELF *f) :
     DAddingMethods<RegistersType>(f)

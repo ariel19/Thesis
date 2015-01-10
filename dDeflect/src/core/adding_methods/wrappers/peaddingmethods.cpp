@@ -1,5 +1,13 @@
 #include "peaddingmethods.h"
 
+#include <QTemporaryFile>
+#include <QTemporaryDir>
+#include <QProcess>
+
+#include <ApplicationManager/DJsonParser/djsonparser.h>
+#include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
+
 template <>
 const QString PEAddingMethods<Registers_x86>::windowsApiLoadingFunction = "win_x86_helper_load_functions.json";
 

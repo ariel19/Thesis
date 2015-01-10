@@ -2,9 +2,7 @@
 #define DLOGGER_H
 
 #include <QString>
-#include <QList>
 #include <QMap>
-#include <functional>
 
 class DLogger
 {

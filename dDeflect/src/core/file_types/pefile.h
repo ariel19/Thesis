@@ -7,20 +7,8 @@
 #include <windef.h>
 #endif
 
-#include <QFile>
-#include <QMap>
-#include <QString>
-#include <QList>
-#include <QStringList>
-#include <QCryptographicHash>
-#include <QByteArray>
-#include <QTemporaryFile>
-#include <cstdint>
-#include <chrono>
-#include <core/file_types/binaryfile.h>
 #include <core/file_types/codedefines.h>
-#include <ApplicationManager/dlogger.h>
-
+#include <core/file_types/binaryfile.h>
 
 /**
  * @brief Klasa odpowiedzialna za parsowanie plików PE

@@ -2,13 +2,10 @@
 #define PECODEDEFINES_H
 
 #include <QByteArray>
-#include <QSet>
 #include <QList>
 #include <QMap>
 #include <QRegExp>
 #include <QStack>
-#include <list>
-#include <chrono>
 
 /**
  * @brief Rejestry dla architektury x86.

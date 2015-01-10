@@ -1,9 +1,10 @@
-#include <QProcess>
-#include <QString>
-#include <QDebug>
-#include <QDataStream>
-
 #include <core/adding_methods/wrappers/daddingmethods.h>
+
+#include <chrono>
+#include <QProcess>
+
+#include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
 
 const QMap<Registers_x86, QString> AsmCodeGenerator::regs_x86 = {
     { Registers_x86::EAX, enum_stringify(Registers_x86::EAX) },

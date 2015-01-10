@@ -2,11 +2,6 @@
 #define DSETTINGS_H
 
 #include <QString>
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <core/file_types/codedefines.h>
-#include <ApplicationManager/dlogger.h>
 
 class DSettings
 {

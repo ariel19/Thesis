@@ -6,11 +6,10 @@
 #else
 #include <core/sys_headers/elf.h>
 #endif
-#include <QFile>
+
+#include <QPair>
 #include <QString>
-#include <QList>
 #include <QMap>
-#include <map>
 #include <core/file_types/binaryfile.h>
 
 typedef uint32_t offset_t;

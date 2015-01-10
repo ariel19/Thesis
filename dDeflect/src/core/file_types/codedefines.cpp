@@ -1,5 +1,7 @@
 #include "codedefines.h"
 
+#include <chrono>
+
 template <typename Register>
 QStack<uint64_t> CodeDefines<Register>::seed;
 

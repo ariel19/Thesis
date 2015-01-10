@@ -1,6 +1,7 @@
 #include <core/file_types/elffile.h>
 #include <utility>
 #include <cstring>
+#include <QFile>
 
 #define section_type_stringify(sec_type) \
     QString(".%1").arg(QString((std::string(#sec_type).substr(std::string(#sec_type).find_last_of(':') != std::string::npos ? \
