@@ -115,7 +115,7 @@ public:
      * @param section_data zawartość sekcji oraz adres witualny.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
-    bool get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
+    bool get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const;
 
     /**
      * @brief Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.
@@ -406,7 +406,7 @@ private:
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
      */
     template <typename ElfHeaderType, typename ElfSectionHeaderType>
-    bool __get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data);
+    bool __get_section_content(SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const;
 
     /**
      * @brief Pobiera offset sekcji w pliku, jeżeli podana sekcja istnieje.

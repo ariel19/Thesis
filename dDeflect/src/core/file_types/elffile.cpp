@@ -184,7 +184,7 @@ bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
     return __get_entry_point(b_data, old_ep);
 }
 
-bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
+bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const {
     if (!parsed)
         return false;
 
@@ -199,7 +199,7 @@ bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) {
+bool ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const {
     const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
     // if section header table exists
     if (!eh->e_shoff)

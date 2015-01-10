@@ -59,6 +59,16 @@ private:
     uint64_t fill_params(QString &code, const QMap<QString, QString> &params);
 
     /**
+     * @brief Metoda odpowiada za wypełnianie parametrów magicznych w podanym kodzie (te które, nie mogą być wyliczone dynamicznie).
+     * @param params parametry.
+     * @param elf instancja klasy pliku ELF.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    bool fill_magic_params(QMap<QString, QString> &params, const ELF *elf);
+
+    // void fill_dyn_magic_params();
+
+    /**
      * @brief Metoda odpowiada za wypełnianie placeholdera w podanym kodzie, za pomocą podanego kodu.
      * @param code kod.
      * @param gen_code kod, którym zostanie zamieniony placeholder.
