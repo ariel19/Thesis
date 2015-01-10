@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     DAddingMethods<Registers_x86>::Wrapper *wrapper = parser.loadInjectDescription<Registers_x86>("win_x86_is_debugger_present.json");
     wrapper->detect_handler = parser.loadInjectDescription<Registers_x86>("win_x86_handler_message_box.json");
     DAddingMethods<Registers_x86>::InjectDescription method1;
-    method1.cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
+    method1.cm = DAddingMethods<Registers_x86>::CallingMethod::Trampoline;
     method1.adding_method = wrapper;
     ids.append(&method1);
     //ids.append(new (std::nothrow) InjectDescription<Register_x86>(CallingMethod::EntryPoint, Wrapper<Register_x86>::fromFile(Wrapper<Register_x86>::helpersPath + "create_thread.asm", true)));
@@ -62,8 +62,8 @@ int main(int argc, char **argv)
     //ids.append(new (std::nothrow) InjectDescription<Register_x64>(CallingMethod::Trampoline, Wrapper<Register_x64>::fromFile(Wrapper<Register_x64>::methodsPath + "printf_test.asm")));
 
     PEAddingMethods<Registers_x86> adder(&pe);
-    adder.setCodeCoverage(10);
-    if(adder.secure(ids))
+    adder.setCodeCoverage(5);
+    if(adder.secure(ids) && adder.obfuscate(30))
         LOG_MSG("Success!");
     else
         LOG_ERROR("Failed!");

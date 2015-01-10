@@ -174,6 +174,17 @@ private:
      */
     ErrorCode safe_secure(const QList<typename DAddingMethods<Register>::InjectDescription*> &descs);
 
+    /**
+     * @brief Metoda pobiera offsety adresów skoków i wywołań z sekcji .text
+     * @param offsets Lista zalezionych offsetów
+     * @return Kod błędu
+     */
+    ErrorCode getAddressesOffsetsFromTextSection(QList<uint32_t> &offsets);
+
+    ErrorCode safe_obfuscate(uint8_t coverage);
+
+    BinaryCode<Register> generateObfuscationCode(uint64_t address);
+
 public:
     /**
      * @brief Konstruktor
@@ -195,6 +206,8 @@ public:
      * @param new_coverage Pokrycie kodu
      */
     void setCodeCoverage(uint8_t new_coverage);
+
+    bool obfuscate(uint8_t coverage);
 };
 
 #endif // PEADDINGMETHODS_H

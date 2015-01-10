@@ -4,7 +4,7 @@ const QString DSettings::file_name = "settings.json";
 
 DSettings::DSettings()
 {
-    loaded = load();
+    _loaded = load();
 }
 
 bool DSettings::load()
@@ -74,7 +74,7 @@ bool DSettings::save()
     }
 
     f.close();
-    loaded = true;
+    _loaded = true;
 
     return true;
 }
@@ -87,6 +87,11 @@ void DSettings::setNasmPath(QString nasm_path)
 void DSettings::setNdisasmPath(QString ndisasm_path)
 {
     ndisasmPath = ndisasm_path;
+}
+
+bool DSettings::loaded()
+{
+    return _loaded;
 }
 
 template <>

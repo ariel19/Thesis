@@ -21,7 +21,7 @@ private:
     QString ndisasmPath;
     QString nasmPath;
 
-    bool loaded;
+    bool _loaded;
 
     bool load();
 
@@ -43,6 +43,8 @@ public:
     void setNdisasmPath(QString ndisasm_path);
     template <typename Register>
     void setDescriptionsPath(QString desc_path);
+
+    bool loaded();
 
 };
 
