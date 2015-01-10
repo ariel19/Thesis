@@ -223,6 +223,133 @@ void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList 
         file_off.append(op.mid(0, 8).toUInt(NULL, 16) + base_off + 1);
 }
 
+template <typename RegistersType>
+bool ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
+                                                                            QPair<QByteArray, Elf64_Addr> &text_data) {
+
+    ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
+    if(!elf)
+        return false;
+
+    if (!elf->is_valid())
+        return false;
+
+    QTemporaryFile temp_file;
+    if(!temp_file.open())
+        return false;
+
+
+    if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
+        return false;
+
+    temp_file.write(text_data.first);
+    temp_file.flush();
+
+    QProcess ndisasm;
+
+    ndisasm.setProcessChannelMode(QProcess::MergedChannels);
+
+    // TODO: change
+    ndisasm.start("ndisasm", {"-a", "-b", elf->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+
+    if(!ndisasm.waitForStarted())
+        return false;
+
+    QByteArray assembly;
+
+    while(ndisasm.waitForReadyRead(-1))
+        assembly.append(ndisasm.readAll());
+
+    QStringList asm_inst = QString(assembly).split(CodeDefines<RegistersType>::newLineRegExp, QString::SkipEmptyParts);
+    QStringList call_inst = asm_inst.filter(CodeDefines<RegistersType>::callRegExp);
+    QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
+
+    if (!elf->get_section_file_off(ELF::SectionType::TEXT, base_off))
+        return false;
+
+    get_file_offsets_from_opcodes(call_inst, __file_off, base_off);
+    get_file_offsets_from_opcodes(jmp_inst, __file_off, base_off);
+
+    return true;
+}
+
+template <typename RegistersType>
+bool ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover) {
+    return safe_obfuscate(code_cover);
+}
+
+template <typename RegistersType>
+bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
+
+    ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
+    if(!elf)
+        return false;
+
+    if (!elf->is_valid())
+        return false;
+
+
+    QList<Elf64_Addr> __file_off;
+    Elf64_Addr base_off;
+    QPair<QByteArray, Elf64_Addr> text_data;
+
+
+    if (!get_address_offsets_from_text_section(__file_off, base_off, text_data))
+        return false;
+
+    QByteArray full_compiled_code;
+    int32_t rva;
+    Elf64_Addr inst_addr;
+
+    QList<rel_jmp_info> tramp_file_off; // < <offset in added data, offset in file>,  virtual address>
+
+    // TODO: should be changed
+    std::uniform_int_distribution<int> prob(0, 99);
+    std::default_random_engine gen;
+    uint8_t coverage = code_cover > 100 ? 100 : 0;
+    static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
+
+    QByteArray trash_code;
+    foreach (Elf64_Addr off, __file_off) {
+        if(prob(gen) >= coverage)
+            continue;
+
+        if (!elf->get_relative_address(off, rva))
+            return false;
+
+        inst_addr = text_data.second + off - base_off;
+        trash_code = "";
+
+        full_compiled_code.append(trash_code); // TODO: take code from CodeDefines
+        full_compiled_code.append(fake_jmp);
+
+        tramp_file_off.push_back(rel_jmp_info(full_compiled_code.size(), trash_code.size(),
+                                              off, inst_addr + rva + 4));
+    }
+
+    Elf64_Addr nva;
+    Elf64_Off file_off;
+
+    // TODO: change only_x value
+    if (!elf->extend_segment(full_compiled_code, false, nva, file_off))
+        return false;
+
+    foreach (auto fo_addr, tramp_file_off) {
+        // 5 - size of call instruction (minus 1 byte for call byte)
+        if (!elf->set_relative_address(fo_addr.fdata_off,
+                                       nva + fo_addr.ndata_off - (text_data.second + fo_addr.fdata_off- base_off) - 4))
+            return false;
+        qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo_addr.fdata_off - base_off - 1, 0, 16)
+                 << "to: " << QString("0x%1 ").arg(nva + fo_addr.ndata_off, 0, 16);
+
+        // set new relative address for jmp
+        if (!elf->set_relative_address(file_off + (fo_addr.fdata_off + fo_addr.fdata_size) - 4,
+                                       fo_addr.data_vaddr - (nva + ((fo_addr.fdata_off + fo_addr.fdata_size) - fake_jmp.size())) - 5))
+            return false;
+    }
+
+}
+
 // ===============================================================================
 // TODO: add detect method return value to wrapper used_regs, and push it on stack
 // ===============================================================================
@@ -594,7 +721,6 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             compiled_code.append(CodeDefines<Registers_x64>::restoreRegister(Registers_x64::R8));
         }
 
-
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESP));
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EBP));
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ESI));
@@ -603,8 +729,6 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::ECX));
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EBX));
         compiled_code.append(CodeDefines<Registers_x86>::restoreRegister(Registers_x86::EAX));
-
-
 
         // jmp to init
         static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
@@ -709,7 +833,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // case 'jmp' : add code that performs debug check + call to previous code
 
         // get call's and jmp's from text section
-
+        /*
         QTemporaryFile temp_file;
         if(!temp_file.open())
             return false;
@@ -750,6 +874,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
         get_file_offsets_from_opcodes(call_inst, __file_off, base_off);
         get_file_offsets_from_opcodes(jmp_inst, __file_off, base_off);
+        */
+
+        QList<Elf64_Addr> __file_off;
+        Elf64_Addr base_off;
+        QPair<QByteArray, Elf64_Addr> text_data;
+        QList<QPair<Elf64_Addr, Elf64_Addr> > tramp_file_off;
+
+        if (!get_address_offsets_from_text_section(__file_off, base_off, text_data))
+            return false;
 
         QByteArray full_compiled_code;
         // TODO: choose randomy few addresses
