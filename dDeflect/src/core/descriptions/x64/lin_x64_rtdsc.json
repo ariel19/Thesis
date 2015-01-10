@@ -1,0 +1,21 @@
+{
+  "name": "RTDSC time check",
+  "used_registers": [
+    "RAX",
+    "RCX"
+  ],
+  "parameters": [],
+  "returns": "RAX",
+  "methods": [
+    "EntryPoint",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "type" : "Method",
+  "path": "data/detection/linux/x64/rtdsc.asm",
+  "description": "TODO"
+}
