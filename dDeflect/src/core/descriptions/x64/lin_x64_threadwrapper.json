@@ -2,8 +2,12 @@
 	"name": "Thread check",
 	"used_registers": [ "All" ],
 	"parameters": [
-		"sleep1" : 0,
-		"sleep2" : 5
+		{
+		  "sleep1" : 0
+		},
+		{
+		  "sleep2" : 5
+		}
 	],
 	"returns": "RAX",
 	"methods": [],
