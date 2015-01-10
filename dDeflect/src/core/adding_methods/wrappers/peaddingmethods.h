@@ -181,9 +181,9 @@ private:
      */
     ErrorCode getAddressesOffsetsFromTextSection(QList<uint32_t> &offsets);
 
-    ErrorCode safe_obfuscate(uint8_t coverage);
+    ErrorCode safe_obfuscate(uint8_t coverage, uint8_t min_len, uint8_t max_len);
 
-    BinaryCode<Register> generateObfuscationCode(uint64_t address);
+    BinaryCode<Register> generateObfuscationCode(uint64_t address, uint8_t min_len, uint8_t max_len);
 
 public:
     /**
@@ -207,7 +207,7 @@ public:
      */
     void setCodeCoverage(uint8_t new_coverage);
 
-    bool obfuscate(uint8_t coverage);
+    bool obfuscate(uint8_t coverage, uint8_t min_len = 7, uint8_t max_len = 40);
 };
 
 #endif // PEADDINGMETHODS_H

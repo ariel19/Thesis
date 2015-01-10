@@ -395,6 +395,15 @@ public:
      * @return Kod
      */
     static QByteArray restoreAll();
+
+    /**
+     * @brief Kod zaciemniający działanie
+     * @param gen Generator liczb losowych
+     * @param min_len Minimalna długość losowych danych
+     * @param max_len Maksymalna długość losowych danych
+     * @return Kod
+     */
+    static QByteArray obfuscate(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);
 };
 
 #endif // PECODEDEFINES_H
