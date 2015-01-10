@@ -202,14 +202,20 @@ bool PEFile::setTlsAddressOfCallBacks(uint64_t addr)
         if(getTlsDirectory64())
             getTlsDirectory64()->AddressOfCallBacks = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfCallbacks failed");
             return false;
+        }
     }
     else
     {
         if(getTlsDirectory32())
             getTlsDirectory32()->AddressOfCallBacks = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfCallbacks failed");
             return false;
+        }
     }
 
     return true;
@@ -235,14 +241,20 @@ bool PEFile::setTlsAddressOfIndex(uint64_t addr)
         if(getTlsDirectory64())
             getTlsDirectory64()->AddressOfIndex = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfIndex failed");
             return false;
+        }
     }
     else
     {
         if(getTlsDirectory32())
             getTlsDirectory32()->AddressOfIndex = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfIndex failed");
             return false;
+        }
     }
 
     return true;
@@ -320,7 +332,10 @@ uint64_t PEFile::injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &p
     }
 
     if(!is_added)
+    {
+        LOG_ERROR("No more bytes can be added to the file.");
         return 0;
+    }
 
     uint64_t offset = memOffset + getImageBase();
     ptrs.insert(hash, offset);
@@ -1114,7 +1129,10 @@ bool PEFile::setNewEntryPoint(unsigned int newEP)
 
     if(newEP > getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
             getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize)
+    {
+        LOG_ERROR("New EntryPoint outside data!");
         return false;
+    }
 
     setOptHdrAddressOfEntryPoint(newEP);
 

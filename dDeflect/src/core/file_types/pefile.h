@@ -19,6 +19,7 @@
 #include <chrono>
 #include <core/file_types/binaryfile.h>
 #include <core/file_types/codedefines.h>
+#include <ApplicationManager/dlogger.h>
 
 
 /**
@@ -545,7 +546,7 @@ public:
     uint64_t getTlsAddressOfCallBacks();
 
     /**
-     * @brief Metoda pobierają◘ca zawartość sekcji .text
+     * @brief Metoda pobierająca zawartość sekcji .text
      * @return Tablica bajtów sekcji .text
      */
     QByteArray getTextSection();
