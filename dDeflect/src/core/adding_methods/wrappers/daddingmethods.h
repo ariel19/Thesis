@@ -59,6 +59,9 @@ public:
         TLS
     };
 
+    /**
+     * @brief Stopień kompresji UPX
+     */
     enum class CompressionLevel {
         L1 = 1,
         L2,
@@ -72,6 +75,9 @@ public:
         BEST
     };
 
+    /**
+     * @brief Dodatkowe opcje kompresji UPX
+     */
     enum class CompressionOptions {
         Default,
         Brute,
@@ -301,15 +307,42 @@ public:
      */
     DAddingMethods(BinaryFile *f);
 
+    /**
+     * @brief Metoda dodająca wybrane metody wykrywania debuggerów do pliku binarnego
+     * @param descs Opisy metod wykrywania debuggerów
+     * @return True w przypadku sukcesu
+     */
     virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &descs) = 0;
 
+    /**
+     * @brief Metoda pakująca plik binarny
+     * @param file_path Ścieżka do pliku
+     * @param level Poziom pakowania UPX
+     * @param opt Dodatkowe opcje pakowania
+     * @return
+     */
     static bool pack(QString file_path, CompressionLevel level = CompressionLevel::BEST, CompressionOptions opt = CompressionOptions::Default);
 
 protected:
+    /**
+     * @brief Plik binarny
+     */
     BinaryFile *file;
+
+    /**
+     * @brief Mapa zawierająca tekstowe opisy architektur.
+     */
     QMap<ArchitectureType, QString> arch_type;
 
+    /**
+     * @brief Generator liczb losowych
+     */
+    std::default_random_engine r_gen;
+
 private:
+    /**
+     * @brief Mapa konwertująca ciągi znaków na CallingMethod
+     */
     static const QMap<QString, CallingMethod> callingMethods;
 };
 

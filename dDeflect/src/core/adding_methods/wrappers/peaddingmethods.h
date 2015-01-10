@@ -71,12 +71,6 @@ private:
     uint8_t codeCoverage;
 
     /**
-     * @brief Generator liczb losowych
-     */
-    std::default_random_engine gen;
-
-
-    /**
      * @brief Metoda generująca kod ładujący parametry dla metod.
      * @param code Wygenerowany kod
      * @param getFunctionsCodeAddr Adres metody uzyskującej dostęp do API Windows

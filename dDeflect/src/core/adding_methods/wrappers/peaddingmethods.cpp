@@ -28,8 +28,7 @@ const QMap<typename PEAddingMethods<Register>::ErrorCode, QString> PEAddingMetho
 template <typename Register>
 PEAddingMethods<Register>::PEAddingMethods(PEFile *f) :
     DAddingMethods<Register>(f),
-    codeCoverage(5),
-    gen(std::chrono::system_clock::now().time_since_epoch().count())
+    codeCoverage(5)
 {
     text_section = f->getTextSection();
     text_section_offset = f->getTextSectionOffset();
@@ -71,7 +70,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_ob
 
     foreach(uint32_t offset, fileOffsets)
     {
-        if(prob(gen) >= coverage)
+        if(prob(DAddingMethods<Register>::r_gen) >= coverage)
             continue;
 
         BinaryCode<Register> code = generateObfuscationCode(pe->getAddressAtCallInstructionOffset(offset), min_len, max_len);
@@ -480,7 +479,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::injectT
 
     foreach(uint32_t offset, fileOffsets)
     {
-        if(prob(gen) >= codeCoverage)
+        if(prob(DAddingMethods<Register>::r_gen) >= codeCoverage)
             continue;
 
         BinaryCode<Register> code = generateTrampolineCode(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
@@ -957,7 +956,7 @@ Registers_x86 PEAddingMethods<Registers_x86>::getRandomRegister()
 
     std::uniform_int_distribution<int> idx(0, r.length() - 1);
 
-    return r[idx(gen)];
+    return r[idx(r_gen)];
 }
 
 template <>
@@ -969,7 +968,7 @@ Registers_x64 PEAddingMethods<Registers_x64>::getRandomRegister()
 
     std::uniform_int_distribution<int> idx(0, r.length() - 1);
 
-    return r[idx(gen)];
+    return r[idx(r_gen)];
 }
 
 template <>
@@ -1026,7 +1025,7 @@ BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateObfuscationCod
 
     BinaryCode<Register> code;
 
-    code.append(CodeDefines<Register>::obfuscate(gen, min_len, max_len));
+    code.append(CodeDefines<Register>::obfuscate(r_gen, min_len, max_len));
 
     code.append(CodeDefines<Register>::storeValue(static_cast<uint32_t>(address)), true);
     code.append(CodeDefines<Register>::ret);
@@ -1049,7 +1048,7 @@ BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateObfuscationCod
     code.append(CodeDefines<Register>::readFromRegToEspMem(r, CodeDefines<Register>::stackCellSize));
     code.append(CodeDefines<Register>::restoreRegister(r));
 
-    code.append(CodeDefines<Register>::obfuscate(gen, min_len, max_len));
+    code.append(CodeDefines<Register>::obfuscate(r_gen, min_len, max_len));
     code.append(CodeDefines<Register>::ret);
 
     return code;

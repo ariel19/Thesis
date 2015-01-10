@@ -45,7 +45,8 @@ const QMap<AsmCodeGenerator::Instructions, QString> AsmCodeGenerator::instructio
 
 template <typename Reg>
 DAddingMethods<Reg>::DAddingMethods(BinaryFile *f) :
-    file(f)
+    file(f),
+    r_gen(std::chrono::system_clock::now().time_since_epoch().count())
 {
     arch_type = {
         { ArchitectureType::BITS32, "[bits 32]" },
