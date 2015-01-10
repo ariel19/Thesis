@@ -31,7 +31,8 @@ PEAddingMethods<Register>::PEAddingMethods(PEFile *f) :
     codeCoverage(5),
     gen(std::chrono::system_clock::now().time_since_epoch().count())
 {
-
+    text_section = f->getTextSection();
+    text_section_offset = f->getTextSectionOffset();
 }
 template PEAddingMethods<Registers_x86>::PEAddingMethods(PEFile *f);
 template PEAddingMethods<Registers_x64>::PEAddingMethods(PEFile *f);
@@ -44,6 +45,7 @@ PEAddingMethods<Register>::~PEAddingMethods()
 template PEAddingMethods<Registers_x86>::~PEAddingMethods();
 template PEAddingMethods<Registers_x64>::~PEAddingMethods();
 
+
 template <typename Register>
 void PEAddingMethods<Register>::setCodeCoverage(uint8_t new_coverage)
 {
@@ -51,6 +53,51 @@ void PEAddingMethods<Register>::setCodeCoverage(uint8_t new_coverage)
 }
 template void PEAddingMethods<Registers_x86>::setCodeCoverage(uint8_t new_coverage);
 template void PEAddingMethods<Registers_x64>::setCodeCoverage(uint8_t new_coverage);
+
+
+template <typename Register>
+typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_obfuscate(uint8_t coverage)
+{
+    PEFile *pe = dynamic_cast<PEFile*>(DAddingMethods<Register>::file);
+    if(!pe)
+        return ErrorCode::BinaryFileNoPe;
+
+    QList<uint32_t> fileOffsets;
+    ErrorCode ec = getAddressesOffsetsFromTextSection(fileOffsets);
+    if(ec != ErrorCode::Success)
+        return ec;
+
+    std::uniform_int_distribution<int> prob(0, 99);
+
+    foreach(uint32_t offset, fileOffsets)
+    {
+        if(prob(gen) >= coverage)
+            continue;
+
+        BinaryCode<Register> code = generateObfuscationCode(pe->getAddressAtCallInstructionOffset(offset));
+
+        uint64_t addr = pe->injectUniqueData(code, codePointers, relocations);
+        if(addr == 0)
+            return ErrorCode::PeOperationFailed;
+
+        pe->setAddressAtCallInstructionOffset(offset, addr);
+    }
+
+    return ErrorCode::Success;
+}
+
+template <typename Register>
+bool PEAddingMethods<Register>::obfuscate(uint8_t coverage)
+{
+    ErrorCode err = safe_obfuscate(coverage);
+
+    if(err != ErrorCode::Success)
+        LOG_ERROR(errorDescriptions[err]);
+
+    return err == ErrorCode::Success;
+}
+template bool PEAddingMethods<Registers_x86>::obfuscate(uint8_t coverage);
+template bool PEAddingMethods<Registers_x64>::obfuscate(uint8_t coverage);
 
 template <typename Register>
 typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_secure(
@@ -68,9 +115,6 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_se
 
     if(!pe->is_valid())
         return ErrorCode::InvalidPeFile;
-
-    text_section = pe->getTextSection();
-    text_section_offset = pe->getTextSectionOffset();
 
     foreach(typename DAddingMethods<Register>::InjectDescription *desc, descs)
     {
@@ -425,34 +469,10 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::injectT
     if(!pe)
         return ErrorCode::BinaryFileNoPe;
 
-    QTemporaryFile temp_file;
-    if(!temp_file.open())
-        return ErrorCode::CannotCreateTempFile;
-
-    temp_file.write(text_section);
-    temp_file.flush();
-
-    QProcess ndisasm;
-
-    ndisasm.setProcessChannelMode(QProcess::MergedChannels);
-    QString ndisasm_path = DSettings::getSettings().getNdisasmPath();
-    ndisasm.start(ndisasm_path, {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
-
-    if(!ndisasm.waitForStarted())
-        return ErrorCode::NdisasmFailed;
-
-    QByteArray assembly;
-
-    while(ndisasm.waitForReadyRead(-1))
-        assembly.append(ndisasm.readAll());
-
-    QStringList asm_lines = QString(assembly).split(CodeDefines<Register>::newLineRegExp, QString::SkipEmptyParts);
-    QStringList call_lines = asm_lines.filter(CodeDefines<Register>::callRegExp);
-    QStringList jmp_lines = asm_lines.filter(CodeDefines<Register>::jmpRegExp);
-
     QList<uint32_t> fileOffsets;
-    getFileOffsetsFromOpcodes(call_lines, fileOffsets, text_section_offset);
-    getFileOffsetsFromOpcodes(jmp_lines, fileOffsets, text_section_offset);
+    ErrorCode ec = getAddressesOffsetsFromTextSection(fileOffsets);
+    if(ec != ErrorCode::Success)
+        return ec;
 
     std::uniform_int_distribution<int> prob(0, 99);
 
@@ -995,4 +1015,91 @@ BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateTrampolineCode
     code.append(CodeDefines<Register>::ret);
 
     return code;
+}
+
+template <>
+BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateObfuscationCode(uint64_t address)
+{
+    typedef Registers_x86 Register;
+
+    BinaryCode<Register> code;
+
+    std::uniform_int_distribution<int> p(7, 40);
+    std::uniform_int_distribution<char> q(0, 255);
+
+    int n = p(gen);
+    code.append(CodeDefines<Register>::jmpRelative(n));
+    for(int i = 0; i < n; ++i)
+        code.append(QByteArray(1, q(gen)));
+
+    code.append(CodeDefines<Register>::storeValue(static_cast<uint32_t>(address)), true);
+    code.append(CodeDefines<Register>::ret);
+
+    return code;
+}
+
+template <>
+BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateObfuscationCode(uint64_t address)
+{
+    typedef Registers_x64 Register;
+
+    BinaryCode<Register> code;
+
+    Register r = getRandomRegister();
+
+    code.append(CodeDefines<Register>::reserveStackSpace(1));
+    code.append(CodeDefines<Register>::saveRegister(r));
+    code.append(CodeDefines<Register>::movValueToReg(address, r), true);
+    code.append(CodeDefines<Register>::readFromRegToEspMem(r, CodeDefines<Register>::stackCellSize));
+    code.append(CodeDefines<Register>::restoreRegister(r));
+
+    std::uniform_int_distribution<int> p(7, 40);
+    std::uniform_int_distribution<char> q(0, 255);
+
+    int n = p(gen);
+    code.append(CodeDefines<Register>::jmpRelative(n));
+    for(int i = 0; i < n; ++i)
+        code.append(QByteArray(1, q(gen)));
+
+    code.append(CodeDefines<Register>::ret);
+
+    return code;
+}
+
+template <typename Register>
+typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::getAddressesOffsetsFromTextSection(QList<uint32_t> &offsets)
+{
+    PEFile *pe = dynamic_cast<PEFile*>(DAddingMethods<Register>::file);
+    if(!pe)
+        return ErrorCode::BinaryFileNoPe;
+
+    QTemporaryFile temp_file;
+    if(!temp_file.open())
+        return ErrorCode::CannotCreateTempFile;
+
+    temp_file.write(text_section);
+    temp_file.flush();
+
+    QProcess ndisasm;
+
+    ndisasm.setProcessChannelMode(QProcess::MergedChannels);
+    QString ndisasm_path = DSettings::getSettings().getNdisasmPath();
+    ndisasm.start(ndisasm_path, {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+
+    if(!ndisasm.waitForStarted())
+        return ErrorCode::NdisasmFailed;
+
+    QByteArray assembly;
+
+    while(ndisasm.waitForReadyRead(-1))
+        assembly.append(ndisasm.readAll());
+
+    QStringList asm_lines = QString(assembly).split(CodeDefines<Register>::newLineRegExp, QString::SkipEmptyParts);
+    QStringList call_lines = asm_lines.filter(CodeDefines<Register>::callRegExp);
+    QStringList jmp_lines = asm_lines.filter(CodeDefines<Register>::jmpRegExp);
+
+    getFileOffsetsFromOpcodes(call_lines, offsets, text_section_offset);
+    getFileOffsetsFromOpcodes(jmp_lines, offsets, text_section_offset);
+
+    return ErrorCode::Success;
 }
