@@ -34,8 +34,21 @@ public:
     virtual bool is_x86() const = 0;
 
 protected:
+
+    /**
+     * @brief Flaga zawierająca informację czy plik został poprawnie sparsowany.
+     */
     bool parsed;
+
+    /**
+     * @brief Zawartość pliku binarnego
+     */
     QByteArray b_data;
+
+    /**
+     * @brief Generator liczb losowych.
+     */
+    std::default_random_engine gen;
 };
 
 #endif // BINARYFILE_H

@@ -268,7 +268,6 @@ uint8_t PEFile::getRelocationType()
 PEFile::PEFile(QByteArray d) :
     BinaryFile(d),
     _is_x64(false),
-    gen(std::chrono::system_clock::now().time_since_epoch().count()),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
 {

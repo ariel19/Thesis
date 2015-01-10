@@ -122,11 +122,6 @@ private:
     unsigned int numberOfDataDirectories;
 
     /**
-     * @brief Generator liczb losowych.
-     */
-    std::default_random_engine gen;
-
-    /**
      * @brief Tablica indeksów do nagłówków sekcji (IMAGE_SECTION_HEADER).
      */
     unsigned int *sectionHeadersIdx;
