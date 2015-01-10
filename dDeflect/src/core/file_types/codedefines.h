@@ -6,6 +6,7 @@
 #include <QList>
 #include <QMap>
 #include <QRegExp>
+#include <QStack>
 #include <list>
 #include <chrono>
 
@@ -201,9 +202,9 @@ private:
     static const QByteArray _store_high_bytes;
 
     /**
-     * @brief Seed generatora liczb losowych
+     * @brief Stos seedów generatora liczb losowych
      */
-    static uint64_t seed;
+    static QStack<uint64_t> seed;
 
 public:
 

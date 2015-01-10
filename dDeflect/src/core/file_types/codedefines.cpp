@@ -1,7 +1,7 @@
 #include "codedefines.h"
 
 template <typename Register>
-uint64_t CodeDefines<Register>::seed = 0;
+QStack<uint64_t> CodeDefines<Register>::seed;
 
 template <typename Register>
 const QRegExp CodeDefines<Register>::newLineRegExp = QRegExp("[\r\n]");
@@ -663,8 +663,8 @@ QByteArray CodeDefines<Registers_x64>::saveAll()
     QList<Reg> regs = {Reg::RAX, Reg::RCX, Reg::RDX, Reg::RBX, Reg::RSI, Reg::RDI,
                        Reg::R8, Reg::R9, Reg::R10, Reg::R11, Reg::R12, Reg::R13, Reg::R14, Reg::R15};
 
-    seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine gen(seed);
+    seed.push(std::chrono::system_clock::now().time_since_epoch().count());
+    std::default_random_engine gen(seed.top());
     std::uniform_int_distribution<int> idx(0, 99);
 
     QByteArray code;
@@ -693,7 +693,10 @@ QByteArray CodeDefines<Registers_x64>::restoreAll()
     QList<Reg> regs = {Reg::RAX, Reg::RCX, Reg::RDX, Reg::RBX, Reg::RSI, Reg::RDI,
                        Reg::R8, Reg::R9, Reg::R10, Reg::R11, Reg::R12, Reg::R13, Reg::R14, Reg::R15};
 
-    std::default_random_engine gen(seed);
+    if(seed.isEmpty())
+        return QByteArray();
+
+    std::default_random_engine gen(seed.pop());
     std::uniform_int_distribution<int> idx(0, 99);
 
     QByteArray code;
