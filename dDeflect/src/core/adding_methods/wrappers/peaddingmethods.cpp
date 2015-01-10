@@ -925,6 +925,8 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::compile
 
     QProcess nasm;
 
+    LOG_MSG("Compiling code...");
+
     nasm.setProcessChannelMode(QProcess::MergedChannels);
     QString nasmPath = DSettings::getSettings().getNasmPath();
     nasm.start(nasmPath, {"-f", "bin", "-o", data_file, QFileInfo(temp_file).absoluteFilePath()});
@@ -1069,6 +1071,8 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::getAddr
 
     QProcess ndisasm;
 
+    LOG_MSG("Starting dissassembly of code. This may take a while...");
+
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
     QString ndisasm_path = DSettings::getSettings().getNdisasmPath();
     ndisasm.start(ndisasm_path, {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
@@ -1087,6 +1091,8 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::getAddr
 
     getFileOffsetsFromOpcodes(call_lines, offsets, text_section_offset);
     getFileOffsetsFromOpcodes(jmp_lines, offsets, text_section_offset);
+
+    LOG_MSG("Done.");
 
     return ErrorCode::Success;
 }
