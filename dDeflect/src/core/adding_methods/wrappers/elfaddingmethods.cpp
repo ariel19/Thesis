@@ -318,9 +318,9 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
             return false;
 
         inst_addr = text_data.second + off - base_off;
-        trash_code = "";
+        trash_code = CodeDefines<RegistersType>::obfuscate(gen, 10, 20);
 
-        full_compiled_code.append(trash_code); // TODO: take code from CodeDefines
+        full_compiled_code.append(trash_code);
         full_compiled_code.append(fake_jmp);
 
         tramp_file_off.push_back(rel_jmp_info(full_compiled_code.size(), trash_code.size(),
