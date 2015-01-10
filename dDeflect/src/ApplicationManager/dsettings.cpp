@@ -34,6 +34,7 @@ bool DSettings::load()
     ndisasmPath = settings["ndisasm_path"].toString();
     descriptionsPath_x86 = settings["desc_x86_path"].toString();
     descriptionsPath_x64 = settings["desc_x64_path"].toString();
+    upxPath = settings["upx_path"].toString();
 
     return true;
 }
@@ -46,6 +47,11 @@ const QString DSettings::getNasmPath() const
 const QString DSettings::getNdisasmPath() const
 {
     return ndisasmPath;
+}
+
+const QString DSettings::getUpxPath() const
+{
+    return upxPath;
 }
 
 bool DSettings::save()
@@ -64,6 +70,7 @@ bool DSettings::save()
     settings["ndisasm_path"] = ndisasmPath;
     settings["desc_x86_path"] = descriptionsPath_x86;
     settings["desc_x64_path"] = descriptionsPath_x64;
+    settings["upx_path"] = upxPath;
 
     QJsonDocument doc(settings);
     if(f.write(doc.toJson()) == -1)
@@ -87,6 +94,11 @@ void DSettings::setNasmPath(QString nasm_path)
 void DSettings::setNdisasmPath(QString ndisasm_path)
 {
     ndisasmPath = ndisasm_path;
+}
+
+void DSettings::setUpxPath(QString upx_path)
+{
+    upxPath = upx_path;
 }
 
 bool DSettings::loaded()

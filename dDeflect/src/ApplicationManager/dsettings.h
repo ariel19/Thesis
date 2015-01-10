@@ -20,6 +20,7 @@ private:
     QString descriptionsPath_x86;
     QString ndisasmPath;
     QString nasmPath;
+    QString upxPath;
 
     bool _loaded;
 
@@ -36,6 +37,7 @@ public:
     const QString getNdisasmPath() const;
     template <typename Register>
     const QString getDescriptionsPath() const;
+    const QString getUpxPath() const;
 
     bool save();
 
@@ -43,6 +45,7 @@ public:
     void setNdisasmPath(QString ndisasm_path);
     template <typename Register>
     void setDescriptionsPath(QString desc_path);
+    void setUpxPath(QString upx_path);
 
     bool loaded();
 
