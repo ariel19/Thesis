@@ -1,14 +1,17 @@
 {
-  "name": "0xcc Byte Search",
+  "name": "Code checksum",
   "used_registers": [
     "EAX",
     "EBX",
     "ECX",
-    "EDI"
+    "EDX",
+    "EDI",
+    "ESI"
   ],
   "parameters": [
-    "vsize" : "##tofill##",
-    "vaddr" : "##tofill##"
+    "magic!sec_checksum" : "",
+    "magic!sec_size" : "",
+    "dyn_magic!offset" : ""
   ],
   "returns": "EAX",
   "methods": [
