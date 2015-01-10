@@ -38,6 +38,9 @@ public:
         BITS64
     };
 
+    /**
+     * @brief Obsługiwane systemy operacyjne
+     */
     enum class SystemType {
         Windows,
         Linux
@@ -54,6 +57,25 @@ public:
         INIT_ARRAY,
         CTORS,
         TLS
+    };
+
+    enum class CompressionLevel {
+        L1 = 1,
+        L2,
+        L3,
+        L4,
+        L5,
+        L6,
+        L7,
+        L8,
+        L9,
+        BEST
+    };
+
+    enum class CompressionOptions {
+        Default,
+        Brute,
+        Ultra
     };
 
 
@@ -280,6 +302,8 @@ public:
     DAddingMethods(BinaryFile *f);
 
     virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &descs) = 0;
+
+    static bool pack(QString file_path, CompressionLevel level = CompressionLevel::BEST, CompressionOptions opt = CompressionOptions::Default);
 
 protected:
     BinaryFile *file;

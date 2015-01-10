@@ -55,6 +55,42 @@ DAddingMethods<Reg>::DAddingMethods(BinaryFile *f) :
 template DAddingMethods<Registers_x86>::DAddingMethods(BinaryFile *f);
 template DAddingMethods<Registers_x64>::DAddingMethods(BinaryFile *f);
 
+template <typename Register>
+bool DAddingMethods<Register>::pack(QString file_path, DAddingMethods::CompressionLevel level, DAddingMethods::CompressionOptions opt)
+{
+    QProcess upx;
+    QString upx_path = DSettings::getSettings().getUpxPath();
+    QList<QString> params = { "-f" };
+
+    if(level == CompressionLevel::BEST)
+        params.append("--best");
+    else
+        params.append(QString("-%1").arg(static_cast<int>(level)));
+
+    if(opt == CompressionOptions::Brute)
+        params.append("--brute");
+    if(opt == CompressionOptions::Ultra)
+        params.append("--ultra-brute");
+
+    params.append(file_path);
+
+    LOG_MSG("Starting packing file with UPX. This may take a while...");
+
+    upx.start(upx_path, params);
+
+    if(!upx.waitForFinished(5 * 60 * 1000))
+    {
+        LOG_ERROR("UPX failed.");
+        return false;
+    }
+
+    LOG_MSG("Done.");
+
+    return true;
+}
+template bool DAddingMethods<Registers_x86>::pack(QString file_path, DAddingMethods<Registers_x86>::CompressionLevel level, DAddingMethods<Registers_x86>::CompressionOptions opt);
+template bool DAddingMethods<Registers_x64>::pack(QString file_path, DAddingMethods<Registers_x64>::CompressionLevel level, DAddingMethods<Registers_x64>::CompressionOptions opt);
+
 template <typename Reg>
 const QMap<QString, typename DAddingMethods<Reg>::Wrapper::WrapperType> DAddingMethods<Reg>::Wrapper::wrapperTypes =
 {
