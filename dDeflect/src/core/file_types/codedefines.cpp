@@ -758,3 +758,27 @@ const uint8_t BinaryCode<Registers_x86>::addrSize = 4;
 
 template <>
 const uint8_t BinaryCode<Registers_x64>::addrSize = 8;
+
+template <typename Register>
+QByteArray CodeDefines<Register>::obfuscate(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len)
+{
+    QByteArray code;
+
+    if(min_len < 1)
+        min_len = 1;
+
+    if(max_len < min_len)
+        max_len = min_len;
+
+    std::uniform_int_distribution<int> p(min_len, max_len);
+    std::uniform_int_distribution<char> q(0, 255);
+
+    int n = p(gen);
+    code.append(CodeDefines<Register>::jmpRelative(n));
+    for(int i = 0; i < n; ++i)
+        code.append(QByteArray(1, q(gen)));
+
+    return code;
+}
+template QByteArray CodeDefines<Registers_x86>::obfuscate(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);
+template QByteArray CodeDefines<Registers_x64>::obfuscate(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);

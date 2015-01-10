@@ -56,7 +56,7 @@ template void PEAddingMethods<Registers_x64>::setCodeCoverage(uint8_t new_covera
 
 
 template <typename Register>
-typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_obfuscate(uint8_t coverage)
+typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_obfuscate(uint8_t coverage, uint8_t min_len, uint8_t max_len)
 {
     PEFile *pe = dynamic_cast<PEFile*>(DAddingMethods<Register>::file);
     if(!pe)
@@ -74,7 +74,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_ob
         if(prob(gen) >= coverage)
             continue;
 
-        BinaryCode<Register> code = generateObfuscationCode(pe->getAddressAtCallInstructionOffset(offset));
+        BinaryCode<Register> code = generateObfuscationCode(pe->getAddressAtCallInstructionOffset(offset), min_len, max_len);
 
         uint64_t addr = pe->injectUniqueData(code, codePointers, relocations);
         if(addr == 0)
@@ -87,17 +87,17 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_ob
 }
 
 template <typename Register>
-bool PEAddingMethods<Register>::obfuscate(uint8_t coverage)
+bool PEAddingMethods<Register>::obfuscate(uint8_t coverage, uint8_t min_len, uint8_t max_len)
 {
-    ErrorCode err = safe_obfuscate(coverage);
+    ErrorCode err = safe_obfuscate(coverage, min_len, max_len);
 
     if(err != ErrorCode::Success)
         LOG_ERROR(errorDescriptions[err]);
 
     return err == ErrorCode::Success;
 }
-template bool PEAddingMethods<Registers_x86>::obfuscate(uint8_t coverage);
-template bool PEAddingMethods<Registers_x64>::obfuscate(uint8_t coverage);
+template bool PEAddingMethods<Registers_x86>::obfuscate(uint8_t coverage, uint8_t min_len, uint8_t max_len);
+template bool PEAddingMethods<Registers_x64>::obfuscate(uint8_t coverage, uint8_t min_len, uint8_t max_len);
 
 template <typename Register>
 typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_secure(
@@ -1018,19 +1018,13 @@ BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateTrampolineCode
 }
 
 template <>
-BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateObfuscationCode(uint64_t address)
+BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateObfuscationCode(uint64_t address, uint8_t min_len, uint8_t max_len)
 {
     typedef Registers_x86 Register;
 
     BinaryCode<Register> code;
 
-    std::uniform_int_distribution<int> p(7, 40);
-    std::uniform_int_distribution<char> q(0, 255);
-
-    int n = p(gen);
-    code.append(CodeDefines<Register>::jmpRelative(n));
-    for(int i = 0; i < n; ++i)
-        code.append(QByteArray(1, q(gen)));
+    code.append(CodeDefines<Register>::obfuscate(gen, min_len, max_len));
 
     code.append(CodeDefines<Register>::storeValue(static_cast<uint32_t>(address)), true);
     code.append(CodeDefines<Register>::ret);
@@ -1039,7 +1033,7 @@ BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateObfuscationCod
 }
 
 template <>
-BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateObfuscationCode(uint64_t address)
+BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateObfuscationCode(uint64_t address, uint8_t min_len, uint8_t max_len)
 {
     typedef Registers_x64 Register;
 
@@ -1053,14 +1047,7 @@ BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateObfuscationCod
     code.append(CodeDefines<Register>::readFromRegToEspMem(r, CodeDefines<Register>::stackCellSize));
     code.append(CodeDefines<Register>::restoreRegister(r));
 
-    std::uniform_int_distribution<int> p(7, 40);
-    std::uniform_int_distribution<char> q(0, 255);
-
-    int n = p(gen);
-    code.append(CodeDefines<Register>::jmpRelative(n));
-    for(int i = 0; i < n; ++i)
-        code.append(QByteArray(1, q(gen)));
-
+    code.append(CodeDefines<Register>::obfuscate(gen, min_len, max_len));
     code.append(CodeDefines<Register>::ret);
 
     return code;
