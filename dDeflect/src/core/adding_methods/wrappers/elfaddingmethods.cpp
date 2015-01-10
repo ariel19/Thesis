@@ -277,6 +277,8 @@ template <typename RegistersType>
 bool ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover) {
     return safe_obfuscate(code_cover);
 }
+template bool ELFAddingMethods<Registers_x86>::obfuscate(uint8_t code_cover);
+template bool ELFAddingMethods<Registers_x64>::obfuscate(uint8_t code_cover);
 
 template <typename RegistersType>
 bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
@@ -293,7 +295,6 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
     Elf64_Addr base_off;
     QPair<QByteArray, Elf64_Addr> text_data;
 
-
     if (!get_address_offsets_from_text_section(__file_off, base_off, text_data))
         return false;
 
@@ -306,7 +307,7 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
     // TODO: should be changed
     std::uniform_int_distribution<int> prob(0, 99);
     std::default_random_engine gen;
-    uint8_t coverage = code_cover > 100 ? 100 : 0;
+    uint8_t coverage = code_cover > 100 ? 100 : code_cover;
     static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
 
     QByteArray trash_code;
@@ -320,11 +321,11 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
         inst_addr = text_data.second + off - base_off;
         trash_code = CodeDefines<RegistersType>::obfuscate(gen, 10, 20);
 
+        tramp_file_off.push_back(rel_jmp_info(full_compiled_code.size(), trash_code.size() + fake_jmp.size(),
+                                              off, inst_addr + rva + 4));
+
         full_compiled_code.append(trash_code);
         full_compiled_code.append(fake_jmp);
-
-        tramp_file_off.push_back(rel_jmp_info(full_compiled_code.size(), trash_code.size(),
-                                              off, inst_addr + rva + 4));
     }
 
     Elf64_Addr nva;
@@ -343,11 +344,10 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
                  << "to: " << QString("0x%1 ").arg(nva + fo_addr.ndata_off, 0, 16);
 
         // set new relative address for jmp
-        if (!elf->set_relative_address(file_off + (fo_addr.fdata_off + fo_addr.fdata_size) - 4,
-                                       fo_addr.data_vaddr - (nva + ((fo_addr.fdata_off + fo_addr.fdata_size) - fake_jmp.size())) - 5))
+        if (!elf->set_relative_address(file_off + (fo_addr.fdata_off + fo_addr.ndata_size) - 4,
+                                       fo_addr.data_vaddr - (nva + ((fo_addr.fdata_off + fo_addr.ndata_size) - fake_jmp.size())) - 5))
             return false;
     }
-
 }
 
 // ===============================================================================
