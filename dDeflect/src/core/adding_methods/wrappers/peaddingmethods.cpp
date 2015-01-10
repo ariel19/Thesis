@@ -9,20 +9,20 @@ const QString PEAddingMethods<Registers_x64>::windowsApiLoadingFunction = "win_x
 template <typename Register>
 const QMap<typename PEAddingMethods<Register>::ErrorCode, QString> PEAddingMethods<Register>::errorDescriptions =
 {
-    { PEAddingMethods<Register>::ErrorCode::BinaryFileNoPe, "Podany plik nie jest plikiem PE!" },
-    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempDir, "Nie można utworzyć tymczasoweg katalogu." },
-    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempFile, "Nie można utworzyć tymczasowego pliku." },
-    { PEAddingMethods<Register>::ErrorCode::CannotOpenCompiledFile, "Błąd podczas otwoerania skompilowanego pliku." },
-    { PEAddingMethods<Register>::ErrorCode::ErrorLoadingFunctions, "Nie można załadować pomocniczego kodu ładującego funkcji z pliku .json." },
-    { PEAddingMethods<Register>::ErrorCode::InvalidInjectDescription, "Opis metody jest niepoprawny." },
-    { PEAddingMethods<Register>::ErrorCode::InvalidPeFile, "Plik PE nie jest poprawny!" },
-    { PEAddingMethods<Register>::ErrorCode::NasmFailed, "Wywołanie programu nasm nie powiodło się." },
-    { PEAddingMethods<Register>::ErrorCode::NdisasmFailed, "Wywołanie programu ndisasm nie powiodło się." },
-    { PEAddingMethods<Register>::ErrorCode::NoThreadAction, "Brak zdefiniowenych metod dla wywołania wątku." },
-    { PEAddingMethods<Register>::ErrorCode::NullInjectDescription, "Opis metody nie został poprawnie utworzony" },
-    { PEAddingMethods<Register>::ErrorCode::NullWrapper, "Metoda nie została poprawnie wczytana." },
-    { PEAddingMethods<Register>::ErrorCode::PeOperationFailed, "Operacja na pliku PE nie powiodła się." },
-    { PEAddingMethods<Register>::ErrorCode::ToManyBytesForRelativeJump, "Wybran zbyt dużą liczbę metod w wątku." }
+    { PEAddingMethods<Register>::ErrorCode::BinaryFileNoPe, "Given binary file is not valid PE file!" },
+    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempDir, "Cannot create temporary directory." },
+    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempFile, "Cannot create temporary file." },
+    { PEAddingMethods<Register>::ErrorCode::CannotOpenCompiledFile, "Cannot open compiled file" },
+    { PEAddingMethods<Register>::ErrorCode::ErrorLoadingFunctions, "Cannot load Windows API loading code from .json file" },
+    { PEAddingMethods<Register>::ErrorCode::InvalidInjectDescription, "Invalid inject description." },
+    { PEAddingMethods<Register>::ErrorCode::InvalidPeFile, "PE file is invalid!" },
+    { PEAddingMethods<Register>::ErrorCode::NasmFailed, "Executing nasm failed." },
+    { PEAddingMethods<Register>::ErrorCode::NdisasmFailed, "Executing ndisasm failed." },
+    { PEAddingMethods<Register>::ErrorCode::NoThreadAction, "Thread actions not defined." },
+    { PEAddingMethods<Register>::ErrorCode::NullInjectDescription, "Loading inject description failed." },
+    { PEAddingMethods<Register>::ErrorCode::NullWrapper, "Loading method failed." },
+    { PEAddingMethods<Register>::ErrorCode::PeOperationFailed, "PE file operation failed." },
+    { PEAddingMethods<Register>::ErrorCode::ToManyBytesForRelativeJump, "To many methods in single thread." }
 };
 
 template <typename Register>

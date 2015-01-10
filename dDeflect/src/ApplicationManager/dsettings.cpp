@@ -13,7 +13,7 @@ bool DSettings::load()
 
     if(!f.open(QFile::ReadOnly))
     {
-        LOG_WARN("Plik konfiguracyjny nie istnieje.");
+        LOG_WARN("Settings file not found.");
         return false;
     }
 
@@ -24,7 +24,7 @@ bool DSettings::load()
     QJsonDocument doc = QJsonDocument::fromJson(data, &e);
     if(e.error != QJsonParseError::NoError)
     {
-        LOG_ERROR("Niepoprawny format pliku konfiguracyjnego!");
+        LOG_ERROR("Invalid settings file format!");
         return false;
     }
 
@@ -60,7 +60,7 @@ bool DSettings::save()
 
     if(!f.open(QFile::WriteOnly | QFile::Truncate))
     {
-        LOG_ERROR("Zapisanie konfiguracji nie powiodło się.");
+        LOG_ERROR("Saving the configuration to file failed.");
         return false;
     }
 
@@ -76,7 +76,7 @@ bool DSettings::save()
     if(f.write(doc.toJson()) == -1)
     {
         f.close();
-        LOG_ERROR("Zapisanie konfiguracji nie powiodło się.");
+        LOG_ERROR("Saving the configuration to file failed.");
         return false;
     }
 
