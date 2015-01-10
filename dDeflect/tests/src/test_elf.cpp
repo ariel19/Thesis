@@ -7,6 +7,10 @@
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 
+#include <ApplicationManager/DJsonParser/djsonparser.h>
+#include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
+
 
 bool test_trampoline_wrappers(const QString &elf_fname, const QString &wrapper,
                               const QString &method, const QString &handl) {
@@ -176,8 +180,10 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
 
         // FXIME: FOR CC METHOD
-        oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
-                                    { "vaddr", QString::number(section_data.second) } };
+        oepaction.static_params = { { "magic!sec_size" , "" },
+                                    { "magic!sec_checksum", "" },
+                                    { "dyn_magic!offset", "" }
+                                  };
         oepaction.detect_handler = nullptr;
         oepaction.ret = Registers_x86::EAX;
         oepaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
@@ -232,8 +238,10 @@ bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
             return false;
 
         // FXIME: FOR CC METHOD
-        oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
-                                    { "vaddr", QString::number(section_data.second) } };
+        oepaction.static_params = { { "magic!sec_size" , "" },
+                                    { "magic!sec_checksum", "" },
+                                    { "dyn_magic!offset", "" }
+                                  };
 
         oepaction.detect_handler = nullptr;
         oepaction.ret = Registers_x64::RAX;
@@ -411,6 +419,10 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         trmaction.code = code.readAll();
+        trmaction.static_params = { { "magic!sec_size" , "" },
+                                    { "magic!sec_checksum", "" },
+                                    { "dyn_magic!offset", "" }
+                                  };
         trmaction.detect_handler = nullptr;
         trmaction.ret = Registers_x86::EAX;
         trmaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
@@ -461,6 +473,11 @@ bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
         if (!code.open(QIODevice::ReadOnly))
             return false;
         trmaction.code = code.readAll();
+        trmaction.static_params = { { "magic!sec_size" , "" },
+                                    { "magic!sec_checksum", "" },
+                                    { "dyn_magic!offset", "" }
+                                  };
+
         trmaction.detect_handler = nullptr;
         trmaction.ret = Registers_x64::RAX;
         trmaction.used_regs = { Registers_x64::RAX, Registers_x64::RDI,
@@ -805,9 +822,10 @@ void test_wrappers() {
     qDebug() << "Testing OEP + thread for dDeflect 64-bit app done";
     */
 
-    if (!test_init_oep_wrappers("bin/my64", "single64.asm", "methods/ptrace64.asm", "handlers/exit64.asm")) {
+    if (!test_oep_wrappers("bin/my64", "single64.asm", "methods/cc64.asm", "handlers/exit64.asm")) {
         qDebug() << "something went wrong :(";
     }
+
 
     /*
     if (!test_initarray_oep_wrappers("bin/telnet", "single64.asm", "methods/ptrace64.asm", "handlers/exit_group64.asm")) {
@@ -1172,108 +1190,45 @@ void test_thread_wrapper() {
 void test_thread_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
                              const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand) {
 
-    // TODO: INIT STRUCTURE, SHOULD BE DONE USING A JSON MODULE
-    // ============================================================
-    // ============================================================
-    DAddingMethods<Registers_x86>::InjectDescription inject_desc;
-    DAddingMethods<Registers_x86>::TrampolineWrapper oepwrapper;
-    DAddingMethods<Registers_x86>::Wrapper handler;
-    DAddingMethods<Registers_x86>::Wrapper oepaction;
+    QFile f(QString("%1/%2").arg(bin_fld, bin[0]));
 
-    handler.static_params = { { "ret", "127" } };
-    handler.detect_handler = nullptr;
+    if(!f.open(QFile::ReadOnly))
+        return;
 
-    oepaction.detect_handler = nullptr;
-    oepaction.ret = Registers_x86::EAX;
-    oepaction.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
-            Registers_x86::EBX, Registers_x86::EDX,
-            Registers_x86::ESI, Registers_x86::EDI };
+    ELF elf(f.readAll());
 
-    oepwrapper.detect_handler = &handler;
-    oepwrapper.tramp_action = &oepaction;
-    oepwrapper.used_regs = { Registers_x86::EAX, Registers_x86::ECX,
-                           Registers_x86::EBX, Registers_x86::EDX,
-                           Registers_x86::ESI, Registers_x86::EDI };
+    f.close();
 
-    oepwrapper.static_params = { { "sleep1", "0" },
-                               { "sleep2", "5" } };
-
-    oepwrapper.ret = oepaction.ret;
-
-    // ============================================================
-    // ============================================================
-
-    QFile code;
-    QString binfp, mfp, hfp;
-    foreach (QString b, bin) {
-        binfp = QString("%1/%2").arg(bin_fld, b);
-        QFile f(binfp);
-        if(!f.open(QFile::ReadOnly)) {
-            qDebug() << "Error opening file: " << binfp;
-            return;
-        }
-
-        ELF elf(f.readAll());
-        if (!elf.is_valid())
-            return;
-
-        ELFAddingMethods<Registers_x86> dam(&elf);
-
-        foreach (QString m, meth) {
-            mfp = QString("%1/%2").arg(dmeth_fld, m);
-            foreach (QString h, hand) {
-                hfp = QString("%1/%2").arg(handl_fld, h);
-
-                // ===========================
-                // debugger handler generation
-                // ===========================
-                code.setFileName(hfp);
-                if (!code.open(QIODevice::ReadOnly))
-                    return;
-                handler.code = code.readAll();
-                code.close();
-
-                // =============================
-                // debugger detection generation
-                // =============================
-                code.setFileName(mfp);
-                if (!code.open(QIODevice::ReadOnly))
-                    return;
-
-                oepaction.code = code.readAll();
-                code.close();
-
-                // FOR CC code
-                QPair<QByteArray, Elf64_Addr> section_data;
-                if (!elf.get_section_content(ELF::SectionType::TEXT, section_data))
-                    return;
-
-                oepaction.static_params = { { "vsize", QString::number(section_data.first.size()) },
-                                            { "vaddr", QString::number(section_data.second) } };
-
-                // ==============================
-                // wrapper information generation
-                // ==============================
-                code.setFileName(mode);
-                if (!code.open(QIODevice::ReadOnly))
-                    return;
-
-                oepwrapper.code = code.readAll();
-                oepwrapper.ret = oepaction.ret;
-
-                code.close();
-
-                inject_desc.cm = DAddingMethods<Registers_x86>::CallingMethod::Thread;
-                inject_desc.adding_method = &oepwrapper;
-                inject_desc.saved_fname = QString("thread_%1_%2_%3").arg(b, m, h);
-
-                if (!dam.secure({&inject_desc}))
-                    return;
-
-                system(QString("mv %1 %2").arg(inject_desc.saved_fname, out_fld).toStdString().c_str());
-            }
-        }
+    if(!elf.is_valid()) {
+        puts("Bad format!");
+        return;
     }
+
+    QList<DAddingMethods<Registers_x86>::InjectDescription*> ids;
+
+    DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
+
+    DAddingMethods<Registers_x86>::OEPWrapper *single =
+            dynamic_cast<DAddingMethods<Registers_x86>::OEPWrapper *>(parser.loadInjectDescription<Registers_x86>(QString("%1.json").arg("lin_x86_ptrace")));
+
+    DAddingMethods<Registers_x86>::Wrapper *wrapper =
+            parser.loadInjectDescription<Registers_x86>(QString("%1.json").arg("lin_x86_ptrace"));
+
+    if (!wrapper)
+        return;
+    wrapper->detect_handler = parser.loadInjectDescription<Registers_x86>(QString("%1.json").arg("exit32"));
+    DAddingMethods<Registers_x86>::InjectDescription method1;
+    method1.cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
+    method1.adding_method = wrapper;
+    ids.append(&method1);
+
+    ELFAddingMethods<Registers_x86> adder(&elf);
+
+    if(adder.secure(ids))
+        puts("Success!");
+    else
+        puts("Failed!");
+
 }
 
 void test_thread_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
