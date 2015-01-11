@@ -30,6 +30,7 @@
     "Thread"
   ],
   "architecture": "win_x64",
+  "type": "Method",
   "path": "data/detection/win/x64/parent_process.asm",
   "description": "TODO"
 }

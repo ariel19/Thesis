@@ -1,0 +1,21 @@
+{
+  "name": "Divide by Zero Exception",
+  "used_registers": [
+    "EDX",
+	"ECX",
+	"ESI"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/divide_by_zero.asm",
+  "description": "TODO"
+}

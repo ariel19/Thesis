@@ -25,6 +25,7 @@
     "Trampoline"
   ],
   "architecture": "win_x86",
+  "type": "Method",
   "path": "data/detection/win/x86/create_file.asm",
   "description": "TODO"
 }

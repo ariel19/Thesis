@@ -1,21 +1,24 @@
 {
-  "name": "Anti Step Over 3",
+  "name": "Process abort",
   "used_registers": [
     "EAX",
     "EDX",
-    "EDI"
+	"ECX"
   ],
   "parameters": [
+	{
+	  "ECX": "msvcrt!abort"
+	}
   ],
   "returns": "None",
   "methods": [
     "TLS",
-    "EntryPoint",
-    "Trampoline",
-    "Thread"
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
   ],
   "architecture": "win_x86",
-  "type": "Method",
-  "path": "data/detection/win/x86/anti_step_over3.asm",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/abort.asm",
   "description": "TODO"
 }

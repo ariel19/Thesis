@@ -1,5 +1,5 @@
 {
-  "name": "OllyDbg Floating Point Exception",
+  "name": "Stack Smashing",
   "used_registers": [
     "EAX"
   ],
@@ -8,12 +8,12 @@
   "returns": "None",
   "methods": [
     "TLS",
-    "EntryPoint",
-    "Trampoline",
-    "Thread"
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
   ],
   "architecture": "win_x86",
-  "type": "Method",
-  "path": "data/detection/win/x86/fld.asm",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/stack_crack.asm",
   "description": "TODO"
 }

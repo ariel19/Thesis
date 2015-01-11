@@ -1,0 +1,20 @@
+{
+  "name": "Undefined Instruction",
+  "used_registers": [
+    "EAX",
+	"ECX"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/undefined_instruction.asm",
+  "description": "TODO"
+}

@@ -1,0 +1,30 @@
+{
+  "name": "Memleak",
+  "used_registers": [
+    "RAX",
+    "RDX",
+	"RCX",
+	"RDI",
+	"R8",
+	"R9",
+	"R10",
+	"R11",
+	"R14"
+  ],
+  "parameters": [
+    {
+	  "RDI": "msvcrt!malloc"
+	}
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/memleak_loop.asm",
+  "description": "TODO"
+}

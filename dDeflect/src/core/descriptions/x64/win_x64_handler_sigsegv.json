@@ -1,0 +1,20 @@
+{
+  "name": "Segmentation Fault",
+  "used_registers": [
+    "RAX",
+	"RCX"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/sigsegv.asm",
+  "description": "TODO"
+}

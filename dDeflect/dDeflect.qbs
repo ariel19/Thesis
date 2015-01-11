@@ -33,7 +33,7 @@ Project {
             qbs.install: true
             qbs.installDir: "bin"
             files: [
-                "src/core/descriptions/",
+                "src/core/descriptions/"
             ]
         }
 
@@ -74,10 +74,6 @@ Project {
         files: [
            "src/core/adding_methods/wrappers/*.cpp",
            "src/core/adding_methods/wrappers/*.h",
-           "tests/src/*.cpp",
-           "tests/src/*.h",
-           "src/core/file_types/*.cpp",
-           "src/core/file_types/*.h",
             "src/ApplicationManager/applicationmanager.cpp",
             "src/ApplicationManager/applicationmanager.h",
             "src/ApplicationManager/DJsonParser/djsonparser.cpp",

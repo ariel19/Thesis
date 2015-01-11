@@ -1,22 +1,25 @@
 {
-  "name": "Anti Step Over 2",
+  "name": "Infinite loop",
   "used_registers": [
     "RAX",
     "RDX",
-    "RCX",
-    "RDI"
+	"RCX",
+	"R8",
+	"R9",
+	"R10",
+	"R11",
+	"R12"
   ],
   "parameters": [
   ],
   "returns": "None",
   "methods": [
     "TLS",
-    "EntryPoint",
-    "Trampoline",
-    "Thread"
+	"EntryPoint",
+	"Trampoline"
   ],
   "architecture": "win_x64",
-  "type": "Method",
-  "path": "data/detection/win/x64/anti_step_over2.asm",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/loop.asm",
   "description": "TODO"
 }

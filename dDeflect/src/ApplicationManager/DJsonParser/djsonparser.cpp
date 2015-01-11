@@ -1,5 +1,7 @@
 #include "djsonparser.h"
 
+#include <ApplicationManager/dlogger.h>
+
 /**
  * @brief DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody
  * @return wskaźnik do wczytanej metody
@@ -20,11 +22,10 @@ DJsonParser::DJsonParser(QString path) : m_path(path)
 template <typename Register>
 typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(QString name)
 {
-    // TODO: tworzenie Wrapper/OEPWrapper/ThreadWrapper itp
     QFile loadFile(m_path + name);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open save file.");
+        LOG_ERROR("Cannot open json file.");
         return nullptr;
     }
 
@@ -60,6 +61,7 @@ typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(Q
     {
         delete p;
         p = nullptr;
+        LOG_ERROR("Invalid format of json file.");
     }
 
     return p;

@@ -1,22 +1,21 @@
 {
-  "name": "Anti Step Over 2",
+  "name": "Undefined Instruction",
   "used_registers": [
     "RAX",
     "RDX",
-    "RCX",
-    "RDI"
+	"RCX"
   ],
   "parameters": [
   ],
   "returns": "None",
   "methods": [
     "TLS",
-    "EntryPoint",
-    "Trampoline",
-    "Thread"
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
   ],
   "architecture": "win_x64",
-  "type": "Method",
-  "path": "data/detection/win/x64/anti_step_over2.asm",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/undefined_instruction.asm",
   "description": "TODO"
 }
