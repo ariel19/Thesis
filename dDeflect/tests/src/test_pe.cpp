@@ -8,6 +8,7 @@
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
 #include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
 
 QList<QString> PETester::methods_x64 =
 {
@@ -138,12 +139,18 @@ bool PETester::test_all_methods(QString input, Method type, QString handler)
 
     QList<QString> *methods = is_x64 ? &methods_x64 : &methods_x86;
 
+    int i = 1;
     foreach(QString method, *methods)
     {
+        LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(methods->length()));
         QString t = type == Method::EntryPoint ? "EntryPoint" : (type == Method::TLS ? "TLS" : "Trampoline");
         QString output = QString("test_method_%1_%2_%3.exe").arg(method.split('.')[0]).arg(t).arg(handler.split('.')[0]);
         if(!test_one(input, output, type, method, handler))
             return false;
+
+        LOG_MSG(QString("Test %1 / %2 finished.").arg(i).arg(methods->length()));
+
+        ++i;
     }
 
     return true;
@@ -167,15 +174,86 @@ bool PETester::test_all_handlers(QString input, Method type, QString method)
 
     QList<QString> *handlers = is_x64 ? &handlers_x64 : &handlers_x86;
 
+    int i = 1;
     foreach(QString handler, *handlers)
     {
+        LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(handlers->length()));
         QString t = type == Method::EntryPoint ? "EntryPoint" : (type == Method::TLS ? "TLS" : "Trampoline");
         QString output = QString("test_handler_%1_%2_%3.exe").arg(method.split('.')[0]).arg(t).arg(handler.split('.')[0]);
         if(!test_one(input, output, type, method, handler))
             return false;
+
+        LOG_MSG(QString("Test %1 / %2 finished.").arg(i).arg(handlers->length()));
+
+        ++i;
     }
 
     return true;
+}
+
+bool PETester::test_everything(QString input)
+{
+    int errors = 0;
+
+    LOG_MSG("Testing methods [EntryPoint]...");
+    if(test_all_methods(input, PETester::Method::EntryPoint, "win_x86_handler_message_box"))
+        LOG_MSG("Tests done (methods) [EntryPoint]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
+    LOG_MSG("Testing methods [Trampoline]...");
+    if(test_all_methods(input, PETester::Method::Trampoline, "win_x86_handler_message_box"))
+        LOG_MSG("Tests done (methods) [Trampoline]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
+    LOG_MSG("Testing methods [TLS]...");
+    if(test_all_methods(input, PETester::Method::TLS, "win_x86_handler_message_box"))
+        LOG_MSG("Tests done (methods) [TLS]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
+
+    LOG_MSG("Testing handlers [EntryPoint]...");
+    if(test_all_handlers(input, PETester::Method::EntryPoint, "win_x86_is_debugger_present"))
+        LOG_MSG("Tests done (handlers) [EntryPoint]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
+    LOG_MSG("Testing handlers [Trampoline]...");
+    if(test_all_handlers(input, PETester::Method::Trampoline, "win_x86_is_debugger_present"))
+        LOG_MSG("Tests done (handlers) [Trampoline]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
+    LOG_MSG("Testing handlers [TLS]...");
+    if(test_all_handlers(input, PETester::Method::TLS, "win_x86_is_debugger_present"))
+        LOG_MSG("Tests done (handlers) [TLS]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
+    if(errors)
+        LOG_MSG(QString("%1 tests failed!").arg(errors));
+
+    return errors == 0;
 }
 
 template <typename Reg>

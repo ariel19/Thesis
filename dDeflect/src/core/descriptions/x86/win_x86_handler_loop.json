@@ -2,7 +2,7 @@
   "name": "Infinite loop",
   "used_registers": [
     "EAX",
-	"ECX",
+	"ECX"
   ],
   "parameters": [
   ],

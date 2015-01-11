@@ -19,6 +19,7 @@ public:
     bool test_one(QString input, QString output, Method type, QString method, QString handler);
     bool test_all_methods(QString input, Method type, QString handler);
     bool test_all_handlers(QString input, Method type, QString method);
+    bool test_everything(QString input);
 
 private:
     template <typename Reg>
