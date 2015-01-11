@@ -1,0 +1,21 @@
+{
+  "name": "Undefined Instruction",
+  "used_registers": [
+    "RAX",
+    "RDX",
+	"RCX"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/undefined_instruction.asm",
+  "description": "TODO"
+}

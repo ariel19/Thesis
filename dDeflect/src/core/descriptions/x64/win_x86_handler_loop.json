@@ -1,0 +1,25 @@
+{
+  "name": "Infinite loop",
+  "used_registers": [
+    "RAX",
+    "RDX",
+	"RCX",
+	"R8",
+	"R9",
+	"R10",
+	"R11",
+	"R12"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/loop.asm",
+  "description": "TODO"
+}

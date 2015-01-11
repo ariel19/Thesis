@@ -1,0 +1,21 @@
+{
+  "name": "Divide by Zero Exception",
+  "used_registers": [
+    "RAX",
+    "RDX",
+	"RSI"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/divide_by_zero.asm",
+  "description": "TODO"
+}

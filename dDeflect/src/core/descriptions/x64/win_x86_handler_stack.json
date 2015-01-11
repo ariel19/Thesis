@@ -1,0 +1,19 @@
+{
+  "name": "Stack Smashing",
+  "used_registers": [
+    "RAX"
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/stack_crack.asm",
+  "description": "TODO"
+}

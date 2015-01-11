@@ -1,0 +1,28 @@
+{
+  "name": "Exit",
+  "used_registers": [
+    "RAX",
+    "RDX",
+	"RCX",
+	"R8",
+	"R9",
+	"R10",
+	"R11"
+  ],
+  "parameters": [
+	{
+	  "RAX": "msvcrt!_exit"
+	}
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x64",
+  "type": "Handler",
+  "path": "data/handlers/win/x64/exit.asm",
+  "description": "TODO"
+}
