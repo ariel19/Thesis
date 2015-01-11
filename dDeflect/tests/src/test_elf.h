@@ -25,6 +25,8 @@ bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
 
 void test_wrappers();
 
+void test_obfuscation();
+
 // NEW TESTS
 
 void test_trampoline_wrapper();

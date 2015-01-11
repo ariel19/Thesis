@@ -1963,3 +1963,25 @@ void test_trampoline_wrapper() {
              << "Finished Trampoline Wrapper x64\n"
              << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n";
 }
+
+void test_obfuscation() {
+    const QString elf_fname("bin/my32");
+    QFile f(elf_fname);
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug() << "Error opening file: " << elf_fname;
+        return;
+    }
+    ELF elf(f.readAll());
+    // qDebug() << "valid: " << elf.is_valid();
+    if (!elf.is_valid())
+        return;
+
+    if (elf.is_x86()) {
+        ELFAddingMethods<Registers_x86> dam(&elf);
+        dam.obfuscate(5);
+    }
+    else {
+        ELFAddingMethods<Registers_x64> dam(&elf);
+        dam.obfuscate(5);
+    }
+}
