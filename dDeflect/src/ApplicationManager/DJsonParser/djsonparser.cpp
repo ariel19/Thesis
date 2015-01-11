@@ -20,7 +20,6 @@ DJsonParser::DJsonParser(QString path) : m_path(path)
 template <typename Register>
 typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(QString name)
 {
-    // TODO: tworzenie Wrapper/OEPWrapper/ThreadWrapper itp
     QFile loadFile(m_path + name);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {

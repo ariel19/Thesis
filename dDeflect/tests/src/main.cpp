@@ -13,12 +13,13 @@
 #include <ApplicationManager/dsettings.h>
 #include <ApplicationManager/dlogger.h>
 
+#include "test_pe.h"
 #include "test_elf.h"
 
 #include <core/file_types/pefile.h>
 
 
-int main(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     //QFile f("C:\\Users\\jablonskim\\Desktop\\Programy\\putty.exe");
@@ -79,6 +80,52 @@ int main(int argc, char **argv)
         LOG_ERROR("failed");
 
     LOG_MSG("File saved.");
+
+    return 0;
+}*/
+
+int main(int argc, char **argv)
+{
+    QCoreApplication app(argc, argv);
+
+    DLogger::registerCallback({DLogger::Type::Error, DLogger::Type::Warning, DLogger::Type::Message},
+                              [](QString msg)-> void { printf("%s\n", msg.toStdString().c_str()); });
+
+    LOG_MSG("Start!");
+
+    PETester tester;
+    QString file_name = "C:\\Users\\jablonskim\\Desktop\\putty.exe";
+
+    if(tester.test_all_methods(file_name, PETester::Method::EntryPoint, "win_x86_handler_message_box"))
+        LOG_MSG("Tests done (methods) [EntryPoint]!");
+    else
+        LOG_MSG("Tests failed!");
+
+    if(tester.test_all_methods(file_name, PETester::Method::Trampoline, "win_x86_handler_message_box"))
+        LOG_MSG("Tests done (methods) [Trampoline]!");
+    else
+        LOG_MSG("Tests failed!");
+
+    if(tester.test_all_methods(file_name, PETester::Method::TLS, "win_x86_handler_message_box"))
+        LOG_MSG("Tests done (methods) [TLS]!");
+    else
+        LOG_MSG("Tests failed!");
+
+
+    if(tester.test_all_handlers(file_name, PETester::Method::EntryPoint, "win_x86_is_debugger_present"))
+        LOG_MSG("Tests done (handlers) [EntryPoint]!");
+    else
+        LOG_MSG("Tests failed!");
+
+    if(tester.test_all_handlers(file_name, PETester::Method::Trampoline, "win_x86_is_debugger_present"))
+        LOG_MSG("Tests done (handlers) [Trampoline]!");
+    else
+        LOG_MSG("Tests failed!");
+
+    if(tester.test_all_handlers(file_name, PETester::Method::TLS, "win_x86_is_debugger_present"))
+        LOG_MSG("Tests done (handlers) [TLS]!");
+    else
+        LOG_MSG("Tests failed!");
 
     return 0;
 }

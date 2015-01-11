@@ -47,7 +47,7 @@ public:
      * @brief Typy możliwości wstrzyknięcia kodu.
      */
     enum class CallingMethod {
-        OEP,
+        OEP = 0,
         Thread,
         Trampoline,
         INIT,
