@@ -11,6 +11,7 @@
     "TLS"
   ],
   "architecture": "win_x86",
+  "type": "Method",
   "path": "data/detection/win/x86/tls_ep_breakpoint.asm",
   "description": "TODO"
 }

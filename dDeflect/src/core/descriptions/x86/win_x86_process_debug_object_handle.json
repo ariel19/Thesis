@@ -18,6 +18,7 @@
     "Thread"
   ],
   "architecture": "win_x86",
+  "type": "Method",
   "path": "data/detection/win/x86/process_debug_object_handle.asm",
   "description": "TODO"
 }
