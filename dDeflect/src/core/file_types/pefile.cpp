@@ -458,7 +458,7 @@ bool PEFile::hasTls()
     if(!parsed)
         return false;
 
-    return getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress == 0;
+    return getDataDirectory(IMAGE_DIRECTORY_ENTRY_TLS)->VirtualAddress != 0;
 }
 
 bool PEFile::setTlsDirectoryAddress(uint64_t addr)
