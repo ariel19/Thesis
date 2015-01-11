@@ -343,16 +343,22 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
     foreach (auto fo_addr, tramp_file_off) {
         // 5 - size of call instruction (minus 1 byte for call byte)
         if (!elf->set_relative_address(fo_addr.fdata_off,
-                                       nva + fo_addr.ndata_off - (text_data.second + fo_addr.fdata_off- base_off) - 4))
+                                       nva + fo_addr.ndata_off - (text_data.second + fo_addr.fdata_off - base_off) - 4))
             return false;
-        qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo_addr.fdata_off - base_off - 1, 0, 16)
-                 << "to: " << QString("0x%1 ").arg(nva + fo_addr.ndata_off, 0, 16);
+        qDebug() << "jumping on : " << QString("0x%1").arg(text_data.second + fo_addr.fdata_off - base_off - 1, 0, 16)
+                 << "to: " << QString("0x%1").arg(nva + fo_addr.ndata_off, 0, 16);
 
         // set new relative address for jmp
-        if (!elf->set_relative_address(file_off + (fo_addr.fdata_off + fo_addr.ndata_size) - 4,
-                                       fo_addr.data_vaddr - (nva + ((fo_addr.fdata_off + fo_addr.ndata_size) - fake_jmp.size())) - 5))
+        if (!elf->set_relative_address(file_off + (fo_addr.ndata_off + fo_addr.ndata_size) - 4,
+                                       fo_addr.data_vaddr - (nva + ((fo_addr.ndata_off + fo_addr.ndata_size) - fake_jmp.size())) - 5))
             return false;
     }
+
+    elf->write_to_file("bin/obfuscated");
+
+    qDebug() << "saving to file: bin/obfuscated";
+
+    return true;
 }
 
 // ===============================================================================
