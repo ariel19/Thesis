@@ -1,5 +1,13 @@
 #include "peaddingmethods.h"
 
+#include <QTemporaryFile>
+#include <QTemporaryDir>
+#include <QProcess>
+
+#include <ApplicationManager/DJsonParser/djsonparser.h>
+#include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
+
 template <>
 const QString PEAddingMethods<Registers_x86>::windowsApiLoadingFunction = "win_x86_helper_load_functions.json";
 
@@ -9,27 +17,26 @@ const QString PEAddingMethods<Registers_x64>::windowsApiLoadingFunction = "win_x
 template <typename Register>
 const QMap<typename PEAddingMethods<Register>::ErrorCode, QString> PEAddingMethods<Register>::errorDescriptions =
 {
-    { PEAddingMethods<Register>::ErrorCode::BinaryFileNoPe, "Podany plik nie jest plikiem PE!" },
-    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempDir, "Nie można utworzyć tymczasoweg katalogu." },
-    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempFile, "Nie można utworzyć tymczasowego pliku." },
-    { PEAddingMethods<Register>::ErrorCode::CannotOpenCompiledFile, "Błąd podczas otwoerania skompilowanego pliku." },
-    { PEAddingMethods<Register>::ErrorCode::ErrorLoadingFunctions, "Nie można załadować pomocniczego kodu ładującego funkcji z pliku .json." },
-    { PEAddingMethods<Register>::ErrorCode::InvalidInjectDescription, "Opis metody jest niepoprawny." },
-    { PEAddingMethods<Register>::ErrorCode::InvalidPeFile, "Plik PE nie jest poprawny!" },
-    { PEAddingMethods<Register>::ErrorCode::NasmFailed, "Wywołanie programu nasm nie powiodło się." },
-    { PEAddingMethods<Register>::ErrorCode::NdisasmFailed, "Wywołanie programu ndisasm nie powiodło się." },
-    { PEAddingMethods<Register>::ErrorCode::NoThreadAction, "Brak zdefiniowenych metod dla wywołania wątku." },
-    { PEAddingMethods<Register>::ErrorCode::NullInjectDescription, "Opis metody nie został poprawnie utworzony" },
-    { PEAddingMethods<Register>::ErrorCode::NullWrapper, "Metoda nie została poprawnie wczytana." },
-    { PEAddingMethods<Register>::ErrorCode::PeOperationFailed, "Operacja na pliku PE nie powiodła się." },
-    { PEAddingMethods<Register>::ErrorCode::ToManyBytesForRelativeJump, "Wybran zbyt dużą liczbę metod w wątku." }
+    { PEAddingMethods<Register>::ErrorCode::BinaryFileNoPe, "Given binary file is not valid PE file!" },
+    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempDir, "Cannot create temporary directory." },
+    { PEAddingMethods<Register>::ErrorCode::CannotCreateTempFile, "Cannot create temporary file." },
+    { PEAddingMethods<Register>::ErrorCode::CannotOpenCompiledFile, "Cannot open compiled file" },
+    { PEAddingMethods<Register>::ErrorCode::ErrorLoadingFunctions, "Cannot load Windows API loading code from .json file" },
+    { PEAddingMethods<Register>::ErrorCode::InvalidInjectDescription, "Invalid inject description." },
+    { PEAddingMethods<Register>::ErrorCode::InvalidPeFile, "PE file is invalid!" },
+    { PEAddingMethods<Register>::ErrorCode::NasmFailed, "Executing nasm failed." },
+    { PEAddingMethods<Register>::ErrorCode::NdisasmFailed, "Executing ndisasm failed." },
+    { PEAddingMethods<Register>::ErrorCode::NoThreadAction, "Thread actions not defined." },
+    { PEAddingMethods<Register>::ErrorCode::NullInjectDescription, "Loading inject description failed." },
+    { PEAddingMethods<Register>::ErrorCode::NullWrapper, "Loading method failed." },
+    { PEAddingMethods<Register>::ErrorCode::PeOperationFailed, "PE file operation failed." },
+    { PEAddingMethods<Register>::ErrorCode::ToManyBytesForRelativeJump, "To many methods in single thread." }
 };
 
 template <typename Register>
 PEAddingMethods<Register>::PEAddingMethods(PEFile *f) :
     DAddingMethods<Register>(f),
-    codeCoverage(5),
-    gen(std::chrono::system_clock::now().time_since_epoch().count())
+    codeCoverage(5)
 {
     text_section = f->getTextSection();
     text_section_offset = f->getTextSectionOffset();
@@ -71,7 +78,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_ob
 
     foreach(uint32_t offset, fileOffsets)
     {
-        if(prob(gen) >= coverage)
+        if(prob(DAddingMethods<Register>::r_gen) >= coverage)
             continue;
 
         BinaryCode<Register> code = generateObfuscationCode(pe->getAddressAtCallInstructionOffset(offset), min_len, max_len);
@@ -480,7 +487,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::injectT
 
     foreach(uint32_t offset, fileOffsets)
     {
-        if(prob(gen) >= codeCoverage)
+        if(prob(DAddingMethods<Register>::r_gen) >= codeCoverage)
             continue;
 
         BinaryCode<Register> code = generateTrampolineCode(pe->getAddressAtCallInstructionOffset(offset), tramMethods[method_idx]);
@@ -925,6 +932,8 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::compile
 
     QProcess nasm;
 
+    LOG_MSG("Compiling code...");
+
     nasm.setProcessChannelMode(QProcess::MergedChannels);
     QString nasmPath = DSettings::getSettings().getNasmPath();
     nasm.start(nasmPath, {"-f", "bin", "-o", data_file, QFileInfo(temp_file).absoluteFilePath()});
@@ -955,7 +964,7 @@ Registers_x86 PEAddingMethods<Registers_x86>::getRandomRegister()
 
     std::uniform_int_distribution<int> idx(0, r.length() - 1);
 
-    return r[idx(gen)];
+    return r[idx(r_gen)];
 }
 
 template <>
@@ -967,7 +976,7 @@ Registers_x64 PEAddingMethods<Registers_x64>::getRandomRegister()
 
     std::uniform_int_distribution<int> idx(0, r.length() - 1);
 
-    return r[idx(gen)];
+    return r[idx(r_gen)];
 }
 
 template <>
@@ -1024,7 +1033,7 @@ BinaryCode<Registers_x86> PEAddingMethods<Registers_x86>::generateObfuscationCod
 
     BinaryCode<Register> code;
 
-    code.append(CodeDefines<Register>::obfuscate(gen, min_len, max_len));
+    code.append(CodeDefines<Register>::obfuscate(r_gen, min_len, max_len));
 
     code.append(CodeDefines<Register>::storeValue(static_cast<uint32_t>(address)), true);
     code.append(CodeDefines<Register>::ret);
@@ -1047,7 +1056,7 @@ BinaryCode<Registers_x64> PEAddingMethods<Registers_x64>::generateObfuscationCod
     code.append(CodeDefines<Register>::readFromRegToEspMem(r, CodeDefines<Register>::stackCellSize));
     code.append(CodeDefines<Register>::restoreRegister(r));
 
-    code.append(CodeDefines<Register>::obfuscate(gen, min_len, max_len));
+    code.append(CodeDefines<Register>::obfuscate(r_gen, min_len, max_len));
     code.append(CodeDefines<Register>::ret);
 
     return code;
@@ -1069,6 +1078,8 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::getAddr
 
     QProcess ndisasm;
 
+    LOG_MSG("Starting dissassembly of code. This may take a while...");
+
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
     QString ndisasm_path = DSettings::getSettings().getNdisasmPath();
     ndisasm.start(ndisasm_path, {"-a", "-b", pe->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
@@ -1087,6 +1098,8 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::getAddr
 
     getFileOffsetsFromOpcodes(call_lines, offsets, text_section_offset);
     getFileOffsetsFromOpcodes(jmp_lines, offsets, text_section_offset);
+
+    LOG_MSG("Done.");
 
     return ErrorCode::Success;
 }

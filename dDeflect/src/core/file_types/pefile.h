@@ -7,19 +7,8 @@
 #include <windef.h>
 #endif
 
-#include <QFile>
-#include <QMap>
-#include <QString>
-#include <QList>
-#include <QStringList>
-#include <QCryptographicHash>
-#include <QByteArray>
-#include <QTemporaryFile>
-#include <cstdint>
-#include <chrono>
-#include <core/file_types/binaryfile.h>
 #include <core/file_types/codedefines.h>
-
+#include <core/file_types/binaryfile.h>
 
 /**
  * @brief Klasa odpowiedzialna za parsowanie plików PE
@@ -119,11 +108,6 @@ private:
      * @brief Liczba wpisów w IMAGE_DATA_DIRECTORY.
      */
     unsigned int numberOfDataDirectories;
-
-    /**
-     * @brief Generator liczb losowych.
-     */
-    std::default_random_engine gen;
 
     /**
      * @brief Tablica indeksów do nagłówków sekcji (IMAGE_SECTION_HEADER).
@@ -545,7 +529,7 @@ public:
     uint64_t getTlsAddressOfCallBacks();
 
     /**
-     * @brief Metoda pobierają◘ca zawartość sekcji .text
+     * @brief Metoda pobierająca zawartość sekcji .text
      * @return Tablica bajtów sekcji .text
      */
     QByteArray getTextSection();

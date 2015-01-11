@@ -1,5 +1,12 @@
 #include "dsettings.h"
 
+#include <QFile>
+#include <ApplicationManager/dlogger.h>
+#include <QJsonObject>
+#include <QJsonParseError>
+
+#include <core/file_types/codedefines.h>
+
 const QString DSettings::file_name = "settings.json";
 
 DSettings::DSettings()
@@ -13,7 +20,7 @@ bool DSettings::load()
 
     if(!f.open(QFile::ReadOnly))
     {
-        LOG_WARN("Plik konfiguracyjny nie istnieje.");
+        LOG_WARN("Settings file not found.");
         return false;
     }
 
@@ -24,7 +31,7 @@ bool DSettings::load()
     QJsonDocument doc = QJsonDocument::fromJson(data, &e);
     if(e.error != QJsonParseError::NoError)
     {
-        LOG_ERROR("Niepoprawny format pliku konfiguracyjnego!");
+        LOG_ERROR("Invalid settings file format!");
         return false;
     }
 
@@ -34,6 +41,7 @@ bool DSettings::load()
     ndisasmPath = settings["ndisasm_path"].toString();
     descriptionsPath_x86 = settings["desc_x86_path"].toString();
     descriptionsPath_x64 = settings["desc_x64_path"].toString();
+    upxPath = settings["upx_path"].toString();
 
     return true;
 }
@@ -48,13 +56,18 @@ const QString DSettings::getNdisasmPath() const
     return ndisasmPath;
 }
 
+const QString DSettings::getUpxPath() const
+{
+    return upxPath;
+}
+
 bool DSettings::save()
 {
     QFile f(file_name);
 
     if(!f.open(QFile::WriteOnly | QFile::Truncate))
     {
-        LOG_ERROR("Zapisanie konfiguracji nie powiodło się.");
+        LOG_ERROR("Saving the configuration to file failed.");
         return false;
     }
 
@@ -64,12 +77,13 @@ bool DSettings::save()
     settings["ndisasm_path"] = ndisasmPath;
     settings["desc_x86_path"] = descriptionsPath_x86;
     settings["desc_x64_path"] = descriptionsPath_x64;
+    settings["upx_path"] = upxPath;
 
     QJsonDocument doc(settings);
     if(f.write(doc.toJson()) == -1)
     {
         f.close();
-        LOG_ERROR("Zapisanie konfiguracji nie powiodło się.");
+        LOG_ERROR("Saving the configuration to file failed.");
         return false;
     }
 
@@ -87,6 +101,11 @@ void DSettings::setNasmPath(QString nasm_path)
 void DSettings::setNdisasmPath(QString ndisasm_path)
 {
     ndisasmPath = ndisasm_path;
+}
+
+void DSettings::setUpxPath(QString upx_path)
+{
+    upxPath = upx_path;
 }
 
 bool DSettings::loaded()

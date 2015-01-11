@@ -1,14 +1,8 @@
 #ifndef PEADDINGMETHODS_H
 #define PEADDINGMETHODS_H
 
-#include <QProcess>
-#include <QFile>
-#include <QFileInfo>
-#include <QTemporaryDir>
-
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/file_types/pefile.h>
-#include <ApplicationManager/DJsonParser/djsonparser.h>
 
 /**
  * @brief Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików PE
@@ -69,12 +63,6 @@ private:
      * @brief Procentowe pokrycie kodu dla metod zamieniających adresy skoków
      */
     uint8_t codeCoverage;
-
-    /**
-     * @brief Generator liczb losowych
-     */
-    std::default_random_engine gen;
-
 
     /**
      * @brief Metoda generująca kod ładujący parametry dla metod.

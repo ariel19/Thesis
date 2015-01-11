@@ -1,10 +1,8 @@
 #ifndef ELFADDINGMETHODS_H
 #define ELFADDINGMETHODS_H
 
-#include <QTemporaryFile>
-#include <QFileInfo>
-
 #include <core/adding_methods/wrappers/daddingmethods.h>
+
 
 template <typename RegistersType>
 class ELFAddingMethods : public DAddingMethods<RegistersType> {

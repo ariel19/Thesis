@@ -2,12 +2,10 @@
 #define PECODEDEFINES_H
 
 #include <QByteArray>
-#include <QSet>
 #include <QList>
 #include <QMap>
 #include <QRegExp>
-#include <list>
-#include <chrono>
+#include <QStack>
 
 /**
  * @brief Rejestry dla architektury x86.
@@ -201,9 +199,9 @@ private:
     static const QByteArray _store_high_bytes;
 
     /**
-     * @brief Seed generatora liczb losowych
+     * @brief Stos seedów generatora liczb losowych
      */
-    static uint64_t seed;
+    static QStack<uint64_t> seed;
 
 public:
 

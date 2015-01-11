@@ -1,5 +1,8 @@
 #include <core/file_types/pefile.h>
 
+#include <QCryptographicHash>
+#include <ApplicationManager/dlogger.h>
+
 unsigned int PEFile::getOptHdrFileAlignment()
 {
     return _is_x64 ? getOptionalHeader64()->FileAlignment : getOptionalHeader32()->FileAlignment;
@@ -202,14 +205,20 @@ bool PEFile::setTlsAddressOfCallBacks(uint64_t addr)
         if(getTlsDirectory64())
             getTlsDirectory64()->AddressOfCallBacks = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfCallbacks failed");
             return false;
+        }
     }
     else
     {
         if(getTlsDirectory32())
             getTlsDirectory32()->AddressOfCallBacks = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfCallbacks failed");
             return false;
+        }
     }
 
     return true;
@@ -235,14 +244,20 @@ bool PEFile::setTlsAddressOfIndex(uint64_t addr)
         if(getTlsDirectory64())
             getTlsDirectory64()->AddressOfIndex = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfIndex failed");
             return false;
+        }
     }
     else
     {
         if(getTlsDirectory32())
             getTlsDirectory32()->AddressOfIndex = addr;
         else
+        {
+            LOG_ERROR("Setting new TLS AddressOfIndex failed");
             return false;
+        }
     }
 
     return true;
@@ -256,7 +271,6 @@ uint8_t PEFile::getRelocationType()
 PEFile::PEFile(QByteArray d) :
     BinaryFile(d),
     _is_x64(false),
-    gen(std::chrono::system_clock::now().time_since_epoch().count()),
     sectionHeadersIdx(NULL),
     dataDirectoriesIdx(NULL)
 {
@@ -320,7 +334,10 @@ uint64_t PEFile::injectUniqueData(QByteArray data, QMap<QByteArray, uint64_t> &p
     }
 
     if(!is_added)
+    {
+        LOG_ERROR("No more bytes can be added to the file.");
         return 0;
+    }
 
     uint64_t offset = memOffset + getImageBase();
     ptrs.insert(hash, offset);
@@ -1114,7 +1131,10 @@ bool PEFile::setNewEntryPoint(unsigned int newEP)
 
     if(newEP > getSectionHeader(getLastSectionNumberMem())->VirtualAddress +
             getSectionHeader(getLastSectionNumberMem())->Misc.VirtualSize)
+    {
+        LOG_ERROR("New EntryPoint outside data!");
         return false;
+    }
 
     setOptHdrAddressOfEntryPoint(newEP);
 

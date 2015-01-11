@@ -1,18 +1,15 @@
 #ifndef DADDINGMETHODS_H
 #define DADDINGMETHODS_H
 
-#include <QList>
-#include <QMap>
 #include <QString>
-#include <QDebug>
-#include <QProcess>
+#include <QMap>
 #include <QJsonObject>
 #include <QJsonArray>
-
-#include <core/file_types/elffile.h>
+#include <QStringList>
+#include <QFile>
 #include <core/file_types/codedefines.h>
-#include <ApplicationManager/dsettings.h>
-#include <ApplicationManager/dlogger.h>
+#include <core/file_types/binaryfile.h>
+#include <core/file_types/elffile.h>
 
 #define mnemonic_stringify(mnemonic) \
     QString((std::string(#mnemonic).substr(std::string(#mnemonic).find_last_of(':') != std::string::npos ? \
@@ -38,6 +35,9 @@ public:
         BITS64
     };
 
+    /**
+     * @brief Obsługiwane systemy operacyjne
+     */
     enum class SystemType {
         Windows,
         Linux
@@ -54,6 +54,31 @@ public:
         INIT_ARRAY,
         CTORS,
         TLS
+    };
+
+    /**
+     * @brief Stopień kompresji UPX
+     */
+    enum class CompressionLevel {
+        L1 = 1,
+        L2,
+        L3,
+        L4,
+        L5,
+        L6,
+        L7,
+        L8,
+        L9,
+        BEST
+    };
+
+    /**
+     * @brief Dodatkowe opcje kompresji UPX
+     */
+    enum class CompressionOptions {
+        Default,
+        Brute,
+        Ultra
     };
 
 
@@ -279,13 +304,42 @@ public:
      */
     DAddingMethods(BinaryFile *f);
 
+    /**
+     * @brief Metoda dodająca wybrane metody wykrywania debuggerów do pliku binarnego
+     * @param descs Opisy metod wykrywania debuggerów
+     * @return True w przypadku sukcesu
+     */
     virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &descs) = 0;
 
+    /**
+     * @brief Metoda pakująca plik binarny
+     * @param file_path Ścieżka do pliku
+     * @param level Poziom pakowania UPX
+     * @param opt Dodatkowe opcje pakowania
+     * @return
+     */
+    static bool pack(QString file_path, CompressionLevel level = CompressionLevel::BEST, CompressionOptions opt = CompressionOptions::Default);
+
 protected:
+    /**
+     * @brief Plik binarny
+     */
     BinaryFile *file;
+
+    /**
+     * @brief Mapa zawierająca tekstowe opisy architektur.
+     */
     QMap<ArchitectureType, QString> arch_type;
 
+    /**
+     * @brief Generator liczb losowych
+     */
+    std::default_random_engine r_gen;
+
 private:
+    /**
+     * @brief Mapa konwertująca ciągi znaków na CallingMethod
+     */
     static const QMap<QString, CallingMethod> callingMethods;
 };
 

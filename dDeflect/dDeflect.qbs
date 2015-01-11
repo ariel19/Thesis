@@ -59,8 +59,6 @@ Project {
                 "src/core/adding_methods/wrappers/elfaddingmethods.h",
                 "src/core/file_types/codedefines.cpp",
                 "src/core/file_types/codedefines.h",
-                "src/core/file_types/pehelpers.cpp",
-                "src/core/file_types/pehelpers.h",
                 "src/gui/qml/ObfuscationTab.qml",
                 "src/gui/qml/PackingTab.qml",
             ]

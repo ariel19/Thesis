@@ -75,6 +75,9 @@ int main(int argc, char **argv)
     nf.write(pe.getData());
     nf.close();
 
+    if(!DAddingMethods<Registers_x86>::pack("new_example.exe"))
+        LOG_ERROR("failed");
+
     LOG_MSG("File saved.");
 
     return 0;
