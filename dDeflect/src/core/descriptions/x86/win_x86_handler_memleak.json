@@ -1,0 +1,23 @@
+{
+  "name": "Memleak",
+  "used_registers": [
+    "EAX",
+	"EDI"
+  ],
+  "parameters": [
+    {
+	  "EDI": "msvcrt!malloc"
+	}
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/memleak_loop.asm",
+  "description": "TODO"
+}

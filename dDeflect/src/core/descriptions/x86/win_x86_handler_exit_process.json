@@ -1,0 +1,24 @@
+{
+  "name": "ExitProcess",
+  "used_registers": [
+    "EAX",
+    "EDX",
+	"ECX"
+  ],
+  "parameters": [
+    {
+	  "EAX": "kernel32!ExitProcess"
+	}
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/exit_process.asm",
+  "description": "TODO"
+}

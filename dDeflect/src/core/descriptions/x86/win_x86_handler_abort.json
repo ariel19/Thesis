@@ -1,0 +1,24 @@
+{
+  "name": "Process abort",
+  "used_registers": [
+    "EAX",
+    "EDX",
+	"ECX"
+  ],
+  "parameters": [
+	{
+	  "ECX": "msvcrt!abort"
+	}
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/abort.asm",
+  "description": "TODO"
+}

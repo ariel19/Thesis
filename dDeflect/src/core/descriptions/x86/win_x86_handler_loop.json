@@ -1,0 +1,19 @@
+{
+  "name": "Infinite loop",
+  "used_registers": [
+    "EAX",
+	"ECX",
+  ],
+  "parameters": [
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/loop.asm",
+  "description": "TODO"
+}

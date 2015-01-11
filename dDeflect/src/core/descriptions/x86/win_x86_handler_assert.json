@@ -1,0 +1,24 @@
+{
+  "name": "Assertion",
+  "used_registers": [
+    "EAX",
+    "EDX",
+	"ECX"
+  ],
+  "parameters": [
+    {
+	  "EDX": "msvcrt!_assert"
+	}
+  ],
+  "returns": "None",
+  "methods": [
+    "TLS",
+	"EntryPoint",
+	"Thread",
+	"Trampoline"
+  ],
+  "architecture": "win_x86",
+  "type": "Handler",
+  "path": "data/handlers/win/x86/assert.asm",
+  "description": "TODO"
+}
