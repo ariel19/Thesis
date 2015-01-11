@@ -188,7 +188,7 @@ public:
             }
 
             // ret
-            ret = registerTypes[json["ret"].toString()];
+            ret = registerTypes[json["returns"].toString()];
 
             // code
             QFile codeFile(json["path"].toString());
