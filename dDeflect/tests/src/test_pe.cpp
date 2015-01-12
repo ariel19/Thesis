@@ -191,6 +191,39 @@ bool PETester::test_all_handlers(QString input, Method type, QString method)
     return true;
 }
 
+bool PETester::test_thread(QString input, QString output, QString method, QString handler)
+{
+    QDir().mkdir("tests_output");
+
+    QFile in(input);
+    if(!in.open(QFile::ReadOnly))
+        return false;
+
+    QByteArray data = in.readAll();
+
+    PEFile pe(data);
+
+    if(!pe.is_valid())
+        return false;
+
+    if(pe.is_x64() && !test_thread_ex<Registers_x64>(&pe, method, handler))
+        return false;
+
+    if(pe.is_x86() && !test_thread_ex<Registers_x86>(&pe, method, handler))
+        return false;
+
+    QFile out(QFileInfo(QString("tests_output"), output).absoluteFilePath());
+    if(!out.open(QFile::WriteOnly))
+        return false;
+
+    out.write(pe.getData());
+
+    out.close();
+    in.close();
+
+    return true;
+}
+
 bool PETester::test_everything(QString input)
 {
     int errors = 0;
@@ -250,6 +283,15 @@ bool PETester::test_everything(QString input)
         LOG_MSG("Tests failed!");
     }
 
+    LOG_MSG("Testing thread...");
+    if(test_thread(input, QString("test_thread_win_x86_is_debugger_present_win_x86_handler_message_box.exe"), "win_x86_is_debugger_present", "win_x86_handler_message_box"))
+         LOG_MSG("Tests done [Thread]!");
+    else
+    {
+        errors++;
+        LOG_MSG("Tests failed!");
+    }
+
     if(errors)
         LOG_MSG(QString("%1 tests failed!").arg(errors));
 
@@ -272,7 +314,10 @@ bool PETester::test_one_ex(PEFile *pe, PETester::Method type, QString method, QS
         meth->detect_handler = parser.loadInjectDescription<Reg>(QString("%1.json").arg(handler));
 
         if(!meth->detect_handler)
+        {
+            delete meth;
             return false;
+        }
     }
 
     typename DAddingMethods<Reg>::InjectDescription id;
@@ -286,6 +331,56 @@ bool PETester::test_one_ex(PEFile *pe, PETester::Method type, QString method, QS
         delete meth->detect_handler;
 
     delete meth;
+
+    return true;
+}
+
+template <typename Reg>
+bool PETester::test_thread_ex(PEFile *pe, QString method, QString handler)
+{
+    DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Reg>());
+
+    PEAddingMethods<Reg> adder(pe);
+
+    QString tname = QString("win_%1_helper_create_thread.json").arg(pe->is_x64() ? "x64" : "x86");
+    typename DAddingMethods<Reg>::ThreadWrapper *tmeth =
+            dynamic_cast<typename DAddingMethods<Reg>::ThreadWrapper*>(parser.loadInjectDescription<Reg>(tname));
+    if(!tmeth)
+        return false;
+
+    typename DAddingMethods<Reg>::Wrapper *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
+    if(!meth)
+    {
+        delete tmeth;
+        return false;
+    }
+
+    if(meth->ret != Reg::None)
+    {
+        meth->detect_handler = parser.loadInjectDescription<Reg>(QString("%1.json").arg(handler));
+
+        if(!meth->detect_handler)
+        {
+            delete meth;
+            delete tmeth;
+            return false;
+        }
+    }
+
+    tmeth->thread_actions.append(meth);
+
+    typename DAddingMethods<Reg>::InjectDescription id;
+    id.adding_method = tmeth;
+    id.cm = DAddingMethods<Reg>::CallingMethod::OEP;
+    QList<typename DAddingMethods<Reg>::InjectDescription*> ids = { &id };
+
+    adder.secure(ids);
+
+    if(!meth->detect_handler)
+        delete meth->detect_handler;
+
+    delete meth;
+    delete tmeth;
 
     return true;
 }
