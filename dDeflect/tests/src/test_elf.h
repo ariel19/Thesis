@@ -8,75 +8,34 @@
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
-bool test_oep_wrappers(const QString &elf_fname, const QString &wrapper,
-                       const QString &method, const QString &handl);
+class ELFTester {
+public:
+    enum class Method {
+        OEP = 0,
+        Thread,
+        Trampoline,
+        INIT,
+        INIT_ARRAY,
+        CTORS
+    };
+    ELFTester() {}
+    bool test_one(QString input, QString output, Method type, QString method, QString handler);
+    bool test_all_methods(QString input, Method type, QString handler);
+    bool test_all_handlers(QString input, Method type, QString method);
+    bool test_all_wrappers(QString input, Method type, QString handler, QString method);
+    bool test_everything(QString input);
 
-bool test_thread_wrappers(const QString &elf_fname, const QString &wrapper,
-                          const QString &method, const QString &handl);
+private:
+    template <typename Reg>
+    bool test_one_ex(ELF *elf, Method type, QString method, QString handler);
 
-bool test_init_oep_wrappers(const QString &elf_fname, const QString &wrapper,
-                            const QString &method, const QString &handl);
-
-bool test_initarray_oep_wrappers(const QString &elf_fname, const QString &wrapper,
-                                 const QString &method, const QString &handl);
-
-bool test_ctors_oep_wrappers(const QString &elf_fname, const QString &wrapper,
-                             const QString &method, const QString &handl);
-
-void test_wrappers();
-
-void test_obfuscation();
-
-// NEW TESTS
-
-void test_trampoline_wrapper();
-
-void test_trampoline_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                                 const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_trampoline_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                                 const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_ctors_wrapper();
-
-void test_ctors_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                            const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_ctors_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                            const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_init_array_wrapper();
-
-void test_init_array_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                                 const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_init_array_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                                 const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_oep_wrapper();
-
-void test_oep_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                          const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_oep_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                          const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_init_wrapper();
-
-void test_init_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                           const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_init_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                           const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-
-void test_thread_wrapper();
-
-void test_thread_wrapper_x86(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                             const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
-
-void test_thread_wrapper_x64(const QString &bin_fld, const QString &dmeth_fld, const QString &out_fld, const QList<QString> &bin,
-                             const QList<QString> &meth, const QString &mode, const QString &handl_fld, const QList<QString> &hand);
+    static QList<QString> methods_x86;
+    static QList<QString> methods_x64;
+    static QList<QString> handlers_x86;
+    static QList<QString> handlers_x64;
+    static QList<QString> wrappers_x86;
+    static QList<QString> wrappers_x64;
+};
 
 
 #endif // TEST_ELF_H
