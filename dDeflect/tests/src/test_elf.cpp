@@ -34,16 +34,31 @@ QList<QString> ELFTester::handlers_x64 = {
     "lin_x64_exit_group"
 };
 
-QList<QString> ELFTester::wrappers_x86 = {
-    "lin_x86_oepwrapper",
-    "lin_x86_threadwrapper",
-    "lin_x86_trampolinewrapper"
+QMap<ELFTester::Method, QString> ELFTester::wrappers_x86 = {
+    { ELFTester::Method::OEP, "lin_x86_oepwrapper" },
+    { ELFTester::Method::Thread, "lin_x86_threadwrapper" },
+    { ELFTester::Method::Trampoline, "lin_x86_trampolinewrapper" },
+    { ELFTester::Method::CTORS, "lin_x86_trampolinewrapper" },
+    { ELFTester::Method::INIT, "lin_x86_trampolinewrapper" },
+    { ELFTester::Method::INIT_ARRAY, "lin_x86_trampolinewrapper" }
 };
 
-QList<QString> ELFTester::wrappers_x64 = {
-    "lin_x64_oepwrapper",
-    "lin_x64_threadwrapper",
-    "lin_x64_trampolinewrapper"
+QMap<ELFTester::Method, QString> ELFTester::wrappers_x64 = {
+    { ELFTester::Method::OEP, "lin_x64_oepwrapper" },
+    { ELFTester::Method::Thread, "lin_x64_threadwrapper" },
+    { ELFTester::Method::Trampoline, "lin_x64_trampolinewrapper" },
+    { ELFTester::Method::CTORS, "lin_x64_trampolinewrapper" },
+    { ELFTester::Method::INIT, "lin_x64_trampolinewrapper" },
+    { ELFTester::Method::INIT_ARRAY, "lin_x64_trampolinewrapper" }
+};
+
+QMap<ELFTester::Method, QString> ELFTester::smethods = {
+    { ELFTester::Method::OEP, "OEP" },
+    { ELFTester::Method::Thread, "Thread" },
+    { ELFTester::Method::Trampoline, "Trampoline" },
+    { ELFTester::Method::INIT, "INIT" },
+    { ELFTester::Method::INIT_ARRAY, "INIT_ARRAY" },
+    { ELFTester::Method::CTORS, "CTORS" }
 };
 
 bool ELFTester::test_one(QString input, QString output, ELFTester::Method type, QString method, QString handler) {
@@ -98,11 +113,9 @@ bool ELFTester::test_all_methods(QString input, ELFTester::Method type, QString 
     int i = 1;
     foreach(QString method, *methods) {
         LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(methods->length()));
-        // TODO: change!!!!
-        // QString t = type == Method::EntryPoint ? "EntryPoint" : (type == Method::TLS ? "TLS" : "Trampoline");
-        // QString output = QString("test_method_%1_%2_%3.exe").arg(method.split('.')[0]).arg(t).arg(handler.split('.')[0]);
-        //if(!test_one(input, output, type, method, handler))
-        //    return false;
+        QString output = QString("test_method_%1_%2_%3.exe").arg(method.split('.')[0]).arg(smethods[type]).arg(handler.split('.')[0]);
+        if(!test_one(input, output, type, method, handler))
+            return false;
 
         LOG_MSG(QString("Test %1 / %2 finished.").arg(i).arg(methods->length()));
 
@@ -133,11 +146,9 @@ bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString
     int i = 1;
     foreach(QString handler, *handlers) {
         LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(handlers->length()));
-        // TODO: change
-        // QString t = type == Method::EntryPoint ? "EntryPoint" : (type == Method::TLS ? "TLS" : "Trampoline");
-        // QString output = QString("test_handler_%1_%2_%3.exe").arg(method.split('.')[0]).arg(t).arg(handler.split('.')[0]);
-        // if(!test_one(input, output, type, method, handler))
-        //    return false;
+        QString output = QString("test_handler_%1_%2_%3.exe").arg(method.split('.')[0]).arg(smethods[type]).arg(handler.split('.')[0]);
+        if(!test_one(input, output, type, method, handler))
+            return false;
 
         LOG_MSG(QString("Test %1 / %2 finished.").arg(i).arg(handlers->length()));
 
@@ -148,75 +159,67 @@ bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString
 
 }
 
-bool ELFTester::test_all_wrappers(QString input, ELFTester::Method type, QString handler, QString method) {
-    return true;
+bool ELFTester::test_everything_x86(QString input) {
+    int errors = 0;
+    bool ret_val;
+
+    // testing x86
+    LOG_MSG("Testing x86 ...");
+
+    foreach (Method type, smethods.keys()) {
+        LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
+        foreach (QString m, methods_x86) {
+            ret_val = test_all_handlers(input, type, m);
+            if (!ret_val)
+                ++errors;
+        }
+        LOG_MSG(QString("Testing methods [%1] done").arg(smethods[type]));
+    }
+
+    foreach (Method type, smethods.keys()) {
+        LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
+        foreach (QString h, handlers_x86) {
+            ret_val = test_all_methods(input, type, h);
+            if (!ret_val)
+                ++errors;
+        }
+        LOG_MSG(QString("Testing methods [%1] done").arg(smethods[type]));
+    }
+
+    LOG_MSG("Testing x86 done");
+
+    return errors == 0;
 }
 
-bool ELFTester::test_everything(QString input) {
-
+bool ELFTester::test_everything_x64(QString input) {
     int errors = 0;
-    /*
-    LOG_MSG("Testing methods [EntryPoint]...");
-    if(test_all_methods(input, PETester::Method::EntryPoint, "win_x86_handler_message_box"))
-        LOG_MSG("Tests done (methods) [EntryPoint]!");
-    else
-    {
-        errors++;
-        LOG_MSG("Tests failed!");
+    bool ret_val;
+
+    LOG_MSG("Testing x64 ...");
+
+    foreach (Method type, smethods.keys()) {
+        LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
+        foreach (QString m, methods_x64) {
+            ret_val = test_all_handlers(input, type, m);
+            if (!ret_val)
+                ++errors;
+        }
+        LOG_MSG(QString("Testing methods [%1] done").arg(smethods[type]));
     }
 
-    LOG_MSG("Testing methods [Trampoline]...");
-    if(test_all_methods(input, PETester::Method::Trampoline, "win_x86_handler_message_box"))
-        LOG_MSG("Tests done (methods) [Trampoline]!");
-    else
-    {
-        errors++;
-        LOG_MSG("Tests failed!");
+    foreach (Method type, smethods.keys()) {
+        LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
+        foreach (QString h, handlers_x64) {
+            ret_val = test_all_methods(input, type, h);
+            if (!ret_val)
+                ++errors;
+        }
+        LOG_MSG(QString("Testing methods [%1] done").arg(smethods[type]));
     }
 
-    LOG_MSG("Testing methods [TLS]...");
-    if(test_all_methods(input, PETester::Method::TLS, "win_x86_handler_message_box"))
-        LOG_MSG("Tests done (methods) [TLS]!");
-    else
-    {
-        errors++;
-        LOG_MSG("Tests failed!");
-    }
+    LOG_MSG("Testing x64 done");
 
-
-    LOG_MSG("Testing handlers [EntryPoint]...");
-    if(test_all_handlers(input, PETester::Method::EntryPoint, "win_x86_is_debugger_present"))
-        LOG_MSG("Tests done (handlers) [EntryPoint]!");
-    else
-    {
-        errors++;
-        LOG_MSG("Tests failed!");
-    }
-
-    LOG_MSG("Testing handlers [Trampoline]...");
-    if(test_all_handlers(input, PETester::Method::Trampoline, "win_x86_is_debugger_present"))
-        LOG_MSG("Tests done (handlers) [Trampoline]!");
-    else
-    {
-        errors++;
-        LOG_MSG("Tests failed!");
-    }
-
-    LOG_MSG("Testing handlers [TLS]...");
-    if(test_all_handlers(input, PETester::Method::TLS, "win_x86_is_debugger_present"))
-        LOG_MSG("Tests done (handlers) [TLS]!");
-    else
-    {
-        errors++;
-        LOG_MSG("Tests failed!");
-    }
-
-    if(errors)
-        LOG_MSG(QString("%1 tests failed!").arg(errors));
-    */
     return errors == 0;
-
-
 }
 
 template <typename Reg>
@@ -227,28 +230,78 @@ bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QS
     ELFAddingMethods<Reg> adder(elf);
 
     typename DAddingMethods<Reg>::Wrapper *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
+    typename DAddingMethods<Reg>::Wrapper *wrapper =
+            parser.loadInjectDescription<Reg>(QString("%1.json").arg(elf->is_x86() ? wrappers_x86[type] : wrappers_x64[type]));
+
     if(!meth)
         return false;
 
-    if(meth->ret != Reg::None)
-    {
-        meth->detect_handler = parser.loadInjectDescription<Reg>(QString("%1.json").arg(handler));
+    if (!wrapper)
+        return false;
 
-        if(!meth->detect_handler)
+    // set detection handler
+    wrapper->detect_handler = parser.loadInjectDescription<Reg>(QString("%1.json").arg(handler));
+
+    if(!wrapper->detect_handler)
+        return false;
+
+    // set return register for wrapper as return register for method
+    wrapper->ret = meth->ret;
+
+    switch (type) {
+    case Method::OEP: {
+        typename DAddingMethods<Reg>::OEPWrapper *oepwrapper =
+                dynamic_cast<typename DAddingMethods<Reg>::OEPWrapper*>(wrapper);
+        if (!oepwrapper)
             return false;
+        oepwrapper->oep_action = meth;
+        break;
+    }
+    case Method::Thread: {
+        typename DAddingMethods<Reg>::ThreadWrapper *twrapper =
+                dynamic_cast<typename DAddingMethods<Reg>::ThreadWrapper*>(wrapper);
+        if (!twrapper)
+            return false;
+        twrapper->thread_actions = { meth };
+        break;
+    }
+    case Method::Trampoline:
+    case Method::INIT_ARRAY:
+    case Method::CTORS :
+    case Method::INIT: {
+        typename DAddingMethods<Reg>::TrampolineWrapper *trmwrapper =
+                dynamic_cast<typename DAddingMethods<Reg>::TrampolineWrapper*>(wrapper);
+        if (!trmwrapper)
+            return false;
+        trmwrapper->tramp_action = meth;
+        break;
+    }
+    default:
+        return false;
     }
 
     typename DAddingMethods<Reg>::InjectDescription id;
-    id.adding_method = meth;
+    id.adding_method = wrapper;
     id.cm = static_cast<typename DAddingMethods<Reg>::CallingMethod>(type);
+
+    // check if everything is ok
+    if (!meth->allowed_methods.contains(static_cast<typename DAddingMethods<Reg>::CallingMethod>(type)) ||
+        !wrapper->detect_handler->allowed_methods.contains(static_cast<typename DAddingMethods<Reg>::CallingMethod>(type)))
+        return true;
+
     QList<typename DAddingMethods<Reg>::InjectDescription*> ids = { &id };
 
-    adder.secure(ids);
+    qDebug() << "secure using wrapper: "
+             << QString(elf->is_x86() ? wrappers_x86[type] : wrappers_x86[type])
+             << "with method: " << method
+             << "using handler: " << handler;
+
+    bool s = adder.secure(ids);
 
     if(!meth->detect_handler)
         delete meth->detect_handler;
 
     delete meth;
 
-    return true;
+    return s;
 }

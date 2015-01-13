@@ -22,8 +22,8 @@ public:
     bool test_one(QString input, QString output, Method type, QString method, QString handler);
     bool test_all_methods(QString input, Method type, QString handler);
     bool test_all_handlers(QString input, Method type, QString method);
-    bool test_all_wrappers(QString input, Method type, QString handler, QString method);
-    bool test_everything(QString input);
+    bool test_everything_x86(QString input);
+    bool test_everything_x64(QString input);
 
 private:
     template <typename Reg>
@@ -33,8 +33,9 @@ private:
     static QList<QString> methods_x64;
     static QList<QString> handlers_x86;
     static QList<QString> handlers_x64;
-    static QList<QString> wrappers_x86;
-    static QList<QString> wrappers_x64;
+    static QMap<Method, QString> wrappers_x86;
+    static QMap<Method, QString> wrappers_x64;
+    static QMap<Method, QString> smethods;
 };
 
 
