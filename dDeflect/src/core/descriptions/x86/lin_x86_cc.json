@@ -9,9 +9,15 @@
     "ESI"
   ],
   "parameters": [
-    "magic!sec_checksum" : "",
-    "magic!sec_size" : "",
-    "dyn_magic!offset" : ""
+		{
+    	"magic!sec_checksum" : ""
+		},
+		{
+    	"magic!sec_size" : ""
+		},
+		{
+     "dyn_magic!offset" : ""
+		}
   ],
   "returns": "EAX",
   "methods": [

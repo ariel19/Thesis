@@ -5,7 +5,9 @@
     "RDI"
   ],
   "parameters": [
-    "ret" : 187
+		{
+    	"ret" : "187"
+		}
   ],
   "returns": "RAX",
   "methods": [

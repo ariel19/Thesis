@@ -3,16 +3,16 @@
 	"used_registers": [ "All" ],
 	"parameters": [
 		{
-		  "sleep1" : 0
+		  "sleep1" : "0"
 		},
 		{
-		  "sleep2" : 5
+		  "sleep2" : "5"
 		}
 	],
 	"returns": "EAX",
 	"methods": [],
 	"architecture": "lin_x86",
 	"type" : "ThreadWrapper",
-	"path": "adding_methods/methods/linux/content/x86/thread.asm",
+	"path": "adding_methods/methods/linux/x86/multi.asm",
 	"description": "TODO"
 }

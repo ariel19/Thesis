@@ -6,6 +6,6 @@
 	"methods": [],
 	"architecture": "lin_x86",
 	"type" : "OEPWrapper",
-	"path": "adding_methods/methods/linux/content/x86/single.asm",
+	"path": "adding_methods/methods/linux/x86/single.asm",
 	"description": "TODO"
 }

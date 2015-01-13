@@ -6,6 +6,6 @@
 	"methods": [],
 	"architecture": "lin_x64",
 	"type" : "TrampolineWrapper",
-	"path": "adding_methods/methods/linux/content/x64/single.asm",
+	"path": "adding_methods/methods/linux/x64/single.asm",
 	"description": "TODO"
 }

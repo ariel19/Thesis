@@ -5,7 +5,9 @@
     "EBX"
   ],
   "parameters": [
-    "ret" : 188
+		{
+    	"ret" : "188"
+		}
   ],
   "returns": "EAX",
   "methods": [
