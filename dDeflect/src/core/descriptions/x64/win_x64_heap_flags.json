@@ -25,5 +25,5 @@
   "architecture": "win_x64",
   "type": "Method",
   "path": "data/detection/win/x64/heap_flags.asm",
-  "description": "TODO"
+  "description": "Code checks Flags field of Process Heap and compares it to specific value that may be set if the process is created by a debugger."
 }

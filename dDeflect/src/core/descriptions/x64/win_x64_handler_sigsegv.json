@@ -16,5 +16,5 @@
   "architecture": "win_x64",
   "type": "Handler",
   "path": "data/handlers/win/x64/sigsegv.asm",
-  "description": "TODO"
+  "description": "Jumps to invalid address, which causes Segmentation Fault."
 }

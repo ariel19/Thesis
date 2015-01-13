@@ -28,5 +28,5 @@
   "architecture": "win_x64",
   "type": "Handler",
   "path": "data/handlers/win/x64/message_box.asm",
-  "description": "TODO"
+  "description": "Shows message box with text \"Debugger detected!\" and error icon and ends the process and all its threads."
 }

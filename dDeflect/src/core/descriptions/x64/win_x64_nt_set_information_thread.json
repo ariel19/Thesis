@@ -24,5 +24,5 @@
   "architecture": "win_x64",
   "type": "Method",
   "path": "data/detection/win/x64/nt_set_information_thread.asm",
-  "description": "TODO"
+  "description": "This method tries to hide thread from debugger by setting specific field of ThreadInformationClass structure."
 }

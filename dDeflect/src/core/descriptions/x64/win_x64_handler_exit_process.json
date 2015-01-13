@@ -24,5 +24,5 @@
   "architecture": "win_x64",
   "type": "Handler",
   "path": "data/handlers/win/x64/exit_process.asm",
-  "description": "TODO"
+  "description": "Ends the calling process and all its threads calling standard Windows API function."
 }

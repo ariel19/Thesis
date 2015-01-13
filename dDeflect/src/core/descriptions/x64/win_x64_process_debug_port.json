@@ -24,5 +24,5 @@
   "architecture": "win_x64",
   "type": "Method",
   "path": "data/detection/win/x64/process_debug_port.asm",
-  "description": "TODO"
+  "description": "This method queries ProcessDebugPort class using NtQueryInformationProcess function. If the debugger is present, ProcessDebugPort may be set to -1."
 }

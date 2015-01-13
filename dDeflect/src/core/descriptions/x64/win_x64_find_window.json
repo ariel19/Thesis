@@ -26,5 +26,5 @@
   "architecture": "win_x64",
   "type": "Method",
   "path": "data/detection/win/x64/find_window.asm",
-  "description": "TODO"
+  "description": "Code tries to find windows class names of known debuggers."
 }

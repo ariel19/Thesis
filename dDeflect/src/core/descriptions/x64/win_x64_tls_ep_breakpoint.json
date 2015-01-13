@@ -19,5 +19,5 @@
   "architecture": "win_x64",
   "type": "Method",
   "path": "data/detection/win/x64/tls_ep_breakpoint.asm",
-  "description": "TODO"
+  "description": "Checks if breakpoint is set on the EntryPoint of the protected application. This method can be called only with TLS method - before jump to EntryPoint."
 }

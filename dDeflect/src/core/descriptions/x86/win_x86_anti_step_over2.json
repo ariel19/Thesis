@@ -17,5 +17,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/anti_step_over2.asm",
-  "description": "The code sets next instruction opcode to NOP instruction. If debugger set a breakpoint on that instruction, it will be removed and application regain flow control"
+  "description": "The code sets next instruction opcode to NOP instruction. If debugger set a breakpoint on that instruction, it will be removed and application regain flow control."
 }

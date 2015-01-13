@@ -26,5 +26,5 @@
   "architecture": "win_x64",
   "type": "Handler",
   "path": "data/handlers/win/x64/memleak_loop.asm",
-  "description": "TODO"
+  "description": "Allocation of small pieces of memory in infinity loop. Recommended to use in separate thread. It decreases performance of Windows and makes debugging difficult or crashes the application."
 }
