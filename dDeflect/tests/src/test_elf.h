@@ -18,6 +18,16 @@ public:
         INIT_ARRAY,
         CTORS
     };
+
+    enum class SecuredState {
+        SECURED = 0,
+        NONCOMPATIBLE,
+        ERROR,
+        PARSINGERROR,
+        DYNCASTERROR,
+        ELFSECERROR
+    };
+
     ELFTester() {}
     bool test_one(QString input, QString output, Method type, QString method, QString handler);
     bool test_all_methods(QString input, Method type, QString handler);
@@ -27,7 +37,7 @@ public:
 
 private:
     template <typename Reg>
-    bool test_one_ex(ELF *elf, Method type, QString method, QString handler);
+    SecuredState test_one_ex(ELF *elf, Method type, QString method, QString handler);
 
     static QList<QString> methods_x86;
     static QList<QString> methods_x64;

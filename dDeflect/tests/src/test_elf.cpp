@@ -53,12 +53,12 @@ QMap<ELFTester::Method, QString> ELFTester::wrappers_x64 = {
 };
 
 QMap<ELFTester::Method, QString> ELFTester::smethods = {
-    { ELFTester::Method::OEP, "OEP" },
-    { ELFTester::Method::Thread, "Thread" },
-    { ELFTester::Method::Trampoline, "Trampoline" },
+    /*{ ELFTester::Method::OEP, "OEP" },
+    { ELFTester::Method::Thread, "Thread" }
+    */{ ELFTester::Method::Trampoline, "Trampoline" }/*,
     { ELFTester::Method::INIT, "INIT" },
     { ELFTester::Method::INIT_ARRAY, "INIT_ARRAY" },
-    { ELFTester::Method::CTORS, "CTORS" }
+    { ELFTester::Method::CTORS, "CTORS" }*/
 };
 
 bool ELFTester::test_one(QString input, QString output, ELFTester::Method type, QString method, QString handler) {
@@ -75,11 +75,22 @@ bool ELFTester::test_one(QString input, QString output, ELFTester::Method type, 
     if(!elf.is_valid())
         return false;
 
-    if(elf.is_x64() && !test_one_ex<Registers_x64>(&elf, type, method, handler))
-        return false;
+    SecuredState ss;
+    if(elf.is_x64()) {
+        ss = test_one_ex<Registers_x64>(&elf, type, method, handler);
+        if (ss == SecuredState::NONCOMPATIBLE)
+            return true;
+        if (ss != SecuredState::SECURED)
+            return false;
+    }
 
-    if(elf.is_x86() && !test_one_ex<Registers_x86>(&elf, type, method, handler))
-        return false;
+    if(elf.is_x86()) {
+        ss = test_one_ex<Registers_x86>(&elf, type, method, handler);
+        if (ss == SecuredState::NONCOMPATIBLE)
+            return true;
+        if (ss != SecuredState::SECURED)
+            return false;
+    }
 
     QFile out(QFileInfo(QString("elf_test_outputs"), output).absoluteFilePath());
     if(!out.open(QFile::WriteOnly))
@@ -113,7 +124,7 @@ bool ELFTester::test_all_methods(QString input, ELFTester::Method type, QString 
     int i = 1;
     foreach(QString method, *methods) {
         LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(methods->length()));
-        QString output = QString("test_method_%1_%2_%3.exe").arg(method.split('.')[0]).arg(smethods[type]).arg(handler.split('.')[0]);
+        QString output = QString("%1_%2_%3_%4").arg(input.split('/')[1]).arg(smethods[type]).arg(method.split('.')[0]).arg(handler.split('.')[0]);
         if(!test_one(input, output, type, method, handler))
             return false;
 
@@ -146,7 +157,7 @@ bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString
     int i = 1;
     foreach(QString handler, *handlers) {
         LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(handlers->length()));
-        QString output = QString("test_handler_%1_%2_%3.exe").arg(method.split('.')[0]).arg(smethods[type]).arg(handler.split('.')[0]);
+        QString output = QString("%1_%2_%3_%4").arg(input.split('/')[1]).arg(smethods[type]).arg(method.split('.')[0]).arg(handler.split('.')[0]);
         if(!test_one(input, output, type, method, handler))
             return false;
 
@@ -223,7 +234,7 @@ bool ELFTester::test_everything_x64(QString input) {
 }
 
 template <typename Reg>
-bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QString handler)
+ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QString handler)
 {
     DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Reg>());
 
@@ -234,16 +245,16 @@ bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QS
             parser.loadInjectDescription<Reg>(QString("%1.json").arg(elf->is_x86() ? wrappers_x86[type] : wrappers_x64[type]));
 
     if(!meth)
-        return false;
+        return SecuredState::PARSINGERROR;
 
     if (!wrapper)
-        return false;
+        return SecuredState::PARSINGERROR;
 
     // set detection handler
     wrapper->detect_handler = parser.loadInjectDescription<Reg>(QString("%1.json").arg(handler));
 
     if(!wrapper->detect_handler)
-        return false;
+        return SecuredState::PARSINGERROR;
 
     // set return register for wrapper as return register for method
     wrapper->ret = meth->ret;
@@ -253,7 +264,7 @@ bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QS
         typename DAddingMethods<Reg>::OEPWrapper *oepwrapper =
                 dynamic_cast<typename DAddingMethods<Reg>::OEPWrapper*>(wrapper);
         if (!oepwrapper)
-            return false;
+            return SecuredState::DYNCASTERROR;
         oepwrapper->oep_action = meth;
         break;
     }
@@ -261,7 +272,7 @@ bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QS
         typename DAddingMethods<Reg>::ThreadWrapper *twrapper =
                 dynamic_cast<typename DAddingMethods<Reg>::ThreadWrapper*>(wrapper);
         if (!twrapper)
-            return false;
+            return SecuredState::DYNCASTERROR;
         twrapper->thread_actions = { meth };
         break;
     }
@@ -272,27 +283,28 @@ bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QS
         typename DAddingMethods<Reg>::TrampolineWrapper *trmwrapper =
                 dynamic_cast<typename DAddingMethods<Reg>::TrampolineWrapper*>(wrapper);
         if (!trmwrapper)
-            return false;
+            return SecuredState::DYNCASTERROR;
         trmwrapper->tramp_action = meth;
         break;
     }
     default:
-        return false;
+        return SecuredState::ERROR;
     }
 
     typename DAddingMethods<Reg>::InjectDescription id;
     id.adding_method = wrapper;
     id.cm = static_cast<typename DAddingMethods<Reg>::CallingMethod>(type);
 
-    // check if everything is ok
+    // TODO: check if everything is ok
     if (!meth->allowed_methods.contains(static_cast<typename DAddingMethods<Reg>::CallingMethod>(type)) ||
         !wrapper->detect_handler->allowed_methods.contains(static_cast<typename DAddingMethods<Reg>::CallingMethod>(type)))
-        return true;
+        return SecuredState::NONCOMPATIBLE;
+
 
     QList<typename DAddingMethods<Reg>::InjectDescription*> ids = { &id };
 
     qDebug() << "secure using wrapper: "
-             << QString(elf->is_x86() ? wrappers_x86[type] : wrappers_x86[type])
+             << QString(elf->is_x86() ? wrappers_x86[type] : wrappers_x64[type])
              << "with method: " << method
              << "using handler: " << handler;
 
@@ -303,5 +315,5 @@ bool ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method, QS
 
     delete meth;
 
-    return s;
+    return s ? SecuredState::SECURED : SecuredState::ELFSECERROR;
 }
