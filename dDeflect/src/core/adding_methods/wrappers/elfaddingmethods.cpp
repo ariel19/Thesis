@@ -958,10 +958,10 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     default:
         return false;
     }
-
+    /*
     qDebug() << "saving to file: " << i_desc->saved_fname;
     elf->write_to_file(i_desc->saved_fname);
-
+    */
     return true;
 }
 template bool ELFAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &inject_desc);
