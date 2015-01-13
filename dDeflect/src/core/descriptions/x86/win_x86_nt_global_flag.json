@@ -17,5 +17,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/nt_global_flag.asm",
-  "description": "TODO"
+  "description": "Code checks NtGlobalFlag field of Process Environment Block and compares it to specific value that may be set if the process is created by a debugger."
 }

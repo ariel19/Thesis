@@ -17,5 +17,5 @@
   "architecture": "win_x86",
   "type": "Handler",
   "path": "data/handlers/win/x86/divide_by_zero.asm",
-  "description": "TODO"
+  "description": "Terminates the program with Divide by Zero Exception. Works only if exception is not handled by the application."
 }

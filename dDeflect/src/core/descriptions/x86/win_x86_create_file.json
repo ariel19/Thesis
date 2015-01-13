@@ -27,5 +27,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/create_file.asm",
-  "description": "TODO"
+  "description": "Code attempts to open exclusively the file of current process using CreateFile Windows API function. When some debuggers are present, this action will always fail."
 }

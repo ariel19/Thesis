@@ -16,5 +16,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/being_debugged.asm",
-  "description": "TODO"
+  "description": "Code checks BeingDebugged field of Process Environment Block of protected application."
 }

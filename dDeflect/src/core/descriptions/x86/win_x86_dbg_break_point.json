@@ -24,5 +24,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/dbg_break_point.asm",
-  "description": "TODO"
+  "description": "This method overwrites the DbgBreakPoint Windows API function, which is called when debugger attaches to running process. It makes it difficult to gain control over application by a debugger."
 }

@@ -20,5 +20,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/process_debug_flags.asm",
-  "description": "TODO"
+  "description": "This method queries undocumented ProcessDebugFlags class using NtQueryInformationProcess function. The class is cleared when debugger is present."
 }

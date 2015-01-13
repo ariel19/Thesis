@@ -15,5 +15,5 @@
   "architecture": "win_x86",
   "type": "Handler",
   "path": "data/handlers/win/x86/stack_crack.asm",
-  "description": "TODO"
+  "description": "Destroys the stack frame of current thread."
 }

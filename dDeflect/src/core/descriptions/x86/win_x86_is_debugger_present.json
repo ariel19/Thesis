@@ -20,5 +20,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/is_debugger_present.asm",
-  "description": "TODO"
+  "description": "Determines whether the calling process is being debugged by a user-mode debugger using standard Windows API function IsDebuggerPresent()."
 }

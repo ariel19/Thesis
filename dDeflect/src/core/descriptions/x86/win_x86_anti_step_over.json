@@ -19,5 +19,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/anti_step_over.asm",
-  "description": "TODO"
+  "description": "The code checks if opcode of one of instructions is INT3 opcode, which means that breakpoint is set on that instruction. This situation can happen while Stepping Over instructions with the debugger."
 }

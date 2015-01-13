@@ -21,5 +21,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/check_remote_debugger_present.asm",
-  "description": "TODO"
+  "description": "Determines whether the protected application is being debugged using standard Windows API function CheckRemoteDebuggerPresent()."
 }

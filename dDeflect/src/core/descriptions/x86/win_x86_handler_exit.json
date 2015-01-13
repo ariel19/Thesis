@@ -20,5 +20,5 @@
   "architecture": "win_x86",
   "type": "Handler",
   "path": "data/handlers/win/x86/exit.asm",
-  "description": "TODO"
+  "description": "Terminates the process normally, performing the regular cleanup for terminating programs."
 }

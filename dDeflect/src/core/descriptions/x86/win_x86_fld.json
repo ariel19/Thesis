@@ -15,5 +15,5 @@
   "architecture": "win_x86",
   "type": "Method",
   "path": "data/detection/win/x86/fld.asm",
-  "description": "TODO"
+  "description": "This code tries to crash OllyDbg debugger using floating point errors during number conversions, that are not disabled in OllyDbg."
 }

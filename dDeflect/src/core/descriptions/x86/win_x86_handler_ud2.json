@@ -16,5 +16,5 @@
   "architecture": "win_x86",
   "type": "Handler",
   "path": "data/handlers/win/x86/undefined_instruction.asm",
-  "description": "TODO"
+  "description": "Raises invalid opcode exception. UD2 instruction is provided for software testing to explicitly generate an invalid opcode."
 }
