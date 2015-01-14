@@ -83,7 +83,14 @@ private:
      */
     bool fill_magic_params(QMap<QString, QString> &params, const ELF *elf);
 
-    // void fill_dyn_magic_params();
+    /**
+     * @brief Metoda odpowiada za wypełnanie magicznego parametru dla wartośći sumy kontrolnej kodu.
+     * @param vaddr adres wirtualny początku nowych danych.
+     * @param elf instancja klasy pliku ELF.
+     * @param checksum suma kontrolna.
+     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     */
+    // bool fill_magic_checksum(const Elf64_Addr vaddr, ELF *elf, uint32_t &checksum);
 
     /**
      * @brief Metoda odpowiada za wypełnianie placeholdera w podanym kodzie, za pomocą podanego kodu.

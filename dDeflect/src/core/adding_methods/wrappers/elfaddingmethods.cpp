@@ -55,15 +55,28 @@ bool ELFAddingMethods<RegistersType>::fill_magic_params(QMap<QString, QString> &
     if (params.contains(magic_sec_size))
         params[magic_sec_size] = QString::number(section_data.first.size());
     if (params.contains(magic_sec_checksum)) {
+        /*
         // TODO: calculate dummy checksum
         uint32_t checksum = 0;
         foreach (unsigned char b, section_data.first)
             checksum += b;
-        params[magic_sec_checksum] = QString::number(checksum);
+        */
+        // fill checksum after
+        params[magic_sec_checksum] = QString::number(0x1ee74b1d);
     }
 
     return true;
 }
+
+// bool ELFAddingMethods::fill_magic_checksum(const ELF64_Addr vaddr, ELF *elf, uint32_t &checksum) {
+    /*
+    static uint32_t code_cheksum_magic = 0x1ee74b1d;
+    int j = 0;
+    while ((j = compiled_code.indexOf(static_cast<const char *>(&code_cheksum_magic), j + 1)) != -1)
+        if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
+            return false;
+    */
+// }
 
 template <typename RegistersType>
 uint64_t ELFAddingMethods<RegistersType>::fill_placeholders(QString &code, const QString &gen_code, PlaceholderMnemonics plc_mnm) {
@@ -354,10 +367,6 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
             return false;
     }
 
-    elf->write_to_file("bin/obfuscated");
-
-    qDebug() << "saving to file: bin/obfuscated";
-
     return true;
 }
 
@@ -473,7 +482,6 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
     // 3. merge code
     fill_placeholders(code2compile, code_ddetect_handler, PlaceholderMnemonics::DDETECTIONHANDLER);
-
     fill_placeholders(code2compile, code_ddetect, PlaceholderMnemonics::DDETECTIONMETHOD);
 
     Elf64_Addr oldep;
@@ -516,6 +524,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             int j = 0;
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
+                    return false;
+
+            static uint32_t code_cheksum_magic = 0x1ee74b1d;
+            j = 0;
+            uint32_t checksum = 0;
+            foreach (unsigned char b, text_data.first)
+                checksum += b;
+            while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
+                if (!elf->set_relative_address(file_off + j, checksum))
                     return false;
         }
 
@@ -563,6 +580,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             int j = 0;
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
+                    return false;
+
+            static uint32_t code_cheksum_magic = 0x1ee74b1d;
+            j = 0;
+            uint32_t checksum = 0;
+            foreach (unsigned char b, text_data.first)
+                checksum += b;
+            while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
+                if (!elf->set_relative_address(file_off + j, checksum))
                     return false;
         }
 
@@ -782,6 +808,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
                     return false;
+
+            static uint32_t code_cheksum_magic = 0x1ee74b1d;
+            j = 0;
+            uint32_t checksum = 0;
+            foreach (unsigned char b, text_data.first)
+                checksum += b;
+            while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
+                if (!elf->set_relative_address(file_off + j, checksum))
+                    return false;
         }
 
 
@@ -831,6 +866,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
                     return false;
+
+            static uint32_t code_cheksum_magic = 0x1ee74b1d;
+            j = 0;
+            uint32_t checksum = 0;
+            foreach (unsigned char b, text_data.first)
+                checksum += b;
+            while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
+                if (!elf->set_relative_address(file_off + j, checksum))
+                    return false;
         }
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -842,50 +886,6 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // get virtual address in code of such instruction and calculate address
         // case 'call': add code that performs debug check + call to previous code using push : ret
         // case 'jmp' : add code that performs debug check + call to previous code
-
-        // get call's and jmp's from text section
-        /*
-        QTemporaryFile temp_file;
-        if(!temp_file.open())
-            return false;
-
-        QPair<QByteArray, Elf64_Addr> text_data;
-        if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-            return false;
-
-        temp_file.write(text_data.first);
-        temp_file.flush();
-
-        QProcess ndisasm;
-
-        ndisasm.setProcessChannelMode(QProcess::MergedChannels);
-
-        // TODO: change
-        ndisasm.start("ndisasm", {"-a", "-b", elf->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
-
-        if(!ndisasm.waitForStarted())
-            return false;
-
-        QByteArray assembly;
-
-        while(ndisasm.waitForReadyRead(-1))
-            assembly.append(ndisasm.readAll());
-
-        QStringList asm_inst = QString(assembly).split(CodeDefines<RegistersType>::newLineRegExp, QString::SkipEmptyParts);
-        QStringList call_inst = asm_inst.filter(CodeDefines<RegistersType>::callRegExp);
-        QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
-
-        QList<Elf64_Addr> __file_off;
-        QList<QPair<Elf64_Addr, Elf64_Addr> > tramp_file_off;
-
-        Elf64_Addr base_off;
-
-        if (!elf->get_section_file_off(ELF::SectionType::TEXT, base_off))
-            return false;
-
-        get_file_offsets_from_opcodes(call_inst, __file_off, base_off);
-        get_file_offsets_from_opcodes(jmp_inst, __file_off, base_off);
-        */
 
         QList<Elf64_Addr> __file_off;
         Elf64_Addr base_off;
@@ -951,6 +951,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
             while ((j = full_compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
                     return false;
+
+            // static uint32_t code_cheksum_magic = 0x1ee74b1d;
+            j = 0;
+            uint32_t checksum = 0;
+            foreach (unsigned char b, text_data.first)
+                checksum += b;
+            while ((j = full_compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
+                if (!elf->set_relative_address(file_off + j, checksum))
+                    return false;
         }
 
         break;
@@ -958,10 +967,6 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     default:
         return false;
     }
-    /*
-    qDebug() << "saving to file: " << i_desc->saved_fname;
-    elf->write_to_file(i_desc->saved_fname);
-    */
     return true;
 }
 template bool ELFAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &inject_desc);
