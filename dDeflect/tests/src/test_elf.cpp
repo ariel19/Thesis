@@ -53,12 +53,12 @@ QMap<ELFTester::Method, QString> ELFTester::wrappers_x64 = {
 };
 
 QMap<ELFTester::Method, QString> ELFTester::smethods = {
-    /*{ ELFTester::Method::OEP, "OEP" },
-    { ELFTester::Method::Thread, "Thread" }
-    */{ ELFTester::Method::Trampoline, "Trampoline" }/*,
+    { ELFTester::Method::OEP, "OEP" },
+    { ELFTester::Method::Thread, "Thread" },
+    { ELFTester::Method::Trampoline, "Trampoline" },
     { ELFTester::Method::INIT, "INIT" },
     { ELFTester::Method::INIT_ARRAY, "INIT_ARRAY" },
-    { ELFTester::Method::CTORS, "CTORS" }*/
+    { ELFTester::Method::CTORS, "CTORS" }
 };
 
 bool ELFTester::test_one(QString input, QString output, ELFTester::Method type, QString method, QString handler) {
