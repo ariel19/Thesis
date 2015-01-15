@@ -85,7 +85,7 @@ bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va, E
         return false;
 
     // construct a new QByteArray
-    std::pair<QByteArray, Elf64_Addr> d = __construct_data(data, bs, file_off);
+    QPair<QByteArray, Elf64_Addr> d = __construct_data(data, bs, file_off);
     va = d.second;
 
     QByteArray old_b_data = b_data;
@@ -643,20 +643,20 @@ bool ELF::__find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeader
 }
 
 template <typename ElfProgramHeaderType>
-std::pair<ex_offset_t, ex_offset_t> ELF::__get_new_data_va_fo(ELF::best_segment &bs) {
+QPair<ex_offset_t, ex_offset_t> ELF::__get_new_data_va_fo(ELF::best_segment &bs) {
     ElfProgramHeaderType *ph = reinterpret_cast<ElfProgramHeaderType*>(bs.ph);
     // offset for new data in file
     // virtual address of new data
-    return std::make_pair(ph->p_offset + ph->p_filesz, ph->p_vaddr + ph->p_filesz + bs.pre_pad);
+    return QPair<ex_offset_t, ex_offset_t>(ph->p_offset + ph->p_filesz, ph->p_vaddr + ph->p_filesz + bs.pre_pad);
 }
 
-std::pair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, ELF::best_segment &bs, Elf64_Off &fo) {
-    static std::pair<QByteArray, Elf64_Addr> failed(QByteArray(),  0);
+QPair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, ELF::best_segment &bs, Elf64_Off &fo) {
+    static QPair<QByteArray, Elf64_Addr> failed(QByteArray(),  0);
     if (!parsed)
         return failed;
 
     uint32_t total_space = data.size() + bs.post_pad + bs.pre_pad;
-    std::pair<ex_offset_t, ex_offset_t> fo_va;
+    QPair<ex_offset_t, ex_offset_t> fo_va;
     ex_offset_t file_off = 0, va = 0;
 
     switch(cls) {
@@ -667,7 +667,7 @@ std::pair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, 
         fo_va = __get_new_data_va_fo<Elf64_Phdr>(bs);
         break;
     default:
-        return std::make_pair(QByteArray(), 0);
+        return QPair<QByteArray, Elf64_Addr>(QByteArray(), 0);
     }
 
     file_off = fo_va.first;
@@ -705,7 +705,7 @@ std::pair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, 
         return failed;
     }
 
-    return std::make_pair(new_b_data, va);
+    return QPair<QByteArray, Elf64_Addr>(new_b_data, va);
 }
 
 template <typename ElfHeaderType>
@@ -756,7 +756,6 @@ Elf64_Addr ELF::__fix_segment_table(QByteArray &data, const ex_offset_t file_off
             ph->p_filesz += payload_size;
             ph->p_memsz = ph->p_filesz;
             // set executable flag on segment (may provide to vulnerabilities)
-            // TODO: fuck of W
             ph->p_flags |= PF_X;
 
             va = ph->p_vaddr + ph->p_memsz;

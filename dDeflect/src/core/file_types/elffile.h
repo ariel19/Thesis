@@ -332,7 +332,7 @@ private:
      * @return Para nowy offset w pliku oraz nowy adres wirtualny.
      */
     template <typename ElfProgramHeaderType>
-    std::pair<ex_offset_t, ex_offset_t> __get_new_data_va_fo(ELF::best_segment &bs);
+    QPair<ex_offset_t, ex_offset_t> __get_new_data_va_fo(ELF::best_segment &bs);
 
     /**
      * @brief Tworzy nową zawartość pliku wynikowego po dodaniu nowego kodu na podstawie instancji struktury best_segment.
@@ -341,7 +341,7 @@ private:
      * @param fo offset w pliku na którym wyląduje pierwszy bajt dodawanych danych.
      * @return Nowa zawartość pliku (oraz adres wirtualny nowych danych) lub pustą tablice, jeżeli operacja nie powiadła się.
      */
-    std::pair<QByteArray, Elf64_Addr> __construct_data(const QByteArray &data, best_segment &bs, Elf64_Off &fo);
+    QPair<QByteArray, Elf64_Addr> __construct_data(const QByteArray &data, best_segment &bs, Elf64_Off &fo);
 
     /**
      * @brief Naprawia nagłówek pliku ELF.
