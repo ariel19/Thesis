@@ -20,9 +20,11 @@ public:
     /**
      * @brief Metoda zabezpiecza plik binarny ELF.
      * @param code_cover procentowy stopień zaśmiecania kodu.
+     * @param min_len minimalna długość kodu śmieci w bajtach.
+     * @param max_len maksymalna długość kodu śmieci w bajtach.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool obfuscate(uint8_t code_cover);
+    bool obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 
 private:
     enum class PlaceholderMnemonics {
@@ -56,6 +58,11 @@ private:
 
     QMap<PlaceholderTypes, QString> placeholder_id;
     QMap<PlaceholderMnemonics, QString> placeholder_mnm;
+
+    /**
+     * @brief Procentowe pokrycie kodu dla metod zamieniających adresy skoków
+     */
+    uint8_t tramp_code_cover;
 
     bool secure_one(typename DAddingMethods<RegistersType>::InjectDescription* inject_desc);
 
@@ -147,7 +154,7 @@ private:
      * @param code_cover procentowy stopień zaśmiecania kodu.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool safe_obfuscate(uint8_t code_cover);
+    bool safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 };
 
 #endif // ELFADDINGMETHODS_H

@@ -7,7 +7,8 @@
 
 template <typename RegistersType>
 ELFAddingMethods<RegistersType>::ELFAddingMethods(ELF *f) :
-    DAddingMethods<RegistersType>(f)
+    DAddingMethods<RegistersType>(f),
+    tramp_code_cover(5)
 {
     placeholder_id = {
         { PlaceholderTypes::PARAM_PRE,          QString("(?^_^")     },
@@ -292,14 +293,14 @@ bool ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QLis
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover) {
-    return safe_obfuscate(code_cover);
+bool ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
+    return safe_obfuscate(code_cover, min_len, max_len);
 }
-template bool ELFAddingMethods<Registers_x86>::obfuscate(uint8_t code_cover);
-template bool ELFAddingMethods<Registers_x64>::obfuscate(uint8_t code_cover);
+template bool ELFAddingMethods<Registers_x86>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
+template bool ELFAddingMethods<Registers_x64>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
+bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
 
     ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
     if(!elf)
@@ -324,20 +325,19 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover) {
 
     // TODO: should be changed
     std::uniform_int_distribution<int> prob(0, 99);
-    std::default_random_engine gen;
     uint8_t coverage = code_cover > 100 ? 100 : code_cover;
     static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
 
     QByteArray trash_code;
     foreach (Elf64_Addr off, __file_off) {
-        if(prob(gen) >= coverage)
+        if(prob(DAddingMethods<RegistersType>::r_gen) >= coverage)
             continue;
 
         if (!elf->get_relative_address(off, rva))
             return false;
 
         inst_addr = text_data.second + off - base_off;
-        trash_code = CodeDefines<RegistersType>::obfuscate(gen, 10, 20);
+        trash_code = CodeDefines<RegistersType>::obfuscate(DAddingMethods<RegistersType>::r_gen, min_len, max_len);
 
         tramp_file_off.push_back(rel_jmp_info(full_compiled_code.size(), trash_code.size() + fake_jmp.size(),
                                               off, inst_addr + rva + 4));
@@ -860,15 +860,12 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         // TODO: choose randomy few addresses
         int32_t rva;
         Elf64_Addr inst_addr;
-        // Elf64_Off __file_off;
 
         // TODO: should be changed
         std::uniform_int_distribution<int> prob(0, 99);
-        std::default_random_engine gen;
-        uint8_t code_cover = 5;
 
         foreach (Elf64_Addr off, __file_off) {
-            if(prob(gen) >= code_cover)
+            if(prob(DAddingMethods<RegistersType>::r_gen) >= tramp_code_cover)
                 continue;
 
             if (!elf->get_relative_address(off, rva))
