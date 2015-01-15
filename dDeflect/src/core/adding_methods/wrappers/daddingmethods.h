@@ -110,6 +110,8 @@ public:
         QByteArray code;
         Wrapper *detect_handler;
 
+        bool only_rwx;
+
         virtual ~Wrapper() {}
 
         static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
@@ -200,6 +202,11 @@ public:
 
             // detect_handler
             detect_handler = nullptr;
+
+            // methods that are only suitable for rwx segments
+            only_rwx = false;
+            if (json["only_rwx"].toString() == QString("yes"))
+                only_rwx = true;
 
             return true;
         }
