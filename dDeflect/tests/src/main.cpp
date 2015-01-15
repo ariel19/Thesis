@@ -48,12 +48,12 @@ int main(int argc, char **argv) {
 
     ELFTester tester;
     QList<QString> file_names_x86 = { "bin/my32", "bin/myaslr32", "bin/derby32" };
-    QList<QString> file_names_x64 = { "bin/my64", "bin/myaslr64", "bin/derby64", "bin/edb", "bin/dDeflect" };
+    QList<QString> file_names_x64 = { "bin/my64", "bin/myaslr64", "bin/derby64", "bin/edb", "bin/dDeflect", "bin/telnet" };
     // QList<QString> file_names_x86 = { "bin/my32" };
-    // QList<QString> file_names_x64 = { "bin/my64" /*"bin/my64", "bin/myaslr64", "bin/derby64", "bin/edb", "bin/dDeflect"*/ };
 
     foreach (QString fname, file_names_x86)
         tester.test_everything_x86(fname);
+
 
     foreach (QString fname, file_names_x64)
         tester.test_everything_x64(fname);

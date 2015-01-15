@@ -29,15 +29,15 @@ public:
     };
 
     ELFTester() {}
-    bool test_one(QString input, QString output, Method type, QString method, QString handler);
-    bool test_all_methods(QString input, Method type, QString handler);
-    bool test_all_handlers(QString input, Method type, QString method);
+    bool test_one(QString input, QString output, Method type, QString method, QString handler, bool x);
+    bool test_all_methods(QString input, Method type, QString handler, bool x);
+    bool test_all_handlers(QString input, Method type, QString method, bool x);
     bool test_everything_x86(QString input);
     bool test_everything_x64(QString input);
 
 private:
     template <typename Reg>
-    SecuredState test_one_ex(ELF *elf, Method type, QString method, QString handler);
+    SecuredState test_one_ex(ELF *elf, Method type, QString method, QString handler, bool x);
 
     static QList<QString> methods_x86;
     static QList<QString> methods_x64;
