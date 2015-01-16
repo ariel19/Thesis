@@ -111,6 +111,7 @@ public:
         Wrapper *detect_handler;
 
         bool only_rwx;
+        bool obfuscation;
 
         virtual ~Wrapper() {}
 
@@ -207,6 +208,11 @@ public:
             only_rwx = false;
             if (json["only_rwx"].toString() == QString("yes"))
                 only_rwx = true;
+
+            // is obfuscation eligable
+            obfuscation = true;
+            if (json["obfuscation"].toString() == QString("no"))
+                obfuscation = false;
 
             return true;
         }

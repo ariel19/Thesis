@@ -31,5 +31,6 @@
   "architecture": "lin_x86",
   "type" : "Method",
   "path": "data/detection/linux/x86/cc.asm",
+  "obfuscation" : "no",
   "description": "TODO"
 }
