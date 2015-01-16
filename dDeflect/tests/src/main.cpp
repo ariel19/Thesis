@@ -58,7 +58,17 @@ int main(int argc, char **argv) {
     foreach (QString fname, file_names_x64)
         tester.test_everything_x64(fname, false);
 
-    // tester.test_one("bin/edb", "__edb", ELFTester::Method::OEP, "lin_x64_ptrace", "lin_x64_exit", false, true, false);
+    /*
+    tester.test_one("bin/derby32", "derby32_ud2_x86", ELFTester::Method::Thread, "lin_x86_ptrace", "lin_x86_ud2", false, false, false);
+    tester.test_one("bin/derby32", "derby32_fpe_x86", ELFTester::Method::Thread, "lin_x86_ptrace", "lin_x86_fpe", false, false, false);
+    tester.test_one("bin/derby32", "derby32_mov_x86", ELFTester::Method::Thread, "lin_x86_ptrace", "lin_x86_mov", false, false, false);
+    tester.test_one("bin/derby32", "derby32_jmp_x86", ELFTester::Method::Thread, "lin_x86_ptrace", "lin_x86_jmp", false, false, false);
+
+    tester.test_one("bin/edb", "__edb_ud2_x64", ELFTester::Method::OEP, "lin_x64_ptrace", "lin_x64_ud2", false, true, false);
+    tester.test_one("bin/edb", "__edb_fpe_x64", ELFTester::Method::OEP, "lin_x64_ptrace", "lin_x64_fpe", false, true, false);
+    tester.test_one("bin/edb", "__edb_mov_x64", ELFTester::Method::OEP, "lin_x64_ptrace", "lin_x64_mov", false, true, false);
+    tester.test_one("bin/edb", "__edb_jmp_x64", ELFTester::Method::OEP, "lin_x64_ptrace", "lin_x64_jmp", false, true, false);
+    */
 
     return 0;
 }

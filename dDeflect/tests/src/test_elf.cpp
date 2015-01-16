@@ -27,12 +27,20 @@ QList<QString> ELFTester::methods_x86 = {
 
 QList<QString> ELFTester::handlers_x86 = {
     "lin_x86_exit",
-    "lin_x86_exit_group"
+    "lin_x86_exit_group",
+    "lin_x86_fpe",
+    "lin_x86_ud2",
+    "lin_x86_jmp",
+    "lin_x86_mov"
 };
 
 QList<QString> ELFTester::handlers_x64 = {
     "lin_x64_exit",
-    "lin_x64_exit_group"
+    "lin_x64_exit_group",
+    "lin_x64_fpe",
+    "lin_x64_ud2",
+    "lin_x64_jmp",
+    "lin_x64_mov"
 };
 
 QMap<ELFTester::Method, QString> ELFTester::wrappers_x86 = {
