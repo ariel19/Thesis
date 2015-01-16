@@ -17,5 +17,5 @@
   "architecture": "lin_x86",
   "type" : "Method",
   "path": "data/detection/linux/x86/rtdsc.asm",
-  "description": "TODO"
+  "description": "Prevent application from single stepping"
 }

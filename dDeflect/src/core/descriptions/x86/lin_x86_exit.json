@@ -20,5 +20,5 @@
   "architecture": "lin_x86",
   "type" : "Handler",
   "path": "data/handlers/linux/x86/exit.asm",
-  "description": "TODO"
+  "description": "Terminates calling thread"
 }

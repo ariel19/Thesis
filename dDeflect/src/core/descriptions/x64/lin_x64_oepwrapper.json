@@ -7,5 +7,5 @@
 	"architecture": "lin_x64",
 	"type" : "OEPWrapper",
 	"path": "adding_methods/methods/linux/x64/single.asm",
-	"description": "TODO"
+	"description": "Main wrapper for single check routines"
 }

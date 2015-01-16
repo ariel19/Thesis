@@ -32,5 +32,5 @@
   "type" : "Method",
   "path": "data/detection/linux/x64/cc.asm",
   "obfuscation" : "no",
-  "description": "TODO"
+  "description": "Technique that calculates checksum of executable file code section and checks it with the previously calculated checksum. P.S. method could not be used with obfuscation technique. Usage leads to incorrect debugger detection"
 }

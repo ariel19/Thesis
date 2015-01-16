@@ -14,5 +14,5 @@
 	"architecture": "lin_x86",
 	"type" : "ThreadWrapper",
 	"path": "adding_methods/methods/linux/x86/multi.asm",
-	"description": "TODO"
+	"description": "Main wrapper for multi check routines"
 }

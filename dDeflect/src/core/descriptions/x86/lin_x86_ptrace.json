@@ -19,5 +19,5 @@
   "architecture": "lin_x86",
   "type" : "Method",
   "path": "data/detection/linux/x86/ptrace.asm",
-  "description": "TODO"
+  "description": "Technique tries to trace itself, if it's not possible, then process is already debugged"
 }

@@ -7,5 +7,5 @@
 	"architecture": "lin_x64",
 	"type" : "TrampolineWrapper",
 	"path": "adding_methods/methods/linux/x64/single.asm",
-	"description": "TODO"
+	"description": "Main wrapper for trampoline, init, init_array, ctors check routines"
 }

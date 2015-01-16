@@ -20,5 +20,5 @@
   "type" : "Method",
   "path": "data/detection/linux/x86/sigtrap.asm",
   "only_rwx" : "yes",
-  "description": "TODO"
+  "description": "Sending SIGTRAP signal to itself"
 }
