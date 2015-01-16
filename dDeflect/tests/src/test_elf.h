@@ -28,16 +28,19 @@ public:
         ELFSECERROR
     };
 
-    ELFTester() {}
-    bool test_one(QString input, QString output, Method type, QString method, QString handler, bool x);
-    bool test_all_methods(QString input, Method type, QString handler, bool x);
-    bool test_all_handlers(QString input, Method type, QString method, bool x);
-    bool test_everything_x86(QString input);
-    bool test_everything_x64(QString input);
+    ELFTester(QString sfd) :
+        secured_files_dir(sfd) {}
+    bool test_one(QString input, QString output, Method type, QString method,
+                  QString handler, bool x, bool obfuscate, bool pack);
+
+    bool test_all_methods(QString input, Method type, QString handler, bool x, bool obfuscate, bool pack);
+    bool test_all_handlers(QString input, Method type, QString method, bool x, bool obfuscate, bool pack);
+    bool test_everything_x86(QString input, bool pack);
+    bool test_everything_x64(QString input, bool pack);
 
 private:
     template <typename Reg>
-    SecuredState test_one_ex(ELF *elf, Method type, QString method, QString handler, bool x);
+    SecuredState test_one_ex(ELF *elf, Method type, QString method, QString handler, bool x, bool obfuscate);
 
     static QList<QString> methods_x86;
     static QList<QString> methods_x64;
@@ -46,6 +49,8 @@ private:
     static QMap<Method, QString> wrappers_x86;
     static QMap<Method, QString> wrappers_x64;
     static QMap<Method, QString> smethods;
+
+    QString secured_files_dir;
 };
 
 

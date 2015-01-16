@@ -46,17 +46,19 @@ int main(int argc, char **argv) {
 
     LOG_MSG("Start!");
 
-    ELFTester tester;
+    ELFTester tester("elf_test_outputs");
     QList<QString> file_names_x86 = { "bin/my32", "bin/myaslr32", "bin/derby32" };
     QList<QString> file_names_x64 = { "bin/my64", "bin/myaslr64", "bin/derby64", "bin/edb", "bin/dDeflect", "bin/telnet" };
     // QList<QString> file_names_x86 = { "bin/my32" };
+    // QList<QString> file_names_x64 = { "bin/edb"/*, "bin/telnet"*/ };
 
     foreach (QString fname, file_names_x86)
-        tester.test_everything_x86(fname);
-
+        tester.test_everything_x86(fname, true);
 
     foreach (QString fname, file_names_x64)
-        tester.test_everything_x64(fname);
+        tester.test_everything_x64(fname, false);
+
+    // tester.test_one("bin/edb", "__edb", ELFTester::Method::OEP, "lin_x64_ptrace", "lin_x64_exit", false, true, false);
 
     return 0;
 }

@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QVariant>
 #include <QDebug>
+#include <QProcess>
 #include <core/file_types/elffile.h>
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 
@@ -61,9 +62,9 @@ QMap<ELFTester::Method, QString> ELFTester::smethods = {
     { ELFTester::Method::CTORS, "CTORS" }
 };
 
-bool ELFTester::test_one(QString input, QString output, ELFTester::Method type,
-                         QString method, QString handler, bool x) {
-    QDir().mkdir("elf_test_outputs");
+bool ELFTester::test_one(QString input, QString output, ELFTester::Method type, QString method,
+                         QString handler, bool x, bool obfuscate, bool pack) {
+    QDir().mkdir(secured_files_dir);
 
     QFile in(input);
     if(!in.open(QFile::ReadOnly))
@@ -78,7 +79,7 @@ bool ELFTester::test_one(QString input, QString output, ELFTester::Method type,
 
     SecuredState ss;
     if(elf.is_x64()) {
-        ss = test_one_ex<Registers_x64>(&elf, type, method, handler, x);
+        ss = test_one_ex<Registers_x64>(&elf, type, method, handler, x, obfuscate);
         if (ss == SecuredState::NONCOMPATIBLE)
             return true;
         if (ss != SecuredState::SECURED)
@@ -86,14 +87,15 @@ bool ELFTester::test_one(QString input, QString output, ELFTester::Method type,
     }
 
     if(elf.is_x86()) {
-        ss = test_one_ex<Registers_x86>(&elf, type, method, handler, x);
+        ss = test_one_ex<Registers_x86>(&elf, type, method, handler, x, obfuscate);
         if (ss == SecuredState::NONCOMPATIBLE)
             return true;
         if (ss != SecuredState::SECURED)
             return false;
     }
 
-    QFile out(QFileInfo(QString("elf_test_outputs"), output).absoluteFilePath());
+    QString fullpath = QFileInfo(secured_files_dir, output).absoluteFilePath();
+    QFile out(fullpath);
     if(!out.open(QFile::WriteOnly))
         return false;
 
@@ -102,10 +104,33 @@ bool ELFTester::test_one(QString input, QString output, ELFTester::Method type,
     out.close();
     in.close();
 
+    // make file executable
+    QProcess chmod;
+    LOG_MSG("Making output file an executable");
+
+    chmod.start(QString("chmod +x %1").arg(fullpath));
+
+    if(!chmod.waitForFinished(5 * 60 * 1000)) {
+        LOG_ERROR("chmod failed.");
+        return false;
+    }
+
+    if (pack) {
+        if (elf.is_x86()) {
+            if (!DAddingMethods<Registers_x86>::pack(fullpath))
+                return false;
+        }
+        else if (elf.is_x64()) {
+            if (!DAddingMethods<Registers_x64>::pack(fullpath))
+                return false;
+        }
+    }
+
+
     return true;
 }
 
-bool ELFTester::test_all_methods(QString input, ELFTester::Method type, QString handler, bool x) {
+bool ELFTester::test_all_methods(QString input, ELFTester::Method type, QString handler, bool x, bool obfuscate, bool pack) {
     QFile in(input);
     if(!in.open(QFile::ReadOnly))
         return false;
@@ -125,8 +150,8 @@ bool ELFTester::test_all_methods(QString input, ELFTester::Method type, QString 
     int i = 1;
     foreach(QString method, *methods) {
         LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(methods->length()));
-        QString output = QString("%1_%2_%3_%4_%5").arg(input.split('/')[1]).arg(smethods[type]).arg(method.split('.')[0]).arg(handler.split('.')[0]).arg(x ? "x" : "nx");
-        if(!test_one(input, output, type, method, handler, x))
+        QString output = QString("%1_%2_%3_%4_%5_%6").arg(input.split('/')[1]).arg(smethods[type]).arg(method.split('.')[0]).arg(handler.split('.')[0]).arg(x ? "x" : "nx").arg(obfuscate ? "obfuscate" : "");
+        if(!test_one(input, output, type, method, handler, x, obfuscate, pack))
             return false;
 
         LOG_MSG(QString("Test %1 / %2 finished.").arg(i).arg(methods->length()));
@@ -137,7 +162,7 @@ bool ELFTester::test_all_methods(QString input, ELFTester::Method type, QString 
     return true;
 }
 
-bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString method, bool x) {
+bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString method, bool x, bool obfuscate, bool pack) {
 
     QFile in(input);
     if(!in.open(QFile::ReadOnly))
@@ -158,8 +183,8 @@ bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString
     int i = 1;
     foreach(QString handler, *handlers) {
         LOG_MSG(QString("\nStarting test %1 / %2...").arg(i).arg(handlers->length()));
-        QString output = QString("%1_%2_%3_%4_%5").arg(input.split('/')[1]).arg(smethods[type]).arg(method.split('.')[0]).arg(handler.split('.')[0]).arg(x ? "x" : "nx");
-        if(!test_one(input, output, type, method, handler, x))
+        QString output = QString("%1_%2_%3_%4_%5_%6").arg(input.split('/')[1]).arg(smethods[type]).arg(method.split('.')[0]).arg(handler.split('.')[0]).arg(x ? "x" : "nx").arg(obfuscate ? "obfuscate" : "");
+        if(!test_one(input, output, type, method, handler, x, obfuscate, pack))
             return false;
 
         LOG_MSG(QString("Test %1 / %2 finished.").arg(i).arg(handlers->length()));
@@ -171,7 +196,7 @@ bool ELFTester::test_all_handlers(QString input, ELFTester::Method type, QString
 
 }
 
-bool ELFTester::test_everything_x86(QString input) {
+bool ELFTester::test_everything_x86(QString input, bool pack) {
     int errors = 0;
     bool ret_val;
 
@@ -181,10 +206,16 @@ bool ELFTester::test_everything_x86(QString input) {
     foreach (Method type, smethods.keys()) {
         LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
         foreach (QString m, methods_x86) {
-            ret_val = test_all_handlers(input, type, m, false);
+            ret_val = test_all_handlers(input, type, m, false, false, pack);
             if (!ret_val)
                 ++errors;
-            ret_val = test_all_handlers(input, type, m, true);
+            ret_val = test_all_handlers(input, type, m, true, false, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_handlers(input, type, m, false, true, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_handlers(input, type, m, true, true, pack);
             if (!ret_val)
                 ++errors;
         }
@@ -194,10 +225,16 @@ bool ELFTester::test_everything_x86(QString input) {
     foreach (Method type, smethods.keys()) {
         LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
         foreach (QString h, handlers_x86) {
-            ret_val = test_all_methods(input, type, h, false);
+            ret_val = test_all_methods(input, type, h, false, false, pack);
             if (!ret_val)
                 ++errors;
-            ret_val = test_all_methods(input, type, h, true);
+            ret_val = test_all_methods(input, type, h, true, false, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_methods(input, type, h, false, true, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_methods(input, type, h, true, true, pack);
             if (!ret_val)
                 ++errors;
         }
@@ -209,7 +246,7 @@ bool ELFTester::test_everything_x86(QString input) {
     return errors == 0;
 }
 
-bool ELFTester::test_everything_x64(QString input) {
+bool ELFTester::test_everything_x64(QString input, bool pack) {
     int errors = 0;
     bool ret_val;
 
@@ -218,10 +255,16 @@ bool ELFTester::test_everything_x64(QString input) {
     foreach (Method type, smethods.keys()) {
         LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
         foreach (QString m, methods_x64) {
-            ret_val = test_all_handlers(input, type, m, false);
+            ret_val = test_all_handlers(input, type, m, false, false, pack);
             if (!ret_val)
                 ++errors;
-            ret_val = test_all_handlers(input, type, m, true);
+            ret_val = test_all_handlers(input, type, m, true, false, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_handlers(input, type, m, false, true, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_handlers(input, type, m, true, true, pack);
             if (!ret_val)
                 ++errors;
         }
@@ -231,10 +274,16 @@ bool ELFTester::test_everything_x64(QString input) {
     foreach (Method type, smethods.keys()) {
         LOG_MSG(QString("Testing methods [%1] ...").arg(smethods[type]));
         foreach (QString h, handlers_x64) {
-            ret_val = test_all_methods(input, type, h, false);
+            ret_val = test_all_methods(input, type, h, false, false, pack);
             if (!ret_val)
                 ++errors;
-            ret_val = test_all_methods(input, type, h, true);
+            ret_val = test_all_methods(input, type, h, true, false, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_methods(input, type, h, false, true, pack);
+            if (!ret_val)
+                ++errors;
+            ret_val = test_all_methods(input, type, h, true, true, pack);
             if (!ret_val)
                 ++errors;
         }
@@ -247,8 +296,8 @@ bool ELFTester::test_everything_x64(QString input) {
 }
 
 template <typename Reg>
-ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
-                                               QString method, QString handler, bool x)
+ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type, QString method,
+                                               QString handler, bool x, bool obfuscate)
 {
     DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Reg>());
 
@@ -312,7 +361,7 @@ ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
     // TODO: check if everything is ok
     if (!meth->allowed_methods.contains(static_cast<typename DAddingMethods<Reg>::CallingMethod>(type)) ||
         !wrapper->detect_handler->allowed_methods.contains(static_cast<typename DAddingMethods<Reg>::CallingMethod>(type)) ||
-        (meth->only_rwx & x))
+        (meth->only_rwx & x) || (!meth->obfuscation & obfuscate))
         return SecuredState::NONCOMPATIBLE;
 
 
@@ -325,6 +374,8 @@ ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
              << "using handler: " << handler;
 
     bool s = adder.secure(ids);
+    if (obfuscate)
+        s &= adder.obfuscate(5, 10, 20);
 
     if(!meth->detect_handler)
         delete meth->detect_handler;
