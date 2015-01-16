@@ -881,7 +881,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva, file_off))
             return false;
 
-        // TODO: check if divisible without extras
+        if (!tramp_file_off.size())
+            return true;
         Elf32_Addr tramp_size = full_compiled_code.size() / tramp_file_off.size();
         int i = 0;
 
