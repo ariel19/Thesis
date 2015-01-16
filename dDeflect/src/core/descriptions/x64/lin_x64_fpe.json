@@ -1,0 +1,20 @@
+{
+  "name": "Floating Point Exception",
+  "used_registers": [
+    "RCX"
+  ],
+  "parameters": [],
+  "returns": "RAX",
+  "methods": [
+    "EntryPoint",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "type" : "Handler",
+  "path": "data/handlers/linux/x64/fpe.asm",
+  "description": "Executes instructions that generate a floating point exception"
+}

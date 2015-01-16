@@ -1,0 +1,21 @@
+{
+  "name": "Kernel space code writing",
+  "used_registers": [
+    "RAX",
+    "RCX"
+  ],
+  "parameters": [],
+  "returns": "RAX",
+  "methods": [
+    "EntryPoint",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "type" : "Handler",
+  "path": "data/handlers/linux/x64/mov.asm",
+  "description": "Writing data to the start of kernel address space"
+}

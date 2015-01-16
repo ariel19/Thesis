@@ -1,0 +1,18 @@
+{
+  "name": "Invalid instruction",
+  "used_registers": [],
+  "parameters": [],
+  "returns": "RAX",
+  "methods": [
+    "EntryPoint",
+    "Thread",
+    "Trampoline",
+    "INIT",
+    "INIT_ARRAY",
+    "CTORS"
+  ],
+  "architecture": "lin_x64",
+  "type" : "Handler",
+  "path": "data/handlers/linux/x64/ud2.asm",
+  "description": "Executes invalid instruction that generates an exception"
+}
