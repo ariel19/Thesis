@@ -24,7 +24,7 @@ class ApplicationManager : public QObject
 
 public:
     template <typename Reg>
-    using IDList = QList<typename DAddingMethods<Reg>::Wrapper*>;
+    using IDList = QList< Wrapper<Reg>*>;
     template <typename Reg>
     using FIDMapping = QHash<QString, IDList<Reg>>;
 

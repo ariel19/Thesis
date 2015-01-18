@@ -203,7 +203,7 @@ template bool PEAddingMethods<Registers_x64>::secure(const QList<DAddingMethods<
 
 template <typename Register>
 typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::generateCode
-(typename DAddingMethods<Register>::Wrapper *w, uint64_t &codePtr, bool isTlsCallback)
+(Wrapper<Register> *w, uint64_t &codePtr, bool isTlsCallback)
 {
     ErrorCode ec;
     PEFile *pe = dynamic_cast<PEFile*>(DAddingMethods<Register>::file);
@@ -225,7 +225,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::generat
     }
 
     // Generowanie kodu dla funkcji wątku.
-    typename DAddingMethods<Register>::ThreadWrapper *tw = dynamic_cast<typename DAddingMethods<Register>::ThreadWrapper*>(w);
+     ThreadWrapper<Register> *tw = dynamic_cast<ThreadWrapper<Register>*>(w);
 
     if(tw && tw->thread_actions.empty())
         return ErrorCode::NoThreadAction;
@@ -263,7 +263,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::generat
     if(!w->dynamic_params.empty())
     {
         DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Register>());
-        typename DAddingMethods<Register>::Wrapper *func_wrap =
+        Wrapper<Register> *func_wrap =
                 parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
             return ErrorCode::ErrorLoadingFunctions;
@@ -506,7 +506,7 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::injectT
 
 template <>
 PEAddingMethods<Registers_x86>::ErrorCode PEAddingMethods<Registers_x86>::generateThreadCode
-(QList<DAddingMethods<Registers_x86>::Wrapper*> wrappers, uint64_t &codePtr, uint16_t sleepTime)
+(QList<Wrapper<Registers_x86>*> wrappers, uint64_t &codePtr, uint16_t sleepTime)
 {
     typedef Registers_x86 Register;
 
@@ -524,7 +524,7 @@ PEAddingMethods<Registers_x86>::ErrorCode PEAddingMethods<Registers_x86>::genera
     if(sleepTime)
     {
         DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Register>());
-        typename DAddingMethods<Register>::Wrapper *func_wrap =
+        Wrapper<Register> *func_wrap =
                 parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
             return ErrorCode::ErrorLoadingFunctions;
@@ -566,7 +566,7 @@ PEAddingMethods<Registers_x86>::ErrorCode PEAddingMethods<Registers_x86>::genera
         code.append(CodeDefines<Register>::callReg(Register::EAX));
     }
 
-    foreach(DAddingMethods<Register>::Wrapper *w, wrappers)
+    foreach(Wrapper<Register> *w, wrappers)
     {
         if(!w)
             return ErrorCode::NullWrapper;
@@ -601,7 +601,7 @@ PEAddingMethods<Registers_x86>::ErrorCode PEAddingMethods<Registers_x86>::genera
 
 template <>
 PEAddingMethods<Registers_x64>::ErrorCode PEAddingMethods<Registers_x64>::generateThreadCode
-(QList<DAddingMethods<Registers_x64>::Wrapper*> wrappers, uint64_t &codePtr, uint16_t sleepTime)
+(QList<Wrapper<Registers_x64>*> wrappers, uint64_t &codePtr, uint16_t sleepTime)
 {
     typedef Registers_x64 Register;
 
@@ -620,7 +620,7 @@ PEAddingMethods<Registers_x64>::ErrorCode PEAddingMethods<Registers_x64>::genera
     if(sleepTime)
     {
         DJsonParser parser(DSettings::getSettings().getDescriptionsPath<Register>());
-        typename DAddingMethods<Register>::Wrapper *func_wrap =
+        Wrapper<Register> *func_wrap =
                 parser.loadInjectDescription<Register>(windowsApiLoadingFunction);
         if(!func_wrap)
             return ErrorCode::ErrorLoadingFunctions;
@@ -682,7 +682,7 @@ PEAddingMethods<Registers_x64>::ErrorCode PEAddingMethods<Registers_x64>::genera
 
     code.append(CodeDefines<Register>::reserveStackSpace(CodeDefines<Register>::shadowSize));
 
-    foreach(DAddingMethods<Register>::Wrapper *w, wrappers)
+    foreach(Wrapper<Register> *w, wrappers)
     {
         if(!w)
             return ErrorCode::NullWrapper;

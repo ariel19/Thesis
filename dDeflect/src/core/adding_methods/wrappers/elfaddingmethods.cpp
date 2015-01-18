@@ -137,7 +137,7 @@ bool ELFAddingMethods<RegistersType>::get_addresses(const QByteArray &addr_data,
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::wrapper_gen_code(typename DAddingMethods<RegistersType>::Wrapper *wrap, QString &code) {
+bool ELFAddingMethods<RegistersType>::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code) {
     if (!wrap)
         return false;
 
@@ -175,15 +175,15 @@ bool ELFAddingMethods<RegistersType>::wrapper_gen_code(typename DAddingMethods<R
 
     return true;
 }
-template bool ELFAddingMethods<Registers_x86>::wrapper_gen_code(DAddingMethods<Registers_x86>::Wrapper *wrap, QString &code);
-template bool ELFAddingMethods<Registers_x64>::wrapper_gen_code(DAddingMethods<Registers_x64>::Wrapper *wrap, QString &code);
+template bool ELFAddingMethods<Registers_x86>::wrapper_gen_code(Wrapper<Registers_x86> *wrap, QString &code);
+template bool ELFAddingMethods<Registers_x64>::wrapper_gen_code(Wrapper<Registers_x64> *wrap, QString &code);
 
 template <>
 template <>
 bool ELFAddingMethods<Registers_x86>::set_prot_flags_gen_code(Elf32_Addr vaddr, Elf32_Word mem_size,
                                                               Elf32_Word flags, QString &code) {
     // TODO: generated using JSON parser, here is stupid dummy solution
-    DAddingMethods<Registers_x86>::Wrapper mprotect;
+    Wrapper<Registers_x86> mprotect;
 
     // TODO: should be changed
     mprotect.detect_handler = nullptr;
@@ -208,7 +208,7 @@ template <>
 bool ELFAddingMethods<Registers_x64>::set_prot_flags_gen_code(Elf64_Addr vaddr, Elf64_Xword mem_size,
                                                               Elf64_Word flags, QString &code) {
     // TODO: generated using JSON parser, here is stupid dummy solution
-    DAddingMethods<Registers_x64>::Wrapper mprotect;
+    Wrapper<Registers_x64> mprotect;
 
     // TODO: should be changed
     mprotect.detect_handler = nullptr;
@@ -434,8 +434,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     // 2. generate code for debugger detection method
     switch (i_desc->cm) {
     case DAddingMethods<RegistersType>::CallingMethod::OEP: {
-        typename DAddingMethods<RegistersType>::OEPWrapper *oepwrapper =
-                dynamic_cast<typename DAddingMethods<RegistersType>::OEPWrapper*>(i_desc->adding_method);
+         OEPWrapper<RegistersType> *oepwrapper =
+                dynamic_cast<OEPWrapper<RegistersType>*>(i_desc->adding_method);
         if (!oepwrapper)
             return false;
         if (!fill_magic_params(oepwrapper->oep_action->static_params, elf))
@@ -447,8 +447,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         break;
     }
     case DAddingMethods<RegistersType>::CallingMethod::Thread: {
-        typename DAddingMethods<RegistersType>::ThreadWrapper *twrapper =
-                dynamic_cast<typename DAddingMethods<RegistersType>::ThreadWrapper*>(i_desc->adding_method);
+        ThreadWrapper<RegistersType> *twrapper =
+                dynamic_cast<ThreadWrapper<RegistersType>*>(i_desc->adding_method);
         if (!twrapper)
             return false;
         if (!fill_magic_params(twrapper->thread_actions[0]->static_params, elf))
@@ -463,8 +463,8 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     case DAddingMethods<RegistersType>::CallingMethod::INIT_ARRAY:
     case DAddingMethods<RegistersType>::CallingMethod::CTORS :
     case DAddingMethods<RegistersType>::CallingMethod::INIT: {
-        typename DAddingMethods<RegistersType>::TrampolineWrapper *trmwrapper =
-                dynamic_cast<typename DAddingMethods<RegistersType>::TrampolineWrapper*>(i_desc->adding_method);
+        TrampolineWrapper<RegistersType> *trmwrapper =
+                dynamic_cast<TrampolineWrapper<RegistersType>*>(i_desc->adding_method);
         if (!trmwrapper)
             return false;
         if (!fill_magic_params(trmwrapper->tramp_action->static_params, elf))

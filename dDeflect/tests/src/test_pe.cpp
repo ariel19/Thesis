@@ -305,7 +305,7 @@ bool PETester::test_one_ex(PEFile *pe, PETester::Method type, QString method, QS
 
     PEAddingMethods<Reg> adder(pe);
 
-    typename DAddingMethods<Reg>::Wrapper *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
+     Wrapper<Reg> *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
     if(!meth)
         return false;
 
@@ -343,12 +343,12 @@ bool PETester::test_thread_ex(PEFile *pe, QString method, QString handler)
     PEAddingMethods<Reg> adder(pe);
 
     QString tname = QString("win_%1_helper_create_thread.json").arg(pe->is_x64() ? "x64" : "x86");
-    typename DAddingMethods<Reg>::ThreadWrapper *tmeth =
-            dynamic_cast<typename DAddingMethods<Reg>::ThreadWrapper*>(parser.loadInjectDescription<Reg>(tname));
+    ThreadWrapper<Reg> *tmeth =
+            dynamic_cast<ThreadWrapper<Reg>*>(parser.loadInjectDescription<Reg>(tname));
     if(!tmeth)
         return false;
 
-    typename DAddingMethods<Reg>::Wrapper *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
+     Wrapper<Reg> *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
     if(!meth)
     {
         delete tmeth;

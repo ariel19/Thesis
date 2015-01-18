@@ -9,18 +9,18 @@
 
 class DJsonParser
 {
-    DAddingMethods<Registers_x86>::Wrapper *injectionRead;
+    Wrapper<Registers_x86> *injectionRead;
     QString m_path;
 public:
     DJsonParser();
     DJsonParser(QString path);
 
     template <typename Reg>
-    typename DAddingMethods<Reg>::Wrapper *loadInjectDescription(QString name);
+    Wrapper<Reg> *loadInjectDescription(QString name);
 
-    bool saveIncjectDescription(QString name, DAddingMethods<Registers_x86>::Wrapper &inj);
+    bool saveIncjectDescription(QString name, Wrapper<Registers_x86> &inj);
 
-    DAddingMethods<Registers_x86>::Wrapper *getInjectionRead() const;
+    Wrapper<Registers_x86> *getInjectionRead() const;
     QString path() const;
     void setPath(const QString &path);
 };

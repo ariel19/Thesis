@@ -6,7 +6,7 @@
  * @brief DJsonParser::getInjectionRead zwraca wskaźnik do wczytanej metody
  * @return wskaźnik do wczytanej metody
  */
-DAddingMethods<Registers_x86>::Wrapper *DJsonParser::getInjectionRead() const
+Wrapper<Registers_x86> *DJsonParser::getInjectionRead() const
 {
     return injectionRead;
 }
@@ -35,7 +35,7 @@ DJsonParser::DJsonParser(QString path) : m_path(path)
  * @return zwraca true w razie powodzenia false w przeciwnym wypadku
  */
 template <typename Register>
-typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(QString name)
+Wrapper<Register> *DJsonParser::loadInjectDescription(QString name)
 {
     QFile loadFile(m_path + name);
 
@@ -49,23 +49,23 @@ typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(Q
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
     QJsonObject obj = loadDoc.object();
 
-    typename DAddingMethods<Register>::Wrapper *p = nullptr;
+    Wrapper<Register> *p = nullptr;
     QString typeStr = obj["type"].toString();
-    typename DAddingMethods<Register>::Wrapper::WrapperType type = DAddingMethods<Register>::Wrapper::wrapperTypes[typeStr];
+    typename Wrapper<Register>::WrapperType type = Wrapper<Register>::wrapperTypes[typeStr];
 
     switch(type)
     {
-    case DAddingMethods<Register>::Wrapper::WrapperType::OepWrapper:
-        p = new (std::nothrow) typename DAddingMethods<Register>::OEPWrapper;
+    case Wrapper<Register>::WrapperType::OepWrapper:
+        p = new (std::nothrow) OEPWrapper<Register>;
         break;
-    case DAddingMethods<Register>::Wrapper::WrapperType::TrampolineWrapper:
-        p = new (std::nothrow) typename DAddingMethods<Register>::TrampolineWrapper;
+    case Wrapper<Register>::WrapperType::TrampolineWrapper:
+        p = new (std::nothrow)  TrampolineWrapper<Register>;
         break;
-    case DAddingMethods<Register>::Wrapper::WrapperType::ThreadWrapper:
-        p = new (std::nothrow) typename DAddingMethods<Register>::ThreadWrapper;
+    case Wrapper<Register>::WrapperType::ThreadWrapper:
+        p = new (std::nothrow)  ThreadWrapper<Register>;
         break;
     default:
-        p = new (std::nothrow) typename DAddingMethods<Register>::Wrapper;
+        p = new (std::nothrow) Wrapper<Register>;
         break;
     }
 
@@ -81,8 +81,8 @@ typename DAddingMethods<Register>::Wrapper *DJsonParser::loadInjectDescription(Q
 
     return p;
 }
-template DAddingMethods<Registers_x86>::Wrapper *DJsonParser::loadInjectDescription<Registers_x86>(QString name);
-template DAddingMethods<Registers_x64>::Wrapper *DJsonParser::loadInjectDescription<Registers_x64>(QString name);
+template Wrapper<Registers_x86> *DJsonParser::loadInjectDescription<Registers_x86>(QString name);
+template Wrapper<Registers_x64> *DJsonParser::loadInjectDescription<Registers_x64>(QString name);
 
 /**
  * @brief DJsonParser::saveIncjectionDescription zapisuje referencje obiekt wskazywany przez injection do pliku w formacie .json
@@ -90,7 +90,7 @@ template DAddingMethods<Registers_x64>::Wrapper *DJsonParser::loadInjectDescript
  * @param name nazwa metody
  * @return true w przypadku powodzenia false w p.p.
  */
-bool DJsonParser::saveIncjectDescription(QString name, DAddingMethods<Registers_x86>::Wrapper &injection)
+bool DJsonParser::saveIncjectDescription(QString name, Wrapper<Registers_x86> &injection)
 {
     //    QFile saveFile(m_path+name+".json");
 

@@ -12,6 +12,9 @@
 #include <core/file_types/binaryfile.h>
 #include <core/file_types/elffile.h>
 
+template <typename RegistersType>
+class Wrapper;
+
 #define mnemonic_stringify(mnemonic) \
     QString((std::string(#mnemonic).substr(std::string(#mnemonic).find_last_of(':') != std::string::npos ? \
     std::string(#mnemonic).find_last_of(':') + 1 : 0)).c_str()).toLower()
@@ -86,221 +89,7 @@ public:
     /**
      * @brief Klasa bazowa reprezentująca opakowanie dla kawałków kodu.
      */
-    class Wrapper : public QObject{
-    public:
-        enum class WrapperType {
-            Handler,
-            Method,
-            Helper,
-            ThreadWrapper,
-            OepWrapper,
-            TrampolineWrapper
-        };
 
-        QString name;
-        QString description;
-        ArchitectureType arch_type;
-        SystemType system_type;
-        WrapperType wrapper_type;
-        QList<CallingMethod> allowed_methods;
-
-        QList<RegistersType> used_regs;
-        QMap<RegistersType, QString> dynamic_params;
-        QMap<QString, QString> static_params;
-        RegistersType ret;
-        QByteArray code;
-        Wrapper *detect_handler;
-
-        bool only_rwx;
-        bool obfuscation;
-
-        virtual ~Wrapper() {}
-
-        static const QMap<QString, DAddingMethods<RegistersType>::Wrapper::WrapperType> wrapperTypes;
-
-        /**
-         * @brief read this zostaje wczytany z pliku json
-         * @param json objekt json'a z którego czytamy
-         */
-        virtual bool read(const QJsonObject & json){
-
-            // name
-            name = json["name"].toString();
-
-            // description
-            description = json["description"].toString();
-
-            // arch_type
-            QRegExp x86arch("^(win|lin)_x86$");
-            QRegExp x64arch("^(win|lin)_x64$");
-            QString arch_str = json["architecture"].toString();
-            if(arch_str.contains(x86arch))
-                arch_type = ArchitectureType::BITS32;
-            else if(arch_str.contains(x64arch))
-                arch_type = ArchitectureType::BITS64;
-            else
-                return false;
-
-            // system_type
-            QRegExp system_win("^win_(x86|x64)$");
-            QRegExp system_lin("^lin_(x86|x64)$");
-            QString system_str = json["architecture"].toString();
-            if(system_str.contains(system_win))
-                system_type = SystemType::Windows;
-            else if(system_str.contains(system_lin))
-                system_type = SystemType::Linux;
-            else
-                return false;
-
-            // wrapper_type
-            wrapper_type = wrapperTypes[json["type"].toString()];
-
-            // allowed_methods
-            QJsonArray allowedMethods = json["methods"].toArray();
-            foreach(auto m, allowedMethods)
-                allowed_methods.append(callingMethods[m.toString()]);
-
-            // used_regs
-            QJsonArray regList = json["used_registers"].toArray();
-            foreach(auto r, regList)
-                used_regs.append(registerTypes[r.toString()]);
-
-            // static_params
-            if(system_type == SystemType::Linux)
-            {
-                QJsonArray temp = json["parameters"].toArray();
-
-                foreach(auto key, temp) {
-                    if(key.toObject().keys().length() != 1)
-                        return false;
-                    QString k = key.toObject().keys()[0];
-                    static_params.insert(k, key.toObject()[k].toString());
-                }
-            }
-
-            // dynamic_params
-            if(system_type == SystemType::Windows)
-            {
-                QJsonArray temp = json["parameters"].toArray();
-
-                foreach(auto key, temp) {
-                    if(key.toObject().keys().length() != 1)
-                        return false;
-                    QString k = key.toObject().keys()[0];
-                    dynamic_params.insert(registerTypes[k], key.toObject()[k].toString());
-                }
-            }
-
-            // ret
-            ret = registerTypes[json["returns"].toString()];
-
-            // code
-            QFile codeFile(json["path"].toString());
-            if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
-                return false;
-
-            code = codeFile.readAll();
-            codeFile.close();
-
-            // detect_handler
-            detect_handler = nullptr;
-
-            // methods that are only suitable for rwx segments
-            only_rwx = false;
-            if (json["only_rwx"].toString() == QString("yes"))
-                only_rwx = true;
-
-            // is obfuscation eligable
-            obfuscation = true;
-            if (json["obfuscation"].toString() == QString("no"))
-                obfuscation = false;
-
-            return true;
-        }
-
-    private:
-        static const QMap<QString, RegistersType> registerTypes;
-
-        /**
-         * @brief write zapisujemy obiekt this do pliku json
-         * @param json obiekt do którego zapisujemy
-         */
-        bool write(QJsonObject &json) const{
-
-            //            // used_regs
-            //            QJsonArray array;
-
-            //            const char** tab = ( std::is_same<RegistersType, Registers_x64>::value ) ? Registers_x64_names : Registers_x86_names;
-
-            //            for(int i = 0; i< used_regs.size(); ++i){
-            //                array.append(QJsonValue(QString( tab[static_cast<int>(used_regs[i])])));
-            //            }
-            //            json["used_regs"]=array;
-
-            //            // params
-            //            QJsonObject par;
-            //            foreach(QString key, params.keys()){
-            //                par.insert(key, QJsonValue(params.value(key)));
-            //            }
-            //            json["params"] = par;
-
-            //            // ret
-
-            //            json["ret"] = QString(tab[static_cast<int>(ret)]);
-
-            //            // code
-
-            //            QString codePath("./codeFile.cpp");
-            //            QFile codeFile(codePath);
-            //            QFileInfo fi(codeFile);
-            //            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
-            //            QTextStream in(&codeFile);
-            //            in<<code;
-
-            //            json["path_to_method"] = fi.absoluteFilePath();
-
-            return false;
-        }
-    };
-
-    /**
-     * @brief Klasa reprezentująca opakowanie dla tworzenia nowego wątku.
-     */
-    class ThreadWrapper : public Wrapper {
-    public:
-        QList<Wrapper*> thread_actions;
-        uint16_t sleep_time;
-
-        virtual bool read(const QJsonObject & json) override {
-            sleep_time = 5;
-            return Wrapper::read(json);
-        }
-    };
-
-    /**
-     * @brief Klasa reprezentująca opakowanie dla tworzenia nowego punktu wejściowego.
-     */
-    class OEPWrapper : public Wrapper {
-    public:
-        Wrapper *oep_action;
-
-        virtual bool read(const QJsonObject & json) override {
-            oep_action = nullptr;
-            return Wrapper::read(json);
-        }
-    };
-
-    /**
-     * @brief Klasa reprezentująca opakowanie dla tworzenia tramplin w funkcjach bibliotecznych.
-     */
-    class TrampolineWrapper : public Wrapper {
-    public:
-        Wrapper *tramp_action;
-        virtual bool read(const QJsonObject & json) override {
-            tramp_action = nullptr;
-            return Wrapper::read(json);
-        }
-    };
 
     /**
      * @brief Klasa opisująca metodę wstrzykiwania kodu.
@@ -308,7 +97,7 @@ public:
     class InjectDescription {
     public:
         CallingMethod cm;
-        Wrapper *adding_method;
+        Wrapper<RegistersType> *adding_method;
         QString saved_fname;
         bool change_x_only;
     };
@@ -350,7 +139,7 @@ protected:
      */
     std::default_random_engine r_gen;
 
-private:
+public:
     /**
      * @brief Mapa konwertująca ciągi znaków na CallingMethod
      */
@@ -548,5 +337,226 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
     regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     return QString("%1 %2\n").arg(instructions[Instructions::CALL], qreg);
 }
+
+template <typename RegistersType>
+class Wrapper : public QObject{
+public:
+    enum class WrapperType {
+        Handler,
+        Method,
+        Helper,
+        ThreadWrapper,
+        OepWrapper,
+        TrampolineWrapper
+    };
+
+    QString name;
+    QString description;
+
+    typename DAddingMethods<RegistersType>::ArchitectureType arch_type;
+    typename DAddingMethods<RegistersType>::SystemType system_type;
+    WrapperType wrapper_type;
+    QList<typename DAddingMethods<RegistersType>::CallingMethod> allowed_methods;
+
+    QList<RegistersType> used_regs;
+    QMap<RegistersType, QString> dynamic_params;
+    QMap<QString, QString> static_params;
+    RegistersType ret;
+    QByteArray code;
+    Wrapper *detect_handler;
+
+    bool only_rwx;
+    bool obfuscation;
+
+    virtual ~Wrapper() {}
+
+    static const QMap<QString, WrapperType> wrapperTypes;
+
+    /**
+     * @brief read this zostaje wczytany z pliku json
+     * @param json objekt json'a z którego czytamy
+     */
+    virtual bool read(const QJsonObject & json){
+
+        // name
+        name = json["name"].toString();
+
+        // description
+        description = json["description"].toString();
+
+        // arch_type
+        QRegExp x86arch("^(win|lin)_x86$");
+        QRegExp x64arch("^(win|lin)_x64$");
+        QString arch_str = json["architecture"].toString();
+        if(arch_str.contains(x86arch))
+            arch_type = DAddingMethods<RegistersType>::ArchitectureType::BITS32;
+        else if(arch_str.contains(x64arch))
+            arch_type = DAddingMethods<RegistersType>::ArchitectureType::BITS64;
+        else
+            return false;
+
+        // system_type
+        QRegExp system_win("^win_(x86|x64)$");
+        QRegExp system_lin("^lin_(x86|x64)$");
+        QString system_str = json["architecture"].toString();
+        if(system_str.contains(system_win))
+            system_type = DAddingMethods<RegistersType>::SystemType::Windows;
+        else if(system_str.contains(system_lin))
+            system_type = DAddingMethods<RegistersType>::SystemType::Linux;
+        else
+            return false;
+
+        // wrapper_type
+        wrapper_type = wrapperTypes[json["type"].toString()];
+
+        // allowed_methods
+        QJsonArray allowedMethods = json["methods"].toArray();
+        foreach(auto m, allowedMethods)
+            allowed_methods.append(DAddingMethods<RegistersType>::callingMethods[m.toString()]);
+
+        // used_regs
+        QJsonArray regList = json["used_registers"].toArray();
+        foreach(auto r, regList)
+            used_regs.append(registerTypes[r.toString()]);
+
+        // static_params
+        if(system_type == DAddingMethods<RegistersType>::SystemType::Linux)
+        {
+            QJsonArray temp = json["parameters"].toArray();
+
+            foreach(auto key, temp) {
+                if(key.toObject().keys().length() != 1)
+                    return false;
+                QString k = key.toObject().keys()[0];
+                static_params.insert(k, key.toObject()[k].toString());
+            }
+        }
+
+        // dynamic_params
+        if(system_type == DAddingMethods<RegistersType>::SystemType::Windows)
+        {
+            QJsonArray temp = json["parameters"].toArray();
+
+            foreach(auto key, temp) {
+                if(key.toObject().keys().length() != 1)
+                    return false;
+                QString k = key.toObject().keys()[0];
+                dynamic_params.insert(registerTypes[k], key.toObject()[k].toString());
+            }
+        }
+
+        // ret
+        ret = registerTypes[json["returns"].toString()];
+
+        // code
+        QFile codeFile(json["path"].toString());
+        if(!codeFile.open(QIODevice::ReadOnly | QIODevice::Text))
+            return false;
+
+        code = codeFile.readAll();
+        codeFile.close();
+
+        // detect_handler
+        detect_handler = nullptr;
+
+        // methods that are only suitable for rwx segments
+        only_rwx = false;
+        if (json["only_rwx"].toString() == QString("yes"))
+            only_rwx = true;
+
+        // is obfuscation eligable
+        obfuscation = true;
+        if (json["obfuscation"].toString() == QString("no"))
+            obfuscation = false;
+
+        return true;
+    }
+
+private:
+    static const QMap<QString,RegistersType> registerTypes;
+
+    /**
+     * @brief write zapisujemy obiekt this do pliku json
+     * @param json obiekt do którego zapisujemy
+     */
+    bool write(QJsonObject &json) const{
+
+        //            // used_regs
+        //            QJsonArray array;
+
+        //            const char** tab = ( std::is_same<RegistersType, Registers_x64>::value ) ? Registers_x64_names : Registers_x86_names;
+
+        //            for(int i = 0; i< used_regs.size(); ++i){
+        //                array.append(QJsonValue(QString( tab[static_cast<int>(used_regs[i])])));
+        //            }
+        //            json["used_regs"]=array;
+
+        //            // params
+        //            QJsonObject par;
+        //            foreach(QString key, params.keys()){
+        //                par.insert(key, QJsonValue(params.value(key)));
+        //            }
+        //            json["params"] = par;
+
+        //            // ret
+
+        //            json["ret"] = QString(tab[static_cast<int>(ret)]);
+
+        //            // code
+
+        //            QString codePath("./codeFile.cpp");
+        //            QFile codeFile(codePath);
+        //            QFileInfo fi(codeFile);
+        //            codeFile.open(QIODevice::WriteOnly | QIODevice::Text);
+        //            QTextStream in(&codeFile);
+        //            in<<code;
+
+        //            json["path_to_method"] = fi.absoluteFilePath();
+
+        return false;
+    }
+};
+
+/**
+ * @brief Klasa reprezentująca opakowanie dla tworzenia nowego wątku.
+ */
+template <typename RegistersType>
+class ThreadWrapper : public Wrapper<RegistersType> {
+public:
+    QList<Wrapper<RegistersType>*> thread_actions;
+    uint16_t sleep_time;
+
+    virtual bool read(const QJsonObject & json) override {
+        sleep_time = 5;
+        return Wrapper<RegistersType>::read(json);
+    }
+};
+
+/**
+ * @brief Klasa reprezentująca opakowanie dla tworzenia nowego punktu wejściowego.
+ */
+template<typename RegistersType>
+class OEPWrapper : public Wrapper<RegistersType> {
+public:
+    Wrapper<RegistersType> *oep_action;
+
+    virtual bool read(const QJsonObject & json) override {
+        oep_action = nullptr;
+        return Wrapper<RegistersType>::read(json);
+    }
+};
+
+/**
+ * @brief Klasa reprezentująca opakowanie dla tworzenia tramplin w funkcjach bibliotecznych.
+ */
+template<typename RegistersType>
+class TrampolineWrapper : public Wrapper<RegistersType> {
+public:
+    Wrapper<RegistersType> *tramp_action;
+    virtual bool read(const QJsonObject & json) override {
+        tramp_action = nullptr;
+        return Wrapper<RegistersType>::read(json);
+    }
+};
 
 #endif // DADDINGMETHODS_H

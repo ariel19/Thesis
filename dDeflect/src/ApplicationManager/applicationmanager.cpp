@@ -72,7 +72,7 @@ QVariantList ApplicationManager::x86MethodsNames()
 {
 
     if(m_x86MethodsNames.empty()){
-        foreach(DAddingMethods<Registers_x86>::Wrapper* id, m_x86methodsList){
+        foreach(Wrapper<Registers_x86>* id, m_x86methodsList){
             if(id==NULL)
                 qDebug()<<"Wczytany wrapper == NULL";
             else{

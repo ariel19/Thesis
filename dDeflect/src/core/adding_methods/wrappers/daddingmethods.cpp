@@ -94,17 +94,17 @@ template bool DAddingMethods<Registers_x86>::pack(QString file_path, DAddingMeth
 template bool DAddingMethods<Registers_x64>::pack(QString file_path, DAddingMethods<Registers_x64>::CompressionLevel level, DAddingMethods<Registers_x64>::CompressionOptions opt);
 
 template <typename Reg>
-const QMap<QString, typename DAddingMethods<Reg>::Wrapper::WrapperType> DAddingMethods<Reg>::Wrapper::wrapperTypes =
+const QMap<QString, typename Wrapper<Reg>::WrapperType> Wrapper<Reg>::wrapperTypes =
 {
-    { "Method", DAddingMethods<Reg>::Wrapper::WrapperType::Method },
-    { "Handler", DAddingMethods<Reg>::Wrapper::WrapperType::Handler },
-    { "Helper", DAddingMethods<Reg>::Wrapper::WrapperType::Helper },
-    { "ThreadWrapper", DAddingMethods<Reg>::Wrapper::WrapperType::ThreadWrapper },
-    { "OEPWrapper", DAddingMethods<Reg>::Wrapper::WrapperType::OepWrapper },
-    { "TrampolineWrapper", DAddingMethods<Reg>::Wrapper::WrapperType::TrampolineWrapper }
+    { "Method", Wrapper<Reg>::WrapperType::Method },
+    { "Handler", Wrapper<Reg>::WrapperType::Handler },
+    { "Helper", Wrapper<Reg>::WrapperType::Helper },
+    { "ThreadWrapper", Wrapper<Reg>::WrapperType::ThreadWrapper },
+    { "OEPWrapper", Wrapper<Reg>::WrapperType::OepWrapper },
+    { "TrampolineWrapper", Wrapper<Reg>::WrapperType::TrampolineWrapper }
 };
-template const QMap<QString, DAddingMethods<Registers_x86>::Wrapper::WrapperType> DAddingMethods<Registers_x86>::Wrapper::wrapperTypes;
-template const QMap<QString, DAddingMethods<Registers_x64>::Wrapper::WrapperType> DAddingMethods<Registers_x64>::Wrapper::wrapperTypes;
+template const QMap<QString, Wrapper<Registers_x86>::WrapperType> Wrapper<Registers_x86>::wrapperTypes;
+template const QMap<QString, Wrapper<Registers_x64>::WrapperType> Wrapper<Registers_x64>::wrapperTypes;
 
 template <typename Reg>
 const QMap<QString, typename DAddingMethods<Reg>::CallingMethod> DAddingMethods<Reg>::callingMethods =
@@ -121,7 +121,7 @@ template const QMap<QString, DAddingMethods<Registers_x86>::CallingMethod> DAddi
 template const QMap<QString, DAddingMethods<Registers_x64>::CallingMethod> DAddingMethods<Registers_x64>::callingMethods;
 
 template <>
-const QMap<QString, Registers_x86> DAddingMethods<Registers_x86>::Wrapper::registerTypes =
+const QMap<QString, Registers_x86> Wrapper<Registers_x86>::registerTypes =
 {
     { "EAX", Registers_x86::EAX },
     { "EBX", Registers_x86::EBX },
@@ -136,7 +136,7 @@ const QMap<QString, Registers_x86> DAddingMethods<Registers_x86>::Wrapper::regis
 };
 
 template <>
-const QMap<QString, Registers_x64> DAddingMethods<Registers_x64>::Wrapper::registerTypes =
+const QMap<QString, Registers_x64> Wrapper<Registers_x64>::registerTypes =
 {
     { "RAX", Registers_x64::RAX },
     { "RBX", Registers_x64::RBX },

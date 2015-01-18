@@ -45,7 +45,7 @@ QList<QString> ELFTester::handlers_x64 = {
 
 QMap<ELFTester::Method, QString> ELFTester::wrappers_x86 = {
     { ELFTester::Method::OEP, "lin_x86_oepwrapper" },
-    { ELFTester::Method::Thread, "lin_x86_threadwrapper" },
+    { ELFTester::Method::Thread, "lin_x86_ThreadWrapper" },
     { ELFTester::Method::Trampoline, "lin_x86_trampolinewrapper" },
     { ELFTester::Method::CTORS, "lin_x86_trampolinewrapper" },
     { ELFTester::Method::INIT, "lin_x86_trampolinewrapper" },
@@ -54,7 +54,7 @@ QMap<ELFTester::Method, QString> ELFTester::wrappers_x86 = {
 
 QMap<ELFTester::Method, QString> ELFTester::wrappers_x64 = {
     { ELFTester::Method::OEP, "lin_x64_oepwrapper" },
-    { ELFTester::Method::Thread, "lin_x64_threadwrapper" },
+    { ELFTester::Method::Thread, "lin_x64_ThreadWrapper" },
     { ELFTester::Method::Trampoline, "lin_x64_trampolinewrapper" },
     { ELFTester::Method::CTORS, "lin_x64_trampolinewrapper" },
     { ELFTester::Method::INIT, "lin_x64_trampolinewrapper" },
@@ -311,8 +311,8 @@ ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
 
     ELFAddingMethods<Reg> adder(elf);
 
-    typename DAddingMethods<Reg>::Wrapper *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
-    typename DAddingMethods<Reg>::Wrapper *wrapper =
+    Wrapper<Reg> *meth = parser.loadInjectDescription<Reg>(QString("%1.json").arg(method));
+    Wrapper<Reg> *wrapper =
             parser.loadInjectDescription<Reg>(QString("%1.json").arg(elf->is_x86() ? wrappers_x86[type] : wrappers_x64[type]));
 
     if(!meth)
@@ -332,16 +332,16 @@ ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
 
     switch (type) {
     case Method::OEP: {
-        typename DAddingMethods<Reg>::OEPWrapper *oepwrapper =
-                dynamic_cast<typename DAddingMethods<Reg>::OEPWrapper*>(wrapper);
+        OEPWrapper<Reg> *oepwrapper =
+                dynamic_cast<OEPWrapper<Reg>*>(wrapper);
         if (!oepwrapper)
             return SecuredState::DYNCASTERROR;
         oepwrapper->oep_action = meth;
         break;
     }
     case Method::Thread: {
-        typename DAddingMethods<Reg>::ThreadWrapper *twrapper =
-                dynamic_cast<typename DAddingMethods<Reg>::ThreadWrapper*>(wrapper);
+        ThreadWrapper<Reg> *twrapper =
+                dynamic_cast<ThreadWrapper<Reg>*>(wrapper);
         if (!twrapper)
             return SecuredState::DYNCASTERROR;
         twrapper->thread_actions = { meth };
@@ -351,8 +351,8 @@ ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
     case Method::INIT_ARRAY:
     case Method::CTORS :
     case Method::INIT: {
-        typename DAddingMethods<Reg>::TrampolineWrapper *trmwrapper =
-                dynamic_cast<typename DAddingMethods<Reg>::TrampolineWrapper*>(wrapper);
+        TrampolineWrapper<Reg> *trmwrapper =
+                dynamic_cast<TrampolineWrapper<Reg>*>(wrapper);
         if (!trmwrapper)
             return SecuredState::DYNCASTERROR;
         trmwrapper->tramp_action = meth;

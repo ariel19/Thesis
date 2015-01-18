@@ -114,7 +114,7 @@ private:
      * @param sleepTime Czas snu wątku
      * @return Kod błędu
      */
-    ErrorCode generateThreadCode(QList<typename DAddingMethods<Register>::Wrapper*> wrappers, uint64_t &codePtr, uint16_t sleepTime);
+    ErrorCode generateThreadCode(QList<Wrapper<Register>*> wrappers, uint64_t &codePtr, uint16_t sleepTime);
 
     /**
      * @brief Generowanie kodu metody
@@ -123,7 +123,7 @@ private:
      * @param isTlsCallback Informacja czy metoda jest callbackiem TLS
      * @return Kod błędu
      */
-    ErrorCode generateCode(typename DAddingMethods<Register>::Wrapper *w, uint64_t &codePtr, bool isTlsCallback = false);
+    ErrorCode generateCode(Wrapper<Register> *w, uint64_t &codePtr, bool isTlsCallback = false);
 
     /**
      * @brief Metoda tworząca listę offsetów instrukcji na podstawie zdekompilowanego kodu

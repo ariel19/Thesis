@@ -72,7 +72,7 @@ private:
      * @param code wygenerowany kod.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool wrapper_gen_code(typename DAddingMethods<RegistersType>::Wrapper *wrap, QString &code);
+    bool wrapper_gen_code( Wrapper<RegistersType> *wrap, QString &code);
 
     /**
      * @brief Metoda odpowiada za wypełnianie parametrów w podanym kodzie.
