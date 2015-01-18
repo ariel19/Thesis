@@ -9,13 +9,17 @@
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
 #include <ApplicationManager/DSourceCodeParser/dsourcecodeparser.h>
+#include <ApplicationManager/dsettings.h>
 
 class ApplicationManager : public QObject
 {
     Q_OBJECT
     Q_ENUMS(State)
+    Q_ENUMS(Arch)
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(Arch archType READ archType WRITE setArchType NOTIFY archTypeChanged)
     Q_PROPERTY(QVariantList x86MethodsNames READ x86MethodsNames NOTIFY x86MethodsNamesChanged)
+
     //Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
 
 public:
@@ -27,11 +31,13 @@ public:
     explicit ApplicationManager(QObject *parent = 0);
     virtual ~ApplicationManager();
     enum State{IDLE, EXEC, SOURCE};
-
+    enum Arch{X86,X64};
     void setState(State state);
     //void setPath(const QString &path);
+    void setArchType(Arch t);
 
     State state() const;
+    Arch archType();
     //QString path() const;
 
     QVariantList x86MethodsNames();
@@ -39,6 +45,8 @@ public:
 signals:
     void stateChanged(State);
     void x86MethodsNamesChanged();
+    void archTypeChanged();
+
     void pathChanged();
 
 public slots:
@@ -51,10 +59,12 @@ private:
     QVariantList m_x86MethodsNames;
     IDList<Registers_x64> m_x64methodsList;
     QVariantList m_x64MethodsNames;
+
     QString m_targetPath;
     QStringList sourceExtensionList;
     DJsonParser jsonParser;
     DSourceCodeParser *sourceParser;
+    Arch m_archType;
 };
 
 #endif // APPLICATIONMANAGER_H

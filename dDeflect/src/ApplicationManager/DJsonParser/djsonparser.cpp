@@ -11,6 +11,21 @@ DAddingMethods<Registers_x86>::Wrapper *DJsonParser::getInjectionRead() const
     return injectionRead;
 }
 
+
+QString DJsonParser::path() const
+{
+    return m_path;
+}
+
+void DJsonParser::setPath(const QString &path)
+{
+    m_path = path;
+}
+DJsonParser::DJsonParser()
+{
+    m_path="";
+}
+
 DJsonParser::DJsonParser(QString path) : m_path(path)
 {
 }

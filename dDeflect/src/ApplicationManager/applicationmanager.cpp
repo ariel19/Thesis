@@ -2,12 +2,16 @@
 #include "DSourceCodeParser/dsourcecodeparser.h"
 
 ApplicationManager::ApplicationManager(QObject *parent) :
-    QObject(parent), jsonParser("/home/jsk/code/Thesis/dDeflect/src/core/detection/dsc/"), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
+    QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
 {
     // TODO: dodać obsługę listy metod 64 bitowych
-    QDir wrappers("/home/jsk/code/Thesis/dDeflect/src/core/detection/dsc/");
+
+    // Metody 32 bitowe
+    jsonParser.setPath(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
+    qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x86>();
+    QDir wrappers(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
     Q_ASSERT(wrappers.exists());
-    QDirIterator it("/home/jsk/code/Thesis/dDeflect/src/core/detection/dsc/", QStringList() << "*.json", QDir::Files);
+    QDirIterator it(DSettings::getSettings().getDescriptionsPath<Registers_x86>(), QStringList() << "*.json", QDir::Files);
 
     QFileInfoList files = wrappers.entryInfoList();
     foreach(const QFileInfo &fi, files) {
@@ -17,10 +21,25 @@ ApplicationManager::ApplicationManager(QObject *parent) :
           m_x86methodsList.append(jsonParser.loadInjectDescription<Registers_x86>(fi.fileName()));
         }
     }
+    // Metody 64 bitowe
+    jsonParser.setPath(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
+    qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x64>();
+    QDir wrappers64(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
+    Q_ASSERT(wrappers64.exists());
+    QDirIterator it64(DSettings::getSettings().getDescriptionsPath<Registers_x64>(), QStringList() << "*.json", QDir::Files);
 
+    QFileInfoList files64 = wrappers64.entryInfoList();
+    foreach(const QFileInfo &fi, files64) {
+        QString Path = fi.absoluteFilePath();
+        if(fi.completeSuffix()=="json"){
+            // TODO
+          m_x64methodsList.append(jsonParser.loadInjectDescription<Registers_x64>(fi.fileName()));
+        }
+    }
     // TODO: Lista do uzupełnienia o wszystkie rozszerzenia, albo stworzyć plik ze stringami i innymi danymi
     sourceExtensionList<<"cpp"<<"cxx"<<"c";
     setState(IDLE);
+    setArchType(X86);
 
 }
 
@@ -35,8 +54,19 @@ void ApplicationManager::setState(ApplicationManager::State state)
     emit stateChanged(state);
 }
 
+void ApplicationManager::setArchType(ApplicationManager::Arch t)
+{
+    m_archType = t;
+    emit archTypeChanged();
+}
+
 ApplicationManager::State ApplicationManager::state() const
 { return m_state; }
+
+ApplicationManager::Arch ApplicationManager::archType()
+{
+    return m_archType;
+}
 
 QVariantList ApplicationManager::x86MethodsNames()
 {

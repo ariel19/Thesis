@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QObject>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QStringList>
@@ -85,7 +86,7 @@ public:
     /**
      * @brief Klasa bazowa reprezentująca opakowanie dla kawałków kodu.
      */
-    class Wrapper {
+    class Wrapper : public QObject{
     public:
         enum class WrapperType {
             Handler,
