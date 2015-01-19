@@ -1,6 +1,7 @@
 #include "applicationmanager.h"
 #include "DSourceCodeParser/dsourcecodeparser.h"
 
+
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
 {
@@ -18,7 +19,12 @@ ApplicationManager::ApplicationManager(QObject *parent) :
         QString Path = fi.absoluteFilePath();
         if(fi.completeSuffix()=="json"){
             // TODO
-          m_x86methodsList.append(jsonParser.loadInjectDescription<Registers_x86>(fi.fileName()));
+          Wrapper<Registers_x86> *w = jsonParser.loadInjectDescription<Registers_x86>(fi.fileName());
+          if(w!=NULL){
+              m_x86methodsList.append(w);
+              Method *m = new Method(w);
+              m_methods.append(m);
+          }
         }
     }
     // Metody 64 bitowe
@@ -32,8 +38,12 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     foreach(const QFileInfo &fi, files64) {
         QString Path = fi.absoluteFilePath();
         if(fi.completeSuffix()=="json"){
-            // TODO
-          m_x64methodsList.append(jsonParser.loadInjectDescription<Registers_x64>(fi.fileName()));
+            Wrapper<Registers_x64> *w = jsonParser.loadInjectDescription<Registers_x64>(fi.fileName());
+            if(w!=NULL){
+                m_x64methodsList.append(w);
+                Method *m = new Method(w);
+                m_methods.append(m);
+            }
         }
     }
     // TODO: Lista do uzupełnienia o wszystkie rozszerzenia, albo stworzyć plik ze stringami i innymi danymi
@@ -127,6 +137,8 @@ void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
     sourceParser->insertMethods(m_targetPath,Map);
 }
 
-
-
+QQmlListProperty<Method> ApplicationManager::methods()
+{
+    return QQmlListProperty<Method>(this,m_methods);
+}
 

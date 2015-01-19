@@ -1,6 +1,6 @@
 #ifndef METHODLIST_H
 #define METHODLIST_H
-#include <QQmlListProperty>
+#include <../QtQml/qqmllist.h>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>

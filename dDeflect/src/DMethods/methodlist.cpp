@@ -1,5 +1,5 @@
 #include <DMethods/methodlist.h>
-#include <QQmlListProperty>
+#include <../QtQml/qqmllist.h>
 #include <QDebug>
 
 MethodList::MethodList(QObject *parent) :

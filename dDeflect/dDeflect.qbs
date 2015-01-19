@@ -21,6 +21,9 @@ Project {
             "src/gui/qml/PackingTab.qml",
             "src/gui/qml/SourceCodeTab.qml",
             "src/gui/qml/main.qml",
+            "src/ApplicationManager/DMethods/*.cpp",
+            "src/ApplicationManager/DMethods/*.h"
+
         ]
 
         Group {     // Properties for the produced executable
@@ -85,6 +88,8 @@ Project {
             "src/ApplicationManager/dlogger.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.h",
+            "src/DMethods/*.cpp",
+            "src/DMethods/*.h",
             "tests/src/*.cpp",
             "tests/src/*.h",
             "src/core/file_types/*.cpp",

@@ -6,6 +6,8 @@
 #include <QJsonObject>
 #include <QList>
 
+#include "../core/adding_methods/wrappers/daddingmethods.h"
+
 class Method : public QObject
 {
     Q_OBJECT
@@ -39,12 +41,11 @@ public:
     };
 
 
-
-
     explicit Method(QObject *parent = 0);
     Method(QString n, QString d, QObject * parent=0);
-
-    void setName(const QString &n);
+    Method(Wrapper<Registers_x86> * w, QObject * parent=0);
+    Method(Wrapper<Registers_x64> * w, QObject * parent=0);
+    void setName(QString n);
     void setDescription(const QString &d);
 
     QString name() const {return m_name;}
@@ -65,7 +66,7 @@ signals:
     void arch_typeChanged();
     void isThreadChanged();
 
-private:
+public:
     QString m_name;
     QString m_desc;
     WrapperType m_wrapper_type;

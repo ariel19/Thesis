@@ -4,12 +4,16 @@
 #include <QObject>
 #include <QDir>
 #include <QDirIterator>
+#include <../QtQml/qqmllist.h>
+#include <QList>
+
 
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
 #include <ApplicationManager/DSourceCodeParser/dsourcecodeparser.h>
 #include <ApplicationManager/dsettings.h>
+#include <DMethods/method.h>
 
 class ApplicationManager : public QObject
 {
@@ -19,6 +23,7 @@ class ApplicationManager : public QObject
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(Arch archType READ archType WRITE setArchType NOTIFY archTypeChanged)
     Q_PROPERTY(QVariantList x86MethodsNames READ x86MethodsNames NOTIFY x86MethodsNamesChanged)
+    Q_PROPERTY(QQmlListProperty<Method> methods READ methods NOTIFY methodsChanged)
 
     //Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
 
@@ -33,20 +38,18 @@ public:
     enum State{IDLE, EXEC, SOURCE};
     enum Arch{X86,X64};
     void setState(State state);
-    //void setPath(const QString &path);
     void setArchType(Arch t);
 
     State state() const;
     Arch archType();
-    //QString path() const;
-
+    QQmlListProperty<Method> methods();
     QVariantList x86MethodsNames();
 
 signals:
     void stateChanged(State);
     void x86MethodsNamesChanged();
     void archTypeChanged();
-
+    void methodsChanged();
     void pathChanged();
 
 public slots:
@@ -65,6 +68,7 @@ private:
     DJsonParser jsonParser;
     DSourceCodeParser *sourceParser;
     Arch m_archType;
+    QList<Method*> m_methods;
 };
 
 #endif // APPLICATIONMANAGER_H

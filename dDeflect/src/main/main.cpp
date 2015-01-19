@@ -19,6 +19,7 @@
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include "ApplicationManager/applicationmanager.h"
 #include <ApplicationManager/DSourceCodeParser/dsourcecodeparser.h>
+#include "../DMethods/method.h"
 
 // Not clean, but fast
 //QProcess *g_process = NULL;
@@ -29,7 +30,7 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-
+    Method m;
 //    ProcOut *procOut = new ProcOut();
 //    g_process        = new QProcess();
 
