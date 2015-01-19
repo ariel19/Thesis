@@ -9,5 +9,6 @@
         <file>qml/SourceCodeTab.qml</file>
         <file>qml/ObfuscationTab.qml</file>
         <file>qml/PackingTab.qml</file>
+        <file>qml/AddMethodsWindow.qml</file>
     </qresource>
 </RCC>

@@ -43,7 +43,8 @@ Project {
             files: [
                 "src/core/detection/",
                 "src/core/handlers/",
-                "src/core/helper_func/"
+                "src/core/helper_func/",
+                "src/gui/qml/AddMethodsWindow.qml",
             ]
         }
 

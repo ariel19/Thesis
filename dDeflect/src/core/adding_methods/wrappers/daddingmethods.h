@@ -340,6 +340,7 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
 
 template <typename RegistersType>
 class Wrapper : public QObject{
+
 public:
     enum class WrapperType {
         Handler,

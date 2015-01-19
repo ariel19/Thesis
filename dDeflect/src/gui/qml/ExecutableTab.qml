@@ -25,6 +25,7 @@ Component{
                 text:"+"
                 onClicked: {
                     fruitModel.append({"name":"kuba"})
+                    console.log(fruitModel)
                 }
             }
             ListView {
@@ -46,23 +47,53 @@ Component{
             Component {
                 id: contactDelegate
                 Item{
-
-                    //RowLayout{
                     height: 50
                     width: parent.width
-                    ComboBox {
-                        currentIndex: 2
-                        model:applicationManager.x86MethodsNames
-                        width: 200
-                        onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + cbItems.get(currentIndex).color)
-                    }
-                    //}
                     ListModel {
                         id: cbItems
                         ListElement { text: "Banana"; color: "Yellow" }
                         ListElement { text: "Apple"; color: "Green" }
                         ListElement { text: "Coconut"; color: "Brown" }
                     }
+                    RowLayout{
+                        height: 50
+                        width: parent.width
+                        ComboBox {
+                            currentIndex: 2
+                            model:applicationManager.x86MethodsNames
+                            width: 200
+                            onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + cbItems.get(currentIndex).color)
+                        }
+                        Loader {
+
+                            Component{
+                                id: c1
+                                ComboBox{
+                                    width: 200
+                                }
+                            }
+                            Component{
+                                id: c2
+
+                                Button{
+                                    id: threadButton
+                                    width: 200
+                                    text:"+"
+
+                                    onClicked: {
+                                        var component = Qt.createComponent("AddMethodsWindow.qml");
+                                        var win = component.createObject(root);
+                                        win.show();
+                                    }
+
+                                }
+                            }
+                            property var tab: [c1, c2]
+                            sourceComponent: tab[1]
+
+                        }
+                    }
+
                 }
 
             }
