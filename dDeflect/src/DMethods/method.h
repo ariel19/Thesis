@@ -16,7 +16,7 @@ class Method : public QObject
     Q_PROPERTY(WrapperType wrapper_type READ wrapper_type NOTIFY wrapper_typeChanged)
     Q_PROPERTY(ArchitectureType arch_type READ arch_type NOTIFY arch_typeChanged)
     Q_PROPERTY(bool isThread READ isThread NOTIFY isThreadChanged)
-
+    Q_PROPERTY(bool returns READ returns NOTIFY returnsChanged)
     Q_ENUMS(WrapperType)
     Q_ENUMS(ArchitectureType)
     Q_ENUMS(SystemType)
@@ -65,7 +65,7 @@ signals:
     void wrapper_typeChanged();
     void arch_typeChanged();
     void isThreadChanged();
-
+    void returnsChanged();
 public:
     QString m_name;
     QString m_desc;

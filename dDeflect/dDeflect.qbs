@@ -51,7 +51,7 @@ Project {
             ]
         }
 
-        Depends { name: "Qt"; submodules: ["core", "widgets", "quick"] }
+        Depends { name: "Qt"; submodules: ["core", "widgets", "quick", "gui"] }
         cpp.warningLevel: "all"
         cpp.includePaths: ["src"]
         cpp.cxxFlags: ["-std=c++11","-Wno-unknown-pragmas","-Wno-reorder","-Wno-unused-local-typedefs"]

@@ -23,9 +23,12 @@ class ApplicationManager : public QObject
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(Arch archType READ archType WRITE setArchType NOTIFY archTypeChanged)
     Q_PROPERTY(QVariantList x86MethodsNames READ x86MethodsNames NOTIFY x86MethodsNamesChanged)
-    Q_PROPERTY(QQmlListProperty<Method> methods READ methods NOTIFY methodsChanged)
 
-    //Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(QQmlListProperty<Method> x86methods READ x86methods NOTIFY x86methodsChanged)
+    Q_PROPERTY(QQmlListProperty<Method> x64methods READ x64methods NOTIFY x64methodsChanged)
+
+    Q_PROPERTY(QQmlListProperty<Method> x86handlers READ x86handlers NOTIFY x86handlersChanged)
+    Q_PROPERTY(QQmlListProperty<Method> x64handlers READ x64handlers NOTIFY x64handlersChanged)
 
 public:
     template <typename Reg>
@@ -42,14 +45,23 @@ public:
 
     State state() const;
     Arch archType();
-    QQmlListProperty<Method> methods();
+    QQmlListProperty<Method> x86methods();
+    QQmlListProperty<Method> x64methods();
+    QQmlListProperty<Method> x86handlers();
+    QQmlListProperty<Method> x64handlers();
     QVariantList x86MethodsNames();
 
 signals:
     void stateChanged(State);
     void x86MethodsNamesChanged();
     void archTypeChanged();
-    void methodsChanged();
+
+    void x86methodsChanged();
+    void x64methodsChanged();
+
+    void x86handlersChanged();
+    void x64handlersChanged();
+
     void pathChanged();
 
 public slots:
@@ -68,7 +80,13 @@ private:
     DJsonParser jsonParser;
     DSourceCodeParser *sourceParser;
     Arch m_archType;
-    QList<Method*> m_methods;
+
+    QList<Method*> m_methodsx86;
+    QList<Method*> m_methodsx64;
+
+    QList<Method*> m_handlersx86;
+    QList<Method*> m_handlersx64;
+
 };
 
 #endif // APPLICATIONMANAGER_H

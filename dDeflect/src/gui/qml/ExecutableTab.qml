@@ -3,15 +3,26 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
+import QtQml.Models 2.1
 import jsk.components 1.0
+
 
 Component{
     id: execTab
-
     Tab {
-        title: "Executable
-"
+        title: "Executable"
         visible:true
+        property var methodsModel: applicationManager.archType === applicationManager.X86 ? applicationManager.x86methods : applicationManager.x64methods
+        property var handlersModel: applicationManager.archType === applicationManager.X86 ? applicationManager.x86handlers : applicationManager.x86handlers
+
+        Component{
+            id: displayDelegate
+
+                Text {
+                    text: name
+                    anchors.centerIn: parent
+                }
+        }
         ColumnLayout{
             id:cl
             anchors.fill: parent
@@ -59,17 +70,32 @@ Component{
                         height: 50
                         width: parent.width
                         ComboBox {
+                            id: cb2
                             currentIndex: 2
-                            model:applicationManager.x86MethodsNames
+                            model: methodsModel
+                            //model: applicationManager.x86methods
                             width: 200
-                            onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + cbItems.get(currentIndex).color)
+                            textRole: "name"
+                            onCurrentIndexChanged: {
+                                console.log(cb2.model[currentIndex].returns);
+                                console.log("chuj");
+                            }
                         }
                         Loader {
 
                             Component{
                                 id: c1
-                                ComboBox{
+                                ComboBox {
+                                    id: cb
+                                    currentIndex: 2
+                                    model: handlersModel
+                                    //model: applicationManager.x86methods
                                     width: 200
+                                    textRole: "name"
+                                    onCurrentIndexChanged: {
+                                        console.log(cb.model(currentIndex).returns);
+                                        console.log("chuj");
+                                    }
                                 }
                             }
                             Component{
@@ -88,8 +114,15 @@ Component{
 
                                 }
                             }
+                            Component{
+                                id: emptyId
+                                Text{
+                                    text:"No handler"
+                                }
+                            }
+
                             property var tab: [c1, c2]
-                            sourceComponent: tab[1]
+                            sourceComponent: methodsModel[cb2.currentIndex].returns ? (methodsModel[cb2.currentIndex].isThread === true ? c2 : c1) :emptyId
 
                         }
                     }

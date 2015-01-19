@@ -5,7 +5,6 @@
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
 {
-    // TODO: dodać obsługę listy metod 64 bitowych
 
     // Metody 32 bitowe
     jsonParser.setPath(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
@@ -18,12 +17,14 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     foreach(const QFileInfo &fi, files) {
         QString Path = fi.absoluteFilePath();
         if(fi.completeSuffix()=="json"){
-            // TODO
           Wrapper<Registers_x86> *w = jsonParser.loadInjectDescription<Registers_x86>(fi.fileName());
           if(w!=NULL){
               m_x86methodsList.append(w);
               Method *m = new Method(w);
-              m_methods.append(m);
+              if(w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Method)
+                m_methodsx86.append(m);
+              if(w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler)
+                m_handlersx86.append(m);
           }
         }
     }
@@ -42,7 +43,10 @@ ApplicationManager::ApplicationManager(QObject *parent) :
             if(w!=NULL){
                 m_x64methodsList.append(w);
                 Method *m = new Method(w);
-                m_methods.append(m);
+                if(w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Method)
+                  m_methodsx64.append(m);
+                if(w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler)
+                  m_handlersx64.append(m);
             }
         }
     }
@@ -76,6 +80,21 @@ ApplicationManager::State ApplicationManager::state() const
 ApplicationManager::Arch ApplicationManager::archType()
 {
     return m_archType;
+}
+
+QQmlListProperty<Method> ApplicationManager::x64methods()
+{
+    return QQmlListProperty<Method>(this,m_methodsx64);
+}
+
+QQmlListProperty<Method> ApplicationManager::x86handlers()
+{
+    return QQmlListProperty<Method>(this,m_handlersx86);
+}
+
+QQmlListProperty<Method> ApplicationManager::x64handlers()
+{
+    return QQmlListProperty<Method>(this,m_handlersx64);
 }
 
 QVariantList ApplicationManager::x86MethodsNames()
@@ -137,8 +156,8 @@ void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
     sourceParser->insertMethods(m_targetPath,Map);
 }
 
-QQmlListProperty<Method> ApplicationManager::methods()
+QQmlListProperty<Method> ApplicationManager::x86methods()
 {
-    return QQmlListProperty<Method>(this,m_methods);
+    return QQmlListProperty<Method>(this,m_methodsx86);
 }
 

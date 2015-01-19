@@ -42,6 +42,7 @@ ApplicationWindow {
         onFileUrlChanged:{
             fileUrlText.text = fileUrl;
             applicationManager.fileOpened(fileDialog.fileUrl);
+
         }
 
     }
