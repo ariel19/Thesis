@@ -45,7 +45,7 @@ public:
 
     explicit ApplicationManager(QObject *parent = 0);
     virtual ~ApplicationManager();
-    enum State{IDLE, EXEC, SOURCE};
+    enum State{IDLE, PE, ELF, SOURCE};
     enum Arch{X86,X64};
     enum CallingMethod {
         OEP,
@@ -130,6 +130,8 @@ private:
     QList<Wrapper<Registers_x86>> wrappersToInject;
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
+
+    State getFileType(QString path);
 
 };
 

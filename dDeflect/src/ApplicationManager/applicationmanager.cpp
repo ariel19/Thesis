@@ -1,6 +1,8 @@
 #include "applicationmanager.h"
 #include "DSourceCodeParser/dsourcecodeparser.h"
 
+#include <ApplicationManager/dlogger.h>
+#include <core/file_types/elffile.h>
 
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
@@ -151,18 +153,7 @@ void ApplicationManager::fileOpened(QString path)
 {
     m_targetPath = path;
     //emit targetPathChanged()
-    QFileInfo info(m_targetPath);
-    QString extension = info.completeSuffix();
-
-    bool isSource = false;
-    foreach(QString ext, sourceExtensionList)
-        isSource |= (extension.compare(ext)==0);
-    if(isSource)
-        setState(SOURCE);
-    else
-        setState(EXEC);
-
-
+   setState(getFileType(path));
 }
 
 void ApplicationManager::applyClicked(QVariantList methodsChosen)
@@ -499,6 +490,29 @@ void ApplicationManager::insertNewToList(const QString &name)
 void ApplicationManager::clearList()
 {
 
+}
+
+ApplicationManager::State ApplicationManager::getFileType(QString path)
+{
+    QFile f(path);
+    if(!f.open(QFile::ReadOnly))
+    {
+        LOG_ERROR("Cannot open file!");
+        return ApplicationManager::IDLE;
+    }
+
+    QByteArray data = f.readAll();
+    f.close();
+
+    PEFile pe(data);
+    if(pe.is_valid())
+        return ApplicationManager::PE;
+
+    ::ELF elf(data);
+    if(elf.is_valid())
+        return ApplicationManager::ELF;
+
+    return ApplicationManager::IDLE;
 }
 
 QQmlListProperty<Method> ApplicationManager::x86methods()
