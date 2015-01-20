@@ -1,0 +1,2 @@
+if ((*(volatile unsigned *)((unsigned)(?^_^func_name^_^?) + 3) & 0xff) == 0xcc)
+	exit_group(188);
