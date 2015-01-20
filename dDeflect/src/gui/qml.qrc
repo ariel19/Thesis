@@ -10,5 +10,6 @@
         <file>qml/ObfuscationTab.qml</file>
         <file>qml/PackingTab.qml</file>
         <file>qml/AddMethodsWindow.qml</file>
+        <file>qml/DynamicRadioButtons.qml</file>
     </qresource>
 </RCC>

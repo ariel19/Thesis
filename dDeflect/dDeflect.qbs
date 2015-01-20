@@ -76,8 +76,8 @@ Project {
         type: "application" // To suppress bundle generation on Mac
         consoleApplication: true
         files: [
-           "src/core/adding_methods/wrappers/*.cpp",
-           "src/core/adding_methods/wrappers/*.h",
+            "src/core/adding_methods/wrappers/*.cpp",
+            "src/core/adding_methods/wrappers/*.h",
             "src/ApplicationManager/applicationmanager.cpp",
             "src/ApplicationManager/applicationmanager.h",
             "src/ApplicationManager/DJsonParser/djsonparser.cpp",
@@ -90,6 +90,7 @@ Project {
             "src/ApplicationManager/DSourceCodeParser/*.h",
             "src/DMethods/*.cpp",
             "src/DMethods/*.h",
+            "src/gui/qml/DynamicRadioButtons.qml",
             "tests/src/*.cpp",
             "tests/src/*.h",
             "src/core/file_types/*.cpp",

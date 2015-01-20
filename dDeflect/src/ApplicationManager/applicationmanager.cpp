@@ -55,6 +55,9 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     setState(IDLE);
     setArchType(X86);
 
+    connect(this,SIGNAL(archTypeChanged()),this,SLOT(updateCurrMethods()));
+    connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrMethods()));
+
 }
 
 ApplicationManager::~ApplicationManager()
@@ -74,12 +77,25 @@ void ApplicationManager::setArchType(ApplicationManager::Arch t)
     emit archTypeChanged();
 }
 
+void ApplicationManager::setCurrCm(ApplicationManager::CallingMethod cm)
+{
+    m_currCm = cm;
+    emit currCmChanged();
+}
+
 ApplicationManager::State ApplicationManager::state() const
-{ return m_state; }
+{
+    return m_state;
+}
 
 ApplicationManager::Arch ApplicationManager::archType()
 {
     return m_archType;
+}
+
+ApplicationManager::CallingMethod ApplicationManager::currCm()
+{
+    return m_currCm;
 }
 
 QQmlListProperty<Method> ApplicationManager::x64methods()
@@ -95,6 +111,11 @@ QQmlListProperty<Method> ApplicationManager::x86handlers()
 QQmlListProperty<Method> ApplicationManager::x64handlers()
 {
     return QQmlListProperty<Method>(this,m_handlersx64);
+}
+
+QQmlListProperty<Method> ApplicationManager::currMethods()
+{
+    return QQmlListProperty<Method>(this,m_currMethods);
 }
 
 QVariantList ApplicationManager::x86MethodsNames()
@@ -154,6 +175,113 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
 void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
 {
     sourceParser->insertMethods(m_targetPath,Map);
+}
+
+void ApplicationManager::updateCurrMethods()
+{
+    foreach(Method* m, m_currMethods)
+        delete m;
+
+    m_currMethods.clear();
+
+    if(m_archType == X86){
+       switch(m_currCm){
+       case OEP:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::OEP))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       case Thread:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::Thread))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       case Trampoline:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::Trampoline))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       case INIT:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::INIT))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       case INIT_ARRAY:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::INIT_ARRAY))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       case CTORS:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::CTORS))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       case TLS:
+           foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+              if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::TLS))
+                  m_currMethods.append(new Method(w));
+           }
+           break;
+       default:
+           break;
+
+       }
+    }else{
+        switch(m_currCm){
+        case OEP:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::OEP))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        case Thread:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Thread))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        case Trampoline:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Trampoline))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        case INIT:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        case INIT_ARRAY:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT_ARRAY))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        case CTORS:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::CTORS))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        case TLS:
+            foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+               if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::TLS))
+                   m_currMethods.append(new Method(w));
+            }
+            break;
+        default:
+            break;
+
+        }
+    }
+    emit currMethodsChanged();
 }
 
 QQmlListProperty<Method> ApplicationManager::x86methods()
