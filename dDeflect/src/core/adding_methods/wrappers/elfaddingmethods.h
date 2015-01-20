@@ -27,6 +27,37 @@ public:
     bool obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 
 private:
+    enum class ErrorCode {
+        Success,
+        BinaryFileNoElf,
+        InvalidElfFile,
+        NullInjectDescription,
+        NullWrapper,
+        InvalidAddingMethodType,
+        WrapperGenCodeFailed,
+        TemplateErrorWTF,
+        GetEntryPointFailed,
+        SetEntryPointFailed,
+        SetRelativeAddressFailed,
+        GetRelativeAddressFailed,
+        GetSectionContentFailed,
+        SetSectionContentFailed,
+        GetSectionFileOffsetFailed,
+        GetSegmentProtectFlagsFailed,
+        GetSegmentAlignFailed,
+        SegmentExtensionFailed,
+        TrampolineAddressAbsence,
+        FileToCompileOpenFailed,
+        FileToCompileWriteFailed,
+        NasmExecutionFailed,
+        NdisasmExecutionFailed,
+        CompiledFileOpenFailed,
+        TempFileOpenFailed,
+        InvalidAddressSizeAlign
+    };
+
+    static const QMap<ErrorCode, QString> error_desc;
+
     enum class PlaceholderMnemonics {
         DDETECTIONHANDLER,
         DDETECTIONMETHOD,
@@ -64,7 +95,7 @@ private:
      */
     uint8_t tramp_code_cover;
 
-    bool secure_one(typename DAddingMethods<RegistersType>::InjectDescription* inject_desc);
+    ErrorCode secure_one(typename DAddingMethods<RegistersType>::InjectDescription* inject_desc);
 
     /**
      * @brief Metoda odpowiada za generowanie kodu dla dowolnego opakowania.
@@ -72,7 +103,7 @@ private:
      * @param code wygenerowany kod.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool wrapper_gen_code( Wrapper<RegistersType> *wrap, QString &code);
+    ErrorCode wrapper_gen_code( Wrapper<RegistersType> *wrap, QString &code);
 
     /**
      * @brief Metoda odpowiada za wypełnianie parametrów w podanym kodzie.
@@ -88,7 +119,7 @@ private:
      * @param elf instancja klasy pliku ELF.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool fill_magic_params(QMap<QString, QString> &params, const ELF *elf);
+    ErrorCode fill_magic_params(QMap<QString, QString> &params, const ELF *elf);
 
     /**
      * @brief Metoda odpowiada za wypełnanie magicznego parametru dla wartośći sumy kontrolnej kodu.
@@ -114,7 +145,7 @@ private:
      * @param compiled_code skompilowany kod.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool compile(const QString &code2compile, QByteArray &compiled_code);
+    ErrorCode compile(const QString &code2compile, QByteArray &compiled_code);
 
     /**
      * @brief Metoda odpowiada za pobieranie adresów z wyspecyfikowanych danych.
@@ -124,19 +155,8 @@ private:
      * @param except_list lista adresów, które nie trzeba dołączać do listy wynikowej.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
+    ErrorCode get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
                        const QList<Elf64_Addr> &except_list);
-
-    /**
-     * @brief Metoda odpowiada za generowanie kodu dla funkcji, która zmienia prawa dostępu do strony pamięci.
-     * @param vaddr adres wirtualny.
-     * @param mem_size wielkość pamięci.
-     * @param flags prawa dostępu do pamięci.
-     * @param code wygenerowany kod.
-     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
-     */
-    template <typename AddrT, typename XwordT, typename WordT>
-    bool set_prot_flags_gen_code(AddrT vaddr, XwordT mem_size, WordT flags, QString &code);
 
     /**
      * @brief Metoda odpowiada za pobieranie offsetow instrukcji w pliku.
@@ -146,7 +166,7 @@ private:
      */
     void get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off);
 
-    bool get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
+    ErrorCode get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
                                                QPair<QByteArray, Elf64_Addr> &text_data);
 
     /**
@@ -154,7 +174,7 @@ private:
      * @param code_cover procentowy stopień zaśmiecania kodu.
      * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
      */
-    bool safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
+    ErrorCode safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 };
 
 #endif // ELFADDINGMETHODS_H
