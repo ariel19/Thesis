@@ -63,6 +63,7 @@ Project {
                 "src/core/adding_methods/wrappers/elfaddingmethods.h",
                 "src/core/file_types/codedefines.cpp",
                 "src/core/file_types/codedefines.h",
+                "src/gui/qml/DynamicRadioWin.qml",
                 "src/gui/qml/ObfuscationTab.qml",
                 "src/gui/qml/PackingTab.qml",
             ]
