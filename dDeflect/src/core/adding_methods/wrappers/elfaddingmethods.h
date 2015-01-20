@@ -3,7 +3,9 @@
 
 #include <core/adding_methods/wrappers/daddingmethods.h>
 
-
+/**
+ * @brief Klasa odpowiedzialna za dodawanie metod zabezpieczających do plików ELF.
+ */
 template <typename RegistersType>
 class ELFAddingMethods : public DAddingMethods<RegistersType> {
 public:
@@ -18,7 +20,7 @@ public:
     virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) override;
 
     /**
-     * @brief Metoda zabezpiecza plik binarny ELF.
+     * @brief Metoda zaciemnia plik binarny ELF.
      * @param code_cover procentowy stopień zaśmiecania kodu.
      * @param min_len minimalna długość kodu śmieci w bajtach.
      * @param max_len maksymalna długość kodu śmieci w bajtach.
@@ -27,6 +29,9 @@ public:
     bool obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 
 private:
+    /**
+     * @brief Kody błędów.
+     */
     enum class ErrorCode {
         Success,
         BinaryFileNoElf,
@@ -56,6 +61,9 @@ private:
         InvalidAddressSizeAlign
     };
 
+    /**
+     * @brief Reprezentacja stringowa błędów.
+     */
     static const QMap<ErrorCode, QString> error_desc;
 
     enum class PlaceholderMnemonics {
@@ -74,6 +82,9 @@ private:
         PLACEHOLDER_POST
     };
 
+    /**
+     * @brief Struktura odpowiedzialna za relatywne skoki.
+     */
     typedef struct _rel_jmp_info {
         Elf64_Off ndata_off;
         uint32_t ndata_size;
@@ -81,13 +92,20 @@ private:
         Elf64_Addr data_vaddr;
 
         _rel_jmp_info(Elf64_Off _ndata_off, uint32_t _ndata_size,
-                     Elf64_Off _fdata_off, Elf64_Addr _data_vaddr) :
-                    ndata_off(_ndata_off), ndata_size(_ndata_size),
-                    fdata_off(_fdata_off), data_vaddr(_data_vaddr) {}
+                      Elf64_Off _fdata_off, Elf64_Addr _data_vaddr) :
+                        ndata_off(_ndata_off), ndata_size(_ndata_size),
+                        fdata_off(_fdata_off), data_vaddr(_data_vaddr) {}
         _rel_jmp_info() {}
     } rel_jmp_info;
 
+    /**
+     * @brief Reprezentacja stringowa (przy/przed)rostków placeholderów.
+     */
     QMap<PlaceholderTypes, QString> placeholder_id;
+
+    /**
+     * @brief Reprezentacja stringowa placeholderów.
+     */
     QMap<PlaceholderMnemonics, QString> placeholder_mnm;
 
     /**
@@ -95,13 +113,18 @@ private:
      */
     uint8_t tramp_code_cover;
 
+    /**
+     * @brief Metoda zabezpiecza plik binarny ELF za pomocą wyspecyfikowanej metody.
+     * @param inject_desc opis metody wstrzykiwania kodu.
+     * @return Kod błędu.
+     */
     ErrorCode secure_one(typename DAddingMethods<RegistersType>::InjectDescription* inject_desc);
 
     /**
      * @brief Metoda odpowiada za generowanie kodu dla dowolnego opakowania.
      * @param wrap klasa opisująca kawałek kodu do wygenerowania.
      * @param code wygenerowany kod.
-     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     * @return Kod błędu.
      */
     ErrorCode wrapper_gen_code( Wrapper<RegistersType> *wrap, QString &code);
 
@@ -117,7 +140,7 @@ private:
      * @brief Metoda odpowiada za wypełnianie parametrów magicznych w podanym kodzie (te które, nie mogą być wyliczone dynamicznie).
      * @param params parametry.
      * @param elf instancja klasy pliku ELF.
-     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     * @return Kod błędu.
      */
     ErrorCode fill_magic_params(QMap<QString, QString> &params, const ELF *elf);
 
@@ -143,7 +166,7 @@ private:
      * @brief Metoda odpowiada za kompilację kodu źródłowego assembly.
      * @param code2compile kod, który musi zostać skompilowany.
      * @param compiled_code skompilowany kod.
-     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     * @return Kod błędu.
      */
     ErrorCode compile(const QString &code2compile, QByteArray &compiled_code);
 
@@ -153,26 +176,35 @@ private:
      * @param addr_size wielkość adresu w bajtach.
      * @param addr_list lista adresów.
      * @param except_list lista adresów, które nie trzeba dołączać do listy wynikowej.
-     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     * @return Kod błędu.
      */
     ErrorCode get_addresses(const QByteArray &data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
-                       const QList<Elf64_Addr> &except_list);
+                            const QList<Elf64_Addr> &except_list);
 
     /**
-     * @brief Metoda odpowiada za pobieranie offsetow instrukcji w pliku.
+     * @brief Metoda odpowiada za pobieranie offsetów instrukcji w pliku.
      * @param opcodes lista instrukcji.
      * @param file_off offset w pliku.
      * @param base_off wartość bazowa offsetu.
      */
     void get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off);
 
+    /**
+     * @brief Metoda pobiera offsety wszystkich adresów z sekcji .text.
+     * @param __file_off lista offsetów w pliku.
+     * @param base_off offset bazowy.
+     * @param text_data zawartość sekcji .text.
+     * @return Kod błędu.
+     */
     ErrorCode get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
-                                               QPair<QByteArray, Elf64_Addr> &text_data);
+                                                    QPair<QByteArray, Elf64_Addr> &text_data);
 
     /**
      * @brief Metoda zabezpiecza plik binarny ELF.
      * @param code_cover procentowy stopień zaśmiecania kodu.
-     * @return True, jeżeli operacja się powiodła, False w innych przypadkach.
+     * @param min_len minimalna długość kodu śmieci w bajtach.
+     * @param max_len maksymalna długość kodu śmieci w bajtach.
+     * @return Kod błędu.
      */
     ErrorCode safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 };

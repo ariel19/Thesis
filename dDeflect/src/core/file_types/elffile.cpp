@@ -7,7 +7,6 @@
     QString(".%1").arg(QString((std::string(#sec_type).substr(std::string(#sec_type).find_last_of(':') != std::string::npos ? \
     std::string(#sec_type).find_last_of(':') + 1 : 0)).c_str()).toLower())
 
-/// init section type dictionary
 QMap<ELF::SectionType, ELF::section_info> ELF::section_type = {
     { ELF::SectionType::CTORS,      ELF::section_info(section_type_stringify(ELF::SectionType::CTORS),      SHT_PROGBITS)   },
     { ELF::SectionType::INIT,       ELF::section_info(section_type_stringify(ELF::SectionType::INIT),       SHT_PROGBITS)   },
@@ -15,7 +14,8 @@ QMap<ELF::SectionType, ELF::section_info> ELF::section_type = {
     { ELF::SectionType::TEXT,       ELF::section_info(section_type_stringify(ELF::SectionType::TEXT),       SHT_PROGBITS)   }
 };
 
-void* ELF::get_ph_seg_offset(uint32_t idx) {
+void*
+ELF::get_ph_seg_offset(uint32_t idx) {
     try {
         void *ph = __get_ph_header(idx);
         if (!ph || cls == classes::NONE)
@@ -29,7 +29,8 @@ void* ELF::get_ph_seg_offset(uint32_t idx) {
     }
 }
 
-bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va, Elf64_Off &file_off) {
+bool
+ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va, Elf64_Off &file_off) {
     if (!parsed)
         return false;
 
@@ -99,7 +100,8 @@ bool ELF::extend_segment(const QByteArray &_data, bool only_x, Elf64_Addr &va, E
     return true;
 }
 
-bool ELF::__write_to_file(const QString &fname, const QByteArray &data) const {
+bool
+ELF::__write_to_file(const QString &fname, const QByteArray &data) const {
     QFile of(fname);
     if (!of.open(QFile::WriteOnly))
         return false;
@@ -114,11 +116,13 @@ bool ELF::__write_to_file(const QString &fname, const QByteArray &data) const {
     return true;
 }
 
-bool ELF::write_to_file(const QString &fname) const {
+bool
+ELF::write_to_file(const QString &fname) const {
     return __write_to_file(fname, b_data);
 }
 
-bool ELF::__set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep) {
+bool
+ELF::__set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf64_Addr *old_ep) {
     Elf32_Ehdr *eh_86 = nullptr;
     Elf64_Ehdr *eh_64 = nullptr;
 
@@ -150,13 +154,15 @@ bool ELF::__set_entry_point(const Elf64_Addr &entry_point, QByteArray &data, Elf
     }
 }
 
-bool ELF::set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep) {
+bool
+ELF::set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep) {
     if (!parsed)
         return false;
     return __set_entry_point(entry_point, b_data, old_ep);
 }
 
-bool ELF::__get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
+bool
+ELF::__get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
     switch(cls) {
     case classes::ELF32:
         try {
@@ -179,13 +185,15 @@ bool ELF::__get_entry_point(const QByteArray &data, Elf64_Addr &old_ep) const {
     }
 }
 
-bool ELF::get_entry_point(Elf64_Addr &old_ep) const {
+bool
+ELF::get_entry_point(Elf64_Addr &old_ep) const {
     if (!parsed)
         return false;
     return __get_entry_point(b_data, old_ep);
 }
 
-bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const {
+bool
+ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const {
     if (!parsed)
         return false;
 
@@ -200,7 +208,8 @@ bool ELF::get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const {
+bool
+ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf64_Addr> &section_data) const {
     const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
     // if section header table exists
     if (!eh->e_shoff)
@@ -245,7 +254,8 @@ bool ELF::__get_section_content(ELF::SectionType sec_type, QPair<QByteArray, Elf
     return false;
 }
 
-bool ELF::get_section_file_off(SectionType sec_type, Elf64_Addr &file_off) {
+bool
+ELF::get_section_file_off(SectionType sec_type, Elf64_Addr &file_off) {
     if (!parsed)
         return false;
 
@@ -260,7 +270,8 @@ bool ELF::get_section_file_off(SectionType sec_type, Elf64_Addr &file_off) {
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__get_section_file_off(ELF::SectionType sec_type, Elf64_Addr &file_off) {
+bool
+ELF::__get_section_file_off(ELF::SectionType sec_type, Elf64_Addr &file_off) {
     const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
     // if section header table exists
     if (!eh->e_shoff)
@@ -305,7 +316,8 @@ bool ELF::__get_section_file_off(ELF::SectionType sec_type, Elf64_Addr &file_off
     return false;
 }
 
-bool ELF::set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
+bool
+ELF::set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
     // TODO:  kind of stupid check, everyone can specify data he wants
     if (!parsed)
         return false;
@@ -320,7 +332,8 @@ bool ELF::set_section_content(ELF::SectionType sec_type, const QByteArray &secti
     }
 }
 
-bool ELF::set_relative_address(Elf64_Off file_off, Elf32_Addr rva) {
+bool
+ELF::set_relative_address(Elf64_Off file_off, Elf32_Addr rva) {
     if (!parsed || b_data.size() < file_off + sizeof(rva))
         return false;
     std::memcpy(b_data.data() + file_off, &rva, sizeof(rva));
@@ -329,7 +342,8 @@ bool ELF::set_relative_address(Elf64_Off file_off, Elf32_Addr rva) {
 
 // TODO: should be the same with __get_section_content
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-bool ELF::__set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
+bool
+ELF::__set_section_content(ELF::SectionType sec_type, const QByteArray &section_data, const char filler) {
     const ElfHeaderType *eh = reinterpret_cast<const ElfHeaderType*>(b_data.data());
     // if section header table exists
     if (!eh->e_shoff)
@@ -396,7 +410,8 @@ bool ELF::__set_section_content(ELF::SectionType sec_type, const QByteArray &sec
     return false;
 }
 
-bool ELF::__get_ph_addresses() {
+bool
+ELF::__get_ph_addresses() {
     try {
         ex_offset_t addr = ph_idx.at(0) + ph_size;
 
@@ -412,7 +427,8 @@ bool ELF::__get_ph_addresses() {
     return true;
 }
 
-void* ELF::__get_elf_header() {
+void*
+ELF::__get_elf_header() {
     try {
         return is_valid() ?
                     reinterpret_cast<void*>(&(b_data.data()[elf_header_idx])) :
@@ -423,7 +439,8 @@ void* ELF::__get_elf_header() {
     }
 }
 
-void* ELF::__get_ph_header(uint32_t idx) {
+void*
+ELF::__get_ph_header(uint32_t idx) {
     try {
         // TODO: check wtf will happen if idx is out of range :)
         if (idx >= ph_idx.size())
@@ -438,7 +455,8 @@ void* ELF::__get_ph_header(uint32_t idx) {
     }
 }
 
-bool ELF::__check_magic(const Elf32_Ehdr *elf_hdr) const {
+bool
+ELF::__check_magic(const Elf32_Ehdr *elf_hdr) const {
     if (!elf_hdr)
         return false;
 
@@ -453,7 +471,8 @@ bool ELF::__check_magic(const Elf32_Ehdr *elf_hdr) const {
     }
 }
 
-bool ELF::__is_supported(const Elf32_Ehdr *elf_hdr) {
+bool
+ELF::__is_supported(const Elf32_Ehdr *elf_hdr) {
     if (!elf_hdr)
         return false;
 
@@ -490,7 +509,8 @@ bool ELF::__is_supported(const Elf32_Ehdr *elf_hdr) {
 }
 
 template <typename ElfProgramHeader>
-void ELF::__best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
+void
+ELF::__best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader *ph,
                          uint32_t pad_post, uint32_t pad_pre, bool change_va) {
     if (!bs.ph || ((bs.post_pad + bs.pre_pad) >= (pad_post + pad_pre))) {
         if (!only_x || (only_x && (ph->p_flags & PF_X))) {
@@ -503,8 +523,9 @@ void ELF::__best_segment_choose(best_segment &bs, bool only_x, ElfProgramHeader 
 }
 
 template <typename ElfProgramHeaderType, typename ElfOffsetType>
-bool ELF::__extend_segment_eligible(best_segment &bs, bool only_x, const QList<std::pair<esize_t, void *> > &load_seg,
-                                  int i, const int data_size) {
+bool
+ELF::__extend_segment_eligible(best_segment &bs, bool only_x, const QList<std::pair<esize_t, void *> > &load_seg,
+                               int i, const int data_size) {
 
     bool change_va = false;
     uint32_t pad_pre, pad_post;
@@ -526,7 +547,8 @@ bool ELF::__extend_segment_eligible(best_segment &bs, bool only_x, const QList<s
 }
 
 template <typename ElfHeaderType>
-bool ELF::__get_ph_address(const void *elf_hdr) {
+bool
+ELF::__get_ph_address(const void *elf_hdr) {
     try {
         const ElfHeaderType *e_hdr = reinterpret_cast<const ElfHeaderType*>(elf_hdr);
         ph_size = e_hdr->e_phentsize;
@@ -539,7 +561,8 @@ bool ELF::__get_ph_address(const void *elf_hdr) {
     }
 }
 
-bool ELF::__get_ph_info(const void *elf_hdr) {
+bool
+ELF::__get_ph_info(const void *elf_hdr) {
     if (!elf_hdr)
         return false;
     switch(cls) {
@@ -559,7 +582,8 @@ bool ELF::__get_ph_info(const void *elf_hdr) {
     return __get_ph_addresses();
 }
 
-bool ELF::__parse() {
+bool
+ELF::__parse() {
     const char *data = b_data.data();
 
     try {
@@ -581,13 +605,15 @@ bool ELF::__parse() {
     return true;
 }
 
-Elf64_Xword ELF::__round_address_down(ex_offset_t addr, ex_offset_t align) const {
+Elf64_Xword
+ELF::__round_address_down(ex_offset_t addr, ex_offset_t align) const {
     return addr - (addr % align);
 }
 
 template <typename ElfProgramHeaderType, typename ElfOffsetType>
-bool ELF::__find_pre_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
-                         const int dsize, uint32_t *pre_pad) {
+bool
+ELF::__find_pre_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                    const int dsize, uint32_t *pre_pad) {
 
     uint8_t align = sizeof(ElfOffsetType);
 
@@ -614,9 +640,10 @@ bool ELF::__find_pre_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderT
 }
 
 template <typename ElfProgramHeaderType, typename ElfOffsetType>
-bool ELF::__find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
-                          const int dsize, const uint32_t pre_pad, uint32_t *post_pad,
-                          bool *change_vma) {
+bool
+ELF::__find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeaderType *phn,
+                     const int dsize, const uint32_t pre_pad, uint32_t *post_pad,
+                     bool *change_vma) {
 
     uint8_t align = sizeof(ElfOffsetType);
     if (!ph)
@@ -643,14 +670,17 @@ bool ELF::__find_post_pad(const ElfProgramHeaderType *ph, const ElfProgramHeader
 }
 
 template <typename ElfProgramHeaderType>
-QPair<ex_offset_t, ex_offset_t> ELF::__get_new_data_va_fo(ELF::best_segment &bs) {
+QPair<ex_offset_t, ex_offset_t>
+ELF::__get_new_data_va_fo(ELF::best_segment &bs) {
+
     ElfProgramHeaderType *ph = reinterpret_cast<ElfProgramHeaderType*>(bs.ph);
     // offset for new data in file
     // virtual address of new data
     return QPair<ex_offset_t, ex_offset_t>(ph->p_offset + ph->p_filesz, ph->p_vaddr + ph->p_filesz + bs.pre_pad);
 }
 
-QPair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, ELF::best_segment &bs, Elf64_Off &fo) {
+QPair<QByteArray, Elf64_Addr>
+ELF::__construct_data(const QByteArray &data, ELF::best_segment &bs, Elf64_Off &fo) {
     static QPair<QByteArray, Elf64_Addr> failed(QByteArray(),  0);
     if (!parsed)
         return failed;
@@ -709,7 +739,8 @@ QPair<QByteArray, Elf64_Addr> ELF::__construct_data(const QByteArray &data, ELF:
 }
 
 template <typename ElfHeaderType>
-void ELF::__fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert_space) {
+void
+ELF::__fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t insert_space) {
     ElfHeaderType *eh = reinterpret_cast<ElfHeaderType*>(data.data());
     if (eh->e_phoff >= file_off)
         eh->e_phoff += insert_space;
@@ -718,7 +749,8 @@ void ELF::__fix_elf_header(QByteArray &data, ex_offset_t file_off, uint32_t inse
 }
 
 template <typename ElfHeaderType, typename ElfSectionHeaderType>
-void ELF::__fix_section_table(QByteArray &data, const ex_offset_t file_off, const uint32_t insert_space) {
+void
+ELF::__fix_section_table(QByteArray &data, const ex_offset_t file_off, const uint32_t insert_space) {
     ElfHeaderType *eh = reinterpret_cast<ElfHeaderType*>(data.data());
     // if section header table exists
     if (eh->e_shoff) {
@@ -738,8 +770,9 @@ void ELF::__fix_section_table(QByteArray &data, const ex_offset_t file_off, cons
 }
 
 template <typename ElfProgramHeaderType>
-Elf64_Addr ELF::__fix_segment_table(QByteArray &data, const ex_offset_t file_off,
-                                    const uint32_t insert_space, const uint32_t payload_size) {
+Elf64_Addr
+ELF::__fix_segment_table(QByteArray &data, const ex_offset_t file_off,
+                         const uint32_t insert_space, const uint32_t payload_size) {
     Elf64_Addr va = 0;
 
     ElfProgramHeaderType *ph = nullptr;
@@ -765,7 +798,8 @@ Elf64_Addr ELF::__fix_segment_table(QByteArray &data, const ex_offset_t file_off
     return va;
 }
 
-bool ELF::get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const {
+bool
+ELF::get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const {
     if (!parsed)
         return false;
 
@@ -782,7 +816,8 @@ bool ELF::get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flag
 }
 
 template <typename ElfProgramHeaderType>
-bool ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const {
+bool
+ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_flags) const {
 
     const ElfProgramHeaderType *ph = nullptr;
     foreach (ex_offset_t fo, ph_idx) {
@@ -799,7 +834,8 @@ bool ELF::__get_segment_prot_flags(const Elf64_Addr vaddr, unsigned int &prot_fl
     return false;
 }
 
-bool ELF::get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
+bool
+ELF::get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
     if (!parsed)
         return false;
 
@@ -816,7 +852,8 @@ bool ELF::get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
 }
 
 template <typename ElfProgramHeaderType>
-bool ELF::__get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
+bool
+ELF::__get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
 
     const ElfProgramHeaderType *ph = nullptr;
     foreach (ex_offset_t fo, ph_idx) {
@@ -833,7 +870,8 @@ bool ELF::__get_segment_align(const Elf64_Addr vaddr, Elf64_Addr &align) const {
     return false;
 }
 
-bool ELF::get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &segment_data) const {
+bool
+ELF::get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &segment_data) const {
     if (!parsed)
         return false;
 
@@ -849,7 +887,8 @@ bool ELF::get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &s
     return true;
 }
 
-bool ELF::get_relative_address(Elf64_Off file_off, int32_t &rva) const {
+bool
+ELF::get_relative_address(Elf64_Off file_off, int32_t &rva) const {
     if (!parsed || b_data.size() < file_off + sizeof(rva))
         return false;
 
@@ -858,7 +897,8 @@ bool ELF::get_relative_address(Elf64_Off file_off, int32_t &rva) const {
 }
 
 template <typename ElfProgramHeaderType>
-bool ELF::__get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &segment_data) const {
+bool
+ELF::__get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> &segment_data) const {
 
     const ElfProgramHeaderType *ph = nullptr;
     foreach (ex_offset_t fo, ph_idx) {
@@ -876,7 +916,8 @@ bool ELF::__get_load_segment_info(int prot_flags, QPair<QByteArray, Elf64_Addr> 
 }
 
 template <typename ElfDynType, typename ElfSymType, typename ElfWordType>
-void ELF::__fix_vma(QByteArray &data, const best_segment &bs,
+void
+ELF::__fix_vma(QByteArray &data, const best_segment &bs,
                     ex_offset_t file_off, const Elf64_Addr &new_vma) {
 
     if (!bs.change_vma)
@@ -945,6 +986,4 @@ ELF::ELF(QByteArray _data) :
     parsed = __parse();
 }
 
-ELF::~ELF() {
-
-}
+ELF::~ELF() {}

@@ -93,7 +93,8 @@ template ELFAddingMethods<Registers_x86>::~ELFAddingMethods();
 template ELFAddingMethods<Registers_x64>::~ELFAddingMethods();
 
 template <typename RegistersType>
-uint64_t ELFAddingMethods<RegistersType>::fill_params(QString &code, const QMap<QString, QString> &params) {
+uint64_t
+ELFAddingMethods<RegistersType>::fill_params(QString &code, const QMap<QString, QString> &params) {
     uint64_t cnt = 0;
     foreach (QString param, params.keys()) {
         QString plc_param(QString("%1%2%3").arg(placeholder_id[PlaceholderTypes::PARAM_PRE], param,
@@ -142,7 +143,9 @@ ELFAddingMethods<RegistersType>::fill_magic_params(QMap<QString, QString> &param
 // }
 
 template <typename RegistersType>
-uint64_t ELFAddingMethods<RegistersType>::fill_placeholders(QString &code, const QString &gen_code, PlaceholderMnemonics plc_mnm) {
+uint64_t
+ELFAddingMethods<RegistersType>::fill_placeholders(QString &code, const QString &gen_code,
+                                                   PlaceholderMnemonics plc_mnm) {
     uint64_t cnt = 0;
 
     code.replace(QString("%1%2%3").arg(placeholder_id[PlaceholderTypes::PLACEHOLDER_PRE], placeholder_mnm[plc_mnm],
@@ -244,7 +247,8 @@ template typename ELFAddingMethods<Registers_x86>::ErrorCode ELFAddingMethods<Re
 template typename ELFAddingMethods<Registers_x64>::ErrorCode ELFAddingMethods<Registers_x64>::wrapper_gen_code(Wrapper<Registers_x64> *wrap, QString &code);
 
 template <typename RegistersType>
-void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off) {
+void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off,
+                                                                    Elf64_Addr base_off) {
     foreach(QString op, opcodes)
         file_off.append(op.mid(0, 8).toUInt(NULL, 16) + base_off + 1);
 }
@@ -252,7 +256,7 @@ void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList 
 template <typename RegistersType>
 typename ELFAddingMethods<RegistersType>::ErrorCode
 ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
-                                                                            QPair<QByteArray, Elf64_Addr> &text_data) {
+                                                                       QPair<QByteArray, Elf64_Addr> &text_data) {
 
     ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
     if(!elf)
@@ -265,7 +269,7 @@ ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf
     if(!temp_file.open())
         return ErrorCode::TempFileOpenFailed;
 
-
+    // section .text deassembling
     if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
         return ErrorCode::GetSectionContentFailed;
 
@@ -276,7 +280,8 @@ ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf
 
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
 
-    ndisasm.start(DSettings::getSettings().getNdisasmPath(), {"-a", "-b", elf->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+    ndisasm.start(DSettings::getSettings().getNdisasmPath(),
+                  {"-a", "-b", elf->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
 
     if(!ndisasm.waitForStarted())
         return ErrorCode::NdisasmExecutionFailed;
@@ -286,6 +291,7 @@ ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf
     while(ndisasm.waitForReadyRead(-1))
         assembly.append(ndisasm.readAll());
 
+    // get call and jmp instructions
     QStringList asm_inst = QString(assembly).split(CodeDefines<RegistersType>::newLineRegExp, QString::SkipEmptyParts);
     QStringList call_inst = asm_inst.filter(CodeDefines<RegistersType>::callRegExp);
     QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
@@ -300,7 +306,8 @@ ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
+bool
+ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
     ErrorCode ec = safe_obfuscate(code_cover, min_len, max_len);
     if (ec != ErrorCode::Success)
         LOG_ERROR(error_desc[ec]);
@@ -321,7 +328,6 @@ ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_
     if (!elf->is_valid())
         return ErrorCode::InvalidElfFile;
 
-
     QList<Elf64_Addr> __file_off;
     Elf64_Addr base_off;
     QPair<QByteArray, Elf64_Addr> text_data;
@@ -341,6 +347,7 @@ ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_
     uint8_t coverage = code_cover > 100 ? 100 : code_cover;
     static QByteArray fake_jmp("\xe9\xde\xad\xbe\xef", 5);
 
+    // add a trash code
     QByteArray trash_code;
     foreach (Elf64_Addr off, __file_off) {
         if(prob(DAddingMethods<RegistersType>::r_gen) >= coverage)
@@ -383,11 +390,9 @@ ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_
     return ErrorCode::Success;
 }
 
-// ===============================================================================
-// TODO: add detect method return value to wrapper used_regs, and push it on stack
-// ===============================================================================
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) {
+bool
+ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) {
     ErrorCode ec;
     foreach(typename DAddingMethods<RegistersType>::InjectDescription* id, inject_desc) {
         ec = secure_one(id);
@@ -398,10 +403,12 @@ bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods
     }
     return true;
 }
+template bool ELFAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &inject_desc);
+template bool ELFAddingMethods<Registers_x64>::secure(const QList<DAddingMethods<Registers_x64>::InjectDescription *> &inject_desc);
 
 template <typename RegistersType>
 typename ELFAddingMethods<RegistersType>::ErrorCode
-ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersType>::InjectDescription* i_desc) {
+ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersType>::InjectDescription *i_desc) {
     QString code2compile,
             code_ddetect_handler,
             code_ddetect;
@@ -963,5 +970,3 @@ ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersTyp
     }
     return ErrorCode::Success;
 }
-template bool ELFAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &inject_desc);
-template bool ELFAddingMethods<Registers_x64>::secure(const QList<DAddingMethods<Registers_x64>::InjectDescription *> &inject_desc);
