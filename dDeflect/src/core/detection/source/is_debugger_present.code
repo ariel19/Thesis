@@ -1,0 +1,3 @@
+// windows.h
+if(IsDebuggerPresent())
+	ExitProcess();

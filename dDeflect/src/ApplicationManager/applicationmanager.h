@@ -21,9 +21,12 @@ class ApplicationManager : public QObject
     Q_ENUMS(State)
     Q_ENUMS(Arch)
     Q_ENUMS(CallingMethod)
+    Q_ENUMS(System)
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
     Q_PROPERTY(Arch archType READ archType WRITE setArchType NOTIFY archTypeChanged)
     Q_PROPERTY(CallingMethod currCm READ currCm WRITE setCurrCm NOTIFY currCmChanged)
+    Q_PROPERTY(System sys READ sys WRITE setSys NOTIFY sysChanged)
+
     Q_PROPERTY(QVariantList x86MethodsNames READ x86MethodsNames NOTIFY x86MethodsNamesChanged)
 
     Q_PROPERTY(QQmlListProperty<Method> x86methods READ x86methods NOTIFY x86methodsChanged)
@@ -42,7 +45,7 @@ public:
 
     explicit ApplicationManager(QObject *parent = 0);
     virtual ~ApplicationManager();
-    enum State{IDLE, EXEC, SOURCE};
+    enum State{IDLE, PE, ELF, SOURCE};
     enum Arch{X86,X64};
     enum CallingMethod {
         OEP,
@@ -53,13 +56,20 @@ public:
         CTORS,
         TLS
     };
+    enum System{
+        Linux,
+        Windows
+    };
+
     void setState(State state);
     void setArchType(Arch t);
     void setCurrCm(CallingMethod cm);
-    
+    void setSys(System s);
+
     State state() const;
-    Arch archType();
-    CallingMethod currCm();
+    Arch archType() const;
+    CallingMethod currCm() const;
+    System sys() const;
     
     QQmlListProperty<Method> x86methods();
     QQmlListProperty<Method> x64methods();
@@ -73,6 +83,7 @@ signals:
     void stateChanged(State);
     void x86MethodsNamesChanged();
     void archTypeChanged();
+    void sysChanged();
 
     void x86methodsChanged();
     void x64methodsChanged();
@@ -106,6 +117,7 @@ private:
     DSourceCodeParser *sourceParser;
     Arch m_archType;
     CallingMethod m_currCm;
+    System m_sys;
 
     QList<Method*> m_methodsx86;
     QList<Method*> m_methodsx64;
@@ -118,6 +130,8 @@ private:
     QList<Wrapper<Registers_x86>> wrappersToInject;
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
+
+    State getFileType(QString path);
 
 };
 

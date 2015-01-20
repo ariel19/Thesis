@@ -43,53 +43,74 @@ Component{
 
                     text: "Click to add a method."
                 }
-                GroupBox {
-                    title: "Injection type"
 
-                    RowLayout {
-                        ExclusiveGroup { id: tabPositionGroup }
-                        RadioButton {
-                            text: "OEP"
-                            checked: true
-                            exclusiveGroup: tabPositionGroup
-                            onCheckedChanged: {
-                                console.log("OEP"+checked)
-                                if(checked){
-                                    methodsModel = model
-                                    applicationManager.currCm = 0
-                                    comboboxesmobel.clear()
-                                    methodsModel = applicationManager.currMethods
-                                }
-                            }
-                        }
-                        RadioButton {
-                            text: "Trampoline"
-                            exclusiveGroup: tabPositionGroup
-                            onCheckedChanged: {
-                                console.log("Trampoline"+checked)
-                                if(checked){
-                                    methodsModel = model
-                                    applicationManager.currCm = 2
-                                    comboboxesmobel.clear()
-                                    methodsModel = applicationManager.currMethods
-                                }
-                            }
-                        }
-                        RadioButton {
-                            text: "Thread"
-                            exclusiveGroup: tabPositionGroup
-                            onCheckedChanged: {
-                                console.log("Thread"+checked)
-                                if(checked){
-                                    methodsModel = model
-                                    applicationManager.currCm = 1
-                                    comboboxesmobel.clear()
-                                    methodsModel = applicationManager.currMethods
-                                }
-                            }
-                        }
+                Rectangle{
+                    width: 500
+                    height: 50
+                    Loader{
+                        anchors.fill: parent
+                        sourceComponent: applicationManager.sys ? winCombo : winCombo
+
                     }
                 }
+                Component{
+                    id: linCombo
+                    DynamicRadioButtons{
+                    }
+                }
+                Component{
+                    id: winCombo
+                    DynamicRadioWin{
+                    }
+                }
+//                GroupBox {
+//                    title: "Injection type"
+
+
+//                    RowLayout {
+//                        ExclusiveGroup { id: tabPositionGroup }
+//                        RadioButton {
+//                            text: "OEP"
+//                            checked: true
+//                            exclusiveGroup: tabPositionGroup
+//                            onCheckedChanged: {
+//                                console.log("OEP"+checked)
+//                                if(checked){
+//                                    methodsModel = model
+//                                    applicationManager.currCm = 0
+//                                    comboboxesmobel.clear()
+//                                    methodsModel = applicationManager.currMethods
+//                                }
+//                            }
+//                        }
+//                        RadioButton {
+//                            text: "Trampoline"
+//                            exclusiveGroup: tabPositionGroup
+//                            onCheckedChanged: {
+//                                console.log("Trampoline"+checked)
+//                                if(checked){
+//                                    methodsModel = model
+//                                    applicationManager.currCm = 2
+//                                    comboboxesmobel.clear()
+//                                    methodsModel = applicationManager.currMethods
+//                                }
+//                            }
+//                        }
+//                        RadioButton {
+//                            text: "Thread"
+//                            exclusiveGroup: tabPositionGroup
+//                            onCheckedChanged: {
+//                                console.log("Thread"+checked)
+//                                if(checked){
+//                                    methodsModel = model
+//                                    applicationManager.currCm = 1
+//                                    comboboxesmobel.clear()
+//                                    methodsModel = applicationManager.currMethods
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
                 Button{
                     id: save
 

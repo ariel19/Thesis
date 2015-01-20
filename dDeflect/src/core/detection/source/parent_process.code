@@ -1,0 +1,14 @@
+// windows.h
+
+DWORD pid = 0;
+char data[0x18];
+typedef NTSTATUS (NTAPI *_NtQueryInformationProcess)(IN  HANDLE ProcessHandle,
+IN PROCESSINFOCLASS ProcessInformationClass, OUT PVOID ProcessInformation,
+IN ULONG ProcessInformationLength, OUT PULONG ReturnLength );
+_NtQueryInformationProcess fNtQueryInformationProcess;
+fNtQueryInformationProcess = (_NtQueryInformationProcess)GetProcAddress(LoadLibraryA("ntdll.dll"), "NtQueryInformationProcess");
+
+GetWindowThreadProcessId(GetShellWindow(), &pid);
+fNtQueryInformationProcess((HANDLE)-1, 0, data, 0x18, NULL);
+if(pid != *((DWORD*)&data[0x14]))
+	ExitProcess(1);
