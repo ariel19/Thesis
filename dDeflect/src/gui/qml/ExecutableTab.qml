@@ -43,8 +43,25 @@ Component{
 
                     text: "Click to add a method."
                 }
-                DynamicRadioButtons{
 
+                Rectangle{
+                    width: 500
+                    height: 50
+                    Loader{
+                        anchors.fill: parent
+                        sourceComponent: applicationManager.sys ? winCombo : winCombo
+
+                    }
+                }
+                Component{
+                    id: linCombo
+                    DynamicRadioButtons{
+                    }
+                }
+                Component{
+                    id: winCombo
+                    DynamicRadioWin{
+                    }
                 }
 //                GroupBox {
 //                    title: "Injection type"

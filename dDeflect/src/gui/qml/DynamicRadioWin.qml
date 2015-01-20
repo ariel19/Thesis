@@ -56,7 +56,7 @@ GroupBox {
             }
         }
         RadioButton {
-            id: c3
+            id: c4
             text: "TLS"
             exclusiveGroup: tabPositionGroup
             onCheckedChanged: {
