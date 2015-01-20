@@ -88,6 +88,11 @@ public slots:
     void applyClicked(QVariantList methodsChosen);
     void insertMethods(FIDMapping<Registers_x86>);
     void updateCurrMethods();
+
+    void changeList(const QString &methodsName,const QString& handlersName, int index);
+    void insertNewToList(const QString &name);
+    void clearList();
+
 private:
     State m_state;
     IDList<Registers_x86> m_x86methodsList;
@@ -112,6 +117,7 @@ private:
 
     QList<Wrapper<Registers_x86>> wrappersToInject;
 
+    QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
 
 };
 

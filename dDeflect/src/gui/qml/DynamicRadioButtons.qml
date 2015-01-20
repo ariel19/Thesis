@@ -10,6 +10,7 @@ GroupBox {
     width: 500
     property var tab:[c1,c2,c3,c4,c5,c6]
     RadioButton {
+
         id: c1
         text: "OEP"
         checked: true

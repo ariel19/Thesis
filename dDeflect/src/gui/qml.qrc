@@ -11,5 +11,7 @@
         <file>qml/PackingTab.qml</file>
         <file>qml/AddMethodsWindow.qml</file>
         <file>qml/DynamicRadioButtons.qml</file>
+        <file>qml/Pasek.qml</file>
+        <file>qml/MethodsRectangle.qml</file>
     </qresource>
 </RCC>

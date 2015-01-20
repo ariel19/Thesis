@@ -91,6 +91,8 @@ Project {
             "src/DMethods/*.cpp",
             "src/DMethods/*.h",
             "src/gui/qml/DynamicRadioButtons.qml",
+            "src/gui/qml/MethodsRectangle.qml",
+            "src/gui/qml/Pasek.qml",
             "tests/src/*.cpp",
             "tests/src/*.h",
             "src/core/file_types/*.cpp",

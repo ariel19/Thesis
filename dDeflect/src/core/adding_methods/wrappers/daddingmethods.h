@@ -370,6 +370,21 @@ public:
     bool obfuscation;
 
     virtual ~Wrapper() {}
+    Wrapper(const Wrapper& w){
+        name = w.name;
+        description = w.description;
+        wrapper_type = w.wrapper_type;
+        allowed_methods = w.allowed_methods;
+        used_regs = w.used_regs;
+        dynamic_params = w.dynamic_params;
+        static_params = w.static_params;
+        ret = w.ret;
+        code = w.code;
+        detect_handler = nullptr;
+        only_rwx = w.only_rwx;
+        obfuscation = w.obfuscation;
+    }
+    Wrapper(){}
 
     static const QMap<QString, WrapperType> wrapperTypes;
 

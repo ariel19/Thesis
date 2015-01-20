@@ -36,6 +36,7 @@ Component{
                         comboboxesmobel.append({"name":"kuba"})
                         tablicaComboBoxow.push(cbDelegate);
                         console.log(tablicaComboBoxow)
+                        applicationManager.insertNewToList("");
                     }
                 }
                 Text{
@@ -54,11 +55,10 @@ Component{
                             onCheckedChanged: {
                                 console.log("OEP"+checked)
                                 if(checked){
-                                    for(var i = 0; i<lv.children.length;i++){
-                                        lv.children[i].destroy
-                                    }
+                                    methodsModel = model
                                     applicationManager.currCm = 0
                                     comboboxesmobel.clear()
+                                    methodsModel = applicationManager.currMethods
                                 }
                             }
                         }
@@ -68,13 +68,10 @@ Component{
                             onCheckedChanged: {
                                 console.log("Trampoline"+checked)
                                 if(checked){
-                                    for(var i = 0; i<lv.children.length;i++){
-                                        lv.children[i].destroy
-                                    }
-
+                                    methodsModel = model
                                     applicationManager.currCm = 2
                                     comboboxesmobel.clear()
-
+                                    methodsModel = applicationManager.currMethods
                                 }
                             }
                         }
@@ -84,14 +81,29 @@ Component{
                             onCheckedChanged: {
                                 console.log("Thread"+checked)
                                 if(checked){
-                                    for(var i = 0; i<lv.children.length;i++){
-                                        lv.children[i].destroy
-                                    }
+                                    methodsModel = model
                                     applicationManager.currCm = 1
                                     comboboxesmobel.clear()
+                                    methodsModel = applicationManager.currMethods
                                 }
                             }
                         }
+                    }
+                }
+                Button{
+                    id: save
+
+                    text:"Save"
+                    onClicked: {
+                        console.log(tablicaComboBoxow)
+                    }
+                }
+                Button{
+                    id: apply
+
+                    text:"Apply"
+                    onClicked: {
+                        console.log(tablicaComboBoxow)
                     }
                 }
             }
@@ -123,52 +135,40 @@ Component{
                                 //model: applicationManager.x86methods
                                 width: 200
                                 textRole: "name"
+                                onCurrentIndexChanged: {
+                                    applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
+                                }
 
                             }
-                            Loader {
-
-                                Component{
-                                    id: handlerCombo
-                                    ComboBox {
-                                        id: cb
-                                        model: handlersModel
-                                        //model: applicationManager.x86methods
-                                        width: 200
-                                        textRole: "name"
-
-                                    }
+                            ComboBox {
+                                id: handlerCombo
+                                visible: methodsModel[methodCombo.currentIndex].returns
+                                model: handlersModel
+                                //model: applicationManager.x86methods
+                                width: 200
+                                textRole: "name"
+                                onCurrentIndexChanged: {
+                                    applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }
-                                Component{
-                                    id: c2
-                                    RowLayout{
-                                        width: 400
-                                        Button{
-                                            id: threadButton
-                                            width: 200
-                                            text:"+"
-
-                                            onClicked: {
-                                                var component = Qt.createComponent("AddMethodsWindow.qml");
-                                                var win = component.createObject(root);
-                                                win.show();
-                                            }
-                                        }
-                                        Text{
-                                            text: "Add methods to thread."
-                                        }
-
-                                    }
-                                }
-                                Component{
-                                    id: emptyId
-                                    Text{
-                                        width: 200
-                                        text:"No handler possible."
-                                    }
-                                }
-                                sourceComponent: methodsModel[methodCombo.currentIndex].returns ? (methodsModel[methodCombo.currentIndex].isThread === true ? c2 : handlerCombo) :emptyId
 
                             }
+//                            Loader {
+
+//                                Component{
+//                                    id: handlerCombo
+
+//                                }
+
+//                                Component{
+//                                    id: emptyId
+//                                    Text{
+//                                        width: 200
+//                                        text:"No handler possible."
+//                                    }
+//                                }
+//                                sourceComponent: methodsModel[methodCombo.currentIndex].returns ? (methodsModel[methodCombo.currentIndex].isThread === true ? c2 : handlerCombo) :emptyId
+
+//                            }
                         }
 
                     }
@@ -178,7 +178,12 @@ Component{
             ListModel {
                 id: comboboxesmobel
             }
-
+            ListModel {
+                     id: model
+                     ListElement { name: "Banana"; color: "Yellow" }
+                     ListElement { name: "Apple"; color: "Green" }
+                     ListElement { name: "Coconut"; color: "Brown" }
+                 }
         }
     }
 }
