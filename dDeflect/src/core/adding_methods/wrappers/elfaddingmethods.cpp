@@ -4,6 +4,67 @@
 #include <QFileInfo>
 #include <QTemporaryFile>
 #include <QDebug>
+#include <QMap>
+
+#include <ApplicationManager/DJsonParser/djsonparser.h>
+#include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
+
+template <typename RegistersType>
+const QMap<typename ELFAddingMethods<RegistersType>::ErrorCode, QString> ELFAddingMethods<RegistersType>::error_desc = {
+    { ELFAddingMethods<RegistersType>::ErrorCode::BinaryFileNoElf,
+      QString("Invalid Elf file structure!") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::CompiledFileOpenFailed,
+      QString("Failed to open file with compiled code.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::FileToCompileOpenFailed,
+      QString("Failed to open file with assembly code.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::FileToCompileWriteFailed,
+      QString("Failed to write to file with assembly code.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::GetEntryPointFailed,
+      QString("Failed to get entry point from specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::GetRelativeAddressFailed,
+      QString("Failed to get relative address from specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::GetSectionContentFailed,
+      QString("Failed to get section content from specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::GetSectionFileOffsetFailed,
+      QString("Failed to get section file offset from specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::GetSegmentAlignFailed,
+      QString("Failed to get segment align from specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::GetSegmentProtectFlagsFailed,
+      QString("Failed to get segment protect flags from specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::InvalidAddingMethodType,
+      QString("Invalid code adding method type was specified.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::InvalidAddressSizeAlign,
+      QString("Invalid address size align for ELF file architecture.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::InvalidElfFile,
+      QString("Given file is not a valid ELF file!") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::NasmExecutionFailed,
+      QString("Failed to start nasm compiler") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::NdisasmExecutionFailed,
+      QString("Failed to start ndisasm decompiler") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::NullInjectDescription,
+      QString("Loading inject description failed.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::NullWrapper,
+      QString("Loading wrapper failed.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::SegmentExtensionFailed,
+      QString("Failed to extend segment in specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::SetEntryPointFailed,
+      QString("Failed to set new entry point in specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::SetRelativeAddressFailed,
+      QString("Failed to set relative address in specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::SetSectionContentFailed,
+      QString("Failed to set section content in specified ELF file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::Success,
+      QString("Success") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::TempFileOpenFailed,
+      QString("Failed to open temporary file.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::TemplateErrorWTF,
+      QString("Invalid template type WTF??????.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::TrampolineAddressAbsence,
+      QString("Absence of addresses to inject trampoline code.") },
+    { ELFAddingMethods<RegistersType>::ErrorCode::WrapperGenCodeFailed,
+      QString("Failed to generate a specified wrapper code.") }
+};
 
 template <typename RegistersType>
 ELFAddingMethods<RegistersType>::ELFAddingMethods(ELF *f) :
@@ -45,13 +106,14 @@ uint64_t ELFAddingMethods<RegistersType>::fill_params(QString &code, const QMap<
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::fill_magic_params(QMap<QString, QString> &params, const ELF *elf) {
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::fill_magic_params(QMap<QString, QString> &params, const ELF *elf) {
     static QString magic_sec_size("magic!sec_size"),
                    magic_sec_checksum("magic!sec_checksum");
 
     QPair<QByteArray, Elf64_Addr> section_data;
     if (!elf->get_section_content(ELF::SectionType::TEXT, section_data))
-        return false;
+        return ErrorCode::GetSectionContentFailed;
 
     if (params.contains(magic_sec_size))
         params[magic_sec_size] = QString::number(section_data.first.size());
@@ -66,7 +128,7 @@ bool ELFAddingMethods<RegistersType>::fill_magic_params(QMap<QString, QString> &
         params[magic_sec_checksum] = QString::number(0x1ee74b1d);
     }
 
-    return true;
+    return ErrorCode::Success;
 }
 
 // bool ELFAddingMethods::fill_magic_checksum(const ELF64_Addr vaddr, ELF *elf, uint32_t &checksum) {
@@ -90,38 +152,40 @@ uint64_t ELFAddingMethods<RegistersType>::fill_placeholders(QString &code, const
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::compile(const QString &code2compile, QByteArray &compiled_code) {
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::compile(const QString &code2compile, QByteArray &compiled_code) {
     // TODO: change
     QFile file("tocompile.asm");
     if (!file.open(QIODevice::WriteOnly))
-        return false;
+        return ErrorCode::FileToCompileOpenFailed;
 
     if (file.write(code2compile.toStdString().c_str(), code2compile.length()) != code2compile.length())
-        return false;
+        return ErrorCode::FileToCompileWriteFailed;
 
     file.close();
 
     // TODO: change file names and etc.
-    if (QProcess::execute("nasm", { "tocompile.asm" }))
-        return false;
+    if (QProcess::execute(DSettings::getSettings().getNasmPath(), { "tocompile.asm" }))
+        return ErrorCode::NasmExecutionFailed;
 
     file.setFileName("tocompile");
 
     if (!file.open(QIODevice::ReadOnly))
-        return false;
+        return ErrorCode::CompiledFileOpenFailed;
 
     compiled_code = file.readAll();
 
     file.close();
-    return true;
+    return ErrorCode::Success;
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::get_addresses(const QByteArray &addr_data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
-                                                    const QList<Elf64_Addr> &except_list) {
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::get_addresses(const QByteArray &addr_data, uint8_t addr_size, QList<Elf64_Addr> &addr_list,
+                                               const QList<Elf64_Addr> &except_list) {
     int data_size = addr_data.size();
     if (data_size % addr_size)
-        return false;
+        return ErrorCode::InvalidAddressSizeAlign;
 
     quint64 addr;
 
@@ -133,13 +197,14 @@ bool ELFAddingMethods<RegistersType>::get_addresses(const QByteArray &addr_data,
             addr_list.push_back(addr);
     }
 
-    return true;
+    return ErrorCode::Success;
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code) {
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::wrapper_gen_code(Wrapper<RegistersType> *wrap, QString &code) {
     if (!wrap)
-        return false;
+        return ErrorCode::NullWrapper;
 
     // TODO: add check if contains all registers
     // add internal registers to one's we have to save
@@ -173,68 +238,10 @@ bool ELFAddingMethods<RegistersType>::wrapper_gen_code(Wrapper<RegistersType> *w
     // restore flag register
     code.append(AsmCodeGenerator::restore_flags<RegistersType>());
 
-    return true;
+    return ErrorCode::Success;
 }
-template bool ELFAddingMethods<Registers_x86>::wrapper_gen_code(Wrapper<Registers_x86> *wrap, QString &code);
-template bool ELFAddingMethods<Registers_x64>::wrapper_gen_code(Wrapper<Registers_x64> *wrap, QString &code);
-
-template <>
-template <>
-bool ELFAddingMethods<Registers_x86>::set_prot_flags_gen_code(Elf32_Addr vaddr, Elf32_Word mem_size,
-                                                              Elf32_Word flags, QString &code) {
-    // TODO: generated using JSON parser, here is stupid dummy solution
-    Wrapper<Registers_x86> mprotect;
-
-    // TODO: should be changed
-    mprotect.detect_handler = nullptr;
-    mprotect.used_regs = { Registers_x86::EAX, Registers_x86::EBX, Registers_x86::ECX, Registers_x86::EDX };
-    mprotect.static_params = { { "vaddr", QString::number(vaddr) },
-                               { "vsize", QString::number(mem_size) },
-                               { "flags", QString::number(flags) } };
-    mprotect.ret = Registers_x86::None;
-
-    QFile protect("mprotect.asm");
-    if (!protect.open(QIODevice::ReadOnly))
-        return false;
-
-    mprotect.code = protect.readAll();
-    code = QString("%1\n").arg(arch_type[ArchitectureType::BITS32]);
-
-    return wrapper_gen_code(&mprotect, code);
-}
-
-template <>
-template <>
-bool ELFAddingMethods<Registers_x64>::set_prot_flags_gen_code(Elf64_Addr vaddr, Elf64_Xword mem_size,
-                                                              Elf64_Word flags, QString &code) {
-    // TODO: generated using JSON parser, here is stupid dummy solution
-    Wrapper<Registers_x64> mprotect;
-
-    // TODO: should be changed
-    mprotect.detect_handler = nullptr;
-    mprotect.used_regs = { Registers_x64::RAX, Registers_x64::RDX, Registers_x64::RSI, Registers_x64::RDI };
-    mprotect.static_params = { { "vaddr", QString::number(vaddr) },
-                               { "vsize", QString::number(mem_size) },
-                               { "flags", QString::number(flags) } };
-    mprotect.ret = Registers_x64::None;
-
-    QFile protect("mprotect64.asm");
-    if (!protect.open(QIODevice::ReadOnly))
-        return false;
-
-    mprotect.code = protect.readAll();
-    code = QString("%1\n").arg(arch_type[ArchitectureType::BITS64]);
-
-    return wrapper_gen_code(&mprotect, code);
-}
-
-template <>
-template <>
-bool ELFAddingMethods<Registers_x86>::set_prot_flags_gen_code(Elf64_Addr vaddr, Elf64_Xword mem_size,
-                                                              Elf64_Word flags, QString &code) {
-    return set_prot_flags_gen_code(static_cast<Elf32_Addr>(vaddr), static_cast<Elf32_Word>(mem_size),
-                                   static_cast<Elf32_Word>(flags), code);
-}
+template typename ELFAddingMethods<Registers_x86>::ErrorCode ELFAddingMethods<Registers_x86>::wrapper_gen_code(Wrapper<Registers_x86> *wrap, QString &code);
+template typename ELFAddingMethods<Registers_x64>::ErrorCode ELFAddingMethods<Registers_x64>::wrapper_gen_code(Wrapper<Registers_x64> *wrap, QString &code);
 
 template <typename RegistersType>
 void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList &opcodes, QList<Elf64_Addr> &file_off, Elf64_Addr base_off) {
@@ -243,23 +250,24 @@ void ELFAddingMethods<RegistersType>::get_file_offsets_from_opcodes(QStringList 
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QList<Elf64_Addr> &__file_off, Elf64_Addr &base_off,
                                                                             QPair<QByteArray, Elf64_Addr> &text_data) {
 
     ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
     if(!elf)
-        return false;
+        return ErrorCode::BinaryFileNoElf;
 
     if (!elf->is_valid())
-        return false;
+        return ErrorCode::InvalidElfFile;
 
     QTemporaryFile temp_file;
     if(!temp_file.open())
-        return false;
+        return ErrorCode::TempFileOpenFailed;
 
 
     if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-        return false;
+        return ErrorCode::GetSectionContentFailed;
 
     temp_file.write(text_data.first);
     temp_file.flush();
@@ -268,11 +276,10 @@ bool ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QLis
 
     ndisasm.setProcessChannelMode(QProcess::MergedChannels);
 
-    // TODO: change
-    ndisasm.start("ndisasm", {"-a", "-b", elf->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
+    ndisasm.start(DSettings::getSettings().getNdisasmPath(), {"-a", "-b", elf->is_x64() ? "64" : "32", QFileInfo(temp_file).absoluteFilePath()});
 
     if(!ndisasm.waitForStarted())
-        return false;
+        return ErrorCode::NdisasmExecutionFailed;
 
     QByteArray assembly;
 
@@ -284,38 +291,44 @@ bool ELFAddingMethods<RegistersType>::get_address_offsets_from_text_section(QLis
     QStringList jmp_inst = asm_inst.filter(CodeDefines<RegistersType>::jmpRegExp);
 
     if (!elf->get_section_file_off(ELF::SectionType::TEXT, base_off))
-        return false;
+        return ErrorCode::GetSectionFileOffsetFailed;
 
     get_file_offsets_from_opcodes(call_inst, __file_off, base_off);
     get_file_offsets_from_opcodes(jmp_inst, __file_off, base_off);
 
-    return true;
+    return ErrorCode::Success;
 }
 
 template <typename RegistersType>
 bool ELFAddingMethods<RegistersType>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
-    return safe_obfuscate(code_cover, min_len, max_len);
+    ErrorCode ec = safe_obfuscate(code_cover, min_len, max_len);
+    if (ec != ErrorCode::Success)
+        LOG_ERROR(error_desc[ec]);
+    return ec == ErrorCode::Success;
 }
 template bool ELFAddingMethods<Registers_x86>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 template bool ELFAddingMethods<Registers_x64>::obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len);
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_len, uint8_t max_len) {
 
+    ErrorCode ec;
     ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
     if(!elf)
-        return false;
+        return ErrorCode::BinaryFileNoElf;
 
     if (!elf->is_valid())
-        return false;
+        return ErrorCode::InvalidElfFile;
 
 
     QList<Elf64_Addr> __file_off;
     Elf64_Addr base_off;
     QPair<QByteArray, Elf64_Addr> text_data;
 
-    if (!get_address_offsets_from_text_section(__file_off, base_off, text_data))
-        return false;
+    ec = get_address_offsets_from_text_section(__file_off, base_off, text_data);
+    if (ec != ErrorCode::Success)
+        return ec;
 
     QByteArray full_compiled_code;
     int32_t rva;
@@ -334,7 +347,7 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t
             continue;
 
         if (!elf->get_relative_address(off, rva))
-            return false;
+            return ErrorCode::GetRelativeAddressFailed;
 
         inst_addr = text_data.second + off - base_off;
         trash_code = CodeDefines<RegistersType>::obfuscate(DAddingMethods<RegistersType>::r_gen, min_len, max_len);
@@ -351,23 +364,23 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t
 
     // TODO: change only_x value
     if (!elf->extend_segment(full_compiled_code, false, nva, file_off))
-        return false;
+        return ErrorCode::SegmentExtensionFailed;
 
     foreach (auto fo_addr, tramp_file_off) {
         // 5 - size of call instruction (minus 1 byte for call byte)
         if (!elf->set_relative_address(fo_addr.fdata_off,
                                        nva + fo_addr.ndata_off - (text_data.second + fo_addr.fdata_off - base_off) - 4))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
         qDebug() << "jumping on : " << QString("0x%1").arg(text_data.second + fo_addr.fdata_off - base_off - 1, 0, 16)
                  << "to: " << QString("0x%1").arg(nva + fo_addr.ndata_off, 0, 16);
 
         // set new relative address for jmp
         if (!elf->set_relative_address(file_off + (fo_addr.ndata_off + fo_addr.ndata_size) - 4,
                                        fo_addr.data_vaddr - (nva + ((fo_addr.ndata_off + fo_addr.ndata_size) - fake_jmp.size())) - 5))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
     }
 
-    return true;
+    return ErrorCode::Success;
 }
 
 // ===============================================================================
@@ -375,26 +388,32 @@ bool ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t
 // ===============================================================================
 template <typename RegistersType>
 bool ELFAddingMethods<RegistersType>::secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &inject_desc) {
+    ErrorCode ec;
     foreach(typename DAddingMethods<RegistersType>::InjectDescription* id, inject_desc) {
-        if(!secure_one(id))
+        ec = secure_one(id);
+        if(ec != ErrorCode::Success) {
+            LOG_ERROR(error_desc[ec]);
             return false;
+        }
     }
     return true;
 }
 
 template <typename RegistersType>
-bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersType>::InjectDescription* i_desc) {
+typename ELFAddingMethods<RegistersType>::ErrorCode
+ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersType>::InjectDescription* i_desc) {
     QString code2compile,
             code_ddetect_handler,
             code_ddetect;
     QByteArray compiled_code;
+    ErrorCode ec;
 
     ELF *elf = dynamic_cast<ELF*>(DAddingMethods<RegistersType>::file);
     if(!elf)
-        return false;
+        return ErrorCode::BinaryFileNoElf;
 
     if (!elf->is_valid())
-        return false;
+        return ErrorCode::InvalidElfFile;
 
     // check platform version
     if (std::is_same<RegistersType, Registers_x86>::value)
@@ -403,11 +422,14 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     else if(std::is_same<RegistersType, Registers_x64>::value)
         code2compile.append(QString("%1\n").arg(
                                 DAddingMethods<RegistersType>::arch_type[DAddingMethods<RegistersType>::ArchitectureType::BITS64]));
-    else return false;
+    else return ErrorCode::TemplateErrorWTF;
+
+    if (!i_desc)
+        return ErrorCode::NullInjectDescription;
 
     // add to params
     if (!i_desc->adding_method || !i_desc->adding_method->detect_handler)
-        return false;
+        return ErrorCode::NullWrapper;
 
     // adding a param value for (?^_^ddret^_^?)
     i_desc->adding_method->static_params[placeholder_mnm[PlaceholderMnemonics::DDRET]] = elf->is_x86() ?
@@ -421,12 +443,14 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     i_desc->adding_method->ret = RegistersType::None;
 
     // 0. take code from input
-    if (!wrapper_gen_code(i_desc->adding_method, code2compile))
-        return false;
+    ec = wrapper_gen_code(i_desc->adding_method, code2compile);
+    if (ec != ErrorCode::Success)
+        return ec;
 
     // 1. generate code for handler
-    if (!wrapper_gen_code(i_desc->adding_method->detect_handler, code_ddetect_handler))
-        return false;
+    ec = wrapper_gen_code(i_desc->adding_method->detect_handler, code_ddetect_handler);
+    if (ec != ErrorCode::Success)
+        return ec;
 
     bool dyn_magic = false;
     static QString dynmagic_offset("dyn_magic!offset");
@@ -437,11 +461,13 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
          OEPWrapper<RegistersType> *oepwrapper =
                 dynamic_cast<OEPWrapper<RegistersType>*>(i_desc->adding_method);
         if (!oepwrapper)
-            return false;
-        if (!fill_magic_params(oepwrapper->oep_action->static_params, elf))
-            return false;
-        if (!wrapper_gen_code(oepwrapper->oep_action, code_ddetect))
-            return false;
+            return ErrorCode::NullWrapper;
+        ec = fill_magic_params(oepwrapper->oep_action->static_params, elf);
+        if (ec != ErrorCode::Success)
+            return ec;
+        ec = wrapper_gen_code(oepwrapper->oep_action, code_ddetect);
+        if (ec != ErrorCode::Success)
+            return ec;
         if (oepwrapper->oep_action->static_params.contains(dynmagic_offset))
             dyn_magic = true;
         break;
@@ -450,11 +476,13 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         ThreadWrapper<RegistersType> *twrapper =
                 dynamic_cast<ThreadWrapper<RegistersType>*>(i_desc->adding_method);
         if (!twrapper)
-            return false;
-        if (!fill_magic_params(twrapper->thread_actions[0]->static_params, elf))
-            return false;
-        if (!wrapper_gen_code(twrapper->thread_actions[0], code_ddetect))
-            return false;
+            return ErrorCode::NullWrapper;
+        ec = fill_magic_params(twrapper->thread_actions[0]->static_params, elf);
+        if (ec != ErrorCode::Success)
+            return ec;
+        ec = wrapper_gen_code(twrapper->thread_actions[0], code_ddetect);
+        if (ec != ErrorCode::Success)
+            return ec;
         if (twrapper->thread_actions[0]->static_params.contains(dynmagic_offset))
             dyn_magic = true;
         break;
@@ -466,18 +494,20 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         TrampolineWrapper<RegistersType> *trmwrapper =
                 dynamic_cast<TrampolineWrapper<RegistersType>*>(i_desc->adding_method);
         if (!trmwrapper)
-            return false;
-        if (!fill_magic_params(trmwrapper->tramp_action->static_params, elf))
-            return false;
-        if (!wrapper_gen_code(trmwrapper->tramp_action, code_ddetect))
-            return false;
+            return ErrorCode::NullWrapper;
+        ec = fill_magic_params(trmwrapper->tramp_action->static_params, elf);
+        if (ec != ErrorCode::Success)
+            return ec;\
+        ec = wrapper_gen_code(trmwrapper->tramp_action, code_ddetect);
+        if (ec != ErrorCode::Success)
+            return ec;
         if (trmwrapper->tramp_action->static_params.contains(dynmagic_offset))
             dyn_magic = true;
         break;
     }
 
     default:
-        return false;
+        return ErrorCode::InvalidAddingMethodType;
     }
 
     // 3. merge code
@@ -486,11 +516,12 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
     Elf64_Addr oldep;
     if (!elf->get_entry_point(oldep))
-        return false;
+        return ErrorCode::GetEntryPointFailed;
 
     // 4. compile code
-    if (!compile(code2compile, compiled_code))
-        return false;
+    ec = compile(code2compile, compiled_code);
+    if (ec != ErrorCode::Success)
+        return ec;
 
     // 5. secure elf file
 
@@ -507,24 +538,24 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(fake_jmp);
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
-            return false;
+            return ErrorCode::SegmentExtensionFailed;
 
         if (!elf->set_entry_point(nva, &oep))
-            return false;
+            return ErrorCode::SetEntryPointFailed;
 
         // set new relative address for jmp
         if (!elf->set_relative_address(file_off + compiled_code.size() - 4, oep - (nva + (compiled_code.size() - fake_jmp.size())) - 5))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
 
         if (dyn_magic) {
             QPair<QByteArray, Elf64_Addr> text_data;
             if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-                return false;
+                return ErrorCode::GetSectionContentFailed;
 
             int j = 0;
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
 
             static uint32_t code_cheksum_magic = 0x1ee74b1d;
             j = 0;
@@ -533,7 +564,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 checksum += b;
             while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, checksum))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
         }
 
         qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
@@ -542,16 +573,17 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     case DAddingMethods<RegistersType>::CallingMethod::CTORS: {
         QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf->get_section_content(ELF::SectionType::CTORS, section_data))
-            return false;
+            return ErrorCode::GetSectionContentFailed;
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf->is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data.first, addr_size, addresses, { 0 }))
-            return false;
+        ec = get_addresses(section_data.first, addr_size, addresses, { 0 });
+        if (ec != ErrorCode::Success)
+            return ec;
 
         // no place to store our pointer
         if (!addresses.size())
-            return false;
+            return ErrorCode::TrampolineAddressAbsence;
 
         // TODO: address should be randomized, not always 0
         int idx = 0;
@@ -559,28 +591,28 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(fake_jmp);
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
-            return false;
+            return ErrorCode::SegmentExtensionFailed;
 
         // set new relative address for jmp
         if (!elf->set_relative_address(file_off + compiled_code.size() - 4,
                                        addresses[idx] - (nva + (compiled_code.size() - fake_jmp.size())) - 5))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
 
         // set section content, set filler for elf function
         section_data.first.replace(idx * addr_size, addr_size, QByteArray(reinterpret_cast<const char *>(&nva), addr_size));
 
         if (!elf->set_section_content(ELF::SectionType::CTORS, section_data.first))
-            return false;
+            return ErrorCode::SetSectionContentFailed;
 
         if (dyn_magic) {
             QPair<QByteArray, Elf64_Addr> text_data;
             if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-                return false;
+                return ErrorCode::GetSectionContentFailed;
 
             int j = 0;
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
 
             static uint32_t code_cheksum_magic = 0x1ee74b1d;
             j = 0;
@@ -589,7 +621,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 checksum += b;
             while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, checksum))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
         }
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -599,16 +631,16 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     case DAddingMethods<RegistersType>::CallingMethod::INIT: {
         QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf->get_section_content(ELF::SectionType::INIT, section_data))
-            return false;
+            return ErrorCode::GetSectionContentFailed;
 
         unsigned int prot_flags;
         Elf64_Addr align;
 
         // get relevant info
         if (!elf->get_segment_prot_flags(section_data.second, prot_flags))
-            return false;
+            return ErrorCode::GetSegmentProtectFlagsFailed;
         if (!elf->get_segment_align(section_data.second, align))
-            return false;
+            return ErrorCode::GetSegmentAlignFailed;
 
         // whole code will look like:
         // detection code
@@ -733,24 +765,24 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(fake_jmp);
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
-            return false;
+            return ErrorCode::SegmentExtensionFailed;
 
         // set up dummy values
 
         // 4 jmp to init
         if (!elf->set_relative_address(file_off + compiled_code.size() - 4,
                                        section_data.second - (nva + compiled_code.size() - fake_jmp.size()) - 5))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
 
         // 4 string copy destinationaddress
         if (!elf->set_relative_address(file_off + offset_to_get_init_section_code_addr_copy + (elf->is_x86() ? 2 : 3),
                                        section_data.second - (nva + offset_to_get_init_section_code_addr_copy - 1)))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
 
         // 4 mprotect page vaddr
         if (!elf->set_relative_address(file_off + offset_to_get_init_section_code_addr_mprotect + (elf->is_x86() ? 2 : 3),
                                        section_data.second - (nva + offset_to_get_init_section_code_addr_mprotect - 1)))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
 
         // set redirection from init sectin to our code
         Elf32_Addr redirect_off = nva - section_data.second - 5;
@@ -758,17 +790,17 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
 
         if (!elf->set_section_content(ELF::SectionType::INIT, compiled_jmp, '\x90'))
-            return false;
+            return ErrorCode::SetSectionContentFailed;
 
         if (dyn_magic) {
             QPair<QByteArray, Elf64_Addr> text_data;
             if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-                return false;
+                return ErrorCode::GetSectionContentFailed;
 
             int j = 0;
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
 
             static uint32_t code_cheksum_magic = 0x1ee74b1d;
             j = 0;
@@ -777,7 +809,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 checksum += b;
             while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, checksum))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
         }
 
 
@@ -788,16 +820,17 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
     case DAddingMethods<RegistersType>::CallingMethod::INIT_ARRAY: {
         QPair<QByteArray, Elf64_Addr> section_data;
         if (!elf->get_section_content(ELF::SectionType::INIT_ARRAY, section_data))
-            return false;
+            return ErrorCode::GetSectionContentFailed;
 
         QList<Elf64_Addr> addresses;
         uint8_t addr_size = elf->is_x86() ? sizeof(Elf32_Addr) : sizeof(Elf64_Addr);
-        if (!get_addresses(section_data.first, addr_size, addresses, { 0 }))
-            return false;
+        ec = get_addresses(section_data.first, addr_size, addresses, { 0 });
+        if (ec != ErrorCode::Success)
+            return ec;
 
         // no place to store our pointer
         if (!addresses.size())
-            return false;
+            return ErrorCode::TrampolineAddressAbsence;
 
         // TODO: address should be randomized, not always 0
         int idx = 0;
@@ -805,28 +838,28 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         compiled_code.append(fake_jmp);
 
         if (!elf->extend_segment(compiled_code, i_desc->change_x_only, nva, file_off))
-            return false;
+            return ErrorCode::SegmentExtensionFailed;
 
         // set new relative address for jmp
         if (!elf->set_relative_address(file_off + compiled_code.size() - 4,
                                        addresses[idx] - (nva + (compiled_code.size() - fake_jmp.size())) - 5))
-            return false;
+            return ErrorCode::SetRelativeAddressFailed;
 
         // set section content, set filler for elf function
         section_data.first.replace(idx * addr_size, addr_size, QByteArray(reinterpret_cast<const char *>(&nva), addr_size));
 
         if (!elf->set_section_content(ELF::SectionType::INIT_ARRAY, section_data.first))
-            return false;
+            return ErrorCode::SetSectionContentFailed;
 
         if (dyn_magic) {
             QPair<QByteArray, Elf64_Addr> text_data;
             if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-                return false;
+                return ErrorCode::GetSectionContentFailed;
 
             int j = 0;
             while ((j = compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
 
             static uint32_t code_cheksum_magic = 0x1ee74b1d;
             j = 0;
@@ -835,7 +868,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 checksum += b;
             while ((j = compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, checksum))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
         }
 
         qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
@@ -853,8 +886,9 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         QPair<QByteArray, Elf64_Addr> text_data;
         QList<QPair<Elf64_Addr, Elf64_Addr> > tramp_file_off;
 
-        if (!get_address_offsets_from_text_section(__file_off, base_off, text_data))
-            return false;
+        ec = get_address_offsets_from_text_section(__file_off, base_off, text_data);
+        if (ec != ErrorCode::Success)
+            return ec;
 
         QByteArray full_compiled_code;
         // TODO: choose randomy few addresses
@@ -869,7 +903,7 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 continue;
 
             if (!elf->get_relative_address(off, rva))
-                return false;
+                return ErrorCode::GetRelativeAddressFailed;
 
             inst_addr = text_data.second + off - base_off;
             tramp_file_off.push_back(QPair<Elf64_Addr, Elf64_Addr>(off, inst_addr + rva + 4));
@@ -879,24 +913,25 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
 
         Elf64_Addr nva;
         if (!elf->extend_segment(full_compiled_code, i_desc->change_x_only, nva, file_off))
-            return false;
+            return ErrorCode::SegmentExtensionFailed;
 
         if (!tramp_file_off.size())
-            return true;
+            return ErrorCode::TrampolineAddressAbsence;
+
         Elf32_Addr tramp_size = full_compiled_code.size() / tramp_file_off.size();
         int i = 0;
 
         foreach (auto fo_addr, tramp_file_off) {
             // 5 - size of call instruction (minus 1 byte for call byte)
             if (!elf->set_relative_address(fo_addr.first, nva + (tramp_size * i) - (text_data.second + fo_addr.first - base_off) - 4))
-                return false;
+                return ErrorCode::SetRelativeAddressFailed;
             qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo_addr.first - base_off - 1, 0, 16)
                      << "to: " << QString("0x%1 ").arg(nva + (tramp_size * i), 0, 16);
 
             // set new relative address for jmp
             if (!elf->set_relative_address(file_off + (tramp_size * (i + 1)) - 4,
                                            fo_addr.second - (nva + ((tramp_size * (i + 1)) - fake_jmp.size())) - 5))
-                return false;
+                return ErrorCode::SetRelativeAddressFailed;
 
             ++i;
         }
@@ -904,12 +939,12 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
         if (dyn_magic) {
             QPair<QByteArray, Elf64_Addr> text_data;
             if (!elf->get_section_content(ELF::SectionType::TEXT, text_data))
-                return false;
+                return ErrorCode::GetSectionContentFailed;
 
             int j = 0;
             while ((j = full_compiled_code.indexOf("\xba\xda\xda\xba", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, text_data.second - (nva + j - (elf->is_x86() ? 3 : 4))))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
 
             // static uint32_t code_cheksum_magic = 0x1ee74b1d;
             j = 0;
@@ -918,15 +953,15 @@ bool ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<Registe
                 checksum += b;
             while ((j = full_compiled_code.indexOf("\x1d\x4b\xe7\x1e", j + 1)) != -1)
                 if (!elf->set_relative_address(file_off + j, checksum))
-                    return false;
+                    return ErrorCode::SetRelativeAddressFailed;
         }
 
         break;
     }
     default:
-        return false;
+        return ErrorCode::InvalidAddingMethodType;
     }
-    return true;
+    return ErrorCode::Success;
 }
 template bool ELFAddingMethods<Registers_x86>::secure(const QList<DAddingMethods<Registers_x86>::InjectDescription *> &inject_desc);
 template bool ELFAddingMethods<Registers_x64>::secure(const QList<DAddingMethods<Registers_x64>::InjectDescription *> &inject_desc);
