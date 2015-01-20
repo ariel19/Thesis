@@ -301,7 +301,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
         }
 
         if(newWrapper->ret == Registers_x86::None)
-            newHandler == nullptr;
+            newHandler = nullptr;
 
         newWrapper->detect_handler = newHandler;
         if(index<methodsToInsert.size() && index>=0){
