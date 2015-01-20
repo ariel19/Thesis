@@ -1,0 +1,5 @@
+// windows.h
+BOOL flag = FALSE;
+CheckRemoteDebuggerPresent((HANDLE)-1, &flag);
+if(flag)
+	ExitProcess();

@@ -1,0 +1,11 @@
+// windows.h
+int i = 0;
+char *names[] =
+{
+	"OLLYDBG",
+	"WinDbgFrameClass",
+	"ID"
+};
+for(i = 0; i < 3; ++i)
+	if(FindWindow(names[i], NULL))
+		ExitProcess(1);

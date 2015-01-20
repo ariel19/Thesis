@@ -1,0 +1,13 @@
+// windows.h
+
+DWORD data = 0;
+
+typedef NTSTATUS (NTAPI *_NtQueryInformationProcess)(IN  HANDLE ProcessHandle,
+IN PROCESSINFOCLASS ProcessInformationClass, OUT PVOID ProcessInformation,
+IN ULONG ProcessInformationLength, OUT PULONG ReturnLength );
+_NtQueryInformationProcess fNtQueryInformationProcess;
+fNtQueryInformationProcess = (_NtQueryInformationProcess)GetProcAddress(LoadLibraryA("ntdll.dll"), "NtQueryInformationProcess");
+
+fNtQueryInformationProcess((HANDLE)-1, 7, &data, 4, NULL);
+if(data == -1)
+	ExitProcess(1);
