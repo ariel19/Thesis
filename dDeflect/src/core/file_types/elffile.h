@@ -16,10 +16,13 @@ typedef uint32_t offset_t;
 typedef Elf64_Half esize_t;
 typedef Elf64_Off ex_offset_t;
 
+/**
+ * @brief Klasa odpowiedzialna za parsowanie plików ELF.
+ */
 class ELF : public BinaryFile {
 public:
     /**
-     * @brief Type sekcji.
+     * @brief Typy sekcji.
      */
     enum class SectionType {
         INIT,
@@ -40,14 +43,8 @@ public:
     virtual ~ELF();
 
     /**
-     * @brief Pobiera zawartość pliku.
-     * @return Zawartość aktualnie analizowalnego pliku.
-     */
-    const QByteArray& get_elf_content() const { return b_data; }
-
-    /**
-     * @brief Sprawdza czy w pamięci przechowywany jest poprawny plik.
-     * @return True jeżeli poprawny, False w innym przypadku.
+     * @brief Sprawdza czy w pamięci jest przechowywany poprawny plik.
+     * @return True jeżeli poprawny, False w innych przypadkach.
      */
     bool is_valid() const { return parsed; }
 
@@ -64,10 +61,10 @@ public:
     bool is_x64() const { return is_valid() & (cls == classes::ELF64); }
 
     /**
-     * @brief Pobiera ilość segmentów w pliku.
-     * @return Ilość segmentów w pliku, -1 w razie błędu.
+     * @brief Pobiera liczbę segmentów w pliku.
+     * @return Liczba segmentów w pliku, -1 w razie błędu.
      */
-    int get_number_of_segments() const { return is_valid() ? ph_num : - 1; }
+    int get_number_of_segments() const { return is_valid() ? ph_num : -1; }
 
     /**
      * @brief Pobiera offset w pliku dla podanego segmentu.
@@ -102,7 +99,7 @@ public:
     bool set_entry_point(const Elf64_Addr &entry_point, Elf64_Addr *old_ep = nullptr);
 
     /**
-     * @brief Dostarcza informacje o punkcie wejściowym pliku.
+     * @brief Pobiera informacje o punkcie wejściowym pliku.
      * @param old_ep referencja na wartość punktu wejściowego programu.
      * @return True jeżeli operacja się powiodła, False w innych przypadkach.
      */
@@ -172,6 +169,9 @@ public:
     bool get_relative_address(Elf64_Off file_off, int32_t &rva) const;
 
 private:
+    /**
+     * @brief Struktura, przechowująca metadane dowolnej sekcji.
+     */
     typedef struct _section_info {
         QString    sh_name;
         uint32_t   sh_type;
@@ -180,8 +180,14 @@ private:
             sh_name(name), sh_type(type) {}
     } section_info;
 
+    /**
+     * @brief Rezprezentacja strukturalna dla każdego typu sekcji.
+     */
     static QMap<SectionType, section_info> section_type;
 
+    /**
+     * @brief Struktura, przechowująca metadane segmentu.
+     */
     typedef struct _best_segment {
         uint32_t post_pad,
                  pre_pad;
@@ -194,22 +200,39 @@ private:
             ph(nullptr), change_vma(false) {}
     } best_segment;
 
+    /**
+     * @brief Typy plików ELF.
+     */
     enum class classes {
         NONE,
         ELF32,
         ELF64
     };
 
+    /**
+     * @brief Typ aktualnie załadowanego pliku.
+     */
     classes cls;
 
+    /**
+     * @brief Indeks nagłówku ELF.
+     */
     offset_t elf_header_idx;
 
-    /// size of ph header structure according to the architecture
-    /// number of program header entries
-    esize_t ph_size,
-            ph_num;
 
-    /// list of ph index headers
+     /**
+     * @brief Wielkość nagłówku program w zależności od architektury.
+     */
+    esize_t ph_size;
+
+    /**
+     * @brief Liczba program nagłówków w załadowanej aplikacji.
+     */
+    esize_t ph_num;
+
+    /**
+     * @brief Lista indeksów program nagłówków.
+     */
     QList<ex_offset_t> ph_idx;
 
     /**
@@ -251,7 +274,7 @@ private:
 
     /**
      * @brief Pobiera zawartość struktury Elf32_Phdr.
-     * @param idx Indeks
+     * @param idx Indeks.
      * @return Wskaźnik na strukturę Elf32_Phdr jeżeli dane są poprawne, nullptr w innych przypadkach.
      */
     void* __get_ph_header(uint32_t idx = 0);
@@ -399,7 +422,6 @@ private:
 
     /**
      * @brief Pobiera zawartość sekcji, jeżeli podana sekcja istnieje.
-     * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
      * @param section_data zawartość sekcji oraz offset w pliku.
      * @return True jeżeli sekcja istnieje, False w innych przypadkach.
@@ -418,7 +440,6 @@ private:
 
     /**
      * @brief Zamienia zawartość sekcji nowymi danymi, jeżeli podana sekcja istnieje.
-     * @param data zawartość pliku ELF.
      * @param sec_type typ sekcji.
      * @param section_data zawartość sekcji.
      * @param filler bajt, którym jest dopełniana sekcja.
