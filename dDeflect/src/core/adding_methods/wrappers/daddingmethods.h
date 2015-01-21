@@ -406,6 +406,13 @@ QString AsmCodeGenerator::call_reg(const RegistersType reg) {
     return QString("%1 %2\n").arg(instructions[Instructions::CALL], qreg);
 }
 
+template <typename RegistersType>
+class OEPWrapper;
+template <typename RegistersType>
+class TrampolineWrapper;
+template <typename RegistersType>
+class ThreadWrapper;
+
 /**
  * @brief Klasa, odpowiadająca za reprezentacje kodu opakowania.
  */
@@ -527,6 +534,28 @@ public:
      * @brief Reprezentacja stringów typami opakowań.
      */
     static const QMap<QString, WrapperType> wrapperTypes;
+
+    /**
+     * @brief Metoda kopiująca wrapper wraz z typem
+     * @param w Wrapper
+     * @return Nowy wrapper
+     */
+    static Wrapper *copy(Wrapper *w) {
+        switch(w->wrapper_type)
+        {
+        case WrapperType::OepWrapper:
+            return new OEPWrapper<RegistersType>(*w);
+
+        case WrapperType::ThreadWrapper:
+            return new ThreadWrapper<RegistersType>(*w);
+
+        case WrapperType::TrampolineWrapper:
+            return new TrampolineWrapper<RegistersType>(*w);
+
+        default:
+            return new Wrapper(*w);
+        }
+    }
 
     /**
      * @brief read this zostaje wczytany z pliku json.
@@ -685,6 +714,11 @@ public:
     QList<Wrapper<RegistersType>*> thread_actions;
     uint16_t sleep_time;
 
+    ThreadWrapper() { sleep_time = 5; }
+    ThreadWrapper(const ThreadWrapper& w) : Wrapper<RegistersType>(w) {
+        sleep_time = 5;
+    }
+
     virtual bool read(const QJsonObject & json) override {
         sleep_time = 5;
         return Wrapper<RegistersType>::read(json);
@@ -700,6 +734,9 @@ public:
     Wrapper<RegistersType> *oep_action;
 
     OEPWrapper() { oep_action = nullptr; }
+    OEPWrapper(const OEPWrapper& w) : Wrapper<RegistersType>(w) {
+        oep_action = nullptr;
+    }
 
     virtual bool read(const QJsonObject & json) override {
         oep_action = nullptr;
@@ -716,6 +753,9 @@ public:
     Wrapper<RegistersType> *tramp_action;
 
     TrampolineWrapper() { tramp_action = nullptr; }
+    TrampolineWrapper(const TrampolineWrapper& w) : Wrapper<RegistersType>(w) {
+        tramp_action = nullptr;
+    }
 
     virtual bool read(const QJsonObject & json) override {
         tramp_action = nullptr;
