@@ -26,9 +26,24 @@ DJsonParser::DJsonParser()
     m_path="";
 }
 
-DJsonParser::DJsonParser(QString path) : m_path(path)
-{
+DJsonParser::DJsonParser(QString path) : m_path(path) {}
+
+ bool DJsonParser::loadSourceCodeDescription(QString name, SourceCodeDescription &scd) {
+    QFile loadFile(m_path + name);
+
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        LOG_ERROR("Cannot open json file.");
+        return false;
+    }
+
+    QByteArray saveData = loadFile.readAll();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject obj = loadDoc.object();
+
+    return scd.read(obj);
 }
+
 /**
  * @brief DJsonParser::loadInjectDescription tworzy obiekt InjectDescription deserializując go z z injectDescription.json
  * @param name nazwa metody

@@ -10,6 +10,7 @@
 #include <core/adding_methods/wrappers/daddingmethods.h>
 #include <core/adding_methods/wrappers/peaddingmethods.h>
 #include <ApplicationManager/DJsonParser/djsonparser.h>
+#include <ApplicationManager/sourcecodedescription.h>
 #include <ApplicationManager/dsettings.h>
 #include <ApplicationManager/dlogger.h>
 
@@ -85,13 +86,12 @@ int main(int argc, char **argv) {
     foreach (QString fname, file_names_x64)
         tester.test_everything_x64(fname, false);
     */
-
-    QStringList lines;
-    if (!read_and_parse("test", lines))
+    SourceCodeDescription scd;
+    DJsonParser json_parser("descriptions/src/");
+    if (!json_parser.loadSourceCodeDescription("src_is_debugger_present.json", scd))
         return -1;
 
-    foreach (QString line, lines)
-        LOG_MSG(line);
+
 
     /*
     tester.test_one("bin/derby32", "derby32_ud2_x86", ELFTester::Method::Thread, "lin_x86_ptrace", "lin_x86_ud2", false, false, false);

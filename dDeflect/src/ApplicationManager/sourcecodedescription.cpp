@@ -1,0 +1,22 @@
+#include "sourcecodedescription.h"
+
+#include <QJsonObject>
+#include <QJsonArray>
+
+bool SourceCodeDescription::read(const QJsonObject &json) {
+    // name
+    name = json["name"].toString();
+
+    // description
+    description = json["description"].toString();
+
+    // path
+    path = json["path"].toString();
+
+    // headers
+    QJsonArray _headers = json["methods"].toArray();
+    foreach (auto h, _headers)
+        headers.append(h.toString());
+
+    return true;
+}
