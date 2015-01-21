@@ -1,0 +1,5 @@
+{
+  "name": "ProcessDebugObjectHandle",
+  "path": "data/detection/source/process_debug_object_handle.code",
+  "description": "When a debugging session begins, a debug object is created, and a handle is associated with it. This method queries undocummented ProcessDebugObjectHandle class using NtQueryInformationProcess function."
+}

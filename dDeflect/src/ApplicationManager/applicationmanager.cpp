@@ -62,6 +62,10 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrMethods()));
     connect(this,SIGNAL(sysChanged()),this,SLOT(updateCurrMethods()));
 
+    connect(this,SIGNAL(archTypeChanged()),this,SLOT(updateCurrHandlers()));
+    connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrHandlers()));
+    connect(this,SIGNAL(sysChanged()),this,SLOT(updateCurrHandlers()));
+
 }
 
 ApplicationManager::~ApplicationManager()
@@ -133,6 +137,11 @@ QQmlListProperty<Method> ApplicationManager::currMethods()
     return QQmlListProperty<Method>(this,m_currMethods);
 }
 
+QQmlListProperty<Method> ApplicationManager::currHandlers()
+{
+    return QQmlListProperty<Method>(this,m_currHandlers);
+}
+
 QVariantList ApplicationManager::x86MethodsNames()
 {
 
@@ -153,7 +162,8 @@ void ApplicationManager::fileOpened(QString path)
 {
     m_targetPath = path;
     //emit targetPathChanged()
-   setState(getFileType(path));
+   //setState(getFileType(path));
+    setState(ApplicationManager::ELF);
 }
 
 void ApplicationManager::applyClicked(QVariantList methodsChosen)
@@ -635,6 +645,268 @@ void ApplicationManager::updateCurrMethods()
     emit currMethodsChanged();
 }
 
+void ApplicationManager::updateCurrHandlers()
+{
+    foreach(Method* m, m_currHandlers)
+        delete m;
+
+    m_currHandlers.clear();
+    if(m_sys==Linux){
+        if(m_archType == X86){
+            switch(m_currCm){
+            case OEP:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::OEP)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux )
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Thread:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::Thread)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Trampoline:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::Trampoline)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::INIT)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT_ARRAY:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::INIT_ARRAY)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case CTORS:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::CTORS)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case TLS:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::TLS)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            default:
+                break;
+
+            }
+        }else{
+            switch(m_currCm){
+            case OEP:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::OEP)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Thread:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Thread)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Trampoline:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Trampoline)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT_ARRAY:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT_ARRAY)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case CTORS:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::CTORS)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case TLS:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::TLS)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            default:
+                break;
+
+            }
+        }
+    } else {
+        if(m_archType == X86){
+            switch(m_currCm){
+            case OEP:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::OEP)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows )
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Thread:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::Thread)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Trampoline:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::Trampoline)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::INIT)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT_ARRAY:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::INIT_ARRAY)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case CTORS:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::CTORS)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case TLS:
+                foreach(Wrapper<Registers_x86>* w, m_x86methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x86>::CallingMethod::TLS)
+                            && w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            default:
+                break;
+
+            }
+        }else{
+            switch(m_currCm){
+            case OEP:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::OEP)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Thread:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Thread)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case Trampoline:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Trampoline)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case INIT_ARRAY:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT_ARRAY)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case CTORS:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::CTORS)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            case TLS:
+                foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
+                    if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::TLS)
+                            && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                        m_currHandlers.append(new Method(w));
+                }
+                break;
+            default:
+                break;
+
+            }
+        }
+    }
+    emit currHandlersChanged();
+}
+
 void ApplicationManager::changeList(const QString &methodsName,const QString& handlersName, int index)
 {
     if(archType()==X86){
@@ -655,8 +927,8 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             newHandler = nullptr;
 
         newWrapper->detect_handler = newHandler;
-        if(index<methodsToInsert.size() && index>=0){
-            methodsToInsert[index]->adding_method = newWrapper;
+        if(index<x86methodsToInsert.size() && index>=0){
+            x86methodsToInsert[index]->adding_method = newWrapper;
         }
         else
             qDebug()<<"index out of bound";
@@ -674,8 +946,17 @@ void ApplicationManager::insertNewToList(const QString &name)
         Wrapper<Registers_x86> * w = new Wrapper<Registers_x86>();
         id->adding_method = w;
 
-        methodsToInsert.append(id);
+        x86methodsToInsert.append(id);
         //changeList("Code checksum","Exit",methodsToInsert.size()-1);
+    } else {
+        DAddingMethods<Registers_x64>::InjectDescription *id = new DAddingMethods<Registers_x64>::InjectDescription();
+        id->cm = (DAddingMethods<Registers_x64>::CallingMethod)currCm();
+        id->change_x_only = false;
+
+        Wrapper<Registers_x64> * w = new Wrapper<Registers_x64>();
+        id->adding_method = w;
+
+        x64methodsToInsert.append(id);
     }
 }
 

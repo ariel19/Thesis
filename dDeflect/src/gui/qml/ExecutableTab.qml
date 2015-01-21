@@ -14,9 +14,9 @@ Component{
         visible:true
         //property var methodsModel: applicationManager.archType === applicationManager.X86 ? applicationManager.x86methods : applicationManager.x64methods
         property var methodsModel: applicationManager.currMethods
-        property var handlersModel: applicationManager.archType === applicationManager.X86 ? applicationManager.x86handlers : applicationManager.x86handlers
+        property var handlersModel: applicationManager.currHandlers
         property var tablicaComboBoxow: []
-
+        property bool ss: true
         ColumnLayout{
             id:cl
             anchors.fill: parent
@@ -49,7 +49,7 @@ Component{
                     height: 50
                     Loader{
                         anchors.fill: parent
-                        sourceComponent: applicationManager.sys ? winCombo : winCombo
+                        sourceComponent: applicationManager.sys ? winCombo : linCombo
 
                     }
                 }
@@ -63,54 +63,7 @@ Component{
                     DynamicRadioWin{
                     }
                 }
-//                GroupBox {
-//                    title: "Injection type"
 
-
-//                    RowLayout {
-//                        ExclusiveGroup { id: tabPositionGroup }
-//                        RadioButton {
-//                            text: "OEP"
-//                            checked: true
-//                            exclusiveGroup: tabPositionGroup
-//                            onCheckedChanged: {
-//                                console.log("OEP"+checked)
-//                                if(checked){
-//                                    methodsModel = model
-//                                    applicationManager.currCm = 0
-//                                    comboboxesmobel.clear()
-//                                    methodsModel = applicationManager.currMethods
-//                                }
-//                            }
-//                        }
-//                        RadioButton {
-//                            text: "Trampoline"
-//                            exclusiveGroup: tabPositionGroup
-//                            onCheckedChanged: {
-//                                console.log("Trampoline"+checked)
-//                                if(checked){
-//                                    methodsModel = model
-//                                    applicationManager.currCm = 2
-//                                    comboboxesmobel.clear()
-//                                    methodsModel = applicationManager.currMethods
-//                                }
-//                            }
-//                        }
-//                        RadioButton {
-//                            text: "Thread"
-//                            exclusiveGroup: tabPositionGroup
-//                            onCheckedChanged: {
-//                                console.log("Thread"+checked)
-//                                if(checked){
-//                                    methodsModel = model
-//                                    applicationManager.currCm = 1
-//                                    comboboxesmobel.clear()
-//                                    methodsModel = applicationManager.currMethods
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
                 Button{
                     id: save
 
@@ -157,7 +110,8 @@ Component{
                                 width: 200
                                 textRole: "name"
                                 onCurrentIndexChanged: {
-                                    applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
+                                    if(ss)
+                                        applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }
 
                             }
@@ -169,7 +123,8 @@ Component{
                                 width: 200
                                 textRole: "name"
                                 onCurrentIndexChanged: {
-                                    applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
+                                    if(ss)
+                                        applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }
 
                             }

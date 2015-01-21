@@ -174,40 +174,62 @@ ApplicationWindow {
      target: applicationManager
      onStateChanged: {
          console.log("state changed: "+ applicationManager.state);
-
-         if(applicationManager.state === 2){
-             if(appState !== 2){
-                 if(appState===2 || appState=== 1){
-                     frame.removeTab(0);
-                     frame.removeTab(0);
-                     frame.removeTab(0);
-                 }
-                console.log("SOURCE STATE")
-                frame.addTab("SOURCE",sourceTab)
-                frame.addTab("PACKING",packingTab)
-                frame.addTab("OBFUSCATION",obfuscationTab)
-                appState = applicationManager.state;
-             }
-         } else if(applicationManager.state === 1){
-            if(appState !== 1){
-                if(appState===2 || appState=== 1){
-                    frame.removeTab(0);
-                    frame.removeTab(0);
-                    frame.removeTab(0);
-                }
-                frame.addTab("EXECUTABLE",execTab)
-                frame.addTab("PACKING",packingTab)
-                frame.addTab("OBFUSCATION",obfuscationTab)
-                appState = applicationManager.state
-            }
-         } else {
-             if(appState!== Manager.IDLE){
-                 frame.removeTab(0);
-                 frame.removeTab(0);
-                 frame.removeTab(0);
-                 appState = applicationManager.state;
-             }
+         while(frame.count>0)
+             frame.removeTab(0);
+         switch(applicationManager.state) {
+             case 0:
+                 break;
+             case 1:
+                 frame.addTab("EXECUTABLE",execTab)
+                 frame.addTab("PACKING",packingTab)
+                 frame.addTab("OBFUSCATION",obfuscationTab)
+                 break;
+             case 2:
+                 frame.addTab("EXECUTABLE",execTab)
+                 frame.addTab("PACKING",packingTab)
+                 frame.addTab("OBFUSCATION",obfuscationTab)
+                 break;
+             case 3:
+                 frame.addTab("SOURCE",sourceTab)
+                 frame.addTab("PACKING",packingTab)
+                 frame.addTab("OBFUSCATION",obfuscationTab)
+                 break;
+             default:
+                 break;
          }
+//         if(applicationManager.state === 3 ){
+//             if(appState !== 2){
+//                 if(appState===2 || appState=== 1){
+//                     frame.removeTab(0);
+//                     frame.removeTab(0);
+//                     frame.removeTab(0);
+//                 }
+//                console.log("SOURCE STATE")
+//                frame.addTab("SOURCE",sourceTab)
+//                frame.addTab("PACKING",packingTab)
+//                frame.addTab("OBFUSCATION",obfuscationTab)
+//                appState = applicationManager.state;
+//             }
+//         } else if(applicationManager.state === 1){
+//            if(appState !== 1){
+//                if(appState===2 || appState=== 1){
+//                    frame.removeTab(0);
+//                    frame.removeTab(0);
+//                    frame.removeTab(0);
+//                }
+//                frame.addTab("EXECUTABLE",execTab)
+//                frame.addTab("PACKING",packingTab)
+//                frame.addTab("OBFUSCATION",obfuscationTab)
+//                appState = applicationManager.state
+//            }
+//         } else {
+//             if(appState!== Manager.IDLE){
+//                 frame.removeTab(0);
+//                 frame.removeTab(0);
+//                 frame.removeTab(0);
+//                 appState = applicationManager.state;
+//             }
+//         }
      }
     }
     ExecutableTab{
