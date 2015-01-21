@@ -1,4 +1,4 @@
-#ifndef APPLICATIONMANAGER_H
+﻿#ifndef APPLICATIONMANAGER_H
 #define APPLICATIONMANAGER_H
 
 #include <QObject>
@@ -97,7 +97,6 @@ signals:
     void currHandlersChanged();
     void currCmChanged();
 
-
 public slots:
     void fileOpened(QString);
     void applyClicked(QVariantList methodsChosen);
@@ -133,13 +132,17 @@ private:
     QList<Method*> m_handlersx86;
     QList<Method*> m_handlersx64;
 
-    QList<Wrapper<Registers_x86>> wrappersToInject;
-
+<<<<<<< HEAD
     QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
     QList<DAddingMethods<Registers_x86>::InjectDescription*>x64methodsToInsert;
+=======
+    QList<Wrapper<Registers_x86>> wrappersToInject;
+
+    QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
 
     State getFileType(QString path);
 
+>>>>>>> ba8373d6a89c45153f176313309b0fb407ee9dc4
 };
 
 #endif // APPLICATIONMANAGER_H

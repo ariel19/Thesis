@@ -20,10 +20,14 @@ GroupBox {
             onCheckedChanged: {
                 console.log("OEP"+checked)
                 if(checked){
+                    ss = false
                     methodsModel = model
+                    handlersModel = model
                     applicationManager.currCm = 0
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
+                    handlersModel = applicationManager.currHandlers
+                    ss = true
                 }
             }
         }
@@ -34,10 +38,14 @@ GroupBox {
             onCheckedChanged: {
                 console.log("Thread"+checked)
                 if(checked){
+                    ss = false
                     methodsModel = model
+                    handlersModel = model
                     applicationManager.currCm = 1
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
+                    handlersModel = applicationManager.currHandlers
+                    ss = true
                 }
             }
         }
@@ -48,10 +56,14 @@ GroupBox {
             onCheckedChanged: {
                 console.log("Trampoline"+checked)
                 if(checked){
+                    ss = false
                     methodsModel = model
+                    handlersModel = model
                     applicationManager.currCm = 2
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
+                    handlersModel = applicationManager.currHandlers
+                    ss = true
                 }
             }
         }
@@ -62,10 +74,14 @@ GroupBox {
             onCheckedChanged: {
                 console.log("TLS"+checked)
                 if(checked){
+                    ss = false
                     methodsModel = model
+                    handlersModel = model
                     applicationManager.currCm = 6
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
+                    handlersModel = applicationManager.currHandlers
+                    ss = true
                 }
             }
         }
