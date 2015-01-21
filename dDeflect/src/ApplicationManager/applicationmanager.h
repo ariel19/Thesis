@@ -107,6 +107,7 @@ public slots:
     void fileOpened(QString);
     void applyClicked(QVariantList methodsChosen);
 
+    void saveClicked();
     void secureClicked();
     void obfuscateClicked(int cov, int minl, int maxl);
     void packClicked(int lvl, int opt);
@@ -123,6 +124,7 @@ public slots:
     void clearList();
 
 private:
+    int methodsCount;
     State m_state;
     IDList<Registers_x86> m_x86methodsList;
     QVariantList m_x86MethodsNames;

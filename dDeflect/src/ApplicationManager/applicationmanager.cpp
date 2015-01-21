@@ -1012,7 +1012,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
 
             newWrapper->detect_handler = newHandler;
             if(index<x86threadWrappersToInject.size() && index>=0){
-                x86threadWrappersToInject[index+methodsCount]= newWrapper;
+                x86threadWrappersToInject[index]= newWrapper;
             }
             else
                 qDebug()<<"index out of bound";
@@ -1042,7 +1042,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
 
             newWrapper->detect_handler = newHandler;
             if(index<x86threadWrappersToInject.size() && index>=0){
-                x64threadWrappersToInject[index+methodsCount]= newWrapper;
+                x64threadWrappersToInject[index]= newWrapper;
             }
             else
                 qDebug()<<"index out of bound";
@@ -1074,7 +1074,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
 
             newWrapper->detect_handler = newHandler;
             if(index<x86methodsToInsert.size() && index>=0){
-                x86methodsToInsert[index]->adding_method = newWrapper;
+                x86methodsToInsert[index+methodsCount]->adding_method = newWrapper;
             }
             else
                 qDebug()<<"index out of bound";
@@ -1103,7 +1103,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
 
             newWrapper->detect_handler = newHandler;
             if(index<x64methodsToInsert.size() && index>=0){
-                x64methodsToInsert[index]->adding_method = newWrapper;
+                x64methodsToInsert[index+methodsCount]->adding_method = newWrapper;
             }
             else
                 qDebug()<<"index out of bound";

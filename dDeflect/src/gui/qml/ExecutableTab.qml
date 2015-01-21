@@ -45,6 +45,7 @@ Component{
                     text:"Save"
                     onClicked: {
                         console.log("Save?")
+                        applicationManager.saveClicked()
                     }
                 }
                 Button{
