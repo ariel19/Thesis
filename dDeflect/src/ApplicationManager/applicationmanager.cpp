@@ -162,7 +162,8 @@ void ApplicationManager::fileOpened(QString path)
 {
     m_targetPath = path;
     //emit targetPathChanged()
-   setState(getFileType(path));
+   //setState(getFileType(path));
+    setState(ApplicationManager::ELF);
 }
 
 void ApplicationManager::applyClicked(QVariantList methodsChosen)
