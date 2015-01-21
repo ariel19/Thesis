@@ -1,0 +1,5 @@
+{
+	"name" : "Ptrace check",
+  "path": "data/detection/source/ptrace.code",
+  "description": "Technique tries to trace itself, if it's not possible, then process is already debugged"
+}

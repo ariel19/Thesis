@@ -1,0 +1,5 @@
+{
+  "name": "FindWindow",
+  "path": "data/detection/source/find_window.code",
+  "description": "Code tries to find windows class names of known debuggers."
+}

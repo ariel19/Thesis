@@ -1,0 +1,5 @@
+{
+  "name": "CheckRemoteDebuggerPresent",
+  "path": "data/detection/source/check_remote_debugger_present.code",
+  "description": "Determines whether the protected application is being debugged using standard Windows API function CheckRemoteDebuggerPresent()."
+}
