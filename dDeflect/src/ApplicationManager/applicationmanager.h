@@ -38,6 +38,8 @@ class ApplicationManager : public QObject
     Q_PROPERTY(QQmlListProperty<Method> currMethods READ currMethods NOTIFY currMethodsChanged)
     Q_PROPERTY(QQmlListProperty<Method> currHandlers READ currHandlers NOTIFY currHandlersChanged)
 
+    Q_PROPERTY(QQmlListProperty<Method> currSourceMethods READ currSourceMethods NOTIFY currSourceMethodsChanged)
+
 public:
     template <typename Reg>
     using IDList = QList< Wrapper<Reg>*>;
@@ -79,6 +81,8 @@ public:
     QQmlListProperty<Method> currMethods();
     QQmlListProperty<Method> currHandlers();
 
+    QQmlListProperty<Method> currSourceMethods();
+
     QVariantList x86MethodsNames();
 
 signals:
@@ -97,6 +101,7 @@ signals:
     void currHandlersChanged();
     void currCmChanged();
 
+    void currSourceMethodsChanged();
 
 public slots:
     void fileOpened(QString);
@@ -146,6 +151,8 @@ private:
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
     QList<DAddingMethods<Registers_x64>::InjectDescription*>x64methodsToInsert;
+
+    QList<Method*> m_currSourceMethods;
 
     State getFileType(QString path);
     bool checkBinaryFile(BinaryFile &f);

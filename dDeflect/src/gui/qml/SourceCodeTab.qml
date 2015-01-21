@@ -106,7 +106,7 @@ Component{
                             ComboBox {
                                 id: methodCombo
                                 visible: true
-                                model: functionsModel
+                                model: applicationManager.currSourceMethods
 
                                 width: 200
                                 textRole: "name"

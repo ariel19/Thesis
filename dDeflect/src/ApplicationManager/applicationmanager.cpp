@@ -8,7 +8,7 @@
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
 {
-
+    methodsCount = 0;
     // Metody 32 bitowe
     jsonParser.setPath(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
     qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x86>();
@@ -143,6 +143,11 @@ QQmlListProperty<Method> ApplicationManager::currHandlers()
     return QQmlListProperty<Method>(this,m_currHandlers);
 }
 
+QQmlListProperty<Method> ApplicationManager::currSourceMethods()
+{
+    return QQmlListProperty<Method>(this,m_currSourceMethods);
+}
+
 QVariantList ApplicationManager::x86MethodsNames()
 {
     return m_x86MethodsNames;
@@ -174,6 +179,14 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
     map["main"] = methodsToInsert;
     qDebug()<<map;
     insertMethods(map);
+}
+
+void ApplicationManager::saveClicked()
+{
+    if(archType()==X86)
+        methodsCount = x86methodsToInsert.count();
+    else
+        methodsCount = x64methodsToInsert.count();
 }
 
 void ApplicationManager::secureClicked()
@@ -999,7 +1012,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
 
             newWrapper->detect_handler = newHandler;
             if(index<x86threadWrappersToInject.size() && index>=0){
-                x86threadWrappersToInject[index]= newWrapper;
+                x86threadWrappersToInject[index+methodsCount]= newWrapper;
             }
             else
                 qDebug()<<"index out of bound";
@@ -1029,7 +1042,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
 
             newWrapper->detect_handler = newHandler;
             if(index<x86threadWrappersToInject.size() && index>=0){
-                x64threadWrappersToInject[index]= newWrapper;
+                x64threadWrappersToInject[index+methodsCount]= newWrapper;
             }
             else
                 qDebug()<<"index out of bound";
