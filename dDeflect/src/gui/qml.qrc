@@ -14,5 +14,6 @@
         <file>qml/Pasek.qml</file>
         <file>qml/MethodsRectangle.qml</file>
         <file>qml/DynamicRadioWin.qml</file>
+        <file>qml/DRadioButton.qml</file>
     </qresource>
 </RCC>
