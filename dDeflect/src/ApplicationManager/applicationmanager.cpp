@@ -190,6 +190,44 @@ void ApplicationManager::secureClicked()
 {
     // TODO: Lista metod w threadzie juz wypelniona, należy dołożyć odpowiedni wrapper helpera
     // do odpowiedniej listy i podpiąć listę x86methodsToInsert x64methodsToInsert pod ten wrapper
+    if(m_archType == ApplicationManager::X86)
+    {
+        if(!x86threadWrappersToInject.empty()) {
+            DAddingMethods<Registers_x86>::InjectDescription *th = new DAddingMethods<Registers_x86>::InjectDescription();
+            th->cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
+            foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::ThreadWrapper)
+                    th->adding_method = w;
+            }
+
+            ThreadWrapper<Registers_x86> *tw = dynamic_cast<ThreadWrapper<Registers_x86>*>(th->adding_method);
+
+            foreach(Wrapper<Registers_x86>* wrp, x86threadWrappersToInject) {
+                tw->thread_actions.append(wrp);
+            }
+
+            x86methodsToInsert.append(th);
+        }
+    }
+    else
+    {
+        if(!x64threadWrappersToInject.empty()) {
+            DAddingMethods<Registers_x64>::InjectDescription *th = new DAddingMethods<Registers_x64>::InjectDescription();
+            th->cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
+            foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::ThreadWrapper)
+                    th->adding_method = w;
+            }
+
+            ThreadWrapper<Registers_x64> *tw = dynamic_cast<ThreadWrapper<Registers_x64>*>(th->adding_method);
+
+            foreach(Wrapper<Registers_x64>* wrp, x64threadWrappersToInject) {
+                tw->thread_actions.append(wrp);
+            }
+
+            x64methodsToInsert.append(th);
+        }
+    }
 
     QFile f(m_targetPath);
     if(!f.open(QFile::ReadOnly)) {
