@@ -188,7 +188,7 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
 
 void ApplicationManager::secureClicked()
 {
-    /*QFile f(m_targetPath);
+    QFile f(m_targetPath);
     if(!f.open(QFile::ReadOnly)) {
         LOG_ERROR("Secure failed!");
         return;
@@ -216,11 +216,17 @@ void ApplicationManager::secureClicked()
 
         if(bin->is_x86()) {
             PEAddingMethods<Registers_x86> am(dynamic_cast<PEFile*>(bin));
-            am.obfuscate(cov, minl, maxl);
+            if(!am.secure(x86methodsToInsert)) {
+                LOG_ERROR("Secure failed!");
+                return;
+            }
         }
         else {
             PEAddingMethods<Registers_x64> am(dynamic_cast<PEFile*>(bin));
-            am.obfuscate(cov, minl, maxl);
+            if(!am.secure(x64methodsToInsert)) {
+                LOG_ERROR("Secure failed!");
+                return;
+            }
         }
 
         break;
@@ -236,11 +242,17 @@ void ApplicationManager::secureClicked()
 
         if(bin->is_x86()) {
             ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
-            am.obfuscate(cov, minl, maxl);
+            if(!am.secure(x86methodsToInsert)) {
+                LOG_ERROR("Secure failed!");
+                return;
+            }
         }
         else {
-            ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
-            am.obfuscate(cov, minl, maxl);
+            ELFAddingMethods<Registers_x64> am(dynamic_cast< ::ELF*>(bin));
+            if(!am.secure(x64methodsToInsert)) {
+                LOG_ERROR("Secure failed!");
+                return;
+            }
         }
 
         break;
@@ -251,7 +263,7 @@ void ApplicationManager::secureClicked()
         break;
 
     default:
-        LOG_ERROR("Obfuscation failed!");
+        LOG_ERROR("Secure failed!");
         break;
     }
 
@@ -265,7 +277,7 @@ void ApplicationManager::secureClicked()
         out.write(bin->getData());
 
         out.close();
-    }*/
+    }
 
     // TODO: source
 }
@@ -326,11 +338,17 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
 
         if(bin->is_x86()) {
             ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
-            am.obfuscate(cov, minl, maxl);
+            if(!am.obfuscate(cov, minl, maxl)) {
+                LOG_ERROR("Obfuscation failed!");
+                return;
+            }
         }
         else {
-            ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
-            am.obfuscate(cov, minl, maxl);
+            ELFAddingMethods<Registers_x64> am(dynamic_cast< ::ELF*>(bin));
+            if(!am.obfuscate(cov, minl, maxl)) {
+                LOG_ERROR("Obfuscation failed!");
+                return;
+            }
         }
 
         break;
