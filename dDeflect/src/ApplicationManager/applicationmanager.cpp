@@ -756,6 +756,15 @@ void ApplicationManager::insertNewToList(const QString &name)
 
         x86methodsToInsert.append(id);
         //changeList("Code checksum","Exit",methodsToInsert.size()-1);
+    } else {
+        DAddingMethods<Registers_x64>::InjectDescription *id = new DAddingMethods<Registers_x64>::InjectDescription();
+        id->cm = (DAddingMethods<Registers_x64>::CallingMethod)currCm();
+        id->change_x_only = false;
+
+        Wrapper<Registers_x64> * w = new Wrapper<Registers_x64>();
+        id->adding_method = w;
+
+        x64methodsToInsert.append(id);
     }
 }
 

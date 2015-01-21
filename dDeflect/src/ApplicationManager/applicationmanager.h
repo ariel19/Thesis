@@ -136,7 +136,7 @@ private:
     QList<Wrapper<Registers_x86>> wrappersToInject;
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
-    QList<DAddingMethods<Registers_x86>::InjectDescription*>x64methodsToInsert;
+    QList<DAddingMethods<Registers_x64>::InjectDescription*>x64methodsToInsert;
 
     State getFileType(QString path);
 
