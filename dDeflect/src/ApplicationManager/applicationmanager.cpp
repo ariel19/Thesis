@@ -920,7 +920,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::OEP)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
@@ -928,7 +928,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Thread)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
@@ -936,7 +936,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::Trampoline)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
@@ -944,7 +944,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
@@ -952,7 +952,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::INIT_ARRAY)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
@@ -960,7 +960,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::CTORS)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
@@ -968,7 +968,7 @@ void ApplicationManager::updateCurrHandlers()
                 foreach(Wrapper<Registers_x64>* w, m_x64methodsList){
                     if(w->allowed_methods.contains(DAddingMethods<Registers_x64>::CallingMethod::TLS)
                             && w->wrapper_type==Wrapper<Registers_x64>::WrapperType::Handler
-                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux)
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows)
                         m_currHandlers.append(new Method(w));
                 }
                 break;
