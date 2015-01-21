@@ -1,5 +1,8 @@
 {
   "name": "ParentProcess",
   "path": "data/detection/source/parent_process.code",
+	"system" : "windows",
+	"headers" : [
+	],
   "description": "The code checks if Parent process of protected application is Windows Explorer. If not, this may mean that application is debugged. Note: if application is started by file manager other than Explorer e.g. Total Commander it will be reported as debugged."
 }

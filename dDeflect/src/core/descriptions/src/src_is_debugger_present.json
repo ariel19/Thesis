@@ -1,5 +1,10 @@
 {
   "name": "IsDebuggerPresent",
   "path": "data/detection/source/is_debugger_present.code",
+	"system" : "windows",
+	"headers" : [
+		"<WinBase.h>",
+		"<Windows.h>"
+	],
   "description": "Determines whether the calling process is being debugged by a user-mode debugger using standard Windows API function IsDebuggerPresent()."
 }

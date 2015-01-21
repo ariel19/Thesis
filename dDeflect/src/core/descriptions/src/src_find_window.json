@@ -1,5 +1,11 @@
 {
   "name": "FindWindow",
   "path": "data/detection/source/find_window.code",
+	"system" : "windows",
+	"headers" : [
+		"<Winuser.h>",
+		"<Windows.h>",
+		"<WinBase.h>"
+	],
   "description": "Code tries to find windows class names of known debuggers."
 }
