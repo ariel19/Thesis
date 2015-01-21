@@ -49,10 +49,12 @@ void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<Registers_
     // TODO: przygotuj kod do wstawienia tak aby działał
     QString codeToInsert;
     foreach(Wrapper<Registers_x86>* id, map["main"]){
-        codeToInsert.append("__asm__(");
-        codeToInsert.append(id->code);
-        codeToInsert.append(");\n");
+        codeToInsert.append("{");
+        //codeToInsert.append(id->code);
+        codeToInsert.append("if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0)exit_group(188);");
+        codeToInsert.append("}\n");
     }
+
     arguments << path << "--" << "main" << codeToInsert;
 
     QProcess * myProcess = new QProcess();

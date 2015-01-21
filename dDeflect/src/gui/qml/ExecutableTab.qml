@@ -20,17 +20,18 @@ Component{
         ColumnLayout{
             id:cl
             anchors.fill: parent
-            //anchors.margins: 12
             anchors.topMargin: addButton.height/2
             spacing: 10
             RowLayout{
+                id: buttonRow
                 Layout.alignment: Qt.AlignLeft
                 width: 500
                 height: 50
                 spacing: 10
+                visible: false
                 Button{
                     id: addButton
-                    visible: linCombo.checked
+                    visible: true
                     text:"Click to add a method."
                     onClicked: {
                         comboboxesmobel.append({"name":"kuba"})
@@ -40,7 +41,7 @@ Component{
                     }
                 }
                 Button{
-                    id: save
+                    id: saveButton
 
                     text:"Save"
                     onClicked: {
@@ -49,7 +50,7 @@ Component{
                     }
                 }
                 Button{
-                    id: apply
+                    id: applyButton
                     visible: linbuttons.checked || winbuttons.checked
                     text:"Apply"
                     onClicked: {
@@ -67,8 +68,7 @@ Component{
                     Loader{
                         id: radioLoader
                         anchors.fill: parent
-                        sourceComponent: applicationManager.state===1 ? winCombo : linCombo
-
+                        sourceComponent: applicationManager.state === 1 ? winCombo : linCombo
                     }
                 }
                 Component{
@@ -133,23 +133,7 @@ Component{
                                 }
 
                             }
-//                            Loader {
 
-//                                Component{
-//                                    id: handlerCombo
-
-//                                }
-
-//                                Component{
-//                                    id: emptyId
-//                                    Text{
-//                                        width: 200
-//                                        text:"No handler possible."
-//                                    }
-//                                }
-//                                sourceComponent: methodsModel[methodCombo.currentIndex].returns ? (methodsModel[methodCombo.currentIndex].isThread === true ? c2 : handlerCombo) :emptyId
-
-//                            }
                         }
 
                     }

@@ -36,7 +36,8 @@ Project {
             qbs.install: true
             qbs.installDir: "bin"
             files: [
-                "src/core/descriptions/"
+                "src/core/descriptions/",
+                "src/gui/qml/DRadioButton.qml",
             ]
         }
 
