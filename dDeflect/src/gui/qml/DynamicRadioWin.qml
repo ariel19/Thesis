@@ -28,6 +28,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
@@ -46,6 +47,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
@@ -64,6 +66,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
@@ -82,6 +85,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
