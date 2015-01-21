@@ -1,6 +1,7 @@
 #include "codedefines.h"
 
 #include <chrono>
+#include <QDebug>
 
 template <typename Register>
 QStack<uint64_t> CodeDefines<Register>::seed;
@@ -787,3 +788,31 @@ QByteArray CodeDefines<Register>::obfuscate(std::default_random_engine &gen, uin
 }
 template QByteArray CodeDefines<Registers_x86>::obfuscate(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);
 template QByteArray CodeDefines<Registers_x64>::obfuscate(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);
+
+template <typename Register>
+QString CodeDefines<Register>::obfuscate_source(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len) {
+    QString code;
+
+    if(min_len < 1)
+        min_len = 1;
+
+    if(max_len < min_len)
+        max_len = min_len;
+
+    std::uniform_int_distribution<int> p(min_len, max_len);
+    std::uniform_int_distribution<int> q(QChar('A').toLatin1(), QChar('z').toLatin1());
+
+    int n = p(gen);
+    code.append("__asm__(\"jmp xxx\");\n");
+    code.append("__asm__(\".ascii \\\"");
+    for(int i = 0; i < n; ++i)
+        code.append(QChar(q(gen)));
+
+    code.append("\\\"\");\n");
+    code.append("__asm__(\"xxx:\");");
+
+    return code;
+}
+template QString CodeDefines<Registers_x86>::obfuscate_source(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);
+template QString CodeDefines<Registers_x64>::obfuscate_source(std::default_random_engine &gen, uint8_t min_len, uint8_t max_len);
+

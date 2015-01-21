@@ -1,4 +1,4 @@
-﻿#ifndef APPLICATIONMANAGER_H
+#ifndef APPLICATIONMANAGER_H
 #define APPLICATIONMANAGER_H
 
 #include <QObject>
@@ -46,7 +46,7 @@ public:
 
     explicit ApplicationManager(QObject *parent = 0);
     virtual ~ApplicationManager();
-    enum State{IDLE, EXEC, SOURCE};
+    enum State{IDLE, PE, ELF, SOURCE};
     enum Arch{X86,X64};
     enum CallingMethod {
         OEP,
@@ -97,12 +97,12 @@ signals:
     void currHandlersChanged();
     void currCmChanged();
 
+    void currCmChanged();
 public slots:
     void fileOpened(QString);
     void applyClicked(QVariantList methodsChosen);
     void insertMethods(FIDMapping<Registers_x86>);
     void updateCurrMethods();
-    void updateCurrHandlers();
 
     void changeList(const QString &methodsName,const QString& handlersName, int index);
     void insertNewToList(const QString &name);
@@ -132,8 +132,12 @@ private:
     QList<Method*> m_handlersx86;
     QList<Method*> m_handlersx64;
 
-    QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
-    QList<DAddingMethods<Registers_x86>::InjectDescription*>x64methodsToInsert;
+    QList<Wrapper<Registers_x86>> wrappersToInject;
+
+    QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
+
+    State getFileType(QString path);
+
 };
 
 #endif // APPLICATIONMANAGER_H
