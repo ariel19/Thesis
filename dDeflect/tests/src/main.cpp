@@ -30,7 +30,7 @@ bool read_and_parse(const QString &fname, QStringList &vals) {
     QString tline;
     int idx;
     foreach (QString line, lines) {
-        tline = line.remove(QRegExp("[\\n\\t\\r]"));
+        tline = line.remove(QRegExp("(\\n\\t\\r)"));
         idx = tline.indexOf('(');
         if (idx != -1)
             tline.remove(0, idx + 1);

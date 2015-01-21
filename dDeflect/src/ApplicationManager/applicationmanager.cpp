@@ -144,17 +144,6 @@ QQmlListProperty<Method> ApplicationManager::currHandlers()
 
 QVariantList ApplicationManager::x86MethodsNames()
 {
-
-    if(m_x86MethodsNames.empty()){
-        foreach(Wrapper<Registers_x86>* id, m_x86methodsList){
-            if(id==NULL)
-                qDebug()<<"Wczytany wrapper == NULL";
-            else{
-                QVariant* p = new QVariant(QString::fromStdString(id->name.toStdString()));
-                m_x86MethodsNames.append(*p);
-            }
-        }
-    }
     return m_x86MethodsNames;
 }
 
@@ -404,9 +393,14 @@ void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
     sourceParser->insertMethods(m_targetPath,Map);
 }
 
-void ApplicationManager::getDeclarations()
+QStringList ApplicationManager::getDeclarations()
 {
-    qDebug()<<sourceParser->getFunctions(m_targetPath);
+    QStringList l = sourceParser->getFunctions(m_targetPath);
+    foreach(QString s, l){
+        m_x86MethodsNames.append(QVariant::fromValue(s));
+    }
+
+    return l;
 }
 
 void ApplicationManager::updateCurrMethods()
@@ -1125,7 +1119,8 @@ ApplicationManager::State ApplicationManager::getFileType(QString path)
         setSys(Linux);
         return ApplicationManager::ELF;
     }
-
+    // Source !
+    getDeclarations();
     return ApplicationManager::SOURCE;
 }
 

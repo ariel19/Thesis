@@ -107,7 +107,7 @@ public slots:
     void packClicked(int lvl, int opt);
 
     void insertMethods(FIDMapping<Registers_x86>);
-    void getDeclarations();
+    QStringList getDeclarations();
 
     void updateCurrMethods();
     void updateCurrHandlers();

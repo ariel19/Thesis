@@ -29,18 +29,8 @@ QStringList DSourceCodeParser::getFunctions(const QString &path)
         return functionList;
     }
 
-    fstream functionFile;
-    string methodName;
-    unsigned pos;
-    functionFile.open("/home/jsk/functions.txt", std::ios_base::in);
-    if(!functionFile.is_open()){
-        qDebug()<<"Cant open /home/jsk/functions.txt";
-        return functionList;
-    }
-
-    while(functionFile >> methodName >> pos)
-        functionList.append(QString::fromStdString(methodName));
-
+    read_and_parse("/home/jsk/functions.txt", functionList);
+    //qDebug()<<functionList;
     return functionList;
 }
 
@@ -71,4 +61,29 @@ void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<Registers_
         qDebug() << "timeout passed, methodInsert not executed.";
         return;
     }
+}
+bool DSourceCodeParser::read_and_parse(const QString &fname, QStringList &vals) {
+    QFile f(fname);
+    if (!f.open(QIODevice::ReadOnly))
+        return false;
+
+    QString content = f.readAll();
+    QStringList lines = content.split('\n');
+
+    // filter lines
+    QString tline;
+    int idx;
+    foreach (QString line, lines) {
+        tline = line.remove(QRegExp("(\\n\\t\\r)"));
+        idx = tline.indexOf('(');
+        if (idx != -1)
+            tline.remove(0, idx + 1);
+        idx = tline.lastIndexOf(')');
+        if (idx != -1)
+            tline.remove(idx, 1);
+        if (!tline.isEmpty())
+            vals.push_back(tline);
+    }
+
+    return true;
 }

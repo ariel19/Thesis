@@ -26,7 +26,7 @@ public:
     QStringList getFunctions(const QString &path);
     void insertMethods(const QString &path, FIDMapping<Registers_x86>);
 private:
-
+    bool read_and_parse(const QString &fname, QStringList &vals);
 };
 
 #endif // DSOURCECODEPARSER_H
