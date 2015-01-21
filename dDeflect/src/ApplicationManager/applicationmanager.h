@@ -1,4 +1,4 @@
-#ifndef APPLICATIONMANAGER_H
+﻿#ifndef APPLICATIONMANAGER_H
 #define APPLICATIONMANAGER_H
 
 #include <QObject>
@@ -36,6 +36,7 @@ class ApplicationManager : public QObject
     Q_PROPERTY(QQmlListProperty<Method> x64handlers READ x64handlers NOTIFY x64handlersChanged)
 
     Q_PROPERTY(QQmlListProperty<Method> currMethods READ currMethods NOTIFY currMethodsChanged)
+    Q_PROPERTY(QQmlListProperty<Method> currHandlers READ currHandlers NOTIFY currHandlersChanged)
 
 public:
     template <typename Reg>
@@ -76,6 +77,7 @@ public:
     QQmlListProperty<Method> x86handlers();
     QQmlListProperty<Method> x64handlers();
     QQmlListProperty<Method> currMethods();
+    QQmlListProperty<Method> currHandlers();
 
     QVariantList x86MethodsNames();
 
@@ -92,13 +94,15 @@ signals:
     void x64handlersChanged();
 
     void currMethodsChanged();
-
+    void currHandlersChanged();
     void currCmChanged();
+
 public slots:
     void fileOpened(QString);
     void applyClicked(QVariantList methodsChosen);
     void insertMethods(FIDMapping<Registers_x86>);
     void updateCurrMethods();
+    void updateCurrHandlers();
 
     void changeList(const QString &methodsName,const QString& handlersName, int index);
     void insertNewToList(const QString &name);
@@ -123,14 +127,13 @@ private:
     QList<Method*> m_methodsx64;
 
     QList<Method*> m_currMethods;
+    QList<Method*> m_currHandlers;
 
     QList<Method*> m_handlersx86;
     QList<Method*> m_handlersx64;
 
-    QList<Wrapper<Registers_x86>> wrappersToInject;
-
-    QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
-
+    QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
+    QList<DAddingMethods<Registers_x86>::InjectDescription*>x64methodsToInsert;
 };
 
 #endif // APPLICATIONMANAGER_H
