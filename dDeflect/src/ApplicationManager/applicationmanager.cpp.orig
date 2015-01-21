@@ -1085,14 +1085,18 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             Wrapper<Registers_x64> *newHandler;
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==methodsName){
-                    newWrapper = new Wrapper<Registers_x64>(*w);
+                    newWrapper = Wrapper<Registers_x64>::copy(w);
                     methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==handlersName){
-                    newHandler = Wrapper<Registers_x64>::copy(w);
+<<<<<<< HEAD
+                    newHandler = new Wrapper<Registers_x64>(*w);
                     handlerFound = true;
+=======
+                    newHandler = Wrapper<Registers_x64>::copy(w);
+>>>>>>> cc38e482c00a5a891afdb84fcec330b8b5a9f839
                 }
             }
             if(!handlerFound || !methodFound){
