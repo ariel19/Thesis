@@ -23,7 +23,6 @@ Project {
             "src/gui/qml/main.qml",
             "src/ApplicationManager/DMethods/*.cpp",
             "src/ApplicationManager/DMethods/*.h"
-
         ]
 
         Group {     // Properties for the produced executable
@@ -66,7 +65,7 @@ Project {
                 "src/core/file_types/codedefines.h",
                 "src/gui/qml/DynamicRadioWin.qml",
                 "src/gui/qml/ObfuscationTab.qml",
-                "src/gui/qml/PackingTab.qml",
+                "src/gui/qml/PackingTab.qml"
             ]
             condition: qbs.targetOS == "linux"
             cpp.dynamicLibraries: ["boost_system"]
@@ -90,6 +89,8 @@ Project {
             "src/ApplicationManager/dlogger.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.cpp",
             "src/ApplicationManager/DSourceCodeParser/*.h",
+            "src/ApplicationManager/sourcecodedescription.cpp",
+            "src/ApplicationManager/sourcecodedescription.h",
             "src/DMethods/*.cpp",
             "src/DMethods/*.h",
             "src/gui/qml/DynamicRadioButtons.qml",

@@ -3,6 +3,7 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <ApplicationManager/sourcecodedescription.h>
 
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 #include <core/adding_methods/wrappers/peaddingmethods.h>
@@ -17,6 +18,8 @@ public:
 
     template <typename Reg>
     Wrapper<Reg> *loadInjectDescription(QString name);
+
+    bool loadSourceCodeDescription(QString name, SourceCodeDescription &scd);
 
     bool saveIncjectDescription(QString name, Wrapper<Registers_x86> &inj);
 

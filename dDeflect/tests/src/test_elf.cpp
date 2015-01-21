@@ -45,7 +45,7 @@ QList<QString> ELFTester::handlers_x64 = {
 
 QMap<ELFTester::Method, QString> ELFTester::wrappers_x86 = {
     { ELFTester::Method::OEP, "lin_x86_oepwrapper" },
-    { ELFTester::Method::Thread, "lin_x86_ThreadWrapper" },
+    { ELFTester::Method::Thread, "lin_x86_threadwrapper" },
     { ELFTester::Method::Trampoline, "lin_x86_trampolinewrapper" },
     { ELFTester::Method::CTORS, "lin_x86_trampolinewrapper" },
     { ELFTester::Method::INIT, "lin_x86_trampolinewrapper" },
@@ -54,7 +54,7 @@ QMap<ELFTester::Method, QString> ELFTester::wrappers_x86 = {
 
 QMap<ELFTester::Method, QString> ELFTester::wrappers_x64 = {
     { ELFTester::Method::OEP, "lin_x64_oepwrapper" },
-    { ELFTester::Method::Thread, "lin_x64_ThreadWrapper" },
+    { ELFTester::Method::Thread, "lin_x64_threadwrapper"},
     { ELFTester::Method::Trampoline, "lin_x64_trampolinewrapper" },
     { ELFTester::Method::CTORS, "lin_x64_trampolinewrapper" },
     { ELFTester::Method::INIT, "lin_x64_trampolinewrapper" },
