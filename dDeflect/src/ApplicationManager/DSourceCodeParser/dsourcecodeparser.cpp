@@ -18,7 +18,9 @@ QStringList DSourceCodeParser::getFunctions(const QString &path)
     }
 
     QStringList arguments;
-    arguments << path << "--";
+    QString path2 = path;
+    path2 = path2.remove("file://");
+    arguments << path2 << "--";
 
     QProcess * myProcess = new QProcess();
     myProcess->start(program, arguments);

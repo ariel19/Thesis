@@ -56,7 +56,7 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     sourceExtensionList<<"cpp"<<"cxx"<<"c";
     setState(IDLE);
     setArchType(X86);
-    setSys(Linux);
+
 
     connect(this,SIGNAL(archTypeChanged()),this,SLOT(updateCurrMethods()));
     connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrMethods()));
@@ -162,8 +162,8 @@ void ApplicationManager::fileOpened(QString path)
 {
     m_targetPath = path;
     //emit targetPathChanged()
-    //setState(getFileType(path));
-    setState(ApplicationManager::ELF);
+    setState(getFileType(path));
+    //setState(ApplicationManager::PE);
 }
 
 void ApplicationManager::applyClicked(QVariantList methodsChosen)
@@ -402,6 +402,11 @@ void ApplicationManager::packClicked(int lvl, int opt)
 void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
 {
     sourceParser->insertMethods(m_targetPath,Map);
+}
+
+void ApplicationManager::getDeclarations()
+{
+    qDebug()<<sourceParser->getFunctions(m_targetPath);
 }
 
 void ApplicationManager::updateCurrMethods()
@@ -1098,7 +1103,9 @@ void ApplicationManager::clearList()
 
 ApplicationManager::State ApplicationManager::getFileType(QString path)
 {
-    QFile f(path);
+    QString newPath = path.remove("file://");
+    QFile f(newPath);
+
     if(!f.open(QFile::ReadOnly))
     {
         LOG_ERROR("Cannot open file!");
@@ -1109,14 +1116,17 @@ ApplicationManager::State ApplicationManager::getFileType(QString path)
     f.close();
 
     PEFile pe(data);
-    if(pe.is_valid())
+    if(pe.is_valid()){
+        setSys(Windows);
         return ApplicationManager::PE;
-
+    }
     ::ELF elf(data);
-    if(elf.is_valid())
+    if(elf.is_valid()){
+        setSys(Linux);
         return ApplicationManager::ELF;
+    }
 
-    return ApplicationManager::IDLE;
+    return ApplicationManager::SOURCE;
 }
 
 bool ApplicationManager::checkBinaryFile(BinaryFile &f)

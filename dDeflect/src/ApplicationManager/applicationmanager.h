@@ -107,6 +107,8 @@ public slots:
     void packClicked(int lvl, int opt);
 
     void insertMethods(FIDMapping<Registers_x86>);
+    void getDeclarations();
+
     void updateCurrMethods();
     void updateCurrHandlers();
 

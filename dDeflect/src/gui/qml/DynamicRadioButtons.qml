@@ -19,8 +19,10 @@ GroupBox {
         exclusiveGroup: tabPositionGroup
         onCheckedChanged: {
             console.log("OEP"+checked)
+            console.log("System : "+applicationManager.sys  )
             if(checked){
                 ss = false
+                console.log(applicationManager.sys  )
                 methodsModel = model
                 handlersModel = model
                 applicationManager.currCm = 0

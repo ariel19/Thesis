@@ -65,7 +65,7 @@ Component{
                     height: 50
                     Loader{
                         anchors.fill: parent
-                        sourceComponent: applicationManager.sys ? winCombo : linCombo
+                        sourceComponent: applicationManager.state===1 ? winCombo : linCombo
 
                     }
                 }

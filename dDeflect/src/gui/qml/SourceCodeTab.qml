@@ -63,10 +63,11 @@ Component {
                     text: "Apply Method"
                     anchors.bottom: parent.bottom
                     onClicked: {
-                        applicationManager.applyClicked(t)
-                        applicationManager.state = Manager.IDLE
-                        appState = Manager.IDLE
-                        fileUrlText.text = "Choose a C++ source file or an executive file."
+//                        applicationManager.applyClicked(t)
+//                        applicationManager.state = Manager.IDLE
+//                        appState = Manager.IDLE
+//                        fileUrlText.text = "Choose a C++ source file or an executive file."
+                        applicationManager.getDeclarations();
                     }
                 }
             }
