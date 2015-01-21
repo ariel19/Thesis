@@ -27,6 +27,9 @@ class Wrapper;
     QString((std::string(#instruction).substr(std::string(#instruction).find_last_of(':') != std::string::npos ? \
     std::string(#instruction).find_last_of(':') + 1 : 0)).c_str()).toLower()
 
+/**
+ * @brief Klasa bazowa dla dodawania kodu dla określonych typów plików.
+ */
 template <typename RegistersType>
 class DAddingMethods {
 public:
@@ -40,7 +43,7 @@ public:
     };
 
     /**
-     * @brief Obsługiwane systemy operacyjne
+     * @brief Obsługiwane systemy operacyjne.
      */
     enum class SystemType {
         Windows,
@@ -61,7 +64,7 @@ public:
     };
 
     /**
-     * @brief Stopień kompresji UPX
+     * @brief Stopień kompresji UPX.
      */
     enum class CompressionLevel {
         L1 = 1,
@@ -77,19 +80,13 @@ public:
     };
 
     /**
-     * @brief Dodatkowe opcje kompresji UPX
+     * @brief Dodatkowe opcje kompresji UPX.
      */
     enum class CompressionOptions {
         Default,
         Brute,
         Ultra
     };
-
-
-    /**
-     * @brief Klasa bazowa reprezentująca opakowanie dla kawałków kodu.
-     */
-
 
     /**
      * @brief Klasa opisująca metodę wstrzykiwania kodu.
@@ -108,24 +105,24 @@ public:
     DAddingMethods(BinaryFile *f);
 
     /**
-     * @brief Metoda dodająca wybrane metody wykrywania debuggerów do pliku binarnego
-     * @param descs Opisy metod wykrywania debuggerów
-     * @return True w przypadku sukcesu
+     * @brief Metoda dodająca wybrane metody wykrywania debuggerów do pliku binarnego.
+     * @param descs Opisy metod wykrywania debuggerów.
+     * @return True w przypadku sukcesu, False w innych przypadkach.
      */
     virtual bool secure(const QList<typename DAddingMethods<RegistersType>::InjectDescription*> &descs) = 0;
 
     /**
-     * @brief Metoda pakująca plik binarny
-     * @param file_path Ścieżka do pliku
-     * @param level Poziom pakowania UPX
-     * @param opt Dodatkowe opcje pakowania
-     * @return
+     * @brief Metoda pakująca plik binarny.
+     * @param file_path Ścieżka do pliku.
+     * @param level Poziom pakowania UPX.
+     * @param opt Dodatkowe opcje pakowania.
+     * @return True w przypadku sukcesu, False w innych przypadkach.
      */
     static bool pack(QString file_path, CompressionLevel level = CompressionLevel::BEST, CompressionOptions opt = CompressionOptions::Default);
 
 protected:
     /**
-     * @brief Plik binarny
+     * @brief Plik binarny.
      */
     BinaryFile *file;
 
@@ -135,21 +132,27 @@ protected:
     QMap<ArchitectureType, QString> arch_type;
 
     /**
-     * @brief Generator liczb losowych
+     * @brief Generator liczb losowych.
      */
     std::default_random_engine r_gen;
 
 public:
     /**
-     * @brief Mapa konwertująca ciągi znaków na CallingMethod
+     * @brief Mapa konwertująca ciągi znaków na CallingMethod.
      */
     static const QMap<QString, CallingMethod> callingMethods;
 };
 
+/**
+ * @brief Klasa generowania źródłowego kodu assembly.
+ */
 class AsmCodeGenerator {
     static const QMap<Registers_x86, QString> regs_x86;
     static const QMap<Registers_x64, QString> regs_x64;
 
+    /**
+     * @brief Typy instrukcji assembly.
+     */
     enum class Instructions {
         POP,
         PUSH,
@@ -158,44 +161,109 @@ class AsmCodeGenerator {
         CALL
     };
 
+    /**
+     * @brief reprezentacja stringowa instrukcji.
+     */
     static const QMap<Instructions, QString> instructions;
 
 public:
+    /**
+     * @brief Konstruktor.
+     */
     AsmCodeGenerator() { }
 
+    /**
+     * @brief Generowanie kodu odkładania rejestru na stosie.
+     * @param reg rejestr.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString push_regs(const RegistersType reg);
 
+    /**
+     * @brief Generowanie kodu odkładania rejestru na stosie.
+     * @param regs lista rejestrów.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString push_regs(const QList<RegistersType> &regs);
 
+    /**
+     * @brief Generowanie kodu pobierania rejestru ze stosu.
+     * @param reg rejestr.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString pop_regs(const RegistersType reg);
 
+    /**
+     * @brief Generowanie kodu pobierania rejestru ze stosu.
+     * @param regs lista rejestrów.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString pop_regs(const QList<RegistersType> &regs);
 
+    /**
+     * @brief Generowanie kodu, zachowującego flagi procesora na stosie.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString save_flags();
 
+    /**
+     * @brief Generowanie kodu, pobierającego flagi procesora ze stosu.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString restore_flags();
 
+    /**
+     * @brief Generowanie kodu, ładującego pewną stałą do określonego rejestru.
+     * @param reg rejestr.
+     * @param value stała.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString mov_reg_const(const RegistersType reg, Elf64_Addr value);
 
+    /**
+     * @brief Generowanie kodu, skaczącego pod zawartość określonego rejestru.
+     * @param reg rejestr.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString jmp_reg(const RegistersType reg);
 
+    /**
+     * @brief Generowanie kodu, skaczącego relatywnie o wartość offsetu.
+     * @param addr offset.
+     * @return Kod.
+     */
     template <typename RegistersType>
     static QString jmp_rel(int32_t addr);
 
+    /**
+     * @brief Generowanie reprezentacji stringowej określonego rejestru.
+     * @param reg rejestr.
+     * @return Reprezentacja stringowa rejestru.
+     */
     template <typename RegistersType>
     static QString get_reg(const RegistersType reg);
 
+    /**
+     * @brief Generowanie kodu, wołającego adres w rejestrze.
+     * @param reg rejestr.
+     * @return Kod.
+     */
     template <typename RegistersType>
-    static QString call_reg(const RegistersType);
+    static QString call_reg(const RegistersType reg);
 
+    /**
+     * @brief Generowanie kodu, wołającego relatywnie adres o wartość offsetu.
+     * @param value offset.
+     * @return Kod.
+     */
     static QString call_const(Elf64_Addr value) {
         return QString("%1 %2\n").arg(instructions[Instructions::CALL], QString::number(value));
     }
@@ -329,8 +397,8 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
                     regs_x64[static_cast<Registers_x64>(reg)] : "xxx";
     }
 
-    template <typename RegistersType>
-    QString AsmCodeGenerator::call_reg(const RegistersType reg) {
+template <typename RegistersType>
+QString AsmCodeGenerator::call_reg(const RegistersType reg) {
     QString qreg = std::is_same<RegistersType, Registers_x86>::value ?
     regs_x86[static_cast<Registers_x86>(reg)] :
     std::is_same<RegistersType, Registers_x64>::value ?
@@ -338,10 +406,15 @@ QString AsmCodeGenerator::get_reg(const RegistersType reg) {
     return QString("%1 %2\n").arg(instructions[Instructions::CALL], qreg);
 }
 
+/**
+ * @brief Klasa, odpowiadająca za reprezentacje kodu opakowania.
+ */
 template <typename RegistersType>
 class Wrapper : public QObject{
-
 public:
+    /**
+     * @brief Typy opakowań.
+     */
     enum class WrapperType {
         Handler,
         Method,
@@ -351,25 +424,85 @@ public:
         TrampolineWrapper
     };
 
+    /**
+     * @brief Nazwa metody.
+     */
     QString name;
+
+    /**
+     * @brief Opis metody.
+     */
     QString description;
 
+    /**
+     * @brief Architektura metody.
+     */
     typename DAddingMethods<RegistersType>::ArchitectureType arch_type;
+
+    /**
+     * @brief System docelowy metody.
+     */
     typename DAddingMethods<RegistersType>::SystemType system_type;
+
+    /**
+     * @brief Typ opakowania.
+     */
     WrapperType wrapper_type;
+
+    /**
+     * @brief Lista dozwolonych typów głównych opakowań.
+     */
     QList<typename DAddingMethods<RegistersType>::CallingMethod> allowed_methods;
 
+    /**
+     * @brief Lista używanych rejestrów.
+     */
     QList<RegistersType> used_regs;
+
+    /**
+     * @brief Parametry dynamiczne.
+     */
     QMap<RegistersType, QString> dynamic_params;
+
+    /**
+     * @brief Parametry statyczne.
+     */
     QMap<QString, QString> static_params;
+
+    /**
+     * @brief Rejestr, w którym jest zwracana wartość działania metody.
+     */
     RegistersType ret;
+
+    /**
+     * @brief Kod metody.
+     */
     QByteArray code;
+
+    /**
+     * @brief Handler w razie detekcji debuggera.
+     */
     Wrapper *detect_handler;
 
+    /**
+     * @brief Flaga, określająca czy zmieniany segment musi mieć prawa dostępu R^W^X.
+     */
     bool only_rwx;
+
+    /**
+     * @brief Flaga, określająca czy podany plik może podlegać zaciemnianiu.
+     */
     bool obfuscation;
 
+    /**
+     * @brief Destruktor.
+     */
     virtual ~Wrapper() {}
+
+    /**
+     * @brief Konstruktor kopiujący.
+     * @param w instancja Wrapper.
+     */
     Wrapper(const Wrapper& w){
         name = w.name;
         description = w.description;
@@ -384,13 +517,20 @@ public:
         only_rwx = w.only_rwx;
         obfuscation = w.obfuscation;
     }
+
+    /**
+     * @brief Konstruktor.
+     */
     Wrapper(){}
 
+    /**
+     * @brief Reprezentacja stringów typami opakowań.
+     */
     static const QMap<QString, WrapperType> wrapperTypes;
 
     /**
-     * @brief read this zostaje wczytany z pliku json
-     * @param json objekt json'a z którego czytamy
+     * @brief read this zostaje wczytany z pliku json.
+     * @param json objekt json'a z którego czytamy.
      */
     virtual bool read(const QJsonObject & json){
 
@@ -489,6 +629,9 @@ public:
     }
 
 private:
+    /**
+     * @brief Reprezentacja stringów typami rejestrów.
+     */
     static const QMap<QString,RegistersType> registerTypes;
 
     /**
