@@ -3,6 +3,7 @@
 
 #include <ApplicationManager/dlogger.h>
 #include <core/file_types/elffile.h>
+#include <QUrl>
 
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
@@ -188,8 +189,8 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
 
 void ApplicationManager::secureClicked()
 {
-    // TODO: Lista metod w threadzie juz wypelniona, należy dołożyć odpowiedni wrapper helpera
-    // do odpowiedniej listy i podpiąć listę x86methodsToInsert x64methodsToInsert pod ten wrapper
+    QString path = QUrl(m_targetPath).toLocalFile();
+
     if(m_archType == ApplicationManager::X86)
     {
         if(!x86threadWrappersToInject.empty()) {
@@ -229,7 +230,7 @@ void ApplicationManager::secureClicked()
         }
     }
 
-    QFile f(m_targetPath);
+    QFile f(path);
     if(!f.open(QFile::ReadOnly)) {
         LOG_ERROR("Secure failed!");
         return;
@@ -238,7 +239,7 @@ void ApplicationManager::secureClicked()
     f.close();
 
     BinaryFile *bin = nullptr;
-    QFileInfo in(m_targetPath);
+    QFileInfo in(path);
 
     QString out_name = in.baseName() + QString("_secured");
     if(in.completeSuffix().length() > 0)
@@ -325,7 +326,8 @@ void ApplicationManager::secureClicked()
 
 void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
 {
-    QFile f(m_targetPath);
+    QString path = QUrl(m_targetPath).toLocalFile();
+    QFile f(path);
     if(!f.open(QFile::ReadOnly)) {
         LOG_ERROR("Obfuscation failed!");
         return;
@@ -334,7 +336,7 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
     f.close();
 
     BinaryFile *bin = nullptr;
-    QFileInfo in(m_targetPath);
+    QFileInfo in(path);
 
     QString out_name = in.baseName() + QString("_obfuscated");
     if(in.completeSuffix().length() > 0)
@@ -423,13 +425,14 @@ void ApplicationManager::packClicked(int lvl, int opt)
 {
     bool ok = false;
     lvl++;
+    QString path = QUrl(m_targetPath).toLocalFile();
 
     if(m_archType == ApplicationManager::X86)
-        ok = DAddingMethods<Registers_x86>::pack(m_targetPath,
+        ok = DAddingMethods<Registers_x86>::pack(path,
                                                  static_cast<DAddingMethods<Registers_x86>::CompressionLevel>(lvl),
                                                  static_cast<DAddingMethods<Registers_x86>::CompressionOptions>(opt));
     else
-        ok = DAddingMethods<Registers_x64>::pack(m_targetPath,
+        ok = DAddingMethods<Registers_x64>::pack(path,
                                                  static_cast<DAddingMethods<Registers_x64>::CompressionLevel>(lvl),
                                                  static_cast<DAddingMethods<Registers_x64>::CompressionOptions>(opt));
 
@@ -1141,8 +1144,8 @@ void ApplicationManager::clearList()
 
 ApplicationManager::State ApplicationManager::getFileType(QString path)
 {
-    QString newPath = path.remove("file://");
-    QFile f(newPath);
+    //QString newPath = path.remove("file:///");
+    QFile f(QUrl(path).toLocalFile());
 
     if(!f.open(QFile::ReadOnly))
     {
