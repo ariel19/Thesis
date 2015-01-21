@@ -993,13 +993,13 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             Wrapper<Registers_x86> *newHandler;
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==methodsName){
-                    newWrapper = new Wrapper<Registers_x86>(*w);
+                    newWrapper = Wrapper<Registers_x86>::copy(w);
                     methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==handlersName){
-                    newHandler = new Wrapper<Registers_x86>(*w);
+                    newHandler = Wrapper<Registers_x86>::copy(w);
                     handlerFound= true;
                 }
             }
@@ -1023,13 +1023,13 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             Wrapper<Registers_x64> *newHandler;
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==methodsName){
-                    newWrapper = new Wrapper<Registers_x64>(*w);
+                    newWrapper = Wrapper<Registers_x64>::copy(w);
                     methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==handlersName){
-                    newHandler = new Wrapper<Registers_x64>(*w);
+                    newHandler = Wrapper<Registers_x64>::copy(w);
                     handlerFound= true;
                 }
             }
@@ -1055,13 +1055,13 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             Wrapper<Registers_x86> *newHandler;
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==methodsName){
-                    newWrapper = new Wrapper<Registers_x86>(*w);
+                    newWrapper = Wrapper<Registers_x86>::copy(w);
                     methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==handlersName){
-                    newHandler = new Wrapper<Registers_x86>(*w);
+                    newHandler = Wrapper<Registers_x86>::copy(w);
                     handlerFound= true;
                 }
             }
@@ -1085,13 +1085,13 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             Wrapper<Registers_x64> *newHandler;
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==methodsName){
-                    newWrapper = new Wrapper<Registers_x64>(*w);
+                    newWrapper = Wrapper<Registers_x64>::copy(w);
                     methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==handlersName){
-                    newHandler = new Wrapper<Registers_x64>(*w);
+                    newHandler = Wrapper<Registers_x64>::copy(w);
                 }
             }
             if(!handlerFound || !methodFound){

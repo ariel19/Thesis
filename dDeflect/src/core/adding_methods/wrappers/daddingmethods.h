@@ -544,13 +544,13 @@ public:
         switch(w->wrapper_type)
         {
         case WrapperType::OepWrapper:
-            return new OEPWrapper<RegistersType>(*w);
+            return new OEPWrapper<RegistersType>(*dynamic_cast<OEPWrapper<RegistersType>*>(w));
 
         case WrapperType::ThreadWrapper:
-            return new ThreadWrapper<RegistersType>(*w);
+            return new ThreadWrapper<RegistersType>(*dynamic_cast<ThreadWrapper<RegistersType>*>(w));
 
         case WrapperType::TrampolineWrapper:
-            return new TrampolineWrapper<RegistersType>(*w);
+            return new TrampolineWrapper<RegistersType>(*dynamic_cast<TrampolineWrapper<RegistersType>*>(w));
 
         default:
             return new Wrapper(*w);
