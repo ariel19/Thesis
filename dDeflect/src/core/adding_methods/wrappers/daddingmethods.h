@@ -521,7 +521,7 @@ public:
     /**
      * @brief Konstruktor.
      */
-    Wrapper(){}
+    Wrapper(){ detect_handler = nullptr; }
 
     /**
      * @brief Reprezentacja stringów typami opakowań.
@@ -699,6 +699,8 @@ class OEPWrapper : public Wrapper<RegistersType> {
 public:
     Wrapper<RegistersType> *oep_action;
 
+    OEPWrapper() { oep_action = nullptr; }
+
     virtual bool read(const QJsonObject & json) override {
         oep_action = nullptr;
         return Wrapper<RegistersType>::read(json);
@@ -712,6 +714,9 @@ template<typename RegistersType>
 class TrampolineWrapper : public Wrapper<RegistersType> {
 public:
     Wrapper<RegistersType> *tramp_action;
+
+    TrampolineWrapper() { tramp_action = nullptr; }
+
     virtual bool read(const QJsonObject & json) override {
         tramp_action = nullptr;
         return Wrapper<RegistersType>::read(json);
