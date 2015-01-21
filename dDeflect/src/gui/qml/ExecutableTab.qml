@@ -77,7 +77,8 @@ Component{
 
                     text:"Apply"
                     onClicked: {
-                        console.log(tablicaComboBoxow)
+                        console.log("ATTEMPT TO SECURE AN EXEC!")
+                        applicationManager.secureClicked();
                     }
                 }
             }
@@ -85,8 +86,6 @@ Component{
                 id: lv
                 visible: true
                 Layout.alignment: Qt.AlignLeft
-                //                width: execTab.width
-                //                height: 230
 
                 anchors.fill: parent
                 anchors.topMargin: addButton.height*3/2+lv.spacing

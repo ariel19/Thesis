@@ -10,34 +10,59 @@ Component{
     Tab {
         title: "Obfuscation"
         visible: true
-        RowLayout{
+        ColumnLayout{
             anchors.fill: parent
-            anchors.margins: 12
 
-            TableView {
-                anchors.fill: parent
-                anchors.rightMargin: frame.width/2
-                model: ["method1", "method2"]
-                TableViewColumn {
-                    role: "title"
-                    title: "Method's Name"
-                    //width: 120
-                }
+            Text{
+                text:"Coverage"
+                Layout.alignment: Qt.AlignCenter
+            }
+
+            Slider {
+                id: coverage
+                value: 0.01
+                Layout.fillWidth: true
+                tickmarksEnabled: true
+                stepSize: 0.01
 
             }
-            ColumnLayout{
-                anchors.fill: parent
-                anchors.leftMargin: frame.width/2
-                TextArea{
+            Text{
+                text:"Coś tam maximal value"
+                Layout.alignment: Qt.AlignCenter
+            }
+            Slider {
+                id: slider2
+                value: 0.01
+                Layout.fillWidth: true
+                tickmarksEnabled: true
+                stepSize: 0.01
+                onValueChanged: if(value>=slider3.value)
+                                    value=slider3.value-0.01
 
-                    anchors.fill: parent
-                    anchors.bottomMargin: 40
-                    text: "The only method:"
-                }
-                Button{
-                    height:50
-                    text: "Apply Method"
-                    anchors.bottom: parent.bottom
+            }
+            Text{
+                text:"Coś tam minimal value"
+                Layout.alignment: Qt.AlignCenter
+            }
+            Slider {
+                id: slider3
+                value: 0.5
+                Layout.fillWidth: true
+                tickmarksEnabled: true
+                stepSize: 0.01
+                onValueChanged: if(value<=slider2.value)
+                                    value=slider2.value+0.01
+
+            }
+
+            Button{
+                Layout.alignment: Qt.AlignCenter
+                width: 200
+                height: 50
+                text: "OBFUSCATE!"
+                onClicked: {
+                   applicationManager.obfuscateClicked(coverage.value*100, slider2.value*100, slider3.value*100);
+                   applicationManager.state = 0;
                 }
             }
         }
