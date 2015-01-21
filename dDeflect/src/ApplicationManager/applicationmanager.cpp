@@ -162,7 +162,7 @@ void ApplicationManager::fileOpened(QString path)
 {
     m_targetPath = path;
     //emit targetPathChanged()
-   //setState(getFileType(path));
+    //setState(getFileType(path));
     setState(ApplicationManager::ELF);
 }
 
@@ -385,12 +385,12 @@ void ApplicationManager::packClicked(int lvl, int opt)
 
     if(m_archType == ApplicationManager::X86)
         ok = DAddingMethods<Registers_x86>::pack(m_targetPath,
-                  static_cast<DAddingMethods<Registers_x86>::CompressionLevel>(lvl),
-                  static_cast<DAddingMethods<Registers_x86>::CompressionOptions>(opt));
+                                                 static_cast<DAddingMethods<Registers_x86>::CompressionLevel>(lvl),
+                                                 static_cast<DAddingMethods<Registers_x86>::CompressionOptions>(opt));
     else
         ok = DAddingMethods<Registers_x64>::pack(m_targetPath,
-                  static_cast<DAddingMethods<Registers_x64>::CompressionLevel>(lvl),
-                  static_cast<DAddingMethods<Registers_x64>::CompressionOptions>(opt));
+                                                 static_cast<DAddingMethods<Registers_x64>::CompressionLevel>(lvl),
+                                                 static_cast<DAddingMethods<Registers_x64>::CompressionOptions>(opt));
 
     if(!ok)
         LOG_ERROR("Packing failed!");
@@ -927,55 +927,144 @@ void ApplicationManager::updateCurrHandlers()
 
 void ApplicationManager::changeList(const QString &methodsName,const QString& handlersName, int index)
 {
-    if(archType()==X86){
-        Wrapper<Registers_x86> *newWrapper;
-        Wrapper<Registers_x86> *newHandler;
-        foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
-            if(w->name==methodsName){
-                newWrapper = new Wrapper<Registers_x86>(*w);
+    // TODO : CLEAR MEMORY
+    if(currCm()==Thread)
+    {
+        if(archType()==X86){
+            Wrapper<Registers_x86> *newWrapper;
+            Wrapper<Registers_x86> *newHandler;
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
+                if(w->name==methodsName){
+                    newWrapper = new Wrapper<Registers_x86>(*w);
+                }
             }
-        }
-        foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
-            if(w->name==handlersName){
-                newHandler = new Wrapper<Registers_x86>(*w);
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
+                if(w->name==handlersName){
+                    newHandler = new Wrapper<Registers_x86>(*w);
+                }
             }
-        }
 
-        if(newWrapper->ret == Registers_x86::None)
-            newHandler = nullptr;
+            if(newWrapper->ret == Registers_x86::None)
+                newHandler = nullptr;
 
-        newWrapper->detect_handler = newHandler;
-        if(index<x86methodsToInsert.size() && index>=0){
-            x86methodsToInsert[index]->adding_method = newWrapper;
+            newWrapper->detect_handler = newHandler;
+            if(index<x86threadWrappersToInject.size() && index>=0){
+                x86threadWrappersToInject[index]= newWrapper;
+            }
+            else
+                qDebug()<<"index out of bound";
+            return;
+        }else
+        {
+            Wrapper<Registers_x64> *newWrapper;
+            Wrapper<Registers_x64> *newHandler;
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+                if(w->name==methodsName){
+                    newWrapper = new Wrapper<Registers_x64>(*w);
+                }
+            }
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+                if(w->name==handlersName){
+                    newHandler = new Wrapper<Registers_x64>(*w);
+                }
+            }
+
+            if(newWrapper->ret == Registers_x64::None)
+                newHandler = nullptr;
+
+            newWrapper->detect_handler = newHandler;
+            if(index<x86threadWrappersToInject.size() && index>=0){
+                x64threadWrappersToInject[index]= newWrapper;
+            }
+            else
+                qDebug()<<"index out of bound";
+            return;
         }
-        else
-            qDebug()<<"index out of bound";
-        return;
     }
+    else
+        if(archType()==X86){
+            Wrapper<Registers_x86> *newWrapper;
+            Wrapper<Registers_x86> *newHandler;
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
+                if(w->name==methodsName){
+                    newWrapper = new Wrapper<Registers_x86>(*w);
+                }
+            }
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
+                if(w->name==handlersName){
+                    newHandler = new Wrapper<Registers_x86>(*w);
+                }
+            }
+
+            if(newWrapper->ret == Registers_x86::None)
+                newHandler = nullptr;
+
+            newWrapper->detect_handler = newHandler;
+            if(index<x86methodsToInsert.size() && index>=0){
+                x86methodsToInsert[index]->adding_method = newWrapper;
+            }
+            else
+                qDebug()<<"index out of bound";
+            return;
+        } else
+        {
+            Wrapper<Registers_x64> *newWrapper;
+            Wrapper<Registers_x64> *newHandler;
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+                if(w->name==methodsName){
+                    newWrapper = new Wrapper<Registers_x64>(*w);
+                }
+            }
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+                if(w->name==handlersName){
+                    newHandler = new Wrapper<Registers_x64>(*w);
+                }
+            }
+
+            if(newWrapper->ret == Registers_x64::None)
+                newHandler = nullptr;
+
+            newWrapper->detect_handler = newHandler;
+            if(index<x64methodsToInsert.size() && index>=0){
+                x64methodsToInsert[index]->adding_method = newWrapper;
+            }
+            else
+                qDebug()<<"index out of bound";
+            return;
+        }
 }
 
 void ApplicationManager::insertNewToList(const QString &name)
 {
-    if(archType()==X86){
-        DAddingMethods<Registers_x86>::InjectDescription *id = new DAddingMethods<Registers_x86>::InjectDescription();
-        id->cm = (DAddingMethods<Registers_x86>::CallingMethod)currCm();
-        id->change_x_only = false;
+    if(currCm()==Thread){
+        if(archType()==X86){
+            Wrapper<Registers_x86> * w = new Wrapper<Registers_x86>();
+            x86threadWrappersToInject.append(w);
+        } else {
+            Wrapper<Registers_x64> * w = new Wrapper<Registers_x64>();
+            x64threadWrappersToInject.append(w);
+        }
+    } else
+        if(archType()==X86){
+            DAddingMethods<Registers_x86>::InjectDescription *id = new DAddingMethods<Registers_x86>::InjectDescription();
+            id->cm = (DAddingMethods<Registers_x86>::CallingMethod)currCm();
+            id->change_x_only = false;
 
-        Wrapper<Registers_x86> * w = new Wrapper<Registers_x86>();
-        id->adding_method = w;
+            Wrapper<Registers_x86> * w = new Wrapper<Registers_x86>();
+            id->adding_method = w;
 
-        x86methodsToInsert.append(id);
-        //changeList("Code checksum","Exit",methodsToInsert.size()-1);
-    } else {
-        DAddingMethods<Registers_x64>::InjectDescription *id = new DAddingMethods<Registers_x64>::InjectDescription();
-        id->cm = (DAddingMethods<Registers_x64>::CallingMethod)currCm();
-        id->change_x_only = false;
+            x86methodsToInsert.append(id);
+            //changeList("Code checksum","Exit",methodsToInsert.size()-1);
+        } else {
+            DAddingMethods<Registers_x64>::InjectDescription *id = new DAddingMethods<Registers_x64>::InjectDescription();
+            id->cm = (DAddingMethods<Registers_x64>::CallingMethod)currCm();
+            id->change_x_only = false;
 
-        Wrapper<Registers_x64> * w = new Wrapper<Registers_x64>();
-        id->adding_method = w;
+            Wrapper<Registers_x64> * w = new Wrapper<Registers_x64>();
+            id->adding_method = w;
 
-        x64methodsToInsert.append(id);
-    }
+            x64methodsToInsert.append(id);
+        }
 }
 
 void ApplicationManager::clearList()

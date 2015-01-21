@@ -109,6 +109,7 @@ Component{
                                 width: 200
                                 textRole: "name"
                                 onCurrentIndexChanged: {
+                                    console.log(index);
                                     if(ss)
                                         applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }
@@ -122,6 +123,7 @@ Component{
                                 width: 200
                                 textRole: "name"
                                 onCurrentIndexChanged: {
+                                    console.log(index);
                                     if(ss)
                                         applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }

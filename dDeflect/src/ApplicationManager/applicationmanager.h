@@ -112,6 +112,7 @@ public slots:
 
     void changeList(const QString &methodsName,const QString& handlersName, int index);
     void insertNewToList(const QString &name);
+
     void clearList();
 
 private:
@@ -138,7 +139,8 @@ private:
     QList<Method*> m_handlersx86;
     QList<Method*> m_handlersx64;
 
-    QList<Wrapper<Registers_x86>> wrappersToInject;
+    QList<Wrapper<Registers_x86>*> x86threadWrappersToInject;
+    QList<Wrapper<Registers_x64>*> x64threadWrappersToInject;
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
     QList<DAddingMethods<Registers_x64>::InjectDescription*>x64methodsToInsert;
