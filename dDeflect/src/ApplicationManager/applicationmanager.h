@@ -97,6 +97,11 @@ signals:
 public slots:
     void fileOpened(QString);
     void applyClicked(QVariantList methodsChosen);
+
+    void secureClicked();
+    void obfuscateClicked(int cov, int minl, int maxl);
+    void packClicked(int lvl, int opt);
+
     void insertMethods(FIDMapping<Registers_x86>);
     void updateCurrMethods();
 
@@ -129,9 +134,10 @@ private:
 
     QList<Wrapper<Registers_x86>> wrappersToInject;
 
-    QList<DAddingMethods<Registers_x86>::InjectDescription*>methodsToInsert;
+    QList<DAddingMethods<Registers_x86>::InjectDescription*> methodsToInsert;
 
     State getFileType(QString path);
+    bool checkBinaryFile(BinaryFile &f);
 
 };
 

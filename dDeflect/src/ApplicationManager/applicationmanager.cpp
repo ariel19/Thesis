@@ -176,6 +176,198 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
     insertMethods(map);
 }
 
+void ApplicationManager::secureClicked()
+{
+    /*QFile f(m_targetPath);
+    if(!f.open(QFile::ReadOnly)) {
+        LOG_ERROR("Secure failed!");
+        return;
+    }
+    QByteArray data = f.readAll();
+    f.close();
+
+    BinaryFile *bin = nullptr;
+    QFileInfo in(m_targetPath);
+
+    QString out_name = in.baseName() + QString("_secured");
+    if(in.completeSuffix().length() > 0)
+        out_name.append(".").append(in.completeSuffix());
+    QFile out(QFileInfo(in.absoluteDir(), out_name).absoluteFilePath());
+
+    switch(m_state)
+    {
+    case ApplicationManager::PE:
+    {
+        bin = new PEFile(data);
+        if(!checkBinaryFile(*bin)) {
+            LOG_ERROR("Secure failed!");
+            return;
+        }
+
+        if(bin->is_x86()) {
+            PEAddingMethods<Registers_x86> am(dynamic_cast<PEFile*>(bin));
+            am.obfuscate(cov, minl, maxl);
+        }
+        else {
+            PEAddingMethods<Registers_x64> am(dynamic_cast<PEFile*>(bin));
+            am.obfuscate(cov, minl, maxl);
+        }
+
+        break;
+    }
+
+    case ApplicationManager::ELF:
+    {
+        bin = new ::ELF(data);
+        if(!checkBinaryFile(*bin)) {
+            LOG_ERROR("Secure failed!");
+            return;
+        }
+
+        if(bin->is_x86()) {
+            ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
+            am.obfuscate(cov, minl, maxl);
+        }
+        else {
+            ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
+            am.obfuscate(cov, minl, maxl);
+        }
+
+        break;
+    }
+
+    case ApplicationManager::SOURCE:
+        // TODO: source
+        break;
+
+    default:
+        LOG_ERROR("Obfuscation failed!");
+        break;
+    }
+
+    if(bin) {
+        if(!out.open(QFile::WriteOnly))
+        {
+            LOG_ERROR("Secure failed!");
+            return;
+        }
+
+        out.write(bin->getData());
+
+        out.close();
+    }*/
+
+    // TODO: source
+}
+
+void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
+{
+    QFile f(m_targetPath);
+    if(!f.open(QFile::ReadOnly)) {
+        LOG_ERROR("Obfuscation failed!");
+        return;
+    }
+    QByteArray data = f.readAll();
+    f.close();
+
+    BinaryFile *bin = nullptr;
+    QFileInfo in(m_targetPath);
+
+    QString out_name = in.baseName() + QString("_obfuscated");
+    if(in.completeSuffix().length() > 0)
+        out_name.append(".").append(in.completeSuffix());
+    QFile out(QFileInfo(in.absoluteDir(), out_name).absoluteFilePath());
+
+    switch(m_state)
+    {
+    case ApplicationManager::PE:
+    {
+        bin = new PEFile(data);
+        if(!checkBinaryFile(*bin)) {
+            LOG_ERROR("Obfuscation failed!");
+            return;
+        }
+
+        if(bin->is_x86()) {
+            PEAddingMethods<Registers_x86> am(dynamic_cast<PEFile*>(bin));
+            if(!am.obfuscate(cov, minl, maxl)) {
+                LOG_ERROR("Obfuscation failed!");
+                return;
+            }
+        }
+        else {
+            PEAddingMethods<Registers_x64> am(dynamic_cast<PEFile*>(bin));
+            if(!am.obfuscate(cov, minl, maxl)) {
+                LOG_ERROR("Obfuscation failed!");
+                return;
+            }
+        }
+
+        break;
+    }
+
+    case ApplicationManager::ELF:
+    {
+        bin = new ::ELF(data);
+        if(!checkBinaryFile(*bin)) {
+            LOG_ERROR("Obfuscation failed!");
+            return;
+        }
+
+        if(bin->is_x86()) {
+            ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
+            am.obfuscate(cov, minl, maxl);
+        }
+        else {
+            ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
+            am.obfuscate(cov, minl, maxl);
+        }
+
+        break;
+    }
+
+    case ApplicationManager::SOURCE:
+        // TODO: source
+        break;
+
+    default:
+        LOG_ERROR("Obfuscation failed!");
+        break;
+    }
+
+    if(bin) {
+        if(!out.open(QFile::WriteOnly))
+        {
+            LOG_ERROR("Obfuscation failed!");
+            return;
+        }
+
+        out.write(bin->getData());
+
+        out.close();
+    }
+
+    // TODO: source
+}
+
+void ApplicationManager::packClicked(int lvl, int opt)
+{
+    bool ok = false;
+    lvl++;
+
+    if(m_archType == ApplicationManager::X86)
+        ok = DAddingMethods<Registers_x86>::pack(m_targetPath,
+                  static_cast<DAddingMethods<Registers_x86>::CompressionLevel>(lvl),
+                  static_cast<DAddingMethods<Registers_x86>::CompressionOptions>(opt));
+    else
+        ok = DAddingMethods<Registers_x64>::pack(m_targetPath,
+                  static_cast<DAddingMethods<Registers_x64>::CompressionLevel>(lvl),
+                  static_cast<DAddingMethods<Registers_x64>::CompressionOptions>(opt));
+
+    if(!ok)
+        LOG_ERROR("Packing failed!");
+}
+
 void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
 {
     sourceParser->insertMethods(m_targetPath,Map);
@@ -513,6 +705,20 @@ ApplicationManager::State ApplicationManager::getFileType(QString path)
         return ApplicationManager::ELF;
 
     return ApplicationManager::IDLE;
+}
+
+bool ApplicationManager::checkBinaryFile(BinaryFile &f)
+{
+    if(!f.is_valid())
+        return false;
+
+    if(f.is_x86() && m_archType != ApplicationManager::X86)
+        return false;
+
+    if(f.is_x64() && m_archType != ApplicationManager::X64)
+        return false;
+
+    return true;
 }
 
 QQmlListProperty<Method> ApplicationManager::x86methods()
