@@ -8,7 +8,7 @@ import jsk.components 1.0
 GroupBox {
     title: "Injection type"
     width: 500
-
+    property bool checked: c1.checked||c2.checked||c3.checked||c4.checked
     RowLayout{
         width: parent.width
         spacing: 2
@@ -19,6 +19,7 @@ GroupBox {
             exclusiveGroup: tabPositionGroup
             onCheckedChanged: {
                 console.log("OEP"+checked)
+                console.log(applicationManager.sys  )
                 if(checked){
                     ss = false
                     methodsModel = model
@@ -27,6 +28,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
@@ -45,6 +47,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
@@ -63,6 +66,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }
@@ -81,6 +85,7 @@ GroupBox {
                     comboboxesmobel.clear()
                     methodsModel = applicationManager.currMethods
                     handlersModel = applicationManager.currHandlers
+                    applicationManager.saveClicked()
                     ss = true
                 }
             }

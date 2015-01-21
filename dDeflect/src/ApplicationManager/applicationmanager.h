@@ -38,6 +38,8 @@ class ApplicationManager : public QObject
     Q_PROPERTY(QQmlListProperty<Method> currMethods READ currMethods NOTIFY currMethodsChanged)
     Q_PROPERTY(QQmlListProperty<Method> currHandlers READ currHandlers NOTIFY currHandlersChanged)
 
+    Q_PROPERTY(QQmlListProperty<Method> currSourceMethods READ currSourceMethods NOTIFY currSourceMethodsChanged)
+
 public:
     template <typename Reg>
     using IDList = QList< Wrapper<Reg>*>;
@@ -79,6 +81,8 @@ public:
     QQmlListProperty<Method> currMethods();
     QQmlListProperty<Method> currHandlers();
 
+    QQmlListProperty<Method> currSourceMethods();
+
     QVariantList x86MethodsNames();
 
 signals:
@@ -97,19 +101,30 @@ signals:
     void currHandlersChanged();
     void currCmChanged();
 
+    void currSourceMethodsChanged();
 
 public slots:
     void fileOpened(QString);
     void applyClicked(QVariantList methodsChosen);
+
+    void saveClicked();
+    void secureClicked();
+    void obfuscateClicked(int cov, int minl, int maxl);
+    void packClicked(int lvl, int opt);
+
     void insertMethods(FIDMapping<Registers_x86>);
+    QStringList getDeclarations();
+
     void updateCurrMethods();
     void updateCurrHandlers();
 
     void changeList(const QString &methodsName,const QString& handlersName, int index);
     void insertNewToList(const QString &name);
+
     void clearList();
 
 private:
+    int methodsCount;
     State m_state;
     IDList<Registers_x86> m_x86methodsList;
     QVariantList m_x86MethodsNames;
@@ -133,12 +148,16 @@ private:
     QList<Method*> m_handlersx86;
     QList<Method*> m_handlersx64;
 
-    QList<Wrapper<Registers_x86>> wrappersToInject;
+    QList<Wrapper<Registers_x86>*> x86threadWrappersToInject;
+    QList<Wrapper<Registers_x64>*> x64threadWrappersToInject;
 
     QList<DAddingMethods<Registers_x86>::InjectDescription*>x86methodsToInsert;
-    QList<DAddingMethods<Registers_x86>::InjectDescription*>x64methodsToInsert;
+    QList<DAddingMethods<Registers_x64>::InjectDescription*>x64methodsToInsert;
+
+    QList<Method*> m_currSourceMethods;
 
     State getFileType(QString path);
+    bool checkBinaryFile(BinaryFile &f);
 
 };
 

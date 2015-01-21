@@ -30,8 +30,8 @@ Component{
                 spacing: 10
                 Button{
                     id: addButton
-
-                    text:"+"
+                    visible: linCombo.checked
+                    text:"Click to add a method."
                     onClicked: {
                         comboboxesmobel.append({"name":"kuba"})
                         tablicaComboBoxow.push(cbDelegate);
@@ -39,57 +39,60 @@ Component{
                         applicationManager.insertNewToList("");
                     }
                 }
-                Text{
+                Button{
+                    id: save
 
-                    text: "Click to add a method."
+                    text:"Save"
+                    onClicked: {
+                        console.log("Save?")
+                        applicationManager.saveClicked()
+                    }
                 }
-
+                Button{
+                    id: apply
+                    visible: linbuttons.checked || winbuttons.checked
+                    text:"Apply"
+                    onClicked: {
+                        console.log("ATTEMPT TO SECURE AN EXEC!")
+                        applicationManager.secureClicked();
+                    }
+                }
+            }
+            RowLayout{
+                focus: true
+                z: 1000
                 Rectangle{
                     width: 500
                     height: 50
                     Loader{
+                        id: radioLoader
                         anchors.fill: parent
-                        sourceComponent: applicationManager.sys ? winCombo : linCombo
+                        sourceComponent: applicationManager.state===1 ? winCombo : linCombo
 
                     }
                 }
                 Component{
                     id: linCombo
                     DynamicRadioButtons{
+                        id:linbuttons
                     }
                 }
                 Component{
                     id: winCombo
                     DynamicRadioWin{
+                        id:winbuttons
                     }
                 }
 
-                Button{
-                    id: save
-
-                    text:"Save"
-                    onClicked: {
-                        console.log(tablicaComboBoxow)
-                    }
-                }
-                Button{
-                    id: apply
-
-                    text:"Apply"
-                    onClicked: {
-                        console.log(tablicaComboBoxow)
-                    }
-                }
             }
+
             ListView {
                 id: lv
                 visible: true
                 Layout.alignment: Qt.AlignLeft
-                //                width: execTab.width
-                //                height: 230
 
                 anchors.fill: parent
-                anchors.topMargin: addButton.height*3/2+lv.spacing
+                anchors.topMargin: (addButton.height*3/2+lv.spacing)*2
                 model: comboboxesmobel
                 delegate: cbDelegate
                 Component {
@@ -110,6 +113,7 @@ Component{
                                 width: 200
                                 textRole: "name"
                                 onCurrentIndexChanged: {
+                                    console.log(index);
                                     if(ss)
                                         applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }
@@ -123,6 +127,7 @@ Component{
                                 width: 200
                                 textRole: "name"
                                 onCurrentIndexChanged: {
+                                    console.log(index);
                                     if(ss)
                                         applicationManager.changeList(methodCombo.currentText, handlerCombo.currentText, index)
                                 }

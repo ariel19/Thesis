@@ -8,7 +8,7 @@ import jsk.components 1.0
 GroupBox {
     title: "Injection type"
     width: 500
-
+    property bool checked: c1.checked||c2.checked||c3.checked||c4.checked||c5.checked||c6.checked
     RowLayout{
         width: parent.width
         spacing: 2
@@ -19,14 +19,17 @@ GroupBox {
         exclusiveGroup: tabPositionGroup
         onCheckedChanged: {
             console.log("OEP"+checked)
+            console.log("System : "+applicationManager.sys  )
             if(checked){
                 ss = false
+                console.log(applicationManager.sys  )
                 methodsModel = model
                 handlersModel = model
                 applicationManager.currCm = 0
                 comboboxesmobel.clear()
                 methodsModel = applicationManager.currMethods
                 handlersModel = applicationManager.currHandlers
+                applicationManager.saveClicked()
                 ss = true
             }
         }
@@ -45,6 +48,7 @@ GroupBox {
                 comboboxesmobel.clear()
                 methodsModel = applicationManager.currMethods
                 handlersModel = applicationManager.currHandlers
+                applicationManager.saveClicked()
                 ss = true
             }
         }
@@ -63,6 +67,7 @@ GroupBox {
                 comboboxesmobel.clear()
                 methodsModel = applicationManager.currMethods
                 handlersModel = applicationManager.currHandlers
+                applicationManager.saveClicked()
                 ss = true
             }
         }
@@ -81,6 +86,7 @@ GroupBox {
                 comboboxesmobel.clear()
                 methodsModel = applicationManager.currMethods
                 handlersModel = applicationManager.currHandlers
+                applicationManager.saveClicked()
                 ss = true
             }
         }
@@ -99,6 +105,7 @@ GroupBox {
                 comboboxesmobel.clear()
                 methodsModel = applicationManager.currMethods
                 handlersModel = applicationManager.currHandlers
+                applicationManager.saveClicked()
                 ss = true
             }
         }
@@ -117,6 +124,7 @@ GroupBox {
                 comboboxesmobel.clear()
                 methodsModel = applicationManager.currMethods
                 handlersModel = applicationManager.currHandlers
+                applicationManager.saveClicked()
                 ss = true
             }
         }
