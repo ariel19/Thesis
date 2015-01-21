@@ -292,6 +292,23 @@ void ApplicationManager::secureClicked()
                     break;
                 }
             }
+
+            foreach(Wrapper<Registers_x86>* mth, x86threadWrappersToInject) {
+                DAddingMethods<Registers_x86>::InjectDescription *th = new DAddingMethods<Registers_x86>::InjectDescription();
+                th->cm = DAddingMethods<Registers_x86>::CallingMethod::Thread;
+                foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                    if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::ThreadWrapper
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux) {
+                        ThreadWrapper<Registers_x86> *wrp = dynamic_cast<ThreadWrapper<Registers_x86>*>(Wrapper<Registers_x86>::copy(w));
+                        wrp->detect_handler = mth->detect_handler;
+                        mth->detect_handler = nullptr;
+                        wrp->thread_actions = { mth };
+                        th->adding_method = wrp;
+                        break;
+                    }
+                }
+                x86methodsToInsert.append(th);
+            }
         }
         else
         {
@@ -340,6 +357,23 @@ void ApplicationManager::secureClicked()
                     }
                     break;
                 }
+            }
+
+            foreach(Wrapper<Registers_x64>* mth, x64threadWrappersToInject) {
+                DAddingMethods<Registers_x64>::InjectDescription *th = new DAddingMethods<Registers_x64>::InjectDescription();
+                th->cm = DAddingMethods<Registers_x64>::CallingMethod::Thread;
+                foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                    if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::ThreadWrapper
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux) {
+                        ThreadWrapper<Registers_x64> *wrp = dynamic_cast<ThreadWrapper<Registers_x64>*>(Wrapper<Registers_x64>::copy(w));
+                        wrp->detect_handler = mth->detect_handler;
+                        mth->detect_handler = nullptr;
+                        wrp->thread_actions = { mth };
+                        th->adding_method = wrp;
+                        break;
+                    }
+                }
+                x64methodsToInsert.append(th);
             }
         }
     }
