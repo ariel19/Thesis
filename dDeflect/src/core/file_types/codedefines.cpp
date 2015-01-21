@@ -803,17 +803,13 @@ QString CodeDefines<Register>::obfuscate_source(std::default_random_engine &gen,
     std::uniform_int_distribution<int> q(QChar('A').toLatin1(), QChar('z').toLatin1());
 
     int n = p(gen);
-    /*
-     * _asm{ "jmp xx db "adsadfasgf" xx:" };
-     */
-
-    code.append("__asm__(\"jmp xxx\")\n");
-    code.append("__asm__(\"db \"");
+    code.append("__asm__(\"jmp xxx\");\n");
+    code.append("__asm__(\".ascii \\\"");
     for(int i = 0; i < n; ++i)
         code.append(QChar(q(gen)));
 
-    code.append("\"\")\n");
-    code.append("__asm__(\"xxx:\")");
+    code.append("\\\"\");\n");
+    code.append("__asm__(\"xxx:\");");
 
     return code;
 }
