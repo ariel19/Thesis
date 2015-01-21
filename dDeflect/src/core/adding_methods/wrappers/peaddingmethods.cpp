@@ -69,6 +69,9 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_ob
     if(!pe)
         return ErrorCode::BinaryFileNoPe;
 
+    codePointers.clear();
+    relocations.clear();
+
     QList<uint32_t> fileOffsets;
     ErrorCode ec = getAddressesOffsetsFromTextSection(fileOffsets);
     if(ec != ErrorCode::Success)
@@ -89,6 +92,9 @@ typename PEAddingMethods<Register>::ErrorCode PEAddingMethods<Register>::safe_ob
 
         pe->setAddressAtCallInstructionOffset(offset, addr);
     }
+
+    if(!pe->addRelocations(relocations))
+        return ErrorCode::PeOperationFailed;
 
     return ErrorCode::Success;
 }
