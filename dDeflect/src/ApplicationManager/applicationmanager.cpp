@@ -188,6 +188,9 @@ void ApplicationManager::applyClicked(QVariantList methodsChosen)
 
 void ApplicationManager::secureClicked()
 {
+    // TODO: Lista metod w threadzie juz wypelniona, należy dołożyć odpowiedni wrapper helpera
+    // do odpowiedniej listy i podpiąć listę x86methodsToInsert x64methodsToInsert pod ten wrapper
+
     QFile f(m_targetPath);
     if(!f.open(QFile::ReadOnly)) {
         LOG_ERROR("Secure failed!");
@@ -928,6 +931,8 @@ void ApplicationManager::updateCurrHandlers()
 void ApplicationManager::changeList(const QString &methodsName,const QString& handlersName, int index)
 {
     // TODO : CLEAR MEMORY
+    bool methodFound=false;
+    bool handlerFound=false;
     if(currCm()==Thread)
     {
         if(archType()==X86){
@@ -936,14 +941,19 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==methodsName){
                     newWrapper = new Wrapper<Registers_x86>(*w);
+                    methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==handlersName){
                     newHandler = new Wrapper<Registers_x86>(*w);
+                    handlerFound= true;
                 }
             }
-
+            if(!handlerFound || !methodFound){
+                qDebug("Methods not found!");
+                return;
+            }
             if(newWrapper->ret == Registers_x86::None)
                 newHandler = nullptr;
 
@@ -961,14 +971,19 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==methodsName){
                     newWrapper = new Wrapper<Registers_x64>(*w);
+                    methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==handlersName){
                     newHandler = new Wrapper<Registers_x64>(*w);
+                    handlerFound= true;
                 }
             }
-
+            if(!handlerFound || !methodFound){
+                qDebug("Methods not found!");
+                return;
+            }
             if(newWrapper->ret == Registers_x64::None)
                 newHandler = nullptr;
 
@@ -988,14 +1003,19 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==methodsName){
                     newWrapper = new Wrapper<Registers_x86>(*w);
+                    methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
                 if(w->name==handlersName){
                     newHandler = new Wrapper<Registers_x86>(*w);
+                    handlerFound= true;
                 }
             }
-
+            if(!handlerFound || !methodFound){
+                qDebug("Methods not found!");
+                return;
+            }
             if(newWrapper->ret == Registers_x86::None)
                 newHandler = nullptr;
 
@@ -1013,6 +1033,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==methodsName){
                     newWrapper = new Wrapper<Registers_x64>(*w);
+                    methodFound = true;
                 }
             }
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
@@ -1020,7 +1041,10 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
                     newHandler = new Wrapper<Registers_x64>(*w);
                 }
             }
-
+            if(!handlerFound || !methodFound){
+                qDebug("Methods not found!");
+                return;
+            }
             if(newWrapper->ret == Registers_x64::None)
                 newHandler = nullptr;
 

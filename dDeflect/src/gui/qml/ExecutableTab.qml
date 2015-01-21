@@ -31,7 +31,7 @@ Component{
                 Button{
                     id: addButton
 
-                    text:"+"
+                    text:"Click to add a method."
                     onClicked: {
                         comboboxesmobel.append({"name":"kuba"})
                         tablicaComboBoxow.push(cbDelegate);
@@ -39,37 +39,12 @@ Component{
                         applicationManager.insertNewToList("");
                     }
                 }
-                Text{
-
-                    text: "Click to add a method."
-                }
-
-                Rectangle{
-                    width: 500
-                    height: 50
-                    Loader{
-                        anchors.fill: parent
-                        sourceComponent: applicationManager.sys ? winCombo : linCombo
-
-                    }
-                }
-                Component{
-                    id: linCombo
-                    DynamicRadioButtons{
-                    }
-                }
-                Component{
-                    id: winCombo
-                    DynamicRadioWin{
-                    }
-                }
-
                 Button{
                     id: save
 
                     text:"Save"
                     onClicked: {
-                        console.log(tablicaComboBoxow)
+                        console.log("Save?")
                     }
                 }
                 Button{
@@ -82,13 +57,40 @@ Component{
                     }
                 }
             }
+            RowLayout{
+                focus: true
+                z: 1000
+                Rectangle{
+                    width: 500
+                    height: 50
+                    Loader{
+                        anchors.fill: parent
+                        sourceComponent: applicationManager.sys ? winCombo : linCombo
+
+                    }
+                }
+                Component{
+                    id: linCombo
+                    DynamicRadioButtons{
+
+                    }
+                }
+                Component{
+                    id: winCombo
+                    DynamicRadioWin{
+
+                    }
+                }
+
+            }
+
             ListView {
                 id: lv
                 visible: true
                 Layout.alignment: Qt.AlignLeft
 
                 anchors.fill: parent
-                anchors.topMargin: addButton.height*3/2+lv.spacing
+                anchors.topMargin: (addButton.height*3/2+lv.spacing)*2
                 model: comboboxesmobel
                 delegate: cbDelegate
                 Component {
