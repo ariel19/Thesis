@@ -8,7 +8,7 @@ import jsk.components 1.0
 GroupBox {
     title: "Injection type"
     width: 500
-
+    property bool checked: c1.checked||c2.checked||c3.checked||c4.checked||c5.checked||c6.checked
     RowLayout{
         width: parent.width
         spacing: 2

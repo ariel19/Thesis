@@ -1092,6 +1092,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
             foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
                 if(w->name==handlersName){
                     newHandler = new Wrapper<Registers_x64>(*w);
+                    handlerFound = true;
                 }
             }
             if(!handlerFound || !methodFound){

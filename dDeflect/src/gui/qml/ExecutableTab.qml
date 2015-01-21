@@ -30,7 +30,7 @@ Component{
                 spacing: 10
                 Button{
                     id: addButton
-
+                    visible: linCombo.checked
                     text:"Click to add a method."
                     onClicked: {
                         comboboxesmobel.append({"name":"kuba"})
@@ -50,7 +50,7 @@ Component{
                 }
                 Button{
                     id: apply
-
+                    visible: linbuttons.checked || winbuttons.checked
                     text:"Apply"
                     onClicked: {
                         console.log("ATTEMPT TO SECURE AN EXEC!")
@@ -65,6 +65,7 @@ Component{
                     width: 500
                     height: 50
                     Loader{
+                        id: radioLoader
                         anchors.fill: parent
                         sourceComponent: applicationManager.state===1 ? winCombo : linCombo
 
@@ -73,13 +74,13 @@ Component{
                 Component{
                     id: linCombo
                     DynamicRadioButtons{
-
+                        id:linbuttons
                     }
                 }
                 Component{
                     id: winCombo
                     DynamicRadioWin{
-
+                        id:winbuttons
                     }
                 }
 
