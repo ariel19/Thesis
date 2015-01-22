@@ -15,7 +15,7 @@ Component{
             anchors.fill: parent
 
             Text{
-                text:"Coverage"
+                text:"Instruction Coverage"
                 Layout.alignment: Qt.AlignCenter
             }
 
@@ -28,7 +28,7 @@ Component{
 
             }
             Text{
-                text:"Coś tam maximal value"
+                text:"Minimum length of garbage data"
                 Layout.alignment: Qt.AlignCenter
             }
             Slider {
@@ -42,7 +42,7 @@ Component{
 
             }
             Text{
-                text:"Coś tam minimal value"
+                text:"Maximum length of garbage data"
                 Layout.alignment: Qt.AlignCenter
             }
             Slider {

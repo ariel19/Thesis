@@ -101,7 +101,7 @@ Project {
             "src/core/file_types/*.cpp",
             "src/core/file_types/*.h",
         ]
-        Depends { name: "Qt"; submodules: ["core"] }
+        Depends { name: "Qt"; submodules: ["core", "widgets"] }
         cpp.warningLevel: "all"
         cpp.cxxFlags: ["-Wold-style-cast", "-std=c++11"]
         cpp.includePaths: ["src"]
