@@ -41,6 +41,7 @@ bool DSettings::load()
     ndisasmPath = settings["ndisasm_path"].toString();
     descriptionsPath_x86 = settings["desc_x86_path"].toString();
     descriptionsPath_x64 = settings["desc_x64_path"].toString();
+    descriptionsPath_src = settings["desc_src_path"].toString();
     upxPath = settings["upx_path"].toString();
 
     return true;
@@ -59,6 +60,10 @@ const QString DSettings::getNdisasmPath() const
 const QString DSettings::getUpxPath() const
 {
     return upxPath;
+}
+
+const QString DSettings::getDescriptionsSourcePath() const {
+    return descriptionsPath_src;
 }
 
 bool DSettings::save()

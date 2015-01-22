@@ -13,6 +13,7 @@ private:
 
     QString descriptionsPath_x64;
     QString descriptionsPath_x86;
+    QString descriptionsPath_src;
     QString ndisasmPath;
     QString nasmPath;
     QString upxPath;
@@ -33,6 +34,7 @@ public:
     template <typename Register>
     const QString getDescriptionsPath() const;
     const QString getUpxPath() const;
+    const QString getDescriptionsSourcePath() const;
 
     bool save();
 

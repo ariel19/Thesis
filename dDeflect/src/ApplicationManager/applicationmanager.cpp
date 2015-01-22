@@ -61,15 +61,28 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     setArchType(X86);
 
     // load source methods
-    // TODO: addd path and field to settings
-    jsonParser.setPath("aaa");
-    /*
-    QDir wrappers64(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
-    Q_ASSERT(wrappers64.exists());
-    QDirIterator it64(DSettings::getSettings().getDescriptionsPath<Registers_x64>(), QStringList() << "*.json", QDir::Files);
+    QString dsc_src_path = DSettings::getSettings().getDescriptionsSourcePath();
 
-    QFileInfoList files64 = wrappers64.entryInfoList();
-    */
+    jsonParser.setPath(dsc_src_path);
+    QDir source_dsc(dsc_src_path);
+    Q_ASSERT(source_dsc.exists());
+    QFileInfoList files_dsc_src = source_dsc.entryInfoList();
+
+    SourceCodeDescription scd;
+    SourceCodeDescription *pscd;
+    foreach(const QFileInfo &fi, files_dsc_src) {
+        if (fi.completeSuffix() == QString("json")) {
+            if (!jsonParser.loadSourceCodeDescription(fi.fileName(), scd))
+                continue;
+
+            pscd = new(std::nothrow) SourceCodeDescription;
+            if (!pscd)
+                continue;
+            memcpy(pscd, &scd, sizeof(scd));
+
+            m_sourceMethods.push_back(pscd);
+        }
+    }
 
     connect(this,SIGNAL(archTypeChanged()),this,SLOT(updateCurrMethods()));
     connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrMethods()));
@@ -79,6 +92,7 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrHandlers()));
     connect(this,SIGNAL(sysChanged()),this,SLOT(updateCurrHandlers()));
 
+    connect(this, SIGNAL(sysChanged()), this, SLOT(updateCurrSourceMethods()));
 }
 
 ApplicationManager::~ApplicationManager()
@@ -1143,11 +1157,17 @@ void ApplicationManager::updateCurrSourceMethods() {
 
     m_currSourceMethods.clear();
 
+    SourceCodeDescription *pscd;
     foreach (SourceCodeDescription *scd, m_sourceMethods) {
-        if (scd)
+        if (!scd)
             continue;
-        if (scd->sys_type == static_cast<SourceCodeDescription::SystemType>(m_sys))
-            m_currSourceMethods.push_back(new SourceCodeDescription(scd));
+        if (scd->sys_type == static_cast<SourceCodeDescription::SystemType>(m_sys)) {
+            pscd = new(std::nothrow) SourceCodeDescription;
+            if (!pscd)
+                continue;
+            memcpy(pscd, scd, sizeof(SourceCodeDescription));
+            m_currSourceMethods.push_back(pscd);
+        }
     }
 
     emit currSourceMethodsChanged();
