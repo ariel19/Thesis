@@ -9,6 +9,14 @@ class SourceCodeDescription : public QObject {
     Q_OBJECT
 public:
     /**
+     * @brief Obsługiwane systemy operacyjne.
+     */
+    enum class SystemType {
+        Windows,
+        Linux
+    };
+
+    /**
      * @brief Konstruktor.
      * @param parent rodzic.
      */
@@ -34,6 +42,11 @@ public:
      * @brief Nagłówki, których potrzebuje metoda.
      */
     QList<QString> headers;
+
+    /**
+     * @brief Identyfikator systemu.
+     */
+    SystemType sys_type;
 
     /**
      * @brief Metoda odpowiada za wczytanie obiektu JSON do aktualnej instancji klasy.

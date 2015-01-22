@@ -29,6 +29,8 @@ ApplicationManager::ApplicationManager(QObject *parent) :
                 if(w->wrapper_type==Wrapper<Registers_x86>::WrapperType::Handler)
                     m_handlersx86.append(m);
             }
+            else
+                qDebug() << "JSON read failed" << fi.fileName().toStdString().c_str();
         }
     }
     // Metody 64 bitowe
@@ -193,42 +195,186 @@ void ApplicationManager::secureClicked()
 {
     QString path = QUrl(m_targetPath).toLocalFile();
 
-    if(m_archType == ApplicationManager::X86)
+    if(m_sys == Windows)
     {
-        if(!x86threadWrappersToInject.empty()) {
-            DAddingMethods<Registers_x86>::InjectDescription *th = new DAddingMethods<Registers_x86>::InjectDescription();
-            th->cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
-            foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
-                if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::ThreadWrapper)
-                    th->adding_method = w;
+        if(m_archType == ApplicationManager::X86)
+        {
+            if(!x86threadWrappersToInject.empty()) {
+                DAddingMethods<Registers_x86>::InjectDescription *th = new DAddingMethods<Registers_x86>::InjectDescription();
+                th->cm = DAddingMethods<Registers_x86>::CallingMethod::OEP;
+                foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                    if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::ThreadWrapper
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Windows) {
+                        th->adding_method = w;
+                        break;
+                    }
+                }
+
+                ThreadWrapper<Registers_x86> *tw = dynamic_cast<ThreadWrapper<Registers_x86>*>(th->adding_method);
+
+                foreach(Wrapper<Registers_x86>* wrp, x86threadWrappersToInject) {
+                    tw->thread_actions.append(wrp);
+                }
+
+                x86methodsToInsert.append(th);
             }
+        }
+        else
+        {
+            if(!x64threadWrappersToInject.empty()) {
+                DAddingMethods<Registers_x64>::InjectDescription *th = new DAddingMethods<Registers_x64>::InjectDescription();
+                th->cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
+                foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                    if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::ThreadWrapper
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Windows) {
+                        th->adding_method = w;
+                        break;
+                    }
+                }
 
-            ThreadWrapper<Registers_x86> *tw = dynamic_cast<ThreadWrapper<Registers_x86>*>(th->adding_method);
+                ThreadWrapper<Registers_x64> *tw = dynamic_cast<ThreadWrapper<Registers_x64>*>(th->adding_method);
 
-            foreach(Wrapper<Registers_x86>* wrp, x86threadWrappersToInject) {
-                tw->thread_actions.append(wrp);
+                foreach(Wrapper<Registers_x64>* wrp, x64threadWrappersToInject) {
+                    tw->thread_actions.append(wrp);
+                }
+
+                x64methodsToInsert.append(th);
             }
-
-            x86methodsToInsert.append(th);
         }
     }
     else
     {
-        if(!x64threadWrappersToInject.empty()) {
-            DAddingMethods<Registers_x64>::InjectDescription *th = new DAddingMethods<Registers_x64>::InjectDescription();
-            th->cm = DAddingMethods<Registers_x64>::CallingMethod::OEP;
-            foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
-                if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::ThreadWrapper)
-                    th->adding_method = w;
+        if(m_archType == ApplicationManager::X86)
+        {
+            foreach(DAddingMethods<Registers_x86>::InjectDescription *id, x86methodsToInsert) {
+                switch(id->cm) {
+                case DAddingMethods<Registers_x86>::CallingMethod::OEP:
+                    foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                        if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::OepWrapper &&
+                                w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux) {
+                            OEPWrapper<Registers_x86> *wrp = dynamic_cast<OEPWrapper<Registers_x86>*>(Wrapper<Registers_x86>::copy(w));
+                            wrp->oep_action = id->adding_method;
+                            wrp->detect_handler = id->adding_method->detect_handler;
+                            id->adding_method->detect_handler = nullptr;
+                            id->adding_method = wrp;
+                            break;
+                        }
+                    }
+
+                    break;
+
+                case DAddingMethods<Registers_x86>::CallingMethod::Thread:
+                    foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                        if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::ThreadWrapper &&
+                                w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux) {
+                            ThreadWrapper<Registers_x86> *wrp = dynamic_cast<ThreadWrapper<Registers_x86>*>(Wrapper<Registers_x86>::copy(w));
+                            wrp->thread_actions = { id->adding_method };
+                            wrp->detect_handler = id->adding_method->detect_handler;
+                            id->adding_method->detect_handler = nullptr;
+                            id->adding_method = wrp;
+                            break;
+                        }
+                    }
+                    break;
+
+                default: // tram
+                    foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                        if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::TrampolineWrapper &&
+                                w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux) {
+                            TrampolineWrapper<Registers_x86> *wrp = dynamic_cast<TrampolineWrapper<Registers_x86>*>(Wrapper<Registers_x86>::copy(w));
+                            wrp->tramp_action = id->adding_method;
+                            wrp->detect_handler = id->adding_method->detect_handler;
+                            id->adding_method->detect_handler = nullptr;
+                            id->adding_method = wrp;
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
 
-            ThreadWrapper<Registers_x64> *tw = dynamic_cast<ThreadWrapper<Registers_x64>*>(th->adding_method);
+            foreach(Wrapper<Registers_x86>* mth, x86threadWrappersToInject) {
+                DAddingMethods<Registers_x86>::InjectDescription *th = new DAddingMethods<Registers_x86>::InjectDescription();
+                th->cm = DAddingMethods<Registers_x86>::CallingMethod::Thread;
+                foreach(Wrapper<Registers_x86> * w, m_x86methodsList) {
+                    if(w->wrapper_type == Wrapper<Registers_x86>::WrapperType::ThreadWrapper
+                            && w->system_type == DAddingMethods<Registers_x86>::SystemType::Linux) {
+                        ThreadWrapper<Registers_x86> *wrp = dynamic_cast<ThreadWrapper<Registers_x86>*>(Wrapper<Registers_x86>::copy(w));
+                        wrp->detect_handler = mth->detect_handler;
+                        mth->detect_handler = nullptr;
+                        wrp->thread_actions = { mth };
+                        th->adding_method = wrp;
+                        break;
+                    }
+                }
+                x86methodsToInsert.append(th);
+            }
+        }
+        else
+        {
+            foreach(DAddingMethods<Registers_x64>::InjectDescription *id, x64methodsToInsert) {
+                switch(id->cm) {
+                case DAddingMethods<Registers_x64>::CallingMethod::OEP:
+                    foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                        if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::OepWrapper &&
+                                w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux) {
+                            OEPWrapper<Registers_x64> *wrp = dynamic_cast<OEPWrapper<Registers_x64>*>(Wrapper<Registers_x64>::copy(w));
+                            wrp->oep_action = id->adding_method;
+                            wrp->detect_handler = id->adding_method->detect_handler;
+                            id->adding_method->detect_handler = nullptr;
+                            id->adding_method = wrp;
+                            break;
+                        }
+                    }
 
-            foreach(Wrapper<Registers_x64>* wrp, x64threadWrappersToInject) {
-                tw->thread_actions.append(wrp);
+                    break;
+
+                case DAddingMethods<Registers_x64>::CallingMethod::Thread:
+                    foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                        if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::ThreadWrapper &&
+                                w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux) {
+                            ThreadWrapper<Registers_x64> *wrp = dynamic_cast<ThreadWrapper<Registers_x64>*>(Wrapper<Registers_x64>::copy(w));
+                            wrp->thread_actions = { id->adding_method };
+                            wrp->detect_handler = id->adding_method->detect_handler;
+                            id->adding_method->detect_handler = nullptr;
+                            id->adding_method = wrp;
+                            break;
+                        }
+                    }
+                    break;
+
+                default: // tram
+                    foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                        if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::TrampolineWrapper &&
+                                w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux) {
+                            TrampolineWrapper<Registers_x64> *wrp = dynamic_cast<TrampolineWrapper<Registers_x64>*>(Wrapper<Registers_x64>::copy(w));
+                            wrp->tramp_action = id->adding_method;
+                            wrp->detect_handler = id->adding_method->detect_handler;
+                            id->adding_method->detect_handler = nullptr;
+                            id->adding_method = wrp;
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
 
-            x64methodsToInsert.append(th);
+            foreach(Wrapper<Registers_x64>* mth, x64threadWrappersToInject) {
+                DAddingMethods<Registers_x64>::InjectDescription *th = new DAddingMethods<Registers_x64>::InjectDescription();
+                th->cm = DAddingMethods<Registers_x64>::CallingMethod::Thread;
+                foreach(Wrapper<Registers_x64> * w, m_x64methodsList) {
+                    if(w->wrapper_type == Wrapper<Registers_x64>::WrapperType::ThreadWrapper
+                            && w->system_type == DAddingMethods<Registers_x64>::SystemType::Linux) {
+                        ThreadWrapper<Registers_x64> *wrp = dynamic_cast<ThreadWrapper<Registers_x64>*>(Wrapper<Registers_x64>::copy(w));
+                        wrp->detect_handler = mth->detect_handler;
+                        mth->detect_handler = nullptr;
+                        wrp->thread_actions = { mth };
+                        th->adding_method = wrp;
+                        break;
+                    }
+                }
+                x64methodsToInsert.append(th);
+            }
         }
     }
 

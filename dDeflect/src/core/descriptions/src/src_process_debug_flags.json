@@ -1,5 +1,8 @@
 {
   "name": "ProcessDebugFlags",
   "path": "data/detection/source/process_debug_flags.code",
+	"system" : "windows",
+	"headers" : [
+	],
   "description": "This method queries undocumented ProcessDebugFlags class using NtQueryInformationProcess function. The class is cleared when debugger is present."
 }

@@ -1,5 +1,8 @@
 {
   "name": "ProcessDebugPort",
   "path": "data/detection/source/process_debug_port.code",
+	"system" : "windows",
+	"headers" : [
+	],
   "description": "This method queries ProcessDebugPort class using NtQueryInformationProcess function. If the debugger is present, ProcessDebugPort may be set to -1."
 }
