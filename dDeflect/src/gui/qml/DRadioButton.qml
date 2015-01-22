@@ -12,7 +12,12 @@ RadioButton {
     function checkChanged(checked, rect){
         if(checked){
             ss = false
-            buttonRow.visible = true
+
+            addButton.enabled = true;
+            saveButton.enabled = true;
+            applyButton.enabled = true;
+
+            //buttonRow.visible = true
             console.log(applicationManager.sys)
             methodsModel = model
             handlersModel = model
@@ -22,7 +27,7 @@ RadioButton {
             handlersModel = applicationManager.currHandlers
             applicationManager.saveClicked()
             ss = true
-            rect.visible = true
+            c6.enabled = false
         }
     }
 
@@ -38,7 +43,6 @@ RadioButton {
             onClicked: { parent.color = 'black' }
         }
     }
-    text: "CTORS"
     exclusiveGroup: tabPositionGroup
     onCheckedChanged: {
         console.log("CTORS"+checked)

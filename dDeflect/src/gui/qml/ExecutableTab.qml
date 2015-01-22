@@ -10,6 +10,7 @@ import jsk.components 1.0
 Component{
     id: execTab
     Tab {
+        id:tab
         title: "Executable"
         visible:true
         //property var methodsModel: applicationManager.archType === applicationManager.X86 ? applicationManager.x86methods : applicationManager.x64methods
@@ -17,21 +18,24 @@ Component{
         property var handlersModel: applicationManager.currHandlers
         property var tablicaComboBoxow: []
         property bool ss: true
+
         ColumnLayout{
+
             id:cl
             anchors.fill: parent
-            anchors.topMargin: addButton.height/2
+            //anchors.topMargin: addButton.height/2
             spacing: 10
             RowLayout{
                 id: buttonRow
-                Layout.alignment: Qt.AlignLeft
+                Layout.alignment: Qt.AlignHCenter
                 width: 500
                 height: 50
                 spacing: 10
-                visible: false
+                visible: true
                 Button{
                     id: addButton
                     visible: true
+                    enabled: false
                     text:"Click to add a method."
                     onClicked: {
                         comboboxesmobel.append({"name":"kuba"})
@@ -42,8 +46,8 @@ Component{
                 }
                 Button{
                     id: saveButton
-
                     text:"Save"
+                    enabled: false
                     onClicked: {
                         console.log("Save?")
                         applicationManager.saveClicked()
@@ -51,9 +55,11 @@ Component{
                 }
                 Button{
                     id: applyButton
+                    enabled: false
                     visible: linbuttons.checked || winbuttons.checked
                     text:"Apply"
                     onClicked: {
+                        tab.enabled = false
                         console.log("ATTEMPT TO SECURE AN EXEC!")
                         applicationManager.secureClicked();
                     }
@@ -149,6 +155,8 @@ Component{
                      ListElement { name: "Apple"; color: "Green" }
                      ListElement { name: "Coconut"; color: "Brown" }
                  }
-        }
+       }
+
     }
+
 }
