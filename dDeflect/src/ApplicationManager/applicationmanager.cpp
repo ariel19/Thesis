@@ -4,6 +4,7 @@
 #include <ApplicationManager/dlogger.h>
 #include <core/file_types/elffile.h>
 #include <QUrl>
+#include <QtWidgets/QMessageBox>
 
 ApplicationManager::ApplicationManager(QObject *parent) :
     QObject(parent), jsonParser(), sourceParser(), m_targetPath("Choose a C++ source file or an executive file.")
@@ -390,7 +391,7 @@ void ApplicationManager::secureClicked()
 
     QFile f(path);
     if(!f.open(QFile::ReadOnly)) {
-        LOG_ERROR("Secure failed!");
+        QMessageBox::critical(nullptr, "Error", "Secure failed! Cannot open file.");
         return;
     }
     QByteArray data = f.readAll();
@@ -410,21 +411,21 @@ void ApplicationManager::secureClicked()
     {
         bin = new PEFile(data);
         if(!checkBinaryFile(*bin)) {
-            LOG_ERROR("Secure failed!");
+            QMessageBox::critical(nullptr, "Error", "Secure failed! Invalid file.");
             return;
         }
 
         if(bin->is_x86()) {
             PEAddingMethods<Registers_x86> am(dynamic_cast<PEFile*>(bin));
             if(!am.secure(x86methodsToInsert)) {
-                LOG_ERROR("Secure failed!");
+                QMessageBox::critical(nullptr, "Error", "Secure failed!");
                 return;
             }
         }
         else {
             PEAddingMethods<Registers_x64> am(dynamic_cast<PEFile*>(bin));
             if(!am.secure(x64methodsToInsert)) {
-                LOG_ERROR("Secure failed!");
+                QMessageBox::critical(nullptr, "Error", "Secure failed!");
                 return;
             }
         }
@@ -436,21 +437,21 @@ void ApplicationManager::secureClicked()
     {
         bin = new ::ELF(data);
         if(!checkBinaryFile(*bin)) {
-            LOG_ERROR("Secure failed!");
+            QMessageBox::critical(nullptr, "Error", "Secure failed! Invalid file.");
             return;
         }
 
         if(bin->is_x86()) {
             ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
             if(!am.secure(x86methodsToInsert)) {
-                LOG_ERROR("Secure failed!");
+                QMessageBox::critical(nullptr, "Error", "Secure failed!");
                 return;
             }
         }
         else {
             ELFAddingMethods<Registers_x64> am(dynamic_cast< ::ELF*>(bin));
             if(!am.secure(x64methodsToInsert)) {
-                LOG_ERROR("Secure failed!");
+                QMessageBox::critical(nullptr, "Error", "Secure failed!");
                 return;
             }
         }
@@ -463,14 +464,14 @@ void ApplicationManager::secureClicked()
         break;
 
     default:
-        LOG_ERROR("Secure failed!");
+        QMessageBox::critical(nullptr, "Error", "Secure failed!");
         break;
     }
 
     if(bin) {
         if(!out.open(QFile::WriteOnly))
         {
-            LOG_ERROR("Secure failed!");
+            QMessageBox::critical(nullptr, "Error", "Secure failed! Cannot open out file.");
             return;
         }
 
@@ -478,6 +479,8 @@ void ApplicationManager::secureClicked()
 
         out.close();
     }
+
+    QMessageBox::information(nullptr, "Success!", "Methods injected.");
 
     // TODO: source
 }
@@ -487,7 +490,7 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
     QString path = QUrl(m_targetPath).toLocalFile();
     QFile f(path);
     if(!f.open(QFile::ReadOnly)) {
-        LOG_ERROR("Obfuscation failed!");
+        QMessageBox::critical(nullptr, "Error", "Obfuscation failed! Cannot open file.");
         return;
     }
     QByteArray data = f.readAll();
@@ -507,21 +510,21 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
     {
         bin = new PEFile(data);
         if(!checkBinaryFile(*bin)) {
-            LOG_ERROR("Obfuscation failed!");
+            QMessageBox::critical(nullptr, "Error", "Obfuscation failed! Invalid file.");
             return;
         }
 
         if(bin->is_x86()) {
             PEAddingMethods<Registers_x86> am(dynamic_cast<PEFile*>(bin));
             if(!am.obfuscate(cov, minl, maxl)) {
-                LOG_ERROR("Obfuscation failed!");
+                QMessageBox::critical(nullptr, "Error", "Obfuscation failed!");
                 return;
             }
         }
         else {
             PEAddingMethods<Registers_x64> am(dynamic_cast<PEFile*>(bin));
             if(!am.obfuscate(cov, minl, maxl)) {
-                LOG_ERROR("Obfuscation failed!");
+                QMessageBox::critical(nullptr, "Error", "Obfuscation failed!");
                 return;
             }
         }
@@ -533,21 +536,21 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
     {
         bin = new ::ELF(data);
         if(!checkBinaryFile(*bin)) {
-            LOG_ERROR("Obfuscation failed!");
+            QMessageBox::critical(nullptr, "Error", "Obfuscation failed! Invalid file.");
             return;
         }
 
         if(bin->is_x86()) {
             ELFAddingMethods<Registers_x86> am(dynamic_cast< ::ELF*>(bin));
             if(!am.obfuscate(cov, minl, maxl)) {
-                LOG_ERROR("Obfuscation failed!");
+                QMessageBox::critical(nullptr, "Error", "Obfuscation failed!");
                 return;
             }
         }
         else {
             ELFAddingMethods<Registers_x64> am(dynamic_cast< ::ELF*>(bin));
             if(!am.obfuscate(cov, minl, maxl)) {
-                LOG_ERROR("Obfuscation failed!");
+                QMessageBox::critical(nullptr, "Error", "Obfuscation failed!");
                 return;
             }
         }
@@ -560,14 +563,14 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
         break;
 
     default:
-        LOG_ERROR("Obfuscation failed!");
+        QMessageBox::critical(nullptr, "Error", "Obfuscation failed!");
         break;
     }
 
     if(bin) {
         if(!out.open(QFile::WriteOnly))
         {
-            LOG_ERROR("Obfuscation failed!");
+            QMessageBox::critical(nullptr, "Error", "Obfuscation failed! Cannot open out file.");
             return;
         }
 
@@ -575,6 +578,8 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
 
         out.close();
     }
+
+    QMessageBox::information(nullptr, "Success!", "Code obfuscated.");
 
     // TODO: source
 }
@@ -595,7 +600,9 @@ void ApplicationManager::packClicked(int lvl, int opt)
                                                  static_cast<DAddingMethods<Registers_x64>::CompressionOptions>(opt));
 
     if(!ok)
-        LOG_ERROR("Packing failed!");
+        QMessageBox::critical(nullptr, "Error", "Packing failed!");
+    else
+        QMessageBox::information(nullptr, "Success!", "Packing finished.");
 }
 
 void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
