@@ -1256,7 +1256,7 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
                 newHandler = nullptr;
 
             newWrapper->detect_handler = newHandler;
-            if(index<x86threadWrappersToInject.size() && index>=0){
+            if(index<x64threadWrappersToInject.size() && index>=0){
                 x64threadWrappersToInject[index]= newWrapper;
             }
             else
