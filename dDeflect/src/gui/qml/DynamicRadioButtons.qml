@@ -20,24 +20,30 @@ GroupBox {
 
         DRadioButton{
             text: "EntryPoint"
+            callingMethod: 0
         }
 
         DRadioButton{
             text: "Thread"
+            callingMethod: 1
         }
 
         DRadioButton{
             text: "Trampoline"
+            callingMethod: 2
         }
 
         DRadioButton{
             text: "INIT"
+            callingMethod: 3
         }
         DRadioButton{
             text: "INIT_ARRAY"
+            callingMethod: 4
         }
         DRadioButton{
             text: "CTORS"
+            callingMethod: 5
         }
     }
 

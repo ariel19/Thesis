@@ -8,6 +8,7 @@ import jsk.components 1.0
 
 RadioButton {
     id: c6
+    property int callingMethod:0
 
     function checkChanged(checked, rect){
         if(checked){
@@ -17,11 +18,10 @@ RadioButton {
             saveButton.enabled = true;
             applyButton.enabled = true;
 
-            //buttonRow.visible = true
             console.log(applicationManager.sys)
             methodsModel = model
             handlersModel = model
-            applicationManager.currCm = 0
+            applicationManager.currCm = callingMethod
             comboboxesmobel.clear()
             methodsModel = applicationManager.currMethods
             handlersModel = applicationManager.currHandlers

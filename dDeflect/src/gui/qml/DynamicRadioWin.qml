@@ -16,15 +16,19 @@ GroupBox {
 
         DRadioButton{
             text:"EntryPoint"
+            callingMethod: 0
         }
         DRadioButton{
             text:"Thread"
+            callingMethod: 1
         }
         DRadioButton{
             text:"Trampoline"
+            callingMethod: 2
         }
         DRadioButton{
             text:"TLS"
+            callingMethod: 6
         }
     }
 }
