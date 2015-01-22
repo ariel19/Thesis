@@ -182,9 +182,9 @@ QVariantList ApplicationManager::x86MethodsNames()
 
 void ApplicationManager::fileOpened(QString path)
 {
-    m_targetPath = path;
+    m_targetPath = QUrl(path).toLocalFile();
     //emit targetPathChanged()
-    setState(getFileType(path));
+    setState(getFileType(m_targetPath));
     //setState(ApplicationManager::PE);
 }
 
@@ -218,7 +218,7 @@ void ApplicationManager::saveClicked()
 
 void ApplicationManager::secureClicked()
 {
-    QString path = QUrl(m_targetPath).toLocalFile();
+    QString path = m_targetPath;
 
     if(m_sys == Windows)
     {
@@ -417,7 +417,8 @@ void ApplicationManager::secureClicked()
     QString out_name = in.baseName() + QString("_secured");
     if(in.completeSuffix().length() > 0)
         out_name.append(".").append(in.completeSuffix());
-    QFile out(QFileInfo(in.absoluteDir(), out_name).absoluteFilePath());
+    QString new_path = QFileInfo(in.absoluteDir(), out_name).absoluteFilePath();
+    QFile out(new_path);
 
     switch(m_state)
     {
@@ -494,14 +495,15 @@ void ApplicationManager::secureClicked()
         out.close();
     }
 
-    QMessageBox::information(nullptr, "Success!", "Methods injected.");
+    QMessageBox::information(nullptr, "Success!", QString("Methods injected.\nFile saved as: ") + new_path);
+    m_targetPath = new_path;
 
     // TODO: source
 }
 
 void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
 {
-    QString path = QUrl(m_targetPath).toLocalFile();
+    QString path = m_targetPath;
     QFile f(path);
     if(!f.open(QFile::ReadOnly)) {
         QMessageBox::critical(nullptr, "Error", "Obfuscation failed! Cannot open file.");
@@ -516,7 +518,8 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
     QString out_name = in.baseName() + QString("_obfuscated");
     if(in.completeSuffix().length() > 0)
         out_name.append(".").append(in.completeSuffix());
-    QFile out(QFileInfo(in.absoluteDir(), out_name).absoluteFilePath());
+    QString new_path = QFileInfo(in.absoluteDir(), out_name).absoluteFilePath();
+    QFile out(new_path);
 
     switch(m_state)
     {
@@ -593,7 +596,8 @@ void ApplicationManager::obfuscateClicked(int cov, int minl, int maxl)
         out.close();
     }
 
-    QMessageBox::information(nullptr, "Success!", "Code obfuscated.");
+    QMessageBox::information(nullptr, "Success!", QString("Code obfuscated.\nFile saved as: ") + new_path);
+    m_targetPath = new_path;
 
     // TODO: source
 }
@@ -602,7 +606,17 @@ void ApplicationManager::packClicked(int lvl, int opt)
 {
     bool ok = false;
     lvl++;
-    QString path = QUrl(m_targetPath).toLocalFile();
+
+    QString path = m_targetPath;
+    QFileInfo in(path);
+
+    QString out_name = in.baseName() + QString("_packed");
+    if(in.completeSuffix().length() > 0)
+        out_name.append(".").append(in.completeSuffix());
+
+    path = QFileInfo(in.absoluteDir(), out_name).absoluteFilePath();
+    QFile::copy(m_targetPath, path);
+
 
     if(m_archType == ApplicationManager::X86)
         ok = DAddingMethods<Registers_x86>::pack(path,
@@ -616,7 +630,9 @@ void ApplicationManager::packClicked(int lvl, int opt)
     if(!ok)
         QMessageBox::critical(nullptr, "Error", "Packing failed!");
     else
-        QMessageBox::information(nullptr, "Success!", "Packing finished.");
+        QMessageBox::information(nullptr, "Success!", QString("Packing finished.\nFile saved as: ") + path);
+
+    m_targetPath = path;
 }
 
 void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
@@ -1352,7 +1368,7 @@ void ApplicationManager::clearList()
 ApplicationManager::State ApplicationManager::getFileType(QString path)
 {
     //QString newPath = path.remove("file:///");
-    QFile f(QUrl(path).toLocalFile());
+    QFile f(path);
 
     if(!f.open(QFile::ReadOnly))
     {
