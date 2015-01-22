@@ -112,6 +112,9 @@ ELFAddingMethods<RegistersType>::fill_magic_params(QMap<QString, QString> &param
     static QString magic_sec_size("magic!sec_size"),
                    magic_sec_checksum("magic!sec_checksum");
 
+    if (!params.contains(magic_sec_size) && !params.contains(magic_sec_checksum))
+        return ErrorCode::Success;
+
     QPair<QByteArray, Elf64_Addr> section_data;
     if (!elf->get_section_content(ELF::SectionType::TEXT, section_data))
         return ErrorCode::GetSectionContentFailed;
