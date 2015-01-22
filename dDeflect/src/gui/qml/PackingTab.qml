@@ -15,7 +15,7 @@ Component{
             anchors.fill: parent
 
             Text{
-                text:"Compression"
+                text:"Compression Level"
                 Layout.alignment: Qt.AlignCenter
             }
 
@@ -30,7 +30,7 @@ Component{
 
             }
             Text{
-                text:"Coś tam maximal value"
+                text:"Compression Tuning"
                 Layout.alignment: Qt.AlignCenter
             }
             Slider {
