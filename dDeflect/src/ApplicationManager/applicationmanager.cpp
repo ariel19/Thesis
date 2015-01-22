@@ -60,6 +60,16 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     setState(IDLE);
     setArchType(X86);
 
+    // load source methods
+    // TODO: addd path and field to settings
+    jsonParser.setPath("aaa");
+    /*
+    QDir wrappers64(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
+    Q_ASSERT(wrappers64.exists());
+    QDirIterator it64(DSettings::getSettings().getDescriptionsPath<Registers_x64>(), QStringList() << "*.json", QDir::Files);
+
+    QFileInfoList files64 = wrappers64.entryInfoList();
+    */
 
     connect(this,SIGNAL(archTypeChanged()),this,SLOT(updateCurrMethods()));
     connect(this,SIGNAL(currCmChanged()),this,SLOT(updateCurrMethods()));
@@ -145,9 +155,9 @@ QQmlListProperty<Method> ApplicationManager::currHandlers()
     return QQmlListProperty<Method>(this,m_currHandlers);
 }
 
-QQmlListProperty<Method> ApplicationManager::currSourceMethods()
+QQmlListProperty<SourceCodeDescription> ApplicationManager::currSourceMethods()
 {
-    return QQmlListProperty<Method>(this,m_currSourceMethods);
+    return QQmlListProperty<SourceCodeDescription>(this,m_currSourceMethods);
 }
 
 QVariantList ApplicationManager::x86MethodsNames()
@@ -1125,6 +1135,22 @@ void ApplicationManager::updateCurrHandlers()
         }
     }
     emit currHandlersChanged();
+}
+
+void ApplicationManager::updateCurrSourceMethods() {
+    foreach (SourceCodeDescription *scd, m_currSourceMethods)
+        delete scd;
+
+    m_currSourceMethods.clear();
+
+    foreach (SourceCodeDescription *scd, m_sourceMethods) {
+        if (scd)
+            continue;
+        if (scd->sys_type == static_cast<SourceCodeDescription::SystemType>(m_sys))
+            m_currSourceMethods.push_back(new SourceCodeDescription(scd));
+    }
+
+    emit currSourceMethodsChanged();
 }
 
 void ApplicationManager::changeList(const QString &methodsName,const QString& handlersName, int index)

@@ -12,8 +12,8 @@ public:
      * @brief Obsługiwane systemy operacyjne.
      */
     enum class SystemType {
-        Windows,
-        Linux
+        Linux = 0,
+        Windows
     };
 
     /**
