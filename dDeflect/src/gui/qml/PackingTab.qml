@@ -8,6 +8,7 @@ import jsk.components 1.0
 Component{
     id:packingTab
     Tab {
+        id: tab
         title: "Packing"
         visible: true
         ColumnLayout{
@@ -47,7 +48,10 @@ Component{
                 width: 200
                 height: 50
                 text: "PACK!"
-                onClicked: { applicationManager.packClicked(coverage.value*10, slider2.value*4-2)}
+                onClicked: {
+                    applicationManager.packClicked(coverage.value*10, slider2.value*4-2)
+                    tab.enabled = false
+                }
             }
         }
     }

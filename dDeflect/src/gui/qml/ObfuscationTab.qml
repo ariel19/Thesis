@@ -8,6 +8,7 @@ import jsk.components 1.0
 Component{
     id: obfuscationTab
     Tab {
+        id: tab
         title: "Obfuscation"
         visible: true
         ColumnLayout{
@@ -62,7 +63,7 @@ Component{
                 text: "OBFUSCATE!"
                 onClicked: {
                    applicationManager.obfuscateClicked(coverage.value*100, slider2.value*100, slider3.value*100);
-                   applicationManager.state = 0;
+                   tab.enabled = false
                 }
             }
         }

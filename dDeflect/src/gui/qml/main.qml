@@ -19,8 +19,10 @@ ApplicationWindow {
         Menu {
             title: "&File"
             MenuItem {
+                id: loaditem
                 text: "Load"
                 action: openAction
+
             }
             MenuItem {
                 text: "Close"
@@ -42,7 +44,7 @@ ApplicationWindow {
         onFileUrlChanged:{
             fileUrlText.text = fileUrl;
             applicationManager.fileOpened(fileDialog.fileUrl);
-
+            openAction.enabled = false
         }
 
     }
@@ -115,6 +117,7 @@ ApplicationWindow {
         onTriggered: aboutDialog.open()
     }
     Action {
+
         id: openAction
         text: "&Open"
         shortcut: StandardKey.Open
