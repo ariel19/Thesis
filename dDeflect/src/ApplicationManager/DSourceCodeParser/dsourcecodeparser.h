@@ -24,7 +24,7 @@ public:
 
     DSourceCodeParser();
     QStringList getFunctions(const QString &path);
-    void insertMethods(const QString &path, FIDMapping<Registers_x86>);
+    void insertMethods(const QString &path, const QString& functionName, const QString& code);
 private:
     bool read_and_parse(const QString &fname, QStringList &vals);
 };

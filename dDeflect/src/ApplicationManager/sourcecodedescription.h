@@ -7,6 +7,7 @@
 
 class SourceCodeDescription : public QObject {
     Q_OBJECT
+    //Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 public:
     /**
      * @brief Obsługiwane systemy operacyjne.
@@ -56,7 +57,7 @@ public:
     bool read(const QJsonObject & json);
 
 signals:
-
+    void nameChanged();
 public slots:
 
 };

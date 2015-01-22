@@ -112,7 +112,7 @@ public slots:
     void obfuscateClicked(int cov, int minl, int maxl);
     void packClicked(int lvl, int opt);
 
-    void insertMethods(FIDMapping<Registers_x86>);
+    void insertMethods(/*FIDMapping<Registers_x86>*/);
     QStringList getDeclarations();
 
     void updateCurrMethods();

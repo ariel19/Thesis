@@ -5,6 +5,7 @@
 
 bool SourceCodeDescription::read(const QJsonObject &json) {
     // name
+
     name = json["name"].toString();
 
     // description

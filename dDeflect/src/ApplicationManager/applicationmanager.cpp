@@ -190,22 +190,7 @@ void ApplicationManager::fileOpened(QString path)
 
 void ApplicationManager::applyClicked(QVariantList methodsChosen)
 {
-    m_targetPath ="";
-    if(methodsChosen.isEmpty()){
-        qDebug()<<"Methods List is empty, verify in qml";
-        return;
-    }
-
-    // TODO: umożliwić wybór funkcji do której chcemy wstrzyknąć
-    FIDMapping<Registers_x86> map;
-    IDList<Registers_x86> methodsToInsert;
-    foreach(QVariant q, methodsChosen){
-        int index = q.toInt();
-        methodsToInsert.append(m_x86methodsList[index]);
-    }
-    map["main"] = methodsToInsert;
-    qDebug()<<map;
-    insertMethods(map);
+    insertMethods();
 }
 
 void ApplicationManager::saveClicked()
@@ -619,9 +604,9 @@ void ApplicationManager::packClicked(int lvl, int opt)
         QMessageBox::information(nullptr, "Success!", "Packing finished.");
 }
 
-void ApplicationManager::insertMethods(FIDMapping<Registers_x86> Map)
+void ApplicationManager::insertMethods()
 {
-    sourceParser->insertMethods(m_targetPath,Map);
+    sourceParser->insertMethods(m_targetPath,"","");
 }
 
 QStringList ApplicationManager::getDeclarations()

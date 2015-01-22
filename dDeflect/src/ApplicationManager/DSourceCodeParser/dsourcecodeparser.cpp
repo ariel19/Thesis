@@ -34,7 +34,7 @@ QStringList DSourceCodeParser::getFunctions(const QString &path)
     return functionList;
 }
 
-void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<Registers_x86> map)
+void DSourceCodeParser::insertMethods(const QString &path, const QString& functionName, const QString& code)
 {
     QString program = "/home/jsk/static_analysis/llvm/Debug+Asserts/bin/methodInsert";
     QFile methodInsert("/home/jsk/static_analysis/llvm/Debug+Asserts/bin/methodInsert");
@@ -45,17 +45,13 @@ void DSourceCodeParser::insertMethods(const QString &path, FIDMapping<Registers_
     }
 
     QStringList arguments;
-
-    // TODO: przygotuj kod do wstawienia tak aby działał
     QString codeToInsert;
-    foreach(Wrapper<Registers_x86>* id, map["main"]){
-        codeToInsert.append("{");
-        //codeToInsert.append(id->code);
-        codeToInsert.append("if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0)exit_group(188);");
-        codeToInsert.append("}\n");
-    }
 
-    arguments << path << "--" << "main" << codeToInsert;
+    codeToInsert.append("{");
+    codeToInsert.append(code);
+    codeToInsert.append("}");
+
+    arguments << path << "--" << functionName << codeToInsert;
 
     QProcess * myProcess = new QProcess();
     myProcess->start(program, arguments);
