@@ -7,7 +7,7 @@
 
 class SourceCodeDescription : public QObject {
     Q_OBJECT
-    //Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 public:
     /**
      * @brief Obsługiwane systemy operacyjne.
@@ -33,7 +33,7 @@ public:
     /**
      * @brief Nazwa metody.
      */
-    QString name;
+    QString m_name;
 
     /**
      * @brief Ścieżka do pliku z zawartością metody.
@@ -62,6 +62,8 @@ public:
      */
     bool read(const QJsonObject & json);
 
+
+    QString name() const;
 signals:
     void nameChanged();
 public slots:

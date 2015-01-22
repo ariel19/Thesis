@@ -8,7 +8,7 @@ void SourceCodeDescription::copy(SourceCodeDescription *new_scd)
     if(!new_scd)
         return;
 
-    new_scd->name = name;
+    new_scd->m_name = m_name;
     new_scd->description = description;
     new_scd->path = path;
     new_scd->headers = headers;
@@ -18,7 +18,7 @@ void SourceCodeDescription::copy(SourceCodeDescription *new_scd)
 bool SourceCodeDescription::read(const QJsonObject &json) {
     // name
 
-    name = json["name"].toString();
+    m_name = json["name"].toString();
 
     // description
     description = json["description"].toString();
@@ -41,3 +41,5 @@ bool SourceCodeDescription::read(const QJsonObject &json) {
 
     return true;
 }
+
+QString SourceCodeDescription::name() const { return m_name; }

@@ -196,8 +196,8 @@ ApplicationWindow {
                  break;
              case 3:
                  frame.addTab("SOURCE",sourceTab)
-                 frame.addTab("PACKING",packingTab)
-                 frame.addTab("OBFUSCATION",obfuscationTab)
+                 //frame.addTab("PACKING",packingTab)
+                 //frame.addTab("OBFUSCATION",obfuscationTab)
                  break;
              default:
                  break;

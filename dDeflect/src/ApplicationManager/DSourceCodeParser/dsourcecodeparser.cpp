@@ -51,7 +51,10 @@ void DSourceCodeParser::insertMethods(const QString &path, const QString& functi
     codeToInsert.append(code);
     codeToInsert.append("}");
 
-    arguments << path << "--" << functionName << codeToInsert;
+    QString fn = functionName;
+    fn = fn.remove(" ");
+
+    arguments << path << "--" << fn << codeToInsert;
 
     QProcess * myProcess = new QProcess();
     myProcess->start(program, arguments);

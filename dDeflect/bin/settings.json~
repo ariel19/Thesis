@@ -3,6 +3,5 @@
   "ndisasm_path" : "ndisasm",
   "desc_x86_path" : "description/x86/",
   "desc_x64_path" : "description/x64/",
-  "desc_src_path": "description/src/",
   "upx_path" : "upx"
 }

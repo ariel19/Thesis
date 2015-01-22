@@ -188,9 +188,9 @@ void ApplicationManager::fileOpened(QString path)
     //setState(ApplicationManager::PE);
 }
 
-void ApplicationManager::applyClicked(QVariantList methodsChosen)
+void ApplicationManager::applyClicked()
 {
-    insertMethods();
+    //insertMethods();
 }
 
 void ApplicationManager::saveClicked()
@@ -620,9 +620,30 @@ void ApplicationManager::packClicked(int lvl, int opt)
     m_targetPath = path;
 }
 
-void ApplicationManager::insertMethods()
+void ApplicationManager::insertMethods(const QString& functionName, const QString &scdName)
 {
-    sourceParser->insertMethods(m_targetPath,"","");
+    bool isFound = false;
+    SourceCodeDescription * rightScd;
+    foreach (SourceCodeDescription* pscd, m_sourceMethods) {
+        if(pscd->name()==scdName){
+            rightScd = pscd;
+            isFound = true;
+            break;
+        }
+    }
+    if(!isFound){
+        LOG_ERROR("Method not found");
+        return;
+    }
+
+    QFile f(rightScd->path);
+    if (!f.open(QFile::ReadOnly | QFile::Text)){
+        LOG_ERROR("Cant open file");
+        return;
+    }
+    QTextStream in(&f);
+    QString s = in.readAll();
+    sourceParser->insertMethods(m_targetPath,functionName,s);
 }
 
 QStringList ApplicationManager::getDeclarations()
