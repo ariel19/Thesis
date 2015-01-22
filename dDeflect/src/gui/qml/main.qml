@@ -92,21 +92,23 @@ ApplicationWindow {
                 anchors.right: parent.right
                 anchors.rightMargin: 50
                 exclusiveGroup: tabPositionGroup
-                onCheckedChanged:
-                {
-                    if(checked===true)
-                        applicationManager.archType=0//applicationManager.X86;
-                }
+                enabled: false
+                //onCheckedChanged:
+                //{
+                //    if(checked===true)
+                //        applicationManager.archType=0//applicationManager.X86;
+                //}
             }
             RadioButton {
                 text: "x64"
                 anchors.right: parent.right
                 exclusiveGroup: tabPositionGroup
-                onCheckedChanged:
-                {
-                    if(checked===true)
-                        applicationManager.archType=1;
-                }
+                enabled: false
+                //onCheckedChanged:
+                //{
+                //    if(checked===true)
+                //        applicationManager.archType=1;
+                //}
             }
         }
     }

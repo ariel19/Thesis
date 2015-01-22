@@ -1339,11 +1339,13 @@ ApplicationManager::State ApplicationManager::getFileType(QString path)
     PEFile pe(data);
     if(pe.is_valid()){
         setSys(Windows);
+        setArchType(pe.is_x64() ? X64 : X86);
         return ApplicationManager::PE;
     }
     ::ELF elf(data);
     if(elf.is_valid()){
         setSys(Linux);
+        setArchType(elf.is_x64() ? X64 : X86);
         return ApplicationManager::ELF;
     }
     // Source !
