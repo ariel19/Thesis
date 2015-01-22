@@ -25,6 +25,12 @@ public:
         QObject(parent) {}
 
     /**
+     * @brief Metoda kopiująca zawartość
+     * @param new_scd Nowy obiekt
+     */
+    void copy(SourceCodeDescription *new_scd);
+
+    /**
      * @brief Nazwa metody.
      */
     QString name;
