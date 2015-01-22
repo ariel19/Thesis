@@ -79,7 +79,7 @@ ApplicationManager::ApplicationManager(QObject *parent) :
             pscd = new(std::nothrow) SourceCodeDescription;
             if (!pscd)
                 continue;
-            memcpy(pscd, &scd, sizeof(scd));
+            scd.copy(pscd);
 
             m_sourceMethods.push_back(pscd);
         }
@@ -1188,7 +1188,7 @@ void ApplicationManager::updateCurrSourceMethods() {
             pscd = new(std::nothrow) SourceCodeDescription;
             if (!pscd)
                 continue;
-            memcpy(pscd, scd, sizeof(SourceCodeDescription));
+            scd->copy(pscd);
             m_currSourceMethods.push_back(pscd);
         }
     }
