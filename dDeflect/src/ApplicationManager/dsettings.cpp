@@ -43,6 +43,9 @@ bool DSettings::load()
     descriptionsPath_x64 = settings["desc_x64_path"].toString();
     descriptionsPath_src = settings["desc_src_path"].toString();
     upxPath = settings["upx_path"].toString();
+    functionFinder = settings["function_finder"].toString();
+    methodsInserter = settings["methods_inserter"].toString();
+    functionsPath = settings["functions_path"].toString();
 
     return true;
 }
@@ -66,6 +69,18 @@ const QString DSettings::getDescriptionsSourcePath() const {
     return descriptionsPath_src;
 }
 
+const QString DSettings::getFunctionFinder() const {
+    return functionFinder;
+}
+
+const QString DSettings::getMethodsInserter() const {
+    return methodsInserter;
+}
+
+const QString DSettings::getFunctionsPath() const {
+    return functionsPath;
+}
+
 bool DSettings::save()
 {
     QFile f(file_name);
@@ -83,6 +98,9 @@ bool DSettings::save()
     settings["desc_x86_path"] = descriptionsPath_x86;
     settings["desc_x64_path"] = descriptionsPath_x64;
     settings["upx_path"] = upxPath;
+    settings["function_finder"] = functionFinder;
+    settings["methods_inserter"] = methodsInserter;
+    settings["functions_path"] = functionsPath;
 
     QJsonDocument doc(settings);
     if(f.write(doc.toJson()) == -1)

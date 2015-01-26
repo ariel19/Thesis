@@ -1,46 +1,55 @@
 #include "dsourcecodeparser.h"
+#include <ApplicationManager/dsettings.h>
+#include <ApplicationManager/dlogger.h>
 
+DSourceCodeParser::DSourceCodeParser() {}
 
-DSourceCodeParser::DSourceCodeParser()
-{
+QStringList DSourceCodeParser::getFunctions(const QString &path) {
 
-}
+    static QStringList emptyList;
+    QString program(DSettings::getSettings().getFunctionFinder());
 
-QStringList DSourceCodeParser::getFunctions(const QString &path)
-{
-    QString program = "/home/jsk/static_analysis/llvm/Debug+Asserts/bin/functionFinder";
-    QFile functionFinder("/home/jsk/static_analysis/llvm/Debug+Asserts/bin/functionFinder");
-    QStringList functionList;
-
-    if(!functionFinder.exists()){
-        qDebug() << "path to function finder is not correct";
-        return functionList;
+    // FIXME: race condition!!!!!!!!!!!!!
+    if(!QFile(program).exists()) {
+        LOG_ERROR(QString("path to function finder: %1 is not correct").arg(program));
+        return emptyList;
     }
 
+    QStringList functionList;
     QStringList arguments;
     QString path2 = path;
     path2 = path2.remove("file://");
     arguments << path2 << "--";
 
-    QProcess * myProcess = new QProcess();
+    QProcess *myProcess = new(std::nothrow) QProcess();
+    if (!myProcess)
+        return emptyList;
+
     myProcess->start(program, arguments);
-    if(!myProcess->waitForFinished()){
-        qDebug() << "timeout passed, functionFinder not executed.";
+    if(!myProcess->waitForFinished()) {
+        LOG_ERROR("timeout passed, functionFinder not executed.");
+        delete myProcess;
+
         return functionList;
     }
 
-    read_and_parse("/home/jsk/functions.txt", functionList);
+    read_and_parse(DSettings::getSettings().getFunctionsPath(), functionList);
+
     //qDebug()<<functionList;
+
+    delete myProcess;
+
     return functionList;
 }
 
-void DSourceCodeParser::insertMethods(const QString &path, const QString& functionName, const QString& code)
-{
-    QString program = "/home/jsk/static_analysis/llvm/Debug+Asserts/bin/methodInsert";
-    QFile methodInsert("/home/jsk/static_analysis/llvm/Debug+Asserts/bin/methodInsert");
+void DSourceCodeParser::insertMethods(const QString &path, const QString& functionName,
+                                      const QString& code) {
 
-    if(!methodInsert.exists()){
-        qDebug() << "path to methodInsert is not correct";
+    QString program(DSettings::getSettings().getMethodsInserter());
+
+    // FIXME: race condition!!!!!!!!!!!!!
+    if(!QFile(program).exists()) {
+        LOG_ERROR(QString("path to methods inserter: %1 is not correct").arg(program));
         return;
     }
 
@@ -56,12 +65,19 @@ void DSourceCodeParser::insertMethods(const QString &path, const QString& functi
 
     arguments << path << "--" << fn << codeToInsert;
 
-    QProcess * myProcess = new QProcess();
+    QProcess *myProcess = new(std::nothrow) QProcess();
+    if (!myProcess)
+        return;
+
     myProcess->start(program, arguments);
-    if(!myProcess->waitForFinished()){
-        qDebug() << "timeout passed, methodInsert not executed.";
+    if(!myProcess->waitForFinished()) {
+        LOG_ERROR("timeout passed, methodInsert not executed.");
+        delete myProcess;
+
         return;
     }
+
+    delete myProcess;
 }
 bool DSourceCodeParser::read_and_parse(const QString &fname, QStringList &vals) {
     QFile f(fname);

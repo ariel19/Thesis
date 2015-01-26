@@ -376,10 +376,8 @@ ELFTester::SecuredState ELFTester::test_one_ex(ELF *elf, ELFTester::Method type,
     id.change_x_only = x;
     QList<typename DAddingMethods<Reg>::InjectDescription*> ids = { &id };
 
-    qDebug() << "secure using wrapper: "
-             << QString(elf->is_x86() ? wrappers_x86[type] : wrappers_x64[type])
-             << "with method: " << method
-             << "using handler: " << handler;
+    LOG_MSG(QString("secure using wrapper: %1 \n\tmethod: %2\n\thandler: %3").arg(elf->is_x86() ? wrappers_x86[type] : wrappers_x64[type],
+                                                                                   method, handler));
 
     bool s = adder.secure(ids);
     if (obfuscate)

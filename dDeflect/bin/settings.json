@@ -4,5 +4,8 @@
   "desc_x86_path" : "description/x86/",
   "desc_x64_path" : "description/x64/",
   "desc_src_path": "description/src/",
-  "upx_path" : "upx"
+  "upx_path" : "upx",
+  "function_finder" : "static_analysis/llvm/Debug+Asserts/bin/functionFinder",
+  "methods_inserter" : "static_analysis/llvm/Debug+Asserts/bin/methodInsert",
+  "functions_path" : "static_analisys/functions.txt"
 }

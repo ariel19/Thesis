@@ -10,23 +10,18 @@
 #include <DMethods/method.h>
 #include <DMethods/methodlist.h>
 
+#include <ApplicationManager/dlogger.h>
+#include <QString>
+
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
 
-#include "ApplicationManager/DJsonParser/djsonparser.h"
+#include <ApplicationManager/DJsonParser/djsonparser.h>
 #include <core/adding_methods/wrappers/elfaddingmethods.h>
 #include <core/adding_methods/wrappers/peaddingmethods.h>
-#include "ApplicationManager/applicationmanager.h"
+#include <ApplicationManager/applicationmanager.h>
 #include <ApplicationManager/DSourceCodeParser/dsourcecodeparser.h>
-#include "../DMethods/method.h"
-
-// Not clean, but fast
-//QProcess *g_process = NULL;
-
-// Needed as a signal catcher
-
-
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
@@ -42,7 +37,8 @@ int main(int argc, char *argv[]) {
 
     engine.load(QUrl(QStringLiteral("qrc:///qml/main.qml")));
 
-
+    DLogger::registerCallback({DLogger::Type::Error, DLogger::Type::Warning, DLogger::Type::Message},
+                              [](QString msg)-> void { printf("%s\n", msg.toStdString().c_str()); fflush(0); });
 
     return app.exec();
 }

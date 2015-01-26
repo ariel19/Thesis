@@ -19,32 +19,6 @@
 
 #include <core/file_types/pefile.h>
 
-bool read_and_parse(const QString &fname, QStringList &vals) {
-    QFile f(fname);
-    if (!f.open(QIODevice::ReadOnly))
-        return false;
-
-    QString content = f.readAll();
-    QStringList lines = content.split('\n');
-
-    // filter lines
-    QString tline;
-    int idx;
-    foreach (QString line, lines) {
-        tline = line.remove(QRegExp("(\\n\\t\\r)"));
-        idx = tline.indexOf('(');
-        if (idx != -1)
-            tline.remove(0, idx + 1);
-        idx = tline.lastIndexOf(')');
-        if (idx != -1)
-            tline.remove(idx, 1);
-        if (!tline.isEmpty())
-            vals.push_back(tline);
-    }
-
-    return true;
-}
-
 /*
 int main(int argc, char **argv)
 {

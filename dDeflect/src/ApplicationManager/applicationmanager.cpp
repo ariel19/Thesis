@@ -12,7 +12,8 @@ ApplicationManager::ApplicationManager(QObject *parent) :
     methodsCount = 0;
     // Metody 32 bitowe
     jsonParser.setPath(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
-    qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x86>();
+    LOG_MSG(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
+    // qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x86>();
     QDir wrappers(DSettings::getSettings().getDescriptionsPath<Registers_x86>());
     Q_ASSERT(wrappers.exists());
     QDirIterator it(DSettings::getSettings().getDescriptionsPath<Registers_x86>(), QStringList() << "*.json", QDir::Files);
@@ -31,12 +32,14 @@ ApplicationManager::ApplicationManager(QObject *parent) :
                     m_handlersx86.append(m);
             }
             else
-                qDebug() << "JSON read failed" << fi.fileName().toStdString().c_str();
+                // qDebug() << "JSON read failed" << fi.fileName().toStdString().c_str();
+                LOG_ERROR(QString("JSON read failed %1").arg(fi.fileName().toStdString().c_str()));
         }
     }
     // Metody 64 bitowe
     jsonParser.setPath(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
-    qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x64>();
+    // qDebug()<<DSettings::getSettings().getDescriptionsPath<Registers_x64>();
+    LOG_MSG(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
     QDir wrappers64(DSettings::getSettings().getDescriptionsPath<Registers_x64>());
     Q_ASSERT(wrappers64.exists());
     QDirIterator it64(DSettings::getSettings().getDescriptionsPath<Registers_x64>(), QStringList() << "*.json", QDir::Files);
@@ -1212,61 +1215,76 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
         if(archType()==X86){
             Wrapper<Registers_x86> *newWrapper;
             Wrapper<Registers_x86> *newHandler;
-            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
-                if(w->name==methodsName){
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList)
+                if(w->name==methodsName) {
                     newWrapper = Wrapper<Registers_x86>::copy(w);
                     methodFound = true;
+                    break;
                 }
-            }
-            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
-                if(w->name==handlersName){
-                    newHandler = Wrapper<Registers_x86>::copy(w);
-                    handlerFound= true;
-                }
-            }
-            if(!handlerFound || !methodFound){
-                qDebug("Methods not found!");
+
+            if (!methodFound) {
+                LOG_ERROR("Methods not found");
                 return;
             }
+
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList)
+                if(w->name==handlersName) {
+                    newHandler = Wrapper<Registers_x86>::copy(w);
+                    handlerFound = true;
+                    break;
+                }
+
+            if(!handlerFound) {
+                LOG_ERROR("Handlers not found!");
+                return;
+            }
+
             if(newWrapper->ret == Registers_x86::None)
                 newHandler = nullptr;
 
             newWrapper->detect_handler = newHandler;
-            if(index<x86threadWrappersToInject.size() && index>=0){
+
+            if(index<x86threadWrappersToInject.size() && index >= 0)
                 x86threadWrappersToInject[index]= newWrapper;
-            }
-            else
-                qDebug()<<"index out of bound";
+            else LOG_ERROR("index out of bound");
+
             return;
-        }else
-        {
+        }
+        else {
             Wrapper<Registers_x64> *newWrapper;
             Wrapper<Registers_x64> *newHandler;
-            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList)
                 if(w->name==methodsName){
                     newWrapper = Wrapper<Registers_x64>::copy(w);
                     methodFound = true;
+                    break;
                 }
-            }
-            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
-                if(w->name==handlersName){
-                    newHandler = Wrapper<Registers_x64>::copy(w);
-                    handlerFound= true;
-                }
-            }
-            if(!handlerFound || !methodFound){
-                qDebug("Methods not found!");
+
+            if (!methodFound) {
+                LOG_ERROR("Methods not found");
                 return;
             }
+
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList)
+                if(w->name==handlersName){
+                    newHandler = Wrapper<Registers_x64>::copy(w);
+                    handlerFound = true;
+                    break;
+                }
+
+            if(!handlerFound) {
+                LOG_ERROR("Handlers not found!");
+                return;
+            }
+
             if(newWrapper->ret == Registers_x64::None)
                 newHandler = nullptr;
 
             newWrapper->detect_handler = newHandler;
-            if(index<x64threadWrappersToInject.size() && index>=0){
+            if(index<x64threadWrappersToInject.size() && index >= 0)
                 x64threadWrappersToInject[index]= newWrapper;
-            }
-            else
-                qDebug()<<"index out of bound";
+            else LOG_ERROR("index out of bound");
+
             return;
         }
     }
@@ -1274,61 +1292,75 @@ void ApplicationManager::changeList(const QString &methodsName,const QString& ha
         if(archType()==X86){
             Wrapper<Registers_x86> *newWrapper;
             Wrapper<Registers_x86> *newHandler;
-            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList)
                 if(w->name==methodsName){
                     newWrapper = Wrapper<Registers_x86>::copy(w);
                     methodFound = true;
+                    break;
                 }
-            }
-            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList){
-                if(w->name==handlersName){
-                    newHandler = Wrapper<Registers_x86>::copy(w);
-                    handlerFound= true;
-                }
-            }
-            if(!handlerFound || !methodFound){
-                qDebug("Methods not found!");
+
+            if (!methodFound) {
+                LOG_ERROR("Methods not found");
                 return;
             }
+
+            foreach(Wrapper<Registers_x86> *w ,m_x86methodsList)
+                if(w->name==handlersName){
+                    newHandler = Wrapper<Registers_x86>::copy(w);
+                    handlerFound = true;
+                    break;
+                }
+
+            if(!handlerFound) {
+                LOG_ERROR("Handlers not found!");
+                return;
+            }
+
             if(newWrapper->ret == Registers_x86::None)
                 newHandler = nullptr;
 
             newWrapper->detect_handler = newHandler;
-            if(index<x86methodsToInsert.size() && index>=0){
+            if(index<x86methodsToInsert.size() && index >= 0)
                 x86methodsToInsert[index+methodsCount]->adding_method = newWrapper;
-            }
-            else
-                qDebug()<<"index out of bound";
+            else LOG_ERROR("index out of bound");
+
             return;
-        } else
-        {
+        }
+        else {
             Wrapper<Registers_x64> *newWrapper;
             Wrapper<Registers_x64> *newHandler;
-            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList)
                 if(w->name==methodsName){
-                    newWrapper = new Wrapper<Registers_x64>(*w);
+                    newWrapper = Wrapper<Registers_x64>::copy(w);
                     methodFound = true;
+                    break;
                 }
+
+            if (!methodFound) {
+                LOG_ERROR("Methods not found");
+                return;
             }
-            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList){
+
+            foreach(Wrapper<Registers_x64> *w ,m_x64methodsList)
                 if(w->name==handlersName){
                     newHandler = Wrapper<Registers_x64>::copy(w);
                     handlerFound = true;
+                    break;
                 }
-            }
-            if(!handlerFound || !methodFound){
-                qDebug("Methods not found!");
+
+            if(!handlerFound) {
+                LOG_ERROR("Handlers not found!");
                 return;
             }
+
             if(newWrapper->ret == Registers_x64::None)
                 newHandler = nullptr;
 
             newWrapper->detect_handler = newHandler;
-            if(index<x64methodsToInsert.size() && index>=0){
+            if(index<x64methodsToInsert.size() && index>=0)
                 x64methodsToInsert[index+methodsCount]->adding_method = newWrapper;
-            }
-            else
-                qDebug()<<"index out of bound";
+            else LOG_ERROR("index out of bound");
+
             return;
         }
 }

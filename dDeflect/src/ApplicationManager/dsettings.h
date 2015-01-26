@@ -17,6 +17,9 @@ private:
     QString ndisasmPath;
     QString nasmPath;
     QString upxPath;
+    QString functionFinder;
+    QString methodsInserter;
+    QString functionsPath;
 
     bool _loaded;
 
@@ -35,6 +38,9 @@ public:
     const QString getDescriptionsPath() const;
     const QString getUpxPath() const;
     const QString getDescriptionsSourcePath() const;
+    const QString getFunctionFinder() const;
+    const QString getMethodsInserter() const;
+    const QString getFunctionsPath() const;
 
     bool save();
 

@@ -1,6 +1,7 @@
 #include <DMethods/methodlist.h>
 #include <../QtQml/qqmllist.h>
 #include <QDebug>
+#include <ApplicationManager/dlogger.h>
 
 MethodList::MethodList(QObject *parent) :
     QObject(parent)
@@ -21,7 +22,8 @@ QVariantList MethodList::names()
     foreach(Method* mp, m_methods){
         QVariant* p = new QVariant(QString(mp->name()));
         m_names.append(*p);
-        qDebug()<<mp->name();
+        // qDebug()<<mp->name();
+        LOG_DBG(QString("freeing memory: %1").arg(mp->name()));
     }
 
     return m_names;

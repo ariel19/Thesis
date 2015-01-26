@@ -381,8 +381,12 @@ ELFAddingMethods<RegistersType>::safe_obfuscate(uint8_t code_cover, uint8_t min_
         if (!elf->set_relative_address(fo_addr.fdata_off,
                                        nva + fo_addr.ndata_off - (text_data.second + fo_addr.fdata_off - base_off) - 4))
             return ErrorCode::SetRelativeAddressFailed;
+        /*
         qDebug() << "jumping on : " << QString("0x%1").arg(text_data.second + fo_addr.fdata_off - base_off - 1, 0, 16)
                  << "to: " << QString("0x%1").arg(nva + fo_addr.ndata_off, 0, 16);
+        */
+        LOG_MSG(QString("Jumping on: 0x%1 to: 0x%2").arg(text_data.second + fo_addr.fdata_off - base_off - 1, 0, 16).arg(
+                                                         nva + fo_addr.ndata_off, 0, 16));
 
         // set new relative address for jmp
         if (!elf->set_relative_address(file_off + (fo_addr.ndata_off + fo_addr.ndata_size) - 4,
@@ -577,7 +581,7 @@ ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersTyp
                     return ErrorCode::SetRelativeAddressFailed;
         }
 
-        qDebug() << "new entry point: " << QString("0x%1").arg(nva, 0, 16);
+        LOG_MSG(QString("New entry point: 0x%1").arg(nva, 0, 16));
         break;
     }
     case DAddingMethods<RegistersType>::CallingMethod::CTORS: {
@@ -634,7 +638,7 @@ ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersTyp
                     return ErrorCode::SetRelativeAddressFailed;
         }
 
-        qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
+        LOG_MSG(QString("Data added at: 0x%1").arg(nva, 0, 16));
 
         break;
     }
@@ -823,7 +827,7 @@ ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersTyp
         }
 
 
-        qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
+        LOG_MSG(QString("Data added at: 0x%1").arg(nva, 0, 16));
 
         break;
     }
@@ -881,7 +885,7 @@ ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersTyp
                     return ErrorCode::SetRelativeAddressFailed;
         }
 
-        qDebug() << "data added at: " << QString("0x%1").arg(nva, 0, 16);
+        LOG_MSG(QString("Data added at: 0x%1").arg(nva, 0, 16));
 
         break;
     }
@@ -935,8 +939,13 @@ ELFAddingMethods<RegistersType>::secure_one(typename DAddingMethods<RegistersTyp
             // 5 - size of call instruction (minus 1 byte for call byte)
             if (!elf->set_relative_address(fo_addr.first, nva + (tramp_size * i) - (text_data.second + fo_addr.first - base_off) - 4))
                 return ErrorCode::SetRelativeAddressFailed;
+            /*
             qDebug() << "jumping on : " << QString("0x%1 ").arg(text_data.second + fo_addr.first - base_off - 1, 0, 16)
                      << "to: " << QString("0x%1 ").arg(nva + (tramp_size * i), 0, 16);
+            */
+
+            LOG_MSG(QString("Jumping on: 0x%1 to: 0x%2").arg(text_data.second + fo_addr.first - base_off - 1, 0, 16).arg(
+                                                             nva + (tramp_size * i), 0, 16));
 
             // set new relative address for jmp
             if (!elf->set_relative_address(file_off + (tramp_size * (i + 1)) - 4,
