@@ -1,9 +1,0 @@
-<map id="PEFile::injectUniqueData" name="PEFile::injectUniqueData">
-<area shape="rect" id="node2" href="$class_p_e_adding_methods.html#a85b7bf24809fee317810bcf1e8277bbf" title="Generowanie kodu metody. " alt="" coords="247,5,465,32"/>
-<area shape="rect" id="node3" href="$class_p_e_adding_methods.html#a22067090f90a0b2fdbe8b127df0113e0" title="PEAddingMethods::injectEpCode" alt="" coords="248,56,464,83"/>
-<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a16ab45ebef33f806f962985dbb921d54" title="Metoda dodająca kod do Thread Local Storage. " alt="" coords="247,107,465,133"/>
-<area shape="rect" id="node5" href="$class_p_e_adding_methods.html#a7bfc807cbd6863be7a0caaab742668bb" title="Metoda dodająca kod jako trampolinę " alt="" coords="224,157,488,184"/>
-<area shape="rect" id="node6" href="$class_p_e_adding_methods.html#a471203b164d35d021dbfe753cc282223" title="PEAddingMethods::generate\lThreadCode" alt="" coords="537,201,725,242"/>
-<area shape="rect" id="node7" href="$class_p_e_file.html#a2dca67d21245ba63171ee34456456f96" title="Metoda wklejająca unikalny string do pliku PE. " alt="" coords="279,259,433,285"/>
-<area shape="rect" id="node8" href="$class_p_e_adding_methods.html#a963cfdaf85b7e1aecc20d4d17c8b2d01" title="PEAddingMethods::generate\lParametersLoadingCode" alt="" coords="537,266,725,307"/>
-</map>

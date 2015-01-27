@@ -1,5 +1,0 @@
-<map id="PEFile::generateString" name="PEFile::generateString">
-<area shape="rect" id="node2" href="$class_p_e_file.html#ab14d9fb29123545e0a7528795e64d3c1" title="Metoda dodająca dane do pliku (jeżeli nie były już wcześniej dodane). Metoda na podstawie danych przy..." alt="" coords="209,31,378,57"/>
-<area shape="rect" id="node3" href="$class_binary_code.html#a0b9f52a511f1ba6989412d4424885f8f" title="Pobiera kod. " alt="" coords="445,5,595,32"/>
-<area shape="rect" id="node4" href="$class_binary_code.html#a16f19ea25857126aeaeb7993890a5ad3" title="Pobiera tablicę relokacji jako wartości absolutne. " alt="" coords="427,56,613,83"/>
-</map>

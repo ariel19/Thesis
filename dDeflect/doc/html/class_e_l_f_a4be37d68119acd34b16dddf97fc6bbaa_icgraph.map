@@ -1,5 +1,0 @@
-<map id="ELF::__get_ph_header" name="ELF::__get_ph_header">
-<area shape="rect" id="node2" href="$class_e_l_f.html#abdddb77f2822c068b2ae06e221ae1e10" title="Pobiera offset w pliku dla podanego segmentu. " alt="" coords="209,5,370,32"/>
-<area shape="rect" id="node3" href="$class_e_l_f.html#a11f004629212a5651dd4ca1355a7eb9d" title="Rozszerza najbardziej pasujący segment LOAD i kopiuje do niego podany kod. " alt="" coords="214,56,365,83"/>
-<area shape="rect" id="node4" href="$class_e_l_f_adding_methods.html#acaa41aa5ab101bb4fa0e23a3029020ad" title="Metoda zabezpiecza plik, podany jako argument za pomocą wyspecyfikowanej metody. " alt="" coords="419,56,623,83"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="PEFile::parse" name="PEFile::parse">
-<area shape="rect" id="node2" href="$class_p_e_file.html#aa415803ce1fbb7e807e568ce25121515" title="Wewnętrzna metoda badająca czy plik jest plikiem PE32+ (PE x64). " alt="" coords="190,5,309,32"/>
-<area shape="rect" id="node3" href="$class_p_e_file.html#a08145038525bdbd95f125e055286149f" title="Pobiera sygnaturę pliku PE. " alt="" coords="161,56,338,83"/>
-<area shape="rect" id="node6" href="$class_p_e_file.html#ac427597fb784a978b09094c8c8a461be" title="Pobiera liczbę wpisów w tablicy zawierającej IMAGE_DATA_DIRECTORY. " alt="" coords="155,107,344,149"/>
-<area shape="rect" id="node4" href="$class_p_e_file.html#a8c27cf9069fcfd79fab620e7a734a93d" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_NT_HEADERS. " alt="" coords="406,9,570,36"/>
-<area shape="rect" id="node5" href="$class_p_e_file.html#a05a8546f2cfbfb50d1fe6c750704f5ac" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_NT_HEADERS. " alt="" coords="406,60,570,87"/>
-<area shape="rect" id="node7" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="393,112,583,139"/>
-<area shape="rect" id="node8" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="393,163,583,189"/>
-</map>

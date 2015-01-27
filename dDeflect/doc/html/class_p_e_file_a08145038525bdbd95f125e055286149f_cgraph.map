@@ -1,4 +1,0 @@
-<map id="PEFile::getNtHdrSignature" name="PEFile::getNtHdrSignature">
-<area shape="rect" id="node2" href="$class_p_e_file.html#a8c27cf9069fcfd79fab620e7a734a93d" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_NT_HEADERS. " alt="" coords="233,5,397,32"/>
-<area shape="rect" id="node3" href="$class_p_e_file.html#a05a8546f2cfbfb50d1fe6c750704f5ac" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_NT_HEADERS. " alt="" coords="233,56,397,83"/>
-</map>

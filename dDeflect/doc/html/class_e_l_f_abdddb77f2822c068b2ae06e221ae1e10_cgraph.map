@@ -1,4 +1,0 @@
-<map id="ELF::get_ph_seg_offset" name="ELF::get_ph_seg_offset">
-<area shape="rect" id="node2" href="$class_e_l_f.html#a4be37d68119acd34b16dddf97fc6bbaa" title="Pobiera zawartość struktury Elf32_Phdr. " alt="" coords="217,5,370,32"/>
-<area shape="rect" id="node3" href="$class_e_l_f.html#aaf0da9f62b61fc3674b7fd54d9885b5f" title="Sprawdza czy w pamięci przechowywany jest poprawny plik. " alt="" coords="419,5,517,32"/>
-</map>

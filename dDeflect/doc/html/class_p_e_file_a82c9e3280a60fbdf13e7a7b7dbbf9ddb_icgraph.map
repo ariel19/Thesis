@@ -1,6 +1,0 @@
-<map id="PEFile::getEntryPoint" name="PEFile::getEntryPoint">
-<area shape="rect" id="node2" href="$class_p_e_adding_methods.html#a22067090f90a0b2fdbe8b127df0113e0" title="PEAddingMethods::injectEpCode" alt="" coords="203,5,419,32"/>
-<area shape="rect" id="node3" href="$class_p_e_file.html#a842228e192f08a70f80f564fe4ee7bc5" title="Metoda pobierają◘ca zawartość sekcji .text. " alt="" coords="232,56,389,83"/>
-<area shape="rect" id="node5" href="$class_p_e_file.html#afdcc62870de787ebaee455b55af8f06f" title="Metoda pobierająca przesunięcie w pliku sekcji .text. " alt="" coords="214,107,407,133"/>
-<area shape="rect" id="node4" href="$class_p_e_adding_methods.html#a2b224b51233e0446621e9daf9108e78b" title="Metoda zabezpieczająca plik PE podanymi metodami. " alt="" coords="467,81,667,108"/>
-</map>

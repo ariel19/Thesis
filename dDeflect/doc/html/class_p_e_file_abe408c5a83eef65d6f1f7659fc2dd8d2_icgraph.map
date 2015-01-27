@@ -1,8 +1,0 @@
-<map id="PEFile::getTlsDirectory32" name="PEFile::getTlsDirectory32">
-<area shape="rect" id="node2" href="$class_p_e_file.html#ab385de72db3e791e1477cb6593266d45" title="Pobiera adres wirtualny tablicy ze wskaźnikami do funkcji TLS. " alt="" coords="231,22,422,64"/>
-<area shape="rect" id="node5" href="$class_p_e_file.html#a698dd8d1b169ac0b9d01ebfecd16bc51" title="Ustawia adres wirtualny tablicy ze wskaźnikami do funkcji TLS. " alt="" coords="479,81,670,122"/>
-<area shape="rect" id="node6" href="$class_p_e_file.html#aa60f615dfd569e601e3d25eaded2d3ed" title="Pobiera adres wirtualny pod którym znajduje się index TLS. " alt="" coords="475,147,674,174"/>
-<area shape="rect" id="node7" href="$class_p_e_file.html#a2d6f55148b572f564bc30e881d97d9f8" title="Ustawia adres wirtualny pod którym znajduje się index TLS. " alt="" coords="227,196,426,223"/>
-<area shape="rect" id="node3" href="$class_p_e_adding_methods.html#a16ab45ebef33f806f962985dbb921d54" title="Metoda dodająca kod do Thread Local Storage. " alt="" coords="723,88,941,115"/>
-<area shape="rect" id="node4" href="$class_p_e_file.html#af718219d753f57388e3db28a55928b3e" title="Metoda pobierająca adresy funkcji TLS. " alt="" coords="493,30,656,56"/>
-</map>

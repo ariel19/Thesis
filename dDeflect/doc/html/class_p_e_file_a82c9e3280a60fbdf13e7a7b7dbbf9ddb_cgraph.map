@@ -1,5 +1,0 @@
-<map id="PEFile::getEntryPoint" name="PEFile::getEntryPoint">
-<area shape="rect" id="node2" href="$class_p_e_file.html#a0598aa7de2b74460d06a16bfef7c96e9" title="Pobiera EntryPoint. " alt="" coords="203,23,381,65"/>
-<area shape="rect" id="node3" href="$class_p_e_file.html#ad40c792d0076f06a503f550fb01e37c7" title="Metoda pobierająca 64&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="430,5,621,32"/>
-<area shape="rect" id="node4" href="$class_p_e_file.html#a7a58a8b45e351c4aa260a604122ff7d5" title="Metoda pobierająca 32&#45;bitową wersję nagłówka IMAGE_OPTIONAL_HEADER. " alt="" coords="430,56,621,83"/>
-</map>
