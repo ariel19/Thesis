@@ -81,35 +81,12 @@ ApplicationWindow {
                 readOnly: true
                 anchors.fill: parent
                 anchors.leftMargin: ob.width*1.5
-                anchors.rightMargin: 150
+                anchors.rightMargin: 50
+
                 height: parent.height
                 text: "Choose a C++ source file or an executive file."
             }
-            ExclusiveGroup { id: tabPositionGroup }
-            RadioButton {
-                text: "x86"
-                checked: true
-                anchors.right: parent.right
-                anchors.rightMargin: 50
-                exclusiveGroup: tabPositionGroup
-                enabled: false
-                //onCheckedChanged:
-                //{
-                //    if(checked===true)
-                //        applicationManager.archType=0//applicationManager.X86;
-                //}
-            }
-            RadioButton {
-                text: "x64"
-                anchors.right: parent.right
-                exclusiveGroup: tabPositionGroup
-                enabled: false
-                //onCheckedChanged:
-                //{
-                //    if(checked===true)
-                //        applicationManager.archType=1;
-                //}
-            }
+
         }
     }
 
